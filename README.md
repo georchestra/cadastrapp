@@ -1,2 +1,2 @@
-# CadastrApp
-Webapplication link to MapfishApp Add-on CadastrApp
+# cadastrapp
+Webapplication link to MapfishApp Add-on cadastrapp
