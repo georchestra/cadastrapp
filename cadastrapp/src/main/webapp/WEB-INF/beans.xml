@@ -19,7 +19,7 @@
     
     <jaxrs:server id="services" address="/">
         <jaxrs:serviceBeans>
-            <bean class="org.georchestra.cadastrapp.service.Commune"/>
+            <bean class="org.georchestra.cadastrapp.service.CommuneController"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
@@ -32,8 +32,8 @@
           username="cn=pjego"
           password="cR@!g!s2015" />
           
-    <jee:jndi-lookup id="dbDataSource"
-   		jndi-name="jdbc/cadastrapp"
-  		expected-type="javax.sql.DataSource" />
+  <bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/cadastrapp"/>
+    </bean>
 
 </beans>

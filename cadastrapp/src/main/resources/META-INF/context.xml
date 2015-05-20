@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Context>
-<ResourceLink name="jdbc/cadastrapp"
-   global="jdbc/cadastrapp"
-   type="javax.sql.DataSource"/>
-</Context>
+<Context />
