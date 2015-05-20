@@ -20,6 +20,8 @@
     <jaxrs:server id="services" address="/">
         <jaxrs:serviceBeans>
             <bean class="org.georchestra.cadastrapp.service.CommuneController"/>
+            <bean class="org.georchestra.cadastrapp.service.ParcelleController"/>
+            <bean class="org.georchestra.cadastrapp.service.ProprietaireController"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
