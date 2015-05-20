@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ldap="http://www.springframework.org/schema/ldap"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap.xsd">
+
+   <ldap:context-source
+          url="ldap://gd-cms-crai-001.fasgfi.fr:389"
+          base="dc=georchestra,dc=org"
+          username="cn=pjego"
+          password="cR@!g!s2015" />
+
+   <ldap:ldap-template id="ldapTemplate" />
+
+   <bean id="personRepo" class="com.example.repo.PersonRepoImpl">
+      <property name="ldapTemplate" ref="ldapTemplate" />
+   </bean>
+</beans>
