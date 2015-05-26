@@ -25,14 +25,19 @@
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+             <ref bean="authorizationFilter" />
         </jaxrs:providers>
+        
     </jaxrs:server>
+    <bean id="authorizationFilter" class="org.georchestra.cadastrapp.authorization.AuthorizationRequestFilter">
+       	 	<!-- authorization bean properties -->
+   	 </bean>
 
-   <ldap:context-source
+<!--  TODO remove  <ldap:context-source
           url="ldap://gd-cms-crai-001.fasgfi.fr:389"
           base="dc=georchestra,dc=org"
           username="cn=pjego"
-          password="cR@!g!s2015" />
+          password="cR@!g!s2015" /> -->
           
   <bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName" value="java:comp/env/jdbc/cadastrapp"/>

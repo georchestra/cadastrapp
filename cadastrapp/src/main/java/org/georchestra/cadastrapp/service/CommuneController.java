@@ -34,7 +34,7 @@ public class CommuneController {
     public List<Map<String,Object>> getCommunesList() throws SQLException {
     	
 	
-    	String query = "select ccoinsee, libcom, libcom_min from cadastreapp_qgis.commune;";
+    	String query = "select ccoinsee, libcom, libcom_min from cadastreapp_qgis.commune where ccocom is not null;";
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         List<Map<String,Object>> communes = jdbcTemplate.queryForList(query);
             
@@ -57,7 +57,7 @@ public class CommuneController {
     		String newLibCom = StringUtils.stripAccents(libCom);
 	    		    	 
     		// Create and execute request
-	    	String query = "select ccoinsee, libcom, libcom_min from cadastreapp_qgis.commune where libcom LIKE '" + newLibCom.toUpperCase() +"%' ;";
+	    	String query = "select ccoinsee, libcom, libcom_min from cadastreapp_qgis.commune where libcom LIKE '" + newLibCom.toUpperCase() +"%' and ccocom is not null; ;";
 	        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 	        communes = jdbcTemplate.queryForList(query);
             
@@ -90,7 +90,7 @@ public class CommuneController {
     		}
 	    	    		    		    	 
     		// Create and execute request
-	    	String query = "select ccoinsee, libcom, libcom_min from cadastreapp_qgis.commune where ccoinsee LIKE '%" + ccoinsee +"%' ;";
+	    	String query = "select ccoinsee, libcom, libcom_min from cadastreapp_qgis.commune where ccoinsee LIKE '%" + ccoinsee +"%' and ccocom is not null;;";
 	        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 	        communes = jdbcTemplate.queryForList(query);
             

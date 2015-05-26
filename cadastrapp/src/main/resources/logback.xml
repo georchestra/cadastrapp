@@ -1,0 +1,22 @@
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+<logger name="org.georchestra.cadastrapp" level="INFO" />
+<logger name="org.apache.cxf" level="INFO" />
+
+<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>/tmp/cadastrapp.log</file>
+    <encoder>
+      <pattern>%d %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+
+  <root level="DEBUG">
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>

@@ -1,4 +1,4 @@
-package org.georchestra.cadastrapp.authorisation;
+package org.georchestra.cadastrapp.authorization;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
