@@ -10,8 +10,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,21 +27,25 @@ public class ProprietaireController {
 	private DataSource dataSource;
 
     @GET
-    @Path("/dnomlp/{input}")
     @Produces("application/json")
-    public List<Map<String,Object>> getProprietairesList(@PathParam("input") String dnomlp) throws SQLException {
+    public List<Map<String,Object>> getProprietairesList(@QueryParam("dnomlp") String dnomlp) throws SQLException {
     	
     	List<Map<String,Object>> proprietaires = null;
     	
+    	    	
     	if(dnomlp != null && !dnomlp.isEmpty() && 3<dnomlp.length()){
-	    	String query = "select dnomlp, dpmlp from cadastreapp_qgis.proprietaire where dnomlp LIKE '%"+dnomlp+"%';";
-	        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+    		//TODO change request with dpmlp
+	    	//String query = "select dnomlp, dpmlp, dprnlp, expnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from cadastreapp_qgis.proprietaire where dnomlp LIKE '%"+dnomlp+"%';";
+	       
+    		String query = "select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from cadastreapp_qgis.proprietaire where dnomlp LIKE '%"+dnomlp+"%';";
+ 	       
+	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 	        proprietaires = jdbcTemplate.queryForList(query);
     	}
     	//TODO add exception management
     	else{
 		//log empty request
-		logger.info("Null or Empty libcom in request");
+		logger.info("Null or less than 3 characters for dnomlp in request");
 	}
               
         return proprietaires;

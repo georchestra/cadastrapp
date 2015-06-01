@@ -9,7 +9,11 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * 
+ * @author gfi
+ *
+ */
 public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
 	@Override
@@ -22,7 +26,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 		String rolesList = requestContext.getHeaderString("sec-roles");
 		String userName = requestContext.getHeaderString("sec-username");
 	
-		if (userName == null || userName.isEmpty()) {
+		if (rolesList == null || rolesList.isEmpty()) {
 			
 			logger.warn("Request filter : Not authenticated user");
 
