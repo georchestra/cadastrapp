@@ -22,9 +22,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class ProprietaireController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
-	
-	@Resource(name="dbDataSource")
-	private DataSource dataSource;
 
     @GET
     @Produces("application/json")

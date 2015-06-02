@@ -2,6 +2,10 @@ package org.georchestra.cadastrapp.service;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import javax.ws.rs.core.HttpHeaders;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,11 +13,16 @@ import org.slf4j.LoggerFactory;
 public class CadController {
 	
 
-
 	final static Logger logger = LoggerFactory.getLogger(CadController.class);
 	
 	private boolean isWhereAdded;
 	
+	@Resource(name="dbDataSource")
+	protected DataSource dataSource;
+	
+	/**
+	 * 
+	 */
 	public CadController() {
 		super();
 		this.isWhereAdded = false;
@@ -29,21 +38,54 @@ public class CadController {
 	}
 	
 	
-
 	/**
+	 * Get Cnil level depending on CNIL groups in sec-roles
 	 * 
+	 * 
+	 * @param headers
 	 * @return
 	 */
-	public int getUserCNILLevel() {
-
-		logger.info(" Check user CNIL Level : ");
+	public int getUserCNILLevel(HttpHeaders headers) {
 		
-		return 0;
+		int cnilLevel=0;
+
+		logger.info(" Check user CNIL Level ");
+
+		// Get CNIL Group information
+		String rolesList = headers.getHeaderString("sec-roles");
+		logger.info(" Get user roles informations : " + rolesList);
+		if(rolesList.contains("CNIL2")){
+			cnilLevel=2;
+		}
+		else if(rolesList.contains("CNIL1")){
+			cnilLevel=1;
+		}
+		
+		logger.info(" Check user CNIL Level : " + cnilLevel);
+		return cnilLevel;
+	}
+	
+	
+	/**
+	 * Filter information depending on groups information
+	 * 
+	 * 
+	 * @param headers
+	 * @return
+	 */
+	public void filterWithGroupsLimitation(HttpHeaders headers) {
+		
+		// get roles list in header
+		
+		// get commune list in database corresponding to this header
+		
+		// filter request		
+		
 	}
 	
 	/**
 	 * 
-	 * @param clause
+	 * @param libelle
 	 * @param value
 	 * @return
 	 */

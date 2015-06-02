@@ -26,6 +26,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 		String rolesList = requestContext.getHeaderString("sec-roles");
 		String userName = requestContext.getHeaderString("sec-username");
 	
+		// Check not empty roles
 		if (rolesList == null || rolesList.isEmpty()) {
 			
 			logger.warn("Request filter : Not authenticated user");

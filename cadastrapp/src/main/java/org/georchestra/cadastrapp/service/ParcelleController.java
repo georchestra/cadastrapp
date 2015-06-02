@@ -14,6 +14,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +26,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class ParcelleController extends CadController {
 	
 	final static Logger logger = LoggerFactory.getLogger(ParcelleController.class);
-
-	@Resource(name = "dbDataSource")
-	private DataSource dataSource;
-
+	
 	@GET
 	@Path("/id/{parcelle}")
 	@Produces("application/json")
@@ -41,11 +41,14 @@ public class ParcelleController extends CadController {
 
 		List<Map<String, Object>> parcelles = null;
 
-		String query = "select parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, dvoilib "
-				+ "from cadastreapp_qgis.parcelle where parcelle LIKE '%"
-				+ parcelle + "%';";
+		StringBuilder queryBuidler = new StringBuilder("select parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, dvoilib ");
+		queryBuidler.append(" from ");
+		//TODO Change by properties
+		queryBuidler.append("cadastreapp_qgis.parcelle");
+		queryBuidler.append(createLikeClauseRequest("parcelle", parcelle));
+		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		parcelles = jdbcTemplate.queryForList(query);
+		parcelles = jdbcTemplate.queryForList(queryBuidler.toString());
 
 		return parcelles;
 	}
@@ -74,6 +77,7 @@ public class ParcelleController extends CadController {
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getParcelleList(
+			@Context HttpHeaders headers,
 			@QueryParam("parcelle") String parcelle,
 			@DefaultValue("0") @QueryParam("details") String details,
 			@QueryParam("ccodep") String ccodep,
@@ -114,9 +118,9 @@ public class ParcelleController extends CadController {
 			queryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, dvoilib");
 			
 			//TODO userlevel
-			/*if(user.isCNILLvl1 || user.isCNILlvl2){
-				queryBuilder.append(", dnupro "); 
-			}*/
+			if(getUserCNILLevel(headers)>1){
+				queryBuilder.append(", dnupro ");
+			}
 		}
 	
 		queryBuilder.append(" from ");
@@ -144,7 +148,5 @@ public class ParcelleController extends CadController {
 
 		return parcelles;
 	}
-
-	
 
 }

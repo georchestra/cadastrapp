@@ -11,6 +11,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,24 +20,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
-
 @Path("/getCommune")
 public class CommuneController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(CommuneController.class);
 	
-	@Resource(name="dbDataSource")
-	private DataSource dataSource;
-
     @GET
     @Path("/all")
     @Produces("application/json")
     public List<Map<String,Object>> getCommunesList(){
     	
 	
-    	String query = "select ccoinsee, libcom, libcom_min from cadastreapp_qgis.commune where ccocom is not null;";
+    	StringBuilder queryBuilder = new StringBuilder();
+    	queryBuilder.append("select ccoinsee, libcom, libcom_min from ");
+    	
+    	//TODO get schema and table in properties
+    	queryBuilder.append("cadastreapp_qgis.commune ");
+    	
+    	queryBuilder.append("where ccocom is not null;");
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        List<Map<String,Object>> communes = jdbcTemplate.queryForList(query);
+        List<Map<String,Object>> communes = jdbcTemplate.queryForList(queryBuilder.toString());
             
               
         return communes;

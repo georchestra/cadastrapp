@@ -21,10 +21,6 @@ public class SectionController extends CadController {
 	
 	final static Logger logger = LoggerFactory.getLogger(SectionController.class);
 
-	@Resource(name = "dbDataSource")
-	private DataSource dataSource;
-
-	
 
 	@GET
 	@Produces("application/json")
@@ -59,7 +55,6 @@ public class SectionController extends CadController {
 		queryBuilder.append(createLikeClauseRequest("ccopre_partiel", ccopre_partiel));
 		queryBuilder.append(createLikeClauseRequest("ccosec_partiel", ccosec_partiel));
 					
-			
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		sections = jdbcTemplate.queryForList(queryBuilder.toString());
 
