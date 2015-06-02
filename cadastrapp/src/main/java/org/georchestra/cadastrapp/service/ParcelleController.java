@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Path("/getParcelle")
-public class ParcelleController {
+public class ParcelleController extends CadController {
 	
 	final static Logger logger = LoggerFactory.getLogger(ParcelleController.class);
 
@@ -30,6 +30,12 @@ public class ParcelleController {
 	@GET
 	@Path("/id/{parcelle}")
 	@Produces("application/json")
+	/**
+	 * 
+	 * @param parcelle
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<Map<String, Object>> getParcelleById(
 			@PathParam("parcelle") String parcelle) throws SQLException {
 
@@ -140,58 +146,6 @@ public class ParcelleController {
 		return parcelles;
 	}
 
-	/**
-	 * 
-	 * @param mandatoryList
-	 */
-	public void checkMandatoryParameter(List<String> mandatoryList) {
-
-		logger.info(" Mandatory parameters to check : " + mandatoryList);
-	}
 	
-
-	/**
-	 * 
-	 * @param clause
-	 * @param value
-	 * @return
-	 */
-	public String createLikeClauseRequest(String clause, String value){
-		
-		StringBuilder subQuery = new StringBuilder();
-		
-		if (value != null && !value.isEmpty()){
-			subQuery.append(" and ");
-			subQuery.append(clause);
-			subQuery.append(" LIKE '%");
-			subQuery.append(value);
-			subQuery.append("%'");
-			
-		}
-		return subQuery.toString();
-		
-	}
-	
-	/**
-	 * 
-	 * @param clause
-	 * @param value
-	 * @return
-	 */
-	public String createEqualsClauseRequest(String clause, String value){
-		
-		StringBuilder subQuery = new StringBuilder();
-		
-		if (value != null && !value.isEmpty()){
-			subQuery.append(" and ");
-			subQuery.append(clause);
-			subQuery.append(" ='");
-			subQuery.append(value);
-			subQuery.append("'");
-			
-		}
-		return subQuery.toString();
-		
-	}
 
 }
