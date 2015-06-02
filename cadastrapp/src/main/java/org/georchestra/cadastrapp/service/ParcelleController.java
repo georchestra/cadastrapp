@@ -125,10 +125,10 @@ public class ParcelleController extends CadController {
 		queryBuilder.append(" where ccodep ='");
 		queryBuilder.append(ccodep);
 		queryBuilder.append("'");
+		queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
 		queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
 		queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre));
-		queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
-		queryBuilder.append(createEqualsClauseRequest("ccocom", ccosec));
+		queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec));
 		queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla));
 		queryBuilder.append(createEqualsClauseRequest("dnvoiri", dnvoiri));
 		queryBuilder.append(createEqualsClauseRequest("dlindic", dlindic));
