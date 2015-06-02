@@ -20,7 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 
 @Path("/getCommune")
-public class CommuneController {
+public class CommuneController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(CommuneController.class);
 	
@@ -57,10 +57,13 @@ public class CommuneController {
     			@QueryParam("ccoinsee_partiel") String ccoinsee){
     	
     	List<Map<String,Object>> communes = null;
-    	boolean clauseExists = false;
     	
     	StringBuilder queryBuilder = new StringBuilder();
-    	queryBuilder.append("select ccoinsee, libcom, libcom_min from cadastreapp_qgis.commune");
+    	
+    	queryBuilder.append("select ccoinsee, libcom, libcom_min from ");
+    	
+    	//TODO check in configuration
+    	queryBuilder.append("cadastreapp_qgis.commune");
     	
     	// If one of the parameter is present only one clause
     	 if((libCom == null || libCom.isEmpty()) && (ccoinsee == null || ccoinsee.isEmpty())){
@@ -74,12 +77,7 @@ public class CommuneController {
     		// Remove all accent from url
     		String newLibCom = StringUtils.stripAccents(libCom);
 	    		    	 
-    		// Create and execute request
-    		queryBuilder.append(" where libcom LIKE '")
-    			.append(newLibCom.toUpperCase())
-    			.append("%'"); 
-    		
-    		clauseExists = true;            
+    		queryBuilder.append(createLikeClauseRequest("libcom", newLibCom.toUpperCase()));      
     	}
     	
     	// Check if ccoinsee is nont null
@@ -89,19 +87,9 @@ public class CommuneController {
     		// Convert 350206 to 35%206 for query
     		if(5 == ccoinsee.length()){
     			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2);    			
-    		}
-	    	
-    		if (clauseExists){
-    			queryBuilder.append(" and ");
-    		}
-    		else{
-    			queryBuilder.append(" where ");
-    		}
-    		// Create and execute request
-    		queryBuilder.append(" ccoinsee LIKE '%")
-    			.append(ccoinsee)
-    			.append("%'");
-    		
+    		} 	
+    		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee));     
+  		
     	}
     	queryBuilder.append(" and ccocom is not null;"); 
          

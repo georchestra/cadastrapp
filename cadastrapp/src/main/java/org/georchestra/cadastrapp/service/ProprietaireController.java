@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 
 @Path("/getProprietaire")
-public class ProprietaireController {
+public class ProprietaireController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
 	
@@ -36,11 +36,15 @@ public class ProprietaireController {
     	if(dnomlp != null && !dnomlp.isEmpty() && 3<dnomlp.length()){
     		//TODO change request with dpmlp
 	    	//String query = "select dnomlp, dpmlp, dprnlp, expnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from cadastreapp_qgis.proprietaire where dnomlp LIKE '%"+dnomlp+"%';";
-	       
-    		String query = "select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from cadastreapp_qgis.proprietaire where dnomlp LIKE '%"+dnomlp+"%';";
+	       StringBuilder queryBuilder = new StringBuilder();
+	       queryBuilder.append("select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib");
+	       queryBuilder.append(" from ");
+	       //TODO change for properties
+	       queryBuilder.append("cadastreapp_qgis.proprietaire");
+	       queryBuilder.append(createLikeClauseRequest("dnomlp", dnomlp));
  	       
 	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-	        proprietaires = jdbcTemplate.queryForList(query);
+	        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString());
     	}
     	//TODO add exception management
     	else{

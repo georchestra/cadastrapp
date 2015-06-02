@@ -122,9 +122,8 @@ public class ParcelleController extends CadController {
 		queryBuilder.append(" from ");
 		// TODO replace this by configuration
 		queryBuilder.append("cadastreapp_qgis.parcelle");
-		queryBuilder.append(" where ccodep ='");
-		queryBuilder.append(ccodep);
-		queryBuilder.append("'");
+
+		queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
 		queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
 		queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
 		queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre));
