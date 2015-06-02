@@ -1,6 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -8,8 +9,13 @@ import javax.ws.rs.core.HttpHeaders;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-
+/**
+ * 
+ * @author gfi
+ *
+ */
 public class CadController {
 	
 
@@ -49,11 +55,11 @@ public class CadController {
 		
 		int cnilLevel=0;
 
-		logger.info(" Check user CNIL Level ");
+		logger.debug(" Check user CNIL Level ");
 
 		// Get CNIL Group information
 		String rolesList = headers.getHeaderString("sec-roles");
-		logger.info(" Get user roles informations : " + rolesList);
+		logger.debug(" Get user roles informations : " + rolesList);
 		if(rolesList.contains("CNIL2")){
 			cnilLevel=2;
 		}
@@ -61,7 +67,7 @@ public class CadController {
 			cnilLevel=1;
 		}
 		
-		logger.info(" Check user CNIL Level : " + cnilLevel);
+		logger.debug(" Check user CNIL Level : " + cnilLevel);
 		return cnilLevel;
 	}
 	
@@ -73,19 +79,53 @@ public class CadController {
 	 * @param headers
 	 * @return
 	 */
-	public void filterWithGroupsLimitation(HttpHeaders headers) {
+	public String addAuthorizationFiltering(HttpHeaders headers) {
 		
+		StringBuilder queryFilter = new StringBuilder();
+				
 		// get roles list in header
+		String rolesList = headers.getHeaderString("sec-roles");
 		
 		// get commune list in database corresponding to this header
-		
-		// filter request		
+		StringBuilder queryBuilder = new StringBuilder();
+    	queryBuilder.append("select ccoinsee from ");
+    	
+    	//TODO get schema and table in properties
+    	queryBuilder.append("cadastreapp_qgis.groupe_autorisation ");
+    	queryBuilder.append(" where idgroup = '");
+    	queryBuilder.append(rolesList);
+    	queryBuilder.append("' ;");
+ 
+    	
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        List<String> communes = jdbcTemplate.queryForList(queryBuilder.toString(), String.class);
+        
+        StringBuilder ccoinseeList = new StringBuilder();
+        for (String ccoinsee : communes)
+        {
+        	ccoinseeList.append("'");
+        	ccoinseeList.append(ccoinsee);
+        	ccoinseeList.append("',");
+        }
+        // remove last coma
+        ccoinseeList.deleteCharAt(ccoinseeList.length()-1);
+              
+        logger.debug("Liste des communes : " + ccoinseeList);
+		// filter request	
+        if (communes != null && !communes.isEmpty()){
+        	queryFilter.append(" AND ccoinsee IN (");
+        	queryFilter.append(ccoinseeList.toString());
+        	queryFilter.append(" )");
+        }
+        
+        return queryFilter.toString();
 		
 	}
 	
 	/**
-	 * 
-	 * @param libelle
+	 *  Add a clause like in query
+	 *  
+	 * @param libelle 
 	 * @param value
 	 * @return
 	 */
@@ -111,6 +151,7 @@ public class CadController {
 	}
 	
 	/**
+	 * Add an equals clause to query
 	 * 
 	 * @param libelle
 	 * @param value

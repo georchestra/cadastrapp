@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class CommuneController extends CadController{
     @GET
     @Path("/all")
     @Produces("application/json")
-    public List<Map<String,Object>> getCommunesList(){
+    public List<Map<String,Object>> getCommunesList(@Context HttpHeaders headers){
     	
 	
     	StringBuilder queryBuilder = new StringBuilder();
@@ -37,7 +38,10 @@ public class CommuneController extends CadController{
     	//TODO get schema and table in properties
     	queryBuilder.append("cadastreapp_qgis.commune ");
     	
-    	queryBuilder.append("where ccocom is not null;");
+    	queryBuilder.append("where ccocom is not null ");
+    	queryBuilder.append(addAuthorizationFiltering(headers));
+    	queryBuilder.append(";");
+    	
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         List<Map<String,Object>> communes = jdbcTemplate.queryForList(queryBuilder.toString());
             
