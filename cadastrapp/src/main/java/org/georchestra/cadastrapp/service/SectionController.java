@@ -29,7 +29,7 @@ public class SectionController extends CadController {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getParcelleList(
+	public List<Map<String, Object>> getSectionList(
 			@QueryParam("ccoinsee") String ccoinsee,
 			@QueryParam("ccopre_partiel") String ccopre_partiel,
 			@QueryParam("ccosec_partiel") String ccosec_partiel) throws SQLException {
