@@ -14,6 +14,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -30,7 +32,7 @@ public class ProprietaireController extends CadController{
 
     @GET
     @Produces("application/json")
-    public List<Map<String,Object>> getProprietairesList(@QueryParam("dnomlp") String dnomlp) throws SQLException {
+    public List<Map<String,Object>> getProprietairesList(@Context HttpHeaders headers,@QueryParam("dnomlp") String dnomlp) throws SQLException {
     	
     	List<Map<String,Object>> proprietaires = null;
     	
