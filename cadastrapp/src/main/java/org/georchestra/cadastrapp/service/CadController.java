@@ -8,6 +8,11 @@ import javax.ws.rs.core.HttpHeaders;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -15,12 +20,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author gfi
  *
  */
+@Configuration
+@PropertySource("classpath:cadastrapp.properties")
 public class CadController {
-
+	
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+		return new PropertySourcesPlaceholderConfigurer();
+	 }
+	
 	final static Logger logger = LoggerFactory.getLogger(CadController.class);
 
 	private boolean isWhereAdded;
-
+	
+	@Value("${schema.name}")
+	protected String databaseSchema;
+	
 	@Resource(name = "dbDataSource")
 	protected DataSource dataSource;
 
@@ -233,5 +248,6 @@ public class CadController {
 		isWhereAdded =false;
 		return (";");
 	}
+	
 
 }

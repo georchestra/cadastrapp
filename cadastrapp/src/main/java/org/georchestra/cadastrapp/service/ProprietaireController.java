@@ -43,8 +43,8 @@ public class ProprietaireController extends CadController{
 	       StringBuilder queryBuilder = new StringBuilder();
 	       queryBuilder.append("select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib");
 	       queryBuilder.append(" from ");
-	       //TODO change for properties
-	       queryBuilder.append("cadastreapp_qgis.proprietaire");
+	       queryBuilder.append(databaseSchema);
+	       queryBuilder.append(".proprietaire");
 	       queryBuilder.append(createLikeClauseRequest("dnomlp", dnomlp));
 	       queryBuilder.append(finalizeQuery());
  	       

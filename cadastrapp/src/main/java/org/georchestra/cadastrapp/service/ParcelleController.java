@@ -89,7 +89,8 @@ public class ParcelleController extends CadController {
 
 				queryBuilder.append(" from ");
 				// TODO replace this by configuration
-				queryBuilder.append("cadastreapp_qgis.parcelle");
+				queryBuilder.append(databaseSchema);
+				queryBuilder.append(".parcelle");
 	
 				queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
 				queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
@@ -135,8 +136,8 @@ public class ParcelleController extends CadController {
 		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
 		
 		queryBuilder.append(" from ");
-		// TODO Change by properties
-		queryBuilder.append("cadastreapp_qgis.parcelle");
+		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".parcelle");
 		queryBuilder.append(" where parcelle =' ");
 		queryBuilder.append(parcelle);
 		queryBuilder.append(" ';");
@@ -162,8 +163,9 @@ public class ParcelleController extends CadController {
 		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
 		
 		queryBuilder.append(" from ");
-		// TODO Change by properties
-		queryBuilder.append("cadastreapp_qgis.parcelle");
+
+		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".parcelle");
 		queryBuilder.append(" where parcelle IN (");
 		queryBuilder.append(createListToStringQuery(parcelleList));
 		queryBuilder.append(");");

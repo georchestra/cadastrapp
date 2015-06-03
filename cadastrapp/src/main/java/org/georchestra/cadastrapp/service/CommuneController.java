@@ -33,7 +33,8 @@ public class CommuneController extends CadController{
     	queryBuilder.append("select ccoinsee, libcom, libcom_min from ");
     	
     	//TODO get schema and table in properties
-    	queryBuilder.append("cadastreapp_qgis.commune ");
+    	queryBuilder.append(databaseSchema);
+    	queryBuilder.append(".commune ");
     	
     	queryBuilder.append("where ccocom is not null ");
     	queryBuilder.append(addAuthorizationFiltering(headers));
@@ -67,9 +68,9 @@ public class CommuneController extends CadController{
     	StringBuilder queryBuilder = new StringBuilder();
     	
     	queryBuilder.append("select ccoinsee, libcom, libcom_min from ");
-    	
-    	//TODO check in configuration
-    	queryBuilder.append("cadastreapp_qgis.commune");
+
+    	queryBuilder.append(databaseSchema);
+    	queryBuilder.append(".commune");
     	
     	// If one of the parameter is present only one clause
     	 if((libCom == null || libCom.isEmpty()) && (ccoinsee == null || ccoinsee.isEmpty())){

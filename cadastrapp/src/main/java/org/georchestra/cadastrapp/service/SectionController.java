@@ -45,8 +45,8 @@ public class SectionController extends CadController {
 		queryBuilder.append("ccoinsee, ccopre, ccosec, geo_section");
 
 		queryBuilder.append(" from ");
-		// TODO replace this by configuration
-		queryBuilder.append("cadastreapp_qgis.section");
+		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".section");
 
 		queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee));
 		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre_partiel));

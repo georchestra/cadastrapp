@@ -1,47 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-		xmlns:jaxrs="http://cxf.apache.org/jaxrs" 
-		xmlns:context="http://www.springframework.org/schema/context" 
-		xmlns:ldap="http://www.springframework.org/schema/ldap"
-		xmlns:jee="http://www.springframework.org/schema/jee"
-		xsi:schemaLocation=" http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-		http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap.xsd http://www.springframework.org/schema/jee 
-                    http://www.springframework.org/schema/jee/spring-jee-3.2.xsd">
-   
-    <import resource="classpath:META-INF/cxf/cxf.xml"/>
-   
-    <context:property-placeholder/>
-    <context:annotation-config/>
-    
-    <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer"/>
-    <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/>
-    
-    <jaxrs:server id="services" address="/">
-        <jaxrs:serviceBeans>
-            <bean class="org.georchestra.cadastrapp.service.CommuneController"/>
-            <bean class="org.georchestra.cadastrapp.service.ParcelleController"/>
-            <bean class="org.georchestra.cadastrapp.service.ProprietaireController"/>
-            <bean class="org.georchestra.cadastrapp.service.SectionController"/>
-        </jaxrs:serviceBeans>
-        <jaxrs:providers>
-            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
-             <ref bean="authorizationFilter" />
-        </jaxrs:providers>
-        
-    </jaxrs:server>
-    <bean id="authorizationFilter" class="org.georchestra.cadastrapp.authorization.AuthorizationRequestFilter">
-       	 	<!-- authorization bean properties -->
-   	 </bean>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+						 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+						 http://www.springframework.org/schema/context 
+						 http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+						 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd 
+						 http://www.springframework.org/schema/jee 
+						 http://www.springframework.org/schema/jee/spring-jee-4.0.xsd">
 
-<!--  TODO remove  <ldap:context-source
-          url="ldap://gd-cms-crai-001.fasgfi.fr:389"
-          base="dc=georchestra,dc=org"
-          username="cn=pjego"
-          password="cR@!g!s2015" /> -->
-          
-  <bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="java:comp/env/jdbc/cadastrapp"/>
-    </bean>
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<context:component-scan base-package="org.georchestra.cadastrapp"/>
+	
+	<jaxrs:server id="services" address="/">
+		<jaxrs:serviceBeans>
+			<bean class="org.georchestra.cadastrapp.service.CommuneController" />
+			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
+			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />
+			<bean class="org.georchestra.cadastrapp.service.SectionController" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+			<ref bean="authorizationFilter" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<bean id="authorizationFilter"
+		class="org.georchestra.cadastrapp.authorization.AuthorizationRequestFilter">
+		<!-- authorization bean properties -->
+	</bean>
+
+	<bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/cadastrapp" />
+	</bean>
 
 </beans>
