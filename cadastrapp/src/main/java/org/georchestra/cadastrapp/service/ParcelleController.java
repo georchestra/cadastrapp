@@ -1,6 +1,5 @@
 package org.georchestra.cadastrapp.service;
 
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.Map;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -21,35 +19,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @Path("/getParcelle")
 public class ParcelleController extends CadController {
-	
+
 	final static Logger logger = LoggerFactory.getLogger(ParcelleController.class);
 	
-	@GET
-	@Path("/id/{parcelle}")
-	@Produces("application/json")
-	/**
-	 * 
-	 * @param parcelle
-	 * @return
-	 * @throws SQLException
-	 */
-	public List<Map<String, Object>> getParcelleById(
-			@PathParam("parcelle") String parcelle) throws SQLException {
-
-		List<Map<String, Object>> parcelles = null;
-
-		StringBuilder queryBuidler = new StringBuilder("select parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, dvoilib ");
-		queryBuidler.append(" from ");
-		//TODO Change by properties
-		queryBuidler.append("cadastreapp_qgis.parcelle");
-		queryBuidler.append(createLikeClauseRequest("parcelle", parcelle));
-		
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		parcelles = jdbcTemplate.queryForList(queryBuidler.toString());
-
-		return parcelles;
-	}
-
 	@GET
 	@Produces("application/json")
 	/**
@@ -75,7 +47,7 @@ public class ParcelleController extends CadController {
 	 */
 	public List<Map<String, Object>> getParcelleList(
 			@Context HttpHeaders headers,
-			@QueryParam("parcelle") String parcelle,
+			@QueryParam("parcelle") final List<String> parcelleList,
 			@DefaultValue("0") @QueryParam("details") String details,
 			@QueryParam("ccodep") String ccodep,
 			@QueryParam("ccodir") String ccodir,
@@ -92,58 +64,140 @@ public class ParcelleController extends CadController {
 			@QueryParam("dnomcp") String dnomcp,
 			@QueryParam("dprncp") String dprncp) throws SQLException {
 
-		List<Map<String, Object>> parcelles = null;
-
-		List<String> mandatoryParameters = new ArrayList<String>();
-		mandatoryParameters.add(ccodep);
-		mandatoryParameters.add(ccocom);
-		mandatoryParameters.add(ccopre);
-		mandatoryParameters.add(ccosec);
-
-		// Avoid to do request if mandatory parameters are not set
-		checkMandatoryParameter(mandatoryParameters);
+		List<Map<String, Object>> parcellesResult = null;
 		
-		// Create query
-		StringBuilder queryBuilder = new StringBuilder();
 
-		queryBuilder.append("select ");
-		
-		if(details.equals("0")){
-			queryBuilder.append("dnupla");
-		}
-		else{
-			queryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, dvoilib");
+		// Search by Id Parcelle
+		if (parcelleList != null && !parcelleList.isEmpty()) {
 			
-			//TODO userlevel
-			if(getUserCNILLevel(headers)>1){
-				queryBuilder.append(", dnupro ");
+			parcellesResult = getParcellesById(parcelleList, details, getUserCNILLevel(headers));
+
+		} // Search by attributes
+		else {
+			// Check mandatory params
+			List<String> mandatoryParameters = new ArrayList<String>();
+			mandatoryParameters.add(ccodep);
+			mandatoryParameters.add(ccocom);
+			mandatoryParameters.add(ccopre);
+			mandatoryParameters.add(ccosec);
+			// Avoid to do request if mandatory parameters are not set
+			if (checkAreMandatoryParametersValid(mandatoryParameters)){
+				
+				StringBuilder queryBuilder = new StringBuilder();
+				
+				queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
+
+				queryBuilder.append(" from ");
+				// TODO replace this by configuration
+				queryBuilder.append("cadastreapp_qgis.parcelle");
+	
+				queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
+				queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
+				queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
+				queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre));
+				queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec));
+				queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla));
+				queryBuilder.append(createEqualsClauseRequest("dnvoiri", dnvoiri));
+				queryBuilder.append(createEqualsClauseRequest("dlindic", dlindic));
+				queryBuilder.append(createEqualsClauseRequest("natvoiriv_lib", natvoiriv_lib));
+				queryBuilder.append(createEqualsClauseRequest("dvoilib", dvoilib));
+				queryBuilder.append(createEqualsClauseRequest("dnomlp", dnomlp));
+				queryBuilder.append(createEqualsClauseRequest("dprnlp", dprnlp));
+				queryBuilder.append(createEqualsClauseRequest("dnomcp", dnomcp));
+				queryBuilder.append(createEqualsClauseRequest("dprncp", dprncp));
+				queryBuilder.append(" ;");
+				
+				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+				parcellesResult = jdbcTemplate.queryForList(queryBuilder.toString());
+			}
+			else{
+				logger.error("Missing Mandatory parameters");
 			}
 		}
-	
-		queryBuilder.append(" from ");
-		// TODO replace this by configuration
-		queryBuilder.append("cadastreapp_qgis.parcelle");
 
-		queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
-		queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
-		queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
-		queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre));
-		queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec));
-		queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla));
-		queryBuilder.append(createEqualsClauseRequest("dnvoiri", dnvoiri));
-		queryBuilder.append(createEqualsClauseRequest("dlindic", dlindic));
-		queryBuilder.append(createEqualsClauseRequest("natvoiriv_lib", natvoiriv_lib));
-		queryBuilder.append(createEqualsClauseRequest("dvoilib", dvoilib));
-		queryBuilder.append(createEqualsClauseRequest("dnomlp", dnomlp));
-		queryBuilder.append(createEqualsClauseRequest("dprnlp", dprnlp));
-		queryBuilder.append(createEqualsClauseRequest("dnomcp", dnomcp));
-		queryBuilder.append(createEqualsClauseRequest("dprncp", dprncp));
-					
-			
+		
+
+		return parcellesResult;
+	}
+
+	/**
+	 * 
+	 * @param parcelle
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String, Object>> getParcelleById(String parcelle, String details, int userCNILLevel) throws SQLException {
+
+		List<Map<String, Object>> parcelles = null;
+
+		StringBuilder queryBuilder = new StringBuilder();
+		
+		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
+		
+		queryBuilder.append(" from ");
+		// TODO Change by properties
+		queryBuilder.append("cadastreapp_qgis.parcelle");
+		queryBuilder.append(" where parcelle =' ");
+		queryBuilder.append(parcelle);
+		queryBuilder.append(" ';");
+
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		parcelles = jdbcTemplate.queryForList(queryBuilder.toString());
 
 		return parcelles;
+	}
+	
+	/**
+	 * 
+	 * @param parcelle
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String, Object>> getParcellesById(List<String> parcelleList, String details, int userCNILLevel) throws SQLException {
+
+		List<Map<String, Object>> parcelles = null;
+
+		StringBuilder queryBuilder = new StringBuilder();
+		
+		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
+		
+		queryBuilder.append(" from ");
+		// TODO Change by properties
+		queryBuilder.append("cadastreapp_qgis.parcelle");
+		queryBuilder.append(" where parcelle IN (");
+		queryBuilder.append(createListToStringQuery(parcelleList));
+		queryBuilder.append(");");
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		parcelles = jdbcTemplate.queryForList(queryBuilder.toString());
+
+		return parcelles;
+	}
+	
+	
+	/**
+	 * 
+	 * @param details
+	 * @param userCNILLevel
+	 * @return
+	 */
+	private String createSelectParcelleQuery(String details, int userCNILLevel) {
+		
+		StringBuilder selectQueryBuilder = new StringBuilder();
+		selectQueryBuilder.append("select ");
+
+		if (details.equals("0")) {
+			selectQueryBuilder.append("dnupla");
+		} else {
+			selectQueryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, dvoilib");
+
+			// TODO userlevel
+			if (userCNILLevel > 1) {
+				selectQueryBuilder.append(", dnupro ");
+			}
+		}
+		
+		return selectQueryBuilder.toString();
 	}
 
 }
