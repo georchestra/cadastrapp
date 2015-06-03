@@ -46,6 +46,25 @@ public class CadController {
 		super();
 		this.isWhereAdded = false;
 	}
+	
+	/**
+	 * 
+	 * @param mandatoryList
+	 */
+	public boolean isMandatoryParameterValid(String parameter) {
+
+		boolean valid = false;
+		logger.debug(" Mandatory parameters to check : " + parameter);
+		
+		// Valid if list not empty and if all parameter are present
+		if (parameter != null && !parameter.isEmpty()){
+			valid = true;
+			logger.debug(" Mandatory parameter is ok");
+		}
+		
+		return valid;
+	}
+
 
 	/**
 	 * 
@@ -59,7 +78,7 @@ public class CadController {
 		// Valid if list not empty and if all parameter are present
 		if (mandatoryList != null && !mandatoryList.isEmpty() && !mandatoryList.contains(null)){
 			valid = true;
-			logger.info(" Mandatory parameters are ok");
+			logger.debug(" Mandatory parameters are ok");
 		}
 		
 		return valid;

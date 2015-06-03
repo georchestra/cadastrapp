@@ -8,6 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,7 @@ public class SectionController extends CadController {
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getSectionList(
+			@Context HttpHeaders headers,
 			@QueryParam("ccoinsee") String ccoinsee,
 			@QueryParam("ccopre_partiel") String ccopre_partiel,
 			@QueryParam("ccosec_partiel") String ccosec_partiel) throws SQLException {
@@ -48,9 +51,16 @@ public class SectionController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".section");
 
-		queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee));
+		// Special case when code commune on 5 characters is given
+		// Convert 350206 to 35%206 for query
+		if(ccoinsee!= null && 5 == ccoinsee.length()){
+			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2);    			
+		} 	
+		
+		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee));
 		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre_partiel));
 		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec_partiel));
+		queryBuilder.append(addAuthorizationFiltering(headers));
 		queryBuilder.append(finalizeQuery());
 					
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

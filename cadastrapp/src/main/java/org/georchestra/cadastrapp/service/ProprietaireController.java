@@ -36,26 +36,30 @@ public class ProprietaireController extends CadController{
     	
     	List<Map<String,Object>> proprietaires = null;
     	
+    	if (getUserCNILLevel(headers)>0){
     	    	
-    	if(dnomlp != null && !dnomlp.isEmpty() && 3<dnomlp.length()){
-    		//TODO change request with dpmlp
-	    	//String query = "select dnomlp, dpmlp, dprnlp, expnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from cadastreapp_qgis.proprietaire where dnomlp LIKE '%"+dnomlp+"%';";
-	       StringBuilder queryBuilder = new StringBuilder();
-	       queryBuilder.append("select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib");
-	       queryBuilder.append(" from ");
-	       queryBuilder.append(databaseSchema);
-	       queryBuilder.append(".proprietaire");
-	       queryBuilder.append(createLikeClauseRequest("dnomlp", dnomlp));
-	       queryBuilder.append(finalizeQuery());
- 	       
-	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-	        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString());
+	    	if(dnomlp != null && !dnomlp.isEmpty() && 3<dnomlp.length()){
+	    		//TODO change request with dpmlp
+		    	//String query = "select dnomlp, dpmlp, dprnlp, expnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from cadastreapp_qgis.proprietaire where dnomlp LIKE '%"+dnomlp+"%';";
+		       StringBuilder queryBuilder = new StringBuilder();
+		       queryBuilder.append("select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib");
+		       queryBuilder.append(" from ");
+		       queryBuilder.append(databaseSchema);
+		       queryBuilder.append(".proprietaire");
+		       queryBuilder.append(createLikeClauseRequest("dnomlp", dnomlp));
+		       queryBuilder.append(finalizeQuery());
+	 	       
+		    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString());
+	    	}
+	    	//TODO add exception management
+	    	else{
+			//log empty request
+			logger.info("Null or less than 3 characters for dnomlp in request");
+		}
+    	}else{
+    		logger.info("User does not have rights to see thoses informations");
     	}
-    	//TODO add exception management
-    	else{
-		//log empty request
-		logger.info("Null or less than 3 characters for dnomlp in request");
-	}
               
         return proprietaires;
     }
