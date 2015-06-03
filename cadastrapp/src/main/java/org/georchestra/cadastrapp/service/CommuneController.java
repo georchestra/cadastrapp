@@ -1,17 +1,14 @@
 package org.georchestra.cadastrapp.service;
 
 
-import javax.annotation.Resource;
 
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 

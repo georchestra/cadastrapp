@@ -80,6 +80,7 @@ public class ParcelleController extends CadController {
 			mandatoryParameters.add(ccocom);
 			mandatoryParameters.add(ccopre);
 			mandatoryParameters.add(ccosec);
+			
 			// Avoid to do request if mandatory parameters are not set
 			if (checkAreMandatoryParametersValid(mandatoryParameters)){
 				
