@@ -80,7 +80,6 @@ public class ParcelleController extends CadController {
 			mandatoryParameters.add(ccocom);
 			mandatoryParameters.add(ccopre);
 			mandatoryParameters.add(ccosec);
-			
 			// Avoid to do request if mandatory parameters are not set
 			if (checkAreMandatoryParametersValid(mandatoryParameters)){
 				
@@ -106,7 +105,7 @@ public class ParcelleController extends CadController {
 				queryBuilder.append(createEqualsClauseRequest("dprnlp", dprnlp));
 				queryBuilder.append(createEqualsClauseRequest("dnomcp", dnomcp));
 				queryBuilder.append(createEqualsClauseRequest("dprncp", dprncp));
-				queryBuilder.append(" ;");
+				queryBuilder.append(finalizeQuery());
 				
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 				parcellesResult = jdbcTemplate.queryForList(queryBuilder.toString());

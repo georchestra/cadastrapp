@@ -44,6 +44,7 @@ public class ProprietaireController extends CadController{
 	       //TODO change for properties
 	       queryBuilder.append("cadastreapp_qgis.proprietaire");
 	       queryBuilder.append(createLikeClauseRequest("dnomlp", dnomlp));
+	       queryBuilder.append(finalizeQuery());
  	       
 	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 	        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString());

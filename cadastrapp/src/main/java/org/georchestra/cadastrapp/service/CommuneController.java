@@ -37,7 +37,7 @@ public class CommuneController extends CadController{
     	
     	queryBuilder.append("where ccocom is not null ");
     	queryBuilder.append(addAuthorizationFiltering(headers));
-    	queryBuilder.append(";");
+    	queryBuilder.append(finalizeQuery());
     	
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         List<Map<String,Object>> communes = jdbcTemplate.queryForList(queryBuilder.toString());
@@ -58,6 +58,7 @@ public class CommuneController extends CadController{
      * @throws SQLException
      */
     public List<Map<String,Object>> getCommunesListByLibcom(
+    			@Context HttpHeaders headers,
     			@QueryParam("libcom_partiel") String libCom,
     			@QueryParam("ccoinsee_partiel") String ccoinsee){
     	
@@ -74,32 +75,35 @@ public class CommuneController extends CadController{
     	 if((libCom == null || libCom.isEmpty()) && (ccoinsee == null || ccoinsee.isEmpty())){
     		 logger.warn("No parameter in request");
     	 }
-    	
-    	 // Check if libcom is not null
-    	 // TODO See if we limit search with n characters
-    	if(libCom != null && !libCom.isEmpty()){
+    	 else{
+	    	 // Check if libcom is not null
+	    	 // TODO See if we limit search with n characters
+	    	if(libCom != null && !libCom.isEmpty()){
+		    	
+	    		// Remove all accent from url
+	    		String newLibCom = StringUtils.stripAccents(libCom);
+		    		    	 
+	    		queryBuilder.append(createRightLikeClauseRequest("libcom", newLibCom.toUpperCase()));      
+	    	}
 	    	
-    		// Remove all accent from url
-    		String newLibCom = StringUtils.stripAccents(libCom);
-	    		    	 
-    		queryBuilder.append(createLikeClauseRequest("libcom", newLibCom.toUpperCase()));      
-    	}
-    	
-    	// Check if ccoinsee is nont null
-    	if(ccoinsee != null && !ccoinsee.isEmpty()){
-    		
-    		// Special case when code commune on 5 characters is given
-    		// Convert 350206 to 35%206 for query
-    		if(5 == ccoinsee.length()){
-    			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2);    			
-    		} 	
-    		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee));     
-  		
-    	}
-    	queryBuilder.append(" and ccocom is not null;"); 
-         
-    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        communes = jdbcTemplate.queryForList(queryBuilder.toString());
+	    	// Check if ccoinsee is nont null
+	    	if(ccoinsee != null && !ccoinsee.isEmpty()){
+	    		
+	    		// Special case when code commune on 5 characters is given
+	    		// Convert 350206 to 35%206 for query
+	    		if(5 == ccoinsee.length()){
+	    			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2);    			
+	    		} 	
+	    		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee));     
+	  		
+	    	}
+	    	queryBuilder.append(" and ccocom is not null "); 
+	    	queryBuilder.append(addAuthorizationFiltering(headers));
+	    	queryBuilder.append(finalizeQuery());
+	         
+	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+	        communes = jdbcTemplate.queryForList(queryBuilder.toString());
+    	 }
         
     	// Return value providers will convert to JSON
         return communes;

@@ -146,6 +146,33 @@ public class CadController {
 		}
 		return subQuery.toString();
 	}
+	
+	/**
+	 * Add a clause like in query
+	 * 
+	 * @param libelle
+	 * @param value
+	 * @return
+	 */
+	public String createRightLikeClauseRequest(String libelle, String value) {
+
+		StringBuilder subQuery = new StringBuilder();
+
+		if (value != null && !value.isEmpty()) {
+			if (!isWhereAdded) {
+				subQuery.append(" where ");
+				isWhereAdded = true;
+			} else {
+				subQuery.append(" and ");
+			}
+			subQuery.append(libelle);
+			subQuery.append(" LIKE '");
+			subQuery.append(value);
+			subQuery.append("%'");
+
+		}
+		return subQuery.toString();
+	}
 
 	/**
 	 * Add an equals clause to query
@@ -196,6 +223,15 @@ public class CadController {
 		}
 
 		return listToString.toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String finalizeQuery(){
+		isWhereAdded =false;
+		return (";");
 	}
 
 }

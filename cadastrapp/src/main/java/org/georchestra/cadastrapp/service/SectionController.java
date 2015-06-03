@@ -51,6 +51,7 @@ public class SectionController extends CadController {
 		queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee));
 		queryBuilder.append(createLikeClauseRequest("ccopre_partiel", ccopre_partiel));
 		queryBuilder.append(createLikeClauseRequest("ccosec_partiel", ccosec_partiel));
+		queryBuilder.append(finalizeQuery());
 					
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		sections = jdbcTemplate.queryForList(queryBuilder.toString());
