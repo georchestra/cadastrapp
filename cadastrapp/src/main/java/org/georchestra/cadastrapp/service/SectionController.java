@@ -49,8 +49,8 @@ public class SectionController extends CadController {
 		queryBuilder.append("cadastreapp_qgis.section");
 
 		queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee));
-		queryBuilder.append(createLikeClauseRequest("ccopre_partiel", ccopre_partiel));
-		queryBuilder.append(createLikeClauseRequest("ccosec_partiel", ccosec_partiel));
+		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre_partiel));
+		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec_partiel));
 		queryBuilder.append(finalizeQuery());
 					
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
