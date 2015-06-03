@@ -99,20 +99,21 @@ public class CadController {
     	
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         List<String> communes = jdbcTemplate.queryForList(queryBuilder.toString(), String.class);
-        
-        StringBuilder ccoinseeList = new StringBuilder();
-        for (String ccoinsee : communes)
-        {
-        	ccoinseeList.append("'");
-        	ccoinseeList.append(ccoinsee);
-        	ccoinseeList.append("',");
-        }
-        // remove last coma
-        ccoinseeList.deleteCharAt(ccoinseeList.length()-1);
-              
-        logger.debug("Liste des communes : " + ccoinseeList);
-		// filter request	
+   
+        // filter request	
         if (communes != null && !communes.isEmpty()){
+        	
+        	 StringBuilder ccoinseeList = new StringBuilder();
+        	 for (String ccoinsee : communes)
+             {
+             	ccoinseeList.append("'");
+             	ccoinseeList.append(ccoinsee);
+             	ccoinseeList.append("',");
+             }
+             // remove last coma check not empty
+        	 ccoinseeList.deleteCharAt(ccoinseeList.length()-1);
+             logger.debug("Liste des communes : " + ccoinseeList);
+             
         	queryFilter.append(" AND ccoinsee IN (");
         	queryFilter.append(ccoinseeList.toString());
         	queryFilter.append(" )");
