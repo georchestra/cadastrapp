@@ -1,18 +1,30 @@
 package org.georchestra.cadastrapp.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+import org.georchestra.cadastrapp.model.ExtFormResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +37,6 @@ public class ParcelleController extends CadController {
 	@GET
 	@Produces("application/json")
 	/**
-	 * 
 	 * @param parcelle
 	 * @param details
 	 * @param ccodep
@@ -125,7 +136,6 @@ public class ParcelleController extends CadController {
 	}
 
 	/**
-	 * 
 	 * @param parcelle
 	 * @return
 	 * @throws SQLException
@@ -151,8 +161,8 @@ public class ParcelleController extends CadController {
 		return parcelles;
 	}
 	
-	/**
-	 * 
+	
+	/** 
 	 * @param parcelle
 	 * @return
 	 * @throws SQLException
@@ -180,8 +190,36 @@ public class ParcelleController extends CadController {
 	}
 	
 	
+	/** 
+	 * @param parcelle
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String, Object>> getParcellesByProprietaireId(List<String> proprietaireList, String details, int userCNILLevel) throws SQLException {
+
+		List<Map<String, Object>> parcelles = null;
+
+		StringBuilder queryBuilder = new StringBuilder();
+		
+		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
+		
+		queryBuilder.append(" from ");
+
+		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".parcelle");
+		queryBuilder.append(" where dnomcp IN (");
+		queryBuilder.append(createListToStringQuery(proprietaireList));
+		queryBuilder.append(");");
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		parcelles = jdbcTemplate.queryForList(queryBuilder.toString());
+
+		return parcelles;
+	}
+	
+	
+	
 	/**
-	 * 
 	 * @param details
 	 * @param userCNILLevel
 	 * @return
@@ -204,5 +242,70 @@ public class ParcelleController extends CadController {
 		
 		return selectQueryBuilder.toString();
 	}
-
+	
+    
+    @POST
+    @Path("/fromParcellesFile")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response getFromParcellesFile(
+			@Context HttpHeaders headers,
+			@DefaultValue("0") @FormParam("details") String details,
+    		@FormParam("ccoinsee") String city,
+    		@FormParam("filePath") String fileContent) throws Exception {
+    	
+    	BufferedReader br = new BufferedReader(new StringReader(fileContent));
+    	
+    	List<String> parcelleList = new ArrayList<String>();
+    	String parcelleId = null;
+    	while ((parcelleId = br.readLine()) != null) {
+    		if (!parcelleId.trim().isEmpty()) {
+    			parcelleList.add(parcelleId.trim());
+    		}
+		}
+    	
+    	List<Map<String, Object>> parcellesResult = getParcellesById(parcelleList, details, getUserCNILLevel(headers));
+	    	
+    	//les forms ExtJs attendent du JSON sous format TEXT/HTML... (avec success=true)
+    	ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    	String json = ow.writeValueAsString( new ExtFormResult(true, parcellesResult));
+    	return Response.ok(json, MediaType.TEXT_HTML).build();
+    }
+    
+    @POST
+    @Path("/fromProprietairesFile")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response getFromProprietairesFile(
+			@Context HttpHeaders headers,
+			@DefaultValue("0") @FormParam("details") String details,
+    		@FormParam("ccoinsee") String city,
+    		@FormParam("filePath") String fileContent) throws Exception {
+    	
+    	BufferedReader br = new BufferedReader(new StringReader(fileContent));
+    	
+    	List<String> proprietaireList = new ArrayList<String>();
+    	String proprietaireId = null;
+    	while ((proprietaireId = br.readLine()) != null) {
+    		if (!proprietaireId.trim().isEmpty()) {
+    			proprietaireList.add(proprietaireId.trim());
+    		}
+		}
+    	
+    	List<Map<String, Object>> parcellesResult = getParcellesByProprietaireId(proprietaireList, details, getUserCNILLevel(headers));
+	    	
+    	//les forms ExtJs attendent du JSON sous format TEXT/HTML... (avec success=true)
+    	ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    	String json = ow.writeValueAsString( new ExtFormResult(true, parcellesResult));
+    	return Response.ok(json, MediaType.TEXT_HTML).build();
+    }
+    
+    
+    @GET
+    @Path("/toFile")
+    public Response getProprietairesListToFile() {
+    	//TODO : fichier de test
+    	File file = new File("/home/gfi/test.pdf");
+		ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition", "attachment; filename=" + file.getName());
+		return response.build();
+    }
 }

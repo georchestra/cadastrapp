@@ -2,12 +2,16 @@ package org.georchestra.cadastrapp.service;
 
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.StringReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,6 +24,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+import org.georchestra.cadastrapp.model.ExtFormResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -62,25 +69,6 @@ public class ProprietaireController extends CadController{
     	}
               
         return proprietaires;
-    }
-    
-    
-    @POST
-    @Path("/fromFile")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public String getProprietairesListFromFile(@FormParam("city") String city, @FormParam("filePath") String fileContent, @FormParam("jsonData") String jsonData) throws Exception {
-    	
-    	return "OK";
-    }
-    
-    @GET
-    @Path("/toFile")
-    public Response getProprietairesListToFile() {
-    	//TODO : fichier de test
-    	File file = new File("/home/gfi/test.pdf");
-		ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition", "attachment; filename=" + file.getName());
-		return response.build();
     }
 }
 
