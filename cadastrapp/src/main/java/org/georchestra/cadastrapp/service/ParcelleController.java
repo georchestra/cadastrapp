@@ -73,7 +73,8 @@ public class ParcelleController extends CadController {
 			@QueryParam("dnomlp") String dnomlp,
 			@QueryParam("dprnlp") String dprnlp,
 			@QueryParam("dnomcp") String dnomcp,
-			@QueryParam("dprncp") String dprncp) throws SQLException {
+			@QueryParam("dprncp") String dprncp,
+			@QueryParam("dnupro") final List<String> dnuproList) throws SQLException {
 
 		List<Map<String, Object>> parcellesResult = null;
 		
@@ -83,8 +84,14 @@ public class ParcelleController extends CadController {
 			
 			parcellesResult = getParcellesById(parcelleList, details, getUserCNILLevel(headers));
 
-		} // Search by attributes
-		else {
+
+		// Search by Id Proprietaire
+		} else if (dnuproList != null && !dnuproList.isEmpty()) {
+					
+			parcellesResult = getParcellesByProprietaireId(dnuproList, details, getUserCNILLevel(headers));
+
+		// Search by attributes
+		} else {
 			// Check mandatory params
 			List<String> mandatoryParameters = new ArrayList<String>();
 			mandatoryParameters.add(ccodep);
@@ -207,7 +214,7 @@ public class ParcelleController extends CadController {
 
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelle");
-		queryBuilder.append(" where dnomcp IN (");
+		queryBuilder.append(" where dnupro IN (");
 		queryBuilder.append(createListToStringQuery(proprietaireList));
 		queryBuilder.append(");");
 
@@ -299,6 +306,7 @@ public class ParcelleController extends CadController {
     }
     
     
+    /*
     @GET
     @Path("/toFile")
     public Response getProprietairesListToFile() {
@@ -308,4 +316,5 @@ public class ParcelleController extends CadController {
 		response.header("Content-Disposition", "attachment; filename=" + file.getName());
 		return response.build();
     }
+    */
 }
