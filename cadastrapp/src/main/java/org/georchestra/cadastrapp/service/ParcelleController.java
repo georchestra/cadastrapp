@@ -306,15 +306,17 @@ public class ParcelleController extends CadController {
     }
     
     
-    /*
     @GET
     @Path("/toFile")
-    public Response getProprietairesListToFile() {
+    public Response getProprietairesListToFile(
+			@Context HttpHeaders headers,
+    		@FormParam("parcelle") String parcelle,
+    		@FormParam("data") String withData) {
+    	
     	//TODO : fichier de test
     	File file = new File("/home/gfi/test.pdf");
 		ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition", "attachment; filename=" + file.getName());
+		response.header("Content-Disposition", "attachment; filename=BP-" + parcelle + "-" + withData + file.getName().substring(file.getName().lastIndexOf(".")) );
 		return response.build();
     }
-    */
 }
