@@ -122,8 +122,9 @@ public class CadController {
 		StringBuilder queryFilter = new StringBuilder();
 
 		// get roles list in header
+		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN,ROLE_ADMINISTRATOR,ROLE_MOD_ANALYTICS,ROLE_MOD_EXTRACTORAPP' 
 		String rolesList = headers.getHeaderString("sec-roles");
-
+		
 		// get commune list in database corresponding to this header
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("select ccoinsee from ");

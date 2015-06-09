@@ -47,17 +47,21 @@ public class InfoBulleController extends CadController {
 	
 			queryBuilder.append("select ");
 	
-			queryBuilder.append("parcelle, libcom, dcntpa, surfacecalculee");
+			// TODO Add libcom and surfacecalculee
+			// queryBuilder.append("parcelle, libcom, dcntpa, surfacecalculee");
+			queryBuilder.append("parcelle, dcntpa");
 	
 			if(getUserCNILLevel(headers)>0){
 				//TODO add proprietaires
+				queryBuilder.append(", dnupro");
 			}
 			if(infouf.equals("1")){
-				queryBuilder.append(",comptecommunal, dcnptpa_sum, sigcal_sum, batical");
+				//TODO check dcnptap_sum, sigcal_sum, batical
+				queryBuilder.append(", comptecommunal, dcntpa");
 			}
 			queryBuilder.append(" from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".informationbulle");
+			queryBuilder.append(".parcelle");
 	
 				
 			queryBuilder.append(createEqualsClauseRequest("parcelle", parcelle));

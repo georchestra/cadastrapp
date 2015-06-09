@@ -22,6 +22,7 @@
 			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
 			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />
 			<bean class="org.georchestra.cadastrapp.service.SectionController" />
+			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />

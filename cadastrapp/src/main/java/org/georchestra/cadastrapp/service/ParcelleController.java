@@ -47,7 +47,7 @@ public class ParcelleController extends CadController {
 	 * @param dnupla
 	 * @param dnvoiri
 	 * @param dlindic
-	 * @param natvoiriv_lib
+	 * @param cconvo
 	 * @param dvoilib
 	 * @param dnomlp
 	 * @param dprnlp
@@ -67,8 +67,8 @@ public class ParcelleController extends CadController {
 			@QueryParam("ccosec") String ccosec,
 			@QueryParam("dnupla") String dnupla,
 			@QueryParam("dnvoiri") String dnvoiri,
-			@QueryParam("dlindic") String dlindic,
-			@QueryParam("natvoiriv_lib") String natvoiriv_lib,
+			@QueryParam("dlindic") String dindic,
+			@QueryParam("cconvo") String cconvo,
 			@QueryParam("dvoilib") String dvoilib,
 			@QueryParam("dnomlp") String dnomlp,
 			@QueryParam("dprnlp") String dprnlp,
@@ -96,11 +96,7 @@ public class ParcelleController extends CadController {
 			List<String> mandatoryParameters = new ArrayList<String>();
 			mandatoryParameters.add(ccodep);
 			mandatoryParameters.add(ccocom);
-			
-			//TODO Check avec Sylvie
-			//mandatoryParameters.add(ccopre);
-			//mandatoryParameters.add(ccosec);
-			
+		
 			// Avoid to do request if mandatory parameters are not set
 			if (checkAreMandatoryParametersValid(mandatoryParameters)){
 				
@@ -120,8 +116,8 @@ public class ParcelleController extends CadController {
 				queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec));
 				queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla));
 				queryBuilder.append(createEqualsClauseRequest("dnvoiri", dnvoiri));
-				queryBuilder.append(createEqualsClauseRequest("dlindic", dlindic));
-				queryBuilder.append(createEqualsClauseRequest("natvoiriv_lib", natvoiriv_lib));
+				queryBuilder.append(createEqualsClauseRequest("dindic", dindic));
+				queryBuilder.append(createEqualsClauseRequest("cconvo", cconvo));
 				queryBuilder.append(createEqualsClauseRequest("dvoilib", dvoilib));
 				queryBuilder.append(createEqualsClauseRequest("dnomlp", dnomlp));
 				queryBuilder.append(createEqualsClauseRequest("dprnlp", dprnlp));
@@ -239,7 +235,7 @@ public class ParcelleController extends CadController {
 		if (details.equals("0")) {
 			selectQueryBuilder.append("dnupla");
 		} else {
-			selectQueryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, dvoilib");
+			selectQueryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib");
 
 			// TODO userlevel
 			if (userCNILLevel > 1) {
