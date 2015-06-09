@@ -49,22 +49,27 @@ public class InfoBulleController extends CadController {
 	
 			// TODO Add libcom and surfacecalculee
 			// queryBuilder.append("parcelle, libcom, dcntpa, surfacecalculee");
-			queryBuilder.append("parcelle, dcntpa");
+			queryBuilder.append("p.parcelle, c.libcom, p.dcntpa");
 	
 			if(getUserCNILLevel(headers)>0){
 				//TODO add proprietaires
-				queryBuilder.append(", dnupro");
+				queryBuilder.append(", p.dnupro");
 			}
 			if(infouf.equals("1")){
 				//TODO check dcnptap_sum, sigcal_sum, batical
-				queryBuilder.append(", comptecommunal, dcntpa");
+				queryBuilder.append(", p.comptecommunal, p.dcntpa");
 			}
 			queryBuilder.append(" from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".parcelle");
-	
-				
-			queryBuilder.append(createEqualsClauseRequest("parcelle", parcelle));
+			queryBuilder.append(".parcelle p,");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".commune c ");
+		
+			queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
+			queryBuilder.append(" and p.ccocomm = c.ccocom");
+			
+			//TODO add ccodep 
+			//queryBuilder.append(" and p.ccodep = c.ccodep");
 			queryBuilder.append(finalizeQuery());
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
