@@ -119,25 +119,32 @@ public class CadController {
 	 */
 	public String addAuthorizationFiltering(HttpHeaders headers) {
 
+		List<String> communes = null;
 		StringBuilder queryFilter = new StringBuilder();
 
 		// get roles list in header
 		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN,ROLE_ADMINISTRATOR,ROLE_MOD_ANALYTICS,ROLE_MOD_EXTRACTORAPP' 
 		String rolesList = headers.getHeaderString("sec-roles");
 		
-		// get commune list in database corresponding to this header
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("select ccoinsee from ");
-
-		// TODO get schema and table in properties
-		queryBuilder.append("cadastreapp_qgis.groupe_autorisation ");
-		queryBuilder.append(" where idgroup = '");
-		queryBuilder.append(rolesList);
-		queryBuilder.append("' ;");
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		List<String> communes = jdbcTemplate.queryForList(
-				queryBuilder.toString(), String.class);
+		if(rolesList!=null && !rolesList.isEmpty()){
+		
+			// get commune list in database corresponding to this header
+			StringBuilder queryBuilder = new StringBuilder();
+			queryBuilder.append("select ccoinsee from ");
+	
+			// TODO get schema and table in properties
+			queryBuilder.append("cadastreapp_qgis.groupe_autorisation ");
+			queryBuilder.append(" where idgroup = '");
+			queryBuilder.append(rolesList);
+			queryBuilder.append("' ;");
+	
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			communes = jdbcTemplate.queryForList(
+					queryBuilder.toString(), String.class);
+		}
+		else{
+			logger.warn("Missing sec-roles");
+		}
 
 		// filter request
 		if (communes != null && !communes.isEmpty()) {
