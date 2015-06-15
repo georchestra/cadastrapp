@@ -100,9 +100,9 @@ public class CadController {
 		// Get CNIL Group information
 		String rolesList = headers.getHeaderString("sec-roles");
 		logger.debug(" Get user roles informations : " + rolesList);
-		if (rolesList.contains("CNIL2")) {
+		if (rolesList!=null && rolesList.contains("CNIL2")) {
 			cnilLevel = 2;
-		} else if (rolesList.contains("CNIL1")) {
+		} else if (rolesList!=null && rolesList.contains("CNIL1")) {
 			cnilLevel = 1;
 		}
 
