@@ -133,7 +133,8 @@ public class CadController {
 			queryBuilder.append("select ccoinsee from ");
 	
 			// TODO get schema and table in properties
-			queryBuilder.append("cadastreapp_qgis.groupe_autorisation ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".groupe_autorisation ");
 			queryBuilder.append(" where idgroup = '");
 			queryBuilder.append(rolesList);
 			queryBuilder.append("' ;");
