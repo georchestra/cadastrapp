@@ -1,0 +1,1 @@
+ALTER TABLE parcelle ADD COLUMN inspireid character varying(16)[];
