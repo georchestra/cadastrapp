@@ -44,7 +44,23 @@ public class ProprietaireController extends CadController{
 		       queryBuilder.append(databaseSchema);
 		       queryBuilder.append(".proprietaire");
 		       queryBuilder.append(createLikeClauseRequest("dnomlp", dnomlpPartiel));
-		       queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee));
+		       if (ccoinsee!=null && !ccoinsee.isEmpty() && ccoinsee.length()>3){
+		    	  
+		    	   int size = ccoinsee.length();
+		    	   
+		    	   String ccodep = ccoinsee.substring(0, 2);
+		    	   queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
+		    	   
+		    	   String ccocom = ccoinsee.substring(size-3, size);
+		    	   queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
+		    	       	   
+		    		if(size==5){
+		    		   String ccodir = ccoinsee.substring(2, 3);
+		    		   queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
+		    	   }
+		    	   
+		       }
+		      
 		       queryBuilder.append(createEqualsClauseRequest("dnupro", dnupro));
 		       queryBuilder.append(finalizeQuery());
 	 	       
