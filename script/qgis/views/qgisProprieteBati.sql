@@ -1,6 +1,6 @@
-create view proprietebatie as
+create view #schema_cadastrapp.proprietebatie as
 SELECT *
-   FROM dblink('host=MQ-CMS-CRAI-001.fasgfi.fr dbname=qadastre user=cadastreapp password=c'::text, 'select
+   FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=c'::text, 'select
     l.local00,c.lot,c.comptecommunal,c.dnupro,c.ccodep,c.ccodir,c.ccocom,l.ccopre,l.ccosec,l.dnupla,
 l.jdatat,v.voie ,l.dnvoiri,l00.dindic,v.natvoi,l.ccovoi,v.libvoi,
 l00.ccoriv,l00.dnubat,l00.descr,l00.dniv,l00.dpor,l00.invar,pev.ccoaff,l.ccoeva,suf.ccostn,
@@ -32,4 +32,8 @@ dniv character varying(2),dpor character varying(5),invar character varying(10),
 ccoaff character varying(1),ccoeva character varying(1),ccostn character varying(1),
 ccolloc character varying(2),gnextl character varying(2),jandeb character varying(4),
 janimp character varying(4),fcexb character varying(9), mvltieomx integer,bateom integer
-)
+);
+
+
+ALTER TABLE #schema_cadastrapp.proprietebatie
+  OWNER TO #role_cadastrapp;

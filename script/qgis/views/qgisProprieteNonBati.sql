@@ -1,6 +1,6 @@
-CREATE OR REPLACE VIEW cadastreapp_qgis.proprietenonbatie AS 
+CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS 
  SELECT proprietenonbatie.jdatat, proprietenonbatie.comptecommunal, proprietenonbatie.dnupro, proprietenonbatie.ccodep, proprietenonbatie.ccodir, proprietenonbatie.ccocom, proprietenonbatie.ccopre, proprietenonbatie.dnupla, proprietenonbatie.parcelle, proprietenonbatie.ccovoi, proprietenonbatie.voie, proprietenonbatie.ccoriv, proprietenonbatie.dnvoiri, proprietenonbatie.dindic, proprietenonbatie.cconvo, proprietenonbatie.dvoilib, proprietenonbatie.dparpi, proprietenonbatie.gpafpd, proprietenonbatie.ccostn, proprietenonbatie.ccosub, proprietenonbatie.cgrnum, proprietenonbatie.dsgrpf, proprietenonbatie.dclssf, proprietenonbatie.cnatsp, proprietenonbatie.dcntsf, proprietenonbatie.drcsuba, proprietenonbatie.pdl, proprietenonbatie.dnulot, proprietenonbatie.ccolloc, proprietenonbatie.gnexts, proprietenonbatie.jandeb, proprietenonbatie.jfinex, proprietenonbatie.fcexn, proprietenonbatie.pexn, proprietenonbatie.dreflf
-   FROM dblink('host=MQ-CMS-CRAI-001.fasgfi.fr dbname=qadastre user=cadastreapp password=c'::text, 'select p.jdatat,p.comptecommunal,p.dnupro,p.ccodep, p.ccodir,p.ccocom,p.ccopre,p.dnupla,p.parcelle,p.ccovoi,p.voie,p.ccoriv,
+   FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=c'::text, 'select p.jdatat,p.comptecommunal,p.dnupro,p.ccodep, p.ccodir,p.ccocom,p.ccopre,p.dnupla,p.parcelle,p.ccovoi,p.voie,p.ccoriv,
 p.dnvoiri,p.dindic,p.cconvo,p.dvoilib,p.dparpi,p.gpafpd,suf.ccostn,suf.ccosub,suf.cgrnum,suf.dsgrpf,
 suf.dclssf,suf.cnatsp,suf.dcntsf,suf.drcsuba,suf.pdl,suf.dnulot,sufex.ccolloc,sufex.gnexts,sufex.jandeb,
 sufex.jfinex,sufex.fcexn,sufex.pexn,p.dreflf
@@ -20,3 +20,7 @@ left join sufexoneration as sufex on sufex.suf=suf.suf
  ccolloc character varying(2), gnexts character varying(2), jandeb character varying(4),
  jfinex character varying(4), fcexn character varying(10), pexn 
 integer, dreflf character varying(5));
+
+
+ALTER TABLE #schema_cadastrapp.proprietenonbatie
+  OWNER TO #role_cadastrapp;

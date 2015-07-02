@@ -1,15 +1,15 @@
--- Role: cadastrapp_arcopole
+-- Role: cadastreapp_qgis
 
 -- DROP ROLE #role_cadastrapp;
 
 CREATE ROLE #role_cadastrapp
   SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
 
--- Database: cadastrapp_arcopole
+-- Database: cadastreapp_qgis
 
--- DROP DATABASE #dbname_arcopole;
+-- DROP DATABASE #dbname_qgis;
 
-CREATE DATABASE #dbname_arcopole
+CREATE DATABASE #dbname_qgis
   WITH OWNER = #role_cadastrapp
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
@@ -17,11 +17,9 @@ CREATE DATABASE #dbname_arcopole
        LC_CTYPE = 'fr_FR.UTF-8'
        CONNECTION LIMIT = -1;
 
--- Schema: cadastrapp_arcopole
+-- Schema: cadastreapp_qgis
 
--- DROP SCHEMA #schema_cadastrapp;
+-- DROP SCHEMA #schemaname_qgis;
 
-CREATE SCHEMA #schema_cadastrapp
+CREATE SCHEMA #schemaname_qgis
   AUTHORIZATION #role_cadastrapp;
-  
-  

@@ -1,10 +1,10 @@
 -- View: cadastreapp_qgis.proprietaire
 
--- DROP VIEW cadastreapp_qgis.proprietaire;
+-- DROP VIEW #schema_cadastrapp.proprietaire;
 
-CREATE OR REPLACE VIEW cadastreapp_qgis.proprietaire AS 
+CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS 
  SELECT proprietaire.id_proprietaire, proprietaire.dnupro, proprietaire.lot, proprietaire.dnulp, proprietaire.ccocif, proprietaire.dnuper, proprietaire.ccodro_c, proprietaire.ccodem_c, proprietaire.gdesip, proprietaire.gtoper, proprietaire.ccoqua_c, proprietaire.dnatpr_c, proprietaire.ccogrm_c, proprietaire.dsglpm, proprietaire.dforme, proprietaire.ddenom, proprietaire.gtyp3, proprietaire.gtyp4, proprietaire.gtyp5, proprietaire.gtyp6, proprietaire.dlign3, proprietaire.dlign4, proprietaire.dlign5, proprietaire.dlign6, proprietaire.ccopay, proprietaire.ccodep1a2, proprietaire.ccodira, proprietaire.ccocom_adr, proprietaire.ccovoi, proprietaire.ccoriv, proprietaire.dnvoiri, proprietaire.dindic, proprietaire.ccopos, proprietaire.dnirpp, proprietaire.dqualp, proprietaire.dnomlp, proprietaire.dprnlp, proprietaire.jdatnss, proprietaire.dldnss, proprietaire.epxnee, proprietaire.dnomcp, proprietaire.dprncp, proprietaire.dformjur, proprietaire.dsiren, proprietaire.ccodep, proprietaire.ccodir, proprietaire.ccocom, proprietaire.comptecommunal, prop_ccodro.ccodro, prop_ccodro.ccodro_lib, prop_ccoqua.ccoqua, prop_ccoqua.ccoqua_lib, prop_ccogrm.ccogrm, prop_ccogrm.ccogrm_lib, prop_ccodem.ccodem, prop_ccodem.ccodem_lib, prop_dnatpr.dnatpr, prop_dnatpr.dnatpr_lib
-   FROM dblink('host=MQ-CMS-CRAI-001.fasgfi.fr dbname=qadastre user=cadastreapp password=c'::text, 'select 
+   FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=c'::text, 'select 
         proprietaire,
 dnupro,
 lot,
@@ -59,6 +59,6 @@ comptecommunal from proprietaire'::text) proprietaire(id_proprietaire character 
    LEFT JOIN cadastreapp_qgis.prop_ccodem ON proprietaire.ccodem_c::text = prop_ccodem.ccodem::text
    LEFT JOIN cadastreapp_qgis.prop_dnatpr ON proprietaire.dnatpr_c::text = prop_dnatpr.dnatpr::text;
 
-ALTER TABLE cadastreapp_qgis.proprietaire
-  OWNER TO postgres;
+ALTER TABLE #schema_cadastrapp.proprietaire
+  OWNER TO #role_cadastrapp;
 

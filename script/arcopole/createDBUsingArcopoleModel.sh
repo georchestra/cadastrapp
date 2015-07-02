@@ -40,8 +40,8 @@ arcopoleDBSchema=
 # replaceAndLaunch
 # Replace fields in sql file and launch sql execution
 # 
-# #role_arcopole replace with $rolename
-# #schema_arcopole replace with $schema
+# #role_cadastrapp replace with $rolename
+# #schema_cadastrapp replace with $schema
 # #DBHost_arcopole replace with $arcopoleDBHost
 # #DBSchema_arcopole replace with $arcopoleDBSchema
 # #DBName_arcopole replace with $arcopoleDBName
@@ -52,8 +52,8 @@ replaceAndLaunch (){
 	
 	if [ -z ${sql+x} ]; then echo "sql file is unset" exit 1; else echo "Launch file :  '$sql'"; fi
 	
-	cat $1 | sed "{ s/#role_arcopole/$rolename/g
-				 	s/#schema_arcopole/$schema/g
+	cat $1 | sed "{ s/#role_cadastrapp/$rolename/g
+				 	s/#schema_cadastrapp/$schema/g
 				 	s/#DBHost_arcopole/$arcopoleDBHost/g
 				 	s/#DBName_arcopole/$arcopoleDBName/g
 				 	s/#DBUser_arcopole/$arcopoleDBUser/g
@@ -62,10 +62,10 @@ replaceAndLaunch (){
 }
 
 # Init database
-#cat ./database/init.sql | sed  "{ s/#role_arcopole/$rolename/g
-#						 		  s/#dbname_arcopole/$dbname/g
-#						 	  	  s/#schemaname_arcopole/$schema/g }" |\
-#								  psql
+cat ./database/init.sql | sed  "{ s/#role_cadastrapp/$rolename/g
+						 		  s/#dbname_arcopole/$dbname/g
+						 	  	  s/#schema_cadastrapp/$schema/g }" |\
+								  psql
 
 # Create tables
 replaceAndLaunch ./tables/prop_ccodem.sql

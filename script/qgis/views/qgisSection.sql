@@ -1,7 +1,7 @@
-create view cadastreapp_qgis.section as 
+create view #schema_cadastrapp.section as 
 select  
   *
-   FROM dblink('host=MQ-CMS-CRAI-001.fasgfi.fr dbname=qadastre user=cadastreapp password=c', 'select 
+   FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=c', 'select 
    distinct ccodep||ccodir||ccocom 
 as ccoinsee,ccosec,ccopre,ccodep||ccodir||ccocom||ccopre||ccosec as geo_section
   from parcelle
@@ -9,3 +9,7 @@ as ccoinsee,ccosec,ccopre,ccodep||ccodir||ccocom||ccopre||ccosec as geo_section
 	ccosec character varying(2), 
 	ccopre character varying(3),
 	geo_section character varying(12));
+	
+	
+ALTER TABLE #schema_cadastrapp.section
+  OWNER TO #role_cadastrapp;

@@ -1,4 +1,4 @@
-create view #schema_arcopole.proprietaire as 
+create view #schema_cadastrapp.proprietaire as 
 SELECT *
    FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=c'::text, 'select 
     id_prop as     proprietaire,
