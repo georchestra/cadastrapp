@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/sh
 
 #-----------------------------------------------------------------
 # Project      : Cadastrapp 
@@ -7,11 +7,11 @@
 
 #////////////////////////////////////////////////////////////////////
 #
-# Script      :   createViews.sh
+# Script      :   createDBUsingArcopoleModel.sh
 #
-# Purpose     :   Create table and view neccessary for Cadastrapp addons
-# Warnings    :   None<br /><br />
-# Description :   n
+# Purpose     :   Create table and view neccessary for Cadastrapp addons for Arcopole model
+# Warnings    :   This script should be launch with user postgres on the database server
+# Description :   
 #
 # @author Jégo Pierre
 # @since  
@@ -28,33 +28,57 @@
 # Set parameters
 dbname="cadastrapp_arcopole"
 schema="cadastrapp_arcopole"
+rolename="cadastrapp_arcopole"
 
-username="cadastrapp"
-
-arcopoleDBHost="MQ-CMS-CRAI-001.fasgfi.fr
+arcopoleDBHost=
 arcopoleDBName=
+arcopoleDBSchema=
 arcopoleDBUser=
 arcopoleDBPassword=
+arcopoleDBSchema=
+
+# replaceAndLaunch
+# Replace fields in sql file and launch sql execution
+# 
+# #role_arcopole replace with $rolename
+# #schema_arcopole replace with $schema
+# #DBHost_arcopole replace with $arcopoleDBHost
+# #DBSchema_arcopole replace with $arcopoleDBSchema
+# #DBName_arcopole replace with $arcopoleDBName
+# #DBUser_arcopole replace with $arcopoleDBUser
+# #DBpasswd_arcopole replace with $arcopoleDBPassword
+#
+replaceAndLaunch (){
+	
+	if [ -z ${sql+x} ]; then echo "sql file is unset" exit 1; else echo "Launch file :  '$sql'"; fi
+	
+	cat $1 | sed "{ s/#role_arcopole/$rolename/g
+				 	s/#schema_arcopole/$schema/g
+				 	s/#DBHost_arcopole/$arcopoleDBHost/g
+				 	s/#DBName_arcopole/$arcopoleDBName/g
+				 	s/#DBUser_arcopole/$arcopoleDBUser/g
+				 	s/#DBpasswd_arcopole/$arcopoleDBPassword/g }" |\
+			 psql -d $dbname
+}
 
 # Init database
-
-psql -f ./database/init.sql
+#cat ./database/init.sql | sed  "{ s/#role_arcopole/$rolename/g
+#						 		  s/#dbname_arcopole/$dbname/g
+#						 	  	  s/#schemaname_arcopole/$schema/g }" |\
+#								  psql
 
 # Create tables
-
-psql -d $dbname -e -1 -f ./tables/prop_ccodem.sql
-psql -d $dbname -e -1 -f ./tables/prop_ccodro.sql
-psql -d $dbname -e -1 -f ./tables/prop_ccoqua.sql
-psql -d $dbname -e -1 -f ./tables/prop_ccogrm.sql
-psql -d $dbname -e -1 -f ./tables/prop_dnatpr.sql
+replaceAndLaunch ./tables/prop_ccodem.sql
+replaceAndLaunch ./tables/prop_ccodro.sql
+replaceAndLaunch ./tables/prop_ccoqua.sql
+replaceAndLaunch ./tables/prop_ccogrm.sql
+replaceAndLaunch ./tables/prop_dnatpr.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
-
-psql -d $dbname -e -1 -v p_date=\'20081023\' -f ./views/arcopoleCommune.sql
-psql -d $dbname -e -1 -v p_date=\'20081023\' -f ./views/arcopoleParcelle.sql
-psql -d $dbname -e -1 -v p_date=\'20081023\' -f ./views/arcopoleProprietaire.sql
-psql -d $dbname -e -1 -v p_date=\'20081023\' -f ./views/arcopoleSection.sql
+replaceAndLaunch ./views/arcopoleCommune.sql
+replaceAndLaunch ./views/arcopoleParcelle.sql
+replaceAndLaunch ./views/arcopoleProprietaire.sql
+replaceAndLaunch ./views/arcopoleSection.sql
 
 # Create users correlation tables
-
-psql -d $dbname -e -1 -v p_date=\'20081023\' -f ../user/groupeAutorisation.sql
+replaceAndLaunch ../user/groupeAutorisation.sql

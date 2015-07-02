@@ -1,6 +1,6 @@
-create view cadastrapp_arcopole.proprietaire as 
+create view #schema_arcopole.proprietaire as 
 SELECT *
-   FROM dblink('host=MQ-CMS-CRAI-001.fasgfi.fr dbname=cadastreArcopole user=cadastreapp password=c'::text, 'select 
+   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=c'::text, 'select 
     id_prop as     proprietaire,
 id_prop as dnupro,
 codlot as lot,
@@ -48,7 +48,7 @@ dformjur,
 substr(id_prop,1,2) as ccodep,
 substr(id_prop,3,1) as ccodir ,
 substr(id_prop,4,3) as ccocom,
-id_prop as  comptecommunal from cadastre.dgi_prop'::text) dgi_prop(
+id_prop as  comptecommunal from #DBSchema_arcopole.dgi_prop'::text) dgi_prop(
 id_proprietaire character varying(20), dnupro character varying(12), lot character varying, dnulp character varying(2), 
 ccocif character varying(4), dnuper character varying(6), ccodro_c character varying(1), ccodem_c character varying(1),
  gdesip character varying(1), gtoper character varying(1), ccoqua_c character varying(1), dnatpr_c character varying(3),

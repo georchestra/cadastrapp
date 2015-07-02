@@ -1,16 +1,16 @@
 -- Role: cadastrapp_arcopole
 
--- DROP ROLE cadastrapp_arcopole;
+-- DROP ROLE #role_arcopole;
 
-CREATE ROLE cadastrapp_arcopole
+CREATE ROLE #role_arcopole
   SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
 
 -- Database: cadastrapp_arcopole
 
--- DROP DATABASE cadastrapp_arcopole;
+-- DROP DATABASE #dbname_arcopole;
 
-CREATE DATABASE cadastrapp_arcopole
-  WITH OWNER = cadastrapp_arcopole
+CREATE DATABASE #dbname_arcopole
+  WITH OWNER = #role_arcopole
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
        LC_COLLATE = 'fr_FR.UTF-8'
@@ -21,5 +21,7 @@ CREATE DATABASE cadastrapp_arcopole
 
 -- DROP SCHEMA cadastrapp_arcopole;
 
-CREATE SCHEMA cadastrapp_arcopole
-  AUTHORIZATION cadastrapp_arcopole;
+CREATE SCHEMA #schemaname_arcopole
+  AUTHORIZATION #role_arcopole;
+  
+  
