@@ -37,7 +37,9 @@ public class ParcelleController extends CadController {
 	@GET
 	@Produces("application/json")
 	/**
-	 * @param parcelle
+	 * 
+	 * @param headers
+	 * @param parcelleList
 	 * @param details
 	 * @param ccodep
 	 * @param ccodir
@@ -46,13 +48,14 @@ public class ParcelleController extends CadController {
 	 * @param ccosec
 	 * @param dnupla
 	 * @param dnvoiri
-	 * @param dlindic
+	 * @param dindic
 	 * @param cconvo
 	 * @param dvoilib
 	 * @param dnomlp
 	 * @param dprnlp
 	 * @param dnomcp
 	 * @param dprncp
+	 * @param dnuproList
 	 * @return
 	 * @throws SQLException
 	 */
@@ -78,12 +81,10 @@ public class ParcelleController extends CadController {
 
 		List<Map<String, Object>> parcellesResult = null;
 		
-
 		// Search by Id Parcelle
 		if (parcelleList != null && !parcelleList.isEmpty()) {
 			
 			parcellesResult = getParcellesById(parcelleList, details, getUserCNILLevel(headers));
-
 
 		// Search by Id Proprietaire
 		} else if (dnuproList != null && !dnuproList.isEmpty()) {
@@ -92,48 +93,33 @@ public class ParcelleController extends CadController {
 
 		// Search by attributes
 		} else {
-			// Check mandatory params
-			List<String> mandatoryParameters = new ArrayList<String>();
-			mandatoryParameters.add(ccodep);
-			mandatoryParameters.add(ccocom);
-		
-			// Avoid to do request if mandatory parameters are not set
-			if (checkAreMandatoryParametersValid(mandatoryParameters)){
-				
-				StringBuilder queryBuilder = new StringBuilder();
-				
-				queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
-
-				queryBuilder.append(" from ");
-				// TODO replace this by configuration
-				queryBuilder.append(databaseSchema);
-				queryBuilder.append(".parcelle");
+			StringBuilder queryBuilder = new StringBuilder();
+			
+			queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
 	
-				queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
-				queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
-				queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
-				queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre));
-				queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec));
-				queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla));
-				queryBuilder.append(createEqualsClauseRequest("dnvoiri", dnvoiri));
-				queryBuilder.append(createEqualsClauseRequest("dindic", dindic));
-				queryBuilder.append(createEqualsClauseRequest("cconvo", cconvo));
-				queryBuilder.append(createEqualsClauseRequest("dvoilib", dvoilib));
-				queryBuilder.append(createEqualsClauseRequest("dnomlp", dnomlp));
-				queryBuilder.append(createEqualsClauseRequest("dprnlp", dprnlp));
-				queryBuilder.append(createEqualsClauseRequest("dnomcp", dnomcp));
-				queryBuilder.append(createEqualsClauseRequest("dprncp", dprncp));
-				queryBuilder.append(finalizeQuery());
-				
-				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-				parcellesResult = jdbcTemplate.queryForList(queryBuilder.toString());
-			}
-			else{
-				logger.error("Missing Mandatory parameters");
-			}
+			queryBuilder.append(" from ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".parcelle");
+			
+			queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
+			queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
+			queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
+			queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre));
+			queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec));
+			queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla));
+			queryBuilder.append(createEqualsClauseRequest("dnvoiri", dnvoiri));
+			queryBuilder.append(createEqualsClauseRequest("dindic", dindic));
+			queryBuilder.append(createEqualsClauseRequest("cconvo", cconvo));
+			queryBuilder.append(createEqualsClauseRequest("dvoilib", dvoilib));
+			queryBuilder.append(createEqualsClauseRequest("dnomlp", dnomlp));
+			queryBuilder.append(createEqualsClauseRequest("dprnlp", dprnlp));
+			queryBuilder.append(createEqualsClauseRequest("dnomcp", dnomcp));
+			queryBuilder.append(createEqualsClauseRequest("dprncp", dprncp));
+			queryBuilder.append(finalizeQuery());
+					
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			parcellesResult = jdbcTemplate.queryForList(queryBuilder.toString());
 		}
-
-		
 
 		return parcellesResult;
 	}
@@ -165,15 +151,23 @@ public class ParcelleController extends CadController {
 	}
 	
 	
-	/** 
-	 * @param parcelle
+	/**
+	 * getParcellesById, given a list of parcelles ids and details level wanted, 
+	 * 	this method will return informations about parcelles from cadastrapp view
+	 * 
+	 * userCNILLevel will filter information than can be return or not 
+	 * 
+	 * @param parcelleList could be LIST if one or more element, if only one in the list, this element could contains list of parcelleids separated by space
+	 * 			 			exemple ( '2014630103000AP0026', '2014630103000AP0027' or '2014630103000AP0026 2014630103000AP0026' or '2014630103000AP0026'
+	 * @param details 0 for short details, 1 for full information
+	 * @param userCNILLevel (0,1 or 2) ie CNIL_0, CNIL_1, CNIL_2
 	 * @return
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getParcellesById(List<String> parcelleList, String details, int userCNILLevel) throws SQLException {
 
 		List<Map<String, Object>> parcelles = null;
-
+		
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
@@ -183,7 +177,7 @@ public class ParcelleController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelle");
 		queryBuilder.append(" where parcelle IN (");
-		queryBuilder.append(createListToStringQuery(parcelleList));
+		queryBuilder.append(createInQueryParcelles(parcelleList));
 		queryBuilder.append(");");
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -193,8 +187,62 @@ public class ParcelleController extends CadController {
 	}
 	
 	
-	/** 
-	 * @param parcelle
+	/**
+	 * Given a list of String, this method will gives you a string that can be use in a IN SQL statement
+	 * 
+	 * 	exemple: 
+	 * 			{2014630103000AP0026,2014630103000AP0027,2014630103000AP0028,2014630103000AP0029}
+	 * 			will give you 
+	 * 			'2014630103000AP0026','2014630103000AP0027','2014630103000AP0028','2014630103000AP0029'
+	 * 
+	 * Same for specific needs when copy paste from eclipe :
+	 * 
+	 * 			{'2014630103000AP0026 2014630103000AP0027 2014630103000AP0028 2014630103000AP0029',''}
+	 * 			will give you 
+	 * 			'2014630103000AP0026','2014630103000AP0027','2014630103000AP0028','2014630103000AP0029'
+	 * 
+	 * @param values List<String>
+	 * 
+	 * @return String that can be add to IN SQL query
+	 */
+	public String createInQueryParcelles(List<String> values) {
+
+		StringBuilder listToString = new StringBuilder();
+
+		if (values != null && !values.isEmpty()) {
+			
+			// Case of copy paste for excel 
+			// only one element in list but several parcelle id separated by special char
+			if (values.size() ==1){
+				listToString.append("'");
+				listToString.append(values.get(0).replaceAll("\\s","','"));
+				listToString.append("'");
+			}
+			else{
+				// Normal case	
+				for (String value : values) {
+					listToString.append("'");
+					listToString.append(value);
+					listToString.append("',");
+				}
+				// remove last coma check not empty
+				listToString.deleteCharAt(listToString.length() - 1);
+			}
+				
+			logger.debug("List to String : " + listToString);
+
+		}
+
+		return listToString.toString();
+	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @param proprietaireList
+	 * @param details
+	 * @param userCNILLevel
 	 * @return
 	 * @throws SQLException
 	 */
@@ -223,6 +271,7 @@ public class ParcelleController extends CadController {
 	
 	
 	/**
+	 * 
 	 * @param details
 	 * @param userCNILLevel
 	 * @return
