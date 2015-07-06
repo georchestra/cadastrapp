@@ -23,6 +23,8 @@
 			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />
 			<bean class="org.georchestra.cadastrapp.service.SectionController" />
 			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
+			<bean class="org.georchestra.cadastrapp.service.FicheInfoCadastreController" />
+			<bean class="org.georchestra.cadastrapp.service.FicheInfoFonciereController" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
