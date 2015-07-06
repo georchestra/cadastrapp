@@ -84,7 +84,7 @@ public class FicheInfoCadastreController extends CadController {
 		queryBuilder.append(".commune c ");
 		
 		queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
-		queryBuilder.append(" and p.ccocomm = c.ccocom ORDER BY p.parcelle DESC LIMIT 25");
+		queryBuilder.append(" and p.ccocom = c.ccocom and p.ccodep = c.ccodep ORDER BY p.parcelle DESC LIMIT 25");
 		queryBuilder.append(finalizeQuery());
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -111,7 +111,7 @@ public class FicheInfoCadastreController extends CadController {
 		queryBuilder.append(".proprietaire p ");
 		
 		queryBuilder.append(createEqualsClauseRequest("parc.parcelle", parcelle));
-		queryBuilder.append(" and p.dnupro = parc.dnupro ORDER BY p.dnomlp DESC LIMIT 25");
+		queryBuilder.append(" and p.comptecommunal = parc.comptecommunal ORDER BY p.dnomlp DESC LIMIT 25");
 		queryBuilder.append(finalizeQuery());
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -147,7 +147,7 @@ public class FicheInfoCadastreController extends CadController {
 		
 		queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
 		queryBuilder.append(" and p.lot = pb.lot");
-		queryBuilder.append(" and pb.dnupro = prop.dnupro ORDER BY pb.dnubat DESC LIMIT 25");
+		queryBuilder.append(" and pb.comptecommunal = prop.comptecommunal ORDER BY pb.dnubat DESC LIMIT 25");
 		queryBuilder.append(finalizeQuery());
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -162,6 +162,7 @@ public class FicheInfoCadastreController extends CadController {
 		
 		logger.debug("infoOngletSubdivision - parcelle : " + parcelle);
 		
+		//TODO Change with subdivision
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 2
