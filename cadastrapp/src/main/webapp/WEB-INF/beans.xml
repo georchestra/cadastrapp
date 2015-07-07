@@ -25,10 +25,12 @@
 			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
 			<bean class="org.georchestra.cadastrapp.service.FicheInfoCadastreController" />
 			<bean class="org.georchestra.cadastrapp.service.FicheInfoFonciereController" />
+			<bean class="org.georchestra.cadastrapp.service.VoieController" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
-			<ref bean="authorizationFilter" />
+			<!--  double check if sec-roles exist not needed if only acces by security proxy -->
+			<!--  <ref bean="authorizationFilter" />  -->
 		</jaxrs:providers>
 	</jaxrs:server>
 
