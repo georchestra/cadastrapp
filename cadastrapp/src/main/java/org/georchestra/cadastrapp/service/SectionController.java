@@ -24,11 +24,15 @@ public class SectionController extends CadController {
 	@GET
 	@Produces("application/json")
 	/**
+	 * Return information about section from view section using parameter given.
+	 *  
+	 * @param headers headers from request used to filter search using LDAP Roles
+	 * @param ccoinsee code commune like 630103 (codep + codir + cocom)
+     * 					ccoinsee should be on 6 char, if only 5 we deduce that codir is not present
+	 * @param ccopre_partiel exemple AP
+	 * @param ccosec_partiel exemple 0025
+	 * @return complete information about search section
 	 * 
-	 * @param ccoinsee
-	 * @param ccopre_partiel
-	 * @param ccosec_partiel
-	 * @return
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getSectionList(

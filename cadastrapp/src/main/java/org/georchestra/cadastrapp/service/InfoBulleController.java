@@ -26,10 +26,14 @@ public class InfoBulleController extends CadController {
 	@Produces("application/json")
 	/**
 	 * 
-	 * @param ccoinsee
-	 * @param ccopre_partiel
-	 * @param ccosec_partiel
-	 * @return
+	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available ccoinsee
+	 * 
+	 * @param parcelle id parcelle
+	 * @param infocadastrale 1 to get additional information, 0 to avoid getting additional information (default value 1 if not set)
+	 * @param infouf 1 to get additional information, 0 to avoid getting additional information (default value 1 if not set)
+	 * 
+	 * @return Data from parcelle view to be display in popup in JSON format
+	 * 
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getInfoBulle(
@@ -66,7 +70,7 @@ public class InfoBulleController extends CadController {
 			queryBuilder.append(".commune c ");
 		
 			queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
-			queryBuilder.append(" and p.ccocomm = c.ccocom");
+			queryBuilder.append(" and p.ccocom = c.ccocom and p.ccodep = c.ccodep");
 			
 			//TODO add ccodep 
 			//queryBuilder.append(" and p.ccodep = c.ccodep");
