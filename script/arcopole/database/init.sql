@@ -23,7 +23,7 @@ CREATE DATABASE #dbname_arcopole
 
 -- DROP SCHEMA #schema_cadastrapp;
 
-CREATE SCHEMA #dbname_arcopole.#schema_cadastrapp
+CREATE SCHEMA #schema_cadastrapp
   AUTHORIZATION #role_cadastrapp;
   
 CREATE EXTENSION dblink;
