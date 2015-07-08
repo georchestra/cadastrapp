@@ -25,7 +25,7 @@ This application is made to be installed behind GeOrchestra security proxy. To i
 		sudo cp /etc/init.d/tomcat6 /etc/init.d/tomcat-cadastrapp
 		sudo cp /etc/default/tomcat6 /etc/default/tomcat-cadastrapp
 
-Finally, edit the ```/etc/init.d/tomcat-proxycas``` script, find the following line:
+Finally, edit the ```/etc/init.d/tomcat-cadastrapp``` script, find the following line:
 ```
 # Provides:          tomcat6
 ```
@@ -36,7 +36,7 @@ Finally, edit the ```/etc/init.d/tomcat-proxycas``` script, find the following l
 
 ### Customize Java options
 
-In ```/etc/default/tomcat-proxycas```, we need to remove the ```-Xmx128m``` option: 
+In ```/etc/default/tomcat-cadastrapp```, we need to remove the ```-Xmx128m``` option: 
 ```
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC"
 ```
@@ -65,101 +65,11 @@ In ```/var/lib/tomcat-cadastrapp/conf/server.xml```, find the place where the HT
 #### Add datasource
 In the same file (server.xml) add a new Resource at the end of ```<GlobalNamingResources>``` part
 ```
-<Resource name="jdbc/cadastrapp" auth="Container" type="javax.sql.DataS$
+<Resource name="jdbc/cadastrapp" auth="Container" type="javax.sql.DataSource">
           username="username"
           password="password"
           driverClassName="org.postgresql.Driver"
-          url="jdbc:postgresql://databaseName:databasePort/databaseName"
-          maxActive="20"
-          maxIdle="10"
-          validationQuery="select 1" />
-```
-
-In ```/var/lib/tomcat-cadastrapp/conf/context.xml```, add a new ResourceLink at the end of ```<Context>``` part:
-```
-<ResourceLink name="jdbc/cadastrapp"
-   global="jdbc/cadastrapp"
-   type="javax.sql.DataSource"/>
-```
-
-### Start the instance
-
-```
-sudo insserv tomcat-cadastrapp
-sudo service tomcat-cadastrapp start
-```
-Cadastrapp - WebApplication 
-=========================== 
-
-This is a simple maven project, mvn clean install will build a war to be deployed in tomcat6.
-
-This application is made to be installed behind GeOrchestra security proxy. To install georchestra please check :  https://github.com/georchestra/georchestra/
-
-
-##  Setup middleware (tomcat6, apache) :
-	- once georchestra is up and working you have to choise:
-		1 - Create a new instance of tomcat6 for this additional webapplication
-		2 - Add this application in existing tomcat6 instance ( for exemple tomcat-georchestra)
-	- where are explaining here case 1 : 
-	
-	###  Create instance
-	-- As for gerochestra tomcat instance, you will have to  create a new instance
-		(choose a port not already use here we choose 8480 for http endpoint and 8405 to stop
-	```
-		sudo tomcat6-instance-create -p 8480 -c 8405 /var/lib/tomcat-cadastrapp
-	```
-	###  Init policy and service
-		sudo mkdir /var/lib/tomcat-cadastrapp/conf/policy.d
-		sudo touch /var/lib/tomcat-cadastrapp/conf/policy.d/empty.policy
-		sudo chown -R tomcat6:tomcat6 /var/lib/tomcat-cadastrapp
-		sudo cp /etc/init.d/tomcat6 /etc/init.d/tomcat-cadastrapp
-		sudo cp /etc/default/tomcat6 /etc/default/tomcat-cadastrapp
-
-Finally, edit the ```/etc/init.d/tomcat-proxycas``` script, find the following line:
-```
-# Provides:          tomcat6
-```
-... and replace it with:
-```
-# Provides:          tomcat-cadastrapp
-```
-
-### Customize Java options
-
-In ```/etc/default/tomcat-proxycas```, we need to remove the ```-Xmx128m``` option: 
-```
-JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC"
-```
-
-And later add these lines (change the ```STOREPASSWORD``` string):
-```
-JAVA_OPTS="$JAVA_OPTS \
-              -Xms1024m \
-              -Xmx1024m \
-              -XX:MaxPermSize=256m"
-
-JAVA_OPTS="$JAVA_OPTS \
-              -Djavax.net.ssl.trustStore=/etc/tomcat6/keystore \
-              -Djavax.net.ssl.trustStorePassword=STOREPASSWORD"
-```
-### Configure connectors 
-
-In ```/var/lib/tomcat-cadastrapp/conf/server.xml```, find the place where the HTTP connector is defined, and change it into:
-```
-    <Connector port="8480" protocol="HTTP/1.1" 
-               connectionTimeout="20000" 
-               URIEncoding="UTF-8"
-               redirectPort="8443" />
-```
-
-#### Add datasource
-In the same file (server.xml) add a new Resource at the end of ```<GlobalNamingResources>``` part
-```
-<Resource name="jdbc/cadastrapp" auth="Container" type="javax.sql.DataS$
-          username="username"
-          password="password"
-          driverClassName="org.postgresql.Driver"
-          url="jdbc:postgresql://databaseName:databasePort/databaseName"
+          url="jdbc:postgresql://databaseHost:databasePort/databaseName"
           maxActive="20"
           maxIdle="10"
           validationQuery="select 1" />
@@ -179,22 +89,8 @@ sudo insserv tomcat-cadastrapp
 sudo service tomcat-cadastrapp start
 ```
 
-### Add apache and proxy-cas information
+### Add proxy-cas information
 
-In ```/var/www/georchestra/conf``` create a new file named cadastrapp.conf and add this contains :
-
-```
-RewriteRule ^/cadastrapp$ /cadastrapp/ [R]
-<Proxy http://localhost:8180/cadastrapp/*>
-    Order deny,allow
-    Allow from all
-</Proxy>
-ProxyPass /cadastrapp/ http://localhost:8180/cadastrapp/
-ProxyPassReverse /cadastrapp/ http://localhost:8180/cadastrapp/
-
-RewriteCond %{HTTPS} on
-RewriteCond %{REQUEST_URI} ^/actus/?.*$
-RewriteRule ^/(.*)$ http://%{SERVER_NAME}/$1 [R=301,L]
 ```
 
 Now configure proxy-cas to point to cadastrapp , add the following in ``` /var/lib/tomcat-proxycas/webapps/ROOT/WEB-INF/proxy-servlet.xml```
