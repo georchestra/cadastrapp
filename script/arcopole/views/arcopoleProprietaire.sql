@@ -61,11 +61,11 @@ ccocif character varying(4), dnuper character varying(6), ccodro_c character var
    dprnlp character varying(15), jdatnss character varying(10), dldnss character varying(58), epxnee character varying(3),
     dnomcp character varying(30), dprncp character varying(15), dformjur character varying(4), dsiren character varying(10),
      ccodep character varying(2), ccodir character varying(1), ccocom character varying(3), comptecommunal character varying(15))
-   LEFT JOIN cadastrapp_arcopole.prop_ccodro ON dgi_prop.ccodro_c::text = prop_ccodro.ccodro::text
-   LEFT JOIN cadastrapp_arcopole.prop_ccoqua ON dgi_prop.ccoqua_c::text = prop_ccoqua.ccoqua::text
-   LEFT JOIN cadastrapp_arcopole.prop_ccogrm ON dgi_prop.ccogrm_c::text = prop_ccogrm.ccogrm::text
-   LEFT JOIN cadastrapp_arcopole.prop_ccodem ON dgi_prop.ccodem_c::text = prop_ccodem.ccodem::text
-   LEFT JOIN cadastrapp_arcopole.prop_dnatpr ON dgi_prop.dnatpr_c::text = prop_dnatpr.dnatpr::text
+   LEFT JOIN #schema_cadastrapp.prop_ccodro ON dgi_prop.ccodro_c::text = prop_ccodro.ccodro::text
+   LEFT JOIN #schema_cadastrapp.prop_ccoqua ON dgi_prop.ccoqua_c::text = prop_ccoqua.ccoqua::text
+   LEFT JOIN #schema_cadastrapp.prop_ccogrm ON dgi_prop.ccogrm_c::text = prop_ccogrm.ccogrm::text
+   LEFT JOIN #schema_cadastrapp.prop_ccodem ON dgi_prop.ccodem_c::text = prop_ccodem.ccodem::text
+   LEFT JOIN #schema_cadastrapp.prop_dnatpr ON dgi_prop.dnatpr_c::text = prop_dnatpr.dnatpr::text
 
 
 
