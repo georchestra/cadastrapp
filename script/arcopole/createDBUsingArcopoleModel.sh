@@ -36,7 +36,6 @@ arcopoleDBName=
 arcopoleDBSchema=
 arcopoleDBUser=
 arcopoleDBPassword=
-arcopoleDBSchema=
 
 # replaceAndLaunch
 # Replace fields in sql file and launch sql execution
@@ -59,7 +58,7 @@ replaceAndLaunch (){
 				 	s/#DBName_arcopole/$arcopoleDBName/g
 				 	s/#DBUser_arcopole/$arcopoleDBUser/g
 				 	s/#DBpasswd_arcopole/$arcopoleDBPassword/g
-				 	s/#DBSchema_arcopole/$arcopoleDBSchema }" |\
+				 	s/#DBSchema_arcopole/$arcopoleDBSchema/g }" |\
 			 psql -d $dbname
 }
 
