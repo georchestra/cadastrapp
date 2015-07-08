@@ -21,7 +21,9 @@ CREATE DATABASE #dbname_qgis
 
 -- Schema: cadastreapp_qgis
 
--- DROP SCHEMA #schemaname_qgis;
+-- DROP SCHEMA #schema_cadastrapp;
 
-CREATE SCHEMA #schemaname_qgis
+CREATE SCHEMA #schema_cadastrapp
   AUTHORIZATION #user_cadastrapp;
+  
+  CREATE EXTENSION dblink;

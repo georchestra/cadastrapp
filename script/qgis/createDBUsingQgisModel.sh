@@ -52,7 +52,7 @@ replaceAndLaunch (){
 	
 	if [ -z ${sql+x} ]; then echo "sql file is unset" exit 1; else echo "Launch file :  '$sql'"; fi
 	
-	cat $1 | sed "{ s/#user_cadastrapp/$rolename/g
+	cat $1 | sed "{ s/#user_cadastrapp/$username/g
 				 	s/#schema_cadastrapp/$schema/g
 				 	s/#DBHost_qgis/$DBHost/g
 				 	s/#DBName_qgis/$DBName/g
