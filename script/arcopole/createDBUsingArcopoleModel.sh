@@ -21,6 +21,7 @@
 # 
 # Change version | Author |    Date    | Comments
 #	1.0		     | Pje	  | 15/06/2015 | Init
+#	1.1			 | Pje    | 08/07/2015 | Add proprieteBatie et ProprieteNonBatie
 #
 #////////////////////////////////////////////////////////////////////
 
@@ -79,6 +80,8 @@ replaceAndLaunch ./views/arcopoleCommune.sql
 replaceAndLaunch ./views/arcopoleParcelle.sql
 replaceAndLaunch ./views/arcopoleProprietaire.sql
 replaceAndLaunch ./views/arcopoleSection.sql
+replaceAndLaunch ./views/arcopoleProprieteBatie.sql
+replaceAndLaunch ./views/arcopoleProprieteNonBatie.sql
 
 # Create users correlation tables
 replaceAndLaunch ../user/groupeAutorisation.sql
