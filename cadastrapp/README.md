@@ -36,7 +36,7 @@ Finally, edit the ```/etc/init.d/tomcat-cadastrapp``` script, find the following
 
 ### Customize Java options
 
-In ```/etc/default/tomcat-cadastrapp```, we need to remove the ```-Xmx128m``` option: 
+In ```/etc/default/tomcat-cadastrapp```, add or replace : 
 ```
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC"
 ```
