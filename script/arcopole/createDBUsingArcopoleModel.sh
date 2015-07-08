@@ -58,7 +58,8 @@ replaceAndLaunch (){
 				 	s/#DBHost_arcopole/$arcopoleDBHost/g
 				 	s/#DBName_arcopole/$arcopoleDBName/g
 				 	s/#DBUser_arcopole/$arcopoleDBUser/g
-				 	s/#DBpasswd_arcopole/$arcopoleDBPassword/g }" |\
+				 	s/#DBpasswd_arcopole/$arcopoleDBPassword/g
+				 	s/#DBSchema_arcopole/$arcopoleDBSchema }" |\
 			 psql -d $dbname
 }
 
