@@ -17,11 +17,13 @@ CREATE DATABASE #dbname_arcopole
        LC_CTYPE = 'fr_FR.UTF-8'
        CONNECTION LIMIT = -1;
 
+\connect #dbname_arcopole;
+
 -- Schema: cadastrapp_arcopole
 
 -- DROP SCHEMA #schema_cadastrapp;
 
-CREATE SCHEMA #schema_cadastrapp
+CREATE SCHEMA #dbname_arcopole.#schema_cadastrapp
   AUTHORIZATION #role_cadastrapp;
   
-  
+CREATE EXTENSION dblink;
