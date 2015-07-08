@@ -35,5 +35,4 @@ janimp character varying(4),fcexb character varying(9), mvltieomx integer,bateom
 );
 
 
-ALTER TABLE #schema_cadastrapp.proprietebatie
-  OWNER TO #role_cadastrapp;
+ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;

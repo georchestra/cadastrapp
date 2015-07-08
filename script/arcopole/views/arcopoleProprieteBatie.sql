@@ -75,7 +75,7 @@ janimp character varying(4),
 fcexb character varying(9),
 pexb character varying(5),
 mvltieomx character varying(9),
-bateom  character varying(9))
+bateom  character varying(9));
 
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;

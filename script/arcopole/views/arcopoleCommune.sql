@@ -11,6 +11,5 @@ substr(id_comm,4,3) as ccocom ,nomcomm as libcom ,nomcomm as libcom_maj,
 initcap(lower(nomcomm)) as libcom_min
 from #DBSchema_arcopole.dgi_comm'::text) commune(ccoinsee character varying(6), commune character varying(10), annee character varying(4), ccodep character varying(2), ccodir character varying(1), ccocom character varying(3), libcom character varying(30), libcom_maj character varying(30), libcom_min character varying(30));
 
-ALTER TABLE #schema_cadastrapp.commune
-  OWNER TO #user_cadastrapp;
+ALTER TABLE #schema_cadastrapp.commune OWNER TO #user_cadastrapp;
 

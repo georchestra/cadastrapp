@@ -15,7 +15,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE #schema_cadastrapp.groupe_autorisation
-  OWNER TO #role_cadastrapp;
+  OWNER TO #user_cadastrapp;
 COMMENT ON TABLE #schema_cadastrapp.groupe_autorisation
   IS 'Table de correlation entre les groupes LDAP et les droits géographiques';
 COMMENT ON COLUMN #schema_cadastrapp.groupe_autorisation.id IS 'Id d''indentification de lignes';

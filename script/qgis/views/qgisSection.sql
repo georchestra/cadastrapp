@@ -11,5 +11,4 @@ as ccoinsee,ccosec,ccopre,ccodep||ccodir||ccocom||ccopre||ccosec as geo_section
 	geo_section character varying(12));
 	
 	
-ALTER TABLE #schema_cadastrapp.section
-  OWNER TO #role_cadastrapp;
+ALTER TABLE #schema_cadastrapp.section OWNER TO #user_cadastrapp;

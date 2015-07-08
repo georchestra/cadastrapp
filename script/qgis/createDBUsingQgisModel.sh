@@ -21,6 +21,7 @@
 # 
 # Change version | Author |    Date    | Comments
 #	1.0		     | Pje	  | 07/02/2015 | Init
+#	1.1			 | Pje    | 08/07/2015 | Change user creation and management
 #
 #////////////////////////////////////////////////////////////////////
 
@@ -28,7 +29,7 @@
 # Set parameters
 dbname="cadastrapp_qgis"
 schema="cadastrapp_qgis"
-rolename="cadastrapp_qgis"
+username="cadastrapp_qgis"
 
 DBHost=
 DBName=
@@ -39,7 +40,7 @@ DBPassword=
 # replaceAndLaunch
 # Replace fields in sql file and launch sql execution
 # 
-# #role_cadastrapp replace with $rolename
+# #user_cadastrapp replace with $username
 # #schema_cadastrapp replace with $schema
 # #DBHost_qgis replace with $arcopoleDBHost
 # #DBSchema_qgis replace with $arcopoleDBSchema
@@ -51,7 +52,7 @@ replaceAndLaunch (){
 	
 	if [ -z ${sql+x} ]; then echo "sql file is unset" exit 1; else echo "Launch file :  '$sql'"; fi
 	
-	cat $1 | sed "{ s/#role_cadastrapp/$rolename/g
+	cat $1 | sed "{ s/#user_cadastrapp/$rolename/g
 				 	s/#schema_cadastrapp/$schema/g
 				 	s/#DBHost_qgis/$DBHost/g
 				 	s/#DBName_qgis/$DBName/g
@@ -65,7 +66,7 @@ replaceAndLaunch (){
 #replaceAndLaunch ../changeOnQGISModel/alterQGISParcelle.sql
 
 # Init database
-cat ./database/init.sql | sed  "{ s/#role_cadastrapp/$rolename/g
+cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
 						 		  s/#dbname_qgis/$dbname/g
 						 	  	  s/#schema_cadastrapp/$schema/g }" |\
 								  psql

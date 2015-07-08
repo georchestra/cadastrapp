@@ -59,6 +59,6 @@ comptecommunal from proprietaire'::text) proprietaire(id_proprietaire character 
    LEFT JOIN cadastreapp_qgis.prop_ccodem ON proprietaire.ccodem_c::text = prop_ccodem.ccodem::text
    LEFT JOIN cadastreapp_qgis.prop_dnatpr ON proprietaire.dnatpr_c::text = prop_dnatpr.dnatpr::text;
 
-ALTER TABLE #schema_cadastrapp.proprietaire
-  OWNER TO #role_cadastrapp;
+ALTER TABLE #schema_cadastrapp.proprietaire OWNER TO #user_cadastrapp;
+
 

@@ -65,6 +65,6 @@ drcsuba character varying(10),
  pdl character varying(3),
 DNulot character varying(4),
 ccolloc character varying(2), gnextl character varying(2),
- jandeb character varying(4), janimp character varying(4), fcexb character varying(9), pexb character varying(5), dreflf character varying(9))
+ jandeb character varying(4), janimp character varying(4), fcexb character varying(9), pexb character varying(5), dreflf character varying(9));
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;

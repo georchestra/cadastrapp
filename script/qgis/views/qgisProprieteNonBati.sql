@@ -22,5 +22,4 @@ left join sufexoneration as sufex on sufex.suf=suf.suf
 integer, dreflf character varying(5));
 
 
-ALTER TABLE #schema_cadastrapp.proprietenonbatie
-  OWNER TO #role_cadastrapp;
+ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;
