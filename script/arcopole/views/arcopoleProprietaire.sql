@@ -67,7 +67,7 @@ ccocif character varying(4), dnuper character varying(6), ccodro_c character var
    LEFT JOIN #schema_cadastrapp.prop_ccodem ON dgi_prop.ccodem_c::text = prop_ccodem.ccodem::text
    LEFT JOIN #schema_cadastrapp.prop_dnatpr ON dgi_prop.dnatpr_c::text = prop_dnatpr.dnatpr::text
 
-
+ALTER TABLE #schema_cadastrapp.proprietaire OWNER TO #user_cadastrapp;
 
 
 

@@ -5,7 +5,7 @@ CREATE TABLE #schema_cadastrapp.prop_ccoqua (
 );
 
 
-ALTER TABLE #schema_cadastrapp.prop_ccoqua OWNER TO postgres;
+ALTER TABLE #schema_cadastrapp.prop_ccoqua OWNER TO #user_cadastrapp;
 
 
 ALTER TABLE ONLY #schema_cadastrapp.prop_ccoqua

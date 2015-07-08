@@ -6,7 +6,7 @@ CREATE TABLE #schema_cadastrapp.prop_ccodro (
 );
 
 
-ALTER TABLE #schema_cadastrapp.prop_ccodro OWNER TO postgres;
+ALTER TABLE #schema_cadastrapp.prop_ccodro OWNER TO #user_cadastrapp;
 
 
 ALTER TABLE ONLY #schema_cadastrapp.prop_ccodro

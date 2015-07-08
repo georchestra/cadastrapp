@@ -12,5 +12,5 @@ initcap(lower(nomcomm)) as libcom_min
 from #DBSchema_arcopole.dgi_comm'::text) commune(ccoinsee character varying(6), commune character varying(10), annee character varying(4), ccodep character varying(2), ccodir character varying(1), ccocom character varying(3), libcom character varying(30), libcom_maj character varying(30), libcom_min character varying(30));
 
 ALTER TABLE #schema_cadastrapp.commune
-  OWNER TO postgres;
+  OWNER TO #user_cadastrapp;
 

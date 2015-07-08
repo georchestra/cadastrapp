@@ -40,7 +40,7 @@ arcopoleDBPassword=
 # replaceAndLaunch
 # Replace fields in sql file and launch sql execution
 # 
-# #role_cadastrapp replace with $rolename
+# #user_cadastrapp replace with $rolename
 # #schema_cadastrapp replace with $schema
 # #DBHost_arcopole replace with $arcopoleDBHost
 # #DBSchema_arcopole replace with $arcopoleDBSchema
@@ -52,7 +52,7 @@ replaceAndLaunch (){
 	
 	if [ -z ${sql+x} ]; then echo "sql file is unset" exit 1; else echo "Launch file :  '$sql'"; fi
 	
-	cat $1 | sed "{ s/#role_cadastrapp/$rolename/g
+	cat $1 | sed "{ s/#user_cadastrapp/$rolename/g
 				 	s/#schema_cadastrapp/$schema/g
 				 	s/#DBHost_arcopole/$arcopoleDBHost/g
 				 	s/#DBName_arcopole/$arcopoleDBName/g
@@ -63,7 +63,7 @@ replaceAndLaunch (){
 }
 
 # Init database
-cat ./database/init.sql | sed  "{ s/#role_cadastrapp/$rolename/g
+cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$rolename/g
 						 		  s/#dbname_arcopole/$dbname/g
 						 	  	  s/#schema_cadastrapp/$schema/g }" |\
 								  psql

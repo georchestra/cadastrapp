@@ -78,5 +78,5 @@ mvltieomx character varying(9),
 bateom  character varying(9))
 
 
-
+ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;
 

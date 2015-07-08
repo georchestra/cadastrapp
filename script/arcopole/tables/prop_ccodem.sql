@@ -4,7 +4,7 @@ CREATE TABLE #schema_cadastrapp.prop_ccodem (
 );
 
 
-ALTER TABLE #schema_cadastrapp.prop_ccodem OWNER TO postgres;
+ALTER TABLE #schema_cadastrapp.prop_ccodem OWNER TO #user_cadastrapp;
 
 
 ALTER TABLE ONLY #schema_cadastrapp.prop_ccodem
