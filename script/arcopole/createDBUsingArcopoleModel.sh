@@ -52,7 +52,12 @@ arcopoleDBPassword=
 #
 replaceAndLaunch (){
 	
-	if [ -z ${sql+x} ]; then echo "sql file is unset" exit 1; else echo "Launch file :  '$sql'"; fi
+	if [ -z "$1" ] || [ ! -e $1 ] ; then
+		echo "Sql file is unset or file does not exists"
+		exit 1
+	else
+		echo "Launch file :  $1"
+	fi
 	
 	cat $1 | sed "{ s/#user_cadastrapp/$username/g
 				 	s/#schema_cadastrapp/$schema/g
