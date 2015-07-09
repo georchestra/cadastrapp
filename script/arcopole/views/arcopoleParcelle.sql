@@ -1,6 +1,6 @@
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
  SELECT dgi_nbati.parcelle, dgi_nbati.lot, dgi_nbati.ccocom, dgi_nbati.dnupla, dgi_nbati.dcntpa, dgi_nbati.dsrpar, dgi_nbati.dnupro, dgi_nbati.jdatat, dgi_nbati.dreflf, dgi_nbati.gpdl, dgi_nbati.cprsecr, dgi_nbati.ccosecr, dgi_nbati.dnuplar, dgi_nbati.dnupdl, dgi_nbati.gurbpa, dgi_nbati.dparpi, dgi_nbati.ccoarp, dgi_nbati.gparnf, dgi_nbati.gparbat, dgi_nbati.dnvoiri, dgi_nbati.dindic, dgi_nbati.ccovoi, dgi_nbati.ccoriv, dgi_nbati.ccocif, dgi_nbati.cconvo, dgi_nbati.dvoilib, dgi_nbati.ccocomm, dgi_nbati.ccoprem, dgi_nbati.ccosecm, dgi_nbati.dnuplam, dgi_nbati.type_filiation, dgi_nbati.annee, dgi_nbati.ccodep, dgi_nbati.ccodir, dgi_nbati.ccopre, dgi_nbati.ccosec, dgi_nbati.comptecommunal, dgi_nbati.pdl, dgi_nbati.inspireid
-   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=c'::text, '
+   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, '
    select
    codparc as parcelle,
                 codlot as lot,

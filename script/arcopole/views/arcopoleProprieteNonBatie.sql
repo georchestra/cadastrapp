@@ -4,7 +4,7 @@
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS 
  SELECT proprietenonbatie.id_local, proprietenonbatie.lot, proprietenonbatie.comptecommunal, proprietenonbatie.dnupro, proprietenonbatie.ccodep, proprietenonbatie.ccocom, proprietenonbatie.codir, proprietenonbatie.ccopre, proprietenonbatie.ccosec, proprietenonbatie.dnupla, proprietenonbatie.jdatat, proprietenonbatie.dnvoiri, proprietenonbatie.dindic, proprietenonbatie.natvoie, proprietenonbatie.dvoilib, proprietenonbatie.ccoriv, proprietenonbatie.dparpi, proprietenonbatie.gpafpd, proprietenonbatie.ccostn, proprietenonbatie.ccosub, proprietenonbatie.cgrnum, proprietenonbatie.dsgrpf, proprietenonbatie.dclssf, proprietenonbatie.cnatsp, proprietenonbatie.dcntsf, proprietenonbatie.drcsuba, proprietenonbatie.pdl, proprietenonbatie.dnulot, proprietenonbatie.ccolloc, proprietenonbatie.gnextl, proprietenonbatie.jandeb, proprietenonbatie.janimp, proprietenonbatie.fcexb, proprietenonbatie.pexb, proprietenonbatie.dreflf
-   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=c'::text, '
+   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, '
 select l.id_local,l.codlot as lot,l.dnupro as comptecommunal , l.dnupro,substr(p.codparc,1,2) as ccodep,
 substr(p.codcomm,4,3) as ccocom,
 substr(p.codparc,3,1) as codir,	

@@ -29,7 +29,8 @@
 # Set parameters
 dbname="cadastrapp_qgis"
 schema="cadastrapp_qgis"
-username="cadastrapp_qgis"
+username="cadastrapp"
+userpwd="cadastrapp"
 
 DBHost=
 DBName=
@@ -67,6 +68,7 @@ replaceAndLaunch (){
 
 # Init database
 cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
+								  s/#pwd_cadastrapp/$userpwd/g
 						 		  s/#dbname_qgis/$dbname/g
 						 	  	  s/#schema_cadastrapp/$schema/g }" |\
 								  psql

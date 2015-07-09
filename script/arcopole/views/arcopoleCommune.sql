@@ -4,7 +4,7 @@
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.commune AS 
  SELECT commune.ccoinsee, commune.commune, commune.annee, commune.ccodep, commune.ccodir, commune.ccocom, commune.libcom, commune.libcom_maj, commune.libcom_min
-   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=c'::text, 'select id_comm as ccoinsee,
+   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 'select id_comm as ccoinsee,
          annmaj||id_comm as commune, annmaj as annee,
 coddep as ccodep,substr(id_comm,3,1) as ccodir,
 substr(id_comm,4,3) as ccocom ,nomcomm as libcom ,nomcomm as libcom_maj,

@@ -4,7 +4,7 @@
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.commune AS 
  SELECT commune.ccoinsee, commune.commune, commune.annee, commune.ccodep, commune.ccodir, commune.ccocom, commune.clerivili, commune.libcom, commune.libcom_maj, commune.libcom_min, commune.typcom
-   FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=c'::text, 'select ccodep||ccodir||ccocom as ccoinsee,commune,
+   FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 'select ccodep||ccodir||ccocom as ccoinsee,commune,
 annee,
 ccodep,
 ccodir,

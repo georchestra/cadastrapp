@@ -29,7 +29,8 @@
 # Set parameters
 dbname="cadastrapp_arcopole"
 schema="cadastrapp_arcopole"
-username="cadastrapp_arcopole"
+username="cadastrapp"
+userpwd="cadastrapp"
 
 arcopoleDBHost=
 arcopoleDBName=
@@ -42,6 +43,7 @@ arcopoleDBPassword=
 # 
 # #user_cadastrapp replace with $rolename
 # #schema_cadastrapp replace with $schema
+# #pwd_cadastrapp replace with $userpwd
 # #DBHost_arcopole replace with $arcopoleDBHost
 # #DBSchema_arcopole replace with $arcopoleDBSchema
 # #DBName_arcopole replace with $arcopoleDBName
@@ -64,6 +66,7 @@ replaceAndLaunch (){
 
 # Init database
 cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
+								  s/#pwd_cadastrapp/$userpwd/g
 						 		  s/#dbname_arcopole/$dbname/g
 						 	  	  s/#schema_cadastrapp/$schema/g }" |\
 								  psql

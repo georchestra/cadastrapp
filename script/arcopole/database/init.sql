@@ -3,7 +3,7 @@
 -- DROP USER #user_cadastrapp;
 
 CREATE USER #user_cadastrapp
-  INHERIT CREATEDB CREATEROLE REPLICATION;
+  INHERIT CREATEDB PASSWORD '#pwd_cadastrapp';
 
 -- Database: cadastrapp_arcopole
 

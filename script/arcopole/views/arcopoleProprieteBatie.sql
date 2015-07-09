@@ -3,7 +3,7 @@
 -- DROP VIEW #schema_cadastrapp.proprietebatie;
 
 create view #schema_cadastrapp.proprietebatie as select *
-FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=c'::text, '
+FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, '
 select l.id_local,l.codlot as lot,l.dnupro as comptecommunal , l.dnupro,substr(p.codparc,1,2) as ccodep,
 substr(p.codcomm,4,3) as ccocom,
 substr(p.codparc,3,1) as codir,	

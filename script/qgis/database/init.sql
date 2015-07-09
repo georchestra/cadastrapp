@@ -3,7 +3,7 @@
 -- DROP USER #user_cadastrapp;
 
 CREATE USER #user_cadastrapp
-  INHERIT CREATEDB CREATEROLE;
+  INHERIT CREATEDB PASSWORD '#pwd_cadastrap';
 
 -- Database: cadastreapp_qgis
 

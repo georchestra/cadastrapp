@@ -4,7 +4,7 @@
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS 
  SELECT parcelle.parcelle, parcelle.lot, parcelle.ccocom, parcelle.dnupla, parcelle.dcntpa, parcelle.dsrpar, parcelle.dnupro, parcelle.jdatat, parcelle.dreflf, parcelle.gpdl, parcelle.cprsecr, parcelle.ccosecr, parcelle.dnuplar, parcelle.dnupdl, parcelle.gurbpa, parcelle.dparpi, parcelle.ccoarp, parcelle.gparnf, parcelle.gparbat, parcelle.dnvoiri, parcelle.dindic, parcelle.ccovoi, parcelle.ccoriv, parcelle.ccocif, parcelle.cconvo, parcelle.dvoilib, parcelle.ccocomm, parcelle.ccoprem, parcelle.ccosecm, parcelle.dnuplam, parcelle.type_filiation, parcelle.annee, parcelle.ccodep, parcelle.ccodir, parcelle.ccopre, parcelle.ccosec, parcelle.comptecommunal, parcelle.pdl, parcelle.inspireid
-   FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=c'::text, 'select 
+   FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 'select 
 	parcelle,
 	lot,
 	ccocom,
