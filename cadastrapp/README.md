@@ -82,6 +82,11 @@ In ```/var/lib/tomcat-cadastrapp/conf/context.xml```, add a new ResourceLink at 
    type="javax.sql.DataSource"/>
 ```
 
+#### Add jar require for this datasource
+
+To be able to connect to postgresql database, tomcat will have to get postgresql client librairie in his classloader.
+In tomcat6 instance, you will have to add ```postgresql-9.1-901-1.jdbc4.jar``` to ```/var/lib/tomcat-cadastrapp/lib``` folder (with a symlink)
+
 ### Start the instance
 
 ```
