@@ -77,11 +77,11 @@ cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
 								  psql
 
 # Create tables
-replaceAndLaunch ./tables/prop_ccodem.sql
-replaceAndLaunch ./tables/prop_ccodro.sql
-replaceAndLaunch ./tables/prop_ccoqua.sql
-replaceAndLaunch ./tables/prop_ccogrm.sql
-replaceAndLaunch ./tables/prop_dnatpr.sql
+replaceAndLaunch ../commun/tables/prop_ccodem.sql
+replaceAndLaunch ../commun/tables/prop_ccodro.sql
+replaceAndLaunch ../commun/tables/prop_ccoqua.sql
+replaceAndLaunch ../commun/tables/prop_ccogrm.sql
+replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 replaceAndLaunch ./views/arcopoleCommune.sql
@@ -92,4 +92,4 @@ replaceAndLaunch ./views/arcopoleProprieteBatie.sql
 replaceAndLaunch ./views/arcopoleProprieteNonBatie.sql
 
 # Create users correlation tables
-replaceAndLaunch ../user/groupeAutorisation.sql
+replaceAndLaunch ../commun/user/groupeAutorisation.sql

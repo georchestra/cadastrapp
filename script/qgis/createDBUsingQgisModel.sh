@@ -78,8 +78,13 @@ cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
 						 	  	  s/#schema_cadastrapp/$schema/g }" |\
 								  psql
 
+
 # Create tables
-//TODO check necessary tables with cbesche
+replaceAndLaunch ../commun/tables/prop_ccodem.sql
+replaceAndLaunch ../commun/tables/prop_ccodro.sql
+replaceAndLaunch ../commun/tables/prop_ccoqua.sql
+replaceAndLaunch ../commun/tables/prop_ccogrm.sql
+replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 replaceAndLaunch ./views/qgisCommune.sql
@@ -90,6 +95,6 @@ replaceAndLaunch ./views/qgisProprieteNonBati.sql
 replaceAndLaunch ./views/qgisSection.sql
 
 # Create users correlation tables
-replaceAndLaunch ../user/groupeAutorisation.sql
+replaceAndLaunch ../commun/user/groupeAutorisation.sql
 
 

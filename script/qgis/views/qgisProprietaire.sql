@@ -53,11 +53,11 @@ ccodep,
 ccodir,
 ccocom,
 comptecommunal from proprietaire'::text) proprietaire(id_proprietaire character varying(20), dnupro character varying(6), lot character varying, dnulp character varying(2), ccocif character varying(4), dnuper character varying(6), ccodro_c character varying(1), ccodem_c character varying(1), gdesip character varying(1), gtoper character varying(1), ccoqua_c character varying(1), dnatpr_c character varying(3), ccogrm_c character varying(2), dsglpm character varying(10), dforme character varying(7), ddenom character varying(60), gtyp3 character varying(1), gtyp4 character varying(1), gtyp5 character varying(1), gtyp6 character varying(1), dlign3 character varying(30), dlign4 character varying(36), dlign5 character varying(30), dlign6 character varying(32), ccopay character varying(3), ccodep1a2 character varying(2), ccodira character varying(1), ccocom_adr character varying(3), ccovoi character varying(5), ccoriv character varying(4), dnvoiri character varying(4), dindic character varying(1), ccopos character varying(5), dnirpp character varying(10), dqualp character varying(3), dnomlp character varying(30), dprnlp character varying(15), jdatnss date, dldnss character varying(58), epxnee character varying(3), dnomcp character varying(30), dprncp character varying(15), dformjur character varying(4), dsiren character varying(10), ccodep character varying(2), ccodir character varying(1), ccocom character varying(3), comptecommunal character varying(15))
-   LEFT JOIN cadastreapp_qgis.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
-   LEFT JOIN cadastreapp_qgis.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
-   LEFT JOIN cadastreapp_qgis.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text
-   LEFT JOIN cadastreapp_qgis.prop_ccodem ON proprietaire.ccodem_c::text = prop_ccodem.ccodem::text
-   LEFT JOIN cadastreapp_qgis.prop_dnatpr ON proprietaire.dnatpr_c::text = prop_dnatpr.dnatpr::text;
+   LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
+   LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
+   LEFT JOIN #schema_cadastrapp.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text
+   LEFT JOIN #schema_cadastrapp.prop_ccodem ON proprietaire.ccodem_c::text = prop_ccodem.ccodem::text
+   LEFT JOIN #schema_cadastrapp.prop_dnatpr ON proprietaire.dnatpr_c::text = prop_dnatpr.dnatpr::text;
 
 ALTER TABLE #schema_cadastrapp.proprietaire OWNER TO #user_cadastrapp;
 
