@@ -95,7 +95,7 @@ public class InfoBulleController extends CadController {
 				queryProprietaireBuilder.append(databaseSchema);
 				queryProprietaireBuilder.append(".proprietaire prop ");
 				queryProprietaireBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
-				queryProprietaireBuilder.append(" and p.dnupro = prop.dnupro LIMIT 5");	
+				queryProprietaireBuilder.append(" and p.comptecommunal = prop.comptecommunal LIMIT 5");	
 				
 				queryBuilder.append(finalizeQuery());
 				
