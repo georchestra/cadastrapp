@@ -45,7 +45,7 @@ public class FicheInfoFonciereController extends CadController {
 		queryBuilder.append(" from ");
 
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle");
+		queryBuilder.append(".parcelle p");
 
 		queryBuilder.append(addAuthorizationFiltering(headers));
 		queryBuilder.append(finalizeQuery());

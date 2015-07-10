@@ -1,7 +1,5 @@
 package org.georchestra.cadastrapp.service;
 
-
-
 import java.util.List;
 import java.util.Map;
 
@@ -31,11 +29,8 @@ public class CommuneController extends CadController{
 	
     	StringBuilder queryBuilder = new StringBuilder();
     	queryBuilder.append("select ccoinsee, libcom, libcom_min from ");
-    	
-    	//TODO get schema and table in properties
-    	queryBuilder.append(databaseSchema);
-    	queryBuilder.append(".commune ");
-    	
+     	queryBuilder.append(databaseSchema);
+    	queryBuilder.append(".commune "); 	
     	queryBuilder.append("where ccocom is not null ");
     	queryBuilder.append(addAuthorizationFiltering(headers));
     	queryBuilder.append(finalizeQuery());
@@ -65,18 +60,19 @@ public class CommuneController extends CadController{
     	
     	List<Map<String,Object>> communes = null;
     	
-    	StringBuilder queryBuilder = new StringBuilder();
-    	
-    	queryBuilder.append("select ccoinsee, libcom, libcom_min from ");
-
-    	queryBuilder.append(databaseSchema);
-    	queryBuilder.append(".commune");
-    	
+   	
     	// If one of the parameter is present only one clause
     	 if((libCom == null || libCom.isEmpty()) && (ccoinsee == null || ccoinsee.isEmpty())){
     		 logger.warn("No parameter in request");
     	 }
     	 else{
+    		 StringBuilder queryBuilder = new StringBuilder();
+    	    	
+    		 queryBuilder.append("select ccoinsee, libcom, libcom_min from ");
+
+    		 queryBuilder.append(databaseSchema);
+    		 queryBuilder.append(".commune");
+    		 
 	    	 // Check if libcom is not null
 	    	 // TODO See if we limit search with n characters
 	    	if(libCom != null && !libCom.isEmpty()){

@@ -81,14 +81,11 @@ public class FicheInfoCadastreController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelle p, ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".commune c ");
-		
-		queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
+		queryBuilder.append(".commune c where p.parcelle = ? ");
 		queryBuilder.append(" and p.ccocom = c.ccocom and p.ccodep = c.ccodep ORDER BY p.parcelle DESC LIMIT 25");
-		queryBuilder.append(finalizeQuery());
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForList(queryBuilder.toString());
+		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
 	}
 	
 	/**
@@ -108,14 +105,11 @@ public class FicheInfoCadastreController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelle parc,");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietaire p ");
-		
-		queryBuilder.append(createEqualsClauseRequest("parc.parcelle", parcelle));
+		queryBuilder.append(".proprietaire p where parc.parcelle = ?");
 		queryBuilder.append(" and p.comptecommunal = parc.comptecommunal ORDER BY p.dnomlp DESC LIMIT 25");
-		queryBuilder.append(finalizeQuery());
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForList(queryBuilder.toString());	
+		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
 	}
 	
 	/**
@@ -143,15 +137,12 @@ public class FicheInfoCadastreController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietebatie pb, ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietaire prop ");
-		
-		queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
+		queryBuilder.append(".proprietaire prop where p.parcelle = ?");
 		queryBuilder.append(" and p.lot = pb.lot");
 		queryBuilder.append(" and pb.comptecommunal = prop.comptecommunal ORDER BY pb.dnubat DESC LIMIT 25");
-		queryBuilder.append(finalizeQuery());
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForList(queryBuilder.toString());		
+		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);		
 	}
 	
 	/**
@@ -167,21 +158,16 @@ public class FicheInfoCadastreController extends CadController {
 		
 		// CNIL Niveau 2
 		// , pnb.drcsub
-		queryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum ");
-		
-		queryBuilder.append(" from ");
+		queryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum from ");
 		
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelle parc,");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietenonbatie pnb ");
-		
-		queryBuilder.append(createEqualsClauseRequest("parc.parcelle", parcelle));
-		queryBuilder.append(" and pnb.dnupro = parc.dnupro ORDER BY pnb.dcntsf DESC LIMIT 25");
-		queryBuilder.append(finalizeQuery());
+		queryBuilder.append(".proprietenonbatie pnb where parc.parcelle = ?");
+		queryBuilder.append(" and pnb.comptecommunal = parc.comptecommunal ORDER BY pnb.dcntsf DESC LIMIT 25");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForList(queryBuilder.toString());	
+		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
 	}
 	
 	/**
@@ -195,18 +181,12 @@ public class FicheInfoCadastreController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 2
-		queryBuilder.append("select p.jdatat, p.ccocom, p.ccoprem, p.ccosecm, p.dnuplam, p.type_filiation ");
-		
-		queryBuilder.append(" from ");
-		
+		queryBuilder.append("select p.jdatat, p.ccocom, p.ccoprem, p.ccosecm, p.dnuplam, p.type_filiation from ");	
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle p ");
-		
-		queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
-		queryBuilder.append(finalizeQuery());
+		queryBuilder.append(".parcelle p where p.parcelle = ?");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForList(queryBuilder.toString());	
+		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
 	}
 
 }

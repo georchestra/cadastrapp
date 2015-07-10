@@ -66,19 +66,12 @@ public class InfoBulleController extends CadController {
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle p,");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".commune c ");
-			
-			if(getUserCNILLevel(headers)>0){
-			
-			}
-				
-			queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
-			queryBuilder.append(" and p.ccocom = c.ccocom and p.ccodep = c.ccodep");
+			queryBuilder.append(".commune c where p.parcelle = ? and p.ccocom = c.ccocom and p.ccodep = c.ccodep");
 
 			queryBuilder.append(finalizeQuery());
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			informations = jdbcTemplate.queryForList(queryBuilder.toString());
+			informations = jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
 			
 			
 			if(getUserCNILLevel(headers)>0){
@@ -87,21 +80,19 @@ public class InfoBulleController extends CadController {
 				
 				// Create query
 				StringBuilder queryProprietaireBuilder = new StringBuilder();
-				//TODO add proprietaires
-				queryProprietaireBuilder.append("select prop.ddenom");
-				queryProprietaireBuilder.append(" from ");
+				queryProprietaireBuilder.append("select prop.ddenom from ");
 				queryProprietaireBuilder.append(databaseSchema);
-				queryProprietaireBuilder.append(".parcelle p,");
+				queryProprietaireBuilder.append(".parcelle p, ");
 				queryProprietaireBuilder.append(databaseSchema);
-				queryProprietaireBuilder.append(".proprietaire prop ");
-				queryProprietaireBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
+				queryProprietaireBuilder.append(".proprietaire prop where p.parcelle = ? ");
 				queryProprietaireBuilder.append(" and p.comptecommunal = prop.comptecommunal LIMIT 5");	
 				
 				queryBuilder.append(finalizeQuery());
 				
 				JdbcTemplate jdbcTemplateProp = new JdbcTemplate(dataSource);
-				proprietaires = jdbcTemplateProp.queryForList(queryProprietaireBuilder.toString());
+				proprietaires = jdbcTemplateProp.queryForList(queryProprietaireBuilder.toString(), parcelle);
 				
+				// Add proprietaires structure and data to json answer
 				informations.get(0).put("proprietaires", proprietaires);
 				
 				logger.debug("List des informations avec proprietaire : "+ informations.toString());
@@ -139,24 +130,17 @@ public class InfoBulleController extends CadController {
 			// Create query
 			StringBuilder queryBuilder = new StringBuilder();
 	
-			queryBuilder.append("select ");
-	
 			// TODO Add surfacecalculee
-			queryBuilder.append("p.parcelle, c.libcom, p.dcntpa, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib");
-			
-			queryBuilder.append(" from ");
+			queryBuilder.append("select p.parcelle, c.libcom, p.dcntpa, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle p,");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".commune c ");
-
-			queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
+			queryBuilder.append(".commune c where p.parcelle = ? ");
 			queryBuilder.append(" and p.ccocom = c.ccocom and p.ccodep = c.ccodep");
-			
-			queryBuilder.append(finalizeQuery());
+
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			informations = jdbcTemplate.queryForList(queryBuilder.toString());
+			informations = jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
 			
 			if(getUserCNILLevel(headers)>0){
 				
@@ -164,19 +148,16 @@ public class InfoBulleController extends CadController {
 				
 				// Create query
 				StringBuilder queryProprietaireBuilder = new StringBuilder();
-				queryProprietaireBuilder.append("select prop.ddenom");
-				queryProprietaireBuilder.append(" from ");
+				queryProprietaireBuilder.append("select prop.ddenom from ");
 				queryProprietaireBuilder.append(databaseSchema);
 				queryProprietaireBuilder.append(".parcelle p,");
 				queryProprietaireBuilder.append(databaseSchema);
 				queryProprietaireBuilder.append(".proprietaire prop ");
-				queryProprietaireBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
-				queryProprietaireBuilder.append(" and p.dnupro = prop.dnupro  LIMIT 5");	
-				
-				queryBuilder.append(finalizeQuery());
+				queryProprietaireBuilder.append(" where p.parcelle = ?");
+				queryProprietaireBuilder.append(" and p.comptecommunal = prop.comptecommunal LIMIT 5");	
 				
 				JdbcTemplate jdbcTemplateProp = new JdbcTemplate(dataSource);
-				proprietaires = jdbcTemplateProp.queryForList(queryProprietaireBuilder.toString());
+				proprietaires = jdbcTemplateProp.queryForList(queryProprietaireBuilder.toString(), parcelle);
 				
 				informations.get(0).put("proprietaires", proprietaires);
 				
@@ -212,22 +193,14 @@ public class InfoBulleController extends CadController {
 		
 			// Create query
 			StringBuilder queryBuilder = new StringBuilder();
-	
-			queryBuilder.append("select ");
-				
-			//TODO check dcnptap_sum, sigcal_sum, batical
-			queryBuilder.append(" p.comptecommunal, p.dcntpa");
-			
-			queryBuilder.append(" from ");
-			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".parcelle p");
 		
-			queryBuilder.append(createEqualsClauseRequest("p.parcelle", parcelle));
-
-			queryBuilder.append(finalizeQuery());
+			//TODO check dcnptap_sum, sigcal_sum, batical
+			queryBuilder.append("select p.comptecommunal, p.dcntpa from ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".parcelle p where p.parcelle = ?");
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			informations = jdbcTemplate.queryForList(queryBuilder.toString());
+			informations = jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
 		}
 		else{
 			logger.warn("missing mandatory parameters");

@@ -251,19 +251,13 @@ public class ParcelleController extends CadController {
 		List<Map<String, Object>> parcelles = null;
 
 		StringBuilder queryBuilder = new StringBuilder();
-		
 		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
-		
 		queryBuilder.append(" from ");
-
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle");
-		queryBuilder.append(" where dnupro IN (");
-		queryBuilder.append(createListToStringQuery(proprietaireList));
-		queryBuilder.append(");");
+		queryBuilder.append(".parcelle where dnupro ANY (?);");
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		parcelles = jdbcTemplate.queryForList(queryBuilder.toString());
+		parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), proprietaireList.toArray());
 
 		return parcelles;
 	}

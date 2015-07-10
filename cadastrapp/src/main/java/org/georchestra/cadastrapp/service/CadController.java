@@ -125,23 +125,18 @@ public class CadController {
 		// get roles list in header
 		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN,ROLE_ADMINISTRATOR,ROLE_MOD_ANALYTICS,ROLE_MOD_EXTRACTORAPP' 
 		String rolesList = headers.getHeaderString("sec-roles");
+		Object[] rolesArray = rolesList.split(",");
 		
 		if(rolesList!=null && !rolesList.isEmpty()){
 		
 			// get commune list in database corresponding to this header
 			StringBuilder queryBuilder = new StringBuilder();
-			queryBuilder.append("select ccoinsee from ");
-	
-			// TODO get schema and table in properties
+			queryBuilder.append("select distinct ccoinsee from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".groupe_autorisation ");
-			queryBuilder.append(" where idgroup = '");
-			queryBuilder.append(rolesList);
-			queryBuilder.append("' ;");
+			queryBuilder.append(".groupe_autorisation where idgroup ANY ( ? ) ;");
 	
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			communes = jdbcTemplate.queryForList(
-					queryBuilder.toString(), String.class);
+			communes = jdbcTemplate.queryForList(queryBuilder.toString(), String.class, rolesArray);
 		}
 		else{
 			logger.warn("Missing sec-roles");

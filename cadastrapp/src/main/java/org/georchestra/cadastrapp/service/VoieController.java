@@ -43,7 +43,7 @@ public class VoieController extends CadController {
 						
 			StringBuilder queryBuilder = new StringBuilder();
 				
-			queryBuilder.append("select cconvo, dvoilib ");
+			queryBuilder.append("select distinct cconvo, dvoilib ");
 			queryBuilder.append(" from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle");
@@ -62,7 +62,7 @@ public class VoieController extends CadController {
 				queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
 			    	    
 				// cas when ccoinsee have 6 chars
-				if(size==5){
+				if(size==6){
 					String ccodir = ccoinsee.substring(2, 3);
 					queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
 				}  
