@@ -40,16 +40,16 @@ public class InfoBulleController extends CadController {
 	public List<Map<String, Object>> getInfoBulle(
 			@Context HttpHeaders headers,
 			@QueryParam("parcelle") String parcelle,
-			@DefaultValue("1") @QueryParam("infocadastrale") String infocadastrale,
-			@DefaultValue("1") @QueryParam("infouf") String infouf) throws SQLException {
+			@DefaultValue("1") @QueryParam("infocadastrale") int infocadastrale,
+			@DefaultValue("1") @QueryParam("infouf") int infouf) throws SQLException {
  
 		List<Map<String, Object>> informations = null;
 		
-		if(infocadastrale.equals("0") && infouf.equals("1")){
+		if(infocadastrale == 0 && infouf == 1){
 			informations = getInfoBulleUniteFonciere(headers, parcelle);
-		}else if (infocadastrale.equals("1") && infouf.equals("0")){
+		}else if (infocadastrale == 1 && infouf == 0){
 			informations = getInfoBulleParcelle(headers, parcelle);
-		}else if (infocadastrale.equals("0") && infouf.equals("0")){
+		}else if (infocadastrale == 0 && infouf == 0){
 			logger.warn("No information can be serve");
 		}else if (isMandatoryParameterValid(parcelle)){
 		
