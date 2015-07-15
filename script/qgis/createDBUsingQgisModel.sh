@@ -88,6 +88,7 @@ replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 replaceAndLaunch ./views/qgisCommune.sql
+replaceAndLaunch ./views/qgisParcelleSurface.sql
 replaceAndLaunch ./views/qgisParcelle.sql
 replaceAndLaunch ./views/qgisProprietaire.sql
 replaceAndLaunch ./views/qgisProprieteBati.sql
