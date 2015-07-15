@@ -2,6 +2,7 @@ package org.georchestra.cadastrapp.service;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,7 @@ public class ProprietaireController extends CadController{
     			) throws SQLException {
     	
     	List<Map<String,Object>> proprietaires = null;
+    	List<String> queryParams = new ArrayList<String>();
     	
     	if (getUserCNILLevel(headers)>0){
     	    
@@ -57,7 +59,7 @@ public class ProprietaireController extends CadController{
 		       queryBuilder.append(databaseSchema);
 		       queryBuilder.append(".proprietaire");
 		      
-		       queryBuilder.append(createLikeClauseRequest("dnomlp", dnomlpPartiel));
+		       queryBuilder.append(createLikeClauseRequest("dnomlp", dnomlpPartiel, queryParams));
 		      
 		       //TODO factorize this
 		       // no ccoinsee present in view proprietaire, parse it to get ccodep, ccocom and ccodir
@@ -67,23 +69,23 @@ public class ProprietaireController extends CadController{
 		    	   int size = ccoinsee.length();
 		    	   
 		    	   String ccodep = ccoinsee.substring(0, 2);
-		    	   queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
+		    	   queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep, queryParams));
 		    	   
 		    	   String ccocom = ccoinsee.substring(size-3, size);
-		    	   queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
+		    	   queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom, queryParams));
 		    	    
 		    	   // cas when ccoinsee have 6 chars
 		    		if(size==5){
 		    		   String ccodir = ccoinsee.substring(2, 3);
-		    		   queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
+		    		   queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir, queryParams));
 		    	   }  
 		       }
 		      
-		       queryBuilder.append(createEqualsClauseRequest("dnupro", dnupro));
+		       queryBuilder.append(createEqualsClauseRequest("dnupro", dnupro, queryParams));
 		       queryBuilder.append(finalizeQuery());
 	 	       
 		    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString());
+		        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
 	    	}
 	    	//TODO add exception management
 	    	else{

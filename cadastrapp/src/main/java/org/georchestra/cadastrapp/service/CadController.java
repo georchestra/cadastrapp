@@ -51,7 +51,7 @@ public class CadController {
 	 * 
 	 * @param mandatoryList
 	 */
-	public boolean isMandatoryParameterValid(String parameter) {
+	protected boolean isMandatoryParameterValid(String parameter) {
 
 		boolean valid = false;
 		logger.debug(" Mandatory parameters to check : " + parameter);
@@ -70,7 +70,7 @@ public class CadController {
 	 * 
 	 * @param mandatoryList
 	 */
-	public boolean checkAreMandatoryParametersValid(List<String> mandatoryList) {
+	protected boolean checkAreMandatoryParametersValid(List<String> mandatoryList) {
 
 		boolean valid = false;
 		logger.debug(" Mandatory parameters to check : " + mandatoryList);
@@ -91,7 +91,7 @@ public class CadController {
 	 * @param headers
 	 * @return
 	 */
-	public int getUserCNILLevel(HttpHeaders headers) {
+	protected int getUserCNILLevel(HttpHeaders headers) {
 
 		int cnilLevel = 0;
 
@@ -117,26 +117,31 @@ public class CadController {
 	 * @param headers
 	 * @return
 	 */
-	public String addAuthorizationFiltering(HttpHeaders headers) {
+	protected String addAuthorizationFiltering(HttpHeaders headers) {
 
 		List<String> communes = null;
 		StringBuilder queryFilter = new StringBuilder();
 
 		// get roles list in header
 		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN,ROLE_ADMINISTRATOR,ROLE_MOD_ANALYTICS,ROLE_MOD_EXTRACTORAPP' 
-		String rolesList = headers.getHeaderString("sec-roles");
-		Object[] rolesArray = rolesList.split(",");
+		String roleListString = headers.getHeaderString("sec-roles");
 		
-		if(rolesList!=null && !rolesList.isEmpty()){
-		
+		if(roleListString!=null && !roleListString.isEmpty()){
+			
+			// Using Any with namedParameterJdbcTemplate
+			// Force to add the array of value in first place of a new Array
+			String[] roleList = roleListString.split(",");  
+ 	
 			// get commune list in database corresponding to this header
 			StringBuilder queryBuilder = new StringBuilder();
 			queryBuilder.append("select distinct ccoinsee from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".groupe_autorisation where idgroup ANY ( ? ) ;");
+			queryBuilder.append(".groupe_autorisation ");
+			queryBuilder.append(createWhereInQuery(roleList.length, "idgroup"));
+			queryBuilder.append(";");
 	
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			communes = jdbcTemplate.queryForList(queryBuilder.toString(), String.class, rolesArray);
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);	
+			communes = jdbcTemplate.queryForList(queryBuilder.toString(), roleList, String.class);
 		}
 		else{
 			logger.warn("Missing sec-roles");
@@ -165,7 +170,7 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	public String createLikeClauseRequest(String libelle, String value) {
+	protected String createLikeClauseRequest(String libelle, String value, List<String> paramList) {
 
 		StringBuilder subQuery = new StringBuilder();
 
@@ -177,9 +182,8 @@ public class CadController {
 				subQuery.append(" and ");
 			}
 			subQuery.append(libelle);
-			subQuery.append(" LIKE '%");
-			subQuery.append(value);
-			subQuery.append("%'");
+			subQuery.append(" LIKE ? ");
+			paramList.add("%"+value+"%");
 
 		}
 		return subQuery.toString();
@@ -192,7 +196,7 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	public String createRightLikeClauseRequest(String libelle, String value) {
+	protected String createRightLikeClauseRequest(String libelle, String value, List<String> paramList) {
 
 		StringBuilder subQuery = new StringBuilder();
 
@@ -204,10 +208,8 @@ public class CadController {
 				subQuery.append(" and ");
 			}
 			subQuery.append(libelle);
-			subQuery.append(" LIKE '");
-			subQuery.append(value);
-			subQuery.append("%'");
-
+			subQuery.append(" LIKE ?");
+			paramList.add(value+"%");
 		}
 		return subQuery.toString();
 	}
@@ -219,7 +221,7 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	public String createEqualsClauseRequest(String libelle, String value) {
+	protected String createEqualsClauseRequest(String libelle, String value, List<String> paramList) {
 
 		StringBuilder subQuery = new StringBuilder();
 
@@ -232,9 +234,8 @@ public class CadController {
 			}
 
 			subQuery.append(libelle);
-			subQuery.append(" ='");
-			subQuery.append(value);
-			subQuery.append("'");
+			subQuery.append(" = ? ");
+			paramList.add(value);
 		}
 		return subQuery.toString();
 	}
@@ -244,7 +245,7 @@ public class CadController {
 	 * @param values
 	 * @return
 	 */
-	public String createListToStringQuery(List<String> values) {
+	protected String createListToStringQuery(List<String> values) {
 
 		StringBuilder listToString = new StringBuilder();
 
@@ -263,11 +264,40 @@ public class CadController {
 		return listToString.toString();
 	}
 	
+	
+	/**
+	 * 
+	 * @param values
+	 * @return
+	 */
+	protected String createWhereInQuery(int size, String paramName) {
+
+		StringBuilder listToString = new StringBuilder();
+
+		for (int i=0; i<size ; i++) {
+			if(i == 0){
+				listToString.append(" WHERE ");
+				listToString.append(paramName);
+				listToString.append(" IN (");
+			}
+			listToString.append("?,");
+			if(i == size -1){
+				// remove last coma check not empty
+				listToString.deleteCharAt(listToString.length() - 1);
+				listToString.append(") ");
+			}
+		}
+
+		logger.debug("List to String : " + listToString);
+		
+		return listToString.toString();
+	}
+	
 	/**
 	 * 
 	 * @return
 	 */
-	public String finalizeQuery(){
+	protected String finalizeQuery(){
 		isWhereAdded =false;
 		return (";");
 	}

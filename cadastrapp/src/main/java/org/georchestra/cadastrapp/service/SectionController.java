@@ -1,6 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class SectionController extends CadController {
 			@QueryParam("ccosec_partiel") String ccosec_partiel) throws SQLException {
 
 		List<Map<String, Object>> sections = null;
-
+	   	List<String> queryParams = new ArrayList<String>();
 		
 		// Create query
 		StringBuilder queryBuilder = new StringBuilder();
@@ -57,14 +58,14 @@ public class SectionController extends CadController {
 			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2);    			
 		} 	
 		
-		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee));
-		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre_partiel));
-		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec_partiel));
+		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee, queryParams));
+		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre_partiel, queryParams));
+		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec_partiel, queryParams));
 		queryBuilder.append(addAuthorizationFiltering(headers));
 		queryBuilder.append(finalizeQuery());
 					
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		sections = jdbcTemplate.queryForList(queryBuilder.toString());
+		sections = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
 
 		return sections;
 	}

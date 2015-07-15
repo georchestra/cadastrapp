@@ -1,5 +1,6 @@
 package org.georchestra.cadastrapp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class CommuneController extends CadController{
     			@QueryParam("ccoinsee_partiel") String ccoinsee){
     	
     	List<Map<String,Object>> communes = null;
-    	
+    	List<String> queryParams = new ArrayList<String>();
    	
     	// If one of the parameter is present only one clause
     	 if((libCom == null || libCom.isEmpty()) && (ccoinsee == null || ccoinsee.isEmpty())){
@@ -69,7 +70,6 @@ public class CommuneController extends CadController{
     		 StringBuilder queryBuilder = new StringBuilder();
     	    	
     		 queryBuilder.append("select ccoinsee, libcom, libcom_min from ");
-
     		 queryBuilder.append(databaseSchema);
     		 queryBuilder.append(".commune");
     		 
@@ -80,7 +80,7 @@ public class CommuneController extends CadController{
 	    		// Remove all accent from url
 	    		String newLibCom = StringUtils.stripAccents(libCom);
 		    		    	 
-	    		queryBuilder.append(createRightLikeClauseRequest("libcom", newLibCom.toUpperCase()));      
+	    		queryBuilder.append(createRightLikeClauseRequest("libcom", newLibCom.toUpperCase(), queryParams));      
 	    	}
 	    	
 	    	// Check if ccoinsee is nont null
@@ -91,7 +91,7 @@ public class CommuneController extends CadController{
 	    		if(5 == ccoinsee.length()){
 	    			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2);    			
 	    		} 	
-	    		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee));     
+	    		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee, queryParams));     
 	  		
 	    	}
 	    	queryBuilder.append(" and ccocom is not null "); 
@@ -99,7 +99,7 @@ public class CommuneController extends CadController{
 	    	queryBuilder.append(finalizeQuery());
 	         
 	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-	        communes = jdbcTemplate.queryForList(queryBuilder.toString());
+	        communes = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
     	 }
         
     	// Return value providers will convert to JSON

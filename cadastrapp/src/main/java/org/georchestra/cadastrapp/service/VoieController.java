@@ -1,6 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class VoieController extends CadController {
 			@QueryParam("dvoilib_partiel") String dvoilib) throws SQLException {
 
 		List<Map<String, Object>> voies = null;
+	   	List<String> queryParams = new ArrayList<String>();
 		
 		
 		if (ccoinsee != null && !ccoinsee.isEmpty() && 
@@ -56,19 +58,19 @@ public class VoieController extends CadController {
 				int size = ccoinsee.length();
 				
 				String ccodep = ccoinsee.substring(0, 2);
-				queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep));
+				queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep, queryParams));
 				
 				String ccocom = ccoinsee.substring(size-3, size);
-				queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom));
+				queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom, queryParams));
 			    	    
 				// cas when ccoinsee have 6 chars
 				if(size==6){
 					String ccodir = ccoinsee.substring(2, 3);
-					queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir));
+					queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir, queryParams));
 				}  
 			}
 
-			queryBuilder.append(createLikeClauseRequest("dvoilib", dvoilib));
+			queryBuilder.append(createLikeClauseRequest("dvoilib", dvoilib, queryParams));
 			queryBuilder.append(finalizeQuery());
 					
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
