@@ -91,6 +91,7 @@ replaceAndLaunch ./views/qgisCommune.sql
 replaceAndLaunch ./views/qgisParcelleSurface.sql
 replaceAndLaunch ./views/qgisParcelle.sql
 replaceAndLaunch ./views/qgisProprietaire.sql
+replaceAndLaunch ./views/qgisProprietaireParcelle.sql
 replaceAndLaunch ./views/qgisProprieteBati.sql
 replaceAndLaunch ./views/qgisProprieteNonBati.sql
 replaceAndLaunch ./views/qgisSection.sql
