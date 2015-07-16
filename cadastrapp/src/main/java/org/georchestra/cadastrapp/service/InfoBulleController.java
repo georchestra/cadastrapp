@@ -88,8 +88,7 @@ public class InfoBulleController extends CadController {
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle p,");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".commune c where p.parcelle = ? ");
-			queryBuilder.append(" and p.ccocom = c.ccocom and p.ccodep = c.ccodep");
+			queryBuilder.append(".commune c where p.parcelle = ? and p.ccocom = c.ccocom and p.ccodep = c.ccodep");
 
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -100,18 +99,19 @@ public class InfoBulleController extends CadController {
 				List<Map<String, Object>> proprietaires = null;
 				
 				// Create query
+				//TODO change this to use view proprietaire_parcelle
 				StringBuilder queryProprietaireBuilder = new StringBuilder();
 				queryProprietaireBuilder.append("select prop.ddenom from ");
 				queryProprietaireBuilder.append(databaseSchema);
-				queryProprietaireBuilder.append(".parcelle p,");
+				queryProprietaireBuilder.append(".proprietaire_parcelle proparc,");
 				queryProprietaireBuilder.append(databaseSchema);
 				queryProprietaireBuilder.append(".proprietaire prop ");
-				queryProprietaireBuilder.append(" where p.parcelle = ?");
-				queryProprietaireBuilder.append(" and p.comptecommunal = prop.comptecommunal LIMIT 5");	
+				queryProprietaireBuilder.append(" where proparc.parcelle = ? and proparc.comptecommunal = prop.comptecommunal LIMIT 5");	
 				
 				JdbcTemplate jdbcTemplateProp = new JdbcTemplate(dataSource);
 				proprietaires = jdbcTemplateProp.queryForList(queryProprietaireBuilder.toString(), parcelle);
 				
+				// Add a new node proprietaire, fill with ddenom List
 				informations.put("proprietaires", proprietaires);
 				
 				logger.debug("List des informations avec proprietaire : "+ informations.toString());
@@ -150,7 +150,9 @@ public class InfoBulleController extends CadController {
 			//TODO add batical
 			queryBuilder.append("select p.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".parcelle p where p.parcelle = ? GROUP BY p.comptecommunal;");
+			queryBuilder.append(".parcelle p, ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".proprietaire_parcelle proparc where proparc.parcelle = ? and proparc.comptecommunal = p.comptecommunal GROUP BY p.comptecommunal;");
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
