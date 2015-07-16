@@ -40,36 +40,40 @@ public class CoProprietaireController extends CadController{
     			) throws SQLException {
     	
     	List<String> lots = null;
-    	List<Map<String,Object>> coProprietaires = null;
     	List<Map<String,Object>> lotsInformation = new ArrayList<Map<String,Object>>();
     	
     	StringBuilder queryBuilder = new StringBuilder();
-    	queryBuilder.append("select distinct lot from ");
+    	queryBuilder.append("select distinct dnulot from ");
     	queryBuilder.append(databaseSchema);
-    	queryBuilder.append(".parcelle where parcelle = ?");
+    	queryBuilder.append(".proprietaire_parcelle where parcelle = ?");
   
 	    JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 	    lots = jdbcTemplate.queryForList(queryBuilder.toString(), String.class, parcelle);
 	    
+	    
+	    int currentIndex = 0;
 	    // for each lot
-	    // TODO search information in view to be done
-	    Map<String,Object> lot1 = new HashMap<String,Object>();
-	    lot1.put("dnulot", lots.get(0));
-	    lotsInformation.add(0, lot1);
-		
-	    // only for CNIL1 and CNIL2
-	    if (getUserCNILLevel(headers)>0){
-	    	StringBuilder queryProprietaireBuilder = new StringBuilder();
-	    	queryProprietaireBuilder.append("select ddenom, dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from ");
-	    	queryProprietaireBuilder.append(databaseSchema);
-	    	queryProprietaireBuilder.append(".proprietaire where lot = ? LIMIT 25;");
+	    for(String lot : lots){
 	    	
-	    	coProprietaires = jdbcTemplate.queryForList(queryProprietaireBuilder.toString(), lots.get(0));
-	    	
-	    	logger.debug("Liste de lot : " + coProprietaires);
-    	}
-   	    
-	    lotsInformation.get(0).put("proprietaires", coProprietaires);
+	    	List<Map<String,Object>> coProprietaires = null;
+	    	Map<String,Object> lotMap = new HashMap<String,Object>();
+		    lotMap.put("dnulot", lot);
+		    
+	    	// only for CNIL1 and CNIL2
+		    if (getUserCNILLevel(headers)>0){
+		    	StringBuilder queryProprietaireBuilder = new StringBuilder();
+		    	queryProprietaireBuilder.append("select ddenom, dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from ");
+		    	queryProprietaireBuilder.append(databaseSchema);
+		    	queryProprietaireBuilder.append(".proprietaire prop, ");
+		    	queryProprietaireBuilder.append(databaseSchema);
+		    	queryProprietaireBuilder.append(".proprietaire_parcelle propar ");
+		    	queryProprietaireBuilder.append("where propar.dnulot = ? ;");
+		    	
+		    	coProprietaires = jdbcTemplate.queryForList(queryProprietaireBuilder.toString(), lot);
+			    lotMap.put("proprietaires", coProprietaires);
+	    	}
+		    lotsInformation.add(currentIndex, lotMap);
+	    }    
               
         return lotsInformation;
     }
