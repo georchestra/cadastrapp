@@ -26,7 +26,7 @@ public class FicheInfoCadastreController extends CadController {
 	 *  
 	 * @param headers
 	 * @param parcelle / Id Parcelle exemple : 2014630103000AP0025
-	 * @param onglet (for 0 to 5)
+	 * @param onglet (for 0 to 4)
 	 * 
 	 * @return Json object corresponding on the onglet to fullfill
 	 */
@@ -43,19 +43,39 @@ public class FicheInfoCadastreController extends CadController {
 				information = infoOngletParcelle(parcelle);
 				break;
 			case 1:
-				information = infoOngletProprietaire(parcelle);
+				if (getUserCNILLevel(headers)>0){
+					information = infoOngletProprietaire(parcelle);
+				}
+				else{
+					logger.info("User does not have enough right to see information about proprietaire");
+				}
 				break;
 			case 2:
-				information = infoOngletBatiment(parcelle);
+				if (getUserCNILLevel(headers)>1){
+					information = infoOngletBatiment(parcelle);
+				}
+				else{
+					logger.info("User does not have enough right to see information about batiment");
+				}
 				break;
 			case 3:
-				information = infoOngletSubdivision(parcelle);
+				if (getUserCNILLevel(headers)>1){
+					information = infoOngletSubdivision(parcelle);
+				}
+				else{
+					logger.info("User does not have enough right to see information about subdivision");
+				}				
 				break;
 			case 4:
+				if (getUserCNILLevel(headers)>1){
 				information = infoOngletHistorique(parcelle);
+				}
+				else{
+					logger.info("User does not have enough right to see information about filiation");
+				}		
 				break;
 			default:
-				logger.error(" No operations for onglet : " + onglet);
+				logger.error(" No values to retunr for onglet : " + onglet);
 				break;
 		}
 	
@@ -65,6 +85,7 @@ public class FicheInfoCadastreController extends CadController {
 	
 	/**
 	 * 
+	 * @param parcelle
 	 * @return
 	 */
 	private List<Map<String, Object>> infoOngletParcelle(String parcelle){
@@ -74,15 +95,13 @@ public class FicheInfoCadastreController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL niveau 0
-		//TODO add p.supf
-		queryBuilder.append("select p.ccodep, p.ccodir, p.ccocom, c.libcom, p.ccopre, p.ccosec, p.dnupla, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib, p.gparbat, p.gurbpa");
+		queryBuilder.append("select p.ccodep, p.ccodir, p.ccocom, c.libcom, p.ccopre, p.ccosec, p.dnupla, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib, p.dcntpa, p.surfc, p.gparbat, p.gurbpa");
 		queryBuilder.append(" from ");
-
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelle p, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".commune c where p.parcelle = ? ");
-		queryBuilder.append(" and p.ccocom = c.ccocom and p.ccodep = c.ccodep ORDER BY p.parcelle DESC LIMIT 25");
+		queryBuilder.append(" and p.ccodep = c.ccodep and p.ccocom = c.ccocom ");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
@@ -90,6 +109,7 @@ public class FicheInfoCadastreController extends CadController {
 	
 	/**
 	 * 
+	 * @param parcelle
 	 * @return
 	 */
 	private List<Map<String, Object>> infoOngletProprietaire(String parcelle){
@@ -99,14 +119,13 @@ public class FicheInfoCadastreController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 1
-		queryBuilder.append("select p.dnupro, p.dnomlp, p.dprnlp, p.epxnee, p.dnomcp, p.dprncp, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
+		queryBuilder.append("select p.dnupro, p.ddenom, p.dnomlp, p.dprnlp, p.epxnee, p.dnomcp, p.dprncp, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
 		queryBuilder.append(" from ");
-
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle parc,");
+		queryBuilder.append(".proprietaire_parcelle propar,");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietaire p where parc.parcelle = ?");
-		queryBuilder.append(" and p.comptecommunal = parc.comptecommunal ORDER BY p.dnomlp DESC LIMIT 25");
+		queryBuilder.append(".proprietaire p where propar.parcelle = ?");
+		queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ORDER BY p.ddenom");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
@@ -114,6 +133,7 @@ public class FicheInfoCadastreController extends CadController {
 	
 	/**
 	 * 
+	 * @param parcelle
 	 * @return
 	 */
 	private List<Map<String, Object>> infoOngletBatiment(String parcelle){
@@ -133,12 +153,12 @@ public class FicheInfoCadastreController extends CadController {
 		queryBuilder.append(" from ");
 		
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle p,");
+		queryBuilder.append(".proprietaire_parcelle propar,");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietebatie pb, ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietaire prop where p.parcelle = ?");
-		queryBuilder.append(" and p.lot = pb.lot");
+		queryBuilder.append(".proprietaire prop where propar.parcelle = ?");
+		queryBuilder.append(" and propar.dnulot = pb.lot");
 		queryBuilder.append(" and pb.comptecommunal = prop.comptecommunal ORDER BY pb.dnubat DESC LIMIT 25");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -147,6 +167,7 @@ public class FicheInfoCadastreController extends CadController {
 	
 	/**
 	 * 
+	 * @param parcelle
 	 * @return
 	 */
 	private List<Map<String, Object>> infoOngletSubdivision(String parcelle){
@@ -158,13 +179,15 @@ public class FicheInfoCadastreController extends CadController {
 		
 		// CNIL Niveau 2
 		// , pnb.drcsub
-		queryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum from ");
-		
+		queryBuilder.append("select parc.ccodep, parc.ccocom, parc.ccopre, parc.ccosec, parc.dnupla, pnb.ccosub, pnb.dcntsf, pnb.cgrnum from ");	
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelle parc,");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietenonbatie pnb where parc.parcelle = ?");
-		queryBuilder.append(" and pnb.comptecommunal = parc.comptecommunal ORDER BY pnb.dcntsf DESC LIMIT 25");
+		queryBuilder.append(".proprietenonbatie pnb ,");
+		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".propriete_parcelle propar,");
+		queryBuilder.append(" where propar.parcelle = ?");
+		queryBuilder.append(" and pnb.comptecommunal = propar.comptecommunal");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
@@ -172,6 +195,7 @@ public class FicheInfoCadastreController extends CadController {
 	
 	/**
 	 * 
+	 * @param parcelle
 	 * @return
 	 */
 	private List<Map<String, Object>> infoOngletHistorique(String parcelle){
