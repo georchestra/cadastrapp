@@ -39,6 +39,12 @@ public class CadController {
 	@Resource(name = "dbDataSource")
 	protected DataSource dataSource;
 
+	@Value("${cnil1RoleName}")
+	protected String cnil1RoleName;
+	
+	@Value("${cnil2RoleName}")
+	protected String cnil2RoleName;
+	
 	/**
 	 * 
 	 */
@@ -100,9 +106,9 @@ public class CadController {
 		// Get CNIL Group information
 		String rolesList = headers.getHeaderString("sec-roles");
 		logger.debug(" Get user roles informations : " + rolesList);
-		if (rolesList!=null && rolesList.contains("CNIL2")) {
+		if (rolesList!=null && rolesList.contains(cnil2RoleName)) {
 			cnilLevel = 2;
-		} else if (rolesList!=null && rolesList.contains("CNIL1")) {
+		} else if (rolesList!=null && rolesList.contains(cnil1RoleName)) {
 			cnilLevel = 1;
 		}
 
