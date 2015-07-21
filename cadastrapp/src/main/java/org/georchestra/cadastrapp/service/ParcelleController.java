@@ -230,12 +230,12 @@ public class ParcelleController extends CadController {
 		selectQueryBuilder.append("select ");
 
 		if (details == 0) {
-			selectQueryBuilder.append("parcelle, ccoinsee, dnvoiri, dindic, cconvo, dnupla, dvoilib, ccopre, ccosec");
+			selectQueryBuilder.append("parcelle, ccoinsee, dnvoiri, dindic, cconvo, dnupla, dvoilib, ccopre, ccosec, dcntpa");
 			selectQueryBuilder.append(" from ");
 			selectQueryBuilder.append(databaseSchema);
 			selectQueryBuilder.append(".parcelle");
 		} else {
-			selectQueryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib");
+			selectQueryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib, dcntpa");
 
 			// TODO userlevel
 			if (userCNILLevel > 1) {
