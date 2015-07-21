@@ -87,6 +87,7 @@ replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 replaceAndLaunch ./views/arcopoleCommune.sql
 replaceAndLaunch ./views/arcopoleParcelle.sql
 replaceAndLaunch ./views/arcopoleProprietaire.sql
+replaceAndLaunch ./views/arcopoleProprietaireParcelle.sql
 replaceAndLaunch ./views/arcopoleSection.sql
 replaceAndLaunch ./views/arcopoleProprieteBatie.sql
 replaceAndLaunch ./views/arcopoleProprieteNonBatie.sql
