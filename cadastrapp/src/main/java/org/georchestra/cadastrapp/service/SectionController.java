@@ -48,7 +48,7 @@ public class SectionController extends CadController {
 		// Create query
 		StringBuilder queryBuilder = new StringBuilder();
 
-		queryBuilder.append("select ccoinsee, ccopre, ccosec, geo_section from ");
+		queryBuilder.append("select ccoinsee, ccopre, ccosec from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".section");
 
