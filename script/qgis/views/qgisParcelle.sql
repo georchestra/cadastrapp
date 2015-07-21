@@ -1,8 +1,41 @@
--- View: cadastreapp_qgis.parcelle
+-- View: cadastrapp_qgis.parcelle
 
--- DROP VIEW #schema_cadastrapp.parcelle;
+DROP VIEW #schema_cadastrapp.parcelle;
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS 
+ SELECT parcelle.parcelle, parcelle.ccoinsee, parcelle.dnupla, parcelle.dnvoiri, parcelle.dindic, parcelle.cconvo, parcelle.dvoilib, parcelle.ccopre, parcelle.ccosec, parcelle.dcntpa
+   FROM dblink('host=localhost dbname=qadastre user=cadastre password=cadastre'::text, 
+	'select 
+		parcelle,
+		ccodep||ccodir||ccocom as ccoinsee,
+		dnupla,
+		dnvoiri,
+		dindic,
+		cconvo,
+		dvoilib,
+		ccopre,
+		ccosec,
+		dcntpa
+		from parcelle'::text) 
+	parcelle(parcelle character varying(19), 
+	ccoinsee character varying(6), 
+	dnupla character varying(4),
+	dnvoiri character varying(4),
+	dindic character varying(1), 
+	cconvo character varying(4), 
+	dvoilib character varying(26), 
+	ccopre character varying(3), 
+	ccosec character varying(2),
+	dcntpa integer);
+
+ALTER TABLE #schema_cadastrapp.parcelle  OWNER TO cadastrapp;
+
+
+-- View: cadastreapp_qgis.parcelle
+
+-- DROP VIEW #schema_cadastrapp.parcelleDetails;
+
+CREATE OR REPLACE VIEW #schema_cadastrapp.parcelleDetails AS 
  SELECT 
  	parcelle.parcelle,
 	lot,
@@ -126,5 +159,10 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
 		inspireid character varying(16))
 		left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelle.parcelle=p2.parcelle;
 
-ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
+ALTER TABLE #schema_cadastrapp.parcelleDetails OWNER TO #user_cadastrapp;
+
+
+
+
+
 

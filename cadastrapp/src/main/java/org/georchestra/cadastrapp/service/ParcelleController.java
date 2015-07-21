@@ -60,7 +60,7 @@ public class ParcelleController extends CadController {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getParcelleList(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("details") String details, @QueryParam("ccodep") String ccodep, @QueryParam("ccodir") String ccodir, @QueryParam("ccocom") String ccocom, @QueryParam("ccopre") String ccopre,
+	public List<Map<String, Object>> getParcelleList(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("details") int details, @QueryParam("ccodep") String ccodep, @QueryParam("ccodir") String ccodir, @QueryParam("ccocom") String ccocom, @QueryParam("ccopre") String ccopre,
 			@QueryParam("ccosec") String ccosec, @QueryParam("dnupla") String dnupla, @QueryParam("dnvoiri") String dnvoiri, @QueryParam("dlindic") String dindic, @QueryParam("cconvo") String cconvo, @QueryParam("dvoilib") String dvoilib, @QueryParam("dnomlp") String dnomlp, @QueryParam("dprnlp") String dprnlp, @QueryParam("dnomcp") String dnomcp,
 			@QueryParam("dprncp") String dprncp, @QueryParam("dnupro") final List<String> dnuproList) throws SQLException {
 
@@ -84,9 +84,6 @@ public class ParcelleController extends CadController {
 
 			queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
 
-			queryBuilder.append(" from ");
-			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".parcelle");
 
 			queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir, queryParams));
@@ -143,17 +140,13 @@ public class ParcelleController extends CadController {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getParcelleById(String parcelle, String details, int userCNILLevel) throws SQLException {
+	public List<Map<String, Object>> getParcelleById(String parcelle, int details, int userCNILLevel) throws SQLException {
 
 		List<Map<String, Object>> parcelles = null;
 
 		StringBuilder queryBuilder = new StringBuilder();
 
 		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
-
-		queryBuilder.append(" from ");
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle");
 		queryBuilder.append(" where parcelle ='?';");
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -181,18 +174,13 @@ public class ParcelleController extends CadController {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getParcellesById(List<String> parcelleList, String details, int userCNILLevel) throws SQLException {
+	public List<Map<String, Object>> getParcellesById(List<String> parcelleList, int details, int userCNILLevel) throws SQLException {
 
 		List<Map<String, Object>> parcelles = null;
 
 		StringBuilder queryBuilder = new StringBuilder();
 
 		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
-
-		queryBuilder.append(" from ");
-
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle");
 		queryBuilder.append(createWhereInQuery(parcelleList.size(), "parcelle"));
 		queryBuilder.append(";");
 
@@ -213,10 +201,11 @@ public class ParcelleController extends CadController {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getParcellesByProprietaireId(List<String> proprietaireList, String details, int userCNILLevel) throws SQLException {
+	public List<Map<String, Object>> getParcellesByProprietaireId(List<String> proprietaireList, int details, int userCNILLevel) throws SQLException {
 
 		List<Map<String, Object>> parcelles = null;
 
+		//TODO if details == 0 could not search by proprietaire
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
 		queryBuilder.append(" from ");
@@ -235,13 +224,16 @@ public class ParcelleController extends CadController {
 	 * @param userCNILLevel
 	 * @return
 	 */
-	private String createSelectParcelleQuery(String details, int userCNILLevel) {
+	private String createSelectParcelleQuery(int details, int userCNILLevel) {
 
 		StringBuilder selectQueryBuilder = new StringBuilder();
 		selectQueryBuilder.append("select ");
 
-		if (details.equals("0")) {
-			selectQueryBuilder.append("dnupla");
+		if (details == 0) {
+			selectQueryBuilder.append("parcelle, ccoinsee, dnvoiri, dindic, cconvo, dnupla, dvoilib, ccopre, ccosec");
+			selectQueryBuilder.append(" from ");
+			selectQueryBuilder.append(databaseSchema);
+			selectQueryBuilder.append(".parcelle");
 		} else {
 			selectQueryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib");
 
@@ -249,6 +241,10 @@ public class ParcelleController extends CadController {
 			if (userCNILLevel > 1) {
 				selectQueryBuilder.append(", dnupro ");
 			}
+
+			selectQueryBuilder.append(" from ");
+			selectQueryBuilder.append(databaseSchema);
+			selectQueryBuilder.append(".parcelleDetails");
 		}
 
 		return selectQueryBuilder.toString();
@@ -257,7 +253,7 @@ public class ParcelleController extends CadController {
 	@POST
 	@Path("/fromParcellesFile")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response getFromParcellesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") String details, @FormParam("ccoinsee") String city, @FormParam("filePath") String fileContent) throws Exception {
+	public Response getFromParcellesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") int details, @FormParam("ccoinsee") String city, @FormParam("filePath") String fileContent) throws Exception {
 
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 
@@ -281,7 +277,7 @@ public class ParcelleController extends CadController {
 	@POST
 	@Path("/fromProprietairesFile")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response getFromProprietairesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") String details, @FormParam("ccoinsee") String city, @FormParam("filePath") String fileContent) throws Exception {
+	public Response getFromProprietairesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") int details, @FormParam("ccoinsee") String city, @FormParam("filePath") String fileContent) throws Exception {
 
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 

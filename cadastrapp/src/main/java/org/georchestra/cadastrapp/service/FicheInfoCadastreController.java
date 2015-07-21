@@ -98,7 +98,7 @@ public class FicheInfoCadastreController extends CadController {
 		queryBuilder.append("select p.ccodep, p.ccodir, p.ccocom, c.libcom, p.ccopre, p.ccosec, p.dnupla, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib, p.dcntpa, p.surfc, p.gparbat, p.gurbpa");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle p, ");
+		queryBuilder.append(".parcelledetails p, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".commune c where p.parcelle = ? ");
 		queryBuilder.append(" and p.ccodep = c.ccodep and p.ccocom = c.ccocom ");
@@ -181,7 +181,7 @@ public class FicheInfoCadastreController extends CadController {
 		// , pnb.drcsub
 		queryBuilder.append("select parc.ccodep, parc.ccocom, parc.ccopre, parc.ccosec, parc.dnupla, pnb.ccosub, pnb.dcntsf, pnb.cgrnum from ");	
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle parc,");
+		queryBuilder.append(".parcelledetails parc,");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietenonbatie pnb ,");
 		queryBuilder.append(databaseSchema);
@@ -207,7 +207,7 @@ public class FicheInfoCadastreController extends CadController {
 		// CNIL Niveau 2
 		queryBuilder.append("select p.jdatat, p.ccocom, p.ccoprem, p.ccosecm, p.dnuplam, p.type_filiation from ");	
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle p where p.parcelle = ?");
+		queryBuilder.append(".parcelledetails p where p.parcelle = ?");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	

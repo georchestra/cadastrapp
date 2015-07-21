@@ -84,11 +84,13 @@ public class InfoBulleController extends CadController {
 			// Create query
 			StringBuilder queryBuilder = new StringBuilder();
 	
-			queryBuilder.append("select p.parcelle, p.surfc, c.libcom, p.dcntpa, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib from ");
+			queryBuilder.append("select p.parcelle, surf.surfc, c.libcom, p.dcntpa, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle p,");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".commune c where p.parcelle = ? and p.ccocom = c.ccocom and p.ccodep = c.ccodep");
+			queryBuilder.append(".v_parcelle_surfc surf,");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".commune c where p.parcelle = ? and p.parcelle = surf.parcelle and p.ccoinsee = c.ccoinsee");
 
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
