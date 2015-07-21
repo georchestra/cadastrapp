@@ -1,4 +1,39 @@
+
+-- DROP VIEW #schema_cadastrapp.parcelle;
+
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
+ SELECT dgi_nbati.parcelle, dgi_nbati.ccocom, dgi_nbati.dnupla, dgi_nbati.dcntpa, dgi_nbati.dnvoiri, dgi_nbati.dindic, dgi_nbati.ccovoi, dgi_nbati.cconvo, dgi_nbati.dvoilib, dgi_nbati.ccocomm, dgi_nbati.ccodep, dgi_nbati.ccodir, dgi_nbati.ccopre, dgi_nbati.ccosec
+   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+   	'select
+   		codparc as parcelle,
+        substr(codparc,1,3)||substr(codcomm,4,3) as ccoinsee,
+        dnupla,
+        dnvoirie as dnvoiri,
+        dindic,
+	    cconvo,
+        dvoilib,
+    	substr(codparc,7,3) as ccopre,
+   		substr(codparc,10,2) ccosec ,
+   		dcntpa
+       from #DBSchema_arcopole.dgi_nbati'::text) 
+           dgi_nbati(
+                parcelle character varying(19), 
+                ccoinsee character varying(6),
+                dnupla character varying(4), 
+                dnvoiri character varying(4),
+				dindic character varying(1), 
+                cconvo character varying(4), 
+                dvoilib character varying(26),  
+                ccopre character varying(3), 
+                ccosec character varying(2),
+                dcntpa numeric(38,8) );
+                
+ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
+
+
+-- DROP VIEW #schema_cadastrapp.parcelledetails;
+
+CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
  SELECT dgi_nbati.parcelle, dgi_nbati.lot, dgi_nbati.ccocom, dgi_nbati.dnupla, dgi_nbati.dcntpa, dgi_nbati.dsrpar, dgi_nbati.dnupro, dgi_nbati.jdatat, dgi_nbati.dreflf, dgi_nbati.gpdl, dgi_nbati.cprsecr, dgi_nbati.ccosecr, dgi_nbati.dnuplar, dgi_nbati.dnupdl, dgi_nbati.gurbpa, dgi_nbati.dparpi, dgi_nbati.ccoarp, dgi_nbati.gparnf, dgi_nbati.gparbat, dgi_nbati.dnvoiri, dgi_nbati.dindic, dgi_nbati.ccovoi, dgi_nbati.ccoriv, dgi_nbati.ccocif, dgi_nbati.cconvo, dgi_nbati.dvoilib, dgi_nbati.ccocomm, dgi_nbati.ccoprem, dgi_nbati.ccosecm, dgi_nbati.dnuplam, dgi_nbati.type_filiation, dgi_nbati.annee, dgi_nbati.ccodep, dgi_nbati.ccodir, dgi_nbati.ccopre, dgi_nbati.ccosec, dgi_nbati.comptecommunal, dgi_nbati.pdl, dgi_nbati.inspireid
    FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, '
    select
@@ -47,4 +82,4 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
                 ccocif character varying(4), cconvo character varying(4), dvoilib character varying(26), ccocomm character varying(3), ccoprem character varying(3),
                 ccosecm character varying(2), dnuplam character varying(4), type_filiation character varying(1), annee character varying(4), ccodep character varying(2), ccodir character varying(1), ccopre character varying(3), ccosec character varying(2), comptecommunal character varying(15), pdl character varying(22), inspireid character varying(17));
                 
-ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
+ALTER TABLE #schema_cadastrapp.parcelledetails OWNER TO #user_cadastrapp;
