@@ -2,7 +2,7 @@
 -- DROP VIEW #schema_cadastrapp.parcelle;
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
- SELECT dgi_nbati.parcelle, dgi_nbati.ccocom, dgi_nbati.dnupla, dgi_nbati.dcntpa, dgi_nbati.dnvoiri, dgi_nbati.dindic, dgi_nbati.ccovoi, dgi_nbati.cconvo, dgi_nbati.dvoilib, dgi_nbati.ccocomm, dgi_nbati.ccodep, dgi_nbati.ccodir, dgi_nbati.ccopre, dgi_nbati.ccosec
+ SELECT dgi_nbati.parcelle, dgi_nbati.ccoinsee, dgi_nbati.dnupla, dgi_nbati.dnvoiri, dgi_nbati.dindic, dgi_nbati.cconvo, dgi_nbati.dvoilib, dgi_nbati.ccopre, dgi_nbati.ccosec, dgi_nbati.dcntpa
    FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
    	'select
    		codparc as parcelle,
