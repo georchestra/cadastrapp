@@ -22,7 +22,7 @@ public class VoieController extends CadController {
 	@GET
 	@Produces("application/json")
 	/**
-	 *  return code nature de voie and libellé voie from parcelle view
+	 *  return code nature de voie and libelle voie from parcelle view
 	 * 
 	 * @param ccoinsee code commune like 630103 (codep + codir + cocom)
      * 					ccoinsee should be on 6 char, if only 5 we deduce that codir is not present
