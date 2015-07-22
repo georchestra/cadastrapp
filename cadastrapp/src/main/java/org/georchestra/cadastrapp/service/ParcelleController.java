@@ -60,7 +60,7 @@ public class ParcelleController extends CadController {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getParcelleList(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("details") int details, @QueryParam("ccodep") String ccodep, @QueryParam("ccodir") String ccodir, @QueryParam("ccocom") String ccocom, @QueryParam("ccopre") String ccopre,
+	public List<Map<String, Object>> getParcelleList(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("details") int details, @QueryParam("ccoinsee") String ccoinsee, @QueryParam("ccodep") String ccodep, @QueryParam("ccodir") String ccodir, @QueryParam("ccocom") String ccocom, @QueryParam("ccopre") String ccopre,
 			@QueryParam("ccosec") String ccosec, @QueryParam("dnupla") String dnupla, @QueryParam("dnvoiri") String dnvoiri, @QueryParam("dlindic") String dindic, @QueryParam("cconvo") String cconvo, @QueryParam("dvoilib") String dvoilib, @QueryParam("dnomlp") String dnomlp, @QueryParam("dprnlp") String dprnlp, @QueryParam("dnomcp") String dnomcp,
 			@QueryParam("dprncp") String dprncp, @QueryParam("dnupro") final List<String> dnuproList) throws SQLException {
 
@@ -84,7 +84,7 @@ public class ParcelleController extends CadController {
 
 			queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
 
-
+			queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom, queryParams));
