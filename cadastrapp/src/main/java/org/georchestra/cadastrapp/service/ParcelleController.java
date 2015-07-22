@@ -308,4 +308,32 @@ public class ParcelleController extends CadController {
 		response.header("Content-Disposition", "attachment; filename=BP-" + parcelle + "-" + withData + file.getName().substring(file.getName().lastIndexOf(".")));
 		return response.build();
 	}
+	
+	@GET
+    @Path("/dnupla")
+    @Produces("application/json")
+	public List<Map<String,Object>> getDnuplaList(@Context HttpHeaders headers, 
+				@QueryParam("ccoinsee") String ccoinsee,
+				@QueryParam("ccopre") String ccopre,
+				@QueryParam("ccosec") String ccosec) throws SQLException {
+	
+		List<Map<String,Object>> dnuplaList = null;
+		List<String> queryParams = new ArrayList<String>();
+		
+		StringBuilder dnuplaQueryBuilder = new StringBuilder();
+		dnuplaQueryBuilder.append("select distinct dnupla from ");
+		dnuplaQueryBuilder.append(databaseSchema);
+		dnuplaQueryBuilder.append(".parcelle");
+		dnuplaQueryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee, queryParams));
+		dnuplaQueryBuilder.append(createEqualsClauseRequest("ccopre", ccopre, queryParams));
+		dnuplaQueryBuilder.append(createEqualsClauseRequest("ccosec", ccosec, queryParams));
+		dnuplaQueryBuilder.append("ORDER BY dnupla ASC");
+		dnuplaQueryBuilder.append(finalizeQuery());
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		dnuplaList = jdbcTemplate.queryForList(dnuplaQueryBuilder.toString(), queryParams.toArray());
+
+		return dnuplaList;
+	}
+
 }
