@@ -49,13 +49,13 @@ public class VoieController extends CadController {
 			queryBuilder.append(" from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle");
-
-			queryBuilder.append(createEqualsClauseRequest("ccoinse", ccoinsee, queryParams));
-			queryBuilder.append(createLikeClauseRequest("dvoilib", dvoilib, queryParams));
-			queryBuilder.append(finalizeQuery());
-					
+			queryBuilder.append(" where ccoinsee = ? and UPPER(dvoilib) LIKE UPPER(?) ;");
+			
+			queryParams.add(ccoinsee);
+			queryParams.add("%"+dvoilib+"%");
+						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			voies = jdbcTemplate.queryForList(queryBuilder.toString());
+			voies = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
 		}
 
 		return voies;
