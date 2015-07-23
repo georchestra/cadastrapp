@@ -26,7 +26,7 @@ public class VoieController extends CadController {
 	 * 
 	 * @param ccoinsee code commune like 630103 (codep + codir + cocom)
      * 					ccoinsee should be on 6 char, if only 5 we deduce that codir is not present
-	 * @param dvoilib at least 4 chars
+	 * @param dvoilib at least 3 chars
 	 * 
 	 * @return JSON with list of cconvo, dvoilib
 	 * 
@@ -49,27 +49,8 @@ public class VoieController extends CadController {
 			queryBuilder.append(" from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle");
-			
-			//TODO factorize this methode used in several classes
-			// no ccoinsee present in view proprietaire, parse it to get ccodep, ccocom and ccodir
-			// exemple ccoinsee : 630103 -> ccodep 63, ccodir 0, ccocom 103
-			if (ccoinsee!=null && !ccoinsee.isEmpty() && ccoinsee.length()>3){
-			    	  
-				int size = ccoinsee.length();
-				
-				String ccodep = ccoinsee.substring(0, 2);
-				queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep, queryParams));
-				
-				String ccocom = ccoinsee.substring(size-3, size);
-				queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom, queryParams));
-			    	    
-				// cas when ccoinsee have 6 chars
-				if(size==6){
-					String ccodir = ccoinsee.substring(2, 3);
-					queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir, queryParams));
-				}  
-			}
 
+			queryBuilder.append(createEqualsClauseRequest("ccoinse", ccoinsee, queryParams));
 			queryBuilder.append(createLikeClauseRequest("dvoilib", dvoilib, queryParams));
 			queryBuilder.append(finalizeQuery());
 					
