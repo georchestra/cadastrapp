@@ -48,20 +48,23 @@ public class SectionController extends CadController {
 		// Create query
 		StringBuilder queryBuilder = new StringBuilder();
 
-		queryBuilder.append("select ccoinsee, ccopre, ccosec from ");
+		queryBuilder.append("select distinct ccoinsee, ccopre, ccosec from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".section");
 
 		// Special case when code commune on 5 characters is given
 		// Convert 350206 to 35%206 for query
 		if(ccoinsee!= null && 5 == ccoinsee.length()){
-			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2);    			
-		} 	
-		
-		queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee, queryParams));
+			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2); 
+			queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee, queryParams));
+		} 
+		else{
+			queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee, queryParams));
+		}
+			
 		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre_partiel, queryParams));
 		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec_partiel, queryParams));
-		queryBuilder.append(addAuthorizationFiltering(headers));
+		queryBuilder.append(" ORDER BY ccopre, ccosec ");
 		queryBuilder.append(finalizeQuery());
 					
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
