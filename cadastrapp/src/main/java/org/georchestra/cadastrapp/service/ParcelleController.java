@@ -61,33 +61,38 @@ public class ParcelleController extends CadController {
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getParcelleList(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("details") int details, @QueryParam("ccoinsee") String ccoinsee, @QueryParam("ccodep") String ccodep, @QueryParam("ccodir") String ccodir, @QueryParam("ccocom") String ccocom, @QueryParam("ccopre") String ccopre,
-			@QueryParam("ccosec") String ccosec, @QueryParam("dnupla") String dnupla, @QueryParam("dnvoiri") String dnvoiri, @QueryParam("dlindic") String dindic, @QueryParam("cconvo") String cconvo, @QueryParam("dvoilib") String dvoilib, @QueryParam("dnomlp") String dnomlp, @QueryParam("dprnlp") String dprnlp, @QueryParam("dnomcp") String dnomcp,
-			@QueryParam("dprncp") String dprncp, @QueryParam("dnupro") final List<String> dnuproList) throws SQLException {
+			@QueryParam("ccosec") String ccosec, @QueryParam("dnupla") String dnupla, @QueryParam("dnvoiri") String dnvoiri, @QueryParam("dlindic") String dindic, @QueryParam("cconvo") String cconvo, @QueryParam("dvoilib") String dvoilib, @QueryParam("comptecommunal") final List<String> comptecommunalList) throws SQLException {
 
-		List<Map<String, Object>> parcellesResult = null;
-		List<String> queryParams = new ArrayList<String>();
-
+		List<Map<String, Object>> parcellesResult = new ArrayList<Map<String, Object>>();;
+		
 		// Search by Id Parcelle
 		if (parcelleList != null && !parcelleList.isEmpty()) {
 
 			List<String> parsedParcelleList = prepareParcelleList(parcelleList);
 			parcellesResult = getParcellesById(parsedParcelleList, details, getUserCNILLevel(headers));
 
-			// Search by Id Proprietaire
-		} else if (dnuproList != null && !dnuproList.isEmpty()) {
+			// Search by Proprietaire
+		} else if (comptecommunalList != null && !comptecommunalList.isEmpty()){
 
-			parcellesResult = getParcellesByProprietaireId(dnuproList, details, getUserCNILLevel(headers));
+			parcellesResult = getParcellesByProprietaire(comptecommunalList, details, getUserCNILLevel(headers));
 
 			// Search by attributes
 		} else {
+			List<String> queryParams = new ArrayList<String>();
+			
 			StringBuilder queryBuilder = new StringBuilder();
 
 			queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
-
-			queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom, queryParams));
+			
+			if(details==1){
+				queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep, queryParams));
+				queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir, queryParams));
+				queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom, queryParams));
+			}
+			else{
+				// TODO check to use ccoinsee every where in the application
+				queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee, queryParams));
+			}			
 			queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla, queryParams));
@@ -95,14 +100,18 @@ public class ParcelleController extends CadController {
 			queryBuilder.append(createEqualsClauseRequest("dindic", dindic, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("cconvo", cconvo, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("dvoilib", dvoilib, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("dnomlp", dnomlp, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("dprnlp", dprnlp, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("dnomcp", dnomcp, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("dprncp", dprncp, queryParams));
-			queryBuilder.append(finalizeQuery());
 
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			parcellesResult = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
+			queryBuilder.append(finalizeQuery());
+			
+			if(queryParams.size()>1){
+				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+				parcellesResult = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
+			}
+			else{
+				logger.info("At least two parameters are required to get information from parcelle if not by id or by owners");
+			}
+
+			
 		}
 
 		return parcellesResult;
@@ -190,31 +199,32 @@ public class ParcelleController extends CadController {
 		return parcelles;
 	}
 
-	
 
-	/**
-	 * 
-	 * 
-	 * @param proprietaireList
-	 * @param details
-	 * @param userCNILLevel
-	 * @return
-	 * @throws SQLException
-	 */
-	public List<Map<String, Object>> getParcellesByProprietaireId(List<String> proprietaireList, int details, int userCNILLevel) throws SQLException {
-
+	public List<Map<String, Object>> getParcellesByProprietaire(List<String> comptecommunal, int details, int userCNILLevel){
+		
 		List<Map<String, Object>> parcelles = null;
-
-		//TODO if details == 0 could not search by proprietaire
 		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
-		queryBuilder.append(" from ");
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle where dnupro ANY (?);");
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), proprietaireList.toArray());
-
+		
+		// if search by dnuproList or comptecommunal
+		// directly search in view parcelle
+		if(comptecommunal != null && !comptecommunal.isEmpty()){
+			
+			//TODO change parcelle not details view to get comptecommunal in it but check userLevel first to see if possible
+			// Change details value to search by proprietaire
+			if (details == 0){
+				details = 1;			
+			}
+		
+			queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
+			queryBuilder.append(createWhereInQuery(comptecommunal.size(), "comptecommunal"));
+			queryBuilder.append(";");
+			
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), comptecommunal.toArray());
+		}
+		else{
+			logger.info("Missing or empty input parameter");
+		}
 		return parcelles;
 	}
 
@@ -237,7 +247,7 @@ public class ParcelleController extends CadController {
 		} else {
 			selectQueryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib, dcntpa");
 
-			// TODO userlevel
+			// TODO make join to get information from proprietaire view
 			if (userCNILLevel > 1) {
 				selectQueryBuilder.append(", dnupro ");
 			}
@@ -289,7 +299,7 @@ public class ParcelleController extends CadController {
 			}
 		}
 
-		List<Map<String, Object>> parcellesResult = getParcellesByProprietaireId(proprietaireList, details, getUserCNILLevel(headers));
+		List<Map<String, Object>> parcellesResult = getParcellesByProprietaire(proprietaireList, details, getUserCNILLevel(headers));
 
 		// les forms ExtJs attendent du JSON sous format TEXT/HTML... (avec
 		// success=true)
@@ -312,6 +322,17 @@ public class ParcelleController extends CadController {
 	@GET
     @Path("/dnupla")
     @Produces("application/json")
+	/**
+	 *  Return only dnupla list from a section of a commune
+	 *  
+	 * @param headers
+	 * @param ccoinsee -> cityId 6 char ccodep + ccodir + ccocom
+	 * @param ccopre prefix de section
+	 * @param ccosec code de section
+	 * @return list de dnupla 
+	 * 
+	 * @throws SQLException
+	 */
 	public List<Map<String,Object>> getDnuplaList(@Context HttpHeaders headers, 
 				@QueryParam("ccoinsee") String ccoinsee,
 				@QueryParam("ccopre") String ccopre,
