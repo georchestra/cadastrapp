@@ -95,6 +95,7 @@ replaceAndLaunch ./views/qgisProprietaireParcelle.sql
 replaceAndLaunch ./views/qgisProprieteBati.sql
 replaceAndLaunch ./views/qgisProprieteNonBati.sql
 replaceAndLaunch ./views/qgisSection.sql
+replaceAndLaunch ./views/qgisHabitationDetails.sql
 
 # Create users correlation tables
 replaceAndLaunch ../commun/user/groupeAutorisation.sql
