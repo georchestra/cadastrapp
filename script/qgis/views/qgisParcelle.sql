@@ -28,7 +28,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
 	ccosec character varying(2),
 	dcntpa integer);
 
-ALTER TABLE #schema_cadastrapp.parcelle  OWNER TO cadastrapp;
+ALTER TABLE #schema_cadastrapp.parcelle  OWNER TO #user_cadastrapp;
 
 
 -- View: cadastreapp_qgis.parcelle
