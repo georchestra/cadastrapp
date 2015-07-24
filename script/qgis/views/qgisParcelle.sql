@@ -4,8 +4,8 @@ DROP VIEW #schema_cadastrapp.parcelle;
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS 
  SELECT parcelle.parcelle, parcelle.ccoinsee, parcelle.dnupla, parcelle.dnvoiri, parcelle.dindic, parcelle.cconvo, parcelle.dvoilib, parcelle.ccopre, parcelle.ccosec, parcelle.dcntpa
-   FROM dblink('host=localhost dbname=qadastre user=cadastre password=cadastre'::text, 
-	'select 
+  FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+ 	'select 
 		parcelle,
 		ccodep||ccodir||ccocom as ccoinsee,
 		dnupla,
