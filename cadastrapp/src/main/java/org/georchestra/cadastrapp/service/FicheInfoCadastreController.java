@@ -185,7 +185,7 @@ public class FicheInfoCadastreController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietenonbatie pnb ,");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".propriete_parcelle propar,");
+		queryBuilder.append(".propriete_parcelle propar ");
 		queryBuilder.append(" where propar.parcelle = ?");
 		queryBuilder.append(" and pnb.comptecommunal = propar.comptecommunal");
 		
