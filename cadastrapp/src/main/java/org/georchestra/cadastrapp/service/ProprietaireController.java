@@ -29,12 +29,20 @@ public class ProprietaireController extends CadController{
     /**
      * This will return information about owners in JSON format
      * 
+     * You can call this service with different input, but some are mandatory
+     * 
+     * User must be at least CNIL 1 level to get information from this service
+     * 
+     *   If you call with dnupro, ccoinsee is mandatory
+     *   If you call with dnomlp, ccoinsee is mandatory and dnomlp must me at least 3 chars
+     * 
      * @param headers headers from request used to filter search using LDAP Roles
      * @param dnomlp partial name to be search, must be have at least 3 char
      * @param ccoinsee  code commune like 630103 (codep + codir + cocom)
      * 					ccoinsee should be on 6 char, if only 5 we deduce that codir is not present
      * @param dnupro id to be search, a same dnupro can be found in several commune
      * @param comptecommunal id specific for a owner
+     * 
      * @param details -> change list of fields in result 0 dy default or if not present
      * 					0 : dnomlp, dprnlp
      * 					1 : dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal will be return
@@ -63,8 +71,9 @@ public class ProprietaireController extends CadController{
     	if (getUserCNILLevel(headers)>0){
     	    
     		// No search if all parameters are null or dnomlpPariel less than 3 char
-	    	if((dnomlp != null && !dnomlp.isEmpty() && 2<dnomlp.length()) 
-	    			&& (ccoinsee!=null || dnupro!=null)){
+	    	if((dnomlp != null && !dnomlp.isEmpty() && 2<dnomlp.length() && ccoinsee!=null) 
+	    			|| (ccoinsee!=null &&  ccoinsee.length()>0 &&dnupro!=null && dnupro.length()>0)
+	    			|| (compteCommunal != null && compteCommunal.length()>0)){
 	    		
 	    		StringBuilder queryBuilder = new StringBuilder();
 	    		
@@ -118,7 +127,7 @@ public class ProprietaireController extends CadController{
 	    	//TODO add exception management
 	    	else{
 			//log empty request
-			logger.info("Null or less than 3 characters for dnomlp in request");
+			logger.info("Missing ccoinsee and dnupro or less than 3 characters for dnomlp in request");
 		}
     	}else{
     		logger.info("User does not have rights to see thoses informations");
