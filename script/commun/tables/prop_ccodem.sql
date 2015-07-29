@@ -1,3 +1,4 @@
+
 CREATE TABLE #schema_cadastrapp.prop_ccodem (
     ccodem character varying(1) NOT NULL,
     ccodem_lib character varying(150)

@@ -1,5 +1,4 @@
 
-
 CREATE TABLE #schema_cadastrapp.prop_ccodro (
     ccodro character varying(1) NOT NULL,
     ccodro_lib character varying(150)
