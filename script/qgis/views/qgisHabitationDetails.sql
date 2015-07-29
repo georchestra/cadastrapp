@@ -1,56 +1,55 @@
--- View: cadastrapp_qgis.deschabitation
+-- Create views deschabitation, descproffessionnel, descdependance based on Qgis Models
 
-drop view #schema_cadastrapp.deschabitation;
-
-create view #schema_cadastrapp.deschabitation as SELECT *
+CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation as SELECT *
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
-		'select pev.pev,
-		pev.annee,
-		pev.invar,
-		pev.dnupev,
-		pev.ccoaff,
-		''Partie principale d''''habitation'' as dnupev_lib,
-		ccoaff.ccoaff_lib,
-		pevp.dnudes,
-		pevp.detent,
-		pevp.dsupdc,
-		pevp.dnbniv,
-		pevp.dnbpdc,
-		dnbppr,
-		dnbsam,
-		dnbcha,
-		dnbcu8,
-		dnbcu9,
-		dnbsea,
-		dnbann,
-		dnbbai,
-		dnbdou,
-		dnblav,
-		dnbwc,
-		geaulc,
-		gelelc,
-		ggazlc,
-		gchclc,
-		gteglc,
-		gesclc,
-		gasclc,
-		gvorlc,
-		cconad1.cconad_lib as cconad_ga,
-		cconad2.cconad_lib as cconav_cv,
-		cconad3.cconad_lib as cconad_gr,
-		cconad4.cconad_lib as cconav_tr,
-		dep1_dsueic  as dsueic_ga,
-		dep2_dsueic  as dsueic_cv,dep3_dsueic  
-		as dsueic_gr,
-		dep4_dsueic  as dsueic_tr
-			from pev
-		left join pevprincipale pevp on pev.pev=pevp.pev
-		left join ccoaff on pev.ccoaff=ccoaff.ccoaff
-		left join cconad cconad1 on pevp.dep1_cconad=cconad1.cconad 
-		left join cconad cconad2 on pevp.dep2_cconad=cconad2.cconad 
-		left join cconad cconad3 on pevp.dep3_cconad=cconad3.cconad 
-		left join cconad cconad4 on pevp.dep4_cconad=cconad4.cconad 
-		order by annee,invar'::text) 
+		'select 
+			pev.pev,
+			pev.annee,
+			pev.invar,
+			pev.dnupev,
+			pev.ccoaff,
+			''Partie principale d''''habitation'' as dnupev_lib,
+			ccoaff.ccoaff_lib,
+			pevp.dnudes,
+			pevp.detent,
+			pevp.dsupdc,
+			pevp.dnbniv,
+			pevp.dnbpdc,
+			dnbppr,
+			dnbsam,
+			dnbcha,
+			dnbcu8,
+			dnbcu9,
+			dnbsea,
+			dnbann,
+			dnbbai,
+			dnbdou,
+			dnblav,
+			dnbwc,
+			geaulc,
+			gelelc,
+			ggazlc,
+			gchclc,
+			gteglc,
+			gesclc,
+			gasclc,
+			gvorlc,
+			cconad1.cconad_lib as cconad_ga,
+			cconad2.cconad_lib as cconav_cv,
+			cconad3.cconad_lib as cconad_gr,
+			cconad4.cconad_lib as cconav_tr,
+			dep1_dsueic  as dsueic_ga,
+			dep2_dsueic  as dsueic_cv,dep3_dsueic  
+			as dsueic_gr,
+			dep4_dsueic  as dsueic_tr
+		from pev
+			left join pevprincipale pevp on pev.pev=pevp.pev
+			left join ccoaff on pev.ccoaff=ccoaff.ccoaff
+			left join cconad cconad1 on pevp.dep1_cconad=cconad1.cconad 
+			left join cconad cconad2 on pevp.dep2_cconad=cconad2.cconad 
+			left join cconad cconad3 on pevp.dep3_cconad=cconad3.cconad 
+			left join cconad cconad4 on pevp.dep4_cconad=cconad4.cconad 
+			order by annee,invar'::text) 
 	deschabitation (
 		pev character varying(17),
 		annee character varying(4),
@@ -97,11 +96,19 @@ ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
 -- View: cadastrapp_qgis.descproffessionnel
 
-drop view #schema_cadastrapp.descproffessionnel;
-
-create or replace view  #schema_cadastrapp.descproffessionnel as select *
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
-		'select pev,invar,annee,dnudes,vsurzt 
+CREATE OR REPLACE VIEW #schema_cadastrapp.descproffessionnel AS
+	SELECT 	descproffessionnel.pev,
+			descproffessionnel.invar,
+			descproffessionnel.annee,
+			descproffessionnel.dnudes,
+			descproffessionnel.vsurzt 
+		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+			'select 
+				pev,
+				invar,
+				annee,
+				dnudes,
+				vsurzt 
 			from pevprofessionnelle order by annee,invar'::text) 
 	descproffessionnel (
 		pev character varying(17),
@@ -116,26 +123,38 @@ ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 -- View: cadastrapp_qgis.descdependance
 
-drop view #schema_cadastrapp.descdependance;
-
-create or replace view  #schema_cadastrapp.descdependance as select *
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
-		'select pev,
-		invar,
-		annee,
-		dnudes,
-		cconad_lib,
-		dsudep,
-		dnbbai,
-		dnbdou,
-		dnblav,
-		dnbwc,
-		geaulc,
-		gelelc,
-		gchclc
+CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS
+	SELECT descdependance.pev,
+			descdependance.invar,
+			descdependance.annee,
+			descdependance.dnudes,
+			descdependance.cconad_lib,
+			descdependance.dsudep,
+			descdependance.dnbbai,
+			descdependance.dnbdou,
+			descdependance.dnblav,
+			descdependance.dnbwc,
+			descdependance.geaulc,
+			descdependance.gelelc,
+			descdependance.gchclc
+		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+			'select 
+				pev,
+				invar,
+				annee,
+				dnudes,
+				cconad_lib,
+				dsudep,
+				dnbbai,
+				dnbdou,
+				dnblav,
+				dnbwc,
+				geaulc,
+				gelelc,
+				gchclc
 			from pevdependances
-		left join cconad on pevdependances.cconad=cconad.cconad
-		order by annee,invar'::text)
+				left join cconad on pevdependances.cconad=cconad.cconad
+				order by annee,invar'::text)
 	descdependance (
 		pev character varying(17),
 		invar character varying(10),

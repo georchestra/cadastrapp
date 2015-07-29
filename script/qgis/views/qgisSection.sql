@@ -1,4 +1,6 @@
-create view #schema_cadastrapp.section as 
+-- Create view section based on Qgis Models
+
+CREATE OR REPLACE VIEW #schema_cadastrapp.section as 
 select  
   *
    FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis', 'select 

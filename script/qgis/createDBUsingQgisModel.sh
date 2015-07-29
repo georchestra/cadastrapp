@@ -25,29 +25,58 @@
 #
 #////////////////////////////////////////////////////////////////////
 
-
 # Set parameters
-dbname="cadastrapp_qgis"
-schema="cadastrapp_qgis"
-username="cadastrapp"
-userpwd="cadastrapp"
+if [ "$#" -ne 8 ]; then
+	echo "No parameters given or not the good number of params" >&2
+	echo "Usage could be : $0 DatabaseName DatabaseSchema DatabaseUser DatabasePasswd ArcopoleHost ArcopoleDataBaseName ArcopoleDataBaseSchema ArcopoleDataBaseUser ArcopoleDataBasePasswd" >&2
+	echo "Use constant in script" >&2
+	
+	## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
+	# LOCAL Postgresql information
+	dbname="cadastrapp_qgis"
+	schema="cadastrapp_qgis"
+	username="cadastrapp"
+	userpwd="cadastrapp"
 
-DBHost=
-DBName=
-DBSchema=
-DBUser=
-DBPassword=
+	# REMOTE Arcopole Database information
+	qgisDBHost=
+	qgisDBName=
+	qgisDBUser=
+	qgisDBPassword=
+else
+	echo "Launch Script using parameters" >&2
+	dbname=$1
+	schema=$2
+	username=$3
+	userpwd=$4
+
+	qgisDBHost=$5
+	qgisDBName=$6
+	qgisDBUser=$7
+	qgisDBPassword=$8
+fi
+
+echo "--------------------------------";
+echo "Database name : $dbname"
+echo "Schema name : $schema"
+echo "Username : $username"
+echo "Password : $userpwd"
+
+echo "Qgis Database host : $qgisDBHost"
+echo "Qgis Database name : $qgisDBName"
+echo "Qgis UserName : $qgisDBUser"
+echo "Qgis Password : $qgisDBPassword"
+echo "--------------------------------";
 
 # replaceAndLaunch
 # Replace fields in sql file and launch sql execution
 # 
 # #user_cadastrapp replace with $username
 # #schema_cadastrapp replace with $schema
-# #DBHost_qgis replace with $arcopoleDBHost
-# #DBSchema_qgis replace with $arcopoleDBSchema
-# #DBName_qgis replace with $arcopoleDBName
-# #DBUser_qgis replace with $arcopoleDBUser
-# #DBpasswd_qgis replace with $arcopoleDBPassword
+# #DBHost_qgis replace with $qgisDBHost
+# #DBName_qgis replace with $qgisDBName
+# #DBUser_qgis replace with $qgisDBUser
+# #DBpasswd_qgis replace with $qgisDBPassword
 #
 replaceAndLaunch (){
 	
@@ -60,11 +89,10 @@ replaceAndLaunch (){
 	
 	cat $1 | sed "{ s/#user_cadastrapp/$username/g
 				 	s/#schema_cadastrapp/$schema/g
-				 	s/#DBHost_qgis/$DBHost/g
-				 	s/#DBName_qgis/$DBName/g
-				 	s/#DBSchema_qgis/$DBSchema/g
-				 	s/#DBUser_qgis/$DBUser/g
-				 	s/#DBpasswd_qgis/$DBPassword/g }" |\
+				 	s/#DBHost_qgis/$qgisDBHost/g
+				 	s/#DBName_qgis/$qgisDBName/g
+				 	s/#DBUser_qgis/$qgisDBUser/g
+				 	s/#DBpasswd_qgis/$qgisDBPassword/g }" |\
 					psql -d $dbname
 }
 
@@ -72,14 +100,24 @@ replaceAndLaunch (){
 #replaceAndLaunch ../changeOnQGISModel/alterQGISParcelle.sql
 
 # Init database
+echo "--------------------------------";
+echo " Init database";
+echo "--------------------------------";
 cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
 								  s/#pwd_cadastrapp/$userpwd/g
 						 		  s/#dbname_qgis/$dbname/g
 						 	  	  s/#schema_cadastrapp/$schema/g }" |\
 								  psql
 
+echo "--------------------------------";
+echo " Drop View and Tables except groupeAutorisation ";
+echo "--------------------------------";								  
+replaceAndLaunch ../commun/dropTablesAndViews.sql
 
 # Create tables
+echo "--------------------------------";
+echo " Create tables ";
+echo "--------------------------------";
 replaceAndLaunch ../commun/tables/prop_ccodem.sql
 replaceAndLaunch ../commun/tables/prop_ccodro.sql
 replaceAndLaunch ../commun/tables/prop_ccoqua.sql
@@ -88,7 +126,6 @@ replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 replaceAndLaunch ./views/qgisCommune.sql
-replaceAndLaunch ./views/qgisParcelleSurface.sql
 replaceAndLaunch ./views/qgisParcelle.sql
 replaceAndLaunch ./views/qgisProprietaire.sql
 replaceAndLaunch ./views/qgisProprietaireParcelle.sql
