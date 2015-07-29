@@ -1,126 +1,146 @@
--- View: cadastrapp_qgis.parcelle
+-- Create view parcelle, parcelledetails, v_parcelle_surfc based on Qgis Models
 
-DROP VIEW #schema_cadastrapp.parcelle;
+CREATE OR REPLACE VIEW #schema_cadastrapp.v_parcelle_surfc AS
+	SELECT  v_parcelle_surfc.parcelle,
+			v_parcelle_surfc.surfc 
+		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
+			'select distinct 
+				geo_parcelle as parcelle,
+				st_area(geom) as surfc 
+			from geo_parcelle'::text)
+	v_parcelle_surfc(
+		parcelle character varying(19),
+		surfc float);
+
+ALTER TABLE #schema_cadastrapp.v_parcelle_surfc OWNER TO #user_cadastrapp;
+
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS 
- SELECT parcelle.parcelle, parcelle.ccoinsee, parcelle.dnupla, parcelle.dnvoiri, parcelle.dindic, parcelle.cconvo, parcelle.dvoilib, parcelle.ccopre, parcelle.ccosec, parcelle.dcntpa
-  FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
- 	'select 
-		parcelle,
-		ccodep||ccodir||ccocom as ccoinsee,
-		dnupla,
-		dnvoiri,
-		dindic,
-		cconvo,
-		dvoilib,
-		ccopre,
-		ccosec,
-		dcntpa
+	SELECT parcelle.parcelle, 
+		parcelle.ccoinsee, 
+		parcelle.dnupla, 
+		parcelle.dnvoiri, 
+		parcelle.dindic, 
+		parcelle.cconvo, 
+		parcelle.dvoilib, 
+		parcelle.ccopre, 
+		parcelle.ccosec, 
+		parcelle.dcntpa
+ 	 FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+ 		'select 
+			parcelle,
+			ccodep||ccodir||ccocom as ccoinsee,
+			dnupla,
+			dnvoiri,
+			dindic,
+			cconvo,
+			dvoilib,
+			ccopre,
+			ccosec,
+			dcntpa
 		from parcelle'::text) 
-	parcelle(parcelle character varying(19), 
-	ccoinsee character varying(6), 
-	dnupla character varying(4),
-	dnvoiri character varying(4),
-	dindic character varying(1), 
-	cconvo character varying(4), 
-	dvoilib character varying(26), 
-	ccopre character varying(3), 
-	ccosec character varying(2),
-	dcntpa integer);
+	parcelle(
+		parcelle character varying(19), 
+		ccoinsee character varying(6), 
+		dnupla character varying(4),
+		dnvoiri character varying(4),
+		dindic character varying(1), 
+		cconvo character varying(4), 
+		dvoilib character varying(26), 
+		ccopre character varying(3), 
+		ccosec character varying(2),
+		dcntpa integer);
 
 ALTER TABLE #schema_cadastrapp.parcelle  OWNER TO #user_cadastrapp;
 
 
 -- View: cadastreapp_qgis.parcelle
 
--- DROP VIEW #schema_cadastrapp.parcelleDetails;
-
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelleDetails AS 
- SELECT 
- 	parcelle.parcelle,
-	lot,
-	ccocom,
-	dnupla,
-	dcntpa,
-	dsrpar,
-	dnupro,
-	jdatat,
-	dreflf,
-	gpdl,
-	cprsecr,
-	ccosecr,
-	dnuplar,
-	dnupdl,
-	gurbpa,
-	dparpi,
-	ccoarp,
-	gparnf,
-	gparbat,
-	dnvoiri,
-	dindic,
-	ccovoi,
-	ccoriv,
-	ccocif,
-	cconvo,
-	dvoilib,
-	ccocomm,
-	ccoprem,
-	ccosecm,
-	dnuplam,
-	type_filiation,
-	annee,
-	ccodep,
-	ccodir,
-	ccopre,
-	ccosec,
-	comptecommunal,
-	pdl,
-	inspireid ,
-	surfc
+	SELECT 
+		parcelleDetails.parcelle,
+		parcelleDetails.lot,
+		parcelleDetails.ccocom,
+		parcelleDetails.dnupla,
+		parcelleDetails.dcntpa,
+		parcelleDetails.dsrpar,
+		parcelleDetails.dnupro,
+		parcelleDetails.jdatat,
+		parcelleDetails.dreflf,
+		parcelleDetails.gpdl,
+		parcelleDetails.cprsecr,
+		parcelleDetails.ccosecr,
+		parcelleDetails.dnuplar,
+		parcelleDetails.dnupdl,
+		parcelleDetails.gurbpa,
+		parcelleDetails.dparpi,
+		parcelleDetails.ccoarp,
+		parcelleDetails.gparnf,
+		parcelleDetails.gparbat,
+		parcelleDetails.dnvoiri,
+		parcelleDetails.dindic,
+		parcelleDetails.ccovoi,
+		parcelleDetails.ccoriv,
+		parcelleDetails.ccocif,
+		parcelleDetails.cconvo,
+		parcelleDetails.dvoilib,
+		parcelleDetails.ccocomm,
+		parcelleDetails.ccoprem,
+		parcelleDetails.ccosecm,
+		parcelleDetails.dnuplam,
+		parcelleDetails.type_filiation,
+		parcelleDetails.annee,
+		parcelleDetails.ccodep,
+		parcelleDetails.ccodir,
+		parcelleDetails.ccopre,
+		parcelleDetails.ccosec,
+		parcelleDetails.comptecommunal,
+		parcelleDetails.pdl,
+		parcelleDetails.inspireid ,
+		parcelleDetails.surfc
    	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
    		'select 
-		parcelle,
-		lot,
-		ccocom,
-		dnupla,
-		dcntpa,
-		dsrpar,
-		dnupro,
-		jdatat,
-		dreflf,
-		gpdl,
-		cprsecr,
-		ccosecr,
-		dnuplar,
-		dnupdl,
-		gurbpa,
-		dparpi,
-		ccoarp,
-		gparnf,
-		gparbat,
-		dnvoiri,
-		dindic,
-		ccovoi,
-		ccoriv,
-		ccocif,
-		cconvo,
-		dvoilib,
-		ccocomm,
-		ccoprem,
-		ccosecm,
-		dnuplam,
-		type_filiation,
-		annee,
-		ccodep,
-		ccodir,
-		ccopre,
-		ccosec,
-		comptecommunal,
-		pdl,
-		inspireid 
-		from parcelle 	
-		'::text) 
-	parcelle(parcelle character varying(19), 
+			parcelle,
+			lot,
+			ccocom,
+			dnupla,
+			dcntpa,
+			dsrpar,
+			dnupro,
+			jdatat,
+			dreflf,
+			gpdl,
+			cprsecr,
+			ccosecr,
+			dnuplar,
+			dnupdl,
+			gurbpa,
+			dparpi,
+			ccoarp,
+			gparnf,
+			gparbat,
+			dnvoiri,
+			dindic,
+			ccovoi,
+			ccoriv,
+			ccocif,
+			cconvo,
+			dvoilib,
+			ccocomm,
+			ccoprem,
+			ccosecm,
+			dnuplam,
+			type_filiation,
+			annee,
+			ccodep,
+			ccodir,
+			ccopre,
+			ccosec,
+			comptecommunal,
+			pdl,
+			inspireid 
+		from parcelle'::text) 
+	parcelleDetails(parcelle character varying(19), 
 		lot character varying, 
 		ccocom character varying(3), 
 		dnupla character varying(4),
@@ -162,9 +182,4 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelleDetails AS
 		left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelle.parcelle=p2.parcelle;
 
 ALTER TABLE #schema_cadastrapp.parcelleDetails OWNER TO #user_cadastrapp;
-
-
-
-
-
 
