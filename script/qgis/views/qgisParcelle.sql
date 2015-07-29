@@ -97,7 +97,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 		parcelledetails.comptecommunal,
 		parcelledetails.pdl,
 		parcelledetails.inspireid ,
-		parcelledetails.surfc
+		surfc
    	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
    		'select 
 			parcelle,
