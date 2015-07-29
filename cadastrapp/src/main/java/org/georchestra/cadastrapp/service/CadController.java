@@ -132,6 +132,8 @@ public class CadController {
 		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN,ROLE_ADMINISTRATOR,ROLE_MOD_ANALYTICS,ROLE_MOD_EXTRACTORAPP' 
 		String roleListString = headers.getHeaderString("sec-roles");
 		
+		logger.debug(" Roles list " + roleListString);
+		
 		if(roleListString!=null && !roleListString.isEmpty()){
 			
 			// Using Any with namedParameterJdbcTemplate
