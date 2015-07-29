@@ -1,5 +1,5 @@
 -- HabitationDetails
--- Create vues deschabitation, descproffessionnel, descdependance based on Arcopole Models
+-- Create views deschabitation, descproffessionnel, descdependance based on Arcopole Models
 
 
 CREATE OR REPLACE VIEW  #schema_cadastrapp.descproffessionnel AS 
