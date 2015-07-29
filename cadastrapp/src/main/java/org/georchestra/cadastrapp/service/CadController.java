@@ -1,6 +1,8 @@
 package org.georchestra.cadastrapp.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -121,50 +123,108 @@ public class CadController {
 	 * 
 	 * 
 	 * @param headers
+	 * @param type int 
+	 * 				0 -> ccoinsee
+	 * 				1 -> ccodep, ccodir, ccocom 
 	 * @return
 	 */
-	protected String addAuthorizationFiltering(HttpHeaders headers) {
+	protected String addAuthorizationFiltering(HttpHeaders headers, int type) {
 
-		List<String> communes = null;
-		StringBuilder queryFilter = new StringBuilder();
+		List<Map<String, Object>> limitations;
+		List<String> communes = new ArrayList<String>();
+		List<String> deps = new ArrayList<String>();
+		
+ 		StringBuilder queryFilter = new StringBuilder();
 
 		// get roles list in header
 		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN,ROLE_ADMINISTRATOR,ROLE_MOD_ANALYTICS,ROLE_MOD_EXTRACTORAPP' 
 		String roleListString = headers.getHeaderString("sec-roles");
 		
-		logger.debug(" Roles list " + roleListString);
-		
+		logger.debug("RoleList : "+ roleListString);
 		if(roleListString!=null && !roleListString.isEmpty()){
 			
-			// Using Any with namedParameterJdbcTemplate
 			// Force to add the array of value in first place of a new Array
 			String[] roleList = roleListString.split(",");  
  	
 			// get commune list in database corresponding to this header
 			StringBuilder queryBuilder = new StringBuilder();
-			queryBuilder.append("select distinct ccoinsee from ");
+			queryBuilder.append("select distinct ccoinsee, ccodep from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".groupe_autorisation ");
 			queryBuilder.append(createWhereInQuery(roleList.length, "idgroup"));
 			queryBuilder.append(";");
 	
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);	
-			communes = jdbcTemplate.queryForList(queryBuilder.toString(), roleList, String.class);
+			limitations = jdbcTemplate.queryForList(queryBuilder.toString(), roleList);
+			
+			
+			// filter request on commune
+			if (limitations != null && !limitations.isEmpty()) {
+				
+				for (Map<String, Object> limitation : limitations) {
+					if(limitation.get("ccoinsee") != null){
+						communes.add((String)limitation.get("ccoinsee"));
+					}
+					if(limitation.get("ccodep") != null){ 
+						deps.add((String)limitation.get("ccodep"));
+					}
+				}
+	
+				// If table contains ccoinsee
+				if(type == 0){		
+					if(!deps.isEmpty()){
+						for (String dep : deps){
+							queryFilter.append(" AND ccoinsee LIKE ");
+							queryFilter.append("'" +dep+"%'");					
+						}			
+					}
+					if(!communes.isEmpty()){
+						queryFilter.append(" AND ccoinsee IN (");
+						queryFilter.append(createListToStringQuery(communes));					
+						queryFilter.append(" ) ");
+					}			
+				}
+				// if table contains ccodep, ccodir and ccocom
+				else{
+					if(!deps.isEmpty()){
+						queryFilter.append(" AND ccodep IN (");
+						queryFilter.append(createListToStringQuery(deps));					
+						queryFilter.append(" ) ");
+					}
+					if(!communes.isEmpty()){
+						List<String> communesccodep = new ArrayList<String>();;
+						List<String> communesccodir = new ArrayList<String>();;
+						List<String> communesccoccom = new ArrayList<String>();;
+						
+ 						for (String commune : communes){
+							if(commune != null && commune.length()==5){
+								communesccodep.add(commune.substring(0, 2));
+								communesccodir.add(commune.substring(2, 3));
+								communesccoccom.add(commune.substring(3, 5));
+							}
+							else{
+								logger.warn("Commune does not have 6 chars, check groupe autorisation table");
+							}									
+						}
+ 						
+ 						if(!communesccodep.isEmpty() && communesccodir.isEmpty() && communesccoccom.isEmpty()){
+	 						queryFilter.append(" AND ccodep IN (");
+							queryFilter.append(createListToStringQuery(communesccodep));					
+							queryFilter.append(" ) ");
+							queryFilter.append(" AND ccodir IN (");
+							queryFilter.append(createListToStringQuery(communesccodir));					
+							queryFilter.append(" ) ");
+							queryFilter.append(" AND ccocom IN (");
+							queryFilter.append(createListToStringQuery(communesccoccom));					
+							queryFilter.append(" ) ");
+ 						}
+					}
+				}
+			}
+			
 		}
 		else{
-			logger.warn("Missing sec-roles");
-		}
-
-		// filter request
-		if (communes != null && !communes.isEmpty()) {
-	
-			StringBuilder ccoinseeList = new StringBuilder();
-
-			ccoinseeList.append(createListToStringQuery(communes));
-			
-			queryFilter.append(" AND ccoinsee IN (");
-			queryFilter.append(ccoinseeList.toString());
-			queryFilter.append(" )");
+			logger.warn("No filter, no sec-roles was found");
 		}
 
 		return queryFilter.toString();
