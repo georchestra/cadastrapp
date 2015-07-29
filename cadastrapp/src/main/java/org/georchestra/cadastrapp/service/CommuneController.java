@@ -33,7 +33,7 @@ public class CommuneController extends CadController{
      	queryBuilder.append(databaseSchema);
     	queryBuilder.append(".commune "); 	
     	queryBuilder.append("where ccocom is not null ");
-    	queryBuilder.append(addAuthorizationFiltering(headers));
+    	queryBuilder.append(addAuthorizationFiltering(headers, 0));
     	queryBuilder.append(finalizeQuery());
     	
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -95,7 +95,7 @@ public class CommuneController extends CadController{
 	  		
 	    	}
 	    	queryBuilder.append(" and ccocom is not null "); 
-	    	queryBuilder.append(addAuthorizationFiltering(headers));
+	    	queryBuilder.append(addAuthorizationFiltering(headers, 0));
 	    	queryBuilder.append(finalizeQuery());
 	         
 	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

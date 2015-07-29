@@ -34,24 +34,15 @@ public class FicheInfoFonciereController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 
 		// CNIL niveau 0
-		queryBuilder.append("select uf, ccodep, ccodir, ccocom, libcom, ccopre, ccosec, comptecommunal");
-		queryBuilder.append(", dcntpa_sum, sigcal_sum, batical_sum");
-
-		// TODO check to get n parcelles
-		queryBuilder.append(" ccopre, ccosec, dnupla, dcntpa, sigcal, adressepostale");
-
-		// CNIL Niveau 1
-		queryBuilder.append(", dnupro, dnuper");
+		queryBuilder.append("select ccodep, ccodir, ccocom, ccoprem, ccosecm, comptecommunal ");
 		queryBuilder.append(" from ");
-
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelledetails p");
-
-		queryBuilder.append(addAuthorizationFiltering(headers));
+		queryBuilder.append(".parcelledetails p where parcelle = ? ");
+		queryBuilder.append(addAuthorizationFiltering(headers, 1));
 		queryBuilder.append(finalizeQuery());
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		information = jdbcTemplate.queryForList(queryBuilder.toString());
+		information = jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
 
 		// Return value providers will convert to JSON
 		return information;
