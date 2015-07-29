@@ -51,53 +51,53 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
 		ccosec character varying(2),
 		dcntpa integer);
 
-ALTER TABLE #schema_cadastrapp.parcelle  OWNER TO #user_cadastrapp;
+ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 
 
 -- View: cadastreapp_qgis.parcelle
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.parcelleDetails AS 
+CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS 
 	SELECT 
-		parcelleDetails.parcelle,
-		parcelleDetails.lot,
-		parcelleDetails.ccocom,
-		parcelleDetails.dnupla,
-		parcelleDetails.dcntpa,
-		parcelleDetails.dsrpar,
-		parcelleDetails.dnupro,
-		parcelleDetails.jdatat,
-		parcelleDetails.dreflf,
-		parcelleDetails.gpdl,
-		parcelleDetails.cprsecr,
-		parcelleDetails.ccosecr,
-		parcelleDetails.dnuplar,
-		parcelleDetails.dnupdl,
-		parcelleDetails.gurbpa,
-		parcelleDetails.dparpi,
-		parcelleDetails.ccoarp,
-		parcelleDetails.gparnf,
-		parcelleDetails.gparbat,
-		parcelleDetails.dnvoiri,
-		parcelleDetails.dindic,
-		parcelleDetails.ccovoi,
-		parcelleDetails.ccoriv,
-		parcelleDetails.ccocif,
-		parcelleDetails.cconvo,
-		parcelleDetails.dvoilib,
-		parcelleDetails.ccocomm,
-		parcelleDetails.ccoprem,
-		parcelleDetails.ccosecm,
-		parcelleDetails.dnuplam,
-		parcelleDetails.type_filiation,
-		parcelleDetails.annee,
-		parcelleDetails.ccodep,
-		parcelleDetails.ccodir,
-		parcelleDetails.ccopre,
-		parcelleDetails.ccosec,
-		parcelleDetails.comptecommunal,
-		parcelleDetails.pdl,
-		parcelleDetails.inspireid ,
-		parcelleDetails.surfc
+		parcelledetails.parcelle,
+		parcelledetails.lot,
+		parcelledetails.ccocom,
+		parcelledetails.dnupla,
+		parcelledetails.dcntpa,
+		parcelledetails.dsrpar,
+		parcelledetails.dnupro,
+		parcelledetails.jdatat,
+		parcelledetails.dreflf,
+		parcelledetails.gpdl,
+		parcelledetails.cprsecr,
+		parcelledetails.ccosecr,
+		parcelledetails.dnuplar,
+		parcelledetails.dnupdl,
+		parcelledetails.gurbpa,
+		parcelledetails.dparpi,
+		parcelledetails.ccoarp,
+		parcelledetails.gparnf,
+		parcelledetails.gparbat,
+		parcelledetails.dnvoiri,
+		parcelledetails.dindic,
+		parcelledetails.ccovoi,
+		parcelledetails.ccoriv,
+		parcelledetails.ccocif,
+		parcelledetails.cconvo,
+		parcelledetails.dvoilib,
+		parcelledetails.ccocomm,
+		parcelledetails.ccoprem,
+		parcelledetails.ccosecm,
+		parcelledetails.dnuplam,
+		parcelledetails.type_filiation,
+		parcelledetails.annee,
+		parcelledetails.ccodep,
+		parcelledetails.ccodir,
+		parcelledetails.ccopre,
+		parcelledetails.ccosec,
+		parcelledetails.comptecommunal,
+		parcelledetails.pdl,
+		parcelledetails.inspireid ,
+		parcelledetails.surfc
    	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
    		'select 
 			parcelle,
@@ -140,7 +140,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelleDetails AS
 			pdl,
 			inspireid 
 		from parcelle'::text) 
-	parcelleDetails(parcelle character varying(19), 
+	parcelledetails(
+		parcelle character varying(19), 
 		lot character varying, 
 		ccocom character varying(3), 
 		dnupla character varying(4),
@@ -179,7 +180,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelleDetails AS
 		comptecommunal character varying(15), 
 		pdl character varying(22),
 		inspireid character varying(16))
-		left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelleDetails.parcelle=p2.parcelle;
+	left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelledetails.parcelle=p2.parcelle;
 
 ALTER TABLE #schema_cadastrapp.parcelleDetails OWNER TO #user_cadastrapp;
 
