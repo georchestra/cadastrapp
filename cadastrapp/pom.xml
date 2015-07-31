@@ -109,7 +109,7 @@
     <build>
         <pluginManagement>      
             <plugins>
-		        <plugin>
+	            <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
@@ -151,5 +151,17 @@
                     </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+        	<plugin> 
+				<artifactId>maven-javadoc-plugin</artifactId> 
+			    	<executions> 
+			        	<execution> 
+			          		<id>build-javadocs</id>
+			          		<phase>compile</phase>
+			          		<goals><goal>javadoc</goal></goals> 
+			        	</execution> 
+			      </executions> 
+			</plugin>
+		</plugins>
     </build>
 </project>
