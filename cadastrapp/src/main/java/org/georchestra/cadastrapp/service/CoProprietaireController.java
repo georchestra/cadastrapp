@@ -17,14 +17,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Path("/getCoProprietaire")
 public class CoProprietaireController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(CoProprietaireController.class);
 
+	@Path("/getCoProprietaire")
     @GET
     @Produces("application/json")
     /**
+     * 
+     * /getCoProprietaire 
      * This will return information about owners in JSON format
      * 
      * @param headers headers from request used to filter search using LDAP Roles
@@ -33,7 +35,6 @@ public class CoProprietaireController extends CadController{
      * @return 
      * @throws SQLException
      */
-
     public List<Map<String,Object>> getCoProprietairesList(
     			@Context HttpHeaders headers,
     			@QueryParam("parcelle") String parcelle
@@ -45,12 +46,11 @@ public class CoProprietaireController extends CadController{
     	StringBuilder queryBuilder = new StringBuilder();
     	queryBuilder.append("select distinct dnulot from ");
     	queryBuilder.append(databaseSchema);
-    	queryBuilder.append(".proprietaire_parcelle where parcelle = ?");
+    	queryBuilder.append(".proprietaire_parcelle where parcelle = ? and dnulot != '0'");
   
 	    JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 	    lots = jdbcTemplate.queryForList(queryBuilder.toString(), String.class, parcelle);
-	    
-	    
+  	    
 	    int currentIndex = 0;
 	    // for each lot
 	    for(String lot : lots){

@@ -16,31 +16,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Path("/getSection")
+
 public class SectionController extends CadController {
 	
 	final static Logger logger = LoggerFactory.getLogger(SectionController.class);
 
-
 	@GET
+	@Path("/getSection")
 	@Produces("application/json")
 	/**
-	 * Return information about section from view section using parameter given.
+	 * /getSection
+	 * 
+	 * return information about section from view section using parameter given.
+	 *  results will be filtered with user group geographical limitation
 	 *  
 	 * @param headers headers from request used to filter search using LDAP Roles
-	 * @param ccoinsee code commune like 630103 (codep + codir + cocom)
-     * 					ccoinsee should be on 6 char, if only 5 we deduce that codir is not present
-	 * @param ccopre_partiel exemple AP
-	 * @param ccosec_partiel exemple 0025
-	 * @return complete information about search section
+	 * @param cgocommune code commune like 630103 (codep + codir + cocom)
+     * 					cgocommune should be on 6 char, if only 5 we deduce that codir is not present and we replace it in the request
+	 * @param ccopre partial code pre section exemple A for AP or AC, could be the full code pre
+	 * @param ccosec partial code section for exemple 2 or 25
+	 * 
+	 * @return cgocommune, ccopre, ccosec
 	 * 
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getSectionList(
 			@Context HttpHeaders headers,
-			@QueryParam("ccoinsee") String ccoinsee,
-			@QueryParam("ccopre_partiel") String ccopre_partiel,
-			@QueryParam("ccosec_partiel") String ccosec_partiel) throws SQLException {
+			@QueryParam("cgocommune") String cgoCommune,
+			@QueryParam("ccopre") String ccopre,
+			@QueryParam("ccosec") String ccosec) throws SQLException {
 
 		List<Map<String, Object>> sections = null;
 	   	List<String> queryParams = new ArrayList<String>();
@@ -48,23 +52,24 @@ public class SectionController extends CadController {
 		// Create query
 		StringBuilder queryBuilder = new StringBuilder();
 
-		queryBuilder.append("select distinct ccoinsee, ccopre, ccosec from ");
+		queryBuilder.append("select distinct cgocommune, ccopre, ccosec from ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".section");
+		queryBuilder.append(".section ");
 
 		// Special case when code commune on 5 characters is given
 		// Convert 350206 to 35%206 for query
-		if(ccoinsee!= null && 5 == ccoinsee.length()){
-			ccoinsee = ccoinsee.substring(0, 2) + "%" +ccoinsee.substring(2); 
-			queryBuilder.append(createLikeClauseRequest("ccoinsee", ccoinsee, queryParams));
+		if(cgoCommune!= null && 5 == cgoCommune.length()){
+			cgoCommune = cgoCommune.substring(0, 2) + "%" +cgoCommune.substring(2); 
+			queryBuilder.append(createLikeClauseRequest("cgocommune", cgoCommune, queryParams));
 		} 
 		else{
-			queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee, queryParams));
+			queryBuilder.append(createEqualsClauseRequest("cgocommune", cgoCommune, queryParams));
 		}
 			
-		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre_partiel, queryParams));
-		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec_partiel, queryParams));
+		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre, queryParams));
+		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec, queryParams));
 		queryBuilder.append(" ORDER BY ccopre, ccosec ");
+		queryBuilder.append(addAuthorizationFiltering(headers));
 		queryBuilder.append(finalizeQuery());
 					
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

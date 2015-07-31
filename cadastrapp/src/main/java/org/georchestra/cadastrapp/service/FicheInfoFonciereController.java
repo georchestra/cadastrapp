@@ -14,11 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Path("/getFIUF")
+
 public class FicheInfoFonciereController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(FicheInfoFonciereController.class);
 
+	@Path("/getFIUF")
 	@GET
 	@Produces("application/json")
 	/**
@@ -34,11 +35,11 @@ public class FicheInfoFonciereController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 
 		// CNIL niveau 0
-		queryBuilder.append("select ccodep, ccodir, ccocom, ccoprem, ccosecm, comptecommunal ");
+		queryBuilder.append("select ccocomm, ccoprem, ccosecm, comptecommunal ");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelledetails p where parcelle = ? ");
-		queryBuilder.append(addAuthorizationFiltering(headers, 1));
+		queryBuilder.append(addAuthorizationFiltering(headers));
 		queryBuilder.append(finalizeQuery());
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

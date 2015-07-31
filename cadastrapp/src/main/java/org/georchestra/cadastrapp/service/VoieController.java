@@ -14,48 +14,58 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Path("/getVoie")
+
 public class VoieController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(VoieController.class);
 	
 	@GET
+	@Path("/getVoie")
 	@Produces("application/json")
 	/**
+	 *  /getVoie
+	 *  
 	 *  return code nature de voie and libelle voie from parcelle view
+	 *  
+	 *  cgocommune on 6 char and dvoilib on minimum n char are mandatory to launch request
+	 *  
+	 *   n char is defined in minNbCharForSearch from cadastrapp.properties
 	 * 
-	 * @param ccoinsee code commune like 630103 (codep + codir + cocom)
-     * 					ccoinsee should be on 6 char, if only 5 we deduce that codir is not present
-	 * @param dvoilib at least 3 chars
+	 * @param cgocommune code commune like 630103 (codep + codir + cocom)
+     * 					cgocommune should be on 6 char
+	 * @param dvoilib at least n chars
 	 * 
 	 * @return JSON with list of cconvo, dvoilib
 	 * 
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getVoie(
-			@QueryParam("ccoinsee") String ccoinsee,
-			@QueryParam("dvoilib_partiel") String dvoilib) throws SQLException {
+			@QueryParam("cgocommune") String cgoCommune,
+			@QueryParam("dvoilib") String dvoilib) throws SQLException {
 
 		List<Map<String, Object>> voies = null;
 	   	List<String> queryParams = new ArrayList<String>();
 		
-		
-		if (ccoinsee != null && !ccoinsee.isEmpty() && 
-				dvoilib != null && dvoilib.length() > 2){
+		// 
+		if (cgoCommune != null && cgoCommuneLength!=cgoCommune.length() && 
+				dvoilib != null && minNbCharForSearch <= dvoilib.length()){
 						
-			StringBuilder queryBuilder = new StringBuilder();
-				
-			queryBuilder.append("select distinct cconvo, dvoilib ");
-			queryBuilder.append(" from ");
+			// Create request
+			StringBuilder queryBuilder = new StringBuilder();				
+			queryBuilder.append("select distinct cconvo, dvoilib from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".parcelle");
-			queryBuilder.append(" where ccoinsee = ? and UPPER(dvoilib) LIKE UPPER(?) ;");
+			queryBuilder.append(".parcelle where cgocommune = ? and UPPER(dvoilib) LIKE UPPER(?) ;");
 			
-			queryParams.add(ccoinsee);
+			// Add parameter to statement
+			queryParams.add(cgoCommune);
 			queryParams.add("%"+dvoilib+"%");
 						
+			// Launch request
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			voies = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
+		}
+		else{
+			logger.info("Missing mandatory parameter cgocommune and dvoilib to launch request");
 		}
 
 		return voies;

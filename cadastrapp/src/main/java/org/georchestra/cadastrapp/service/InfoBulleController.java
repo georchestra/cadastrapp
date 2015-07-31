@@ -27,7 +27,7 @@ public class InfoBulleController extends CadController {
 	@Produces("application/json")
 	/**
 	 * 
-	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available ccoinsee
+	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available cgocommune
 	 * 
 	 * @param parcelle id parcelle
 	 * @param infocadastrale 1 to get additional information, 0 to avoid getting additional information (default value 1 if not set)
@@ -66,7 +66,7 @@ public class InfoBulleController extends CadController {
 	@Produces("application/json")
 	/**
 	 * 
-	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available ccoinsee
+	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available cgocommune
 	 * 
 	 * @param parcelle id parcelle
 	 * @return Data from parcelle view to be display in popup in JSON format
@@ -90,7 +90,7 @@ public class InfoBulleController extends CadController {
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".v_parcelle_surfc surf,");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".commune c where p.parcelle = ? and p.parcelle = surf.parcelle and p.ccoinsee = c.ccoinsee");
+			queryBuilder.append(".commune c where p.parcelle = ? and p.parcelle = surf.parcelle and p.cgocommune = c.cgocommune");
 
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -101,7 +101,6 @@ public class InfoBulleController extends CadController {
 				List<Map<String, Object>> proprietaires = null;
 				
 				// Create query
-				//TODO change this to use view proprietaire_parcelle
 				StringBuilder queryProprietaireBuilder = new StringBuilder();
 				queryProprietaireBuilder.append("select prop.ddenom from ");
 				queryProprietaireBuilder.append(databaseSchema);
@@ -131,7 +130,7 @@ public class InfoBulleController extends CadController {
 	@Produces("application/json")
 	/**
 	 * 
-	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available ccoinsee
+	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available cgocommune
 	 * 
 	 * @param parcelle id parcelle
 	 * @return Data from parcelle view to be display in popup in JSON format

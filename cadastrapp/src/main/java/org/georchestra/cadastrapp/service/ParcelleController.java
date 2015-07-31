@@ -30,21 +30,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Path("/getParcelle")
+
 public class ParcelleController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(ParcelleController.class);
 
 	@GET
+	@Path("/getParcelle")
 	@Produces("application/json")
 	/**
 	 * 
 	 * @param headers
 	 * @param parcelleList
 	 * @param details
-	 * @param ccodep
-	 * @param ccodir
-	 * @param ccocom
+	 * @param cgocommune
 	 * @param ccopre
 	 * @param ccosec
 	 * @param dnupla
@@ -60,8 +59,18 @@ public class ParcelleController extends CadController {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getParcelleList(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("details") int details, @QueryParam("ccoinsee") String ccoinsee, @QueryParam("ccodep") String ccodep, @QueryParam("ccodir") String ccodir, @QueryParam("ccocom") String ccocom, @QueryParam("ccopre") String ccopre,
-			@QueryParam("ccosec") String ccosec, @QueryParam("dnupla") String dnupla, @QueryParam("dnvoiri") String dnvoiri, @QueryParam("dlindic") String dindic, @QueryParam("cconvo") String cconvo, @QueryParam("dvoilib") String dvoilib, @QueryParam("comptecommunal") final List<String> comptecommunalList) throws SQLException {
+	public List<Map<String, Object>> getParcelleList(@Context HttpHeaders headers, 
+			@QueryParam("parcelle") final List<String> parcelleList, 
+			@DefaultValue("0") @QueryParam("details") int details, 
+			@QueryParam("cgocommune") String cgoCommune, 
+			@QueryParam("ccopre") String ccopre,
+			@QueryParam("ccosec") String ccosec, 
+			@QueryParam("dnupla") String dnupla, 
+			@QueryParam("dnvoiri") String dnvoiri, 
+			@QueryParam("dlindic") String dindic, 
+			@QueryParam("cconvo") String cconvo, 
+			@QueryParam("dvoilib") String dvoilib, 
+			@QueryParam("comptecommunal") final List<String> comptecommunalList) throws SQLException {
 
 		List<Map<String, Object>> parcellesResult = new ArrayList<Map<String, Object>>();;
 		
@@ -83,16 +92,7 @@ public class ParcelleController extends CadController {
 			StringBuilder queryBuilder = new StringBuilder();
 
 			queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
-			
-			if(details==1){
-				queryBuilder.append(createEqualsClauseRequest("ccodep", ccodep, queryParams));
-				queryBuilder.append(createEqualsClauseRequest("ccodir", ccodir, queryParams));
-				queryBuilder.append(createEqualsClauseRequest("ccocom", ccocom, queryParams));
-			}
-			else{
-				// TODO check to use ccoinsee every where in the application
-				queryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee, queryParams));
-			}			
+			queryBuilder.append(createEqualsClauseRequest("cgocommune", cgoCommune, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla, queryParams));
@@ -100,7 +100,6 @@ public class ParcelleController extends CadController {
 			queryBuilder.append(createEqualsClauseRequest("dindic", dindic, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("cconvo", cconvo, queryParams));
 			queryBuilder.append(createEqualsClauseRequest("dvoilib", dvoilib, queryParams));
-
 			queryBuilder.append(finalizeQuery());
 			
 			if(queryParams.size()>1){
@@ -200,6 +199,13 @@ public class ParcelleController extends CadController {
 	}
 
 
+	/**
+	 * 
+	 * @param comptecommunal
+	 * @param details
+	 * @param userCNILLevel
+	 * @return
+	 */
 	public List<Map<String, Object>> getParcellesByProprietaire(List<String> comptecommunal, int details, int userCNILLevel){
 		
 		List<Map<String, Object>> parcelles = null;
@@ -238,23 +244,19 @@ public class ParcelleController extends CadController {
 
 		StringBuilder selectQueryBuilder = new StringBuilder();
 		selectQueryBuilder.append("select ");
-
-		if (details == 0) {
-			selectQueryBuilder.append("parcelle, ccoinsee, dnvoiri, dindic, cconvo, dnupla, dvoilib, ccopre, ccosec, dcntpa");
-			selectQueryBuilder.append(" from ");
-			selectQueryBuilder.append(databaseSchema);
-			selectQueryBuilder.append(".parcelle");
-		} else {
-			selectQueryBuilder.append("parcelle, ccodep, ccodir, ccocom, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib, dcntpa");
-
+		selectQueryBuilder.append("parcelle, cgocommune, dnvoiri, dindic, cconvo, dnupla, dvoilib, ccopre, ccosec, dcntpa");
+		selectQueryBuilder.append(" from ");
+		
+		if (details == 1) {
 			// TODO make join to get information from proprietaire view
 			if (userCNILLevel > 1) {
 				selectQueryBuilder.append(", dnupro ");
 			}
-
-			selectQueryBuilder.append(" from ");
 			selectQueryBuilder.append(databaseSchema);
 			selectQueryBuilder.append(".parcelleDetails");
+		}else{
+			selectQueryBuilder.append(databaseSchema);
+			selectQueryBuilder.append(".parcelle");
 		}
 
 		return selectQueryBuilder.toString();
@@ -263,7 +265,10 @@ public class ParcelleController extends CadController {
 	@POST
 	@Path("/fromParcellesFile")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response getFromParcellesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") int details, @FormParam("ccoinsee") String city, @FormParam("filePath") String fileContent) throws Exception {
+	public Response getFromParcellesFile(@Context HttpHeaders headers, 
+			@DefaultValue("0") @FormParam("details") int details, 
+			@FormParam("cgocommune") String cgoCommune, 
+			@FormParam("filePath") String fileContent) throws Exception {
 
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 
@@ -287,7 +292,7 @@ public class ParcelleController extends CadController {
 	@POST
 	@Path("/fromProprietairesFile")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response getFromProprietairesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") int details, @FormParam("ccoinsee") String city, @FormParam("filePath") String fileContent) throws Exception {
+	public Response getFromProprietairesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") int details, @FormParam("cgocommune") String city, @FormParam("filePath") String fileContent) throws Exception {
 
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 
@@ -310,7 +315,9 @@ public class ParcelleController extends CadController {
 
 	@GET
 	@Path("/toFile")
-	public Response getProprietairesListToFile(@Context HttpHeaders headers, @FormParam("parcelle") String parcelle, @FormParam("data") String withData) {
+	public Response getProprietairesListToFile(@Context HttpHeaders headers, 
+			@FormParam("parcelle") String parcelle, 
+			@FormParam("data") String withData) {
 
 		// TODO : fichier de test
 		File file = new File("/home/gfi/test.pdf");
@@ -320,13 +327,13 @@ public class ParcelleController extends CadController {
 	}
 	
 	@GET
-    @Path("/dnupla")
+    @Path("/getDnuplaList")
     @Produces("application/json")
 	/**
 	 *  Return only dnupla list from a section of a commune
 	 *  
 	 * @param headers
-	 * @param ccoinsee -> cityId 6 char ccodep + ccodir + ccocom
+	 * @param cgocommune -> 6 char ccodep + ccodir + ccocom
 	 * @param ccopre prefix de section
 	 * @param ccosec code de section
 	 * @return list de dnupla 
@@ -334,7 +341,7 @@ public class ParcelleController extends CadController {
 	 * @throws SQLException
 	 */
 	public List<Map<String,Object>> getDnuplaList(@Context HttpHeaders headers, 
-				@QueryParam("ccoinsee") String ccoinsee,
+				@QueryParam("cgocommune") String cgoCommune,
 				@QueryParam("ccopre") String ccopre,
 				@QueryParam("ccosec") String ccosec) throws SQLException {
 	
@@ -345,7 +352,7 @@ public class ParcelleController extends CadController {
 		dnuplaQueryBuilder.append("select distinct dnupla from ");
 		dnuplaQueryBuilder.append(databaseSchema);
 		dnuplaQueryBuilder.append(".parcelle");
-		dnuplaQueryBuilder.append(createEqualsClauseRequest("ccoinsee", ccoinsee, queryParams));
+		dnuplaQueryBuilder.append(createEqualsClauseRequest("cgocommune", cgoCommune, queryParams));
 		dnuplaQueryBuilder.append(createEqualsClauseRequest("ccopre", ccopre, queryParams));
 		dnuplaQueryBuilder.append(createEqualsClauseRequest("ccosec", ccosec, queryParams));
 		dnuplaQueryBuilder.append("ORDER BY dnupla ASC");
