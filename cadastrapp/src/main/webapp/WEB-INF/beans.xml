@@ -18,6 +18,7 @@
 	
 	<jaxrs:server id="services" address="/">
 		<jaxrs:serviceBeans>
+			<bean class="org.georchestra.cadastrapp.service.BatimentController" />
 			<bean class="org.georchestra.cadastrapp.service.CommuneController" />
 			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
 			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />

@@ -15,11 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Path("/getFIC")
+
 public class FicheInfoCadastreController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(FicheInfoCadastreController.class);
 
+	@Path("/getFIC")
 	@GET
 	@Produces("application/json")
 	/**
@@ -100,13 +101,13 @@ public class FicheInfoCadastreController extends CadController {
 		logger.debug("infoOngletParcelle - parcelle : " + parcelle);
 		
 		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("select p.ccodep, p.ccodir, p.ccocom, c.libcom, p.ccopre, p.ccosec, p.dnupla, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib, p.dcntpa, p.surfc, p.gparbat, p.gurbpa");
+		queryBuilder.append("select p.cgocommune, c.libcom, p.ccopre, p.ccosec, p.dnupla, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib, p.dcntpa, p.surfc, p.gparbat, p.gurbpa");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelledetails p, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".commune c where p.parcelle = ? ");
-		queryBuilder.append(" and p.ccodep = c.ccodep and p.ccocom = c.ccocom ");
+		queryBuilder.append(" and p.cgocommune = c.cgocommune");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
@@ -195,7 +196,7 @@ public class FicheInfoCadastreController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 2
-		queryBuilder.append("select p.jdatat, p.ccocom, p.ccoprem, p.ccosecm, p.dnuplam, p.type_filiation from ");	
+		queryBuilder.append("select p.jdatat, p.ccocomm, p.ccoprem, p.ccosecm, p.dnuplam, p.type_filiation from ");	
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelledetails p where p.parcelle = ?");
 		
@@ -203,55 +204,4 @@ public class FicheInfoCadastreController extends CadController {
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
 	}
 	
-	/**
-	 * 
-	 * @param parcelle
-	 * @return
-	 */
-	@GET
-	@Path("/batiments")
-	@Produces("application/json")
-	public List<Map<String, Object>> infoOngletBatiment(@Context HttpHeaders headers, 
-			@QueryParam("parcelle") String parcelle,
-			@QueryParam("dnubat") String dnubat){
-		
-		List<Map<String, Object>> batiments = new ArrayList<Map<String, Object>>();
-		
-		if(parcelle != null && !parcelle.isEmpty()
-				&& dnubat != null && !dnubat.isEmpty())
-		{
-			logger.debug("infoOngletBatiment - parcelle : " + parcelle + " for dnubat : " + dnubat);
-			
-			List<String> queryParams = new ArrayList<String>();
-			queryParams.add(parcelle);
-			queryParams.add(dnubat);
-			
-			StringBuilder queryBuilder = new StringBuilder();
-			
-			// CNIL Niveau 2
-			queryBuilder.append("select hab.annee, pb.invar, pb.descr, pb.dniv, pb.dpor, hab.ccoaff_lib, ");
-			queryBuilder.append("prop.dnupro, prop.ddenom, prop.dnomlp, prop.dprnlp, prop.epxnee, prop.dnomcp, prop.dprncp ");
-			queryBuilder.append("from ");
-			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietebatie pb, ");
-			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire prop, ");
-			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle propar, ");
-			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".deschabitation hab ");
-			queryBuilder.append(" where propar.parcelle = ? ");
-			queryBuilder.append(" and propar.comptecommunal = pb.comptecommunal");
-			queryBuilder.append(" and pb.comptecommunal = prop.comptecommunal ");
-			queryBuilder.append(" and pb.dnubat = ? and hab.invar = pb.invar ;");
-			
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			batiments = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());	
-		}
-		else{
-			logger.info(" Missing input parameter ");
-		}
-		return batiments;
-	}
-
 }
