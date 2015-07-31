@@ -17,7 +17,7 @@ ALTER TABLE #schema_cadastrapp.v_parcelle_surfc OWNER TO #user_cadastrapp;
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS 
 	SELECT parcelle.parcelle, 
-		parcelle.ccoinsee, 
+		parcelle.cgocommune, 
 		parcelle.dnupla, 
 		parcelle.dnvoiri, 
 		parcelle.dindic, 
@@ -29,7 +29,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
  	 FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
  		'select 
 			parcelle,
-			ccodep||ccodir||ccocom as ccoinsee,
+			ccodep||ccodir||ccocom as cgocommune,
 			dnupla,
 			dnvoiri,
 			dindic,
@@ -41,7 +41,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
 		from parcelle'::text) 
 	parcelle(
 		parcelle character varying(19), 
-		ccoinsee character varying(6), 
+		cgocommune character varying(6), 
 		dnupla character varying(4),
 		dnvoiri character varying(4),
 		dindic character varying(1), 
@@ -60,7 +60,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 	SELECT 
 		parcelledetails.parcelle,
 		parcelledetails.lot,
-		parcelledetails.ccocom,
+		parcelledetails.cgocommune,
 		parcelledetails.dnupla,
 		parcelledetails.dcntpa,
 		parcelledetails.dsrpar,
@@ -90,8 +90,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 		parcelledetails.dnuplam,
 		parcelledetails.type_filiation,
 		parcelledetails.annee,
-		parcelledetails.ccodep,
-		parcelledetails.ccodir,
 		parcelledetails.ccopre,
 		parcelledetails.ccosec,
 		parcelledetails.comptecommunal,
@@ -102,7 +100,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
    		'select 
 			parcelle,
 			lot,
-			ccocom,
+			cgocommune,
 			dnupla,
 			dcntpa,
 			dsrpar,
@@ -132,8 +130,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 			dnuplam,
 			type_filiation,
 			annee,
-			ccodep,
-			ccodir,
 			ccopre,
 			ccosec,
 			comptecommunal,
@@ -143,7 +139,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 	parcelledetails(
 		parcelle character varying(19), 
 		lot character varying, 
-		ccocom character varying(3), 
+		cgocommune character varying(6), 
 		dnupla character varying(4),
 		dcntpa integer, 
 		dsrpar character varying(1), 
@@ -173,8 +169,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 		dnuplam character varying(4), 
 		type_filiation character varying(1), 
 		annee character varying(4), 
-		ccodep character varying(2), 
-		ccodir character varying(1), 
 		ccopre character varying(3),
 		ccosec character varying(2),
 		comptecommunal character varying(15), 

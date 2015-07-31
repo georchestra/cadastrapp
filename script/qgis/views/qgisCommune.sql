@@ -1,12 +1,8 @@
 -- Create commune Views based on Qgis Models
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.commune AS 
-	SELECT commune.ccoinsee, 
-			commune.commune, 
+	SELECT commune.cgocommune, 
 			commune.annee, 
-			commune.ccodep, 
-			commune.ccodir, 
-			commune.ccocom, 
 			commune.clerivili, 
 			commune.libcom, 
 			commune.libcom_maj, 
@@ -14,25 +10,17 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.commune AS
 			commune.typcom
 		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 			'select 
-				ccodep||ccodir||ccocom as ccoinsee,
-				commune,
-				annee,
-				ccodep,
-				ccodir,
-				ccocom,
-				clerivili,
-				rtrim(libcom),
-				rtrim(upper(libcom) )as libcom_maj,
-				rtrim(initcap(lower(libcom))) as libcom_min,
+				communeqgis.ccodep|| communeqgis.ccodir|| communeqgis.ccocom as cgocommune,
+				communeqgis.annee,
+				communeqgis.clerivili,
+				rtrim(communeqgis.libcom),
+				rtrim(upper(communeqgis.libcom) )as libcom_maj,
+				rtrim(initcap(lower(communeqgis.libcom))) as libcom_min,
 				typcom 
-			from commune where typcom is not null'::text) 
+			from commune communeqgis where typcom is not null'::text) 
 	commune(
-		ccoinsee character varying(6),
-		commune character varying(10), 
+		cgocommune character varying(6),
 		annee character varying(4), 
-		ccodep character varying(2), 
-		ccodir character varying(1), 
-		ccocom character varying(3), 
 		clerivili character varying(1), 
 		libcom character varying(30), 
 		libcom_maj character varying(30), 
