@@ -46,9 +46,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire as
 		proprietaire.dprncp,
 		proprietaire.dformjur,
 		proprietaire.dsiren,
-		proprietaire.ccodep,
-		proprietaire.ccodir ,
-		proprietaire.ccocom,
+		proprietaire.cgocommune,
 		proprietaire.comptecommunal 	
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
@@ -96,9 +94,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire as
 			dprncp,
 			dformjur,
 			''dsiren'' as dsiren,
-			substr(id_prop,1,2) as ccodep,
-			substr(id_prop,3,1) as ccodir ,
-			substr(id_prop,4,3) as ccocom,
+			substr(id_prop,1,6) as cgocommune,
 			id_prop as  comptecommunal 
 		from #DBSchema_arcopole.dgi_prop'::text) 
 	proprietaire(
@@ -146,9 +142,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire as
 		dprncp character varying(15), 
 		dformjur character varying(4), 
 		dsiren character varying(10),
-		ccodep character varying(2), 
-		ccodir character varying(1), 
-		ccocom character varying(3), 
+		cgocommune character varying(6), 
 		comptecommunal character varying(15))
 			LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
 			LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
