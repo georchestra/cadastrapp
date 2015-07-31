@@ -100,7 +100,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
    		'select 
 			parcelle,
 			lot,
-			cgocommune,
+			ccodep||ccodir||ccocom as cgocommune,
 			dnupla,
 			dcntpa,
 			dsrpar,
