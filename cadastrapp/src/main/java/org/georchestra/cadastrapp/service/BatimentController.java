@@ -20,14 +20,19 @@ public class BatimentController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(FicheInfoCadastreController.class);
 	
-	/**
-	 * 
-	 * @param parcelle
-	 * @return
-	 */
+	
 	@GET
 	@Path("/getBatiments")
 	@Produces("application/json")
+	/**
+	 *  Returns information about batiment dnubat on given parcell 
+	 *  
+	 * @param headers http headers used 
+	 * @param parcelle parcelle id
+	 * @param dnubat batiment number 
+	 * 
+	 * @return JSON list 
+	 */
 	public List<Map<String, Object>> infoOngletBatiment(@Context HttpHeaders headers, 
 			@QueryParam("parcelle") String parcelle,
 			@QueryParam("dnubat") String dnubat){

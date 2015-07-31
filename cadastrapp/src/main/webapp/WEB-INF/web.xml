@@ -11,11 +11,16 @@
                        org.springframework.web.context.ContextLoaderListener
        </listener-class>
     </listener>
+    
+    <!--  Adding javadoc to webapp -->
+    <servlet-mapping>
+	    <servlet-name>default</servlet-name>
+	    <url-pattern>/apidocs/*</url-pattern>
+	</servlet-mapping>
+   
     <servlet>
         <servlet-name>CXFServlet</servlet-name>
-        <servlet-class>
-                        org.apache.cxf.transport.servlet.CXFServlet
-                </servlet-class>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -29,4 +34,6 @@
 	    <res-type>javax.sql.Datasource</res-type>
 	    <res-auth>Container</res-auth>
 	</resource-ref>
+
+	
 </web-app>
