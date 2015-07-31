@@ -117,7 +117,7 @@ cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
 echo "--------------------------------";
 echo " Drop View and Tables except groupeAutorisation ";
 echo "--------------------------------";								  
-replaceAndLaunch ./commun/dropTablesAndViews.sql
+replaceAndLaunch ../commun/dropTablesAndViews.sql
 
 # Create tables
 echo "--------------------------------";
