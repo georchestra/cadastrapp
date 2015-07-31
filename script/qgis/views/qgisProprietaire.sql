@@ -103,7 +103,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.dprncp,
 			pqgis.dformjur,
 			pqgis.dsiren,
-			pqgis.ccodep || pqgis.ccodir || pqgis.ccocomm as cgocommune,
+			pqgis.ccodep || pqgis.ccodir || pqgis.ccocom as cgocommune,
 			pqgis.comptecommunal 
 		from proprietaire pqgis'::text) 
 	proprietaire(
