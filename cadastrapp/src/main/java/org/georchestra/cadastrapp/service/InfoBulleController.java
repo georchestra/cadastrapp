@@ -151,7 +151,7 @@ public class InfoBulleController extends CadController {
 			//TODO add batical
 			queryBuilder.append("select p.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".parcelle p, ");
+			queryBuilder.append(".parcelleDetails p, ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire_parcelle proparc where proparc.parcelle = ? and proparc.comptecommunal = p.comptecommunal GROUP BY p.comptecommunal;");
 						
