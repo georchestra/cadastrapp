@@ -68,7 +68,7 @@ public class CommuneController extends CadController{
      * 
      * @throws SQLException
      */
-    public List<Map<String,Object>> getCommunesListByLibcom(
+    public List<Map<String,Object>> getCommunesList(
     			@Context HttpHeaders headers,
     			@QueryParam("libcom") String libCom,
     			@QueryParam("cgocommune") String cgoCommune){
@@ -77,7 +77,8 @@ public class CommuneController extends CadController{
     	List<String> queryParams = new ArrayList<String>();
    	
     	// If one of the parameter is present only one clause
-    	 if((libCom == null || libCom.isEmpty()) && (cgoCommune == null || cgoCommune.isEmpty())){
+    	 if((libCom == null || libCom.isEmpty()) 
+    			 && (cgoCommune == null || cgoCommune.isEmpty())){
     		 logger.warn("No parameter in request");
     	 }
     	 else{
@@ -111,7 +112,6 @@ public class CommuneController extends CadController{
 	    		queryBuilder.append(createLikeClauseRequest("cgocommune", cgoCommune, queryParams));     
 	  		
 	    	}
-	    	queryBuilder.append(" and ccocom is not null "); 
 	    	queryBuilder.append(addAuthorizationFiltering(headers));
 	    	queryBuilder.append(finalizeQuery());
 	         
