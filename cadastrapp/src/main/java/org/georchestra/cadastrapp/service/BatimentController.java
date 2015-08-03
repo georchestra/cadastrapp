@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class BatimentController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(FicheInfoCadastreController.class);
+	final static Logger logger = LoggerFactory.getLogger(BatimentController.class);
 	
 	
 	@GET
