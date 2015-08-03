@@ -9,7 +9,7 @@ CREATE TABLE #schema_cadastrapp.groupe_autorisation
   cgocommune character varying(6), -- Code commune geographique officiel sur 6 caracteres (code departement + code direction (arrondissement) + code commune)
   ccodep character varying(3), -- Code département à mettre en relation avec le code commune
   CONSTRAINT groupe_autorisation_pk PRIMARY KEY (id ),
-  CONSTRAINT "groupe_autorisation_UK" UNIQUE (ccoinsee , ccodep , idgroup )
+  CONSTRAINT "groupe_autorisation_UK" UNIQUE (cgocommune , ccodep , idgroup )
 )
 WITH (
   OIDS=FALSE
