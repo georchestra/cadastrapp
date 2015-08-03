@@ -132,12 +132,10 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 		from parcelle'::text) 
 	parcelledetails(
 		parcelle character varying(19), 
-		lot character varying, 
 		cgocommune character varying(6), 
 		dnupla character varying(4),
 		dcntpa integer, 
 		dsrpar character varying(1), 
-		dnupro character varying(6), 
 		jdatat date,
 		dreflf character varying(5), 
 		gpdl character varying(1), 
@@ -164,8 +162,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 		type_filiation character varying(1), 
 		annee character varying(4), 
 		ccopre character varying(3),
-		ccosec character varying(2),
-		comptecommunal character varying(15), 
+		ccosec character varying(2), 
 		pdl character varying(22),
 		inspireid character varying(16))
 	left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelledetails.parcelle=p2.parcelle;
