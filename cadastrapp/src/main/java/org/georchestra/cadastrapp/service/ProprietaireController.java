@@ -124,5 +124,59 @@ public class ProprietaireController extends CadController{
               
         return proprietaires;
     }
+    
+    
+    @GET
+    @Path("/getProprietairesByParcelles")
+    @Produces("application/json")
+    /**
+     * This will return information about owners in JSON format
+     *
+     * 
+     * @param headers headers from request used to filter search using LDAP Roles
+     * @param parcelleList
+     * 					 
+     * 
+     * @return list of information about all proprietaire of given parcelles 
+     * 
+     * @throws SQLException
+     */
+    public List<Map<String,Object>> getProprietairesByParcelle(
+    			@Context HttpHeaders headers,
+    			@QueryParam("parcelles") List<String> parcelleList
+    			) throws SQLException {
+    	
+    	// Init list to return response even if nothing in it.
+    	List<Map<String,Object>> proprietaires = new ArrayList<Map<String,Object>>();;
+    	
+    	// User need to be at least CNIL1 level
+    	if (getUserCNILLevel(headers)>0){
+    	    
+    		if(parcelleList != null && !parcelleList.isEmpty()){
+	    		
+    			StringBuilder queryBuilder = new StringBuilder();
+    			queryBuilder.append("select parcelle, comptecommunal, dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib");   			    
+    			queryBuilder.append("from ");
+    			queryBuilder.append(databaseSchema);
+    			queryBuilder.append("proprietaire prop, ");
+    			queryBuilder.append(databaseSchema);
+    			queryBuilder.append("proprietaire_parcelle proparc ");
+    			queryBuilder.append("where proparc.parcelle IN (?) and pro.comptecommunal = proparc.comptcommunal");
+    			queryBuilder.append(addAuthorizationFiltering(headers));
+    			queryBuilder.append(finalizeQuery());
+	 	       
+		    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList.toArray());
+	    	}
+	    	else{
+			//log empty request
+			logger.info("Parcelle Id List is empty nothing to search");
+		}
+    	}else{
+    		logger.info("User does not have rights to see thoses informations");
+    	}
+              
+        return proprietaires;
+    }
 }
 
