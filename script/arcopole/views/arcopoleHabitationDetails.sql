@@ -4,8 +4,8 @@
 
 CREATE OR REPLACE VIEW  #schema_cadastrapp.descproffessionnel AS 
 	SELECT *
-		FROM dblink('host=GD-CMS-CRAI-001.fasgfi.fr dbname=cadastreArcopole user=cadastreapp password=c'::text, '
-			select 
+		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+			'select 
 				id_pev as pev,invar,
 				substr(codlot,1,4) as annee,dnudes,
 				vsurzt 
@@ -22,7 +22,7 @@ ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation AS 
 	SELECT *
-		FROM dblink('host=GD-CMS-CRAI-001.fasgfi.fr dbname=cadastreArcopole user=cadastreapp password=c'::text, 
+		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			pev.id_pev as pev,
 			substr(pev.codlot,1,4) as annee,pev.invar,
@@ -113,7 +113,7 @@ ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS 
 	select *
-		FROM dblink('host=GD-CMS-CRAI-001.fasgfi.fr dbname=cadastreArcopole user=cadastreapp password=c'::text, 
+		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			id_pev as pev,
 			invar,
