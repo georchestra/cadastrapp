@@ -245,14 +245,12 @@ public class ParcelleController extends CadController {
 		// directly search in view parcelle
 		if(comptecommunal != null && !comptecommunal.isEmpty()){
 			
-			//TODO change parcelle not details view to get comptecommunal in it but check userLevel first to see if possible
-			// Change details value to search by proprietaire
-			if (details == 0){
-				details = 1;			
-			}
-		
 			queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
-			queryBuilder.append(createWhereInQuery(comptecommunal.size(), "comptecommunal"));
+			queryBuilder.append(", ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".proprietaire_parcelle proparc ");
+			queryBuilder.append(createWhereInQuery(comptecommunal.size(), "proparc.comptecommunal"));
+			queryBuilder.append(" and proparc.parcelle = p.parcelle ");
 			queryBuilder.append(";");
 			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -280,19 +278,15 @@ public class ParcelleController extends CadController {
 
 		StringBuilder selectQueryBuilder = new StringBuilder();
 		selectQueryBuilder.append("select ");
-		selectQueryBuilder.append("parcelle, cgocommune, dnvoiri, dindic, cconvo, dnupla, dvoilib, ccopre, ccosec, dcntpa");
+		selectQueryBuilder.append("p.parcelle, p.cgocommune, p.dnvoiri, p.dindic, p.cconvo, p.dnupla, p.dvoilib, p.ccopre, p.ccosec, p.dcntpa");
 		selectQueryBuilder.append(" from ");
 		
 		if (details == 1) {
-			// TODO make join to get information from proprietaire view
-			if (userCNILLevel > 1) {
-				selectQueryBuilder.append(", dnupro ");
-			}
 			selectQueryBuilder.append(databaseSchema);
-			selectQueryBuilder.append(".parcelleDetails");
+			selectQueryBuilder.append(".parcelleDetails p");
 		}else{
 			selectQueryBuilder.append(databaseSchema);
-			selectQueryBuilder.append(".parcelle");
+			selectQueryBuilder.append(".parcelle p");
 		}
 
 		return selectQueryBuilder.toString();
