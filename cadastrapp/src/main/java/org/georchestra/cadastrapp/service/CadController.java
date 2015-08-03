@@ -150,7 +150,7 @@ public class CadController {
  	
 			// get commune list in database corresponding to this header
 			StringBuilder queryBuilder = new StringBuilder();
-			queryBuilder.append("select distinct ccoinsee, ccodep from ");
+			queryBuilder.append("select distinct cgocommune, ccodep from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".groupe_autorisation ");
 			queryBuilder.append(createWhereInQuery(roleList.length, "idgroup"));
