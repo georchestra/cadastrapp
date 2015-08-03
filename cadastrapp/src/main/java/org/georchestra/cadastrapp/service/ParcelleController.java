@@ -130,7 +130,16 @@ public class ParcelleController extends CadController {
 	/**
 	 * 
 	 * @param parcelleList
-	 * @return
+	 *            could be LIST if one or more element, if only one in the list,
+	 *            this element could contains list of parcelleids separated by
+	 *            space, comma, etc.. 
+	 *            exemple ( '2014630103000AP0026', '2014630103000AP0027'
+	 *            or '2014630103000AP0026 2014630103000AP0026' 
+	 *            or '2014630103000AP0026,2014630103000AP0026'
+	 *            or '2014630103000AP0026;2014630103000AP0026'
+	 *            or '2014630103000AP0026' )
+	 *            
+	 * @return List of parcelle id with only one parcelle by element
 	 */
 	private List<String> prepareParcelleList(List<String> parcelleList) {
 				
@@ -156,7 +165,7 @@ public class ParcelleController extends CadController {
 	/**
 	 * 
 	 * 
-	 * @param parcelle
+	 * @param parcelle Id Parcelle unique in all country exemple : 2014630103000AP0025
 	 * @param details int default value 0
 	 * 			0 for short details, 1 for full information
 	 * @param userCNILLevel
@@ -257,9 +266,15 @@ public class ParcelleController extends CadController {
 
 	/**
 	 * 
-	 * @param details
-	 * @param userCNILLevel
-	 * @return
+	 * @param  int default value 0
+	 * 			0 for short details, 1 for full information
+	 * 			if details = 0 , params 
+	 * 			parcelle, cgocommune, dnvoiri, dindic, cconvo, dnupla, dvoilib, ccopre, ccosec, dcntpa
+	 * 			will be displayed in JSON information
+	 * @param userCNILLevel 0, 1 or 2, information about proprietaire will be displayed only if CNIL level > 0
+	 * 
+	 * @return create the select String query with the list of parameter needed depending on user rights and details neeeded
+	 *  	This string will be used in jdbc statement for final query 
 	 */
 	private String createSelectParcelleQuery(int details, int userCNILLevel) {
 
