@@ -59,12 +59,10 @@ ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS 
 	SELECT 
 		parcelledetails.parcelle,
-		parcelledetails.lot,
 		parcelledetails.cgocommune,
 		parcelledetails.dnupla,
 		parcelledetails.dcntpa,
 		parcelledetails.dsrpar,
-		parcelledetails.dnupro,
 		parcelledetails.jdatat,
 		parcelledetails.dreflf,
 		parcelledetails.gpdl,
@@ -92,19 +90,16 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 		parcelledetails.annee,
 		parcelledetails.ccopre,
 		parcelledetails.ccosec,
-		parcelledetails.comptecommunal,
 		parcelledetails.pdl,
 		parcelledetails.inspireid ,
 		surfc
    	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
    		'select 
 			parcelle,
-			lot,
 			ccodep||ccodir||ccocom as cgocommune,
 			dnupla,
 			dcntpa,
 			dsrpar,
-			dnupro,
 			jdatat,
 			dreflf,
 			gpdl,
@@ -132,7 +127,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 			annee,
 			ccopre,
 			ccosec,
-			comptecommunal,
 			pdl,
 			inspireid 
 		from parcelle'::text) 

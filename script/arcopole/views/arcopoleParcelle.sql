@@ -56,13 +56,11 @@ ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 
 -- Create view for parcelle with details
 CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
-	SELECT parcelledetails.parcelle, 
-			parcelledetails.lot, 
+	SELECT parcelledetails.parcelle,  
 			parcelledetails.cgocommune, 
 			parcelledetails.dnupla, 
 			parcelledetails.dcntpa, 
 			parcelledetails.dsrpar, 
-			parcelledetails.dnupro, 
 			parcelledetails.jdatat, 
 			parcelledetails.dreflf, 
 			parcelledetails.gpdl, 
@@ -89,20 +87,17 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 			parcelledetails.type_filiation, 
 			parcelledetails.annee, 
 			parcelledetails.ccopre, 
-			parcelledetails.ccosec, 
-			parcelledetails.comptecommunal, 
+			parcelledetails.ccosec,  
 			parcelledetails.pdl, 
 			parcelledetails.inspireid, 
 			surfc
 		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select
 			codparc as parcelle,
-			codlot as lot,
 			codcomm as cgocommune,
 			dnupla,
 			dcntpa,
 			dsrpar,
-			dnupro,
 		    jdatat,
             dreflf,
             gpdl,
@@ -130,17 +125,14 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
             substr(codlot,1,4) as annee ,  
     		substr(codparc,7,3) as ccopre,
    			substr(codparc,10,2) ccosec ,
-            dnupro as comptecommunal,
             ''pdl'' as pdl, ''FR''||codparc as inspireId
 		from #DBSchema_arcopole.dgi_nbati'::text) 
 	parcelledetails(
-		parcelle character varying(19), 
-		lot character varying, 
+		parcelle character varying(19),  
 		cgocommune character varying(6),
 		dnupla character varying(4), 
 		dcntpa numeric(38,8), 
-		dsrpar character varying(1), 
-		dnupro character varying(12), 
+		dsrpar character varying(1),  
 		jdatat character varying(8),
 		dreflf character varying(5),
 		gpdl character varying(1), 
@@ -168,7 +160,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 		annee character varying(4), 
 		ccopre character varying(3), 
 		ccosec character varying(2), 
-		comptecommunal character varying(15), 
 		pdl character varying(22), 
 		inspireid character varying(17))
 	left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelledetails.parcelle=p2.parcelle;
