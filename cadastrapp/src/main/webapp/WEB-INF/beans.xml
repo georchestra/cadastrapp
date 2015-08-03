@@ -25,8 +25,8 @@
 			<bean class="org.georchestra.cadastrapp.service.CoProprietaireController" />
 			<bean class="org.georchestra.cadastrapp.service.SectionController" />
 			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
-			<bean class="org.georchestra.cadastrapp.service.FicheInfoCadastreController" />
-			<bean class="org.georchestra.cadastrapp.service.FicheInfoFonciereController" />
+			<bean class="org.georchestra.cadastrapp.service.UniteCadastraleController" />
+			<bean class="org.georchestra.cadastrapp.service.UniteFonciereController" />
 			<bean class="org.georchestra.cadastrapp.service.VoieController" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
