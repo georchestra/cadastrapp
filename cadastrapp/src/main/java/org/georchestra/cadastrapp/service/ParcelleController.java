@@ -40,23 +40,34 @@ public class ParcelleController extends CadController {
 	@Produces("application/json")
 	/**
 	 * 
-	 * @param headers
+	 * @param headers http headers, used to get ldap role information about the user group
 	 * @param parcelleList
-	 * @param details
-	 * @param cgocommune
-	 * @param ccopre
-	 * @param ccosec
-	 * @param dnupla
+	 *            could be LIST if one or more element, if only one in the list,
+	 *            this element could contains list of parcelleids separated by
+	 *            space, comma, etc.. 
+	 *            exemple ( '2014630103000AP0026', '2014630103000AP0027'
+	 *            or '2014630103000AP0026 2014630103000AP0026' 
+	 *            or '2014630103000AP0026,2014630103000AP0026'
+	 *            or '2014630103000AP0026;2014630103000AP0026'
+	 *            or '2014630103000AP0026' )
+	 * @param details int default value 0
+	 * 			0 for short details, 1 for full information
+	 * 			if details = 0 , params 
+	 * 			parcelle, cgocommune, dnvoiri, dindic, cconvo, dnupla, dvoilib, ccopre, ccosec, dcntpa
+	 * 			will be displayed in JSON information
+	 * @param cgocommune code geographique officil commune  like 630103 (codep + codir + cocom)
+     * 			cgocommune should be on 6 char
+	 * @param ccopre prefix de section
+	 * @param ccosec code de section
+	 * @param dnupla code de parcelle dans une section définit
 	 * @param dnvoiri
 	 * @param dindic
 	 * @param cconvo
 	 * @param dvoilib
-	 * @param dnomlp
-	 * @param dprnlp
-	 * @param dnomcp
-	 * @param dprncp
-	 * @param dnuproList
-	 * @return
+	 * @param comptecommunalList
+	 * 
+	 * @return List of parcelle information in JSON format
+	 * 
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getParcelleList(@Context HttpHeaders headers, 
@@ -129,23 +140,30 @@ public class ParcelleController extends CadController {
 		// '2014630103000AP0026 2014630103000AP0026'
 		// or 
 		// '2014630103000AP0026;2014630103000AP0026'
+		// or 
+		// '2014630103000AP0026,2014630103000AP0026'
 		if (parcelleList != null && !parcelleList.isEmpty()){
-			if(parcelleList.size() ==1) {
-				
-				newParcelleList = Arrays.asList(parcelleList.get(0).split("\\s|;"));
+			if(parcelleList.size() ==1) {	
+				newParcelleList = Arrays.asList(parcelleList.get(0).split("\\s|;|,"));
 			}
 			else{
 				newParcelleList = parcelleList;
-			}
-		 
+			}		 
 		}
-		return newParcelleList;
-				
+		return newParcelleList;				
 	}
 
 	/**
+	 * 
+	 * 
 	 * @param parcelle
+	 * @param details int default value 0
+	 * 			0 for short details, 1 for full information
+	 * @param userCNILLevel
+	 *            (0,1 or 2) ie CNIL_0, CNIL_1, CNIL_2
+	 * 
 	 * @return
+	 * 
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getParcelleById(String parcelle, int details, int userCNILLevel) throws SQLException {
@@ -172,9 +190,12 @@ public class ParcelleController extends CadController {
 	 * @param parcelleList
 	 *            could be LIST if one or more element, if only one in the list,
 	 *            this element could contains list of parcelleids separated by
-	 *            space exemple ( '2014630103000AP0026', '2014630103000AP0027'
-	 *            or '2014630103000AP0026 2014630103000AP0026' or
-	 *            '2014630103000AP0026'
+	 *            space, comma, etc.. 
+	 *            exemple ( '2014630103000AP0026', '2014630103000AP0027'
+	 *            or '2014630103000AP0026 2014630103000AP0026' 
+	 *            or '2014630103000AP0026,2014630103000AP0026'
+	 *            or '2014630103000AP0026;2014630103000AP0026'
+	 *            or '2014630103000AP0026' )
 	 * @param details
 	 *            0 for short details, 1 for full information
 	 * @param userCNILLevel
@@ -332,8 +353,9 @@ public class ParcelleController extends CadController {
 	/**
 	 *  Return only dnupla list from a section of a commune
 	 *  
-	 * @param headers
-	 * @param cgocommune -> 6 char ccodep + ccodir + ccocom
+	 * @param headers http headers, used to get ldap role information about the user group
+	 * @param cgocommune code geographique officil commune  like 630103 (codep + codir + cocom)
+     * 					cgocommune should be on 6 char
 	 * @param ccopre prefix de section
 	 * @param ccosec code de section
 	 * @return list de dnupla 

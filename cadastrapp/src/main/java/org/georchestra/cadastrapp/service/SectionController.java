@@ -31,7 +31,7 @@ public class SectionController extends CadController {
 	 *  results will be filtered with user group geographical limitation
 	 *  
 	 * @param headers headers from request used to filter search using LDAP Roles
-	 * @param cgocommune code commune like 630103 (codep + codir + cocom)
+	 * @param cgocommune code geographique officil commune  like 630103 (codep + codir + cocom)
      * 					cgocommune should be on 6 char, if only 5 we deduce that codir is not present and we replace it in the request
 	 * @param ccopre partial code pre section exemple A for AP or AC, could be the full code pre
 	 * @param ccosec partial code section for exemple 2 or 25

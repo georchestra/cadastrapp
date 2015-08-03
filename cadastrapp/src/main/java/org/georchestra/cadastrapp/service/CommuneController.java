@@ -28,7 +28,7 @@ public class CommuneController extends CadController{
     /**
      *  /getCommune/all
      *  
-     * @param headers needed to get role information about the user
+     * @param headers http headers, used to get ldap role information about the user group
      * 
      * @return all communes from database depending on group geographical autorization
      */
@@ -59,7 +59,7 @@ public class CommuneController extends CadController{
      *  
      * @param libcom, should be the n first characters of a libcom
      * 			n first characters are defined with the minNbCharForSearch from cadastrapp.properties
-     * @param cgocommune, from one to six characters
+     * @param cgocommune, from n to six characters
      * 			cgocommune for Code Geographique Officile Commune
      * 			cgocommune = code departement + code arrondissement + code commune
      * 
