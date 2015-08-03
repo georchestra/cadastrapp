@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
-public class FicheInfoCadastreController extends CadController {
+public class UniteCadastraleController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(FicheInfoCadastreController.class);
+	final static Logger logger = LoggerFactory.getLogger(UniteCadastraleController.class);
 
 	@Path("/getFIC")
 	@GET
@@ -29,7 +29,7 @@ public class FicheInfoCadastreController extends CadController {
 	 *  Return all information need to fill cadastre information panel
 	 *  
 	 * @param headers used to verify user group to check CNIL level and geographic limitation
-	 * @param parcelle / Id Parcelle exemple : 2014630103000AP0025
+	 * @param parcelle Id Parcelle unique in all country exemple : 2014630103000AP0025
 	 * @param part (for 0 to 5)
 	 * 			 0 -> Parcelle Information
 	 * 			1 -> Proprietaire information
