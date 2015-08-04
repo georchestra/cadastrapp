@@ -125,7 +125,7 @@ public class InfoBulleController extends CadController {
 		return informations;
 	}
 
-	@Path("/getInfobulleUniteFonciere")
+	@Path("/getInfoUniteFonciere")
 	@GET
 	@Produces("application/json")
 	/**
@@ -149,11 +149,11 @@ public class InfoBulleController extends CadController {
 			StringBuilder queryBuilder = new StringBuilder();
 		
 			//TODO add batical
-			queryBuilder.append("select p.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
+			queryBuilder.append("select proparc.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelleDetails p, ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle proparc where proparc.parcelle = ? and proparc.comptecommunal = p.comptecommunal GROUP BY p.comptecommunal;");
+			queryBuilder.append(".proprietaire_parcelle proparc where proparc.parcelle = ? and proparc.parcelle = p.parcelle GROUP BY proparc.comptecommunal;");
 						
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
