@@ -135,6 +135,6 @@ replaceAndLaunch ./views/qgisSection.sql
 replaceAndLaunch ./views/qgisHabitationDetails.sql
 
 # Create users correlation tables
-replaceAndLaunch ../commun/user/groupeAutorisation.sql
+replaceAndLaunch ../commun/user/groupe_autorisation.sql
 
 

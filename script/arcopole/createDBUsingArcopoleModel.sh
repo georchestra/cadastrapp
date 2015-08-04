@@ -146,4 +146,4 @@ replaceAndLaunch ./views/arcopoleHabitationDetails.sql
 echo "--------------------------------";
 echo " Create additional tables";
 echo "--------------------------------";
-replaceAndLaunch ../commun/user/groupeAutorisation.sql
+replaceAndLaunch ../commun/user/groupe_autorisation.sql
