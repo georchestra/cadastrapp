@@ -12,4 +12,8 @@ ALTER TABLE ONLY #schema_cadastrapp.prop_ccodem
     ADD CONSTRAINT ccodem_pkey PRIMARY KEY (ccodem);
 
 
-
+INSERT INTO #schema_cadastrapp.prop_ccodem VALUES ('C', 'Un des copropriétaires');
+INSERT INTO #schema_cadastrapp.prop_ccodem VALUES ('I', 'Indivision simple');
+INSERT INTO #schema_cadastrapp.prop_ccodem VALUES ('L', 'Propriété en litige');
+INSERT INTO #schema_cadastrapp.prop_ccodem VALUES ('S', 'Succession de');
+INSERT INTO #schema_cadastrapp.prop_ccodem VALUES ('V', 'La veuve ou les héritiers de');

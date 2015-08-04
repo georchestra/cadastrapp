@@ -11,3 +11,8 @@ ALTER TABLE #schema_cadastrapp.prop_ccoqua OWNER TO #user_cadastrapp;
 ALTER TABLE ONLY #schema_cadastrapp.prop_ccoqua
     ADD CONSTRAINT ccoqua_pkey PRIMARY KEY (ccoqua);
 
+
+
+INSERT INTO #schema_cadastrapp.prop_ccoqua VALUES ('1', 'M');
+INSERT INTO #schema_cadastrapp.prop_ccoqua VALUES ('2', 'MME');
+INSERT INTO #schema_cadastrapp.prop_ccoqua VALUES ('3', 'MLE');
