@@ -40,42 +40,23 @@ public class CoProprietaireController extends CadController{
     			@QueryParam("parcelle") String parcelle
     			) throws SQLException {
     	
-    	List<String> lots = null;
-    	List<Map<String,Object>> lotsInformation = new ArrayList<Map<String,Object>>();
-    	
-    	StringBuilder queryBuilder = new StringBuilder();
-    	queryBuilder.append("select distinct dnulot from ");
-    	queryBuilder.append(databaseSchema);
-    	queryBuilder.append(".proprietaire_parcelle where parcelle = ? and dnulot != '0'");
-  
-	    JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-	    lots = jdbcTemplate.queryForList(queryBuilder.toString(), String.class, parcelle);
-  	    
-	    int currentIndex = 0;
-	    // for each lot
-	    for(String lot : lots){
-	    	
-	    	List<Map<String,Object>> coProprietaires = null;
-	    	Map<String,Object> lotMap = new HashMap<String,Object>();
-		    lotMap.put("dnulot", lot);
+    	List<Map<String,Object>> coProprietaires = new ArrayList<Map<String,Object>>();
 		    
-	    	// only for CNIL1 and CNIL2
-		    if (getUserCNILLevel(headers)>0){
-		    	StringBuilder queryProprietaireBuilder = new StringBuilder();
-		    	queryProprietaireBuilder.append("select ddenom, dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from ");
-		    	queryProprietaireBuilder.append(databaseSchema);
-		    	queryProprietaireBuilder.append(".proprietaire prop, ");
-		    	queryProprietaireBuilder.append(databaseSchema);
-		    	queryProprietaireBuilder.append(".proprietaire_parcelle propar ");
-		    	queryProprietaireBuilder.append("where propar.dnulot = ? ;");
-		    	
-		    	coProprietaires = jdbcTemplate.queryForList(queryProprietaireBuilder.toString(), lot);
-			    lotMap.put("proprietaires", coProprietaires);
-	    	}
-		    lotsInformation.add(currentIndex, lotMap);
-	    }    
-              
-        return lotsInformation;
+    	// only for CNIL1 and CNIL2
+    	if (getUserCNILLevel(headers)>0 && parcelle != null && parcelle.length()>0){
+    		
+    		StringBuilder queryProprietaireBuilder = new StringBuilder();
+    		queryProprietaireBuilder.append("select ddenom, dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib from ");
+    		queryProprietaireBuilder.append(databaseSchema);
+    		queryProprietaireBuilder.append(".proprietaire prop, ");
+    		queryProprietaireBuilder.append(databaseSchema);
+    		queryProprietaireBuilder.append(".proprietaire_parcelle propar ");
+    		queryProprietaireBuilder.append("where proprietaire_parcelle = ? and prop.comptecommunal = proparc.comptecommunal;");
+    		
+    		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+    		coProprietaires = jdbcTemplate.queryForList(queryProprietaireBuilder.toString(), parcelle);
+    	}        
+        return coProprietaires;
     }
 }
 
