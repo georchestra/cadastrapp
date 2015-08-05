@@ -28,5 +28,10 @@ public class PreRequestFilter implements ContainerRequestFilter {
 		MDC.put("uri", requestContext.getUriInfo().getPath());	
 		
 		logger.info("Incomming request");
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("Parameter list : " + requestContext.getUriInfo().getQueryParameters());
+		}
+		
 	}
 }
