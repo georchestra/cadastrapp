@@ -296,8 +296,6 @@ public class ParcelleController extends CadController {
 	@Path("/fromParcellesFile")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response getFromParcellesFile(@Context HttpHeaders headers, 
-			@DefaultValue("0") @FormParam("details") int details, 
-			@FormParam("cgocommune") String cgoCommune, 
 			@FormParam("filePath") String fileContent) throws Exception {
 
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
@@ -310,10 +308,9 @@ public class ParcelleController extends CadController {
 			}
 		}
 
-		List<Map<String, Object>> parcellesResult = getParcellesById(parcelleList, details, getUserCNILLevel(headers));
+		List<Map<String, Object>> parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel(headers));
 
-		// les forms ExtJs attendent du JSON sous format TEXT/HTML... (avec
-		// success=true)
+		// les forms ExtJs attendent du JSON sous format TEXT/HTML... (avec success=true)
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String json = ow.writeValueAsString(new ExtFormResult(true, parcellesResult));
 		return Response.ok(json, MediaType.TEXT_HTML).build();
