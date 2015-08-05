@@ -51,7 +51,7 @@ public class CoProprietaireController extends CadController{
     		queryProprietaireBuilder.append(".proprietaire prop, ");
     		queryProprietaireBuilder.append(databaseSchema);
     		queryProprietaireBuilder.append(".proprietaire_parcelle propar ");
-    		queryProprietaireBuilder.append("where proprietaire_parcelle = ? and prop.comptecommunal = proparc.comptecommunal;");
+    		queryProprietaireBuilder.append("where propar.parcelle = ? and prop.comptecommunal = proparc.comptecommunal;");
     		
     		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
     		coProprietaires = jdbcTemplate.queryForList(queryProprietaireBuilder.toString(), parcelle);
