@@ -43,7 +43,7 @@ public class VoieController extends CadController {
 			@QueryParam("cgocommune") String cgoCommune,
 			@QueryParam("dvoilib") String dvoilib) throws SQLException {
 
-		List<Map<String, Object>> voies = null;
+		List<Map<String, Object>> voies = new ArrayList<Map<String, Object>>();
 	   	List<String> queryParams = new ArrayList<String>();
 		
 		// 

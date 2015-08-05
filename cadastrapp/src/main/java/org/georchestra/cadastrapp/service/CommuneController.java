@@ -73,7 +73,7 @@ public class CommuneController extends CadController{
     			@QueryParam("libcom") String libCom,
     			@QueryParam("cgocommune") String cgoCommune){
     	
-    	List<Map<String,Object>> communes = null;
+    	List<Map<String,Object>> communes = new ArrayList<Map<String, Object>>();
     	List<String> queryParams = new ArrayList<String>();
    	
     	// If one of the parameter is present only one clause

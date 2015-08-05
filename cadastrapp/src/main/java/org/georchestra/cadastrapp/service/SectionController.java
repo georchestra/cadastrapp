@@ -46,7 +46,7 @@ public class SectionController extends CadController {
 			@QueryParam("ccopre") String ccopre,
 			@QueryParam("ccosec") String ccosec) throws SQLException {
 
-		List<Map<String, Object>> sections = null;
+		List<Map<String, Object>> sections = new ArrayList<Map<String, Object>>();
 	   	List<String> queryParams = new ArrayList<String>();
 		
 		// Create query
