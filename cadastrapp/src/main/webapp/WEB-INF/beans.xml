@@ -31,15 +31,11 @@
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
-			<!--  double check if sec-roles exist not needed if only acces by security proxy -->
-			<!--  <ref bean="authorizationFilter" />  -->
+			<!--  Use to add context in logg and can be use for autorization filtering -->
+			<bean class="org.georchestra.cadastrapp.providers.PreRequestFilter" />
+			<bean class="org.georchestra.cadastrapp.providers.PreReponseFilter" />
 		</jaxrs:providers>
 	</jaxrs:server>
-
-	<bean id="authorizationFilter"
-		class="org.georchestra.cadastrapp.authorization.AuthorizationRequestFilter">
-		<!-- authorization bean properties -->
-	</bean>
 
 	<bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/cadastrapp" />
