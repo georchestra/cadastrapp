@@ -46,8 +46,7 @@ public class VoieController extends CadController {
 		List<Map<String, Object>> voies = new ArrayList<Map<String, Object>>();
 	   	List<String> queryParams = new ArrayList<String>();
 		
-		// 
-		if (cgoCommune != null && cgoCommuneLength!=cgoCommune.length() && 
+		if (cgoCommune != null && cgoCommuneLength!=cgoCommune.length()-1 && 
 				dvoilib != null && minNbCharForSearch <= dvoilib.length()){
 						
 			// Create request
