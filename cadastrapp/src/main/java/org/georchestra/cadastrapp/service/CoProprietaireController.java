@@ -2,7 +2,6 @@ package org.georchestra.cadastrapp.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +49,8 @@ public class CoProprietaireController extends CadController{
     		queryProprietaireBuilder.append(databaseSchema);
     		queryProprietaireBuilder.append(".proprietaire prop, ");
     		queryProprietaireBuilder.append(databaseSchema);
-    		queryProprietaireBuilder.append(".proprietaire_parcelle propar ");
-    		queryProprietaireBuilder.append("where propar.parcelle = ? and prop.comptecommunal = proparc.comptecommunal;");
+    		queryProprietaireBuilder.append(".proprietaire_parcelle proparc ");
+    		queryProprietaireBuilder.append("where proparc.parcelle = ? and prop.comptecommunal = proparc.comptecommunal;");
     		
     		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
     		coProprietaires = jdbcTemplate.queryForList(queryProprietaireBuilder.toString(), parcelle);
