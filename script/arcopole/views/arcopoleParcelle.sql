@@ -34,7 +34,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
 			dnvoirie as dnvoiri,
 			dindic,
 			cconvo,
-			dvoilib,
+			rtrim(dvoilib) as dvoilib,
 			substr(codparc,7,3) as ccopre,
 			substr(codparc,10,2) ccosec ,
 			dcntpa
@@ -116,7 +116,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
             ccoriv,
             ccocif,
             cconvo,
-            dvoilib,
+            rtrim(dvoilib) as dvoilib,
             ccocom as ccocomm,
             ccoprem,
             ccosecm,
