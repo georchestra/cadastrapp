@@ -40,7 +40,8 @@ public class BatimentController extends CadController {
 		List<Map<String, Object>> batiments = new ArrayList<Map<String, Object>>();
 		
 		if(parcelle != null && !parcelle.isEmpty()
-				&& dnubat != null && !dnubat.isEmpty())
+				&& dnubat != null && !dnubat.isEmpty()
+				&& getUserCNILLevel(headers) > 1) 
 		{
 			logger.debug("infoOngletBatiment - parcelle : " + parcelle + " for dnubat : " + dnubat);
 			
