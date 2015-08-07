@@ -64,7 +64,8 @@ public class ParcelleController extends CadController {
 	 * @param dindic
 	 * @param cconvo
 	 * @param dvoilib
-	 * @param comptecommunalList
+	 * @param comptecommunal
+	 * @param unitefonciere
 	 * 
 	 * @return List of parcelle information in JSON format
 	 * 
@@ -81,7 +82,8 @@ public class ParcelleController extends CadController {
 			@QueryParam("dlindic") String dindic, 
 			@QueryParam("cconvo") String cconvo, 
 			@QueryParam("dvoilib") String dvoilib, 
-			@QueryParam("comptecommunal") final List<String> comptecommunalList) throws SQLException {
+			@QueryParam("comptecommunal") final List<String> comptecommunalList,
+			@QueryParam("unitefonciere") int uf) throws SQLException {
 
 		List<Map<String, Object>> parcellesResult = new ArrayList<Map<String, Object>>();;
 		
@@ -95,6 +97,11 @@ public class ParcelleController extends CadController {
 		} else if (comptecommunalList != null && !comptecommunalList.isEmpty()){
 
 			parcellesResult = getParcellesByProprietaire(comptecommunalList, details, getUserCNILLevel(headers));
+
+			// Search by unitefonciere
+		} else if (uf != 0 ){
+
+			parcellesResult = getParcellesByUniteFonciere(uf, details, getUserCNILLevel(headers));
 
 			// Search by attributes
 		} else {
@@ -125,6 +132,39 @@ public class ParcelleController extends CadController {
 		}
 
 		return parcellesResult;
+	}
+
+	/**
+	 * 
+	 * @param uf
+	 * @param details
+	 * @param userCNILLevel
+	 * @return
+	 */
+	private List<Map<String, Object>> getParcellesByUniteFonciere(int uf, int details, int userCNILLevel) {
+		
+		List<Map<String, Object>> parcelles = null;
+		StringBuilder queryBuilder = new StringBuilder();
+		
+		// if search by dnuproList or comptecommunal
+		// directly search in view parcelle
+		if(uf != 0){
+			
+			// force details 1 to get surfc
+			queryBuilder.append(createSelectParcelleQuery(1, userCNILLevel));
+			queryBuilder.append(", ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".uf_parcelle uf where uf.uf = ? ");
+			queryBuilder.append(" and uf.parcelle = p.parcelle ");
+			queryBuilder.append(";");
+			
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), uf);
+		}
+		else{
+			logger.info("Missing or empty input parameter");
+		}
+		return parcelles;
 	}
 
 	/**
@@ -279,12 +319,14 @@ public class ParcelleController extends CadController {
 		StringBuilder selectQueryBuilder = new StringBuilder();
 		selectQueryBuilder.append("select ");
 		selectQueryBuilder.append("p.parcelle, p.cgocommune, p.dnvoiri, p.dindic, p.cconvo, p.dnupla, p.dvoilib, p.ccopre, p.ccosec, p.dcntpa");
-		selectQueryBuilder.append(" from ");
 		
 		if (details == 1) {
+			selectQueryBuilder.append(" ,p.surfc");
+			selectQueryBuilder.append(" from ");
 			selectQueryBuilder.append(databaseSchema);
 			selectQueryBuilder.append(".parcelleDetails p");
 		}else{
+			selectQueryBuilder.append(" from ");
 			selectQueryBuilder.append(databaseSchema);
 			selectQueryBuilder.append(".parcelle p");
 		}
