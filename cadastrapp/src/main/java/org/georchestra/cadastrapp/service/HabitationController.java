@@ -40,13 +40,15 @@ public class HabitationController extends CadController {
 		
 		Map<String, Object> habitationDesc = new HashMap<String, Object>();
 		
+		List<String> queryParams = new ArrayList<String>();
+		queryParams.add(annee);
+		queryParams.add(invar);
+		
 		if(annee != null && annee != null && getUserCNILLevel(headers) > 1) 
-		{	
-			logger.debug("HabitationDetails - annee : " + annee + " for invar : " + invar);
-			
-			habitationDesc.put("article40", getArticle40Details(annee, invar));
-			habitationDesc.put("article50", getArticle50Details(annee, invar));
-			habitationDesc.put("article60", getArticle60Details(annee, invar));	
+		{		
+			habitationDesc.put("article40", getArticle40Details(queryParams));
+			habitationDesc.put("article50", getArticle50Details(queryParams));
+			habitationDesc.put("article60", getArticle60Details(queryParams));	
 		}
 		else{
 			logger.info(" Missing input parameter ");
@@ -56,19 +58,13 @@ public class HabitationController extends CadController {
 	
 	/**
 	 * 
-	 * @param annee
-	 * @param invar
+	 * @param queryParams
 	 * @return
 	 */
-	private Map<String, Object> getArticle40Details(String annee, String invar){
-		
-		List<String> queryParams = new ArrayList<String>();
-		queryParams.add(annee);
-		queryParams.add(invar);
-		
+	private List<Map<String, Object>> getArticle40Details(List<String> queryParams){
+			
 		StringBuilder queryBuilder = new StringBuilder();
-		
-		// CNIL Niveau 2
+	
 		queryBuilder.append("select hab.dnupev_lib, hab.dnudes, hab.detent, hab.dsupdc, hab.dnbniv, hab.dnbpdc, ");
 		queryBuilder.append("hab.dnbppr, hab.dnbsam, hab.dnbcha, hab.dnbcu8, hab.dnbcu9, hab.dnbsea, hab.dnbann, hab.dnbbai, hab.dnbdou, hab.dnblav, ");
 		queryBuilder.append("hab.dnbwc, hab.geaulc, hab.gelelc, hab.ggazlc, hab.gchclc, hab.gteglc, hab.gesclc, hab.gasclc, hab.gvorlc ");
@@ -78,20 +74,15 @@ public class HabitationController extends CadController {
 		queryBuilder.append(" where hab.annee = ? and hab.invar = ? ;");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForMap(queryBuilder.toString(), queryParams.toArray());
+		return jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
 	}
 	
 	/**
 	 * 
-	 * @param annee
-	 * @param invar
+	 * @param queryParams
 	 * @return
 	 */
-	private List<Map<String, Object>> getArticle50Details(String annee, String invar){
-		
-		List<String> queryParams = new ArrayList<String>();
-		queryParams.add(annee);
-		queryParams.add(invar);
+	private List<Map<String, Object>> getArticle50Details(List<String> queryParams){
 		
 		StringBuilder queryBuilder = new StringBuilder();
 		
@@ -109,16 +100,11 @@ public class HabitationController extends CadController {
 	
 	/**
 	 * 
-	 * @param annee
-	 * @param invar
+	 * @param queryParams
 	 * @return
 	 */
-	private List<Map<String, Object>> getArticle60Details(String annee, String invar){
-		
-		List<String> queryParams = new ArrayList<String>();
-		queryParams.add(annee);
-		queryParams.add(invar);
-		
+	private List<Map<String, Object>> getArticle60Details(List<String> queryParams){
+
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 2
