@@ -18,3 +18,4 @@ CREATE TABLE #schema_cadastrapp.uf_parcelle AS
 		comptecommunal character varying(12)
 );
 
+ALTER TABLE #schema_cadastrapp.uf_parcelle OWNER TO #user_cadastrapp;

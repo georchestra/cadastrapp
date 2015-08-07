@@ -13,8 +13,9 @@ CREATE TABLE #schema_cadastrapp.uf_parcelle AS
 			join geo_unite_fonciere AS z ON  ST_Contains(z.geom, p.geom) 
 			order by z.id,z.comptecommunal'::text) 
 	uf_parcelle(
-		parcelle character varying(15), 
+		parcelle character varying(19), 
 		uf integer, 
-		comptecommunal character varying(12)
+		comptecommunal character varying(15)
 );
 
+ALTER TABLE #schema_cadastrapp.uf_parcelle OWNER TO #user_cadastrapp;
