@@ -118,6 +118,9 @@ replaceAndLaunch ../commun/dropTablesAndViews.sql
 echo "--------------------------------";
 echo " Create tables ";
 echo "--------------------------------";
+
+replaceAndLaunch ./tables/uf_parcelle.sql
+
 replaceAndLaunch ../commun/tables/prop_ccodem.sql
 replaceAndLaunch ../commun/tables/prop_ccodro.sql
 replaceAndLaunch ../commun/tables/prop_ccoqua.sql
