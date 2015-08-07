@@ -59,7 +59,7 @@ public class ProprietaireController extends CadController{
     			@QueryParam("dnomlp") String dnomlp,
     			@QueryParam("cgocommune") String cgocommune,
     			@QueryParam("dnupro") String dnupro,
-    			@QueryParam("compteCommunal") String compteCommunal,
+    			@QueryParam("comptecommunal") String compteCommunal,
     			@DefaultValue("0") @QueryParam("details") int details
     			) throws SQLException {
     	
@@ -83,13 +83,13 @@ public class ProprietaireController extends CadController{
 	    		logger.info("details : " + details);
 	    		
 	    		if(details == 2){
-	    			queryBuilder.append("select distinct comptecommunal ");   		    	   			    
+	    			queryBuilder.append("select distinct comptecommunal, ddenom ");   		    	   			    
 	    		}
 	    		else if(details == 1){
-	    			queryBuilder.append("select RTRIM(dnomlp) as dnomlp, RTRIM(dprnlp) as dprnlp, epxnee, dnomcp, RTRIM(dprncp) as dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal ");   			    
+	    			queryBuilder.append("select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal ");   			    
 	    		}
 	    		else{
-	    			queryBuilder.append("select distinct RTRIM(dnomlp) as dnomlp, RTRIM(dprnlp) as dprnlp ");				    		    		
+	    			queryBuilder.append("select distinct dnomlp, dprnlp");				    		    		
 	    		}
 		        queryBuilder.append(" from ");
 		        queryBuilder.append(databaseSchema);
@@ -116,7 +116,7 @@ public class ProprietaireController extends CadController{
 	    	}
 	    	else{
 			//log empty request
-			logger.info("Missing cgocommun and dnupro or less than 3 characters for dnomlp in request");
+			logger.info("Missing cgocommune and dnupro or less than 3 characters for dnomlp in request");
 		}
     	}else{
     		logger.info("User does not have rights to see thoses informations");
