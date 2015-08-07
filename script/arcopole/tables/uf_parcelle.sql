@@ -6,7 +6,7 @@ CREATE TABLE #schema_cadastrapp.uf_parcelle AS
 		uf_parcelle.comptecommunal
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
   		'select 
-  			p.id_parc as parcelle,
+  			distinct p.id_parc as parcelle,
   			z.id_uf as uf,
   			z.dnupro as comptecommunal
 		from #DBSchema_arcopole.edi_parc AS p
