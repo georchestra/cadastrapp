@@ -9,8 +9,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.section AS
    		'select 
 	   		codcomm as cgocommune,
 	   		substr(id_sect,10,2) as ccosec ,
-	   		substr(id_sect,7,3) as ccopre,
-	   		id_sect as geo_section 
+	   		substr(id_sect,7,3) as ccopre
 		from #DBSchema_arcopole.edi_sectio '::text) 
 	section(
 		cgocommune character varying(6), 
