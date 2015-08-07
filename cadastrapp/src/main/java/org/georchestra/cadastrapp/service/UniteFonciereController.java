@@ -27,11 +27,11 @@ public class UniteFonciereController extends CadController {
 	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available cgocommune
 	 * 
 	 * @param parcelle id parcelle
-	 * @return Data from parcelle view to be display in popup in JSON format
+	 * @return Data from unite foncier and parcelle view to be display, retunr in JSON format
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> getInfoBulleUniteFonciere(
+	public Map<String, Object> getInfoUniteFonciere(
 			@Context HttpHeaders headers,
 			@QueryParam("parcelle") String parcelle) throws SQLException {
  
@@ -41,16 +41,18 @@ public class UniteFonciereController extends CadController {
 		
 			// Create query
 			StringBuilder queryBuilder = new StringBuilder();
-		
-			//TODO add batical
-			queryBuilder.append("select proparc.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
+			
+			queryBuilder.append("select uf.uf, uf.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelleDetails p, ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle proparc where proparc.parcelle = ? and proparc.parcelle = p.parcelle GROUP BY proparc.comptecommunal;");
-						
+			queryBuilder.append(".uf_parcelle uf where uf.uf IN (select uf2.uf from ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".uf_parcelle uf2 where uf2.parcelle= ? ) ");
+			queryBuilder.append(" and uf.parcelle = p.parcelle GROUP BY uf.id;");
+
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
+			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);		
 		}
 		else{
 			logger.warn("missing mandatory parameters");
