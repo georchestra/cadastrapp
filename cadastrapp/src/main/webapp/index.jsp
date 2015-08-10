@@ -9,7 +9,7 @@
         <title>Cadastrapp - services</title>
     </head>
     <body>
-        <h2>Casdastrapp</h2>
+        <h2>Cadastrapp</h2>
         </p>
         <a href="apidocs/index.html">JavaDoc</a>
         <a href="apidocs/wadl/application.wadl">WADL</a>
