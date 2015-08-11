@@ -107,7 +107,7 @@ public class InfoBulleController extends CadController {
 				queryProprietaireBuilder.append(".proprietaire_parcelle proparc,");
 				queryProprietaireBuilder.append(databaseSchema);
 				queryProprietaireBuilder.append(".proprietaire prop ");
-				queryProprietaireBuilder.append(" where proparc.parcelle = ? and proparc.comptecommunal = prop.comptecommunal LIMIT 5");	
+				queryProprietaireBuilder.append(" where proparc.parcelle = ? and proparc.comptecommunal = prop.comptecommunal LIMIT 9");	
 				
 				JdbcTemplate jdbcTemplateProp = new JdbcTemplate(dataSource);
 				proprietaires = jdbcTemplateProp.queryForList(queryProprietaireBuilder.toString(), parcelle);
