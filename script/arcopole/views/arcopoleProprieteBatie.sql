@@ -3,7 +3,7 @@
 CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 	SELECT 
 		proprietebatie.id_local,
-		proprietebatie.lot,
+		proprietebatie.parcelle,
 		proprietebatie.comptecommunal , 
 		proprietebatie.dnupro,
 		proprietebatie.cgocommune,
@@ -38,7 +38,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
 		'select 
 			l.id_local,
-			l.codlot as lot,
+			p.codparc as parcelle,
 			l.dnupro as comptecommunal , 
 			l.dnupro,
 			p.codcomm as cgocommune,
@@ -80,7 +80,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			left join #DBSchema_arcopole.dgi_taxpev as pevtax on pevtax.id_pev=pev.id_pev'::text) 
 	proprietebatie(
 		id_local character varying(16),
-		lot character varying(255),
+		parcelle character varying(19),
 		comptecommunal character varying(12), 
 		dnupro character varying(12), 
 		cgocommune character varying(6),
