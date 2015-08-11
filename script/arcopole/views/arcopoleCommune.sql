@@ -11,9 +11,9 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.commune AS
   		'select 
   			id_comm as cgocommune,
 			annmaj as annee,
-			nomcomm as libcom ,
-			nomcomm as libcom_maj,
-			initcap(lower(nomcomm)) as libcom_min
+			rtrim(nomcomm as libcom) ,
+			rtrim(nomcomm as libcom_maj),
+			rtrim(initcap(lower(nomcomm))) as libcom_min
 		from #DBSchema_arcopole.dgi_comm'::text) 
 	commune(
 		cgocommune character varying(6), 
