@@ -77,9 +77,9 @@ public class CommuneController extends CadController{
     	List<String> queryParams = new ArrayList<String>();
    	
     	// If one of the parameter is present only one clause
-    	 if((libCom == null || libCom.isEmpty()) 
+    	 if((libCom == null || libCom.isEmpty() || libCom.length()<minNbCharForSearch) 
     			 && (cgoCommune == null || cgoCommune.isEmpty())){
-    		 logger.warn("No parameter in request");
+    		 logger.warn("No parameter in request or not enough characters");
     	 }
     	 else{
     		 StringBuilder queryBuilder = new StringBuilder();
@@ -89,7 +89,7 @@ public class CommuneController extends CadController{
     		 queryBuilder.append(".commune");
     		 
 	    	 // Check if libcom is not null
-	    	if(libCom != null && !libCom.isEmpty() && libCom.length()>minNbCharForSearch){
+	    	if(libCom != null && !libCom.isEmpty() && libCom.length()>=minNbCharForSearch){
 		    	
 	    		// Remove all accent from url
 	    		String newLibCom = StringUtils.stripAccents(libCom);	    		    	 
@@ -113,6 +113,7 @@ public class CommuneController extends CadController{
 	  		
 	    	}
 	    	queryBuilder.append(addAuthorizationFiltering(headers));
+	    	queryBuilder.append(" order by libcom ");
 	    	queryBuilder.append(finalizeQuery());
 	         
 	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
