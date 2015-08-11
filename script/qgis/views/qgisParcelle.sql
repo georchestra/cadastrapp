@@ -6,7 +6,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.v_parcelle_surfc AS
 		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 			'select distinct 
 				geo_parcelle as parcelle,
-				st_area(geom) as surfc 
+				round(st_area(geom)) as surfc 
 			from geo_parcelle'::text)
 	v_parcelle_surfc(
 		parcelle character varying(19),
