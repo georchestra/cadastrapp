@@ -47,7 +47,17 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire as
 		proprietaire.dformjur,
 		proprietaire.dsiren,
 		proprietaire.cgocommune,
-		proprietaire.comptecommunal 	
+		proprietaire.comptecommunal,
+		prop_ccodro.ccodro, 
+		prop_ccodro.ccodro_lib, 
+		prop_ccoqua.ccoqua, 
+		prop_ccoqua.ccoqua_lib, 
+		prop_ccogrm.ccogrm, 
+		prop_ccogrm.ccogrm_lib, 
+		prop_ccodem.ccodem, 
+		prop_ccodem.ccodem_lib, 
+		prop_dnatpr.dnatpr, 
+		prop_dnatpr.dnatpr_lib 	
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
     		id_prop as id_proprietaire,
