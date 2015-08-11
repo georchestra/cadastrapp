@@ -17,6 +17,15 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire_parcelle AS
 		from #DBSchema_arcopole.dgi_invar d 
 			left join #DBSchema_arcopole.dgi_local lo on lo.id_local = d.invar
 			left join #DBSchema_arcopole.dgi_lotloc ll on lo.id_local=ll.invloc
+		union
+	        select distinct ''0'' as lots,
+			p.codparc as parcelle,
+			p.dnupro ,
+			po.id_prop as comptecommunal,
+			''0'' as dnulot
+		from cadastre.dgi_nbati p
+			left join cadastre.dgi_prop po on p.dnupro=po.id_prop
+		where p.gpdl=''0''
 		order by dnulot,parcelle asc'::text) 
 	proprietaire_parcelle(
 		lots character varying(255), 
