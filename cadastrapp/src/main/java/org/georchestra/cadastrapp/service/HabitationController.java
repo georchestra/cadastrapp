@@ -65,7 +65,7 @@ public class HabitationController extends CadController {
 			
 		StringBuilder queryBuilder = new StringBuilder();
 	
-		queryBuilder.append("select hab.dnupev_lib, hab.dnudes, hab.detent, hab.dsupdc, hab.dnbniv, hab.dnbpdc, ");
+		queryBuilder.append("select hab.dnudes, hab.detent, hab.dsupdc, hab.dnbniv, hab.dnbpdc, ");
 		queryBuilder.append("hab.dnbppr, hab.dnbsam, hab.dnbcha, hab.dnbcu8, hab.dnbcu9, hab.dnbsea, hab.dnbann, hab.dnbbai, hab.dnbdou, hab.dnblav, ");
 		queryBuilder.append("hab.dnbwc, hab.geaulc, hab.gelelc, hab.ggazlc, hab.gchclc, hab.gteglc, hab.gesclc, hab.gasclc, hab.gvorlc ");
 		queryBuilder.append("from ");
