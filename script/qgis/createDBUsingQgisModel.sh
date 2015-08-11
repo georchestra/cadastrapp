@@ -132,8 +132,8 @@ replaceAndLaunch ./views/qgisCommune.sql
 replaceAndLaunch ./views/qgisParcelle.sql
 replaceAndLaunch ./views/qgisProprietaire.sql
 replaceAndLaunch ./views/qgisProprietaireParcelle.sql
-replaceAndLaunch ./views/qgisProprieteBati.sql
-replaceAndLaunch ./views/qgisProprieteNonBati.sql
+replaceAndLaunch ./views/qgisProprieteBatie.sql
+replaceAndLaunch ./views/qgisProprieteNonBatie.sql
 replaceAndLaunch ./views/qgisSection.sql
 replaceAndLaunch ./views/qgisHabitationDetails.sql
 

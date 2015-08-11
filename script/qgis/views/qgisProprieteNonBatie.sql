@@ -1,7 +1,8 @@
 -- Create view proprietenonbatie based on Qgis Models
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS 
-	SELECT proprietenonbatie.jdatat, 
+	SELECT 
+		proprietenonbatie.jdatat, 
 		proprietenonbatie.comptecommunal, 
 		proprietenonbatie.dnupro, 
 		proprietenonbatie.cgocommune,  
