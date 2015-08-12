@@ -20,7 +20,7 @@
 		<jcloverslf4j.version>1.7.12</jcloverslf4j.version>
 		<postgresql.version>9.1-901-1.jdbc4</postgresql.version>
 		<cxf.version>3.0.4</cxf.version>
-		<spring.version>4.0.2.RELEASE</spring.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -95,10 +95,31 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<!--  use for PDF -->
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
-			<version>2.0</version>
+			<version>1.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.avalon.framework</groupId>
+					<artifactId>avalon-framework-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.avalon.framework</groupId>
+					<artifactId>avalon-framework-impl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.avalon.framework</groupId>
+			<artifactId>avalon-framework-api</artifactId>
+			<version>4.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.avalon.framework</groupId>
+			<artifactId>avalon-framework-impl</artifactId>
+			<version>4.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
