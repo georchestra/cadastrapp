@@ -1,6 +1,5 @@
-package org.georchestra.cadastrapp.model;
+package org.georchestra.cadastrapp.model.pdf;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -16,7 +15,7 @@ public class BordereauParcellaire {
 	
 	private String dateDeValidite;
 	
-	private Date dateDeCreation;
+	private String baseMapUrl;
 	
 	private List<Parcelle> parcelleList;
 
@@ -52,22 +51,6 @@ public class BordereauParcellaire {
 	public void setDateDeValidite(String dateDeValidité) {
 		this.dateDeValidite = dateDeValidité;
 	}
-
-	/**
-	 * @return the dateDeCreation
-	 */
-	public Date getDateDeCreation() {
-		return dateDeCreation;
-	}
-
-	@XmlElement
-	/**
-	 * @param dateDeCreation the dateDeCreation to set
-	 */
-	public void setDateDeCreation(Date dateDeCreation) {
-		this.dateDeCreation = dateDeCreation;
-	}
-
 	
 	/**
 	 * @return the service
@@ -82,6 +65,21 @@ public class BordereauParcellaire {
 	 */
 	public void setService(String service) {
 		this.service = service;
+	}
+
+	/**
+	 * @return the baseMapUrl
+	 */
+	public String getBaseMapUrl() {
+		return baseMapUrl;
+	}
+
+	@XmlElement
+	/**
+	 * @param baseMapUrl the baseMapUrl to set
+	 */
+	public void setBaseMapUrl(String baseMapUrl) {
+		this.baseMapUrl = baseMapUrl;
 	}
 	
 }

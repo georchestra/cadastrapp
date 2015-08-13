@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
-import org.georchestra.cadastrapp.model.ExtFormResult;
+import org.georchestra.cadastrapp.model.pdf.ExtFormResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;

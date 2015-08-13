@@ -1,4 +1,4 @@
-package org.georchestra.cadastrapp.model;
+package org.georchestra.cadastrapp.model.pdf;
 
 public class ExtFormResult {
 

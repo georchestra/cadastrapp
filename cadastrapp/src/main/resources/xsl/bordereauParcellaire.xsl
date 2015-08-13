@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <xsl:stylesheet version="1.0"
-	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:java="http://xml.apache.org/xslt/java" exclude-result-prefixes="java">
 
 	<!-- Page layout information -->
 	<xsl:template match="/">
@@ -10,10 +11,9 @@
 			<fo:layout-master-set>
 				<fo:simple-page-master master-name="portrait"
 					page-height="21cm" page-width="29.7cm" font-family="sans-serif"
-					margin-top="0.5cm" margin-bottom="1cm" margin-left="2cm"
-					margin-right="2cm">
-					<fo:region-body margin-top="4.0cm" margin-bottom="1cm" />
-					<fo:region-before extent="1.5cm" />
+					margin-top="0.5cm" margin-bottom="0.5cm" margin-left="1cm"
+					margin-right="1cm">
+					<fo:region-body margin-top="0.5cm" margin-bottom="0.5cm" />
 				</fo:simple-page-master>
 			</fo:layout-master-set>
 
@@ -28,29 +28,40 @@
 
 	<xsl:attribute-set name="bordure">
 		<xsl:attribute name="border">solid 0.1mm black</xsl:attribute>
+		<xsl:attribute name="text-align">center</xsl:attribute>
 	</xsl:attribute-set>
-
+	
 	<xsl:template match="bordereauParcellaire">
+
+		<xsl:variable name="dateDeCreation">
+			<xsl:value-of select="java:format(java:java.text.SimpleDateFormat.new('d MMMM yyyy'), java:java.util.Date.new())" />
+		</xsl:variable>
+		<xsl:variable name="service"><xsl:value-of  select="service" /></xsl:variable>
+		<xsl:variable name="dateDeValidite"><xsl:value-of  select="dateDeValidite" /></xsl:variable>
+			
 		<xsl:for-each select="parcelles/parcelle">
 			<fo:table>
 				<fo:table-column column-width="70%" />
 				<fo:table-column column-width="30%" />
 				<fo:table-body>
-					<!-- Empreinte -->
 					<fo:table-row>
+						<!-- Empreinte -->
 						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block margin="12pt" font-weight="bold" font-size="8pt">
-								<xsl:value-of select="image" />
+							<fo:block>
+								 <fo:external-graphic>
+								 	<xsl:attribute name="src">http://172.16.52.69:8080/cadastrapp/services/getImageBordereau?parcelle=<xsl:value-of  select="parcelleId"/></xsl:attribute>
+								 </fo:external-graphic>
 							</fo:block>
 						</fo:table-cell>
+						<!--  descriptif -->
 						<fo:table-cell>
 							<fo:table>
 								<fo:table-column column-width="100%" />
 								<fo:table-footer>
 									<fo:table-row>
-										<fo:table-cell>
+										<fo:table-cell xsl:use-attribute-sets="bordure">
 											<fo:block>
-												<xsl:value-of select="service" />
+												<xsl:value-of select="$service"/>
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
@@ -59,8 +70,7 @@
 									<fo:table-row>
 										<fo:table-cell xsl:use-attribute-sets="bordure">
 											<fo:block margin="12pt" font-size="8pt">
-												Extrait du plan
-												cadastral informatisé
+												Extrait du plan	cadastral informatisé
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
@@ -68,11 +78,11 @@
 										<fo:table-cell xsl:use-attribute-sets="bordure">
 											<fo:block margin="12pt" font-size="8pt">
 												Données foncières valides au
-												<xsl:value-of select="dateDeValidite" />
+												<xsl:value-of select="$dateDeValidite" />
 											</fo:block>
 											<fo:block margin="12pt" font-size="8pt">
 												Document créé le
-												<xsl:value-of select="dateDeCreation" />
+												<xsl:value-of select="$dateDeCreation" />
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
@@ -98,15 +108,15 @@
 									<fo:table-row>
 										<fo:table-cell xsl:use-attribute-sets="bordure">
 											<fo:table>
-												<fo:table-column column-width="20%" />
-												<fo:table-column column-width="20%" />
-												<fo:table-column column-width="30%" />
-												<fo:table-column column-width="30%" />
+												<fo:table-column column-width="15%" />
+												<fo:table-column column-width="15%" />
+												<fo:table-column column-width="35%" />
+												<fo:table-column column-width="35%" />
 												<fo:table-body>
 													<fo:table-row>
 														<fo:table-cell xsl:use-attribute-sets="bordure">
 															<fo:block margin="12pt" font-size="8pt">
-																Section
+																section
 															</fo:block>
 														</fo:table-cell>
 														<fo:table-cell xsl:use-attribute-sets="bordure">

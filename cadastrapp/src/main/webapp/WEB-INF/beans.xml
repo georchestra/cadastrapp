@@ -24,6 +24,7 @@
 			<bean class="org.georchestra.cadastrapp.service.CoProprietaireController" />
 			<bean class="org.georchestra.cadastrapp.service.HabitationController" />
 			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
+			<bean class="org.georchestra.cadastrapp.service.ImageParcelleController" />
 			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
 			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />	
 			<bean class="org.georchestra.cadastrapp.service.SectionController" />	

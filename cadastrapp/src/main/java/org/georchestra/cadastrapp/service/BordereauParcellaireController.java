@@ -37,8 +37,9 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
-import org.georchestra.cadastrapp.model.BordereauParcellaire;
-import org.georchestra.cadastrapp.model.Parcelle;
+import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
+import org.georchestra.cadastrapp.model.pdf.Parcelle;
+import org.georchestra.cadastrapp.model.pdf.Proprietaire;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -153,9 +154,9 @@ public class BordereauParcellaireController extends CadController {
 
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
 
-		bordereauParcellaire.setDateDeCreation(new Date());
 		bordereauParcellaire.setDateDeValidite(dataValiditeDonnees);
 		bordereauParcellaire.setService(organisme);
+		bordereauParcellaire.setBaseMapUrl(baseMapUrl);
 
 		List<Parcelle> parcellesInformation = new ArrayList<Parcelle>();
 		
@@ -163,6 +164,7 @@ public class BordereauParcellaireController extends CadController {
 
 			Parcelle parcelleInformation = new Parcelle();
 			parcelleInformation.setParcelleId(parcelle);
+			
 			parcelleInformation.setImage("image");
 			parcelleInformation.setLibelleCommune("libelleCommune");
 			parcelleInformation.setAdresseCadastrale("adresseCadastrale");
@@ -170,6 +172,12 @@ public class BordereauParcellaireController extends CadController {
 			parcelleInformation.setParcelle("parcelle");
 			parcelleInformation.setCodeFantoir("codeFantoir");
 			parcelleInformation.setSurfaceCadastrale("surfaceCadastrale");
+			
+			if(personalData>0){
+				List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
+				 Proprietaire proprietaire = new Proprietaire();
+				 
+			}
 			
 			parcellesInformation.add(parcelleInformation);
 

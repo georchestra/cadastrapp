@@ -1,6 +1,11 @@
-package org.georchestra.cadastrapp.model;
+package org.georchestra.cadastrapp.model.pdf;
+
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 
 public class Parcelle {
 
@@ -19,6 +24,8 @@ public class Parcelle {
 	private String codeFantoir;
 	
 	private String surfaceCadastrale;
+	
+	private List<Proprietaire> proprietaires;
 
 	/**
 	 * @return the parcelleId
@@ -138,5 +145,22 @@ public class Parcelle {
 	 */
 	public void setSurfaceCadastrale(String surfaceCadastrale) {
 		this.surfaceCadastrale = surfaceCadastrale;
+	}
+	
+
+	@XmlElementWrapper(name="proprietaire")
+    @XmlElements({@XmlElement(name="proprietaire",     type=Parcelle.class)})
+	/**
+	 * @param proprietaires the proprietaires List to set
+	 */
+	public void setProprietaires(List<Proprietaire> proprietaires) {
+		this.proprietaires = proprietaires;
+	}
+	
+	/**
+	 * @param proprietaires the proprietaires List to set
+	 */
+	public List<Proprietaire> getProprietaires() {
+		return proprietaires;
 	}
 }

@@ -56,6 +56,9 @@ public class CadController {
 	@Value("${organisme}")
 	protected String organisme;
 	
+	@Value("${baseMapUrl}")
+	protected String baseMapUrl;
+	
 	protected int cgoCommuneLength = 6;
 	
 	/**
@@ -126,7 +129,7 @@ public class CadController {
 		}
 
 		logger.debug(" Check user CNIL Level : " + cnilLevel);
-		return 2;
+		return cnilLevel;
 	}
 
 	/**
