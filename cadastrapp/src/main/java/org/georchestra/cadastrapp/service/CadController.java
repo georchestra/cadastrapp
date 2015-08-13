@@ -50,6 +50,12 @@ public class CadController {
 	@Value("${minNbCharForSearch}")
 	protected int minNbCharForSearch;
 	
+	@Value("${dataValiditeDonnees}")
+	protected String dataValiditeDonnees;
+	
+	@Value("${organisme}")
+	protected String organisme;
+	
 	protected int cgoCommuneLength = 6;
 	
 	/**
