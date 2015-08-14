@@ -156,7 +156,8 @@ public class BordereauParcellaireController extends CadController {
 
 		bordereauParcellaire.setDateDeValidite(dataValiditeDonnees);
 		bordereauParcellaire.setService(organisme);
-		bordereauParcellaire.setBaseMapUrl(baseMapUrl);
+		
+	//TODO	bordereauParcellaire.setBaseMapUrl(baseMapUrl);
 
 		List<Parcelle> parcellesInformation = new ArrayList<Parcelle>();
 		

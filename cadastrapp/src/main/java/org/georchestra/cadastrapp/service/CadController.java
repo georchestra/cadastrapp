@@ -56,9 +56,12 @@ public class CadController {
 	@Value("${organisme}")
 	protected String organisme;
 	
-	@Value("${baseMapUrl}")
-	protected String baseMapUrl;
+	@Value("${geoserverUrl}")
+	protected String geoserverUrl;
 	
+	@Value("${baseMapWMSUrl}")
+	protected String baseMapWMSUrl;
+		
 	protected int cgoCommuneLength = 6;
 	
 	/**

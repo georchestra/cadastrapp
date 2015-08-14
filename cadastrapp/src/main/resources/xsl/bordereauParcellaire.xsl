@@ -49,7 +49,7 @@
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								 <fo:external-graphic>
-								 	<xsl:attribute name="src">http://172.16.52.69:8080/cadastrapp/services/getImageBordereau?parcelle=<xsl:value-of  select="parcelleId"/></xsl:attribute>
+								 	<xsl:attribute name="src">http://172.16.52.69:8080/cadastrapp/services/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" /></xsl:attribute>
 								 </fo:external-graphic>
 							</fo:block>
 						</fo:table-cell>

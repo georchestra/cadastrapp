@@ -14,6 +14,7 @@
 	<name>Cadastrapp webapp</name>
 	<description>Web application for cadastre management over Georchestra</description>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jackson.version>1.8.6</jackson.version>
 		<slf4j.version>1.7.12</slf4j.version>
 		<logback.version>1.0.13</logback.version>
@@ -21,7 +22,20 @@
 		<postgresql.version>9.1-901-1.jdbc4</postgresql.version>
 		<cxf.version>3.0.4</cxf.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
+		<geotools.version>10.8</geotools.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>osgeo</id>
+			<name>Open Source Geospatial Foundation Repository</name>
+			<url>http://download.osgeo.org/webdav/geotools/</url>
+		</repository>
+		<repository>
+			<id>opengeo</id>
+			<name>OpenGeo Maven Repository</name>
+			<url>http://repo.opengeo.org</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -95,7 +109,7 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
 		</dependency>
-		<!--  use for PDF -->
+		<!-- use for PDF -->
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
@@ -121,6 +135,22 @@
 			<artifactId>avalon-framework-impl</artifactId>
 			<version>4.3.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-render</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-wms</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-wfs</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+		<!-- use for test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
