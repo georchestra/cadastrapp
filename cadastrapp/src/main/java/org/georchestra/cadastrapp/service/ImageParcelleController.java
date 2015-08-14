@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -156,18 +155,21 @@ public class ImageParcelleController extends CadController {
 	}
 
 	/**
-	 * 
-	 * @param g2
+	 *  Add North panel in the Upper Right
+	 *  
+	 * @param g2 current Graphics2D
 	 */
 	private void drawCompass(Graphics2D g2) {
 
 		logger.debug("Ajout de la boussole ");
 
-		// Dessin de la boussole avec une flèche Nord
+		// Draw N in the Upper Right
 		g2.setColor(Color.white);
-		g2.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		g2.setFont(new Font("Times New Roman", Font.BOLD, 18));	
+		// TODO Change value by parameter from method
 		g2.drawString("N", 516, 22);
 
+		// Draw an arrow in the Upper Right
 		int xtr_left[] = { 507, 521, 521 };
 		int ytr[] = { 53, 47, 26 };
 		int xtr_right[] = { 535, 521, 521 };
@@ -177,16 +179,17 @@ public class ImageParcelleController extends CadController {
 		g2.setStroke(new BasicStroke(1.0f));
 		g2.drawPolygon(xtr_left, ytr, 3);
 		g2.drawPolygon(xtr_right, ytr, 3);
-
 	}
 
 	/**
-	 * 
-	 * @param g2
+	 *  Add a scale in bottom left of images 
+	 *  
+	 * @param g2 current Graphics2D
 	 */
 	private void drawScale(Graphics2D g2, String scaleValue) {
 
 		logger.debug("Ajout de l'echelle ");
+		
 		// Dessin de l'echelle
 		String zoom_[] = scaleValue.split(",");
 		String Zdistance = zoom_[0];
