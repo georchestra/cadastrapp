@@ -23,7 +23,7 @@ public class Parcelle {
 	
 	private String codeFantoir;
 	
-	private String surfaceCadastrale;
+	private int surfaceCadastrale;
 	
 	private List<Proprietaire> proprietaires;
 
@@ -135,7 +135,7 @@ public class Parcelle {
 	/**
 	 * @return the surfaceCadastrale
 	 */
-	public String getSurfaceCadastrale() {
+	public int getSurfaceCadastrale() {
 		return surfaceCadastrale;
 	}
 
@@ -143,7 +143,7 @@ public class Parcelle {
 	/**
 	 * @param surfaceCadastrale the surfaceCadastrale to set
 	 */
-	public void setSurfaceCadastrale(String surfaceCadastrale) {
+	public void setSurfaceCadastrale(int surfaceCadastrale) {
 		this.surfaceCadastrale = surfaceCadastrale;
 	}
 	

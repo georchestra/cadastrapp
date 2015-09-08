@@ -61,6 +61,9 @@ public class CadController {
 	
 	@Value("${baseMapWMSUrl}")
 	protected String baseMapWMSUrl;
+	
+	@Value("${pdfTmpFolder}")
+	protected String pdfTmpFolder;
 		
 	protected int cgoCommuneLength = 6;
 	
@@ -284,9 +287,12 @@ public class CadController {
 	}
 
 	/**
-	 *
-	 * @param values
-	 * @return
+	 * Create a string of value from a list
+	 * 	exemple : List (1,2,3,4) -> "'1','2','3'"
+	 * 
+	 * @param values List<String> wanted to be parsed
+	 * 
+	 * @return String "'value1','value2'"
 	 */
 	protected String createListToStringQuery(List<String> values) {
 
@@ -309,9 +315,11 @@ public class CadController {
 	
 	
 	/**
+	 * Create a String WHERE paramName IN (?,?,?) where number of ? depends on size given
 	 * 
-	 * @param values
-	 * @return
+	 * @param size number of parameters wanted
+	 * @param paramName name of the parameter
+	 * @return String "WHERE 'paramName' IN (?,?,?)
 	 */
 	protected String createWhereInQuery(int size, String paramName) {
 
@@ -337,8 +345,9 @@ public class CadController {
 	}
 	
 	/**
+	 * Set boolean isWhereAdded to false
 	 * 
-	 * @return
+	 * @return ;
 	 */
 	protected String finalizeQuery(){
 		isWhereAdded =false;

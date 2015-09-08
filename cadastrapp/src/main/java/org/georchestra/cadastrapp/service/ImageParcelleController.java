@@ -22,6 +22,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.batik.css.engine.value.StringValue;
 import org.geotools.data.ows.Layer;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
@@ -33,9 +34,11 @@ import org.geotools.data.wms.request.GetMapRequest;
 import org.geotools.data.wms.response.GetMapResponse;
 import org.geotools.filter.text.cql2.CQL;
 import org.geotools.filter.text.cql2.CQLException;
+import org.geotools.geometry.Envelope2D;
 import org.geotools.ows.ServiceException;
 import org.opengis.filter.Filter;
 import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.geometry.BoundingBox;
 import org.opengis.geometry.Envelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +60,7 @@ public class ImageParcelleController extends CadController {
 
 			BufferedImage baseMapImage;
 			BufferedImage parcelleImage;
-			Envelope bounds;
+			BoundingBox bounds;
 
 			// Get parcelle geo information
 			// get featureById
@@ -75,8 +78,9 @@ public class ImageParcelleController extends CadController {
 			SimpleFeatureIterator it = collection.features();
 			if (it.hasNext()) {
 				SimpleFeature parcelleFeature = it.next();
+		
 				bounds = parcelleFeature.getBounds();
-	
+								
 				// Ajout de la parcelle
 				logger.debug("Appel WMS pour la parcelle");
 				// Get basemap image with good BBOX
