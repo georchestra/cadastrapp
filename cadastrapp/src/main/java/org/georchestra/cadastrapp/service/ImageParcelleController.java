@@ -22,7 +22,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.apache.batik.css.engine.value.StringValue;
 import org.geotools.data.ows.Layer;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
@@ -34,12 +33,10 @@ import org.geotools.data.wms.request.GetMapRequest;
 import org.geotools.data.wms.response.GetMapResponse;
 import org.geotools.filter.text.cql2.CQL;
 import org.geotools.filter.text.cql2.CQLException;
-import org.geotools.geometry.Envelope2D;
 import org.geotools.ows.ServiceException;
 import org.opengis.filter.Filter;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.geometry.BoundingBox;
-import org.opengis.geometry.Envelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +52,6 @@ public class ImageParcelleController extends CadController {
 		ResponseBuilder response = Response.noContent();
 
 		if (parcelle != null && parcelle.length() > 14) {
-			String PDFImageHeight = "550";
-			String PDFImageWidth = "550";
 
 			BufferedImage baseMapImage;
 			BufferedImage parcelleImage;
@@ -71,8 +66,8 @@ public class ImageParcelleController extends CadController {
 			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
 
 			WFSDataStore dataStore = dsf.createDataStore(connectionParameters);
-			SimpleFeatureSource source = dataStore.getFeatureSource("qgis:geo_parcelle");
-			Filter filter = CQL.toFilter("geo_parcelle == '" + parcelle + "'");
+			SimpleFeatureSource source = dataStore.getFeatureSource(cadastreLayerName);
+			Filter filter = CQL.toFilter(cadastreLayerIdParcelle +" == '" + parcelle + "'");
 			SimpleFeatureCollection collection = source.getFeatures(filter);
 
 			SimpleFeatureIterator it = collection.features();
@@ -88,17 +83,17 @@ public class ImageParcelleController extends CadController {
 				WebMapServer wmsParcelle = new WebMapServer(parcelleWMSUrl);
 
 				GetMapRequest requestParcelle = wmsParcelle.createGetMapRequest();
-				requestParcelle.setFormat("image/png");
+				requestParcelle.setFormat(cadastreFormat);
 
 				// Add layer see to set this in configuration parameters
 				// Or use getCapatibilities
 				Layer layerParcelle = new Layer("Parcelle Qgis");
-				layerParcelle.setName("qgis:geo_parcelle");
+				layerParcelle.setName(cadastreLayerName);
 				requestParcelle.addLayer(layerParcelle);
 
 				// sets the dimensions check with PDF size available
-				requestParcelle.setDimensions(PDFImageWidth, PDFImageHeight);
-				requestParcelle.setSRS("EPSG:3857");
+				requestParcelle.setDimensions(pdfImageWidth, pdfImageHeight);
+				requestParcelle.setSRS(cadastreSRS);
 				requestParcelle.setTransparent(true);
 				// setBBox from Feature information
 				requestParcelle.setBBox(bounds);
@@ -112,17 +107,17 @@ public class ImageParcelleController extends CadController {
 				WebMapServer wms = new WebMapServer(baseMapUrl);
 
 				GetMapRequest request = wms.createGetMapRequest();
-				request.setFormat("image/png");
+				request.setFormat(baseMapFormat);
 
 				// Add layer see to set this in configuration parameters
 				// Or use getCapatibilities
 				Layer layer = new Layer("OpenStreetMap : carte style 'google'");
-				layer.setName("osm:google");
+				layer.setName(baseMapLayerName);
 				request.addLayer(layer);
 
 				// sets the dimensions check with PDF size available
-				request.setDimensions(PDFImageWidth, PDFImageHeight);
-				request.setSRS("EPSG:3857");
+				request.setDimensions(pdfImageWidth, pdfImageHeight);
+				request.setSRS(baseMapSRS);
 				// setBBox from Feature information
 				request.setBBox(bounds);
 
@@ -138,12 +133,14 @@ public class ImageParcelleController extends CadController {
 				g2.drawImage(baseMapImage, 0, 0, null);
 				g2.drawImage(parcelleImage, 0, 0, null);
 
-				drawCompass(g2);
+				drawCompass(g2, pdfImageHeight, pdfImageWidth);
 				// drawScale(g2, )
 
 				g2.dispose();
 				// Add feature on basemap
-				File file = new File("/tmp/bordereau.png");
+				
+				File file = new File(tempFolder+File.separator+"BP-"+parcelle+".png");
+				file.deleteOnExit();
 				ImageIO.write(finalImage, "png", file);
 
 				response = Response.ok((Object) file);
@@ -163,7 +160,7 @@ public class ImageParcelleController extends CadController {
 	 *  
 	 * @param g2 current Graphics2D
 	 */
-	private void drawCompass(Graphics2D g2) {
+	private void drawCompass(Graphics2D g2, int imageHeight, int imageWidth) {
 
 		logger.debug("Ajout de la boussole ");
 
@@ -171,12 +168,12 @@ public class ImageParcelleController extends CadController {
 		g2.setColor(Color.white);
 		g2.setFont(new Font("Times New Roman", Font.BOLD, 18));	
 		// TODO Change value by parameter from method
-		g2.drawString("N", 516, 22);
+		g2.drawString("N", imageHeight-32, 22);
 
 		// Draw an arrow in the Upper Right
-		int xtr_left[] = { 507, 521, 521 };
+		int xtr_left[] = { imageHeight-43, imageHeight-29, imageHeight-29 };
 		int ytr[] = { 53, 47, 26 };
-		int xtr_right[] = { 535, 521, 521 };
+		int xtr_right[] = { imageHeight-15, imageHeight-29, imageHeight-29 };
 
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.fillPolygon(xtr_right, ytr, 3);

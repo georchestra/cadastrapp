@@ -75,7 +75,7 @@ public class BordereauParcellaireController extends CadController {
 		if (parcelleList != null && !parcelleList.isEmpty()) {
 			
 			// Pdf temporary filename using tmp folder and timestamp
-			final String pdfTmpFileName = pdfTmpFolder+File.separator+"BP"+new Date().getTime();
+			final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();
 
 			// Construct a FopFactory (reuse if you plan to render multiple documents!)
 			FopFactory fopFactory = FopFactory.newInstance();
@@ -194,7 +194,7 @@ public class BordereauParcellaireController extends CadController {
 
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
 
-		bordereauParcellaire.setDateDeValidite(dataValiditeDonnees);
+		bordereauParcellaire.setDateDeValidite(dateValiditeDonnees);
 		bordereauParcellaire.setService(organisme);
 
 		List<Parcelle> parcellesInformation = new ArrayList<Parcelle>();

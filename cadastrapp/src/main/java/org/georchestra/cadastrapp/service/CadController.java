@@ -50,20 +50,47 @@ public class CadController {
 	@Value("${minNbCharForSearch}")
 	protected int minNbCharForSearch;
 	
-	@Value("${dataValiditeDonnees}")
-	protected String dataValiditeDonnees;
+	@Value("${pdf.imageHeight}")
+	protected int pdfImageHeight;
 	
-	@Value("${organisme}")
+	@Value("${pdf.imageWidth}")
+	protected int pdfImageWidth;
+	
+	@Value("${pdf.dateValiditeDonnees}")
+	protected String dateValiditeDonnees;
+	
+	@Value("${pdf.organisme}")
 	protected String organisme;
 	
-	@Value("${geoserverUrl}")
+	@Value("${baseMap.WMS.url}")
+	protected String baseMapWMSUrl;
+			
+	@Value("${baseMap.layer.name}")
+	protected String baseMapLayerName;
+			
+	@Value("${baseMap.format}")
+	protected String baseMapFormat;
+			
+	@Value("${baseMap.SRS}")
+	protected String baseMapSRS;
+
+	@Value("${cadastre.geoserver.url}")
 	protected String geoserverUrl;
 	
-	@Value("${baseMapWMSUrl}")
-	protected String baseMapWMSUrl;
+	@Value("${cadastre.layer.name}")
+	protected String cadastreLayerName;
 	
-	@Value("${pdfTmpFolder}")
-	protected String pdfTmpFolder;
+	@Value("${cadastre.format}")
+	protected String cadastreFormat;
+	
+	@Value("${cadastre.SRS}")
+	protected String cadastreSRS;
+	
+	@Value("${cadastre.layer.idParcelle}")
+	protected String cadastreLayerIdParcelle;
+	
+	@Value("${tempFolder}")
+	protected String tempFolder;
 		
 	protected int cgoCommuneLength = 6;
 	
@@ -173,8 +200,7 @@ public class CadController {
 	
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);	
 			limitations = jdbcTemplate.queryForList(queryBuilder.toString(), roleList);
-			
-			
+					
 			// filter request on commune
 			if (limitations != null && !limitations.isEmpty()) {
 				
