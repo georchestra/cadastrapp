@@ -158,9 +158,9 @@ public class ProprietaireController extends CadController{
     			queryBuilder.append("select parcelle, comptecommunal, dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib");   			    
     			queryBuilder.append("from ");
     			queryBuilder.append(databaseSchema);
-    			queryBuilder.append("proprietaire prop, ");
+    			queryBuilder.append(".proprietaire prop, ");
     			queryBuilder.append(databaseSchema);
-    			queryBuilder.append("proprietaire_parcelle proparc ");
+    			queryBuilder.append(".proprietaire_parcelle proparc ");
     			queryBuilder.append("where proparc.parcelle IN (?) and pro.comptecommunal = proparc.comptcommunal");
     			queryBuilder.append(addAuthorizationFiltering(headers));
     			queryBuilder.append(finalizeQuery());
