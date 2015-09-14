@@ -161,7 +161,7 @@ public class ProprietaireController extends CadController{
     			queryBuilder.append(".proprietaire prop, ");
     			queryBuilder.append(databaseSchema);
     			queryBuilder.append(".proprietaire_parcelle proparc ");
-    			queryBuilder.append("where proparc.parcelle IN (?) and pro.comptecommunal = proparc.comptcommunal");
+    			queryBuilder.append("where proparc.parcelle IN (?) and prop.comptecommunal = proparc.comptcommunal");
     			queryBuilder.append(addAuthorizationFiltering(headers));
     			queryBuilder.append(finalizeQuery());
 	 	       
