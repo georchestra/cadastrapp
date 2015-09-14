@@ -228,7 +228,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block margin="12pt" font-size="8pt">
-							<xsl:value-of select="surfaceCadastrale" />
+							<xsl:value-of select="surfaceCadastrale" /> m²
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>

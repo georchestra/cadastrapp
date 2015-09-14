@@ -202,9 +202,9 @@ public class BordereauParcellaireController extends CadController {
 		// Create query
 		StringBuilder queryBuilder = new StringBuilder();
 
-		queryBuilder.append("select p.parcelle, c.libcom, p.dcntpa, p.ccosec, p.dnupla, p.dnvoiri||' '||p.dindic||' '||p.cconvo||' '||dvoilib as adresse from ");
+		queryBuilder.append("select p.parcelle, c.libcom, p.dcntpa, p.ccosec, p.dnupla, p.dnvoiri||' '||p.dindic||' '||p.cconvo||' '||dvoilib as adresse, p.ccoriv from ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelle p, ");
+		queryBuilder.append(".parcelleDetails p, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".commune c ");
 		queryBuilder.append(createWhereInQuery(parcelleList.size(), "parcelle"));
@@ -220,10 +220,10 @@ public class BordereauParcellaireController extends CadController {
 			parcelle.setParcelleId((String) row.get("parcelle"));
 			parcelle.setLibelleCommune((String) row.get("libcom"));
 			parcelle.setAdresseCadastrale((String) row.get("adresse"));
-			// parcelle.setCodeFantoir(rs.getString("CUST_ID"));
+			parcelle.setCodeFantoir((String) row.get("ccoriv"));
 			parcelle.setParcelle((String) row.get("dnupla"));
 			parcelle.setSection((String) row.get("ccosec"));
-			//parcelle.setSurfaceCadastrale((Integer) row.get("dcntpa"));
+			parcelle.setSurfaceCadastrale((Integer) row.get("dcntpa"));
 
 			logger.debug("Parcelle information : " + parcelle);
 
