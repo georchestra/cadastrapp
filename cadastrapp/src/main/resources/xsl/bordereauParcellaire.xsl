@@ -11,9 +11,9 @@
 			<fo:layout-master-set>
 				<fo:simple-page-master master-name="portrait"
 					page-height="21cm" page-width="29.7cm" font-family="sans-serif"
-					margin-top="0.5cm" margin-bottom="0.5cm" margin-left="1cm"
-					margin-right="1cm">
-					<fo:region-body margin-top="0.5cm" margin-bottom="0.5cm" />
+					margin-top="0.5cm" margin-bottom="0.5cm" margin-left="0.5cm"
+					margin-right="0.5cm">
+					<fo:region-body/>
 				</fo:simple-page-master>
 			</fo:layout-master-set>
 
@@ -26,18 +26,28 @@
 		</fo:root>
 	</xsl:template>
 
-	<!--  Definition des styles -->
+	<!-- Definition des styles -->
 	<!-- Bordure de tableau -->
 	<xsl:attribute-set name="bordure">
 		<xsl:attribute name="border">solid 0.1mm black</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
 	</xsl:attribute-set>
-	
+
 	<!-- Format de text simple -->
 	<xsl:attribute-set name="text">
 		<xsl:attribute name="text-align">center</xsl:attribute>
-		<xsl:attribute name="margin">12pt</xsl:attribute>
+		<xsl:attribute name="padding-top">10pt</xsl:attribute>
+		<xsl:attribute name="padding-bottom">10pt</xsl:attribute>
 		<xsl:attribute name="font-size">8pt</xsl:attribute>
+	</xsl:attribute-set>
+	
+	<!-- Format de text gras -->
+	<xsl:attribute-set name="text-bold">
+		<xsl:attribute name="text-align">center</xsl:attribute>
+		<xsl:attribute name="padding-top">10pt</xsl:attribute>
+		<xsl:attribute name="padding-bottom">10pt</xsl:attribute>
+		<xsl:attribute name="font-size">10pt</xsl:attribute>
+		<xsl:attribute name="font-weight">bold</xsl:attribute>
 	</xsl:attribute-set>
 
 	<xsl:template match="bordereauParcellaire">
@@ -75,7 +85,7 @@
 								<fo:table-footer>
 									<fo:table-row>
 										<fo:table-cell xsl:use-attribute-sets="bordure">
-											<fo:block>
+											<fo:block xsl:use-attribute-sets="text-bold">
 												<xsl:value-of select="$service" />
 											</fo:block>
 										</fo:table-cell>
@@ -104,8 +114,7 @@
 									</fo:table-row>
 									<fo:table-row>
 										<fo:table-cell xsl:use-attribute-sets="bordure">
-											<fo:block margin="12pt" font-weight="bold"
-												font-size="10pt">
+											<fo:block xsl:use-attribute-sets="text-bold">
 												<xsl:value-of select="@libelleCommune" />
 											</fo:block>
 											<fo:block xsl:use-attribute-sets="text">
@@ -183,18 +192,20 @@
 										</fo:table-cell>
 									</fo:table-row>
 
-									<fo:table-row>
-										<fo:table-cell>
-											<xsl:for-each select="proprietaires/proprietaire">
-												<fo:block xsl:use-attribute-sets="text" >
-													<xsl:value-of select="@nom" />
-												</fo:block>
-												<fo:block xsl:use-attribute-sets="text">
-													<xsl:value-of select="@adresse" />
-												</fo:block>
-											</xsl:for-each>
-										</fo:table-cell>
-									</fo:table-row>
+									<xsl:if test="proprietaires">
+										<fo:table-row>
+											<fo:table-cell>
+												<xsl:for-each select="proprietaires/proprietaire">
+													<fo:block text-align="center" padding-top="5pt" font-size="10pt">
+														<xsl:value-of select="@nom" />
+													</fo:block>
+													<fo:block text-align="center" padding-bottom="5pt" font-size="8pt">
+														<xsl:value-of select="@adresse" />
+													</fo:block>
+												</xsl:for-each>
+											</fo:table-cell>
+										</fo:table-row>
+									</xsl:if>
 
 								</fo:table-body>
 							</fo:table>
