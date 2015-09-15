@@ -109,7 +109,7 @@ public class BordereauParcellaireController extends CadController {
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 				// Get bordereau parcellaire information
-				BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(parcelleList, personalData);
+				BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(parcelleList, personalData, headers);
 
 				
 				try {
@@ -190,7 +190,7 @@ public class BordereauParcellaireController extends CadController {
 	 * 
 	 * @return BordereauParcellaire witch contains list of parcelle
 	 */
-	private BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData) {
+	private BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers) {
 
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
 
@@ -214,6 +214,7 @@ public class BordereauParcellaireController extends CadController {
 		List<Map<String, Object>> parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList.toArray());
 
 		logger.debug("Parcelle size : " + parcelles.size());
+		
 		for (Map<String, Object> row : parcelles) {
 			logger.debug("Parcelle information : " + row);
 			Parcelle parcelle = new Parcelle();
@@ -227,13 +228,31 @@ public class BordereauParcellaireController extends CadController {
 
 			logger.debug("Parcelle information : " + parcelle);
 
-			parcellesInformation.add(parcelle);
-
-			if (personalData > 0) {
+			if (personalData > 0 && getUserCNILLevel(headers)>0) {
 				List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
-				Proprietaire proprietaire = new Proprietaire();
+								
+				StringBuilder queryBuilderProprietaire = new StringBuilder();
+				queryBuilderProprietaire.append("select prop.comptecommunal, prop.ccoqua_lib||' '||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");   			    
+				queryBuilderProprietaire.append("from ");
+				queryBuilderProprietaire.append(databaseSchema);
+				queryBuilderProprietaire.append(".proprietaire prop, ");
+				queryBuilderProprietaire.append(databaseSchema);
+				queryBuilderProprietaire.append(".proprietaire_parcelle proparc ");
+				queryBuilderProprietaire.append("where proparc.parcelle = ? and prop.comptecommunal = proparc.comptecommunal");
+				queryBuilderProprietaire.append(addAuthorizationFiltering(headers));
+	 	       
+				List<Map<String, Object>> proprietairesResult = jdbcTemplate.queryForList(queryBuilderProprietaire.toString(), row.get("parcelle"));
 
+				for (Map<String, Object> prop : proprietairesResult) {
+					Proprietaire proprietaire = new Proprietaire();
+					proprietaire.setNom((String) prop.get("nom"));
+					proprietaire.setAdresse((String) prop.get("adresse"));
+					
+					proprietaires.add(proprietaire);
+				}			
+				parcelle.setProprietaires(proprietaires);
 			}
+			parcellesInformation.add(parcelle);
 		}
 		bordereauParcellaire.setParcelleList(parcellesInformation);
 
