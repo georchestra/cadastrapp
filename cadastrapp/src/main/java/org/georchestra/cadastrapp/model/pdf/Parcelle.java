@@ -148,8 +148,8 @@ public class Parcelle {
 	}
 	
 
-	@XmlElementWrapper(name="proprietaire")
-    @XmlElements({@XmlElement(name="proprietaire",     type=Parcelle.class)})
+	@XmlElementWrapper(name="proprietaires")
+    @XmlElements({@XmlElement(name="proprietaire",   type=Proprietaire.class)})
 	/**
 	 * @param proprietaires the proprietaires List to set
 	 */
