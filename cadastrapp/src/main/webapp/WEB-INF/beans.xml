@@ -17,9 +17,8 @@
 	<context:component-scan base-package="org.georchestra.cadastrapp"/>
 	
 	<jaxrs:server id="services" address="/">
-		<jaxrs:serviceBeans>
+		<jaxrs:serviceBeans>		
 			<bean class="org.georchestra.cadastrapp.service.BatimentController" />
-			<bean class="org.georchestra.cadastrapp.service.BordereauParcellaireController" />
 			<bean class="org.georchestra.cadastrapp.service.CommuneController" />
 			<bean class="org.georchestra.cadastrapp.service.ConfigurationController" />
 			<bean class="org.georchestra.cadastrapp.service.CoProprietaireController" />
@@ -32,6 +31,9 @@
 			<bean class="org.georchestra.cadastrapp.service.UniteCadastraleController" />
 			<bean class="org.georchestra.cadastrapp.service.UniteFonciereController" />
 			<bean class="org.georchestra.cadastrapp.service.VoieController" />
+			
+			<bean class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
+			<bean class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
