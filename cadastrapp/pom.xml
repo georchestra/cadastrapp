@@ -264,7 +264,6 @@
 						<configuration>
 							<classResourceNames>
 								<classResourceName>org.georchestra.cadastrapp.service.BatimentController</classResourceName>
-								<classResourceName>org.georchestra.cadastrapp.service.BordereauParcellaireController</classResourceName>
 								<classResourceName>org.georchestra.cadastrapp.service.CommuneController</classResourceName>
 								<classResourceName>org.georchestra.cadastrapp.service.ParcelleController</classResourceName>
 								<classResourceName>org.georchestra.cadastrapp.service.ProprietaireController</classResourceName>
@@ -274,6 +273,8 @@
 								<classResourceName>org.georchestra.cadastrapp.service.UniteCadastraleController</classResourceName>
 								<classResourceName>org.georchestra.cadastrapp.service.UniteFonciereController</classResourceName>
 								<classResourceName>org.georchestra.cadastrapp.service.VoieController</classResourceName>
+								<classResourceName>org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController</classResourceName>
+								<classResourceName>org.georchestra.cadastrapp.service.pdf.ReleveProprieteController</classResourceName>
 							</classResourceNames>
 							<docProvider>org.apache.cxf.maven_plugin.javatowadl.ResourceMapJavaDocProvider</docProvider>
 							<attachWadl>true</attachWadl>
