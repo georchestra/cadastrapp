@@ -26,6 +26,10 @@ public class Parcelle {
 	private int surfaceCadastrale;
 	
 	private List<Proprietaire> proprietaires;
+	
+	private List<ProprieteBatie> proprieteBaties;
+	
+	private List<ProprieteNonBatie> proprieteNonBaties;
 
 	/**
 	 * @return the parcelleId
@@ -162,5 +166,37 @@ public class Parcelle {
 	 */
 	public List<Proprietaire> getProprietaires() {
 		return proprietaires;
+	}
+
+	/**
+	 * @return the proprieteBaties
+	 */
+	public List<ProprieteBatie> getProprieteBaties() {
+		return proprieteBaties;
+	}
+
+	@XmlElementWrapper(name="proprieteBaties")
+    @XmlElements({@XmlElement(name="proprieteBatie",   type=ProprieteBatie.class)})
+	/**
+	 * @param proprieteBaties the proprieteBaties to set
+	 */
+	public void setProprieteBaties(List<ProprieteBatie> proprieteBaties) {
+		this.proprieteBaties = proprieteBaties;
+	}
+
+	/**
+	 * @return the proprieteNonBaties
+	 */
+	public List<ProprieteNonBatie> getProprieteNonBaties() {
+		return proprieteNonBaties;
+	}
+
+	@XmlElementWrapper(name="proprieteNonBaties")
+    @XmlElements({@XmlElement(name="proprieteNonBatie",   type=ProprieteNonBatie.class)})
+	/**
+	 * @param proprieteNonBaties the proprieteNonBaties to set
+	 */
+	public void setProprieteNonBaties(List<ProprieteNonBatie> proprieteNonBaties) {
+		this.proprieteNonBaties = proprieteNonBaties;
 	}
 }
