@@ -1,5 +1,7 @@
 package org.georchestra.cadastrapp.model.pdf;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAttribute;
 
 public class Proprietaire {
@@ -10,7 +12,7 @@ public class Proprietaire {
 		
 	String adresse;
 	
-	String dateNaissance;
+	Date dateNaissance;
 	
 	String lieuNaissance;
 	
@@ -68,7 +70,7 @@ public class Proprietaire {
 	/**
 	 * @return the dateNaissance
 	 */
-	public String getDateNaissance() {
+	public Date getDateNaissance() {
 		return dateNaissance;
 	}
 
@@ -76,7 +78,7 @@ public class Proprietaire {
 	/**
 	 * @param dateNaissance the dateNaissance to set
 	 */
-	public void setDateNaissance(String dateNaissance) {
+	public void setDateNaissance(Date dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
 

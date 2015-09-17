@@ -25,9 +25,6 @@ public abstract class Propriete {
 	// Indice de répétition
 	String dindic;
 
-	// Code nature de la voie
-	String cconvo;
-
 	// Libellé de la voie
 	String dvoilib;
 
@@ -145,20 +142,6 @@ public abstract class Propriete {
 		this.dindic = dindic;
 	}
 
-	/**
-	 * @return the cconvo
-	 */
-	public String getCconvo() {
-		return cconvo;
-	}
-
-	@XmlAttribute
-	/**
-	 * @param cconvo the cconvo to set
-	 */
-	public void setCconvo(String cconvo) {
-		this.cconvo = cconvo;
-	}
 
 	/**
 	 * @return the dvoilib

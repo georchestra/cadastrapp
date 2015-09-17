@@ -15,9 +15,8 @@ public class RelevePropriete {
 	
 	private String anneMiseAJour;
 	
-	
-	private List<Parcelle> parcelleList;
-
+	private List<CompteCommunal> comptesCommunaux;
+		
 
 	/**
 	 * @return the dateDeValidité
@@ -26,22 +25,6 @@ public class RelevePropriete {
 		return anneMiseAJour;
 	}
 
-	/**
-	 * @return the parcelleList
-	 */
-	public List<Parcelle> getParcelleList() {
-		return parcelleList;
-	}
-
-
-	@XmlElementWrapper(name="parcelles")
-    @XmlElements({@XmlElement(name="parcelle",     type=Parcelle.class)})
-	/**
-	 * @param parcelleList the parcelleList to set
-	 */
-	public void setParcelleList(List<Parcelle> parcelleList) {
-		this.parcelleList = parcelleList;
-	}
 
 	@XmlElement
 	/**
@@ -64,6 +47,24 @@ public class RelevePropriete {
 	 */
 	public void setService(String service) {
 		this.service = service;
+	}
+
+
+	/**
+	 * @return the comptesCommunaux
+	 */
+	public List<CompteCommunal> getComptesCommunaux() {
+		return comptesCommunaux;
+	}
+
+
+	@XmlElementWrapper(name="comptesCommunaux")
+    @XmlElements({@XmlElement(name="compteCommunal",     type=CompteCommunal.class)})
+	/**
+	 * @param comptesCommunaux the comptesCommunaux to set
+	 */
+	public void setComptesCommunaux(List<CompteCommunal> comptesCommunaux) {
+		this.comptesCommunaux = comptesCommunaux;
 	}
 
 	
