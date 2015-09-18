@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <xsl:stylesheet version="1.0"
 	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:java="http://xml.apache.org/xslt/java" exclude-result-prefixes="java">
+	xmlns:java="http://xml.apache.org/xslt/java"  xmlns:date="http://exslt.org/dates-and-times" exclude-result-prefixes="java">
 
 	<!-- Page layout information -->
 	<xsl:template match="/">
@@ -150,10 +150,8 @@
 							<fo:block>
 							Né(e)
 								<xsl:if test="@dateNaissance">	
-								<xsl:variable name="dateNaissance">
-									<xsl:value-of select="@dateNaissance" />
-								</xsl:variable>				
-									le <xsl:value-of select="java:format(java:java.text.SimpleDateFormat.new('d MMMM yyyy'), $dateNaissance)" />
+								<xsl:variable name="dateNaissance" select="date:format-date(@dateNaissance, 'dd/MM/yyyy')" />			
+									le <xsl:value-of select="$dateNaissance" />
 								</xsl:if>
 								<xsl:if test="@lieuNaissance">
 									à <xsl:value-of select="@lieuNaissance" />
