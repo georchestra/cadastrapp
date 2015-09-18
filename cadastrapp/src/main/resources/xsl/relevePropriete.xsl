@@ -102,19 +102,20 @@
 						</fo:block>
 						<fo:block>
 							Département :
-							<xsl:value-of select="@parcelleId" />
+							<xsl:value-of select="@codeDepartement" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block>
 							Commune :
-							<xsl:value-of select="@parcelleId" />
+							<xsl:value-of select="@codeCommune" />
+							<xsl:value-of select="@libelleCommune" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block>
 							Numéro communal :
-							<xsl:value-of select="@parcelleId" />
+							<xsl:value-of select="@compteCommunal" />
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -129,9 +130,13 @@
 			<fo:table-column column-width="33%" />
 			<fo:table-column column-width="33%" />
 			<fo:table-body>
-				<fo:table-row>
-					<xsl:for-each select="proprietaires/proprietaire">
+
+				<xsl:for-each select="proprietaires/proprietaire">
+					<fo:table-row>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
+							<fo:block>
+								<xsl:value-of select="@droitReel" />
+							</fo:block>
 							<fo:block>
 								<xsl:value-of select="@nom" />
 							</fo:block>
@@ -143,11 +148,22 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@dateNaissance" />
+							Né(e)
+								<xsl:if test="@dateNaissance">	
+								<xsl:variable name="dateNaissance">
+									<xsl:value-of select="@dateNaissance" />
+								</xsl:variable>				
+									le <xsl:value-of select="java:format(java:java.text.SimpleDateFormat.new('d MMMM yyyy'), $dateNaissance)" />
+								</xsl:if>
+								<xsl:if test="@lieuNaissance">
+									à <xsl:value-of select="@lieuNaissance" />
+								</xsl:if>
+
 							</fo:block>
 						</fo:table-cell>
-					</xsl:for-each>
-				</fo:table-row>
+					</fo:table-row>
+				</xsl:for-each>
+
 			</fo:table-body>
 		</fo:table>
 	</xsl:template>
