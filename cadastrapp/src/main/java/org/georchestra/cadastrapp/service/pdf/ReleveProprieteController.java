@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +39,6 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.model.pdf.CompteCommunal;
-import org.georchestra.cadastrapp.model.pdf.Parcelle;
 import org.georchestra.cadastrapp.model.pdf.Proprietaire;
 import org.georchestra.cadastrapp.model.pdf.ProprieteBatie;
 import org.georchestra.cadastrapp.model.pdf.ProprieteNonBatie;
@@ -284,7 +284,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteBatie.setInvar((String) propBat.get("invar"));
 					proprieteBatie.setJandeb((String) propBat.get("jandeb"));
 					proprieteBatie.setJanimp((String) propBat.get("janimp"));
-					proprieteBatie.setJdatat((String) propBat.get("jdatat"));
+					proprieteBatie.setJdatat((Date) propBat.get("jdatat"));
 					proprieteBatie.setMvltieomx((String) propBat.get("mvltieomx"));
 
 					proprietesBaties.add(proprieteBatie);
@@ -297,7 +297,7 @@ public class ReleveProprieteController extends CadController {
 
 				StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-				queryBuilderProprieteNonBatie.append("select jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dparpi, gpafpd, ccostn, ccosub, cgrnum, dclssf, cnatsp, dcntsf, drcsuba, pdl, dnulot, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx ");
+				queryBuilderProprieteNonBatie.append("select jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dparpi, gpafpd, ccostn, ccosub, cgrnum, dclssf, cnatsp, dcntsf, drcsuba, pdl, dnulot, ccolloc, jandeb, janimp, fcexb ");
 				queryBuilderProprieteNonBatie.append("from ");
 				queryBuilderProprieteNonBatie.append(databaseSchema);
 				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
@@ -319,13 +319,13 @@ public class ReleveProprieteController extends CadController {
 					proprieteNonBatie.setCnatsp((String) propNonBat.get("cnatsp"));
 
 					proprieteNonBatie.setDclssf((String) propNonBat.get("dclssf"));
-					proprieteNonBatie.setDcntsf((String) propNonBat.get("dcntsf"));
+					proprieteNonBatie.setDcntsf((Integer) propNonBat.get("dcntsf"));
 					proprieteNonBatie.setDindic((String) propNonBat.get("dindic"));
 					proprieteNonBatie.setDnulot((String) propNonBat.get("dnulot"));
 					proprieteNonBatie.setDnupla((String) propNonBat.get("dnupla"));
 					proprieteNonBatie.setDnvoiri((String) propNonBat.get("dnvoiri"));
 					proprieteNonBatie.setDparpi((String) propNonBat.get("dparpi"));
-					proprieteNonBatie.setDrcsuba((String) propNonBat.get("drcsuba"));
+					proprieteNonBatie.setDrcsuba((BigDecimal) propNonBat.get("drcsuba"));
 					proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 					proprieteNonBatie.setDsgrpf((String) propNonBat.get("dsgrpf"));
 					proprieteNonBatie.setDvoilib((String) propNonBat.get("voie"));
@@ -335,7 +335,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteNonBatie.setGpafpd((String) propNonBat.get("gpafpd"));
 					proprieteNonBatie.setJandeb((String) propNonBat.get("jandeb"));
 					proprieteNonBatie.setJanimp((String) propNonBat.get("janimp"));
-					proprieteNonBatie.setJdatat((String) propNonBat.get("jdatat"));
+					proprieteNonBatie.setJdatat((Date) propNonBat.get("jdatat"));
 
 					proprieteNonBatie.setPdl((String) propNonBat.get("pdl"));
 					proprieteNonBatie.setPexb((String) propNonBat.get("pexb"));
