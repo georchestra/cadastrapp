@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.dnupro, 
 		proprietenonbatie.cgocommune,  
 		proprietenonbatie.ccopre, 
-		proprietebatie.ccosec,
+		proprietenonbatie.ccosec,
 		proprietenonbatie.dnupla, 
 		proprietenonbatie.parcelle, 
 		proprietenonbatie.ccovoi, 
