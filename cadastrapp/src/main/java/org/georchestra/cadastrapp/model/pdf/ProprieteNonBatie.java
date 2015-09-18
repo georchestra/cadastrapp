@@ -1,5 +1,7 @@
 package org.georchestra.cadastrapp.model.pdf;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAttribute;
 
 public class ProprieteNonBatie extends Propriete{
@@ -26,10 +28,10 @@ public class ProprieteNonBatie extends Propriete{
 	String cnatsp;
 	
 	// Contenance de la suf, en centiares
-	String dcntsf;
+	int dcntsf;
 	
 	// Revenu cadastral revalorisé en valeur deu 01-01 de l'année 
-	String drcsuba;
+	BigDecimal drcsuba;
 	
 	// Référence pdl
 	String pdl;
@@ -148,7 +150,7 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @return the dcntsf
 	 */
-	public String getDcntsf() {
+	public int getDcntsf() {
 		return dcntsf;
 	}
 
@@ -156,14 +158,14 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @param dcntsf the dcntsf to set
 	 */
-	public void setDcntsf(String dcntsf) {
+	public void setDcntsf(int dcntsf) {
 		this.dcntsf = dcntsf;
 	}
 
 	/**
 	 * @return the drcsuba
 	 */
-	public String getDrcsuba() {
+	public BigDecimal getDrcsuba() {
 		return drcsuba;
 	}
 
@@ -171,7 +173,7 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @param drcsuba the drcsuba to set
 	 */
-	public void setDrcsuba(String drcsuba) {
+	public void setDrcsuba(BigDecimal drcsuba) {
 		this.drcsuba = drcsuba;
 	}
 

@@ -1,5 +1,7 @@
 package org.georchestra.cadastrapp.model.pdf;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -8,7 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public abstract class Propriete {
 
 	// Date d'acte de mutation du local
-	String jdatat;
+	Date jdatat;
 
 	// Préfixe de section
 	String ccopre;
@@ -55,7 +57,7 @@ public abstract class Propriete {
 	/**
 	 * @return the jdatat
 	 */
-	public String getJdatat() {
+	public Date getJdatat() {
 		return jdatat;
 	}
 
@@ -63,7 +65,7 @@ public abstract class Propriete {
 	/**
 	 * @param jdatat the jdatat to set
 	 */
-	public void setJdatat(String jdatat) {
+	public void setJdatat(Date jdatat) {
 		this.jdatat = jdatat;
 	}
 
