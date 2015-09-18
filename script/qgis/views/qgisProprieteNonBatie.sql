@@ -34,7 +34,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.gnexts, 
 		proprietenonbatie.jandeb, 
 		proprietenonbatie.janimp, 
-		proprietenonbatie.fcexn, 
+		proprietenonbatie.fcexb, 
 		proprietenonbatie.pexn, 
 		proprietenonbatie.dreflf
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
@@ -71,7 +71,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			sufex.gnexts,
 			sufex.jandeb,
 			sufex.jfinex as janimp,
-			sufex.fcexn,
+			sufex.fcexn as fcexb,
 			sufex.pexn,
 			p.dreflf
 		from parcelle p 
@@ -111,7 +111,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
  		gnexts character varying(2), 
  		jandeb character varying(4),
  		janimp character varying(4), 
- 		fcexn character varying(10), 
+ 		fcexb character varying(10), 
  		pexn integer, 
  		dreflf character varying(5));
 
