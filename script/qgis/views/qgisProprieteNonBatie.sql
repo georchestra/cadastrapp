@@ -33,7 +33,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.ccolloc, 
 		proprietenonbatie.gnexts, 
 		proprietenonbatie.jandeb, 
-		proprietenonbatie.jfinex, 
+		proprietenonbatie.janimp, 
 		proprietenonbatie.fcexn, 
 		proprietenonbatie.pexn, 
 		proprietenonbatie.dreflf
@@ -70,7 +70,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			sufex.ccolloc,
 			sufex.gnexts,
 			sufex.jandeb,
-			sufex.jfinex,
+			sufex.jfinex as janimp,
 			sufex.fcexn,
 			sufex.pexn,
 			p.dreflf
@@ -110,7 +110,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
  		ccolloc character varying(2), 
  		gnexts character varying(2), 
  		jandeb character varying(4),
- 		jfinex character varying(4), 
+ 		janimp character varying(4), 
  		fcexn character varying(10), 
  		pexn integer, 
  		dreflf character varying(5));
