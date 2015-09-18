@@ -64,8 +64,8 @@ public class CompteCommunal {
 		return proprieteBaties;
 	}
 
-	@XmlElementWrapper(name="proprietesBaties")
-    @XmlElements({@XmlElement(name="proprieteBatie",     type=ProprieteBatie.class)})
+	@XmlElementWrapper(name="proprietesBaties", nillable=true)
+    @XmlElements({@XmlElement(name="proprieteBatie", type=ProprieteBatie.class, nillable = true)})
 	/**
 	 * @param proprieteBaties the proprieteBaties to set
 	 */
@@ -80,8 +80,8 @@ public class CompteCommunal {
 		return proprieteNonBaties;
 	}
 
-	@XmlElementWrapper(name="proprietesNonBaties")
-    @XmlElements({@XmlElement(name="proprieteNonBatie",     type=ProprieteNonBatie.class)})
+	@XmlElementWrapper(name="proprietesNonBaties", nillable=true)
+    @XmlElements({@XmlElement(name="proprieteNonBatie",     type=ProprieteNonBatie.class, nillable = true)})
 	/**
 	 * @param proprieteNonBaties the proprieteNonBaties to set
 	 */

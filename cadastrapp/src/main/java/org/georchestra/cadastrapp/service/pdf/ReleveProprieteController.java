@@ -289,8 +289,10 @@ public class ReleveProprieteController extends CadController {
 
 					proprietesBaties.add(proprieteBatie);
 				}
-
-				compteCommunal.setProprieteBaties(proprietesBaties);
+				// ajout la liste des propriete baties uniquement si il y en a au moins une
+				if(!proprietesBaties.isEmpty()){
+					compteCommunal.setProprieteBaties(proprietesBaties);
+				}
 
 				// Information sur les proprietés non baties
 				List<ProprieteNonBatie> proprietesNonBaties = new ArrayList<ProprieteNonBatie>();
@@ -342,7 +344,11 @@ public class ReleveProprieteController extends CadController {
 
 					proprietesNonBaties.add(proprieteNonBatie);
 				}
-				compteCommunal.setProprieteNonBaties(proprietesNonBaties);
+				
+				// ajout la liste des propriete non baties uniquement si il y en a au moins une
+				if(!proprietesNonBaties.isEmpty()){
+					compteCommunal.setProprieteNonBaties(proprietesNonBaties);
+				}
 
 				// Ajout du compte communal à la liste
 				comptesCommunaux.add(compteCommunal);
