@@ -54,7 +54,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			p.dindic,
 			v.natvoi,
 			p.cconvo,
-			p.dvoilib,
+			v.libvoi as dvoilib,
 			p.dparpi,
 			p.gpafpd,
 			suf.ccostn,
