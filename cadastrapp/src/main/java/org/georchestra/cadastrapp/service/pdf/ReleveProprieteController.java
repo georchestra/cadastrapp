@@ -172,7 +172,7 @@ public class ReleveProprieteController extends CadController {
 
 	/**
 	 * 
-	 * @param parcelleList
+	 * @param idComptesCommunaux
 	 * @param headers
 	 * @return
 	 */
@@ -186,6 +186,7 @@ public class ReleveProprieteController extends CadController {
 
 		List<CompteCommunal> comptesCommunaux = new ArrayList<CompteCommunal>();
 
+		// Pour chaque compte communal
 		for (String idCompteCommunal : idComptesCommunaux) {
 
 			CompteCommunal compteCommunal = new CompteCommunal();
@@ -255,7 +256,7 @@ public class ReleveProprieteController extends CadController {
 				queryBuilderProprieteBatie.append("from ");
 				queryBuilderProprieteBatie.append(databaseSchema);
 				queryBuilderProprieteBatie.append(".proprietebatie pb ");
-				queryBuilderProprieteBatie.append(" where pb.comptecommunal = ?");
+				queryBuilderProprieteBatie.append(" where pb.comptecommunal = ? ORDER BY ccosec, dnupla");
 
 				List<Map<String, Object>> proprietesBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteBatie.toString(), idCompteCommunal);
 
@@ -303,7 +304,7 @@ public class ReleveProprieteController extends CadController {
 				queryBuilderProprieteNonBatie.append("from ");
 				queryBuilderProprieteNonBatie.append(databaseSchema);
 				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
-				queryBuilderProprieteNonBatie.append(" where pnb.comptecommunal = ?");
+				queryBuilderProprieteNonBatie.append(" where pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
 
 				List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal);
 
