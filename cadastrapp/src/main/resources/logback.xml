@@ -8,6 +8,7 @@
 	<logger name="org.georchestra.cadastrapp" level="DEBUG" />
 	<logger name="org.geotools" level="DEBUG" />
 	<logger name="org.springframework" level="INFO" />
+	<logger name="org.apache.fop" level="INFO" />
 	
 	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" />
 	<logger name="org.apache.cxf" level="INFO" />
