@@ -59,6 +59,9 @@
 		<xsl:variable name="service">
 			<xsl:value-of select="service" />
 		</xsl:variable>
+		<xsl:variable name="serviceUrl">
+			<xsl:value-of select="serviceUrl" />
+		</xsl:variable>
 		<xsl:variable name="dateDeValidite">
 			<xsl:value-of select="dateDeValidite" />
 		</xsl:variable>
@@ -73,7 +76,8 @@
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								<fo:external-graphic>
-									<xsl:attribute name="src">http://localhost:8080/cadastrapp/services/getImageBordereau?parcelle=<xsl:value-of
+									<xsl:attribute name="src"><xsl:value-of
+										select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of
 										select="@parcelleId" /></xsl:attribute>
 								</fo:external-graphic>
 							</fo:block>

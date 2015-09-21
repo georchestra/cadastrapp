@@ -91,6 +91,9 @@ public class CadController {
 	
 	@Value("${tempFolder}")
 	protected String tempFolder;
+	
+	@Value("${webapp.url.services}")
+	protected String webappUrl;
 		
 	protected int cgoCommuneLength = 6;
 	

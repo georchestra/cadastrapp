@@ -17,6 +17,8 @@ public class BordereauParcellaire {
 	
 	private String baseMapUrl;
 	
+	private String serviceUrl;
+	
 	private List<Parcelle> parcelleList;
 
 
@@ -80,6 +82,21 @@ public class BordereauParcellaire {
 	 */
 	public void setBaseMapUrl(String baseMapUrl) {
 		this.baseMapUrl = baseMapUrl;
+	}
+
+	/**
+	 * @return the serviceUrl
+	 */
+	public String getServiceUrl() {
+		return serviceUrl;
+	}
+
+	@XmlElement
+	/**
+	 * @param serviceUrl the serviceUrl to set
+	 */
+	public void setServiceUrl(String serviceUrl) {
+		this.serviceUrl = serviceUrl;
 	}
 	
 }
