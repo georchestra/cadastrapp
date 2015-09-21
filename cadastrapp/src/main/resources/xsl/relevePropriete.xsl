@@ -83,17 +83,26 @@
 			select="java:format(java:java.text.SimpleDateFormat.new('d MMMM yyyy'), java:java.util.Date.new())" />
 	</xsl:variable>
 
+	<!--  template global -->
 	<xsl:template match="relevePropriete">
-		<!-- Pour chaque compte communal une page de pdf -->
+		
+		<!-- Pour chaque compte communal une our plusieurs page(s) de pdf -->
 		<xsl:for-each select="comptesCommunaux/compteCommunal">
+			<!--  Entete comprenant le département la commune, et le numéro communal -->
 			<xsl:call-template name="entete" />
+			
+			<!-- liste des proprietaires d'un compte communal -->
 			<xsl:if test="proprietaires/proprietaire">
 				<xsl:call-template name="proprietaire" />
 			</xsl:if>
+			
+			<!-- liste des proprietes baties d'un compte communal -->
 			<xsl:if test="proprietesBaties/proprieteBatie">
 				<xsl:call-template name="proprietesBaties" />
 				<xsl:call-template name="revenuImposable" />
 			</xsl:if>
+			
+			<!-- liste des proprietes non baties d'un compte communal -->
 			<xsl:if test="proprietesNonBaties/proprieteNonBatie">
 				<xsl:call-template name="proprietesNonBaties" />
 				<xsl:call-template name="revenuImposableNonBaties" />
@@ -101,6 +110,7 @@
 		</xsl:for-each>
 	</xsl:template>
 
+	<!-- Cartouche d'entête de chaque relevé, présent uniquement sur la premiere page   -->
 	<xsl:template name="entete">
 		<fo:block xsl:use-attribute-sets="titre">Relevé de propriété
 		</fo:block>
@@ -139,7 +149,7 @@
 	</xsl:template>
 
 
-
+	<!-- Liste des propriétaires comprenant Droit, Nom, Adresse et information de naissance  -->
 	<xsl:template name="proprietaire">
 		<fo:block xsl:use-attribute-sets="titre">Propriétaire(s)</fo:block>
 		<fo:table>
@@ -159,13 +169,15 @@
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure-left">
-							<fo:block>
+							<fo:block padding-top="5pt">
 								<xsl:value-of select="@adresse" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure-left">
-							<fo:block>
-								Né(e)
+							<fo:block padding-top="5pt">
+								<xsl:if test="@dateNaissance or @lieuNaissance">
+									Né(e)
+								</xsl:if>
 								<xsl:if test="@dateNaissance">
 									<xsl:variable name="dateNaissance"
 										select="date:format-date(@dateNaissance, 'dd/MM/yyyy')" />
@@ -176,7 +188,6 @@
 									à
 									<xsl:value-of select="@lieuNaissance" />
 								</xsl:if>
-
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -186,6 +197,7 @@
 		</fo:table>
 	</xsl:template>
 
+	<!-- Liste des propriétés baties -->
 	<xsl:template name="proprietesBaties">
 		<fo:block xsl:use-attribute-sets="titre">Propriété(s) batie(s)
 		</fo:block>
@@ -193,8 +205,7 @@
 			<fo:table-column column-width="20%" />
 			<fo:table-column column-width="20%" />
 			<fo:table-column column-width="60%" />
-			<fo:table-header background-color="yellow"
-				font-weight="bold">
+			<fo:table-header background-color="yellow" font-weight="bold">
 				<fo:table-row>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
@@ -230,12 +241,13 @@
 		</fo:table>
 	</xsl:template>
 
+	<!-- Liste des propriétés non baties  -->
 	<xsl:template name="proprietesNonBaties">
 		<fo:block xsl:use-attribute-sets="titre">Propriété(s) non batie(s)
 		</fo:block>
 		<fo:table>
 
-			<!-- Alsace Moselle Special case -->
+			<!-- Alsace Moselle Special case add reference to livre foncier -->
 			<xsl:choose>
 				<xsl:when
 					test="starts-with(@codeDepartement, '57') or starts-with(@codeDepartement, '67') or starts-with(@codeDepartement, '68')">
@@ -292,6 +304,7 @@
 		</fo:table>
 	</xsl:template>
 
+	<!-- Designation des proprietes -->
 	<xsl:template name="designationProprietes">
 		<fo:table>
 			<fo:table-column column-width="10%" />
@@ -300,7 +313,7 @@
 			<fo:table-column column-width="35%" />
 			<fo:table-column column-width="20%" />
 			<fo:table-header background-color="silver">
-				<fo:table-row>
+				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
 							M
@@ -330,10 +343,10 @@
 			</fo:table-header>
 			<fo:table-body>
 				<xsl:for-each select="proprietesBaties/proprieteBatie">
-					<fo:table-row>
+					<fo:table-row height="20pt">
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								M
+								<!--  TODO M -->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -348,7 +361,7 @@
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
+							<fo:block font-size="6pt">
 								<xsl:value-of select="@dvoilib" />
 							</fo:block>
 						</fo:table-cell>
@@ -371,7 +384,7 @@
 			<fo:table-column column-width="25%" />
 			<fo:table-column column-width="30%" />
 			<fo:table-header background-color="silver">
-				<fo:table-row>
+				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
 							Bat
@@ -401,7 +414,7 @@
 			</fo:table-header>
 			<fo:table-body>
 				<xsl:for-each select="proprietesBaties/proprieteBatie">
-					<fo:table-row>
+					<fo:table-row height="20pt">
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								<xsl:value-of select="@dnubat" />
@@ -450,7 +463,7 @@
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-header background-color="silver">
-				<fo:table-row>
+				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
 							S.TAR
@@ -525,7 +538,7 @@
 			</fo:table-header>
 			<fo:table-body>
 				<xsl:for-each select="proprietesBaties/proprieteBatie">
-					<fo:table-row>
+					<fo:table-row height="20pt">
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								<xsl:value-of select="@ccostn" />
@@ -563,7 +576,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								Nat Exo
+								<!--  TODO Nat Exo -->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -583,7 +596,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								Exo
+								<!--  TODO Exo -->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -593,7 +606,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								Coef
+								<!--  TODO Coef -->
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -606,13 +619,13 @@
 		<fo:block>&#160;</fo:block>
 		<fo:table xsl:use-attribute-sets="bordure">
 			<fo:table-column column-width="15%" />
+			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
@@ -626,20 +639,41 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="center">
-							valeur
+							A définir
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
-							Commune :
+							Commune -
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
 						<fo:block>
-							R.exo
+							Revenu exonéré :
 						</fo:block>
 						<fo:block>
-							R.imp
+							Revenu imposable :
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="center">
+						<fo:block>
+							r.exo
+						</fo:block>
+						<fo:block>
+							r.imp
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block padding-top="5pt" text-align="end">
+							Département -
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="end">
+						<fo:block>
+							Revenu exonéré :
+						</fo:block>
+						<fo:block>
+							Revenu imposable :
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
@@ -652,36 +686,15 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
-							Département :
+							Région -
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
 						<fo:block>
-							R.exo :
+							Revenu exonéré :
 						</fo:block>
 						<fo:block>
-							R.imp :
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="center">
-						<fo:block>
-							value r.exo
-						</fo:block>
-						<fo:block>
-							value r.imp
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block padding-top="5pt" text-align="end">
-							Région :
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="end">
-						<fo:block>
-							R.exo
-						</fo:block>
-						<fo:block>
-							R.imp
+							Revenu imposable :
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
@@ -705,7 +718,7 @@
 			<fo:table-column column-width="35%" />
 			<fo:table-column column-width="20%" />
 			<fo:table-header background-color="silver">
-				<fo:table-row>
+				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
 							M
@@ -722,7 +735,7 @@
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
-						<fo:block>
+						<fo:block font-size="6pt">
 							Adresse
 						</fo:block>
 					</fo:table-cell>
@@ -735,7 +748,7 @@
 			</fo:table-header>
 			<fo:table-body>
 				<xsl:for-each select="proprietesNonBaties/proprieteNonBatie">
-					<fo:table-row>
+					<fo:table-row height="20pt">
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								<xsl:value-of select="@ccopre" />
@@ -753,7 +766,7 @@
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
+							<fo:block font-size="6pt">
 								<xsl:value-of select="@dvoilib" />
 							</fo:block>
 						</fo:table-cell>
@@ -788,7 +801,7 @@
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-header background-color="silver">
-				<fo:table-row>
+				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
 							N° parc Prim
@@ -873,7 +886,7 @@
 			</fo:table-header>
 			<fo:table-body>
 				<xsl:for-each select="proprietesNonBaties/proprieteNonBatie">
-					<fo:table-row>
+					<fo:table-row height="20pt">
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								<xsl:value-of select="@dparpi" />
@@ -881,7 +894,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								FP / DP
+								<!--  TODO FP / DP -->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -933,7 +946,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								Nat Exo
+								<!-- TODO Nat Exo-->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -948,12 +961,12 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								% Exo
+								<!-- TODO % Exo-->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								pos
+								<!--  TODO pos -->
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -966,7 +979,7 @@
 		<fo:table>
 			<fo:table-column column-width="100%" />
 			<fo:table-header background-color="silver">
-				<fo:table-row>
+				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
 							Feuillet
@@ -976,7 +989,7 @@
 			</fo:table-header>
 			<fo:table-body>
 				<xsl:for-each select="proprietesNonBaties/proprieteNonBatie">
-					<fo:table-row>
+					<fo:table-row height="20pt">
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								value feuillet
@@ -991,19 +1004,19 @@
 	<xsl:template name="revenuImposableNonBaties">
 		<fo:block>&#160;</fo:block>
 		<fo:table xsl:use-attribute-sets="bordure">
-			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="8%" />
+			<fo:table-column column-width="7%" />
+			<fo:table-column column-width="15%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-body>
 				<fo:table-row>
@@ -1033,65 +1046,65 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							Commune :
+							Commune -
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell>
+					<fo:table-cell  text-align="end">
 						<fo:block>
-							R.exo
+							Revenu éxonéré :
 						</fo:block>
 						<fo:block>
-							R.imp
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block>
-							value r.exo
-						</fo:block>
-						<fo:block>
-							value r.imp
+							Revenu imposable :
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block padding-top="5pt">
-							Département :
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
+					<fo:table-cell  text-align="center">
 						<fo:block>
-							R.exo
+							r.exo
 						</fo:block>
 						<fo:block>
-							R.imp
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block>
-							value r.exo
-						</fo:block>
-						<fo:block>
-							value r.imp
+							r.imp
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							Région :
+							Département -
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="end">
+						<fo:block>
+							Revenu éxonéré :
+						</fo:block>
+						<fo:block>
+							Revenu imposable :
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="center">
+						<fo:block>
+							r.exo
+						</fo:block>
+						<fo:block>
+							r.imp
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
-						<fo:block>
-							R.exo
-						</fo:block>
-						<fo:block>
-							R.imp
+						<fo:block padding-top="5pt">
+							Région -
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell>
+					<fo:table-cell text-align="end">
 						<fo:block>
-							value r.exo
+							Revenu exonéré :
 						</fo:block>
 						<fo:block>
-							value r.imp
+							Revenu imposable :
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="center">
+						<fo:block>
+							r.exo
+						</fo:block>
+						<fo:block>
+							r.imp
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>

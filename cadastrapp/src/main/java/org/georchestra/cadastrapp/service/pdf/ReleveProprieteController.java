@@ -57,8 +57,8 @@ public class ReleveProprieteController extends CadController {
 	/**
 	 * 
 	 * @param headers
-	 * @param parcelleList
-	 * @return
+	 * @param compteCommunal
+	 * @return pdf 
 	 */
 	@GET
 	@Path("/createRelevePropriete")
