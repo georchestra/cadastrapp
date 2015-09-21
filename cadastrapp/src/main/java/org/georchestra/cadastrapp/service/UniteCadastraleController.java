@@ -131,7 +131,7 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(".proprietaire_parcelle propar,");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietaire p where propar.parcelle = ?");
-		queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ORDER BY p.ddenom ;");
+		queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ORDER BY p.dnomlp ;");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
