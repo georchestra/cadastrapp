@@ -125,7 +125,7 @@ public class UniteCadastraleController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 1
-		queryBuilder.append("select distinct p.comptecommunal, p.dnupro, p.ddenom, p.dnomlp, p.dprnlp, p.epxnee, p.dnomcp, p.dprncp, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
+		queryBuilder.append("select p.comptecommunal, p.dnupro, p.ddenom, p.dnomlp, p.dprnlp, p.epxnee, p.dnomcp, p.dprncp, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietaire_parcelle propar,");
