@@ -102,7 +102,7 @@ public class InfoBulleController extends CadController {
 				
 				// Create query
 				StringBuilder queryProprietaireBuilder = new StringBuilder();
-				queryProprietaireBuilder.append("select prop.ddenom from ");
+				queryProprietaireBuilder.append("select distinct prop.ddenom from ");
 				queryProprietaireBuilder.append(databaseSchema);
 				queryProprietaireBuilder.append(".proprietaire_parcelle proparc,");
 				queryProprietaireBuilder.append(databaseSchema);
