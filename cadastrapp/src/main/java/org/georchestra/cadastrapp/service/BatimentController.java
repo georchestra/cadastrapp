@@ -53,7 +53,7 @@ public class BatimentController extends CadController {
 			
 			// CNIL Niveau 2
 			queryBuilder.append("select hab.annee, pb.invar, pb.descr, pb.dniv, pb.dpor, hab.ccoaff_lib, ");
-			queryBuilder.append("prop.dnupro, prop.ddenom, prop.dnomlp, prop.dprnlp, prop.epxnee, prop.dnomcp, prop.dprncp ");
+			queryBuilder.append("prop.comptecommunal, prop.dnupro, prop.ddenom, prop.dnomlp, prop.dprnlp, prop.epxnee, prop.dnomcp, prop.dprncp ");
 			queryBuilder.append("from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietebatie pb, ");
