@@ -12,7 +12,7 @@ public class Proprietaire {
 		
 	String adresse;
 	
-	Date dateNaissance;
+	String dateNaissance;
 	
 	String lieuNaissance;
 	
@@ -70,7 +70,7 @@ public class Proprietaire {
 	/**
 	 * @return the dateNaissance
 	 */
-	public Date getDateNaissance() {
+	public String getDateNaissance() {
 		return dateNaissance;
 	}
 
@@ -78,7 +78,7 @@ public class Proprietaire {
 	/**
 	 * @param dateNaissance the dateNaissance to set
 	 */
-	public void setDateNaissance(Date dateNaissance) {
+	public void setDateNaissance(String dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
 

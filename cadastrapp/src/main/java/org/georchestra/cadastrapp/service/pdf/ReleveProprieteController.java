@@ -239,7 +239,7 @@ public class ReleveProprieteController extends CadController {
 					proprietaire.setNom((String) prop.get("nom"));
 					proprietaire.setAdresse((String) prop.get("adresse"));
 					proprietaire.setCodeDeDemenbrement((String) prop.get("ccodem_lib"));
-					proprietaire.setDateNaissance((Date) prop.get("jdatnss"));
+					proprietaire.setDateNaissance((String) prop.get("jdatnss"));
 					proprietaire.setLieuNaissance((String) prop.get("dldnss"));
 					proprietaire.setDroitReel((String) prop.get("ccodro_lib"));
 
