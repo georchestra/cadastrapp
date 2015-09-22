@@ -12,6 +12,12 @@ CREATE EXTENSION dblink
 See http://www.postgresql.org/docs/9.1/static/dblink.html
 
 
+If your are using Postgresql upper to 9.2 version, you could change script to use MATERIALIZED view, application will be quiker because DLink with the other database won't be query each time :
+
+http://www.postgresql.org/docs/9.4/static/sql-creatematerializedview.html
+
+To update your view data only a refresh will be need.
+
 
 ##  Arcopole model:
 
@@ -22,3 +28,4 @@ Configure and launch with postgres user ```arcopole/createDBUsingArcopoleModel.s
 
 Configure and launch with postgres user ```qgis/createDBUsingQgisModel.sh ```
 	
+Those script can be launch with parameters, see commentary inside scripts.
