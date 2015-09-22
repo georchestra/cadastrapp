@@ -37,7 +37,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS
 			rtrim(dvoilib) as dvoilib,
 			substr(codparc,7,3) as ccopre,
 			substr(codparc,10,2) ccosec ,
-			dcntpa
+			CAST(dcntpa AS integer)
 		from #DBSchema_arcopole.dgi_nbati'::text) 
 	parcelle(
 		parcelle character varying(19), 
@@ -49,7 +49,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS
 		dvoilib character varying(26),  
 		ccopre character varying(3), 
 		ccosec character varying(2),
-		dcntpa numeric(38,8));
+		dcntpa integer);
                 
 ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 
@@ -96,7 +96,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 			codparc as parcelle,
 			codcomm as cgocommune,
 			dnupla,
-			dcntpa,
+			CAST(dcntpa as integer),
 			dsrpar,
 		    jdatat,
             dreflf,
@@ -131,7 +131,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 		parcelle character varying(19),  
 		cgocommune character varying(6),
 		dnupla character varying(4), 
-		dcntpa numeric(38,8), 
+		dcntpa integer, 
 		dsrpar character varying(1),  
 		jdatat character varying(8),
 		dreflf character varying(5),
