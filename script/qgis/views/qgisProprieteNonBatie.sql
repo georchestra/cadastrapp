@@ -39,7 +39,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.dreflf
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
-			p.jdatat,
+			COALESCE(to_char(p.jdatat, ''DD/MM/YYYY''), '''') as jdatat,
 			p.comptecommunal,
 			p.dnupro,
 			p.ccodep || p.ccodir ||	p.ccocom as cgocommune,
@@ -79,7 +79,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			left join suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
 			left join sufexoneration as sufex on sufex.suf=suf.suf'::text) 
 	proprietenonbatie(
-		jdatat date, 
+		jdatat character varying(10),  
 		comptecommunal character varying(15), 
 		dnupro character varying(6),
  		cgocommune character varying(6), 
