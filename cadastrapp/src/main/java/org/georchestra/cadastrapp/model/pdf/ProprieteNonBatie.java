@@ -28,7 +28,7 @@ public class ProprieteNonBatie extends Propriete{
 	String cnatsp;
 	
 	// Contenance de la suf, en centiares
-	int dcntsf;
+	String dcntsf;
 	
 	// Revenu cadastral revalorisé en valeur deu 01-01 de l'année 
 	BigDecimal drcsuba;
@@ -150,7 +150,7 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @return the dcntsf
 	 */
-	public int getDcntsf() {
+	public String getDcntsf() {
 		return dcntsf;
 	}
 
@@ -158,7 +158,7 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @param dcntsf the dcntsf to set
 	 */
-	public void setDcntsf(int dcntsf) {
+	public void setDcntsf(String dcntsf) {
 		this.dcntsf = dcntsf;
 	}
 

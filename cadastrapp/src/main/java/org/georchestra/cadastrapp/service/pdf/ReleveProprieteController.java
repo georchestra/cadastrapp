@@ -322,7 +322,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteNonBatie.setCnatsp((String) propNonBat.get("cnatsp"));
 
 					proprieteNonBatie.setDclssf((String) propNonBat.get("dclssf"));
-					proprieteNonBatie.setDcntsf((Integer) propNonBat.get("dcntsf"));
+					proprieteNonBatie.setDcntsf((String) propNonBat.get("dcntsf"));
 					proprieteNonBatie.setDindic((String) propNonBat.get("dindic"));
 					proprieteNonBatie.setDnulot((String) propNonBat.get("dnulot"));
 					proprieteNonBatie.setDnupla((String) propNonBat.get("dnupla"));
