@@ -1,6 +1,6 @@
 -- Create view making link beetween parcelle and owners based on Arcopole Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire_parcelle AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire_parcelle AS 
 	SELECT 
 		proprietaire_parcelle.lots, 
 		proprietaire_parcelle.parcelle, 

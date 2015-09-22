@@ -1,6 +1,6 @@
 -- Create view proprietaire based on Arcopole Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire as 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as 
 	SELECT 
 		proprietaire.id_proprietaire,
 		proprietaire.dnupro,

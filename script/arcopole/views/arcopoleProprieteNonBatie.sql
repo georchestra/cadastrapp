@@ -1,6 +1,6 @@
 -- Create view proprietenonbatie based on Arcopole Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS 
 	SELECT 
 		proprietenonbatie.id_local, 
 		proprietenonbatie.parcelle,

@@ -2,7 +2,7 @@
 -- Create views deschabitation, descproffessionnel, descdependance based on Arcopole Models
 
 
-CREATE OR REPLACE VIEW  #schema_cadastrapp.descproffessionnel AS 
+CREATE MATERIALIZED VIEW  #schema_cadastrapp.descproffessionnel AS 
 	SELECT *
 		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 			'select 
@@ -20,7 +20,7 @@ CREATE OR REPLACE VIEW  #schema_cadastrapp.descproffessionnel AS
 ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS 
 	SELECT *
 		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
@@ -111,7 +111,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation AS
 
 ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS 
 	select *
 		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 

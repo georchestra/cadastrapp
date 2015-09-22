@@ -1,7 +1,7 @@
 -- Create view parcelle, parcelledetails, v_parcelle_surfc based on Arcopole Models
 
 -- Create view for parcelle surface
-CREATE OR REPLACE VIEW #schema_cadastrapp.v_parcelle_surfc as select  parcelle, surfc
+CREATE MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc as select  parcelle, surfc
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			distinct id_parc as parcelle,
@@ -15,7 +15,7 @@ ALTER TABLE #schema_cadastrapp.v_parcelle_surfc OWNER TO #user_cadastrapp;
 
 
 -- Create view for parcelle 
-CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
+CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS
 	SELECT parcelle.parcelle, 
 			parcelle.cgocommune, 
 			parcelle.dnupla, 
@@ -55,7 +55,7 @@ ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 
 
 -- Create view for parcelle with details
-CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
+CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 	SELECT parcelledetails.parcelle,  
 			parcelledetails.cgocommune, 
 			parcelledetails.dnupla, 
