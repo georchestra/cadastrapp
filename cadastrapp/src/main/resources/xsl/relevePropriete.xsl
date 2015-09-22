@@ -179,10 +179,8 @@
 									Né(e)
 								</xsl:if>
 								<xsl:if test="@dateNaissance">
-									<xsl:variable name="dateNaissance"
-										select="date:format-date(@dateNaissance, 'dd/MM/yyyy')" />
 									le
-									<xsl:value-of select="$dateNaissance" />
+									<xsl:value-of select="@dateNaissance" />
 								</xsl:if>
 								<xsl:if test="@lieuNaissance">
 									à
