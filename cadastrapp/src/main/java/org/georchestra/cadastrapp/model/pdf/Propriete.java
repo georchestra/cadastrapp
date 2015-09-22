@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public abstract class Propriete {
 
 	// Date d'acte de mutation du local
-	Date jdatat;
+	String jdatat;
 
 	// Préfixe de section
 	String ccopre;
@@ -57,7 +57,7 @@ public abstract class Propriete {
 	/**
 	 * @return the jdatat
 	 */
-	public Date getJdatat() {
+	public String getJdatat() {
 		return jdatat;
 	}
 
@@ -65,7 +65,7 @@ public abstract class Propriete {
 	/**
 	 * @param jdatat the jdatat to set
 	 */
-	public void setJdatat(Date jdatat) {
+	public void setJdatat(String jdatat) {
 		this.jdatat = jdatat;
 	}
 

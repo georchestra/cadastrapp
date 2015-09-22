@@ -285,7 +285,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteBatie.setInvar((String) propBat.get("invar"));
 					proprieteBatie.setJandeb((String) propBat.get("jandeb"));
 					proprieteBatie.setJanimp((String) propBat.get("janimp"));
-					proprieteBatie.setJdatat((Date) propBat.get("jdatat"));
+					proprieteBatie.setJdatat((String) propBat.get("jdatat"));
 					proprieteBatie.setMvltieomx((String) propBat.get("mvltieomx"));
 
 					proprietesBaties.add(proprieteBatie);
@@ -338,7 +338,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteNonBatie.setGpafpd((String) propNonBat.get("gpafpd"));
 					proprieteNonBatie.setJandeb((String) propNonBat.get("jandeb"));
 					proprieteNonBatie.setJanimp((String) propNonBat.get("janimp"));
-					proprieteNonBatie.setJdatat((Date) propNonBat.get("jdatat"));
+					proprieteNonBatie.setJdatat((String) propNonBat.get("jdatat"));
 
 					proprieteNonBatie.setPdl((String) propNonBat.get("pdl"));
 					proprieteNonBatie.setPexb((String) propNonBat.get("pexb"));
