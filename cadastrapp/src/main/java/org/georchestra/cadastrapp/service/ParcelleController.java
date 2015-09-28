@@ -37,7 +37,7 @@ public class ParcelleController extends CadController {
 
 	@GET
 	@Path("/getParcelle")
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	/**
 	 * 
 	 * @param headers http headers, used to get ldap role information about the user group
