@@ -340,13 +340,33 @@ public class ParcelleController extends CadController {
 	public Response getFromParcellesFile(@Context HttpHeaders headers, 
 			@FormParam("filePath") String fileContent) throws Exception {
 
+		// space, , or ;
+		String delimitersRegex = "[\\s\\;\\,]"; 
+		
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 
 		List<String> parcelleList = new ArrayList<String>();
-		String parcelleId = null;
-		while ((parcelleId = br.readLine()) != null) {
-			if (!parcelleId.trim().isEmpty()) {
-				parcelleList.add(parcelleId.trim());
+		String line = null;
+		while ((line = br.readLine()) != null) {
+			// Empty lines
+			if (!line.trim().isEmpty()) {
+				// split line
+				String[] parcelleIds = line.split(delimitersRegex);
+				
+				for (String parcelleId : parcelleIds) {
+					
+					if(logger.isDebugEnabled()){
+						logger.debug("Parcelle from the csv file : "+parcelleId);
+					}
+					// remove space
+					// TODO optimize controle on parcelleId
+					if(parcelleId!=null && parcelleId.length()>=14){
+						if(logger.isDebugEnabled()){
+							logger.debug("Added to parcelle list : "+parcelleId);
+						}
+						parcelleList.add(parcelleId.trim());
+					}
+				}
 			}
 		}
 
