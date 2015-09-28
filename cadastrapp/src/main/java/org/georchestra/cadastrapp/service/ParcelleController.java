@@ -1,7 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
@@ -334,11 +333,20 @@ public class ParcelleController extends CadController {
 		return selectQueryBuilder.toString();
 	}
 
+	/**
+	 * Service witch use csv file as input
+	 * 
+	 * @param headers
+	 * @param fileContent parcelleId separated by space, ',' or ';'
+	 * 
+	 * @return Json data, with corresponding parcelleId information
+	 * 
+	 */
 	@POST
 	@Path("/fromParcellesFile")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response getFromParcellesFile(@Context HttpHeaders headers, 
-			@FormParam("filePath") String fileContent) throws Exception {
+			@FormParam("filePath") String fileContent) {
 
 		// space, , or ;
 		String delimitersRegex = "[\\s\\;\\,]"; 
@@ -347,28 +355,29 @@ public class ParcelleController extends CadController {
 
 		List<String> parcelleList = new ArrayList<String>();
 		String line = null;
-		while ((line = br.readLine()) != null) {
-			// Empty lines
-			if (!line.trim().isEmpty()) {
-				// split line
-				String[] parcelleIds = line.split(delimitersRegex);
-				
-				for (String parcelleId : parcelleIds) {
+		try {
+			while ((line = br.readLine()) != null) {
+				// Empty lines
+				if (!line.trim().isEmpty()) {
+					// split line
+					String[] parcelleIds = line.split(delimitersRegex);
 					
-					if(logger.isDebugEnabled()){
-						logger.debug("Parcelle from the csv file : "+parcelleId);
-					}
-					// remove space
-					// TODO optimize controle on parcelleId
-					if(parcelleId!=null && parcelleId.length()>=14){
+					for (String parcelleId : parcelleIds) {
+						
 						if(logger.isDebugEnabled()){
-							logger.debug("Added to parcelle list : "+parcelleId);
+							logger.debug("Parcelle from the csv file : "+parcelleId);
 						}
-						parcelleList.add(parcelleId.trim());
+						// remove space
+						// TODO optimize controle on parcelleId
+						if(parcelleId!=null && parcelleId.length()>=14){
+							if(logger.isDebugEnabled()){
+								logger.debug("Added to parcelle list : "+parcelleId);
+							}
+							parcelleList.add(parcelleId.trim());
+						}
 					}
 				}
 			}
-		}
 
 		List<Map<String, Object>> parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel(headers));
 
@@ -376,6 +385,16 @@ public class ParcelleController extends CadController {
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String json = ow.writeValueAsString(new ExtFormResult(true, parcellesResult));
 		return Response.ok(json, MediaType.TEXT_HTML).build();
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			logger.error("Error while trying to read input data ", e.getMessage());
+			return Response.serverError().build();
+			
+		} catch (SQLException e) {
+			logger.error("Error while trying to get information from database ", e.getMessage());
+			return Response.serverError().build();
+		}
 	}
 
 	@POST
