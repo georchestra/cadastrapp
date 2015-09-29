@@ -316,7 +316,7 @@ public class ParcelleController extends CadController {
 	private String createSelectParcelleQuery(int details, int userCNILLevel) {
 
 		StringBuilder selectQueryBuilder = new StringBuilder();
-		selectQueryBuilder.append("select ");
+		selectQueryBuilder.append("select distinct ");
 		selectQueryBuilder.append("p.parcelle, p.cgocommune, p.dnvoiri, p.dindic, p.cconvo, p.dnupla, p.dvoilib, p.ccopre, p.ccosec, p.dcntpa");
 		
 		if (details == 1) {
@@ -404,11 +404,27 @@ public class ParcelleController extends CadController {
 
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 
+		// space, , or ;
+		String delimitersRegex = "[\\s\\;\\,]"; 
+				
 		List<String> proprietaireList = new ArrayList<String>();
-		String proprietaireId = null;
-		while ((proprietaireId = br.readLine()) != null) {
-			if (!proprietaireId.trim().isEmpty()) {
-				proprietaireList.add(proprietaireId.trim());
+		String line = null;
+		while ((line = br.readLine()) != null) {
+			String[] proprietaireIds = line.split(delimitersRegex);
+			
+			for (String proprietaireId : proprietaireIds) {
+				
+				if(logger.isDebugEnabled()){
+					logger.debug("Parcelle from the csv file : "+proprietaireId);
+				}
+				// remove space
+				// TODO optimize controle on parcelleId
+				if(proprietaireId!=null && proprietaireId.length()>=8 && !proprietaireList.contains(proprietaireId)){
+					if(logger.isDebugEnabled()){
+						logger.debug("Added to parcelle list : "+proprietaireId);
+					}
+					proprietaireList.add(proprietaireId.trim());
+				}
 			}
 		}
 
