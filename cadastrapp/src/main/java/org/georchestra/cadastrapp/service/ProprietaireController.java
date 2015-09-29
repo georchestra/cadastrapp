@@ -61,6 +61,7 @@ public class ProprietaireController extends CadController{
     			@QueryParam("cgocommune") String cgocommune,
     			@QueryParam("dnupro") String dnupro,
     			@QueryParam("comptecommunal") String compteCommunal,
+    			@QueryParam("globalname") String globalName,
     			@DefaultValue("0") @QueryParam("details") int details
     			) throws SQLException {
     	
@@ -76,6 +77,7 @@ public class ProprietaireController extends CadController{
     		// when searching by dnupro, cgocommune is mandatory
     		// when searching bu dnomlp, cgocommune is mandatory
 	    	if((dnomlp != null && !dnomlp.isEmpty() && minNbCharForSearch <= dnomlp.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
+	    			|| (globalName != null && !globalName.isEmpty() && minNbCharForSearch <= globalName.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
 	    			|| (cgocommune!=null &&  cgoCommuneLength == cgocommune.length() && dnupro!=null && dnupro.length()>0)
 	    			|| (compteCommunal != null && compteCommunal.length()>0)){
 	    		
@@ -90,7 +92,7 @@ public class ProprietaireController extends CadController{
 	    			queryBuilder.append("select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal ");   			    
 	    		}
 	    		else{
-	    			queryBuilder.append("select distinct dnomlp, dprnlp");				    		    		
+	    			queryBuilder.append("select distinct dnomlp, dprnlp, dnomcp, dprncp");				    		    		
 	    		}
 		        queryBuilder.append(" from ");
 		        queryBuilder.append(databaseSchema);
@@ -103,13 +105,25 @@ public class ProprietaireController extends CadController{
 			       queryBuilder.append(" and UPPER(dnomlp) LIKE UPPER(?) ");
 			       queryParams.add("%"+dnomlp+"%");
     		   }
+    		   
+    		   // usual can be null here
+    		   if(globalName!=null){
+    			   // replace all space by %
+    			   globalName = globalName.replace(' ', '%');
+			       queryBuilder.append(" and (UPPER(dnomlp||' '||dprnlp) LIKE UPPER(?) or UPPER(dnomcp||' '||dprncp) LIKE UPPER(?) or UPPER(ddenom) LIKE UPPER(?))");
+			       queryParams.add(globalName+"%");
+			       queryParams.add(globalName+"%");
+			       queryParams.add(globalName+"%");		       
+    		   }
 		       
 		       queryBuilder.append(createEqualsClauseRequest("dnupro", dnupro, queryParams));
 		       queryBuilder.append(createEqualsClauseRequest("comptecommunal", compteCommunal, queryParams));
-		       if(details != 2){
-		    	   queryBuilder.append("order by dnomlp, dprnlp ");
-		       }
+		      
 		       queryBuilder.append(addAuthorizationFiltering(headers));
+		      
+		       if(details != 2){
+		    	   queryBuilder.append("order by dnomlp, dprnlp, dnomcp,  dprncp limit 25 ");
+		       }
 		       queryBuilder.append(finalizeQuery());
 	 	       
 		    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
