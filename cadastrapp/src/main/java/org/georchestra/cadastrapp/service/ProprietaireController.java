@@ -62,6 +62,7 @@ public class ProprietaireController extends CadController{
     			@QueryParam("dnupro") String dnupro,
     			@QueryParam("comptecommunal") String compteCommunal,
     			@QueryParam("globalname") String globalName,
+    			@QueryParam("ddenom") String ddenom,
     			@DefaultValue("0") @QueryParam("details") int details
     			) throws SQLException {
     	
@@ -77,7 +78,8 @@ public class ProprietaireController extends CadController{
     		// when searching by dnupro, cgocommune is mandatory
     		// when searching bu dnomlp, cgocommune is mandatory
 	    	if((dnomlp != null && !dnomlp.isEmpty() && minNbCharForSearch <= dnomlp.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
-	    			|| (globalName != null && !globalName.isEmpty() && minNbCharForSearch <= globalName.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
+	    			|| (globalName != null && !globalName.isEmpty() && minNbCharForSearch <= globalName.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length())
+	    			|| (ddenom != null && !ddenom.isEmpty() && minNbCharForSearch <= ddenom.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
 	    			|| (cgocommune!=null &&  cgoCommuneLength == cgocommune.length() && dnupro!=null && dnupro.length()>0)
 	    			|| (compteCommunal != null && compteCommunal.length()>0)){
 	    		
@@ -92,7 +94,7 @@ public class ProprietaireController extends CadController{
 	    			queryBuilder.append("select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal ");   			    
 	    		}
 	    		else{
-	    			queryBuilder.append("select distinct dnomlp, dprnlp, dnomcp, dprncp");				    		    		
+	    			queryBuilder.append("select distinct dnomlp, dprnlp, dnomcp, dprncp, ddenom");				    		    		
 	    		}
 		        queryBuilder.append(" from ");
 		        queryBuilder.append(databaseSchema);
@@ -106,14 +108,19 @@ public class ProprietaireController extends CadController{
 			       queryParams.add("%"+dnomlp+"%");
     		   }
     		   
-    		   // usual can be null here
+    		   // globalName can be null here
     		   if(globalName!=null){
     			   // replace all space by %
     			   globalName = globalName.replace(' ', '%');
-			       queryBuilder.append(" and (UPPER(dnomlp||' '||dprnlp) LIKE UPPER(?) or UPPER(dnomcp||' '||dprncp) LIKE UPPER(?) or UPPER(ddenom) LIKE UPPER(?))");
+			       queryBuilder.append(" and (UPPER(dnomlp||' '||dprnlp) LIKE UPPER(?) or UPPER(dnomcp||' '||dprncp) LIKE UPPER(?) or UPPER(ddenom) LIKE UPPER(?)) ");
 			       queryParams.add(globalName+"%");
 			       queryParams.add(globalName+"%");
 			       queryParams.add(globalName+"%");		       
+    		   }
+    		   
+    		   if(ddenom!=null){
+    			   queryBuilder.append(" and UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?)) ");
+			       queryParams.add(ddenom+"%");
     		   }
 		       
 		       queryBuilder.append(createEqualsClauseRequest("dnupro", dnupro, queryParams));
