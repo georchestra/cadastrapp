@@ -37,12 +37,12 @@ public class ConfigurationController extends CadController {
 		
 		configuration.put("minNbCharForSearch",minNbCharForSearch);
 		
-		configuration.put("cadastreWMSURL", "");
-		configuration.put("cadastreLayerName", ""); 
-		configuration.put("cadastreLayerFormat", "");
+		configuration.put("cadastreGeoserverURL", geoserverUrl );
+		configuration.put("cadastreLayerName", cadastreLayerName); 
+		configuration.put("cadastreLayerIdParcelle", cadastreLayerIdParcelle);
 
-		configuration.put("cnil1RoleName", "");
-		configuration.put("cnil2RoleName", "");
+		configuration.put("cnil1RoleName", cnil1RoleName);
+		configuration.put("cnil2RoleName", cnil2RoleName);
 		
 		return configuration;
 	}
