@@ -74,8 +74,11 @@ public class CadController {
 	@Value("${baseMap.SRS}")
 	protected String baseMapSRS;
 
-	@Value("${cadastre.geoserver.url}")
-	protected String geoserverUrl;
+	@Value("${cadastre.wms.url}")
+	protected String wmsUrl;
+	
+	@Value("${cadastre.wfs.url}")
+	protected String wfsUrl;
 	
 	@Value("${cadastre.layer.name}")
 	protected String cadastreLayerName;
