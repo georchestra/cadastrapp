@@ -1,6 +1,5 @@
 package org.georchestra.cadastrapp.model.pdf;
 
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;

@@ -23,7 +23,11 @@ public class CompteCommunal {
 	
 	private List<ProprieteBatie> proprieteBaties;
 	
+	private Imposition impositionBatie;
+	
 	private List<ProprieteNonBatie> proprieteNonBaties;
+	
+	private ImpositionNonBatie impositionNonBatie;
 
 
 	/**
@@ -147,6 +151,36 @@ public class CompteCommunal {
 	 */
 	public void setNumeroCommunal(String numeroCommunal) {
 		this.numeroCommunal = numeroCommunal;
+	}
+
+	/**
+	 * @return the impositionBatie
+	 */
+	public Imposition getImpositionBatie() {
+		return impositionBatie;
+	}
+
+	@XmlElement(name="impositionBatie",     type=Imposition.class, nillable = true)
+	/**
+	 * @param impositionBatie the impositionBatie to set
+	 */
+	public void setImpositionBatie(Imposition impositionBatie) {
+		this.impositionBatie = impositionBatie;
+	}
+
+	/**
+	 * @return the impositionNonBatie
+	 */
+	public ImpositionNonBatie getImpositionNonBatie() {
+		return impositionNonBatie;
+	}
+
+	@XmlElement(name="impositionNonBatie",     type=ImpositionNonBatie.class, nillable = true)
+	/**
+	 * @param impositionNonBatie the impositionNonBatie to set
+	 */
+	public void setImpositionNonBatie(ImpositionNonBatie impositionNonBatie) {
+		this.impositionNonBatie = impositionNonBatie;
 	}
 
 

@@ -99,12 +99,18 @@
 			<!-- liste des proprietes baties d'un compte communal -->
 			<xsl:if test="proprietesBaties/proprieteBatie">
 				<xsl:call-template name="proprietesBaties" />
+			</xsl:if>
+			
+			<xsl:if test="impositionBatie">
 				<xsl:call-template name="revenuImposable" />
 			</xsl:if>
 			
 			<!-- liste des proprietes non baties d'un compte communal -->
 			<xsl:if test="proprietesNonBaties/proprieteNonBatie">
-				<xsl:call-template name="proprietesNonBaties" />
+				<xsl:call-template name="proprietesNonBaties" />			
+			</xsl:if>
+			
+			<xsl:if test="impositionNonBatie">
 				<xsl:call-template name="revenuImposableNonBaties" />
 			</xsl:if>
 		</xsl:for-each>
@@ -637,7 +643,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="center">
-							A définir
+							<xsl:value-of select="impositionBatie/@revenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -655,10 +661,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							r.exo
+							<xsl:value-of select="impositionBatie/@communeRevenuExonere" />
 						</fo:block>
 						<fo:block>
-							r.imp
+							<xsl:value-of select="impositionBatie/@communeRevenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -676,10 +682,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							value r.exo
+							<xsl:value-of select="impositionBatie/@departementRevenuExonere" />
 						</fo:block>
 						<fo:block>
-							value r.imp
+							<xsl:value-of select="impositionBatie/@departementRevenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -697,10 +703,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							value r.exo
+							<xsl:value-of select="impositionBatie/@regionRevenuExonere" />
 						</fo:block>
 						<fo:block>
-							value r.imp
+							<xsl:value-of select="impositionBatie/@regionRevenuExonere" />
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -990,7 +996,7 @@
 					<fo:table-row height="20pt">
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								value feuillet
+								<xsl:value-of select="@dreflf" />
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -1028,7 +1034,7 @@
 							HA a CA
 						</fo:block>
 						<fo:block>
-							value
+							<xsl:value-of select="impositionNonBatie/@surface" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1039,7 +1045,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							valeur
+							<xsl:value-of select="impositionNonBatie/@revenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1057,10 +1063,10 @@
 					</fo:table-cell>
 					<fo:table-cell  text-align="center">
 						<fo:block>
-							r.exo
+							<xsl:value-of select="impositionNonBatie/@communeRevenuExonere" />
 						</fo:block>
 						<fo:block>
-							r.imp
+							<xsl:value-of select="impositionNonBatie/@communeRevenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1078,10 +1084,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							r.exo
+							<xsl:value-of select="impositionNonBatie/@departementRevenuExonere" />
 						</fo:block>
 						<fo:block>
-							r.imp
+							<xsl:value-of select="impositionNonBatie/@departementRevenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1099,15 +1105,15 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							r.exo
+							<xsl:value-of select="impositionNonBatie/@regionRevenuExonere" />
 						</fo:block>
 						<fo:block>
-							r.imp
+							<xsl:value-of select="impositionNonBatie/@regionRevenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							MAJ POS
+							MAJ POS : <xsl:value-of select="impositionNonBatie/@majorationTerraion" />
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>

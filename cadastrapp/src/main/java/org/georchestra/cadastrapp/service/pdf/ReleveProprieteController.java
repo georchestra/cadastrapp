@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +38,8 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.model.pdf.CompteCommunal;
+import org.georchestra.cadastrapp.model.pdf.Imposition;
+import org.georchestra.cadastrapp.model.pdf.ImpositionNonBatie;
 import org.georchestra.cadastrapp.model.pdf.Proprietaire;
 import org.georchestra.cadastrapp.model.pdf.ProprieteBatie;
 import org.georchestra.cadastrapp.model.pdf.ProprieteNonBatie;
@@ -191,6 +192,7 @@ public class ReleveProprieteController extends CadController {
 
 			CompteCommunal compteCommunal = new CompteCommunal();
 			compteCommunal.setCompteCommunal(idCompteCommunal);
+			
 
 			// Select parcelle information to get entete information
 			StringBuilder queryBuilder = new StringBuilder();
@@ -209,7 +211,7 @@ public class ReleveProprieteController extends CadController {
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			List<Map<String, Object>> rows = jdbcTemplate.queryForList(queryBuilder.toString(), idCompteCommunal);
 
-			for (Map row : rows) {
+			for (Map<?, ?> row : rows) {
 				compteCommunal.setLibelleCommune((String) row.get("libcom"));
 
 				String cgoCommune = (String) row.get("cgocommune");
@@ -221,7 +223,8 @@ public class ReleveProprieteController extends CadController {
 			
 			// Display information only if at least CNIL level 1 or 2
 			if (getUserCNILLevel(headers) > 0) {
-				// Inforamtion sur les proprietaires
+				
+				// Information sur les proprietaires
 				List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
 
 				StringBuilder queryBuilderProprietaire = new StringBuilder();
@@ -250,6 +253,14 @@ public class ReleveProprieteController extends CadController {
 
 				// Information sur les proprietés baties
 				List<ProprieteBatie> proprietesBaties = new ArrayList<ProprieteBatie>();
+				int pbCommuneRevenuExonere = 0;
+				int pbCommuneRevenuImposable = 0;
+				int pbDepartementRevenuExonere = 0;
+				int pbDepartementRevenuImposable = 0;
+				int pbRegionRevenuExonere = 0;
+				int pbRegionRevenuImposable = 0;
+				int pbRevenuImposable = 0;
+				
 				StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
 				queryBuilderProprieteBatie.append("select jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccostn, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx ");
@@ -292,15 +303,37 @@ public class ReleveProprieteController extends CadController {
 				}
 				// ajout la liste des propriete baties uniquement si il y en a au moins une
 				if(!proprietesBaties.isEmpty()){
+					
 					compteCommunal.setProprieteBaties(proprietesBaties);
+					
+					// Init imposition batie
+					Imposition impositionBatie = new Imposition();
+					impositionBatie.setCommuneRevenuExonere(pbCommuneRevenuExonere);
+					impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable);
+					impositionBatie.setDepartementRevenuExonere(pbDepartementRevenuExonere);
+					impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable);
+					impositionBatie.setRegionRevenuExonere(pbRegionRevenuExonere);
+					impositionBatie.setRegionRevenuImposable(pbRegionRevenuImposable);
+					impositionBatie.setRevenuImposable(pbRevenuImposable);
+					
+					compteCommunal.setImpositionBatie(impositionBatie);
 				}
 
 				// Information sur les proprietés non baties
 				List<ProprieteNonBatie> proprietesNonBaties = new ArrayList<ProprieteNonBatie>();
-
+				int pnbCommuneRevenuExonere = 0;
+				int pnbCommuneRevenuImposable = 0;
+				int pnbDepartementRevenuExonere = 0;
+				int pnbDepartementRevenuImposable = 0;
+				int pnbRegionRevenuExonere = 0;
+				int pnbRegionRevenuImposable = 0;
+				int pnbRevenuImposable = 0;
+				int pnbMajorationTerraion = 0;
+				int pnbSurface = 0;
+				
 				StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-				queryBuilderProprieteNonBatie.append("select jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dparpi, gpafpd, ccostn, ccosub, cgrnum, dclssf, cnatsp, dcntsf, drcsuba, pdl, dnulot, ccolloc, jandeb, janimp, fcexb ");
+				queryBuilderProprieteNonBatie.append("select jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dparpi, gpafpd, ccostn, ccosub, cgrnum, dclssf, cnatsp, dcntsf, drcsuba, pdl, dnulot, ccolloc, jandeb, janimp, fcexb, dreflf ");
 				queryBuilderProprieteNonBatie.append("from ");
 				queryBuilderProprieteNonBatie.append(databaseSchema);
 				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
@@ -320,15 +353,20 @@ public class ReleveProprieteController extends CadController {
 					proprieteNonBatie.setCcosub((String) propNonBat.get("ccosub"));
 					proprieteNonBatie.setCgrnum((String) propNonBat.get("cgrnum"));
 					proprieteNonBatie.setCnatsp((String) propNonBat.get("cnatsp"));
-
+					
 					proprieteNonBatie.setDclssf((String) propNonBat.get("dclssf"));
 					proprieteNonBatie.setDcntsf((String) propNonBat.get("dcntsf"));
+					pnbSurface= pnbSurface+ Integer.parseInt((String) propNonBat.get("dcntsf"));
+					
 					proprieteNonBatie.setDindic((String) propNonBat.get("dindic"));
 					proprieteNonBatie.setDnulot((String) propNonBat.get("dnulot"));
 					proprieteNonBatie.setDnupla((String) propNonBat.get("dnupla"));
 					proprieteNonBatie.setDnvoiri((String) propNonBat.get("dnvoiri"));
 					proprieteNonBatie.setDparpi((String) propNonBat.get("dparpi"));
 					proprieteNonBatie.setDrcsuba((String) propNonBat.get("drcsuba"));
+					
+					// pnbRevenuImposable= pnbRevenuImposable+ Integer.parseInt((String) propNonBat.get("drcsuba"));
+					
 					proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 					proprieteNonBatie.setDsgrpf((String) propNonBat.get("dsgrpf"));
 					proprieteNonBatie.setDvoilib((String) propNonBat.get("voie"));
@@ -348,12 +386,29 @@ public class ReleveProprieteController extends CadController {
 				
 				// ajout la liste des propriete non baties uniquement si il y en a au moins une
 				if(!proprietesNonBaties.isEmpty()){
+					
+					// Init imposition no batie
+					ImpositionNonBatie impositionNonBatie = new ImpositionNonBatie();
+					impositionNonBatie.setCommuneRevenuExonere(pnbCommuneRevenuExonere);
+					impositionNonBatie.setCommuneRevenuImposable(pnbCommuneRevenuImposable);
+					impositionNonBatie.setDepartementRevenuExonere(pnbDepartementRevenuExonere);
+					impositionNonBatie.setDepartementRevenuImposable(pnbDepartementRevenuImposable);
+					impositionNonBatie.setRegionRevenuExonere(pnbRegionRevenuExonere);
+					impositionNonBatie.setRegionRevenuImposable(pnbRegionRevenuImposable);
+					impositionNonBatie.setRevenuImposable(pnbRevenuImposable);
+					impositionNonBatie.setMajorationTerraion(pnbMajorationTerraion);
+					impositionNonBatie.setSurface(pnbSurface);
+				
+					compteCommunal.setImpositionNonBatie(impositionNonBatie);
+					
 					compteCommunal.setProprieteNonBaties(proprietesNonBaties);
 				}
+				
 
 				// Ajout du compte communal à la liste
 				comptesCommunaux.add(compteCommunal);
 			}
+			
 			relevePropriete.setComptesCommunaux(comptesCommunaux);
 
 		}
