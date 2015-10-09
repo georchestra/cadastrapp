@@ -24,7 +24,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.invar,
 		proprietebatie.ccoaff,
 		proprietebatie.ccoeva,
-		proprietebatie.ccostn,
 		proprietebatie.ccolloc,
 		proprietebatie.gnextl,
 		proprietebatie.jandeb,
@@ -33,7 +32,12 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.mvltieomx,
 		proprietebatie.bateom,
 		proprietebatie.jannat,
-		proprietebatie.dvltrt 
+		proprietebatie.dvltrt,
+		proprietebatie.dvldif2a,
+		proprietebatie.vlbaia,
+		proprietebatie.vlbaia_com,
+		proprietebatie.vlbaia_dep,
+		proprietebatie.vlbaia_reg,
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
 		'select 
 			l.local00,
@@ -58,8 +62,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			l00.dpor,
 			l00.invar,
 			pev.ccoaff,
-			l.ccoeva,suf.ccostn,
-			sufex.ccolloc,
+			l.ccoeva,
+			pevx.ccolloc,
 			pevx.gnextl,
 			pevx.jandeb,
 			pevx.janimp,
@@ -67,14 +71,17 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			pevtax.mvltieomx,
 			pevtax.bateom,
 			l.jannat,
-			l.dvltrt 
+			l.dvltrt,
+			pevx.dvldif2a,
+			pevtax.vlbaia,
+			pevtax.co_vlbaia as vlbaia_com,
+			pevtax.de_vlbaia as vlbaia_dep,
+			pevtax.re_vlbaia as vlbaia_reg
 		from comptecommunal c
 			left join local10 as l on c.dnupro=l.dnupro
 			left join local00 as l00 on l00.local00=l.local00
 			left join voie as v on  l.voie=v.voie
 			left join pev  on pev.local10=l.local10
-			left join suf on suf.comptecommunal=c.comptecommunal and l.parcelle=suf.parcelle
-			left join sufexoneration as sufex on sufex.suf=suf.suf
 			left join pevexoneration as pevx on pevx.pev=pev.pev
 			left join pevtaxation as pevtax on pevtax.pev=pev.pev
 		order by c.ccodep,c.ccodir,c.ccocom,dnupla,v.voie,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
@@ -102,7 +109,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		invar character varying(10),
   		ccoaff character varying(1), 
   		ccoeva character varying(1), 
-  		ccostn character varying(1),
   		ccolloc character varying(2), 
 		gnextl character varying(2), 
 		jandeb character varying(4), 
@@ -111,6 +117,11 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		mvltieomx integer, 
 		bateom integer,
 		jannat character varying(4),
-		dvltrt integer);
+		dvltrt integer,
+		dvldif2a character varying(10),
+		vlbaia character varying(10),
+		vlbaia_com character varying(10),
+		vlbaia_dep character varying(10),
+		vlbaia_reg character varying(10));
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;

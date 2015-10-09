@@ -23,7 +23,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.invar,
 		proprietebatie.ccoaff,
 		proprietebatie.ccoeva,
-		proprietebatie.ccostn,
 		proprietebatie.cconlc,
 		proprietebatie.dcapec,
 		proprietebatie.dvltrt,
@@ -34,50 +33,58 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.fcexb,
 		proprietebatie.pexb,
 		proprietebatie.mvltieomx,
-		proprietebatie.bateom  
+		proprietebatie.bateom,
+		proprietebatie.dvltrt,
+		proprietebatie.dvldif2a,
+		proprietebatie.vlbaia,
+		proprietebatie.vlbaia_com,
+		proprietebatie.vlbaia_dep,
+		proprietebatie.vlbaia_reg   
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
 		'select 
-			l.id_local,
-			p.codparc as parcelle,
-			l.dnupro as comptecommunal , 
-			l.dnupro,
-			p.codcomm as cgocommune,
-			substr(p.codparc,7,3) as ccopre,
-			substr(p.codparc,10,2) ccosec ,
-			p.dnupla,
-			l.jdatat,
-			inv.dnvoiri,inv.dindic,
-			v.nature as natvoi,
-			inv.dvoilib,
-			inv.ccoriv,
-			inv.dnubat,
-			inv.NDESC as descr,
-			inv.dniv,
-			inv.dpor,
-			inv.invar,
+			local.id_local,
+			invar.codparc as parcelle,
+			local.dnupro as comptecommunal , 
+			local.dnupro,
+			invar.codcomm as cgocommune,
+			substr(invar.codparc,7,3) as ccopre,
+			substr(invar.codparc,10,2) ccosec ,
+			substr(invar.codparc,12,4) as dnupla,
+			local.jdatat,
+			invar.dnvoiri,
+			invar.dindic,
+			voie.nature as natvoi,
+			invar.dvoilib,
+			invar.ccoriv,
+			invar.dnubat,
+			invar.NDESC as descr,
+			invar.dniv,
+			invar.dpor,
+			invar.invar,
 			pev.ccoaff,
-			l.ccoeva,
-			suf.ccostn,
-			l.cconlc,
+			local.ccoeva,
+			local.cconlc,
 			pev.dcapec,
-			l.dvltrt,
-			sufex.ccolloc,
-			pevx.gnextl,
-			pevx.jandeb,
-			pevx.janimp,
-			pevx.FCEXBA2 as fcexb,
-			pevx.pexb,
+			local.dvltrt,
+			exopev.ccolloc,
+			exopev.gnextl,
+			exopev.jandeb,
+			exopev.janimp,
+			exopev.FCEXBA2 as fcexb,
+			exopev.pexb,
 			pevtax.BAOMEC  as mvltieomx,
-			pevtax.bateom  
-		from #DBSchema_arcopole.dgi_local l
-			left join #DBSchema_arcopole.dgi_invar inv on l.id_local=inv.invar
-			left join #DBSchema_arcopole.dgi_nbati p on inv.codparc=p.codparc
-			left join #DBSchema_arcopole.dgi_voie v on v.id_voie=inv.id_voie
-			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=inv.codlot and pev.invar=inv.invar
-			left join #DBSchema_arcopole.dgi_suf suf on suf.codlot=l.codlot and suf.CODPARC=p.CODPARC
-			left join #DBSchema_arcopole.dgi_exosuf sufex on sufex.id_suf=suf.id_suf and sufex.CODPARC=suf.CODPARC
-			left join #DBSchema_arcopole.dgi_exopev pevx on pevx.id_pev=pev.id_pev
-			left join #DBSchema_arcopole.dgi_taxpev as pevtax on pevtax.id_pev=pev.id_pev'::text) 
+			taxpev.bateom,
+			exopev.dvldif2a,
+			taxpev.vlbaia,
+			taxpev.vlbaia as vlbaia_com,
+			taxpev.vlbaia_dep,
+			taxpev.vlbaia_reg   
+		from #DBSchema_arcopole.dgi_local local
+			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
+			left join #DBSchema_arcopole.dgi_voie voie on voie.id_voie=invar.id_voie
+			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=invar.codlot and pev.invar=invar.invar
+			left join #DBSchema_arcopole.dgi_exopev exopev on exopev.id_pev=pev.id_pev
+			left join #DBSchema_arcopole.dgi_taxpev as taxpev on taxpev.id_pev=pev.id_pev'::text) 
 	proprietebatie(
 		id_local character varying(16),
 		parcelle character varying(19),
@@ -100,7 +107,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		invar character varying(16),
 		ccoaff character varying(1),
 		ccoeva character varying(1),
-		ccostn character varying(1),
 		cconlc character varying(2),
 		dcapec character varying(2),
 		dvltrt character varying(9),
@@ -111,7 +117,12 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		fcexb character varying(9),
 		pexb character varying(5),
 		mvltieomx character varying(9),
-		bateom  character varying(9));
+		bateom  character varying(9),
+		dvldif2a character varying(9),
+		vlbaia character varying(9),
+		vlbaia_com character varying(9),
+		vlbaia_dep character varying(9),
+		vlbaia_reg character varying(9));
 
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;

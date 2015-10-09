@@ -32,9 +32,6 @@ public abstract class Propriete {
 	// Code Rivoli de la voie (code fantoir)
 	String ccoriv;
 
-	// Tarif de la commune
-	String ccostn;
-
 	// Code de collectivité locale accordant l'éxonération
 	String ccolloc;
 
@@ -172,21 +169,6 @@ public abstract class Propriete {
 	 */
 	public void setCcoriv(String ccoriv) {
 		this.ccoriv = ccoriv;
-	}
-
-	/**
-	 * @return the ccostn
-	 */
-	public String getCcostn() {
-		return ccostn;
-	}
-
-	@XmlAttribute
-	/**
-	 * @param ccostn the ccostn to set
-	 */
-	public void setCcostn(String ccostn) {
-		this.ccostn = ccostn;
 	}
 
 	/**

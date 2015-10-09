@@ -2,6 +2,7 @@
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS 
 	SELECT 
+		proprietenonbatie.id_local, 
 		proprietenonbatie.jdatat, 
 		proprietenonbatie.comptecommunal, 
 		proprietenonbatie.dnupro, 
@@ -36,9 +37,14 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.janimp, 
 		proprietenonbatie.fcexb, 
 		proprietenonbatie.pexn, 
-		proprietenonbatie.dreflf
+		proprietenonbatie.dreflf,
+		proprietenonbatie.majposa,
+		proprietenonbatie.bisufad,
+		proprietenonbatie.bisufad_dep,
+		proprietenonbatie.bisufad_reg
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
+			sufex.suf as id_local,
 			COALESCE(to_char(p.jdatat, ''DD/MM/YYYY''), '''') as jdatat,
 			p.comptecommunal,
 			p.dnupro,
@@ -73,12 +79,18 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			sufex.jfinex as janimp,
 			sufex.fcexn as fcexb,
 			sufex.pexn,
-			p.dreflf
+			p.dreflf,
+			suftax.c1majposa as majposa,
+			suftax.c1bisufad as bisufad,
+			suftax.c2bisufad as bisufad_dep,
+			suftax.c3bisufad as bisufad_reg
 		from parcelle p 
 			left join voie v on v.voie=p.voie
 			left join suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
-			left join sufexoneration as sufex on sufex.suf=suf.suf'::text) 
+			left join sufexoneration as sufex on sufex.suf=suf.suf
+			left join suftaxation as suftax on suftax.suf=suf.suf'::text) 
 	proprietenonbatie(
+		id_local character varying(21),  
 		jdatat character varying(10),  
 		comptecommunal character varying(15), 
 		dnupro character varying(6),
@@ -113,7 +125,11 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
  		janimp character varying(4), 
  		fcexb character varying(10), 
  		pexn integer, 
- 		dreflf character varying(5));
+ 		dreflf character varying(5),
+ 		majposa numeric(10,2),
+		bisufad numeric(10,2),
+		bisufad_dep numeric(10,2),
+		bisufad_reg numeric(10,2));
 
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;

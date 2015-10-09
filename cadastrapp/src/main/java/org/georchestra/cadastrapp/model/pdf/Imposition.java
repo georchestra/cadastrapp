@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Imposition {
 	
-	private int revenuImposable;
+	private float revenuImposable;
 	
 	private int communeRevenuExonere;
 	
@@ -23,7 +23,7 @@ public class Imposition {
 	/**
 	 * @return the revenuImposable
 	 */
-	public int getRevenuImposable() {
+	public float getRevenuImposable() {
 		return revenuImposable;
 	}
 
@@ -31,7 +31,7 @@ public class Imposition {
 	/**
 	 * @param revenuImposable the revenuImposable to set
 	 */
-	public void setRevenuImposable(int revenuImposable) {
+	public void setRevenuImposable(float revenuImposable) {
 		this.revenuImposable = revenuImposable;
 	}
 

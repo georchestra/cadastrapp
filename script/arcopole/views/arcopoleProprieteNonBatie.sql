@@ -31,27 +31,32 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.ccolloc, 
 		proprietenonbatie.gnextl, 
 		proprietenonbatie.jandeb, 
-		proprietenonbatie.janimp, 
-		proprietenonbatie.fcexb, 
-		proprietenonbatie.pexb, 
-		proprietenonbatie.dreflf
+		proprietenonbatie.janimp,  
+		proprietenonbatie.dreflf,
+		proprietenonbatie.fcexb,
+		proprietenonbatie.pexn,
+		proprietenonbatie.majposa,
+		proprietenonbatie.bisufad,
+		proprietenonbatie.bisufad_dep,
+		proprietenonbatie.bisufad_reg
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			l.id_local,
-			p.codparc as parcelle,
+			nbati.codparc as parcelle,
 			l.dnupro as comptecommunal , 
 			l.dnupro,
-			p.codcomm as cgocommune,
-			substr(p.codparc,7,3) as ccopre,
-			substr(p.codparc,10,2) ccosec ,
-			COALESCE(ltrim(to_char(p.dnupla,''999'')),'''') as dnupla,
+			nbati.codcomm as cgocommune,
+			substr(nbati.codparc,7,3) as ccopre,
+			substr(nbati.codparc,10,2) ccosec ,
+			COALESCE(ltrim(to_char(nbati.dnupla,''999'')),'''') as dnupla,
 			l.jdatat,
-			inv.dnvoiri,inv.dindic,
-			v.nature as natvoi,
-			inv.dvoilib,
-			inv.ccoriv,
-			p.dparpi,
-			p.GPARNF gpafpd,
+			invar.dnvoiri,
+			invar.dindic,
+			voie.nature as natvoi,
+			invar.dvoilib,
+			invar.ccoriv,
+			nbati.dparpi,
+			nbati.GPARNF gpafpd,
 			suf.ccostn,
 			suf.ccosub,
 			suf.cgrnum,
@@ -60,23 +65,27 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			suf.cnatsp,
 			suf.dcntsf,
 			suf.drcsuba,
-			p.DNUPDL as pdl,
+			nbati.DNUPDL as pdl,
 			suf.DNulot,
-			sufex.ccolloc,
-			pevx.gnextl,
-			pevx.jandeb,
-			pevx.janimp,
-			pevx.FCEXBA2 as fcexb,
-			pevx.pexb,
-			p.dreflf
-		from #DBSchema_arcopole.dgi_local l
-			left join #DBSchema_arcopole.dgi_invar inv on l.id_local=inv.invar
-			left join #DBSchema_arcopole.dgi_nbati p on inv.codparc=p.codparc
-			left join #DBSchema_arcopole.dgi_voie v on v.id_voie=inv.id_voie
-			left join #DBSchema_arcopole.dgi_suf suf on suf.codlot=l.codlot and suf.CODPARC=p.CODPARC
+			exosuf.ccolloc,
+			exosuf.gnexts as gnextl,
+			exosuf.jandeb,
+			exosuf.jfinex as janimp,
+			nbati.dreflf,
+			exosuf.rcexnba as fcexb,
+			exosuf.pexn,
+			taxsuf.majposa,
+			taxsuf.bisufad,
+			taxsuf.bisufad_dep,
+			taxsuf.bisufad_reg
+		from #DBSchema_arcopole.dgi_local local
+			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=inv.invar
+			left join #DBSchema_arcopole.dgi_nbati nbati on inv.codparc=p.codparc
+			left join #DBSchema_arcopole.dgi_voie voie on natvoi.id_voie=invar.id_voie
+			left join #DBSchema_arcopole.dgi_suf suf on suf.codlot=local.codlot and suf.CODPARC=p.CODPARC
 			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=inv.codlot and pev.invar=inv.invar
-			left join #DBSchema_arcopole.dgi_exosuf sufex on sufex.id_suf=suf.id_suf and sufex.CODPARC=suf.CODPARC
-			left join #DBSchema_arcopole.dgi_exopev pevx on pevx.id_pev=pev.id_pev'::text) 
+			left join #DBSchema_arcopole.dgi_exosuf exosuf on exosuf.id_suf=suf.id_suf and exosuf.CODPARC=suf.CODPARC
+			left join #DBSchema_arcopole.dgi_taxsuf taxsuf on taxsuf.id_suf=suf.id_suf and taxsuf.CODPARC=suf.CODPARC'::text) 
 	proprietenonbatie(
 		id_local character varying(16), 
 		parcelle character varying(19), 
@@ -108,8 +117,15 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		gnextl character varying(2), 
 		jandeb character varying(4), 
 		janimp character varying(4), 
-		fcexb character varying(9), 
-		pexb character varying(5), 
-		dreflf character varying(9));
+		dreflf character varying(9),
+		fcexb character varying(10),
+		pexn character varying(5),
+		majposa character varying(10),
+		bisufad character varying(10),
+		bisufad_dep character varying(10),
+		bisufad_reg character varying(10));
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;
+
+
+

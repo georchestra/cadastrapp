@@ -30,7 +30,7 @@ public class ProprieteNonBatie extends Propriete{
 	String dcntsf;
 	
 	// Revenu cadastral revalorisé en valeur deu 01-01 de l'année 
-	String drcsuba;
+	float drcsuba;
 	
 	// Référence pdl
 	String pdl;
@@ -40,6 +40,9 @@ public class ProprieteNonBatie extends Propriete{
 	
 	// Référence au livre Foncier en Alsace-Moselle
 	String dreflf;
+	
+	// Tarif de la commune
+	String ccostn;
 
 	/**
 	 * @return the dparpi
@@ -164,7 +167,7 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @return the drcsuba
 	 */
-	public String getDrcsuba() {
+	public float getDrcsuba() {
 		return drcsuba;
 	}
 
@@ -172,7 +175,7 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @param drcsuba the drcsuba to set
 	 */
-	public void setDrcsuba(String drcsuba) {
+	public void setDrcsuba(float drcsuba) {
 		this.drcsuba = drcsuba;
 	}
 
@@ -220,6 +223,20 @@ public class ProprieteNonBatie extends Propriete{
 	public void setDreflf(String dreflf) {
 		this.dreflf = dreflf;
 	}	
-	
+
+	/**
+	 * @return the ccostn
+	 */
+	public String getCcostn() {
+		return ccostn;
+	}
+
+	@XmlAttribute
+	/**
+	 * @param ccostn the ccostn to set
+	 */
+	public void setCcostn(String ccostn) {
+		this.ccostn = ccostn;
+	}
 	
 }

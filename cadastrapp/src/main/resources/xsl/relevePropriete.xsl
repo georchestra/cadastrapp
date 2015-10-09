@@ -454,9 +454,8 @@
 		<fo:table>
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
@@ -468,11 +467,6 @@
 			<fo:table-column column-width="5%" />
 			<fo:table-header background-color="silver">
 				<fo:table-row height="20pt">
-					<fo:table-cell xsl:use-attribute-sets="bordure">
-						<fo:block>
-							S.TAR
-						</fo:block>
-					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
 							M.EVAL
@@ -545,11 +539,6 @@
 					<fo:table-row height="20pt">
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@ccostn" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
 								<xsl:value-of select="@ccoeva" />
 							</fo:block>
 						</fo:table-cell>
@@ -580,7 +569,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<!--  TODO Nat Exo -->
+								<xsl:value-of select="@gnextl" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -802,8 +791,7 @@
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="10%" />
 			<fo:table-header background-color="silver">
 				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -881,11 +869,6 @@
 							% Exo
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
-						<fo:block>
-							pos
-						</fo:block>
-					</fo:table-cell>
 				</fo:table-row>
 			</fo:table-header>
 			<fo:table-body>
@@ -950,7 +933,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<!-- TODO Nat Exo-->
+								<xsl:value-of select="gnextl" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -960,17 +943,12 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="fcexb" />
+								<!--  find fractionnement -->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<!-- TODO % Exo-->
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<!--  TODO pos -->
+									<xsl:value-of select="@pexb" />
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
