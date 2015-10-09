@@ -73,7 +73,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			l.jannat,
 			l.dvltrt,
 			pevx.dvldif2a,
-			pevtax.vlbaia,
+			pevtax.tse_vlbaia as vlbaia,
 			pevtax.co_vlbaia as vlbaia_com,
 			pevtax.de_vlbaia as vlbaia_dep,
 			pevtax.re_vlbaia as vlbaia_reg
