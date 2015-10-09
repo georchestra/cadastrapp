@@ -80,10 +80,10 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			sufex.fcexn as fcexb,
 			sufex.pexn,
 			p.dreflf,
-			suftax.c1majposa as majposa,
-			suftax.c1bisufad as bisufad,
-			suftax.c2bisufad as bisufad_dep,
-			suftax.c3bisufad as bisufad_reg
+			CAST ( suftax.c1majposa * 10 as integer) as majposa,
+			CAST (suftax.c1bisufad * 10 as integer) as bisufad,
+			CAST (suftax.c2bisufad * 10 as integer) as bisufad_dep,
+			CAST (suftax.c3bisufad * 10 as integer) as bisufad_reg
 		from parcelle p 
 			left join voie v on v.voie=p.voie
 			left join suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
@@ -126,10 +126,10 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
  		fcexb character varying(10), 
  		pexn integer, 
  		dreflf character varying(5),
- 		majposa numeric(10,2),
-		bisufad numeric(10,2),
-		bisufad_dep numeric(10,2),
-		bisufad_reg numeric(10,2));
+ 		majposa integer,
+		bisufad integer,
+		bisufad_dep integer,
+		bisufad_reg integer);
 
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;

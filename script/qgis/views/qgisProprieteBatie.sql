@@ -37,7 +37,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.vlbaia,
 		proprietebatie.vlbaia_com,
 		proprietebatie.vlbaia_dep,
-		proprietebatie.vlbaia_reg,
+		proprietebatie.vlbaia_reg
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
 		'select 
 			l.local00,
@@ -118,10 +118,10 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		bateom integer,
 		jannat character varying(4),
 		dvltrt integer,
-		dvldif2a character varying(10),
-		vlbaia character varying(10),
-		vlbaia_com character varying(10),
-		vlbaia_dep character varying(10),
-		vlbaia_reg character varying(10));
+		dvldif2a integer,
+		vlbaia integer,
+		vlbaia_com integer,
+		vlbaia_dep integer,
+		vlbaia_reg integer);
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;
