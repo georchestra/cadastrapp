@@ -79,11 +79,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			CAST (taxsuf.bisufad_dep AS INTEGER) as bisufad_dep,
 			CAST (taxsuf.bisufad_reg AS INTEGER) as bisufad_reg
 		from #DBSchema_arcopole.dgi_local local
-			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=inv.invar
+			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
 			left join #DBSchema_arcopole.dgi_nbati nbati on invar.codparc=p.codparc
 			left join #DBSchema_arcopole.dgi_voie voie on natvoi.id_voie=invar.id_voie
 			left join #DBSchema_arcopole.dgi_suf suf on suf.codlot=local.codlot and suf.CODPARC=p.CODPARC
-			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=inv.codlot and pev.invar=invar.invar
+			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=invar.codlot and pev.invar=invar.invar
 			left join #DBSchema_arcopole.dgi_exosuf exosuf on exosuf.id_suf=suf.id_suf and exosuf.CODPARC=suf.CODPARC
 			left join #DBSchema_arcopole.dgi_taxsuf taxsuf on taxsuf.id_suf=suf.id_suf and taxsuf.CODPARC=suf.CODPARC'::text) 
 	proprietenonbatie(
