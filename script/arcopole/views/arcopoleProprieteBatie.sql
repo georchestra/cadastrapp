@@ -34,7 +34,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.pexb,
 		proprietebatie.mvltieomx,
 		proprietebatie.bateom,
-		proprietebatie.dvltrt,
 		proprietebatie.dvldif2a,
 		proprietebatie.vlbaia,
 		proprietebatie.vlbaia_com,
@@ -74,11 +73,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			exopev.pexb,
 			pevtax.BAOMEC  as mvltieomx,
 			taxpev.bateom,
-			exopev.dvldif2a,
-			taxpev.vlbaia,
-			taxpev.vlbaia as vlbaia_com,
-			taxpev.vlbaia_dep,
-			taxpev.vlbaia_reg   
+			CAST (exopev.dvldif2a AS INTEGER) as dvldif2a,
+			CAST (taxpev.vlbaia AS INTEGER) as vlbaia,
+			CAST (taxpev.vlbaia AS INTEGER) as  vlbaia_com,
+			CAST (taxpev.vlbaia_dep AS INTEGER) as vlbaia_dep,
+			CAST (taxpev.vlbaia_reg AS INTEGER) as vlbaia_reg   
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
 			left join #DBSchema_arcopole.dgi_voie voie on voie.id_voie=invar.id_voie
@@ -118,11 +117,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		pexb character varying(5),
 		mvltieomx character varying(9),
 		bateom  character varying(9),
-		dvldif2a character varying(9),
-		vlbaia character varying(9),
-		vlbaia_com character varying(9),
-		vlbaia_dep character varying(9),
-		vlbaia_reg character varying(9));
+		dvldif2a integer,
+		vlbaia integer,
+		vlbaia_com integer,
+		vlbaia_dep integer,
+		vlbaia_reg integer);
 
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;

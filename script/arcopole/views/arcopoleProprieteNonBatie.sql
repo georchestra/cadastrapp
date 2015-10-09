@@ -73,17 +73,17 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			exosuf.jfinex as janimp,
 			nbati.dreflf,
 			exosuf.rcexnba as fcexb,
-			exosuf.pexn,
-			taxsuf.majposa,
-			taxsuf.bisufad,
-			taxsuf.bisufad_dep,
-			taxsuf.bisufad_reg
+			CAST (exosuf.pexn AS INTEGER) as pexn,
+			CAST (taxsuf.majposa AS INTEGER) as majposa,
+			CAST (taxsuf.bisufad AS INTEGER) as bisufad,
+			CAST (taxsuf.bisufad_dep AS INTEGER) as bisufad_dep,
+			CAST (taxsuf.bisufad_reg AS INTEGER) as bisufad_reg
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=inv.invar
-			left join #DBSchema_arcopole.dgi_nbati nbati on inv.codparc=p.codparc
+			left join #DBSchema_arcopole.dgi_nbati nbati on invar.codparc=p.codparc
 			left join #DBSchema_arcopole.dgi_voie voie on natvoi.id_voie=invar.id_voie
 			left join #DBSchema_arcopole.dgi_suf suf on suf.codlot=local.codlot and suf.CODPARC=p.CODPARC
-			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=inv.codlot and pev.invar=inv.invar
+			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=inv.codlot and pev.invar=invar.invar
 			left join #DBSchema_arcopole.dgi_exosuf exosuf on exosuf.id_suf=suf.id_suf and exosuf.CODPARC=suf.CODPARC
 			left join #DBSchema_arcopole.dgi_taxsuf taxsuf on taxsuf.id_suf=suf.id_suf and taxsuf.CODPARC=suf.CODPARC'::text) 
 	proprietenonbatie(
@@ -119,11 +119,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		janimp character varying(4), 
 		dreflf character varying(9),
 		fcexb character varying(10),
-		pexn character varying(5),
-		majposa character varying(10),
-		bisufad character varying(10),
-		bisufad_dep character varying(10),
-		bisufad_reg character varying(10));
+		pexn integer,
+		majposa integer,
+		bisufad integer,
+		bisufad_dep integer,
+		bisufad_reg integer);
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;
 
