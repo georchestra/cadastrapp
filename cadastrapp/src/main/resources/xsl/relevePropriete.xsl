@@ -118,8 +118,7 @@
 
 	<!-- Cartouche d'entête de chaque relevé, présent uniquement sur la premiere page   -->
 	<xsl:template name="entete">
-		<fo:block xsl:use-attribute-sets="titre">Relevé de propriété
-		</fo:block>
+		<fo:block xsl:use-attribute-sets="titre" page-break-before="always">Relevé de propriété</fo:block>
 		<fo:table>
 			<fo:table-column column-width="30%" />
 			<fo:table-column column-width="40%" />
