@@ -381,11 +381,11 @@
 
 	<xsl:template name="identificationLocal">
 		<fo:table>
-			<fo:table-column column-width="15%" />
-			<fo:table-column column-width="15%" />
-			<fo:table-column column-width="15%" />
+			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="25%" />
-			<fo:table-column column-width="30%" />
+			<fo:table-column column-width="45%" />
 			<fo:table-header background-color="silver">
 				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -779,13 +779,13 @@
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="7%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="8%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
