@@ -69,6 +69,8 @@ public class BatimentController extends CadController {
 			queryBuilder.append(" and pb.comptecommunal = prop.comptecommunal ");
 			queryBuilder.append(" and pb.dnubat = ? and hab.invar = pb.invar ;");
 			
+			//TODO order by numlot
+			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			batiments = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());	
 		}
