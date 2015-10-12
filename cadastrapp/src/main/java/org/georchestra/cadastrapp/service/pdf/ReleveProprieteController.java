@@ -238,6 +238,7 @@ public class ReleveProprieteController extends CadController {
 				queryBuilderProprietaire.append(databaseSchema);
 				queryBuilderProprietaire.append(".proprietaire prop ");
 				queryBuilderProprietaire.append("where prop.comptecommunal = ?");
+				// TODO add order by dnulp
 				queryBuilderProprietaire.append(addAuthorizationFiltering(headers));
 
 				logger.debug("Get owners information " );
