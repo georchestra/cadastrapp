@@ -41,7 +41,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.majposa,
 		proprietenonbatie.bisufad,
 		proprietenonbatie.bisufad_dep,
-		proprietenonbatie.bisufad_reg
+		proprietenonbatie.bisufad_reg,
+		proprietenonbatie.rcexnba
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			sufex.suf as id_local,
@@ -83,7 +84,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			CAST (suftax.c1majposa * 10 as integer) as majposa,
 			CAST (suftax.c1bisufad * 10 as integer) as bisufad,
 			CAST (suftax.c2bisufad * 10 as integer) as bisufad_dep,
-			CAST (suftax.c3bisufad * 10 as integer) as bisufad_reg
+			CAST (suftax.c3bisufad * 10 as integer) as bisufad_reg,
+			CAST (sufex.rcexnba * 10 as integer) as rcexnba
 		from parcelle p 
 			left join voie v on v.voie=p.voie
 			left join suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
@@ -129,7 +131,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
  		majposa integer,
 		bisufad integer,
 		bisufad_dep integer,
-		bisufad_reg integer);
+		bisufad_reg integer,
+		rcexnba integer);
 
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;

@@ -589,7 +589,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<!--  TODO Exo -->
+								<xsl:value-of select="@pexb" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -836,7 +836,7 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Contenance HA A CA
+							Contenance en CA
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -1009,10 +1009,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block>
-							HA a CA
-						</fo:block>
-						<fo:block>
-							<xsl:value-of select="impositionNonBatie/@surface" />
+							<xsl:value-of select="impositionNonBatie/@surface" /> CA
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>

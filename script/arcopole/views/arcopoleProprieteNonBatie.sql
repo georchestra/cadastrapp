@@ -77,7 +77,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			CAST (taxsuf.majposa AS INTEGER) as majposa,
 			CAST (taxsuf.bisufad AS INTEGER) as bisufad,
 			CAST (taxsuf.bisufad_dep AS INTEGER) as bisufad_dep,
-			CAST (taxsuf.bisufad_reg AS INTEGER) as bisufad_reg
+			CAST (taxsuf.bisufad_reg AS INTEGER) as bisufad_reg,
+			CAST (exosuf.rcexnba AS INTEGER) as rcexnba
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
 			left join #DBSchema_arcopole.dgi_nbati nbati on invar.codparc=nbati.codparc
@@ -123,7 +124,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		majposa integer,
 		bisufad integer,
 		bisufad_dep integer,
-		bisufad_reg integer);
+		bisufad_reg integer,
+		rcexnba integer);
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;
 
