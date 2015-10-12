@@ -120,7 +120,7 @@ public class ProprietaireController extends CadController{
     		   
     		   if(ddenom!=null){
     			   queryBuilder.append(" and UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?)) ");
-			       queryParams.add(ddenom+"%");
+			       queryParams.add("%"+ddenom+"%");
     		   }
 		       
 		       queryBuilder.append(createEqualsClauseRequest("dnupro", dnupro, queryParams));
