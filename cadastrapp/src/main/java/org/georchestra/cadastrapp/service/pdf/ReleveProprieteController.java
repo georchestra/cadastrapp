@@ -56,9 +56,10 @@ public class ReleveProprieteController extends CadController {
 	final String xslTemplate = "xsl/relevePropriete.xsl";
 
 	/**
+	 * Create a PDF using a list of comptecommunal
 	 * 
-	 * @param headers
-	 * @param compteCommunal
+	 * @param headers to verify CNIL level information
+	 * @param compteCommunal List of ids proprietaires
 	 * @return pdf
 	 */
 	@GET
@@ -180,6 +181,8 @@ public class ReleveProprieteController extends CadController {
 	private RelevePropriete getReleveProprieteInformation(List<String> idComptesCommunaux, HttpHeaders headers) {
 
 		RelevePropriete relevePropriete = new RelevePropriete();
+		
+		logger.debug("Get information to fill releve propriete ");
 
 		// Information d'entête
 		relevePropriete.setAnneMiseAJour(dateValiditeDonnees);
@@ -189,6 +192,8 @@ public class ReleveProprieteController extends CadController {
 
 		// Pour chaque compte communal
 		for (String idCompteCommunal : idComptesCommunaux) {
+			
+			logger.debug("CompteCommunal  : " + idCompteCommunal);
 
 			CompteCommunal compteCommunal = new CompteCommunal();
 			compteCommunal.setCompteCommunal(idCompteCommunal);
@@ -207,6 +212,7 @@ public class ReleveProprieteController extends CadController {
 			queryBuilder.append("and p.parcelle = proparc.parcelle ");
 			queryBuilder.append("and p.cgocommune = c.cgocommune;");
 
+			logger.debug("Get town information " );
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			List<Map<String, Object>> rows = jdbcTemplate.queryForList(queryBuilder.toString(), idCompteCommunal);
 
@@ -234,9 +240,15 @@ public class ReleveProprieteController extends CadController {
 				queryBuilderProprietaire.append("where prop.comptecommunal = ?");
 				queryBuilderProprietaire.append(addAuthorizationFiltering(headers));
 
+				logger.debug("Get owners information " );
 				List<Map<String, Object>> proprietairesResult = jdbcTemplate.queryForList(queryBuilderProprietaire.toString(), idCompteCommunal);
 
 				for (Map<String, Object> prop : proprietairesResult) {
+					
+					if(logger.isDebugEnabled()){
+						logger.debug("Get town information name : " + (String) prop.get("nom") );
+					}
+					
 					Proprietaire proprietaire = new Proprietaire();
 					proprietaire.setNom((String) prop.get("nom"));
 					proprietaire.setAdresse((String) prop.get("adresse"));
@@ -270,10 +282,15 @@ public class ReleveProprieteController extends CadController {
 				queryBuilderProprieteBatie.append(".proprietebatie pb ");
 				queryBuilderProprieteBatie.append(" where pb.comptecommunal = ? ORDER BY ccosec, dnupla");
 
+				logger.debug("Get developed property information " );
 				List<Map<String, Object>> proprietesBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteBatie.toString(), idCompteCommunal);
 
 				for (Map<String, Object> propBat : proprietesBatiesResult) {
 					ProprieteBatie proprieteBatie = new ProprieteBatie();
+					
+					if(logger.isDebugEnabled()){
+						logger.debug("Get developed property invar : " + (String) propBat.get("invar") );
+					}
 
 					String proprieteId = (String) propBat.get("invar");
 					proprieteBatie.setInvar(proprieteId);
@@ -321,6 +338,8 @@ public class ReleveProprieteController extends CadController {
 						pbCommuneRevenuImposable = pbCommuneRevenuImposable + ((Integer) propBat.get("vlbaia_com") == null ? 0 : (Integer) propBat.get("vlbaia_com"));
 						pbDepartementRevenuImposable = pbDepartementRevenuImposable + ((Integer) propBat.get("vlbaia_dep") == null ? 0 : (Integer) propBat.get("vlbaia_dep"));
 						pbRegionRevenuImposable = pbRegionRevenuImposable + ((Integer) propBat.get("vlbaia_reg") == null ? 0 : (Integer) propBat.get("vlbaia_reg"));
+						
+						proprietesBIds.add(proprieteId);
 					}
 
 					proprietesBaties.add(proprieteBatie);
@@ -366,11 +385,16 @@ public class ReleveProprieteController extends CadController {
 				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
 				queryBuilderProprieteNonBatie.append(" where pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
 
+				logger.debug("Get undeveloped property information " );
 				List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal);
 
 				for (Map<String, Object> propNonBat : proprietesNonBatiesResult) {
 					
 					String proprieteNbId = (String) propNonBat.get("id_local");
+					
+					if(logger.isDebugEnabled()){
+						logger.debug("Get undeveloped property id : " + proprieteNbId );
+					}
 
 					// "TC";"toutes les collectivités"
 					// "R";"Région => l'exonération porte sur la seule part régionale"
@@ -471,11 +495,9 @@ public class ReleveProprieteController extends CadController {
 				// Ajout du compte communal à la liste
 				comptesCommunaux.add(compteCommunal);
 			}
-
-			relevePropriete.setComptesCommunaux(comptesCommunaux);
-
 		}
-
+		relevePropriete.setComptesCommunaux(comptesCommunaux);
+		
 		return relevePropriete;
 	}
 

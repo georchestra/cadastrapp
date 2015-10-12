@@ -988,18 +988,18 @@
 		<fo:table xsl:use-attribute-sets="bordure">
 			<fo:table-column column-width="8%" />
 			<fo:table-column column-width="7%" />
-			<fo:table-column column-width="15%" />
-			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="12%" />
+			<fo:table-column column-width="4%" />
+			<fo:table-column column-width="6%" />
+			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="4%" />
+			<fo:table-column column-width="6%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="8%" />
 			<fo:table-body>
 				<fo:table-row>
 					<fo:table-cell>
@@ -1008,7 +1008,7 @@
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
-						<fo:block>
+						<fo:block padding-top="5pt">
 							<xsl:value-of select="impositionNonBatie/@surface" /> CA
 						</fo:block>
 					</fo:table-cell>
