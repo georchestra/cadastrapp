@@ -1,7 +1,5 @@
 package org.georchestra.cadastrapp.model.pdf;
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlAttribute;
 
 public class Proprietaire {
