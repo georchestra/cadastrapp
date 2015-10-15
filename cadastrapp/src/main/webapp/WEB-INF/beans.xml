@@ -34,8 +34,10 @@
 			
 			<bean class="org.georchestra.cadastrapp.service.export.CSVExportController" />
 			
-			<bean class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
 			<bean class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
+			<bean class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
+			<bean class="org.georchestra.cadastrapp.service.pdf.RequestPDFController" />
+			
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />

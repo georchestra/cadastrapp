@@ -1,11 +1,10 @@
 
 CREATE TABLE #schema_cadastrapp.request_user_information (
-	userId character varying(25) NOT NULL,
+	CNI character varying(25) NOT NULL,
     nom character varying(25) NOT NULL,
     prenom character varying(25) NOT NULL,
     ville character varying(25) NOT NULL,
     adresse character varying(25) NOT NULL,
-    CNI varying(25)
 );
 
 
@@ -19,6 +18,7 @@ CREATE TABLE #schema_cadastrapp.request (
 	request_id character varying(25) NOT NULL,
     user_id character varying(25) NOT NULL,
     date character varying(25) NOT NULL,
-    parcelle_id character varying(25) NOT NULL
+    parcelle_id character varying(25) NOT NULL;
+    comptecommunal character varying(25) NOT NULL;
 );
 
