@@ -1,24 +1,48 @@
 package org.georchestra.cadastrapp.model.request;
 
-public class User {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="request_user_information")
+public class UserRequest implements Serializable {
 	
-	private String CNI;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9140660737315556020L;
+	
+	@Id
+	@Column(name="cni")
+	private String cni;
+	
+	@Column(name="firstname")
 	private String firstName;
+	
+	@Column(name="lastname")
 	private String lastName;
+	
+	@Column(name="cgocommune")
 	private int cgoCommune;
+	
+	@Column(name="adress")
 	private String adress;
 	
 	/**
 	 * @return the cNI
 	 */
 	public String getCNI() {
-		return CNI;
+		return cni;
 	}
 	/**
 	 * @param cNI the cNI to set
 	 */
-	public void setCNI(String cNI) {
-		CNI = cNI;
+	public void setCNI(String cni) {
+		cni = cni;
 	}
 	/**
 	 * @return the firstName

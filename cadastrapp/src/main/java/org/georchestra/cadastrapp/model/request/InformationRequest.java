@@ -1,29 +1,55 @@
 package org.georchestra.cadastrapp.model.request;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity
+@Table(name="request_information")
 @XmlRootElement
-public class InformationRequest {
+public class InformationRequest implements Serializable{
 	
 
+	/**
+	 * Generated serial ID
+	 */
+	private static final long serialVersionUID = 5439786730972374577L;
+
+	@Id
+	@GeneratedValue
 	private long requestId;
-	private long userId;
+	
+	@OneToOne 
+	@JoinColumn(name="cni")
+	private UserRequest user;
+	
+	@Column(name="requestdate")
 	private Date requestDate;
+	
+	@Column(name="parcelleid")
 	private String parcelleId;
+	
+	@Column(name="comptecommunal")
 	private String comptecommunal;
 	
 	public InformationRequest(){}
 	
-	public InformationRequest(int userId, String parcelleId, String compteCommunal){
-		this.userId = userId;
+	public InformationRequest(UserRequest user, String parcelleId, String compteCommunal){
+		this.user = user;
 		this.parcelleId = parcelleId;
 	}
 	
 	public String toString(){
-		return String.format("Information Request : id=%d, user=%d, parcelle='%s'", requestId, userId, parcelleId);
+		return String.format("Information Request : id=%d, user=%d, parcelle='%s'", requestId, user, parcelleId);
 	}
 
 	/**
@@ -44,16 +70,16 @@ public class InformationRequest {
 	/**
 	 * @return the userId
 	 */
-	public long getUserId() {
-		return userId;
+	public UserRequest getUser() {
+		return user;
 	}
 
 	@XmlAttribute
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setUserId(UserRequest user) {
+		this.user = user;
 	}
 
 	/**
@@ -99,6 +125,6 @@ public class InformationRequest {
 	 */
 	public void setComptecommunal(String comptecommunal) {
 		this.comptecommunal = comptecommunal;
-	}
+	}	
 
 }

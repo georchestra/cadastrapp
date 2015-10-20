@@ -8,13 +8,13 @@ CREATE TABLE #schema_cadastrapp.request_user_information (
 );
 
 
-ALTER TABLE #schema_cadastrapp.request_information OWNER TO #user_cadastrapp;
+ALTER TABLE #schema_cadastrapp.request_user_information OWNER TO #user_cadastrapp;
 
-ALTER TABLE ONLY #schema_cadastrapp.request_information
-    ADD CONSTRAINT request_information_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY #schema_cadastrapp.request_user_information
+    ADD CONSTRAINT request_information_pkey PRIMARY KEY (CNI);
 
 
-CREATE TABLE #schema_cadastrapp.request (
+CREATE TABLE #schema_cadastrapp.request_information (
 	request_id character varying(25) NOT NULL,
     user_id character varying(25) NOT NULL,
     date character varying(25) NOT NULL,
@@ -22,3 +22,8 @@ CREATE TABLE #schema_cadastrapp.request (
     comptecommunal character varying(25) NOT NULL;
 );
 
+
+ALTER TABLE #schema_cadastrapp.request_information OWNER TO #user_cadastrapp;
+
+ALTER TABLE ONLY #schema_cadastrapp.request_information
+    ADD CONSTRAINT request_information_pkey PRIMARY KEY (request_id);

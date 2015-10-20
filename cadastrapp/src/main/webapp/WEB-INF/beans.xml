@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee"
-	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
-						 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
-						 http://www.springframework.org/schema/context 
-						 http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+						 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
 						 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd 
-						 http://www.springframework.org/schema/jee 
-						 http://www.springframework.org/schema/jee/spring-jee-4.0.xsd">
+						 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+						 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+						 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	    
+	<context:component-scan base-package="org.georchestra.cadastrapp" />
+	<tx:annotation-driven/>
+	<jpa:repositories base-package="org.georchestra.cadastrapp.repository" />
 
-	<context:component-scan base-package="org.georchestra.cadastrapp"/>
-	
 	<jaxrs:server id="services" address="/">
-		<jaxrs:serviceBeans>		
+		<jaxrs:serviceBeans>
 			<bean class="org.georchestra.cadastrapp.service.BatimentController" />
 			<bean class="org.georchestra.cadastrapp.service.CommuneController" />
 			<bean class="org.georchestra.cadastrapp.service.ConfigurationController" />
@@ -26,29 +28,93 @@
 			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
 			<bean class="org.georchestra.cadastrapp.service.ImageParcelleController" />
 			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
-			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />	
-			<bean class="org.georchestra.cadastrapp.service.SectionController" />	
+			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />
+			<bean class="org.georchestra.cadastrapp.service.RequestInformationController" />
+			<bean class="org.georchestra.cadastrapp.service.SectionController" />
 			<bean class="org.georchestra.cadastrapp.service.UniteCadastraleController" />
 			<bean class="org.georchestra.cadastrapp.service.UniteFonciereController" />
 			<bean class="org.georchestra.cadastrapp.service.VoieController" />
-			
+
 			<bean class="org.georchestra.cadastrapp.service.export.CSVExportController" />
-			
-			<bean class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
-			<bean class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
+
+			<bean
+				class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
+			<bean
+				class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
 			<bean class="org.georchestra.cadastrapp.service.pdf.RequestPDFController" />
-			
+
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
-			<!--  Use to add context in logg and can be use for autorization filtering -->
+			<!-- Use to add context in logg and can be use for autorization filtering -->
 			<bean class="org.georchestra.cadastrapp.providers.PreRequestFilter" />
 			<bean class="org.georchestra.cadastrapp.providers.PreReponseFilter" />
 		</jaxrs:providers>
 	</jaxrs:server>
-	
+
+	<!--  DataSource information using jndi, this datasource is used directly via JDBCTemplate and via Spring repository -->
 	<bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/cadastrapp" />
 	</bean>
+
+	<!-- ============================= -->
+	<!-- ENTITY MANAGER -->
+	<!-- ============================= -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dbDataSource" />
+		<property name="persistenceUnitName" value="springDataJPA" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+
+				<!-- dialect -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+
+				<!-- schema -->
+				<prop key="hibernate.default_schema">cadastrapp</prop>
+
+				<!-- 2d level cache -->
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+
+				<!-- ehcache -->
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+				</prop>
+
+				<!-- misc -->
+				<prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+				<prop key="hibernate.jdbc.use_scrollable_resultset">true</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
+				<prop key="hibernate.jdbc.fetch_size">16</prop>
+
+				<!-- logging debug information -->
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">auto</prop>
+
+			</props>
+		</property>
+	</bean>
+
+	<!-- ============================= -->
+	<!-- TRANSACTION MANAGER -->
+	<!-- ============================= -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- ============================= -->
+	<!-- SESSION FACTORY -->
+	<!-- ============================= -->
+	<bean id="sessionFactory" factory-bean="entityManagerFactory"
+		factory-method="getSessionFactory" />
+
 
 </beans>

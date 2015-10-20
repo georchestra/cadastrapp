@@ -163,7 +163,8 @@ public class RequestPDFController extends CadController {
 	 */
 	private InformationRequest getRequestInformation(int requestId) {
 
-		InformationRequest requestInformation = null;
+		InformationRequest requestInformation = new InformationRequest();
+		requestInformation.setRequestId(0001);
 
 
 		return requestInformation;
