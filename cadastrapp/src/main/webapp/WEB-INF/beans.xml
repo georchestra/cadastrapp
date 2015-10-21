@@ -37,10 +37,8 @@
 
 			<bean class="org.georchestra.cadastrapp.service.export.CSVExportController" />
 
-			<bean
-				class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
-			<bean
-				class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
+			<bean class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
+			<bean class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
 			<bean class="org.georchestra.cadastrapp.service.pdf.RequestPDFController" />
 
 		</jaxrs:serviceBeans>
@@ -70,13 +68,13 @@
 		<property name="jpaProperties">
 			<props>
 
+				<!-- schema -->
+				<prop key="hibernate.default_schema">cadastrapp_qgis</prop>		
+						
 				<!-- dialect -->
 				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
 				<prop key="hibernate.connection.useUnicode">true</prop>
 				<prop key="hibernate.connection.charSet">UTF-8</prop>
-
-				<!-- schema -->
-				<prop key="hibernate.default_schema">cadastrapp</prop>
 
 				<!-- 2d level cache -->
 				<prop key="hibernate.cache.use_query_cache">false</prop>
@@ -86,18 +84,17 @@
 				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
 				</prop>
 
-				<!-- misc -->
 				<prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
 				<prop key="hibernate.jdbc.use_scrollable_resultset">true</prop>
 				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
 				<prop key="hibernate.jdbc.fetch_size">16</prop>
 
-				<!-- logging debug information -->
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.format_sql">true</prop>
+				<!-- logging debug information, change this to debug-->
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.generate_statistics">false</prop>
-				<prop key="hibernate.use_sql_comments">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">auto</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">validate</prop>
 
 			</props>
 		</property>
