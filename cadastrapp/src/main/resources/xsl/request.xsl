@@ -85,35 +85,35 @@
 						<fo:table-row>
 							<fo:table-cell>
 								<fo:block xsl:use-attribute-sets="bordure">
-									Nom :
+									Nom : <xsl:value-of select="userRequest/lastName" />
 								</fo:block>
 							</fo:table-cell>
 							<fo:table-cell>
 								<fo:block xsl:use-attribute-sets="bordure">
-									Prénom :
-								</fo:block>
-							</fo:table-cell>
-						</fo:table-row>
-						<fo:table-row>
-							<fo:table-cell>
-								<fo:block xsl:use-attribute-sets="bordure">
-									Adresse :
-								</fo:block>
-							</fo:table-cell>
-							<fo:table-cell>
-								<fo:block xsl:use-attribute-sets="bordure">
+									Prénom : <xsl:value-of select="userRequest/firstName" />
 								</fo:block>
 							</fo:table-cell>
 						</fo:table-row>
 						<fo:table-row>
 							<fo:table-cell>
 								<fo:block xsl:use-attribute-sets="bordure">
-									Code Postal :
+									Adresse : <xsl:value-of select="userRequest/adress" />
 								</fo:block>
 							</fo:table-cell>
 							<fo:table-cell>
 								<fo:block xsl:use-attribute-sets="bordure">
-									Ville :
+								</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+						<fo:table-row>
+							<fo:table-cell>
+								<fo:block xsl:use-attribute-sets="bordure">
+									Code Postal : <xsl:value-of select="userRequest/codePostal" />
+								</fo:block>
+							</fo:table-cell>
+							<fo:table-cell>
+								<fo:block xsl:use-attribute-sets="bordure">
+									Ville : <xsl:value-of select="userRequest/commune" />
 								</fo:block>
 							</fo:table-cell>
 						</fo:table-row>

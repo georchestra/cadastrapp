@@ -35,139 +35,135 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.model.request.InformationRequest;
+import org.georchestra.cadastrapp.repository.RequestRepository;
 import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class RequestPDFController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(RequestPDFController.class);
-		
+
 	final String xslTemplate = "xsl/request.xsl";
 
+	@Autowired
+	RequestRepository requestRepository;
 
 	@GET
 	@Path("/printPDFRequest")
 	@Produces("application/pdf")
-	public Response printPDFRequest(@Context HttpHeaders headers, @QueryParam("requestid") int requestId) {
+	public Response printPDFRequest(@Context HttpHeaders headers, @QueryParam("requestid") long requestId) {
 
 		// Check if requestId exist
-		if (requestId != 0){
-					
-			// Pdf temporary filename using tmp folder and timestamp
-			final String pdfTmpFileName = tempFolder+File.separator+"DemandeInformation"+new Date().getTime();
+		if (requestId != 0) {
 
-			// Construct a FopFactory (reuse if you plan to render multiple documents!)
-			FopFactory fopFactory = FopFactory.newInstance();
-			InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplate);
+			// Get bordereau parcellaire information
+			InformationRequest requestInformation = requestRepository.findByRequestId(requestId);
 
-			// Setup XSLT
-			TransformerFactory factory = TransformerFactory.newInstance();
+			if (requestInformation != null) {
 
-			Transformer transformerXSLT;
-			Transformer transformerPDF;
-			JAXBContext jaxbContext;
-			Marshaller jaxbMarshaller;
-			File pdfResult;
-			OutputStream out;
-			Fop fop;
+				// Pdf temporary filename using tmp folder and timestamp
+				final String pdfTmpFileName = tempFolder + File.separator + "DemandeInformation" + new Date().getTime();
 
-			try {
-				transformerXSLT = factory.newTransformer(new StreamSource(xsl));
-				transformerPDF = factory.newTransformer();
+				// Construct a FopFactory (reuse if you plan to render multiple
+				// documents!)
+				FopFactory fopFactory = FopFactory.newInstance();
+				InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplate);
 
-				// Create Empyt PDF File will be erase after
-				pdfResult = new File(pdfTmpFileName+".pdf");
-				pdfResult.deleteOnExit();
-				out = new BufferedOutputStream(new FileOutputStream(pdfResult));
+				// Setup XSLT
+				TransformerFactory factory = TransformerFactory.newInstance();
 
-				fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
+				Transformer transformerXSLT;
+				Transformer transformerPDF;
+				JAXBContext jaxbContext;
+				Marshaller jaxbMarshaller;
+				File pdfResult;
+				OutputStream out;
+				Fop fop;
 
-				jaxbContext = JAXBContext.newInstance(InformationRequest.class);
-				jaxbMarshaller = jaxbContext.createMarshaller();
-
-				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-				// Get bordereau parcellaire information
-				InformationRequest requestInformation = getRequestInformation(requestId);
-				
 				try {
-					// Xml file will be deleted on JVM exit
-					File xmlfile = new File(pdfTmpFileName+".xml");
-					xmlfile.deleteOnExit();
-					
-					jaxbMarshaller.marshal(requestInformation, xmlfile);
+					transformerXSLT = factory.newTransformer(new StreamSource(xsl));
+					transformerPDF = factory.newTransformer();
 
-					// log on console marshaller only if debug log is one
-					if (logger.isDebugEnabled()) {
-						jaxbMarshaller.marshal(requestInformation, System.out);
+					// Create Empyt PDF File will be erase after
+					pdfResult = new File(pdfTmpFileName + ".pdf");
+					pdfResult.deleteOnExit();
+					out = new BufferedOutputStream(new FileOutputStream(pdfResult));
+
+					fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
+
+					jaxbContext = JAXBContext.newInstance(InformationRequest.class);
+					jaxbMarshaller = jaxbContext.createMarshaller();
+
+					jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+					try {
+						// Xml file will be deleted on JVM exit
+						File xmlfile = new File(pdfTmpFileName + ".xml");
+						xmlfile.deleteOnExit();
+
+						jaxbMarshaller.marshal(requestInformation, xmlfile);
+
+						// log on console marshaller only if debug log is one
+						if (logger.isDebugEnabled()) {
+							jaxbMarshaller.marshal(requestInformation, System.out);
+						}
+
+						// FO file will be deleted on JVM exit
+						// XML TO FO
+						File foFile = new File(pdfTmpFileName + ".fo");
+						foFile.deleteOnExit();
+
+						OutputStream foOutPutStream = new java.io.FileOutputStream(foFile);
+
+						// Setup input for XSLT transformation
+						Source srcXml = new StreamSource(xmlfile);
+						Result resFo = new StreamResult(foOutPutStream);
+
+						// Start XSLT transformation and FOP processing
+						transformerXSLT.transform(srcXml, resFo);
+						foOutPutStream.close();
+
+						// FO TO PDF
+						Source src = new StreamSource(foFile);
+						Result res = new SAXResult(fop.getDefaultHandler());
+
+						// Start PDF transformation and FOP processing
+						transformerPDF.transform(src, res);
+
+						// Create response
+						ResponseBuilder response = Response.ok((Object) pdfResult);
+						response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
+						return response.build();
+
+					} catch (JAXBException jaxbException) {
+						logger.warn("Error during converting object to xml : " + jaxbException);
+					} catch (TransformerException transformerException) {
+
+					} catch (FileNotFoundException fileNotFoundException) {
+						logger.warn("Error when using temporary files : " + fileNotFoundException);
+					} finally {
+						if (out != null) {
+							// Clean-up
+							out.close();
+						}
 					}
 
-					// FO file will be deleted on JVM exit
-					// XML TO FO
-					File foFile = new File(pdfTmpFileName+".fo");
-					foFile.deleteOnExit();
-					
-					OutputStream foOutPutStream = new java.io.FileOutputStream(foFile);
-
-					// Setup input for XSLT transformation
-					Source srcXml = new StreamSource(xmlfile);
-					Result resFo = new StreamResult(foOutPutStream);
-
-					// Start XSLT transformation and FOP processing
-					transformerXSLT.transform(srcXml, resFo);
-					foOutPutStream.close();
-
-					// FO TO PDF
-					Source src = new StreamSource(foFile);
-					Result res = new SAXResult(fop.getDefaultHandler());
-
-					// Start PDF transformation and FOP processing
-					transformerPDF.transform(src, res);
-
-					// Create response
-					ResponseBuilder response = Response.ok((Object) pdfResult);
-					response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
-					return response.build();
-
+				} catch (TransformerConfigurationException e) {
+					logger.warn("Error when initialize transformers : " + e);
+				} catch (IOException ioException) {
+					logger.warn("Error when creating output file : " + ioException);
+				} catch (FOPException fopException) {
+					logger.warn("Error when creationg FOP file type : " + fopException);
 				} catch (JAXBException jaxbException) {
-					logger.warn("Error during converting object to xml : " + jaxbException);
-				} catch (TransformerException transformerException) {
-
-				} catch (FileNotFoundException fileNotFoundException) {
-					logger.warn("Error when using temporary files : " + fileNotFoundException);
-				} finally {
-					if (out != null) {
-						// Clean-up
-						out.close();
-					}
+					logger.warn("Error creating Marsharller : " + jaxbException);
 				}
-
-			} catch (TransformerConfigurationException e) {
-				logger.warn("Error when initialize transformers : " + e);
-			} catch (IOException ioException) {
-				logger.warn("Error when creating output file : " + ioException);
-			} catch (FOPException fopException) {
-				logger.warn("Error when creationg FOP file type : " + fopException);
-			} catch (JAXBException jaxbException) {
-				logger.warn("Error creating Marsharller : " + jaxbException);
 			}
 		} else {
 			logger.warn("Required parameter missing");
 		}
 		return null;
-	}
-
-	/**
-	 **
-	 */
-	private InformationRequest getRequestInformation(int requestId) {
-
-		InformationRequest requestInformation = new InformationRequest();
-		requestInformation.setRequestId(0001);
-
-
-		return requestInformation;
 	}
 
 }
