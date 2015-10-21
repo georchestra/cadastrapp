@@ -1,3 +1,16 @@
+-- Sequence: #schema_cadastrapp.hibernate_sequence
+
+
+CREATE SEQUENCE #schema_cadastrapp.hibernate_sequence
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 2
+  CACHE 1;
+ALTER TABLE #schema_cadastrapp.hibernate_sequence
+  OWNER TO #user_cadastrapp;
+
+
 -- Table: #schema_cadastrapp.request_user_information
 ----------------------------------------------------------------
 CREATE TABLE #schema_cadastrapp.request_user_information
