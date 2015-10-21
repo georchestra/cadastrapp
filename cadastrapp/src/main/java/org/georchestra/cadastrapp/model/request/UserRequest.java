@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
 
 @Entity
 @Table(name="request_user_information")
@@ -26,24 +27,15 @@ public class UserRequest implements Serializable {
 	@Column(name="lastname")
 	private String lastName;
 	
-	@Column(name="cgocommune")
-	private int cgoCommune;
+	@Column(name="codepostal")
+	private String codepostal;
+	
+	@Column(name="commune")
+	private String commune;
 	
 	@Column(name="adress")
 	private String adress;
 	
-	/**
-	 * @return the cNI
-	 */
-	public String getCNI() {
-		return cni;
-	}
-	/**
-	 * @param cNI the cNI to set
-	 */
-	public void setCNI(String cni) {
-		cni = cni;
-	}
 	/**
 	 * @return the firstName
 	 */
@@ -53,6 +45,7 @@ public class UserRequest implements Serializable {
 	/**
 	 * @param firstName the firstName to set
 	 */
+	@XmlAttribute
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -65,20 +58,22 @@ public class UserRequest implements Serializable {
 	/**
 	 * @param lastName the lastName to set
 	 */
+	@XmlAttribute
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 	/**
 	 * @return the cgoCommune
 	 */
-	public int getCgoCommune() {
-		return cgoCommune;
+	public String getCommune() {
+		return commune;
 	}
 	/**
 	 * @param cgoCommune the cgoCommune to set
 	 */
-	public void setCgoCommune(int cgoCommune) {
-		this.cgoCommune = cgoCommune;
+	@XmlAttribute
+	public void setCommune(String commune) {
+		this.commune = commune;
 	}
 	/**
 	 * @return the adress
@@ -89,8 +84,35 @@ public class UserRequest implements Serializable {
 	/**
 	 * @param adress the adress to set
 	 */
+	@XmlAttribute
 	public void setAdress(String adress) {
 		this.adress = adress;
+	}
+	/**
+	 * @return the cni
+	 */
+	public String getCni() {
+		return cni;
+	}
+	/**
+	 * @param cni the cni to set
+	 */
+	@XmlAttribute
+	public void setCni(String cni) {
+		this.cni = cni;
+	}
+	/**
+	 * @return the codepostal
+	 */
+	public String getCodepostal() {
+		return codepostal;
+	}
+	/**
+	 * @param codepostal the codepostal to set
+	 */
+	@XmlAttribute
+	public void setCodepostal(String codepostal) {
+		this.codepostal = codepostal;
 	}
 	
 	

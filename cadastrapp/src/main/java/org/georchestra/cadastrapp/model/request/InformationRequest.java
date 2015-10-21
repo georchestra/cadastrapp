@@ -2,15 +2,22 @@ package org.georchestra.cadastrapp.model.request;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -28,29 +35,21 @@ public class InformationRequest implements Serializable{
 	@GeneratedValue
 	private long requestId;
 	
-	@OneToOne 
-	@JoinColumn(name="cni")
+	@ManyToOne(optional=false, fetch = FetchType.EAGER) 
+    @JoinColumn(name="cni", nullable=false, updatable=false)
 	private UserRequest user;
 	
 	@Column(name="requestdate")
 	private Date requestDate;
-	
-	@Column(name="parcelleid")
-	private String parcelleId;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name ="request_parcelles_information")
+	private List<String> parcellesId;
 	
 	@Column(name="comptecommunal")
 	private String comptecommunal;
 	
 	public InformationRequest(){}
-	
-	public InformationRequest(UserRequest user, String parcelleId, String compteCommunal){
-		this.user = user;
-		this.parcelleId = parcelleId;
-	}
-	
-	public String toString(){
-		return String.format("Information Request : id=%d, user=%d, parcelle='%s'", requestId, user, parcelleId);
-	}
 
 	/**
 	 * @return the requestId
@@ -59,10 +58,11 @@ public class InformationRequest implements Serializable{
 		return requestId;
 	}
 
-	@XmlAttribute
+	
 	/**
 	 * @param requestId the requestId to set
 	 */
+	@XmlAttribute
 	public void setRequestId(long requestId) {
 		this.requestId = requestId;
 	}
@@ -74,11 +74,11 @@ public class InformationRequest implements Serializable{
 		return user;
 	}
 
-	@XmlAttribute
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(UserRequest user) {
+	@XmlElement(name="userRequest",     type=UserRequest.class)
+	public void setUser(UserRequest user) {
 		this.user = user;
 	}
 
@@ -89,10 +89,10 @@ public class InformationRequest implements Serializable{
 		return requestDate;
 	}
 
-	@XmlAttribute
 	/**
 	 * @param requestDate the requestDate to set
 	 */
+	@XmlAttribute
 	public void setRequestDate(Date requestDate) {
 		this.requestDate = requestDate;
 	}
@@ -100,16 +100,17 @@ public class InformationRequest implements Serializable{
 	/**
 	 * @return the parcelleId
 	 */
-	public String getParcelleId() {
-		return parcelleId;
+	public List<String> getParcellesId() {
+		return parcellesId;
 	}
 
-	@XmlAttribute
 	/**
 	 * @param parcelleId the parcelleId to set
 	 */
-	public void setParcelleId(String parcelleId) {
-		this.parcelleId = parcelleId;
+	@XmlElementWrapper(name="parcelles")
+    @XmlElements({@XmlElement(name="parcelle",     type=String.class)})
+	public void setParcellesId(List<String> parcellesId) {
+		this.parcellesId = parcellesId;
 	}
 
 	/**
@@ -119,10 +120,10 @@ public class InformationRequest implements Serializable{
 		return comptecommunal;
 	}
 
-	@XmlAttribute
 	/**
 	 * @param comptecommunal the comptecommunal to set
 	 */
+	@XmlAttribute
 	public void setComptecommunal(String comptecommunal) {
 		this.comptecommunal = comptecommunal;
 	}	

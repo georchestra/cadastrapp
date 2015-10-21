@@ -2,6 +2,9 @@ package org.georchestra.cadastrapp.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +29,9 @@ public class RequestInformationController {
 
 	final static Logger logger = LoggerFactory.getLogger(RequestInformationController.class);
 	
+	final int maxRequestByMonth = 10;
+	final int maxRequestByWeek = 5; 
+	
 	@Autowired RequestRepository requestRepository;
 	@Autowired UserRequestRepository userRepository;
 	
@@ -44,35 +50,52 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> checkRequestLimitation(
+	public Map<String, Object> checkRequestLimitation(
 			@QueryParam("cni") String cni,
 			@Context HttpHeaders headers) throws SQLException {
-
-		// Check information in database
-		final UserRequest user = new UserRequest();	
-		user.setCNI(cni);
 		
-		UserRequest userSaved = userRepository.save(user);
+		Map<String, Object> result = new HashMap<String, Object>();
+		int nbRequestAvailable = 0;
 		
-		logger.debug(userSaved.toString());
+		Date currentDate = new Date();
 		
-		final InformationRequest request = new InformationRequest();
+		Calendar cal = Calendar.getInstance();
 		
-		request.setUserId(user);
-		request.setParcelleId("2000203040242");
+		cal.setTime(currentDate);
+		cal.add(Calendar.DATE, -7);
+		Date datePlusOneWeek = cal.getTime();
+	
 		
-		InformationRequest requestSaved = requestRepository.save(request);
+		cal.setTime(currentDate);
+		cal.add(Calendar.MONTH, -1);
+		Date datePlusOneMonth = cal.getTime();
 		
-		requestRepository.deleteAll();
-		userRepository.deleteAll();
+		if (logger.isDebugEnabled()){
+						
+			logger.debug("Current date : " + currentDate.toString());
+			logger.debug("One week before : " + datePlusOneWeek.toString());
+			logger.debug("One monthe before : " + datePlusOneMonth.toString());
+		}
+	
+		
+		int numberRequestInTheWeek = requestRepository.countByUserCniAndRequestDateAfter(cni, datePlusOneWeek);	
+		int numberRequestInTheMonth = requestRepository.countByUserCniAndRequestDateAfter(cni, datePlusOneMonth);
 		
 		// Denied request
 		// if User has made more than 5 requests in the last week
 		// if User has made more than 10 requests in the last month
-		// if parcelle requested are not in geographic group of connected user
-		
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-
+		if(numberRequestInTheMonth < maxRequestByMonth){
+			if(numberRequestInTheWeek < maxRequestByWeek){
+				nbRequestAvailable = maxRequestByWeek - numberRequestInTheWeek;
+				
+				final UserRequest existingUser = userRepository.findByCni(cni);
+								
+				if(existingUser != null){
+					result.put("user", existingUser);
+				}
+			}
+		}
+		result.put("requestAvailable", nbRequestAvailable);
 
 		return result;
 	}
@@ -97,11 +120,12 @@ public class RequestInformationController {
 	public List<Map<String, Object>> checkRequestValidity(
 			@QueryParam("cni") String cni,
 			@QueryParam("comptecommunal") String compteCommunal,
-			@QueryParam("parcelle") List<String> parcelleIds,
+			@QueryParam("parcelles") List<String> parcelleIds,
 			@Context HttpHeaders headers) throws SQLException {
 
-		// Check information in database
-		
+		// Check information in database		
+		final UserRequest existingUser = userRepository.findByCni(cni);
+				
 		// Denied request
 		// if User has made more than 5 requests in the last week
 		// if User has made more than 10 requests in the last month
@@ -114,6 +138,81 @@ public class RequestInformationController {
 	}
 	
 	
+	@GET
+	@Path("/saveInformationRequest")
+	@Produces(MediaType.APPLICATION_JSON)
+	/**
+	 *  /saveInformationRequest
+	 *  
+	 *  save information request in database
+	 *  
+	 * 
+	 * @param cni
+	 * @adress adress
+	 * @cgocommue cgocommune
+	 * @firstname firstname
+	 * @lastename lastname
+	 * @param comptecommunal - 1 compte comunal unique
+	 * @param parcelleids - une liste de 5 parcelles maximums
+	 * 
+	 * @return JSON 
+	 * 
+	 * @throws SQLException
+	 */
+	public Map<String, Object> saveInformationRequest(
+			@QueryParam("cni") String cni,
+			@QueryParam("adress") String adress,
+			@QueryParam("commune") String commune,
+			@QueryParam("codepostal") String codePostal,
+			@QueryParam("firstname") String firstname,
+			@QueryParam("lastname") String lastname,
+			@QueryParam("comptecommunal") String compteCommunal,
+			@QueryParam("parcelles") List<String> parcelleIds,
+			@Context HttpHeaders headers) throws SQLException {
+		
+		//todo recheck value
+		
+		Map<String, Object> resultInformation = new HashMap<String, Object>();
+		String result = "KO";
+		String message = "user updated";
+
+		// Check if user exist
+		UserRequest existingUser = userRepository.findByCni(cni);
+		
+		if(existingUser == null){	
+			message = "user created";
+			existingUser = new UserRequest();
+			existingUser.setCni(cni);
+		}
+		
+		// update information if needed
+		existingUser.setAdress(adress);
+		existingUser.setCommune(commune);
+		existingUser.setCodepostal(codePostal);
+		existingUser.setFirstName(firstname);
+		existingUser.setLastName(lastname);
+			
+		UserRequest existingUser2 = userRepository.save(existingUser);
+		
+		// Create informationRequest
+		final InformationRequest informationRequest = new InformationRequest();
+		
+		informationRequest.setUser(existingUser2);
+		informationRequest.setRequestDate(new Date());
+		informationRequest.setComptecommunal(compteCommunal);
+		informationRequest.setParcellesId(parcelleIds);
+		
+		final InformationRequest informationRequestSaved = requestRepository.save(informationRequest);
+		
+		result = "OK";
+		
+		resultInformation.put("insertion", result);
+		resultInformation.put("message", message);
+		resultInformation.put("id", informationRequestSaved.getRequestId());
+		
+		return resultInformation;
+}
+		
 	
 
 }
