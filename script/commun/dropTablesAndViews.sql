@@ -28,3 +28,9 @@ DROP TABLE #schema_cadastrapp.prop_ccodro;
 DROP TABLE #schema_cadastrapp.prop_ccogrm;
 DROP TABLE #schema_cadastrapp.prop_ccoqua;
 DROP TABLE #schema_cadastrapp.prop_dnatpr;
+
+DROP TABLE #schema_cadastrapp.request_information CASCADE;
+DROP TABLE #schema_cadastrapp.request_user_information;
+DROP TABLE #schema_cadastrapp.request_parcelles_information;
+
+

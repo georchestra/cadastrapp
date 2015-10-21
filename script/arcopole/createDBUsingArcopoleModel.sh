@@ -149,3 +149,6 @@ echo "--------------------------------";
 echo " Create additional tables";
 echo "--------------------------------";
 replaceAndLaunch ../commun/user/groupe_autorisation.sql
+
+# -- create table for information request
+replaceAndLaunch ../commun/tables/request_information.sql

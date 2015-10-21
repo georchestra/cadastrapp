@@ -140,4 +140,7 @@ replaceAndLaunch ./views/qgisHabitationDetails.sql
 # Create users correlation tables
 replaceAndLaunch ../commun/user/groupe_autorisation.sql
 
+# Create table for information request
+replaceAndLaunch ../commun/tables/request_information.sql
+
 
