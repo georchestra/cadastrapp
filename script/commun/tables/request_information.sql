@@ -64,13 +64,12 @@ ALTER TABLE #schema_cadastrapp.request_information
 
 
 
-
 -- Table: #schema_cadastrapp.request_parcelles_information
 ----------------------------------------------------------------
 CREATE TABLE #schema_cadastrapp.request_parcelles_information
 (
   informationrequest_requestid bigint NOT NULL,
-  parcellesid character varying(255)
+  parcelle character varying(255)
 )
 WITH (
   OIDS=FALSE

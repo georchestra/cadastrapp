@@ -2,7 +2,7 @@ package org.georchestra.cadastrapp.model.request;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -43,8 +43,9 @@ public class InformationRequest implements Serializable{
 	private Date requestDate;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name ="request_parcelles_information")
-	private List<String> parcellesId;
+	@CollectionTable(name ="request_parcelles_information", joinColumns=@JoinColumn(name="informationrequest_requestid"))
+	@Column(name="parcelle")
+	private Set<String> parcellesId;
 	
 	@Column(name="comptecommunal")
 	private String comptecommunal;
@@ -58,7 +59,6 @@ public class InformationRequest implements Serializable{
 		return requestId;
 	}
 
-	
 	/**
 	 * @param requestId the requestId to set
 	 */
@@ -100,7 +100,7 @@ public class InformationRequest implements Serializable{
 	/**
 	 * @return the parcelleId
 	 */
-	public List<String> getParcellesId() {
+	public Set<String> getParcellesId() {
 		return parcellesId;
 	}
 
@@ -109,7 +109,7 @@ public class InformationRequest implements Serializable{
 	 */
 	@XmlElementWrapper(name="parcelles")
     @XmlElements({@XmlElement(name="parcelle",     type=String.class)})
-	public void setParcellesId(List<String> parcellesId) {
+	public void setParcellesId(Set<String> parcellesId) {
 		this.parcellesId = parcellesId;
 	}
 
