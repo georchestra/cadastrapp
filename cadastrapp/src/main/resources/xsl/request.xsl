@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:java="http://xml.apache.org/xslt/java" xmlns:date="http://exslt.org/dates-and-times"
@@ -42,6 +42,7 @@
 		<xsl:attribute name="padding-top">5pt</xsl:attribute>
 		<xsl:attribute name="font-size">10pt</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
+		<xsl:attribute name="padding-left">4pt</xsl:attribute>
 	</xsl:attribute-set>
 
 	<!-- texte normal -->
@@ -49,6 +50,7 @@
 		<xsl:attribute name="text-align">left</xsl:attribute>
 		<xsl:attribute name="font-size">8pt</xsl:attribute>
 		<xsl:attribute name="padding-top">10pt</xsl:attribute>
+		<xsl:attribute name="padding-left">4pt</xsl:attribute>
 	</xsl:attribute-set>
 
 	<!-- texte normal -->
@@ -57,6 +59,7 @@
 		<xsl:attribute name="font-size">9pt</xsl:attribute>
 		<xsl:attribute name="padding-top">10pt</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
+		<xsl:attribute name="padding-left">4pt</xsl:attribute>
 	</xsl:attribute-set>
 
 	<!-- Bordure de tableau -->
@@ -76,13 +79,7 @@
 	</xsl:template>
 
 	<xsl:template name="checkbox">
-		<fo:block>
-			<fo:instream-foreign-object>
-				<svg:svg width="5" height="5">
-					<svg:rect width="5" height="5" style="stroke-width:0.5;stroke:rgb(0,0,0)" />
-				</svg:svg>
-			</fo:instream-foreign-object>
-		</fo:block>
+		<fo:inline font-family="ZapfDingbats" font-size="10pt">&#x274F;</fo:inline>
 	</xsl:template>
 
 	<xsl:template name="informationDemandeur">
@@ -100,7 +97,7 @@
 						</fo:table-cell>
 						<fo:table-cell>
 							<fo:block xsl:use-attribute-sets="text">
-								Prénom :
+								PrÃ©nom :
 								<xsl:value-of select="userRequest/@firstName" />
 							</fo:block>
 						</fo:table-cell>
@@ -134,22 +131,23 @@
 
 	<xsl:template name="numeroDeDemande">
 		<fo:block xsl:use-attribute-sets="text">
-			Demande numéro :
+			Demande numÃ©ro :
 			<xsl:value-of select="@requestId" />
 		</fo:block>
 	</xsl:template>
 
 	<xsl:template name="informationDemande">
-
 		<fo:block xsl:use-attribute-sets="bordure">
-			Compte commnual :
-			<xsl:value-of select="@comptecommunal" />
-		</fo:block>
-		<fo:block xsl:use-attribute-sets="bordure">
-			Identifiant(s) de parcelle(s) :
-			<xsl:for-each select="parcelles/parcelle">
-				<xsl:value-of select="@parcelle" />
-			</xsl:for-each>
+			<fo:block xsl:use-attribute-sets="text">
+				Compte commnual :
+				<xsl:value-of select="@comptecommunal" />
+			</fo:block>
+			<fo:block xsl:use-attribute-sets="text">
+				Identifiant(s) de parcelle(s) :
+				<xsl:for-each select="parcelles/parcelle">
+					<xsl:value-of select="@parcelle" />
+				</xsl:for-each>
+			</fo:block>
 		</fo:block>
 	</xsl:template>
 
@@ -170,8 +168,8 @@
 							Signature :
 						</fo:block>
 						<fo:block xsl:use-attribute-sets="text">
-							Précédée de la mention
-							"lu et approuvé""
+							PrÃ©cÃ©dÃ©e de la mention
+							"lu et approuvÃ©""
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -181,75 +179,88 @@
 
 
 	<xsl:template name="typedinformation">
+
+		<fo:block xsl:use-attribute-sets="soustitre">
+			<fo:inline font-style="italic" font-family="serif"
+				text-decoration="underline">
+				Informations transmises :
+			</fo:inline>
+		</fo:block>
 		<fo:block xsl:use-attribute-sets="bordure">
-			<fo:block xsl:use-attribute-sets="soustitre">
-				<fo:inline font-style="italic" font-family="serif"
-					text-decoration="underline">
-					Informations transmises :
-				</fo:inline>
-			</fo:block>
 			<fo:table>
 				<fo:table-column column-width="50%" />
 				<fo:table-column column-width="50%" />
 				<fo:table-body>
 					<fo:table-row>
 						<fo:table-cell>
-						<xsl:call-template name="checkbox" />
-							<fo:block xsl:use-attribute-sets="text">références cadastrales</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+								<xsl:call-template name="checkbox" />
+								rÃ©fÃ©rences cadastrales
+							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
 							<fo:block xsl:use-attribute-sets="text">
-								nom et prénom du ou des
-								propriétaire(s)
+							<xsl:call-template name="checkbox" />
+								nom et prÃ©nom du ou des
+								propriÃ©taire(s)
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text">superficie de la
-								parcelle</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+							<xsl:call-template name="checkbox" />
+							superficie de la parcelle</fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text">adresse du ou des
-								propriétaire(s)</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+							<xsl:call-template name="checkbox" />
+							adresse du ou des propriÃ©taire(s)</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text">adresse du bien</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+							<xsl:call-template name="checkbox" />adresse du bien</fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
 							<fo:block xsl:use-attribute-sets="text">
+							<xsl:call-template name="checkbox" />
 								date et lieu de
-								naissance du ou des propriétaire(s)</fo:block>
-						</fo:table-cell>
-					</fo:table-row>
-					<fo:table-row>
-						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text">valeur locative</fo:block>
-						</fo:table-cell>
-						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text">relevé de propriété
-								complet</fo:block>
+								naissance du ou des propriÃ©taire(s)</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell>
 							<fo:block xsl:use-attribute-sets="text">
-								liste des parcelles
-								contiguës avec les références
-								cadastrales, les surfaces et les
-								nom, prénom adresse du ou
-								des propriétaire(s)</fo:block>
+							<xsl:call-template name="checkbox" />
+							valeur locative</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block xsl:use-attribute-sets="text">
+							<xsl:call-template name="checkbox" />
+							relevÃ© de propriÃ©tÃ©	complet</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="soustitre">
+							<fo:block xsl:use-attribute-sets="text">
+							<xsl:call-template name="checkbox" />
+								liste des parcelles
+								contiguÃ«s avec les rÃ©fÃ©rences
+								cadastrales, les surfaces et les
+								nom, prÃ©nom adresse du ou
+								des propriÃ©taire(s)</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block xsl:use-attribute-sets="soustitre" padding-bottom="30pt">
 								<fo:inline font-style="italic" font-family="serif"
 									text-decoration="underline" padding-bottom="15mm">
 									Autres :
 								</fo:inline>
+
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -261,30 +272,30 @@
 
 	<xsl:template name="globalpage">
 		<fo:block xsl:use-attribute-sets="titre" page-break-before="always">
-			Information préalable à la consultation ou à la délivrance d'extraits
+			Information prÃ©alable Ã  la consultation ou Ã  la dÃ©livrance d'extraits
 			d'informations cadastrales
 		</fo:block>
 
 		<fo:block xsl:use-attribute-sets="text">
-			Vous avez souhaité
+			Vous avez souhaitÃ©
 			obtenir
-			des informations cadastrales relatives à
-			une propriété
-			déterminée, à
+			des informations cadastrales relatives Ã 
+			une propriÃ©tÃ©
+			dÃ©terminÃ©e, Ã 
 			partir de son identification cadastrale
-			(n° de parcelle) ou du compte
-			commnunal de son propriétaires.
+			(nÂ° de parcelle) ou du compte
+			commnunal de son propriÃ©taires.
 			Les informations vous
 			seront remises,
 			sous forme
 			papier, par
-			l'intermédiaire de l'agent
-			municipal habilité à
+			l'intermÃ©diaire de l'agent
+			municipal habilitÃ© Ã 
 			cette fin.
 			Pour
-			pouvoir répondre à votre
+			pouvoir rÃ©pondre Ã  votre
 			demande, nous vous relire et
-			compléter le présent
+			complÃ©ter le prÃ©sent
 			document.
 		</fo:block>
 
@@ -317,63 +328,63 @@
 		</fo:block>
 
 		<fo:block xsl:use-attribute-sets="text">
-			Si vous êtes propriétaire de
-			la parcelle et que vous avez justifié de
-			cette qualité, ou que vous
-			avez désigné un mandataire qui pourra
-			attester de cette qualité,
-			l'ensemble des données vous concernant
-			peuvent vous être délivrées.
+			Si vous Ãªtes propriÃ©taire de
+			la parcelle et que vous avez justifiÃ© de
+			cette qualitÃ©, ou que vous
+			avez dÃ©signÃ© un mandataire qui pourra
+			attester de cette qualitÃ©,
+			l'ensemble des donnÃ©es vous concernant
+			peuvent vous Ãªtre dÃ©livrÃ©es.
 		</fo:block>
 
 		<fo:block xsl:use-attribute-sets="text">
 			En tant que tiers demandeur,
 			vous pouvez avoir communication des
-			références cadastrales et de
-			l'adresse d'un bien, de son évaluation
-			pour la détermination de la
-			taxe foncière (valeur locative), ainsi
-			que des nom, prénom et adresse
-			du ou des propriétaires. Vous ne
-			pouvez pas avoir accès aux date et
-			lieu de naissance du propriétaire,
+			rÃ©fÃ©rences cadastrales et de
+			l'adresse d'un bien, de son Ã©valuation
+			pour la dÃ©termination de la
+			taxe fonciÃ¨re (valeur locative), ainsi
+			que des nom, prÃ©nom et adresse
+			du ou des propriÃ©taires. Vous ne
+			pouvez pas avoir accÃ¨s aux date et
+			lieu de naissance du propriÃ©taire,
 			ni aux mentions relatives aux
-			motifs d'exonération fiscale.
+			motifs d'exonÃ©ration fiscale.
 		</fo:block>
 
 		<fo:block xsl:use-attribute-sets="soustitre">
 			<fo:inline font-style="italic" font-family="serif"
 				text-decoration="underline">
-				Conditions de réutilisation
+				Conditions de rÃ©utilisation
 				des informations
 				cadastrales :
 			</fo:inline>
 		</fo:block>
 
 		<fo:block xsl:use-attribute-sets="text">
-			La réutilisation des
-			informations cadastrales est soumise, en l'état
+			La rÃ©utilisation des
+			informations cadastrales est soumise, en l'Ã©tat
 			actuel de la
-			législation, au consentement de la personne concernée
+			lÃ©gislation, au consentement de la personne concernÃ©e
 			(le
-			propriétaire), ou à l'anonymisation préalable des informations
+			propriÃ©taire), ou Ã  l'anonymisation prÃ©alable des informations
 			par
-			l'autorité détentrice de ces données, conformément à l'article 13
+			l'autoritÃ© dÃ©tentrice de ces donnÃ©es, conformÃ©ment Ã  l'article 13
 			de
-			la loi du 17 juillet 1978 modifiée relative à l'accès aux
+			la loi du 17 juillet 1978 modifiÃ©e relative Ã  l'accÃ¨s aux
 			documents
-			administratifs et à la réutilisation des informations
+			administratifs et Ã  la rÃ©utilisation des informations
 			publiques.
 		</fo:block>
 
 		<fo:block xsl:use-attribute-sets="text">
 			En outre, tout traitement
-			ultérieur ou constitution d'un fichier
-			comportant des données à
-			caractère personnel est soumis aux
+			ultÃ©rieur ou constitution d'un fichier
+			comportant des donnÃ©es Ã 
+			caractÃ¨re personnel est soumis aux
 			dispositions de la loi du 6 janvier
-			1978 modifiée relative à
-			l'informatique, aux fichiers et aux libertés
+			1978 modifiÃ©e relative Ã 
+			l'informatique, aux fichiers et aux libertÃ©s
 		</fo:block>
 
 		<xsl:call-template name="typedinformation" />
