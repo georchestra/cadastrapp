@@ -37,16 +37,6 @@
 			<name>OpenGeo Maven Repository</name>
 			<url>http://repo.opengeo.org</url>
 		</repository>
-<!--
-		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-				<checksumPolicy>ignore</checksumPolicy>
-			</snapshots>
-			<id>georchestra</id>
-			<url>http://build.georchestra.org/maven/repository</url>
-		</repository>
--->
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -95,14 +85,6 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>1.9.0.RELEASE</version>
 		</dependency>
-		<!-- geOrchestra commons -->
-<!--
-		<dependency>
-			<groupId>org.georchestra</groupId>
-			<artifactId>georchestra-commons</artifactId>
-			<version>15.12-SNAPSHOT</version>
-		</dependency>
--->
 		<!-- Spring JDBC Support -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -287,13 +269,6 @@
 		</dependency>
 	</dependencies>
 	<pluginRepositories>
-<!--
-		<pluginRepository>
-			<id>opengeo</id>
-			<name>OpenGeo Maven Repository</name>
-			<url>http://repo.boundlessgeo.com/main/</url>
-		</pluginRepository>
--->
 	</pluginRepositories>
 	<build>
 		<pluginManagement>
