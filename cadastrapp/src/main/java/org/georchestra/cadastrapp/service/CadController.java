@@ -23,7 +23,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
  *
  */
 @Configuration
-@PropertySource("classpath:cadastrapp.properties")
+@PropertySource(value = {"classpath:cadastrapp.properties",
+			"file:${georchestra.datadir}/cadastrapp/cadastrapp.properties"}, ignoreResourceNotFound = true)
 public class CadController {
 	
 	@Bean
