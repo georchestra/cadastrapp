@@ -145,7 +145,7 @@
 			<fo:block xsl:use-attribute-sets="text">
 				Identifiant(s) de parcelle(s) :
 				<xsl:for-each select="parcelles/parcelle">
-					<xsl:value-of select="@parcelle" />
+						- <xsl:value-of select="text()"/> 
 				</xsl:for-each>
 			</fo:block>
 		</fo:block>
