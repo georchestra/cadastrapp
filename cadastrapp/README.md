@@ -128,6 +128,15 @@ for exemple : ```schema.name=cadastreapp```
 mvn clean install
 ```
 
+##  Build a debian package :
+
+To ease deployment and use the georchestra datadir, you can also build and deploy a debian package:
+```
+mvn clean package deb:package -pl cadastrapp -PdebianPackage
+```
+
+This will produce a .deb file under ```cadastrapp/target/```
+
 ##  Deploy application : 
 
 Copy war build previously in tomcat-cadastrapp webapps folder
