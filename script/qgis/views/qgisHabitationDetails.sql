@@ -153,7 +153,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS
 				gelelc,
 				gchclc
 			from #DBSchema_qgis.pevdependances
-				left join #DBSchema_qgis.icconad on pevdependances.cconad=cconad.cconad
+				left join #DBSchema_qgis.cconad on pevdependances.cconad=cconad.cconad
 				order by annee,invar'::text)
 	descdependance (
 		pev character varying(17),
