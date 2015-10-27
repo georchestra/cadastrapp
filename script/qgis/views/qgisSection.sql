@@ -10,7 +10,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.section AS
 	   		distinct ccodep||ccodir||ccocom as cgocommune,
 			ccosec,
 			ccopre
-	  	from parcelle'::text) 
+		from #DBSchema_qgis.parcelle'::text)
 	parcelle(
 		cgocommune character varying(6), 
 		ccosec character varying(2), 

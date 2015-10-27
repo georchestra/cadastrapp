@@ -13,16 +13,16 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire_parcelle AS
   			lo.comptecommunal,
   			l.dnupro,
   			lo.dnulot 
-  		from lots lo
-			left join local10 l on l.comptecommunal=lo.comptecommunal
+		from #DBSchema_qgis.lots lo
+			left join #DBSchema_qgis.local10 l on l.comptecommunal=lo.comptecommunal
 		UNION
 		select distinct ''0'' as lots,
 			p.parcelle,
 			p.comptecommunal,
 			po.dnupro,
 			''0'' as dnulot
-		from parcelle p
-			left join proprietaire po on p.comptecommunal=po.comptecommunal
+		from #DBSchema_qgis.parcelle p
+			left join #DBSchema_qgis.proprietaire po on p.comptecommunal=po.comptecommunal
 		where p.gpdl=''0'' '::text) 
 	proprietaire_parcelle (
 		lots character varying(29), 
