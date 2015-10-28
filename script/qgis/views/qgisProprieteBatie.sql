@@ -1,8 +1,7 @@
 -- Create view proprietebatie based on Qgis Models
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS 
-	SELECT proprietebatie.local00,
-		proprietebatie.lot,
+	SELECT proprietebatie.id_local,
 		proprietebatie.comptecommunal,
 		proprietebatie.dnupro,
 		proprietebatie.cgocommune,
@@ -40,8 +39,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.vlbaia_reg
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
 		'select 
-			l.local00,
-			c.lot,
+			l.local00 as id_local,
 			c.comptecommunal,
 			c.dnupro,
 			c.ccodep || c.ccodir ||	c.ccocom as cgocommune,
@@ -78,7 +76,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			pevtax.de_vlbaia as vlbaia_dep,
 			pevtax.re_vlbaia as vlbaia_reg
 		from #DBSchema_qgis.comptecommunal c
-			left join #DBSchema_qgis.local10 as l on c.dnupro=l.dnupro
+			left join #DBSchema_qgis.local10 as l on c.comptecommunal=l.comptecommunal
 			left join #DBSchema_qgis.local00 as l00 on l00.local00=l.local00
 			left join #DBSchema_qgis.voie as v on  l.voie=v.voie
 			left join #DBSchema_qgis.pev  on pev.local10=l.local10
@@ -86,8 +84,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			left join #DBSchema_qgis.pevtaxation as pevtax on pevtax.pev=pev.pev
 		order by c.ccodep,c.ccodir,c.ccocom,dnupla,v.voie,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
 	proprietebatie(
-		local00 character varying(14), 
-		lot character varying, 
+		id_local character varying(14), 
 		comptecommunal character varying(15), 
 		dnupro character varying(6), 
 		cgocommune character varying(6), 
