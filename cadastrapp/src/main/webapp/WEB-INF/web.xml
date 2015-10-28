@@ -7,6 +7,9 @@
         <param-value>WEB-INF/beans.xml</param-value>
     </context-param>
     <listener>
+        <listener-class>org.georchestra.cadastrapp.logging.ExternalConfigLoaderContextListener</listener-class>
+    </listener>
+    <listener>
         <listener-class>
                        org.springframework.web.context.ContextLoaderListener
        </listener-class>
