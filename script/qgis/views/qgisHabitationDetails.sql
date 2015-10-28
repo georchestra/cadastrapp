@@ -42,13 +42,13 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation as SELECT *
 			dep2_dsueic  as dsueic_cv,dep3_dsueic  
 			as dsueic_gr,
 			dep4_dsueic  as dsueic_tr
-		from pev
-			left join pevprincipale pevp on pev.pev=pevp.pev
-			left join ccoaff on pev.ccoaff=ccoaff.ccoaff
-			left join cconad cconad1 on pevp.dep1_cconad=cconad1.cconad 
-			left join cconad cconad2 on pevp.dep2_cconad=cconad2.cconad 
-			left join cconad cconad3 on pevp.dep3_cconad=cconad3.cconad 
-			left join cconad cconad4 on pevp.dep4_cconad=cconad4.cconad 
+		from #DBSchema_qgis.pev
+			left join #DBSchema_qgis.pevprincipale pevp on pev.pev=pevp.pev
+			left join #DBSchema_qgis.ccoaff on pev.ccoaff=ccoaff.ccoaff
+			left join #DBSchema_qgis.cconad cconad1 on pevp.dep1_cconad=cconad1.cconad
+			left join #DBSchema_qgis.cconad cconad2 on pevp.dep2_cconad=cconad2.cconad
+			left join #DBSchema_qgis.cconad cconad3 on pevp.dep3_cconad=cconad3.cconad
+			left join #DBSchema_qgis.cconad cconad4 on pevp.dep4_cconad=cconad4.cconad
 			order by annee,invar'::text) 
 	deschabitation (
 		pev character varying(17),
@@ -109,7 +109,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.descproffessionnel AS
 				annee,
 				dnudes,
 				vsurzt 
-			from pevprofessionnelle order by annee,invar'::text) 
+			from #DBSchema_qgis.pevprofessionnelle order by annee,invar'::text)
 	descproffessionnel (
 		pev character varying(17),
 		invar character varying(10),
@@ -152,8 +152,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS
 				geaulc,
 				gelelc,
 				gchclc
-			from pevdependances
-				left join cconad on pevdependances.cconad=cconad.cconad
+			from #DBSchema_qgis.pevdependances
+				left join #DBSchema_qgis.cconad on pevdependances.cconad=cconad.cconad
 				order by annee,invar'::text)
 	descdependance (
 		pev character varying(17),

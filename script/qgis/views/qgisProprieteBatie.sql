@@ -77,13 +77,13 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			pevtax.co_vlbaia as vlbaia_com,
 			pevtax.de_vlbaia as vlbaia_dep,
 			pevtax.re_vlbaia as vlbaia_reg
-		from comptecommunal c
-			left join local10 as l on c.dnupro=l.dnupro
-			left join local00 as l00 on l00.local00=l.local00
-			left join voie as v on  l.voie=v.voie
-			left join pev  on pev.local10=l.local10
-			left join pevexoneration as pevx on pevx.pev=pev.pev
-			left join pevtaxation as pevtax on pevtax.pev=pev.pev
+		from #DBSchema_qgis.comptecommunal c
+			left join #DBSchema_qgis.local10 as l on c.dnupro=l.dnupro
+			left join #DBSchema_qgis.local00 as l00 on l00.local00=l.local00
+			left join #DBSchema_qgis.voie as v on  l.voie=v.voie
+			left join #DBSchema_qgis.pev  on pev.local10=l.local10
+			left join #DBSchema_qgis.pevexoneration as pevx on pevx.pev=pev.pev
+			left join #DBSchema_qgis.pevtaxation as pevtax on pevtax.pev=pev.pev
 		order by c.ccodep,c.ccodir,c.ccocom,dnupla,v.voie,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
 	proprietebatie(
 		local00 character varying(14), 

@@ -18,7 +18,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.commune AS
 				rtrim(upper(communeqgis.libcom) )as libcom_maj,
 				rtrim(initcap(lower(communeqgis.libcom))) as libcom_min,
 				typcom 
-			from commune communeqgis where typcom is not null'::text) 
+			from #DBSchema_qgis.commune communeqgis where typcom is not null'::text)
 	commune(
 		cgocommune character varying(6),
 		annee character varying(4), 

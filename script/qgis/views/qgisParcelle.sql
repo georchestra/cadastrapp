@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.v_parcelle_surfc AS
 			'select distinct 
 				geo_parcelle as parcelle,
 				round(st_area(geom)) as surfc 
-			from geo_parcelle'::text)
+			from #DBSchema_qgis.geo_parcelle'::text)
 	v_parcelle_surfc(
 		parcelle character varying(19),
 		surfc float);
@@ -38,7 +38,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
 			ccopre,
 			ccosec,
 			dcntpa
-		from parcelle'::text) 
+		from #DBSchema_qgis.parcelle'::text)
 	parcelle(
 		parcelle character varying(19), 
 		cgocommune character varying(6), 
@@ -129,7 +129,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 			ccosec,
 			pdl,
 			inspireid 
-		from parcelle'::text) 
+		from #DBSchema_qgis.parcelle'::text)
 	parcelledetails(
 		parcelle character varying(19), 
 		cgocommune character varying(6), 

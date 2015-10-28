@@ -41,6 +41,7 @@ if [ "$#" -ne 8 ]; then
 	# REMOTE Arcopole Database information
 	qgisDBHost=
 	qgisDBName=
+	qgisDBSchema=
 	qgisDBUser=
 	qgisDBPassword=
 else
@@ -52,8 +53,9 @@ else
 
 	qgisDBHost=$5
 	qgisDBName=$6
-	qgisDBUser=$7
-	qgisDBPassword=$8
+	qgisDBSchema=$7
+	qgisDBUser=$8
+	qgisDBPassword=$9
 fi
 
 echo "--------------------------------";
@@ -64,6 +66,7 @@ echo "Password : $userpwd"
 
 echo "Qgis Database host : $qgisDBHost"
 echo "Qgis Database name : $qgisDBName"
+echo "Qgis Schema : $qgisDBSchema"
 echo "Qgis UserName : $qgisDBUser"
 echo "Qgis Password : $qgisDBPassword"
 echo "--------------------------------";
@@ -75,6 +78,7 @@ echo "--------------------------------";
 # #schema_cadastrapp replace with $schema
 # #DBHost_qgis replace with $qgisDBHost
 # #DBName_qgis replace with $qgisDBName
+# #DBSchema_qgis replace with $qgisDBSchema
 # #DBUser_qgis replace with $qgisDBUser
 # #DBpasswd_qgis replace with $qgisDBPassword
 #
@@ -91,6 +95,7 @@ replaceAndLaunch (){
 				 	s/#schema_cadastrapp/$schema/g
 				 	s/#DBHost_qgis/$qgisDBHost/g
 				 	s/#DBName_qgis/$qgisDBName/g
+					s/#DBSchema_qgis/$qgisDBSchema/g
 				 	s/#DBUser_qgis/$qgisDBUser/g
 				 	s/#DBpasswd_qgis/$qgisDBPassword/g }" |\
 					psql -d $dbname

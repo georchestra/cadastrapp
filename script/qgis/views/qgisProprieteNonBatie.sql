@@ -86,11 +86,11 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			CAST (suftax.c2bisufad * 10 as integer) as bisufad_dep,
 			CAST (suftax.c3bisufad * 10 as integer) as bisufad_reg,
 			CAST (sufex.rcexnba * 10 as integer) as rcexnba
-		from parcelle p 
-			left join voie v on v.voie=p.voie
-			left join suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
-			left join sufexoneration as sufex on sufex.suf=suf.suf
-			left join suftaxation as suftax on suftax.suf=suf.suf'::text) 
+		from #DBSchema_qgis.parcelle p
+			left join #DBSchema_qgis.voie v on v.voie=p.voie
+			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
+			left join #DBSchema_qgis.sufexoneration as sufex on sufex.suf=suf.suf
+			left join #DBSchema_qgis.suftaxation as suftax on suftax.suf=suf.suf'::text)
 	proprietenonbatie(
 		id_local character varying(21),  
 		jdatat character varying(10),  

@@ -9,8 +9,8 @@ CREATE TABLE #schema_cadastrapp.uf_parcelle AS
   			distinct p.geo_parcelle as parcelle,
   			z.id as uf,
   			z.comptecommunal as comptecommunal
-		from geo_parcelle AS p
-			join geo_unite_fonciere AS z ON  ST_Contains(z.geom, p.geom) 
+		from #DBSchema_qgis.geo_parcelle AS p
+			join #DBSchema_qgis.geo_unite_fonciere AS z ON  ST_Contains(z.geom, p.geom)
 			order by z.id,z.comptecommunal'::text) 
 	uf_parcelle(
 		parcelle character varying(19), 

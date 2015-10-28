@@ -105,7 +105,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.dsiren,
 			pqgis.ccodep || pqgis.ccodir || pqgis.ccocom as cgocommune,
 			pqgis.comptecommunal 
-		from proprietaire pqgis'::text) 
+		from #DBSchema_qgis.proprietaire pqgis'::text)
 	proprietaire(
 		id_proprietaire character varying(20), 
 		dnupro character varying(6), 
