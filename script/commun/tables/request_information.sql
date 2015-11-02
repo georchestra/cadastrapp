@@ -71,7 +71,7 @@ ALTER TABLE #schema_cadastrapp.request_information
 CREATE TABLE #schema_cadastrapp.request_parcelles_information
 (
   informationrequest_requestid bigint NOT NULL,
-  parcelle character varying(255)
+  parcelles character varying(255)
 )
 WITH (
   OIDS=FALSE
