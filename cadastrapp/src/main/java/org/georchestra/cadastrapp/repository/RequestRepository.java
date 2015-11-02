@@ -41,6 +41,6 @@ public interface RequestRepository
      * @param date
      * @return number of Information request for this cni after a given date
      */
-    int countByUserCniAndRequestDateAfter(String cni, Date date);
+    int countByUserCniAndUserTypeAndRequestDateAfter(String cni, String type, Date date);
     
 }

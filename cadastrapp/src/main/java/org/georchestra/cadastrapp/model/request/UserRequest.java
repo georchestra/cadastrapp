@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -18,6 +19,14 @@ public class UserRequest implements Serializable {
 	private static final long serialVersionUID = -9140660737315556020L;
 	
 	@Id
+	@GeneratedValue
+	@Column(name="userid")
+	private long userId;
+		
+	// No constraint because of Adminstration which have no mandatory field
+	@Column(name="type")
+	private String type;
+	
 	@Column(name="cni")
 	private String cni;
 	
@@ -28,13 +37,16 @@ public class UserRequest implements Serializable {
 	private String lastName;
 	
 	@Column(name="codepostal")
-	private String codepostal;
+	private String codePostal;
 	
 	@Column(name="commune")
 	private String commune;
 	
 	@Column(name="adress")
 	private String adress;
+	
+	@Column(name="mail")
+	private String mail;
 	
 	/**
 	 * @return the firstName
@@ -104,15 +116,57 @@ public class UserRequest implements Serializable {
 	/**
 	 * @return the codepostal
 	 */
-	public String getCodepostal() {
-		return codepostal;
+	public String getCodePostal() {
+		return codePostal;
 	}
 	/**
 	 * @param codepostal the codepostal to set
 	 */
 	@XmlAttribute
-	public void setCodepostal(String codepostal) {
-		this.codepostal = codepostal;
+	public void setCodePostal(String codepostal) {
+		this.codePostal = codepostal;
+	}
+	/**
+	 * @return the userId
+	 */
+	public long getUserId() {
+		return userId;
+	}
+	
+	@XmlAttribute
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	
+	@XmlAttribute
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+	/**
+	 * @return the mail
+	 */
+	public String getMail() {
+		return mail;
+	}
+	
+	@XmlAttribute
+	/**
+	 * @param mail the mail to set
+	 */
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	
 	

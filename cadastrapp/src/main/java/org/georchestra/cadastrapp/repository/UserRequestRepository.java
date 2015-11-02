@@ -22,4 +22,13 @@ public interface UserRequestRepository
      */
     UserRequest findByCni(String cni);
     
+    
+    /**
+     *  Get userRequest from database using cni id
+     *  
+     * @param cni
+     * @param type
+     * @return UserRequest using given cni and type
+     */
+    UserRequest findByCniAndType(String cni, String type);
 }

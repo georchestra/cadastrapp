@@ -34,6 +34,18 @@ public class RequestInformationController {
 	final int maxRequestByMonth = 10;
 	final int maxRequestByWeek = 5;
 
+	// Request type made by administration
+	final String A = "A";
+	
+	// Request type made by particulier détendeur des droits
+	final String P1 = "P1";
+	
+	// Request type made by particulier agissant en qualité de mandataire
+	final String P2 = "P2";
+	
+	// Request type made by Particuliers Tierce
+	final String P3 = "P3";
+
 	@Autowired
 	RequestRepository requestRepository;
 	@Autowired
@@ -54,48 +66,55 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> checkRequestLimitation(@QueryParam("cni") String cni, @Context HttpHeaders headers) throws SQLException {
+	public Map<String, Object> checkRequestLimitation(@QueryParam("cni") String cni, @QueryParam("type") String type, @Context HttpHeaders headers) throws SQLException {
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		int nbRequestAvailable = 0;
 
-		Date currentDate = new Date();
+		if (type == P3) {
+			int nbRequestAvailable = 0;
 
-		Calendar cal = Calendar.getInstance();
+			Date currentDate = new Date();
 
-		cal.setTime(currentDate);
-		cal.add(Calendar.DATE, -7);
-		Date datePlusOneWeek = cal.getTime();
+			Calendar cal = Calendar.getInstance();
 
-		cal.setTime(currentDate);
-		cal.add(Calendar.MONTH, -1);
-		Date datePlusOneMonth = cal.getTime();
+			cal.setTime(currentDate);
+			cal.add(Calendar.DATE, -7);
+			Date datePlusOneWeek = cal.getTime();
 
-		if (logger.isDebugEnabled()) {
+			cal.setTime(currentDate);
+			cal.add(Calendar.MONTH, -1);
+			Date datePlusOneMonth = cal.getTime();
 
-			logger.debug("Current date : " + currentDate.toString());
-			logger.debug("One week before : " + datePlusOneWeek.toString());
-			logger.debug("One monthe before : " + datePlusOneMonth.toString());
-		}
+			if (logger.isDebugEnabled()) {
 
-		int numberRequestInTheWeek = requestRepository.countByUserCniAndRequestDateAfter(cni, datePlusOneWeek);
-		int numberRequestInTheMonth = requestRepository.countByUserCniAndRequestDateAfter(cni, datePlusOneMonth);
+				logger.debug("Current date : " + currentDate.toString());
+				logger.debug("One week before : " + datePlusOneWeek.toString());
+				logger.debug("One monthe before : " + datePlusOneMonth.toString());
+			}
 
-		// Denied request
-		// if User has made more than 5 requests in the last week
-		// if User has made more than 10 requests in the last month
-		if (numberRequestInTheMonth < maxRequestByMonth) {
-			if (numberRequestInTheWeek < maxRequestByWeek) {
-				nbRequestAvailable = maxRequestByWeek - numberRequestInTheWeek;
+			int numberRequestInTheWeek = requestRepository.countByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneWeek);
+			int numberRequestInTheMonth = requestRepository.countByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneMonth);
 
-				final UserRequest existingUser = userRepository.findByCni(cni);
-
-				if (existingUser != null) {
-					result.put("user", existingUser);
+			// Denied request
+			// if User has made more than 5 requests in the last week
+			// if User has made more than 10 requests in the last month
+			if (numberRequestInTheMonth < maxRequestByMonth) {
+				if (numberRequestInTheWeek < maxRequestByWeek) {
+					nbRequestAvailable = maxRequestByWeek - numberRequestInTheWeek;
 				}
 			}
+
+			result.put("requestAvailable", nbRequestAvailable);
 		}
-		result.put("requestAvailable", nbRequestAvailable);
+
+		// Check if parameter are not null or empty
+		if (cni != null && cni.length() > 0 && type != null && type.length() > 0) {
+			final UserRequest existingUser = userRepository.findByCniAndType(cni, type);
+
+			if (existingUser != null) {
+				result.put("user", existingUser);
+			}
+		}
 
 		return result;
 	}
@@ -117,15 +136,12 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> checkRequestValidity(@QueryParam("cni") String cni, @QueryParam("comptecommunal") String compteCommunal, @QueryParam("parcelles") List<String> parcelleIds, @Context HttpHeaders headers) throws SQLException {
+	public List<Map<String, Object>> checkRequestValidity(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("coproprietes") List<String> coproprietes, @QueryParam("parcelles") List<String> parcelleIds, @Context HttpHeaders headers) throws SQLException {
 
 		// Check information in database
-		final UserRequest existingUser = userRepository.findByCni(cni);
+		//final UserRequest existingUser = userRepository.findByCniAndType(cni, type);
 
-		// Denied request
-		// if User has made more than 5 requests in the last week
-		// if User has made more than 10 requests in the last month
-		// if parcelle requested are not in geographic group of connected user
+		// Check if parcelle, comptecommunaux and lot coproprietes exist and if user have rights
 
 		List<Map<String, Object>> request = new ArrayList<Map<String, Object>>();
 
@@ -153,8 +169,20 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> saveInformationRequest(@QueryParam("cni") String cni, @QueryParam("adress") String adress, @QueryParam("commune") String commune, @QueryParam("codepostal") String codePostal, @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname, @QueryParam("comptecommunal") String compteCommunal,
-			@QueryParam("parcelles") List<String> parcelleIds, @Context HttpHeaders headers) throws SQLException {
+	public Map<String, Object> saveInformationRequest(
+			@QueryParam("cni") String cni, 
+			@QueryParam("type") String type, 
+			@QueryParam("adress") String adress, 
+			@QueryParam("commune") String commune, 
+			@QueryParam("codepostal") String codePostal, 
+			@QueryParam("firstname") String firstname, 
+			@QueryParam("lastname") String lastname, 
+			@QueryParam("mail") String mail,
+			@QueryParam("comptecommunal") List<String> compteCommunaux, 
+			@QueryParam("parcelles") List<String> parcelleIds, 
+			@QueryParam("copropriete") List<String> coproprietes, 
+			@QueryParam("askby") int askby, 
+			@QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
 
 		// todo recheck value
 
@@ -163,20 +191,22 @@ public class RequestInformationController {
 		String message = "user updated";
 
 		// Check if user exist
-		UserRequest existingUser = userRepository.findByCni(cni);
+		UserRequest existingUser = userRepository.findByCniAndType(cni, type);
 
 		if (existingUser == null) {
 			message = "user created";
 			existingUser = new UserRequest();
 			existingUser.setCni(cni);
+			existingUser.setType(type);
 		}
 
 		// update information if needed
 		existingUser.setAdress(adress);
 		existingUser.setCommune(commune);
-		existingUser.setCodepostal(codePostal);
+		existingUser.setCodePostal(codePostal);
 		existingUser.setFirstName(firstname);
 		existingUser.setLastName(lastname);
+		existingUser.setMail(mail);
 
 		UserRequest existingUser2 = userRepository.save(existingUser);
 
@@ -185,17 +215,39 @@ public class RequestInformationController {
 
 		informationRequest.setUser(existingUser2);
 		informationRequest.setRequestDate(new Date());
-		informationRequest.setComptecommunal(compteCommunal);
+
+		if (compteCommunaux != null && !compteCommunaux.isEmpty()) {
+
+			if (compteCommunaux.size() == 1) {
+				compteCommunaux = Arrays.asList(compteCommunaux.get(0).split("\\s|;|,"));
+			}
+
+			Set<String> compteCommunauxSet = new HashSet<String>(compteCommunaux);
+			informationRequest.setCompteCommunaux(compteCommunauxSet);
+		}
+
+		if (coproprietes != null && !coproprietes.isEmpty()) {
+
+			if (coproprietes.size() == 1) {
+				coproprietes = Arrays.asList(coproprietes.get(0).split("\\s|;|,"));
+			}
+
+			Set<String> coproprietesSet = new HashSet<String>(coproprietes);
+			informationRequest.setParcellesId(coproprietesSet);
+		}
 
 		if (parcelleIds != null && !parcelleIds.isEmpty()) {
-		
+
 			if (parcelleIds.size() == 1) {
 				parcelleIds = Arrays.asList(parcelleIds.get(0).split("\\s|;|,"));
-			} 
-			
-			Set<String> parcelleList = new HashSet<String>(parcelleIds);
-			informationRequest.setParcellesId(parcelleList);
+			}
+
+			Set<String> parcellesSet = new HashSet<String>(parcelleIds);
+			informationRequest.setParcellesId(parcellesSet);
 		}
+		
+		informationRequest.setAskby(askby);
+		informationRequest.setResponseby(responseby);
 
 		final InformationRequest informationRequestSaved = requestRepository.save(informationRequest);
 

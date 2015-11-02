@@ -36,7 +36,7 @@ public class InformationRequest implements Serializable{
 	private long requestId;
 	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER) 
-    @JoinColumn(name="cni", nullable=false, updatable=false)
+    @JoinColumn(name="userid", nullable=false, updatable=false)
 	private UserRequest user;
 	
 	@Column(name="requestdate")
@@ -44,11 +44,25 @@ public class InformationRequest implements Serializable{
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name ="request_parcelles_information", joinColumns=@JoinColumn(name="informationrequest_requestid"))
-	@Column(name="parcelle")
+	@Column(name="parcelles")
 	private Set<String> parcellesId;
 	
-	@Column(name="comptecommunal")
-	private String comptecommunal;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name ="request_comptecommunaux_information", joinColumns=@JoinColumn(name="informationrequest_requestid"))
+	@Column(name="comptecommunaux")
+	private Set<String> compteCommunaux;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name ="request_coproprietes_information", joinColumns=@JoinColumn(name="informationrequest_requestid"))
+	@Column(name="coProprietes")
+	private Set<String> coProprietes;
+	
+	@Column(name="askby")
+	private int askby;
+	
+	@Column(name="reponseby")
+	private int responseby;
+
 	
 	public InformationRequest(){}
 
@@ -114,18 +128,67 @@ public class InformationRequest implements Serializable{
 	}
 
 	/**
-	 * @return the comptecommunal
+	 * @return the compteCommunaux
 	 */
-	public String getComptecommunal() {
-		return comptecommunal;
+	public Set<String> getCompteCommunaux() {
+		return compteCommunaux;
 	}
 
 	/**
-	 * @param comptecommunal the comptecommunal to set
+	 * @param compteCommunaux the compteCommunaux to set
+	 */
+	@XmlElementWrapper(name="comptecommnuaux")
+    @XmlElements({@XmlElement(name="comptecommunal",     type=String.class)})
+	public void setCompteCommunaux(Set<String> compteCommunaux) {
+		this.compteCommunaux = compteCommunaux;
+	}
+
+	/**
+	 * @return the coproprietes
+	 */
+	public Set<String> getCoproprietes() {
+		return coProprietes;
+	}
+
+	/**
+	 * @param coproprietes the coproprietes to set
+	 */
+	@XmlElementWrapper(name="coproprietes")
+    @XmlElements({@XmlElement(name="copropriete",     type=String.class)})
+	public void setCoproprietes(Set<String> coproprietes) {
+		this.coProprietes = coproprietes;
+	}
+
+	/**
+	 * @return the askby
+	 */
+	public int getAskby() {
+		return askby;
+	}
+
+	/**
+	 * @param askby the askby to set
 	 */
 	@XmlAttribute
-	public void setComptecommunal(String comptecommunal) {
-		this.comptecommunal = comptecommunal;
-	}	
+	public void setAskby(int askby) {
+		this.askby = askby;
+	}
+
+	/**
+	 * @return the responseby
+	 */
+	public int getResponseby() {
+		return responseby;
+	}
+
+	/**
+	 * @param responseby the responseby to set
+	 */
+	@XmlAttribute
+	public void setResponseby(int responseby) {
+		this.responseby = responseby;
+	}
+
+	
 
 }
