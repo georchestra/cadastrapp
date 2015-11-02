@@ -180,7 +180,7 @@ public class RequestInformationController {
 			@QueryParam("mail") String mail,
 			@QueryParam("comptecommunal") List<String> compteCommunaux, 
 			@QueryParam("parcelles") List<String> parcelleIds, 
-			@QueryParam("copropriete") List<String> coproprietes, 
+			@QueryParam("copropriete") List<String> coProprietes, 
 			@QueryParam("askby") int askby, 
 			@QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
 
@@ -226,14 +226,14 @@ public class RequestInformationController {
 			informationRequest.setCompteCommunaux(compteCommunauxSet);
 		}
 
-		if (coproprietes != null && !coproprietes.isEmpty()) {
+		if (coProprietes != null && !coProprietes.isEmpty()) {
 
-			if (coproprietes.size() == 1) {
-				coproprietes = Arrays.asList(coproprietes.get(0).split("\\s|;|,"));
+			if (coProprietes.size() == 1) {
+				coProprietes = Arrays.asList(coProprietes.get(0).split("\\s|;|,"));
 			}
 
-			Set<String> coproprietesSet = new HashSet<String>(coproprietes);
-			informationRequest.setParcellesId(coproprietesSet);
+			Set<String> coproprietesSet = new HashSet<String>(coProprietes);
+			informationRequest.setCoproprietes(coproprietesSet);
 		}
 
 		if (parcelleIds != null && !parcelleIds.isEmpty()) {
