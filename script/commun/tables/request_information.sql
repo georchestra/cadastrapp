@@ -54,7 +54,7 @@ WITH (
 -- Constraint: 
 
 ALTER TABLE #schema_cadastrapp.request_information
-  CONSTRAINT request_information_pkey PRIMARY KEY (requestid );
+  ADD CONSTRAINT request_information_pkey PRIMARY KEY (requestid );
   
  -- Foreign Key: 
 ALTER TABLE #schema_cadastrapp.request_information
