@@ -121,7 +121,7 @@ WITH (
 
 ALTER TABLE #schema_cadastrapp.request_coproprietes_information
   ADD CONSTRAINT foreingKeyCoProprietesRequestId FOREIGN KEY (informationrequest_requestid)
-      REFERENCES cadastrapp_qgis.request_information (requestid) MATCH SIMPLE
+      REFERENCES  #schema_cadastrapp.request_information (requestid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION;
       
 ALTER TABLE #schema_cadastrapp.request_coproprietes_information
