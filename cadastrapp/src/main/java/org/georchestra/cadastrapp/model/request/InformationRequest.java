@@ -54,7 +54,7 @@ public class InformationRequest implements Serializable{
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name ="request_coproprietes_information", joinColumns=@JoinColumn(name="informationrequest_requestid"))
-	@Column(name="coProprietes")
+	@Column(name="coproprietes")
 	private Set<String> coProprietes;
 	
 	@Column(name="askby")
@@ -137,8 +137,8 @@ public class InformationRequest implements Serializable{
 	/**
 	 * @param compteCommunaux the compteCommunaux to set
 	 */
-	@XmlElementWrapper(name="comptecommnuaux")
-    @XmlElements({@XmlElement(name="comptecommunal",     type=String.class)})
+	@XmlElementWrapper(name="compteCommnuaux")
+    @XmlElements({@XmlElement(name="compteCommunal",     type=String.class)})
 	public void setCompteCommunaux(Set<String> compteCommunaux) {
 		this.compteCommunaux = compteCommunaux;
 	}
@@ -146,16 +146,16 @@ public class InformationRequest implements Serializable{
 	/**
 	 * @return the coproprietes
 	 */
-	public Set<String> getCoproprietes() {
+	public Set<String> getCoProprietes() {
 		return coProprietes;
 	}
 
 	/**
 	 * @param coproprietes the coproprietes to set
 	 */
-	@XmlElementWrapper(name="coproprietes")
-    @XmlElements({@XmlElement(name="copropriete",     type=String.class)})
-	public void setCoproprietes(Set<String> coproprietes) {
+	@XmlElementWrapper(name="coProprietes")
+    @XmlElements({@XmlElement(name="coPropriete",     type=String.class)})
+	public void setCoProprietes(Set<String> coproprietes) {
 		this.coProprietes = coproprietes;
 	}
 
@@ -189,6 +189,15 @@ public class InformationRequest implements Serializable{
 		this.responseby = responseby;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "InformationRequest [requestId=" + requestId + ", user=" + user + ", requestDate=" + requestDate + ", parcellesId=" + parcellesId + ", compteCommunaux=" + compteCommunaux + ", coProprietes=" + coProprietes + ", askby=" + askby + ", responseby=" + responseby + "]";
+	}
+
+	
 	
 
 }

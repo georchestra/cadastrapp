@@ -168,6 +168,13 @@ public class UserRequest implements Serializable {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UserRequest [userId=" + userId + ", type=" + type + ", cni=" + cni + ", firstName=" + firstName + ", lastName=" + lastName + ", codePostal=" + codePostal + ", commune=" + commune + ", adress=" + adress + ", mail=" + mail + "]";
+	}
 	
 	
 }

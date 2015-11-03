@@ -169,7 +169,7 @@ public class CadController {
 		}
 
 		logger.debug(" Check user CNIL Level : " + cnilLevel);
-		return cnilLevel;
+		return 2;
 	}
 
 	/**
