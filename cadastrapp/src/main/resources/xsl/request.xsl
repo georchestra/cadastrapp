@@ -92,32 +92,39 @@
 				<fo:table-body>
 					<fo:table-row>
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text"><fo:inline padding-left="5pt">
-								<xsl:if test="userRequest/@type='A'">
-									Administration
-								</xsl:if>
-								<xsl:if test="userRequest/@type='P1'">
-									Particulier détenteur des droits
-								</xsl:if>
-								<xsl:if test="userRequest/@type='P2'">
-									Particulier agissant en qualité de mandataire
-								</xsl:if>
-								<xsl:if test="userRequest/@type='P3'">
-									Particulier tiers
-								</xsl:if>
+							<fo:block xsl:use-attribute-sets="text">
+								<fo:inline padding-left="5pt">
+									<xsl:if test="userRequest/@type='A'">
+										Administration
+									</xsl:if>
+									<xsl:if test="userRequest/@type='P1'">
+										Particulier détenteur des droits
+									</xsl:if>
+									<xsl:if test="userRequest/@type='P2'">
+										Particulier agissant en qualité de mandataire
+									</xsl:if>
+									<xsl:if test="userRequest/@type='P3'">
+										Particulier tiers
+									</xsl:if>
 								</fo:inline>
 								<fo:block>
-									<fo:inline padding-left="5pt"><xsl:value-of select="userRequest/@firstName" />
-									<xsl:text> </xsl:text>
-									<xsl:value-of select="userRequest/@lastName" /></fo:inline>
+									<fo:inline padding-left="5pt">
+										<xsl:value-of select="userRequest/@firstName" />
+										<xsl:text> </xsl:text>
+										<xsl:value-of select="userRequest/@lastName" />
+									</fo:inline>
 								</fo:block>
 								<fo:block>
-									<fo:inline padding-left="5pt"><xsl:value-of select="userRequest/@adress" /></fo:inline>
+									<fo:inline padding-left="5pt">
+										<xsl:value-of select="userRequest/@adress" />
+									</fo:inline>
 								</fo:block>
 								<fo:block>
-									<fo:inline padding-left="5pt"><xsl:value-of select="userRequest/@codePostal" />
-									-
-									<xsl:value-of select="userRequest/@commune" /></fo:inline>
+									<fo:inline padding-left="5pt">
+										<xsl:value-of select="userRequest/@codePostal" />
+										-
+										<xsl:value-of select="userRequest/@commune" />
+									</fo:inline>
 								</fo:block>
 							</fo:block>
 						</fo:table-cell>
@@ -166,24 +173,24 @@
 						<fo:block></fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
+						<xsl:for-each select="compteCommunaux/compteCommunal">
 							<fo:block xsl:use-attribute-sets="text">
-								<xsl:for-each select="compteCommunaux/compteCommunal">
-									Propriétaire :
-									<xsl:value-of select="text()" />
-								</xsl:for-each>
+								Propriétaire :
+								<xsl:value-of select="text()" />
 							</fo:block>
+						</xsl:for-each>
+						<xsl:for-each select="parcelles/parcelle">
 							<fo:block xsl:use-attribute-sets="text">
-								<xsl:for-each select="parcelles/parcelle">
-									Parcelle : 
-									<xsl:value-of select="text()" />
-								</xsl:for-each>
+								Parcelle :
+								<xsl:value-of select="text()" />
 							</fo:block>
+						</xsl:for-each>
+						<xsl:for-each select="coProprietes/coPropriete">
 							<fo:block xsl:use-attribute-sets="text">
-								<xsl:for-each select="coProprietes/coPropriete">
-									Lot de copropriété :
-									<xsl:value-of select="text()" />
-								</xsl:for-each>
+								Lot de copropriété :
+								<xsl:value-of select="text()" />
 							</fo:block>
+						</xsl:for-each>
 					</fo:table-cell>
 				</fo:table-row>
 			</fo:table-body>
@@ -197,28 +204,34 @@
 			<fo:table-body>
 				<fo:table-row>
 					<fo:table-cell>
-						<fo:block xsl:use-attribute-sets="text"><fo:inline padding-left="5pt">
-							<xsl:call-template name="checkbox" />
-							J'ai pris connaissance de mes droits et obligations</fo:inline>
-							</fo:block>
-						<fo:block xsl:use-attribute-sets="text"><fo:inline padding-left="5pt">
-							<xsl:call-template name="checkbox" />
-							Les informations ci-dessous sont correctes</fo:inline>
+						<fo:block xsl:use-attribute-sets="text">
+							<fo:inline padding-left="5pt">
+								<xsl:call-template name="checkbox" />
+								J'ai pris connaissance de mes droits et obligations
+							</fo:inline>
+						</fo:block>
+						<fo:block xsl:use-attribute-sets="text">
+							<fo:inline padding-left="5pt">
+								<xsl:call-template name="checkbox" />
+								Les informations ci-dessous sont correctes
+							</fo:inline>
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
-							<fo:block></fo:block>
-						</fo:table-cell>
+						<fo:block></fo:block>
+					</fo:table-cell>
 				</fo:table-row>
 				<fo:table-row>
 					<fo:table-cell>
 						<fo:block xsl:use-attribute-sets="text-bold">
 							<fo:inline padding-left="5pt">Signature : </fo:inline>
 						</fo:block>
-						<fo:block xsl:use-attribute-sets="text-bold" padding-top="50pt" >
-							<fo:inline padding-left="5pt">Le :
-							<xsl:value-of
-								select="java:format(java:java.text.SimpleDateFormat.new('d MMMM yyyy'), java:java.util.Date.new())" /></fo:inline>
+						<fo:block xsl:use-attribute-sets="text-bold" padding-top="50pt">
+							<fo:inline padding-left="5pt">
+								Le :
+								<xsl:value-of
+									select="java:format(java:java.text.SimpleDateFormat.new('d MMMM yyyy'), java:java.util.Date.new())" />
+							</fo:inline>
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -244,18 +257,21 @@
 			</fo:block>
 			<fo:block xsl:use-attribute-sets="text">
 				<fo:inline padding-left="5pt">Les articles R* 107 A-1 et
-				suivants du livre des procédures fiscales fixent les modalités de
-				communication des informations fiscales aux contribuables.
-				L'article
-				5
-				de la délibération 2012-088 prise par la Commission nationale de
-				l'informatique et des libertés répertorie les informations
-				auxquelles
-				vous avez accès selon que vous êtes titulaire de droits
-				réels
-				immobiliers, mandataire du titulaire de droits réels
-				immobiliers ou
-				un tiers demandeur.
+					suivants du livre des procédures fiscales fixent les modalités de
+					communication des informations fiscales aux contribuables.
+					L'article
+					5
+					de la délibération 2012-088 prise par la Commission
+					nationale de
+					l'informatique et des libertés répertorie les
+					informations
+					auxquelles
+					vous avez accès selon que vous êtes titulaire
+					de droits
+					réels
+					immobiliers, mandataire du titulaire de droits réels
+					immobiliers ou
+					un tiers demandeur.
 				</fo:inline>
 				<fo:inline></fo:inline>
 			</fo:block>
@@ -263,21 +279,27 @@
 				<fo:table-column column-width="30%" />
 				<fo:table-column column-width="10%" />
 				<fo:table-column column-width="60%" />
-				<fo:table-body  padding-top="10pt" border="solid 0.1mm black">
-					<fo:table-row >
+				<fo:table-body padding-top="10pt" border="solid 0.1mm black">
+					<fo:table-row>
 						<fo:table-cell border="solid 0.1mm black">
-							<fo:block text-align="center"><fo:inline padding-top="5pt" >Titulaire ou mandataire</fo:inline></fo:block>
+							<fo:block text-align="center">
+								<fo:inline padding-top="5pt">Titulaire ou mandataire</fo:inline>
+							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="solid 0.1mm black">
 							<fo:block></fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="solid 0.1mm black">
-							<fo:block text-align="center" ><fo:inline padding-top="5pt" >Tiers demandeur</fo:inline></fo:block>
+							<fo:block text-align="center">
+								<fo:inline padding-top="5pt">Tiers demandeur</fo:inline>
+							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell border="solid 0.1mm black">
-							<fo:block xsl:use-attribute-sets="text-bold"><fo:inline padding-left="5pt">Vos Droits</fo:inline></fo:block>
+							<fo:block xsl:use-attribute-sets="text-bold">
+								<fo:inline padding-left="5pt">Vos Droits</fo:inline>
+							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="solid 0.1mm black">
 							<fo:block></fo:block>
@@ -288,33 +310,48 @@
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell xsl:use-attribute-sets="text">
-							<fo:block><fo:inline padding-left="5pt">Accès à l'ensemble des informations contenues dans la
-								matrice cadastrale sous la forme d'un relevé de propriété et/ou
-								d'un bordereau parcellaire.</fo:inline></fo:block>
+							<fo:block>
+								<fo:inline padding-left="5pt">Accès à l'ensemble des
+									informations contenues dans la
+									matrice cadastrale sous la forme
+									d'un relevé de propriété et/ou
+									d'un bordereau parcellaire.</fo:inline>
+							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="solid 0.1mm black" >
+						<fo:table-cell border="solid 0.1mm black">
 							<fo:block></fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text"><fo:inline padding-left="5pt">Accès aux seules
-								informations suivantes : « les
-								références cadastrales [...] ;
-								l'évaluation du bien pour la
-								détermination de sa base
-								d'imposition à la taxe foncière ainsi
-								que les nom, prénom et
-								adresse du ou des propriétaires, à
-								l'exclusion de toute autre
-								information touchant au secret de la
-								vie privée, en particulier
-								les date et lieu de naissance du
-								propriétaire ou les éléments
-								liés au calcul de l'impôt. »</fo:inline></fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+								<fo:inline padding-left="5pt">Accès aux seules
+									informations
+									suivantes : « les
+									références cadastrales [...] ;
+									l'évaluation du
+									bien pour la
+									détermination de sa base
+									d'imposition à la taxe
+									foncière ainsi
+									que les nom, prénom et
+									adresse du ou des
+									propriétaires, à
+									l'exclusion de toute autre
+									information touchant
+									au secret de la
+									vie privée, en particulier
+									les date et lieu de
+									naissance du
+									propriétaire ou les éléments
+									liés au calcul de
+									l'impôt. »</fo:inline>
+							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row border="solid 0.1mm black">
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text-bold"><fo:inline padding-left="5pt">Vos obligations</fo:inline></fo:block>
+							<fo:block xsl:use-attribute-sets="text-bold">
+								<fo:inline padding-left="5pt">Vos obligations</fo:inline>
+							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="solid 0.1mm black">
 							<fo:block></fo:block>
@@ -324,42 +361,51 @@
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row>
-						<fo:table-cell >
-							<fo:block xsl:use-attribute-sets="text"><fo:inline padding-left="5pt">Sans objet.</fo:inline></fo:block>
+						<fo:table-cell>
+							<fo:block xsl:use-attribute-sets="text">
+								<fo:inline padding-left="5pt">Sans objet.</fo:inline>
+							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="solid 0.1mm black">
 							<fo:block></fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text"><fo:inline padding-left="5pt">Les informations
-								transmises ce jour le sont pour votre
-								usage strictement
-								personnel. Vous ne pouvez pas les communiquer
-								à
-								des tiers.
+							<fo:block xsl:use-attribute-sets="text">
+								<fo:inline padding-left="5pt">Les informations
+									transmises ce
+									jour le sont pour votre
+									usage strictement
+									personnel. Vous ne
+									pouvez pas les communiquer
+									à
+									des tiers.
 
-								Les
-								informations cadastrales communiquées ne peuvent
-								faire l'objet
-								d'une réutilisation que si la personne intéressée y
-								a consenti ou
-								si l'autorité détentrice est en mesure de les
-								rendre
-								anonymes, ou
-								à défaut d'anonymisation, si une disposition
-								législative ou
-								réglementaire le permet, conformément aux
-								conditions fixées par
-								l'article 13 de la loi du 17 juillet 1978
-								susvisée. La
-								réutilisation des informations comportant des
-								données
-								à caractère
-								personnel est également subordonnée au respect
-								des
-								dispositions
-								de
-								la loi du 6 janvier 1978 modifiée.</fo:inline>
+									Les
+									informations
+									cadastrales communiquées ne peuvent
+									faire l'objet
+									d'une
+									réutilisation que si la personne intéressée y
+									a consenti ou
+									si
+									l'autorité détentrice est en mesure de les
+									rendre
+									anonymes, ou
+									à
+									défaut d'anonymisation, si une disposition
+									législative ou
+									réglementaire le permet, conformément aux
+									conditions fixées par
+									l'article 13 de la loi du 17 juillet 1978
+									susvisée. La
+									réutilisation des informations comportant des
+									données
+									à caractère
+									personnel est également subordonnée au respect
+									des
+									dispositions
+									de
+									la loi du 6 janvier 1978 modifiée.</fo:inline>
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -375,23 +421,33 @@
 
 			<xsl:call-template name="signatureDemandeur" />
 
-			<fo:block padding-top="10pt"><fo:inline padding-left="5pt">Information relative au recueil de données à caractère</fo:inline>
-				personnel</fo:block>
-			<fo:block xsl:use-attribute-sets="text"><fo:inline padding-left="5pt">L'identité du demandeur
-				fait l'objet d'un recueil et d'un
-				traitement informatique. Ces
-				informations sont stockées durant une
-				période maximale de 2 mois afin
-				de satisfaire aux obligations
-				légales
-				en matière de contrôle de la
-				délivrance de ces informations
-				cadastrales. Au-delà de cette période
-				ces informations sont
-				détruites. L'administration ne conserve qu'une
-				information anonyme à
-				but statistique pour l'évaluation du service
-				fourni à l'administré.</fo:inline>
+			<fo:block padding-top="10pt">
+				<fo:inline padding-left="5pt">Information relative au recueil de
+					données à caractère</fo:inline>
+				personnel
+			</fo:block>
+			<fo:block xsl:use-attribute-sets="text">
+				<fo:inline padding-left="5pt">L'identité du demandeur
+					fait
+					l'objet d'un recueil et d'un
+					traitement informatique. Ces
+					informations sont stockées durant une
+					période maximale de 2 mois
+					afin
+					de satisfaire aux obligations
+					légales
+					en matière de contrôle de
+					la
+					délivrance de ces informations
+					cadastrales. Au-delà de cette
+					période
+					ces informations sont
+					détruites. L'administration ne conserve
+					qu'une
+					information anonyme à
+					but statistique pour l'évaluation du
+					service
+					fourni à l'administré.</fo:inline>
 			</fo:block>
 		</fo:block>
 

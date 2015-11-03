@@ -137,7 +137,7 @@ public class InformationRequest implements Serializable{
 	/**
 	 * @param compteCommunaux the compteCommunaux to set
 	 */
-	@XmlElementWrapper(name="compteCommnuaux")
+	@XmlElementWrapper(name="compteCommunaux")
     @XmlElements({@XmlElement(name="compteCommunal",     type=String.class)})
 	public void setCompteCommunaux(Set<String> compteCommunaux) {
 		this.compteCommunaux = compteCommunaux;
@@ -197,7 +197,5 @@ public class InformationRequest implements Serializable{
 		return "InformationRequest [requestId=" + requestId + ", user=" + user + ", requestDate=" + requestDate + ", parcellesId=" + parcellesId + ", compteCommunaux=" + compteCommunaux + ", coProprietes=" + coProprietes + ", askby=" + askby + ", responseby=" + responseby + "]";
 	}
 
-	
-	
 
 }
