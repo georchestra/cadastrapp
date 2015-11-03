@@ -32,5 +32,7 @@ DROP TABLE #schema_cadastrapp.prop_dnatpr;
 DROP TABLE #schema_cadastrapp.request_information CASCADE;
 DROP TABLE #schema_cadastrapp.request_user_information;
 DROP TABLE #schema_cadastrapp.request_parcelles_information;
+DROP TABLE #schema_cadastrapp.request_coproprietes_information;
+DROP TABLE #schema_cadastrapp.request_comptecommunaux_information;
 
 
