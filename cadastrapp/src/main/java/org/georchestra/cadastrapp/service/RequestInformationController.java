@@ -73,10 +73,13 @@ public class RequestInformationController {
 			@Context HttpHeaders headers) throws SQLException {
 
 		Map<String, Object> result = new HashMap<String, Object>();
+				
+		if (P3.equals(type)) {
+			
+			logger.debug("Check limitation for user type P3");
 
-		if (type == P3) {
 			int nbRequestAvailable = 0;
-
+			
 			Date currentDate = new Date();
 
 			Calendar cal = Calendar.getInstance();
@@ -98,7 +101,7 @@ public class RequestInformationController {
 
 			int numberRequestInTheWeek = requestRepository.countByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneWeek);
 			int numberRequestInTheMonth = requestRepository.countByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneMonth);
-
+			
 			// Denied request
 			// if User has made more than 5 requests in the last week
 			// if User has made more than 10 requests in the last month
