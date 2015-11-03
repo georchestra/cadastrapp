@@ -61,12 +61,16 @@ public class RequestInformationController {
 	 *  
 	 * 
 	 * @param cni
+	 * @param type
 	 * 
-	 * @return JSON 
+	 * @return JSON which contains
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> checkRequestLimitation(@QueryParam("cni") String cni, @QueryParam("type") String type, @Context HttpHeaders headers) throws SQLException {
+	public Map<String, Object> checkRequestLimitation(
+			@QueryParam("cni") String cni, 
+			@QueryParam("type") String type, 
+			@Context HttpHeaders headers) throws SQLException {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
@@ -136,7 +140,12 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> checkRequestValidity(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("coproprietes") List<String> coproprietes, @QueryParam("parcelles") List<String> parcelleIds, @Context HttpHeaders headers) throws SQLException {
+	public List<Map<String, Object>> checkRequestValidity(@QueryParam("cni") String cni, 
+			@QueryParam("type") String type, 
+			@QueryParam("comptecommunaux") List<String> compteCommunaux, 
+			@QueryParam("coproprietes") List<String> coproprietes, 
+			@QueryParam("parcelles") List<String> parcelleIds, 
+			@Context HttpHeaders headers) throws SQLException {
 
 		// Check information in database
 		//final UserRequest existingUser = userRepository.findByCniAndType(cni, type);
@@ -158,12 +167,18 @@ public class RequestInformationController {
 	 *  
 	 * 
 	 * @param cni
-	 * @adress adress
-	 * @cgocommue cgocommune
-	 * @firstname firstname
-	 * @lastename lastname
-	 * @param comptecommunal - 1 compte comunal unique
-	 * @param parcelleids - une liste de 5 parcelles maximums
+	 * @param type Can be A, P1, P2 or P3
+	 * @param adress
+	 * @param codepostal
+	 * @param cgocommune
+	 * @param firstname
+	 * @param lastname
+	 * @param mail
+	 * @param askby 
+	 * @param responseby
+	 * @param comptecommunaux - liste de comptes communaux
+	 * @param parcelleids - liste de parcelles
+	 * @param coproprietes - liste de lot de coproprietés
 	 * 
 	 * @return JSON 
 	 * 
@@ -178,9 +193,9 @@ public class RequestInformationController {
 			@QueryParam("firstname") String firstname, 
 			@QueryParam("lastname") String lastname, 
 			@QueryParam("mail") String mail,
-			@QueryParam("comptecommunal") List<String> compteCommunaux, 
+			@QueryParam("comptecommunaux") List<String> compteCommunaux, 
 			@QueryParam("parcelles") List<String> parcelleIds, 
-			@QueryParam("copropriete") List<String> coProprietes, 
+			@QueryParam("coproprietes") List<String> coProprietes, 
 			@QueryParam("askby") int askby, 
 			@QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
 
@@ -216,6 +231,7 @@ public class RequestInformationController {
 		informationRequest.setUser(existingUser2);
 		informationRequest.setRequestDate(new Date());
 
+		// Add compteCommunaux to request information
 		if (compteCommunaux != null && !compteCommunaux.isEmpty()) {
 
 			if (compteCommunaux.size() == 1) {
@@ -225,17 +241,19 @@ public class RequestInformationController {
 			Set<String> compteCommunauxSet = new HashSet<String>(compteCommunaux);
 			informationRequest.setCompteCommunaux(compteCommunauxSet);
 		}
-
+		
+		// Add coProprietes to request information
 		if (coProprietes != null && !coProprietes.isEmpty()) {
 
 			if (coProprietes.size() == 1) {
 				coProprietes = Arrays.asList(coProprietes.get(0).split("\\s|;|,"));
 			}
 
-			Set<String> coproprietesSet = new HashSet<String>(coProprietes);
-			informationRequest.setCoproprietes(coproprietesSet);
+			Set<String> coProprietesSet = new HashSet<String>(coProprietes);
+			informationRequest.setCoProprietes(coProprietesSet);
 		}
 
+		// Add parcelleId to request information
 		if (parcelleIds != null && !parcelleIds.isEmpty()) {
 
 			if (parcelleIds.size() == 1) {
@@ -248,6 +266,10 @@ public class RequestInformationController {
 		
 		informationRequest.setAskby(askby);
 		informationRequest.setResponseby(responseby);
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("Inforamtion request : " + informationRequest.toString());
+		}
 
 		final InformationRequest informationRequestSaved = requestRepository.save(informationRequest);
 
