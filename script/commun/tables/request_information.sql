@@ -43,6 +43,7 @@ CREATE TABLE #schema_cadastrapp.request_information
 (
   requestid bigint NOT NULL,
   askby integer,
+  objectnumber integer,
   requestdate timestamp without time zone,
   reponseby integer,
   userid bigint NOT NULL
