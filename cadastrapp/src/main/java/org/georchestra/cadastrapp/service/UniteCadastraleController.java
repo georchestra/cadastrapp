@@ -32,7 +32,7 @@ public class UniteCadastraleController extends CadController {
 	 * @param headers used to verify user group to check CNIL level and geographic limitation
 	 * @param parcelle Id Parcelle unique in all country exemple : 2014630103000AP0025
 	 * @param part (for 0 to 5)
-	 * 			 0 -> Parcelle Information
+	 * 			0 -> Parcelle Information
 	 * 			1 -> Proprietaire information
 	 * 			2 -> Dnubat batiments lists
 	 * 			3 - > Subdivision information
@@ -49,11 +49,11 @@ public class UniteCadastraleController extends CadController {
 
 		switch (onglet) {
 			case 0:
-				information = infoOngletParcelle(parcelle);
+				information = infoOngletParcelle(parcelle, headers);
 				break;
 			case 1:
 				if (getUserCNILLevel(headers)>0){
-					information = infoOngletProprietaire(parcelle);
+					information = infoOngletProprietaire(parcelle, headers);
 				}
 				else{
 					logger.info("User does not have enough right to see information about proprietaire");
@@ -77,7 +77,7 @@ public class UniteCadastraleController extends CadController {
 				break;
 			case 4:
 				if (getUserCNILLevel(headers)>1){
-				information = infoOngletHistorique(parcelle);
+				information = infoOngletHistorique(parcelle, headers);
 				}
 				else{
 					logger.info("User does not have enough right to see information about filiation");
@@ -97,7 +97,7 @@ public class UniteCadastraleController extends CadController {
 	 * @param parcelle / Id Parcelle exemple : 2014630103000AP0025
 	 * @return
 	 */
-	private List<Map<String, Object>> infoOngletParcelle(String parcelle){
+	private List<Map<String, Object>> infoOngletParcelle(String parcelle, HttpHeaders headers){
 		
 		logger.debug("infoOngletParcelle - parcelle : " + parcelle);
 		
@@ -108,7 +108,8 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(".parcelledetails p, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".commune c where p.parcelle = ? ");
-		queryBuilder.append(" and p.cgocommune = c.cgocommune");
+		queryBuilder.append(" and p.cgocommune = c.cgocommune ");
+		queryBuilder.append(addAuthorizationFiltering(headers, "c.")); 
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
@@ -119,7 +120,7 @@ public class UniteCadastraleController extends CadController {
 	 * @param parcelle
 	 * @return
 	 */
-	private List<Map<String, Object>> infoOngletProprietaire(String parcelle){
+	private List<Map<String, Object>> infoOngletProprietaire(String parcelle, HttpHeaders headers){
 		
 		logger.debug("infoOngletProprietaire - parcelle : " + parcelle);
 		
@@ -131,8 +132,10 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietaire_parcelle propar,");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietaire p where propar.parcelle = ?");
-		queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ORDER BY p.ddenom ;");
+		queryBuilder.append(".proprietaire p where propar.parcelle = ? ");
+		queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
+		queryBuilder.append(addAuthorizationFiltering(headers, "p."));
+		queryBuilder.append(" ORDER BY p.ddenom ;");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
@@ -155,8 +158,8 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(".proprietaire_parcelle propar, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietebatie pb ");
-		queryBuilder.append(" where propar.parcelle = ?");
-		queryBuilder.append(" and propar.comptecommunal = pb.comptecommunal");
+		queryBuilder.append(" where propar.parcelle = ? ");
+		queryBuilder.append(" and propar.comptecommunal = pb.comptecommunal ");
 		queryBuilder.append(" ORDER BY pb.dnubat");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -179,7 +182,7 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum, pnb.drcsuba as drcsub from ");	
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietenonbatie pnb ");
-		queryBuilder.append(" where pnb.parcelle = ? ;");
+		queryBuilder.append(" where pnb.parcelle = ? ");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
@@ -190,7 +193,7 @@ public class UniteCadastraleController extends CadController {
 	 * @param parcelle
 	 * @return
 	 */
-	private List<Map<String, Object>> infoOngletHistorique(String parcelle){
+	private List<Map<String, Object>> infoOngletHistorique(String parcelle, HttpHeaders headers){
 		
 		logger.debug("infoOngletHistorique - parcelle : " + parcelle);
 		
@@ -199,7 +202,8 @@ public class UniteCadastraleController extends CadController {
 		// CNIL Niveau 2
 		queryBuilder.append("select p.jdatat, p.ccocomm, p.ccoprem, p.ccosecm, p.dnuplam, p.type_filiation from ");	
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelledetails p where p.parcelle = ?");
+		queryBuilder.append(".parcelledetails p where p.parcelle = ? ");
+		queryBuilder.append(addAuthorizationFiltering(headers, "p."));
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	

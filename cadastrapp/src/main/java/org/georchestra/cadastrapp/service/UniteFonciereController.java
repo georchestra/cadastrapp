@@ -50,7 +50,9 @@ public class UniteFonciereController extends CadController {
 			queryBuilder.append(".uf_parcelle uf where uf.uf IN (select uf2.uf from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".uf_parcelle uf2 where uf2.parcelle= ? ) ");
-			queryBuilder.append(" and uf.parcelle = p.parcelle GROUP BY uf.uf, uf.comptecommunal;");
+			queryBuilder.append(" and uf.parcelle = p.parcelle ");
+			queryBuilder.append(addAuthorizationFiltering(headers, "p."));
+			queryBuilder.append("GROUP BY uf.uf, uf.comptecommunal;");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);		
