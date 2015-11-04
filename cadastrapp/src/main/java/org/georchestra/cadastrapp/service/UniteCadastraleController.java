@@ -61,7 +61,7 @@ public class UniteCadastraleController extends CadController {
 				break;
 			case 2:
 				if (getUserCNILLevel(headers)>1){
-					information = infoOngletBatimentList(parcelle);
+					information = infoOngletBatimentList(parcelle, headers);
 				}
 				else{
 					logger.info("User does not have enough right to see information about batiment");
@@ -69,7 +69,7 @@ public class UniteCadastraleController extends CadController {
 				break;
 			case 3:
 				if (getUserCNILLevel(headers)>1){
-					information = infoOngletSubdivision(parcelle);
+					information = infoOngletSubdivision(parcelle, headers);
 				}
 				else{
 					logger.info("User does not have enough right to see information about subdivision");
@@ -146,7 +146,7 @@ public class UniteCadastraleController extends CadController {
 	 * @param parcelle
 	 * @return
 	 */
-	private List<Map<String, Object>> infoOngletBatimentList(String parcelle){
+	private List<Map<String, Object>> infoOngletBatimentList(String parcelle, HttpHeaders headers ){
 		
 		logger.debug("infoOngletBatiment - parcelle : " + parcelle);
 		
@@ -160,6 +160,7 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(".proprietebatie pb ");
 		queryBuilder.append(" where propar.parcelle = ? ");
 		queryBuilder.append(" and propar.comptecommunal = pb.comptecommunal ");
+		queryBuilder.append(addAuthorizationFiltering(headers, "pb."));
 		queryBuilder.append(" ORDER BY pb.dnubat");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -171,7 +172,7 @@ public class UniteCadastraleController extends CadController {
 	 * @param parcelle
 	 * @return
 	 */
-	private List<Map<String, Object>> infoOngletSubdivision(String parcelle){
+	private List<Map<String, Object>> infoOngletSubdivision(String parcelle, HttpHeaders headers ){
 		
 		logger.debug("infoOngletSubdivision - parcelle : " + parcelle);
 		
@@ -183,6 +184,7 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietenonbatie pnb ");
 		queryBuilder.append(" where pnb.parcelle = ? ");
+		queryBuilder.append(addAuthorizationFiltering(headers, "pnb."));
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
