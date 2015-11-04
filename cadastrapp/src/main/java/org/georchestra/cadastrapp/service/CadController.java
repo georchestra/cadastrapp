@@ -169,7 +169,7 @@ public class CadController {
 		}
 
 		logger.debug(" Check user CNIL Level : " + cnilLevel);
-		return 2;
+		return cnilLevel;
 	}
 
 	/**
@@ -180,6 +180,19 @@ public class CadController {
 	 * @return
 	 */
 	protected String addAuthorizationFiltering(HttpHeaders headers) {
+		return addAuthorizationFiltering(headers, "");
+	}
+	
+	/**
+	 * Filter information depending on groups information
+	 * 
+	 * 
+	 * @param headers
+	 * @param tableAlias
+	 *  
+	 * @return string query to complet user right
+	 */
+	protected String addAuthorizationFiltering(HttpHeaders headers, String tableAlias) {
 
 		List<Map<String, Object>> limitations;
 		List<String> communes = new ArrayList<String>();
@@ -223,12 +236,16 @@ public class CadController {
 				// If table contains cgocommune
 				if(!deps.isEmpty()){
 					for (String dep : deps){
-						queryFilter.append(" AND cgocommune LIKE ");
+						queryFilter.append(" AND ");
+						queryFilter.append("tableAlias");
+						queryFilter.append("cgocommune LIKE ");
 						queryFilter.append("'" +dep+"%'");					
 					}			
 				}
 				if(!communes.isEmpty()){
-					queryFilter.append(" AND cgocommune IN (");
+					queryFilter.append(" AND ");
+					queryFilter.append("tableAlias");
+					queryFilter.append("cgocommune IN (");
 					queryFilter.append(createListToStringQuery(communes));					
 					queryFilter.append(" ) ");
 				}			
