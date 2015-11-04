@@ -100,8 +100,8 @@ public class RequestInformationController {
 				logger.debug("One monthe before : " + datePlusOneMonth.toString());
 			}
 
-			int numberRequestInTheWeek = requestRepository.countObjectsRequestObjectRequestIdByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneWeek);
-			int numberRequestInTheMonth = requestRepository.countObjectsRequestObjectRequestIdByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneMonth);
+			int numberRequestInTheWeek = requestRepository.sumObjectNumberByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneWeek);
+			int numberRequestInTheMonth = requestRepository.sumObjectNumberByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneMonth);
 			
 			// Denied request
 			// if User has made more than 5 requests in the last week
@@ -296,6 +296,7 @@ public class RequestInformationController {
 			}
 		}
 		
+		informationRequest.setObjectNumber(objectRequestSet.size());
 		informationRequest.setObjectsRequest(objectRequestSet);
 		
 		

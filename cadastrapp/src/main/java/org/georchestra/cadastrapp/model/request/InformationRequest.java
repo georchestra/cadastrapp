@@ -50,6 +50,9 @@ public class InformationRequest implements Serializable{
 	
 	@Column(name="reponseby")
 	private int responseby;
+	
+	@Column(name="objectnumber")
+	private int objectNumber;
 
 	
 	public InformationRequest(){}
@@ -152,6 +155,20 @@ public class InformationRequest implements Serializable{
 	@Override
 	public String toString() {
 		return "InformationRequest [requestId=" + requestId + ", user=" + user + ", requestDate=" + requestDate + ", objectRequest=" + objectsRequest + ", askby=" + askby + ", responseby=" + responseby + "]";
+	}
+
+	/**
+	 * @return the objectNumber
+	 */
+	public int getObjectNumber() {
+		return objectNumber;
+	}
+
+	/**
+	 * @param objectNumber the objectNumber to set
+	 */
+	public void setObjectNumber(int objectNumber) {
+		this.objectNumber = objectNumber;
 	}
 
 

@@ -22,7 +22,7 @@ public class ObjectRequest implements Serializable {
 
 	@Id
 	@GeneratedValue
-	private long objectRequestId;
+	private long objectId;
 
 	@Column(name = "type")
 	// COMPTECOMMUNAL = 0;
@@ -76,7 +76,7 @@ public class ObjectRequest implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "ObjectRequest [objectRequestId=" + objectRequestId + ", type=" + type + ", value=" + value + "]";
+		return "ObjectRequest [objectRequestId=" + objectId + ", type=" + type + ", value=" + value + "]";
 	}
 
 }
