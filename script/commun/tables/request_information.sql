@@ -5,7 +5,7 @@ CREATE SEQUENCE #schema_cadastrapp.hibernate_sequence
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 2
+  START 1
   CACHE 1;
 ALTER TABLE #schema_cadastrapp.hibernate_sequence
   OWNER TO #user_cadastrapp;
@@ -66,66 +66,56 @@ ALTER TABLE #schema_cadastrapp.request_information
   OWNER TO #user_cadastrapp;
 
 
--- Table: #schema_cadastrapp.request_parcelles_information
-----------------------------------------------------------------
-CREATE TABLE #schema_cadastrapp.request_parcelles_information
+-- Table: #schema_cadastrapp.object_request
+CREATE TABLE #schema_cadastrapp.object_request
 (
-  informationrequest_requestid bigint NOT NULL,
-  parcelles character varying(255)
+  objectid bigint NOT NULL,
+  type integer,
+  value character varying(255)
 )
 WITH (
   OIDS=FALSE
 );
 
-
-ALTER TABLE #schema_cadastrapp.request_parcelles_information
-  ADD CONSTRAINT foreingKeyParcellesRequestId FOREIGN KEY (informationrequest_requestid)
-      REFERENCES #schema_cadastrapp.request_information (requestid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION;
-      
-ALTER TABLE #schema_cadastrapp.request_parcelles_information
+-- Constraint: 
+ALTER TABLE #schema_cadastrapp.object_request
+  ADD CONSTRAINT object_request_pkey PRIMARY KEY (objectid );
+  
+ALTER TABLE #schema_cadastrapp.object_request
   OWNER TO #user_cadastrapp;
-
-
--- Table: #schema_cadastrapp.request_comptecommunaux_information
-----------------------------------------------------------------
-CREATE TABLE #schema_cadastrapp.request_comptecommunaux_information
+  
+  
+-- Table: #schema_cadastrapp.object_request
+CREATE TABLE #schema_cadastrapp.request_information_object_request
 (
-  informationrequest_requestid bigint NOT NULL,
-  comptecommunaux character varying(255)
+  request_information_requestid bigint NOT NULL,
+  objectsrequest_objectid bigint NOT NULL  
 )
 WITH (
   OIDS=FALSE
 );
 
+-- Constraint: 
+ALTER TABLE #schema_cadastrapp.request_information_object_request
+   ADD CONSTRAINT request_information_object_request_pkey PRIMARY KEY (request_information_requestid , objectsrequest_objectid );
 
-ALTER TABLE #schema_cadastrapp.request_comptecommunaux_information
-  ADD CONSTRAINT foreingKeyCompteCommunauxRequestId FOREIGN KEY (informationrequest_requestid)
+ALTER TABLE #schema_cadastrapp.request_information_object_request
+   ADD CONSTRAINT foreingKeyRequestObjectRequestId FOREIGN KEY (request_information_requestid)
       REFERENCES #schema_cadastrapp.request_information (requestid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION;
-      
-ALTER TABLE #schema_cadastrapp.request_comptecommunaux_information
-  OWNER TO cadastrapp;
 
-
--- Table: #schema_cadastrapp.request_coproprietes_information
-CREATE TABLE #schema_cadastrapp.request_coproprietes_information
-(
-  informationrequest_requestid bigint NOT NULL,
-  coproprietes character varying(255)
-)
-WITH (
-  OIDS=FALSE
-);
-
-
-ALTER TABLE #schema_cadastrapp.request_coproprietes_information
-  ADD CONSTRAINT foreingKeyCoProprietesRequestId FOREIGN KEY (informationrequest_requestid)
-      REFERENCES  #schema_cadastrapp.request_information (requestid) MATCH SIMPLE
+ALTER TABLE #schema_cadastrapp.request_information_object_request
+   ADD CONSTRAINT foreingKeyRequestObjectRequestObjectId FOREIGN KEY (objectsrequest_objectid)
+      REFERENCES #schema_cadastrapp.object_request (objectid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION;
-      
-ALTER TABLE #schema_cadastrapp.request_coproprietes_information
-  OWNER TO cadastrapp;
+ 
+ ALTER TABLE #schema_cadastrapp.request_information_object_request     
+    ADD CONSTRAINT request_information_object_request_objectsrequest_objectid_key UNIQUE (objectsrequest_objectid );
+
+ALTER TABLE #schema_cadastrapp.request_information_object_request
+  OWNER TO #user_cadastrapp;
+  
+
 
 
 

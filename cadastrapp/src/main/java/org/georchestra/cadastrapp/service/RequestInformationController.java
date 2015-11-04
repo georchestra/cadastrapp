@@ -37,13 +37,13 @@ public class RequestInformationController {
 
 	// Request type made by administration
 	final String A = "A";
-	
+
 	// Request type made by particulier détendeur des droits
 	final String P1 = "P1";
-	
+
 	// Request type made by particulier agissant en qualité de mandataire
 	final String P2 = "P2";
-	
+
 	// Request type made by Particuliers Tierce
 	final String P3 = "P3";
 
@@ -68,19 +68,16 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> checkRequestLimitation(
-			@QueryParam("cni") String cni, 
-			@QueryParam("type") String type, 
-			@Context HttpHeaders headers) throws SQLException {
+	public Map<String, Object> checkRequestLimitation(@QueryParam("cni") String cni, @QueryParam("type") String type, @Context HttpHeaders headers) throws SQLException {
 
 		Map<String, Object> result = new HashMap<String, Object>();
-				
+
 		if (P3.equals(type)) {
-			
+
 			logger.debug("Check limitation for user type P3");
 
 			int nbRequestAvailable = 0;
-			
+
 			Date currentDate = new Date();
 
 			Calendar cal = Calendar.getInstance();
@@ -102,7 +99,7 @@ public class RequestInformationController {
 
 			int numberRequestInTheWeek = requestRepository.sumObjectNumberByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneWeek);
 			int numberRequestInTheMonth = requestRepository.sumObjectNumberByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneMonth);
-			
+
 			// Denied request
 			// if User has made more than 5 requests in the last week
 			// if User has made more than 10 requests in the last month
@@ -144,17 +141,14 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> checkRequestValidity(@QueryParam("cni") String cni, 
-			@QueryParam("type") String type, 
-			@QueryParam("comptecommunaux") List<String> compteCommunaux, 
-			@QueryParam("coproprietes") List<String> coproprietes, 
-			@QueryParam("parcelles") List<String> parcelleIds, 
-			@Context HttpHeaders headers) throws SQLException {
+	public List<Map<String, Object>> checkRequestValidity(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("coproprietes") List<String> coproprietes, @QueryParam("parcelles") List<String> parcelleIds, @Context HttpHeaders headers) throws SQLException {
 
 		// Check information in database
-		//final UserRequest existingUser = userRepository.findByCniAndType(cni, type);
+		// final UserRequest existingUser = userRepository.findByCniAndType(cni,
+		// type);
 
-		// Check if parcelle, comptecommunaux and lot coproprietes exist and if user have rights
+		// TODO Check if parcelle, comptecommunaux and lot coproprietes exist and if
+		// user have rights
 
 		List<Map<String, Object>> request = new ArrayList<Map<String, Object>>();
 
@@ -188,20 +182,8 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> saveInformationRequest(
-			@QueryParam("cni") String cni, 
-			@QueryParam("type") String type, 
-			@QueryParam("adress") String adress, 
-			@QueryParam("commune") String commune, 
-			@QueryParam("codepostal") String codePostal, 
-			@QueryParam("firstname") String firstname, 
-			@QueryParam("lastname") String lastname, 
-			@QueryParam("mail") String mail,
-			@QueryParam("comptecommunaux") List<String> compteCommunaux, 
-			@QueryParam("parcelles") List<String> parcelleIds, 
-			@QueryParam("coproprietes") List<String> coProprietes, 
-			@QueryParam("askby") int askby, 
-			@QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
+	public Map<String, Object> saveInformationRequest(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("adress") String adress, @QueryParam("commune") String commune, @QueryParam("codepostal") String codePostal, @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname, @QueryParam("mail") String mail,
+			@QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("parcelles") List<String> parcelleIds, @QueryParam("coproprietes") List<String> coProprietes, @QueryParam("askby") int askby, @QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
 
 		// todo recheck value
 
@@ -236,8 +218,7 @@ public class RequestInformationController {
 		informationRequest.setRequestDate(new Date());
 		informationRequest.setAskby(askby);
 		informationRequest.setResponseby(responseby);
-		
-		
+
 		Set<ObjectRequest> objectRequestSet = new HashSet<ObjectRequest>();
 
 		// Add compteCommunaux to request information
@@ -248,17 +229,19 @@ public class RequestInformationController {
 			}
 
 			Set<String> compteCommunauxSet = new HashSet<String>(compteCommunaux);
-			
+
 			for (String compteCommunal : compteCommunauxSet) {
-				ObjectRequest objectRequest = new ObjectRequest();
-				objectRequest.setType(0);
-				objectRequest.setValue(compteCommunal);
-				
-				objectRequestSet.add(objectRequest);
+				if (compteCommunal != null && compteCommunal.length() > 0) {
+					ObjectRequest objectRequest = new ObjectRequest();
+					objectRequest.setType(0);
+					objectRequest.setValue(compteCommunal);
+
+					objectRequestSet.add(objectRequest);
+				}
 			}
-			
+
 		}
-		
+
 		// Add coProprietes to request information
 		if (coProprietes != null && !coProprietes.isEmpty()) {
 
@@ -267,13 +250,15 @@ public class RequestInformationController {
 			}
 
 			Set<String> coProprietesSet = new HashSet<String>(coProprietes);
-			
+
 			for (String comptePropriete : coProprietesSet) {
-				ObjectRequest objectRequest = new ObjectRequest();
-				objectRequest.setType(2);
-				objectRequest.setValue(comptePropriete);
-				
-				objectRequestSet.add(objectRequest);
+				if (comptePropriete != null && comptePropriete.length() > 0) {
+					ObjectRequest objectRequest = new ObjectRequest();
+					objectRequest.setType(2);
+					objectRequest.setValue(comptePropriete);
+
+					objectRequestSet.add(objectRequest);
+				}
 			}
 		}
 
@@ -285,22 +270,22 @@ public class RequestInformationController {
 			}
 
 			Set<String> parcellesSet = new HashSet<String>(parcelleIds);
-			
 
 			for (String parcelle : parcellesSet) {
-				ObjectRequest objectRequest = new ObjectRequest();
-				objectRequest.setType(1);
-				objectRequest.setValue(parcelle);
-				
-				objectRequestSet.add(objectRequest);
+				if (parcelle != null && parcelle.length() > 0) {
+					ObjectRequest objectRequest = new ObjectRequest();
+					objectRequest.setType(1);
+					objectRequest.setValue(parcelle);
+
+					objectRequestSet.add(objectRequest);
+				}
 			}
 		}
-		
+
 		informationRequest.setObjectNumber(objectRequestSet.size());
 		informationRequest.setObjectsRequest(objectRequestSet);
-		
-		
-		if(logger.isDebugEnabled()){
+
+		if (logger.isDebugEnabled()) {
 			logger.debug("Inforamtion request : " + informationRequest.toString());
 		}
 
