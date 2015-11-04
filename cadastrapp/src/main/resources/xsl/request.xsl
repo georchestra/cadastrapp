@@ -173,22 +173,18 @@
 						<fo:block></fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
-						<xsl:for-each select="compteCommunaux/compteCommunal">
+						<xsl:for-each select="objects/object">
 							<fo:block xsl:use-attribute-sets="text">
-								Propriétaire :
-								<xsl:value-of select="text()" />
-							</fo:block>
-						</xsl:for-each>
-						<xsl:for-each select="parcelles/parcelle">
-							<fo:block xsl:use-attribute-sets="text">
-								Parcelle :
-								<xsl:value-of select="text()" />
-							</fo:block>
-						</xsl:for-each>
-						<xsl:for-each select="coProprietes/coPropriete">
-							<fo:block xsl:use-attribute-sets="text">
-								Lot de copropriété :
-								<xsl:value-of select="text()" />
+								<xsl:if test="@type='0'">
+									Propriétaire : 
+								</xsl:if>
+								<xsl:if test="@type='1'">
+									Parcelle : 
+								</xsl:if>
+								<xsl:if test="@type='2'">
+									Co-propriété :
+								</xsl:if>
+								<xsl:value-of select="@value" />
 							</fo:block>
 						</xsl:for-each>
 					</fo:table-cell>

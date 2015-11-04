@@ -20,6 +20,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.georchestra.cadastrapp.model.request.InformationRequest;
+import org.georchestra.cadastrapp.model.request.ObjectRequest;
 import org.georchestra.cadastrapp.model.request.UserRequest;
 import org.georchestra.cadastrapp.repository.RequestRepository;
 import org.georchestra.cadastrapp.repository.UserRequestRepository;
@@ -99,8 +100,8 @@ public class RequestInformationController {
 				logger.debug("One monthe before : " + datePlusOneMonth.toString());
 			}
 
-			int numberRequestInTheWeek = requestRepository.countByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneWeek);
-			int numberRequestInTheMonth = requestRepository.countByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneMonth);
+			int numberRequestInTheWeek = requestRepository.countObjectsRequestObjectRequestIdByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneWeek);
+			int numberRequestInTheMonth = requestRepository.countObjectsRequestObjectRequestIdByUserCniAndUserTypeAndRequestDateAfter(cni, type, datePlusOneMonth);
 			
 			// Denied request
 			// if User has made more than 5 requests in the last week
@@ -233,6 +234,11 @@ public class RequestInformationController {
 
 		informationRequest.setUser(existingUser2);
 		informationRequest.setRequestDate(new Date());
+		informationRequest.setAskby(askby);
+		informationRequest.setResponseby(responseby);
+		
+		
+		Set<ObjectRequest> objectRequestSet = new HashSet<ObjectRequest>();
 
 		// Add compteCommunaux to request information
 		if (compteCommunaux != null && !compteCommunaux.isEmpty()) {
@@ -242,7 +248,15 @@ public class RequestInformationController {
 			}
 
 			Set<String> compteCommunauxSet = new HashSet<String>(compteCommunaux);
-			informationRequest.setCompteCommunaux(compteCommunauxSet);
+			
+			for (String compteCommunal : compteCommunauxSet) {
+				ObjectRequest objectRequest = new ObjectRequest();
+				objectRequest.setType(0);
+				objectRequest.setValue(compteCommunal);
+				
+				objectRequestSet.add(objectRequest);
+			}
+			
 		}
 		
 		// Add coProprietes to request information
@@ -253,7 +267,14 @@ public class RequestInformationController {
 			}
 
 			Set<String> coProprietesSet = new HashSet<String>(coProprietes);
-			informationRequest.setCoProprietes(coProprietesSet);
+			
+			for (String comptePropriete : coProprietesSet) {
+				ObjectRequest objectRequest = new ObjectRequest();
+				objectRequest.setType(2);
+				objectRequest.setValue(comptePropriete);
+				
+				objectRequestSet.add(objectRequest);
+			}
 		}
 
 		// Add parcelleId to request information
@@ -264,11 +285,19 @@ public class RequestInformationController {
 			}
 
 			Set<String> parcellesSet = new HashSet<String>(parcelleIds);
-			informationRequest.setParcellesId(parcellesSet);
+			
+
+			for (String parcelle : parcellesSet) {
+				ObjectRequest objectRequest = new ObjectRequest();
+				objectRequest.setType(1);
+				objectRequest.setValue(parcelle);
+				
+				objectRequestSet.add(objectRequest);
+			}
 		}
 		
-		informationRequest.setAskby(askby);
-		informationRequest.setResponseby(responseby);
+		informationRequest.setObjectsRequest(objectRequestSet);
+		
 		
 		if(logger.isDebugEnabled()){
 			logger.debug("Inforamtion request : " + informationRequest.toString());

@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -42,21 +42,9 @@ public class InformationRequest implements Serializable{
 	@Column(name="requestdate")
 	private Date requestDate;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name ="request_parcelles_information", joinColumns=@JoinColumn(name="informationrequest_requestid"))
-	@Column(name="parcelles")
-	private Set<String> parcellesId;
-	
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name ="request_comptecommunaux_information", joinColumns=@JoinColumn(name="informationrequest_requestid"))
-	@Column(name="comptecommunaux")
-	private Set<String> compteCommunaux;
-	
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name ="request_coproprietes_information", joinColumns=@JoinColumn(name="informationrequest_requestid"))
-	@Column(name="coproprietes")
-	private Set<String> coProprietes;
-	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private Set<ObjectRequest> objectsRequest;
+		
 	@Column(name="askby")
 	private int askby;
 	
@@ -114,50 +102,19 @@ public class InformationRequest implements Serializable{
 	/**
 	 * @return the parcelleId
 	 */
-	public Set<String> getParcellesId() {
-		return parcellesId;
+	public Set<ObjectRequest> getObjectsRequest() {
+		return this.objectsRequest;
 	}
 
 	/**
 	 * @param parcelleId the parcelleId to set
 	 */
-	@XmlElementWrapper(name="parcelles")
-    @XmlElements({@XmlElement(name="parcelle",     type=String.class)})
-	public void setParcellesId(Set<String> parcellesId) {
-		this.parcellesId = parcellesId;
+	@XmlElementWrapper(name="objects")
+    @XmlElements({@XmlElement(name="object",     type=ObjectRequest.class)})
+	public void setObjectsRequest(Set<ObjectRequest> objectsRequest) {
+		this.objectsRequest = objectsRequest;
 	}
 
-	/**
-	 * @return the compteCommunaux
-	 */
-	public Set<String> getCompteCommunaux() {
-		return compteCommunaux;
-	}
-
-	/**
-	 * @param compteCommunaux the compteCommunaux to set
-	 */
-	@XmlElementWrapper(name="compteCommunaux")
-    @XmlElements({@XmlElement(name="compteCommunal",     type=String.class)})
-	public void setCompteCommunaux(Set<String> compteCommunaux) {
-		this.compteCommunaux = compteCommunaux;
-	}
-
-	/**
-	 * @return the coproprietes
-	 */
-	public Set<String> getCoProprietes() {
-		return coProprietes;
-	}
-
-	/**
-	 * @param coproprietes the coproprietes to set
-	 */
-	@XmlElementWrapper(name="coProprietes")
-    @XmlElements({@XmlElement(name="coPropriete",     type=String.class)})
-	public void setCoProprietes(Set<String> coproprietes) {
-		this.coProprietes = coproprietes;
-	}
 
 	/**
 	 * @return the askby
@@ -194,7 +151,7 @@ public class InformationRequest implements Serializable{
 	 */
 	@Override
 	public String toString() {
-		return "InformationRequest [requestId=" + requestId + ", user=" + user + ", requestDate=" + requestDate + ", parcellesId=" + parcellesId + ", compteCommunaux=" + compteCommunaux + ", coProprietes=" + coProprietes + ", askby=" + askby + ", responseby=" + responseby + "]";
+		return "InformationRequest [requestId=" + requestId + ", user=" + user + ", requestDate=" + requestDate + ", objectRequest=" + objectsRequest + ", askby=" + askby + ", responseby=" + responseby + "]";
 	}
 
 

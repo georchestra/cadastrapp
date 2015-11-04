@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.georchestra.cadastrapp.model.request.InformationRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 
 /**
@@ -41,6 +42,8 @@ public interface RequestRepository
      * @param date
      * @return number of Information request for this cni after a given date
      */
-    int countByUserCniAndUserTypeAndRequestDateAfter(String cni, String type, Date date);
+    int countObjectsRequestObjectRequestIdByUserCniAndUserTypeAndRequestDateAfter(String cni, String type, Date date);
+    
+    
     
 }
