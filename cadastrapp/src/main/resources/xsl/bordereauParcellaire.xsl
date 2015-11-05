@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xsl:stylesheet version="1.0"
 	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -67,7 +67,7 @@
 		</xsl:variable>
 
 		<xsl:for-each select="parcelles/parcelle">
-			<fo:table>
+			<fo:table table-layout="fixed">
 				<fo:table-column column-width="70%" />
 				<fo:table-column column-width="30%" />
 				<fo:table-body>
@@ -84,7 +84,7 @@
 						</fo:table-cell>
 						<!-- descriptif -->
 						<fo:table-cell>
-							<fo:table>
+							<fo:table table-layout="fixed">
 								<fo:table-column column-width="100%" />
 								<fo:table-footer>
 									<fo:table-row>
@@ -100,18 +100,18 @@
 										<fo:table-cell xsl:use-attribute-sets="bordure">
 											<fo:block xsl:use-attribute-sets="text">
 												Extrait du plan
-												cadastral informatisé
+												cadastral informatisÃ©
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
 									<fo:table-row>
 										<fo:table-cell xsl:use-attribute-sets="bordure">
 											<fo:block xsl:use-attribute-sets="text">
-												Données foncières valides au
+												DonnÃ©es fonciÃ¨res valides au
 												<xsl:value-of select="$dateDeValidite" />
 											</fo:block>
 											<fo:block xsl:use-attribute-sets="text">
-												Document créé le
+												Document crÃ©Ã© le
 												<xsl:value-of select="$dateDeCreation" />
 											</fo:block>
 										</fo:table-cell>

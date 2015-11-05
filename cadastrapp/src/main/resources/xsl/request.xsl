@@ -86,7 +86,7 @@
 			Identification du demandeur
 		</fo:block>
 		<fo:block xsl:use-attribute-sets="bordure">
-			<fo:table>
+			<fo:table table-layout="fixed">
 				<fo:table-column column-width="50%" />
 				<fo:table-column column-width="50%" />
 				<fo:table-body>
@@ -164,7 +164,7 @@
 		<fo:block xsl:use-attribute-sets="soustitre">
 			Objet de la demande
 		</fo:block>
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="90%" />
 			<fo:table-body>
@@ -194,7 +194,7 @@
 	</xsl:template>
 
 	<xsl:template name="signatureDemandeur">
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="50%" />
 			<fo:table-column column-width="50%" />
 			<fo:table-body>
@@ -271,11 +271,11 @@
 				</fo:inline>
 				<fo:inline></fo:inline>
 			</fo:block>
-			<fo:table>
+			<fo:table table-layout="fixed">
 				<fo:table-column column-width="30%" />
 				<fo:table-column column-width="10%" />
 				<fo:table-column column-width="60%" />
-				<fo:table-body padding-top="10pt" border="solid 0.1mm black">
+				<fo:table-body border="solid 0.1mm black">
 					<fo:table-row>
 						<fo:table-cell border="solid 0.1mm black">
 							<fo:block text-align="center">
@@ -446,8 +446,6 @@
 					fourni à l'administré.</fo:inline>
 			</fo:block>
 		</fo:block>
-
-
 	</xsl:template>
 
 </xsl:stylesheet>

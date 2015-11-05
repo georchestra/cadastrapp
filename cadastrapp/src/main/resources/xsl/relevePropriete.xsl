@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:java="http://xml.apache.org/xslt/java" xmlns:date="http://exslt.org/dates-and-times"
@@ -77,7 +77,7 @@
 		<xsl:value-of select="relevePropriete/service" />
 	</xsl:variable>
 
-	<!-- Définition des informations communes -->
+	<!-- DÃ©finition des informations communes -->
 	<xsl:variable name="dateDeCreation">
 		<xsl:value-of
 			select="java:format(java:java.text.SimpleDateFormat.new('d MMMM yyyy'), java:java.util.Date.new())" />
@@ -88,7 +88,7 @@
 		
 		<!-- Pour chaque compte communal une our plusieurs page(s) de pdf -->
 		<xsl:for-each select="comptesCommunaux/compteCommunal">
-			<!--  Entete comprenant le département la commune, et le numéro communal -->
+			<!--  Entete comprenant le dÃ©partement la commune, et le numÃ©ro communal -->
 			<xsl:call-template name="entete" />
 			
 			<!-- liste des proprietaires d'un compte communal -->
@@ -116,10 +116,10 @@
 		</xsl:for-each>
 	</xsl:template>
 
-	<!-- Cartouche d'entête de chaque relevé, présent uniquement sur la premiere page   -->
+	<!-- Cartouche d'entÃªte de chaque relevÃ©, prÃ©sent uniquement sur la premiere page   -->
 	<xsl:template name="entete">
-		<fo:block xsl:use-attribute-sets="titre" page-break-before="always">Relevé de propriété</fo:block>
-		<fo:table>
+		<fo:block xsl:use-attribute-sets="titre" page-break-before="always">RelevÃ© de propriÃ©tÃ©</fo:block>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="30%" />
 			<fo:table-column column-width="40%" />
 			<fo:table-column column-width="30%" />
@@ -127,11 +127,11 @@
 				<fo:table-row>
 					<fo:table-cell>
 						<fo:block text-align="start" font-size="8">
-							Date de mise à jour des données :
+							Date de mise Ã  jour des donnÃ©es :
 							<xsl:value-of select="$anneMiseAJour" />
 						</fo:block>
 						<fo:block text-align="start">
-							Département :
+							DÃ©partement :
 							<xsl:value-of select="@codeDepartement" />
 						</fo:block>
 					</fo:table-cell>
@@ -144,7 +144,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block text-align="end">
-							Numéro communal :
+							NumÃ©ro communal :
 							<xsl:value-of select="@compteCommunal" />
 						</fo:block>
 					</fo:table-cell>
@@ -154,10 +154,10 @@
 	</xsl:template>
 
 
-	<!-- Liste des propriétaires comprenant Droit, Nom, Adresse et information de naissance  -->
+	<!-- Liste des propriÃ©taires comprenant Droit, Nom, Adresse et information de naissance  -->
 	<xsl:template name="proprietaire">
-		<fo:block xsl:use-attribute-sets="titre">Propriétaire(s)</fo:block>
-		<fo:table>
+		<fo:block xsl:use-attribute-sets="titre">PropriÃ©taire(s)</fo:block>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="34%" />
 			<fo:table-column column-width="33%" />
 			<fo:table-column column-width="33%" />
@@ -181,14 +181,14 @@
 						<fo:table-cell xsl:use-attribute-sets="bordure-left">
 							<fo:block padding-top="5pt">
 								<xsl:if test="@dateNaissance or @lieuNaissance">
-									Né(e)
+									NÃ©(e)
 								</xsl:if>
 								<xsl:if test="@dateNaissance">
 									le
 									<xsl:value-of select="@dateNaissance" />
 								</xsl:if>
 								<xsl:if test="@lieuNaissance">
-									à
+									Ã 
 									<xsl:value-of select="@lieuNaissance" />
 								</xsl:if>
 							</fo:block>
@@ -200,11 +200,11 @@
 		</fo:table>
 	</xsl:template>
 
-	<!-- Liste des propriétés baties -->
+	<!-- Liste des propriÃ©tÃ©s baties -->
 	<xsl:template name="proprietesBaties">
-		<fo:block xsl:use-attribute-sets="titre">Propriété(s) batie(s)
+		<fo:block xsl:use-attribute-sets="titre">PropriÃ©tÃ©(s) batie(s)
 		</fo:block>
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="20%" />
 			<fo:table-column column-width="20%" />
 			<fo:table-column column-width="60%" />
@@ -212,7 +212,7 @@
 				<fo:table-row>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Désignation des propriétés
+							DÃ©signation des propriÃ©tÃ©s
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -229,7 +229,7 @@
 			</fo:table-header>
 			<fo:table-body>
 				<fo:table-row>
-					<!-- Adresses des propriétés -->
+					<!-- Adresses des propriÃ©tÃ©s -->
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<xsl:call-template name="designationProprietes" />
 					</fo:table-cell>
@@ -244,11 +244,11 @@
 		</fo:table>
 	</xsl:template>
 
-	<!-- Liste des propriétés non baties  -->
+	<!-- Liste des propriÃ©tÃ©s non baties  -->
 	<xsl:template name="proprietesNonBaties">
-		<fo:block xsl:use-attribute-sets="titre">Propriété(s) non batie(s)
+		<fo:block xsl:use-attribute-sets="titre">PropriÃ©tÃ©(s) non batie(s)
 		</fo:block>
-		<fo:table>
+		<fo:table table-layout="fixed">
 
 			<!-- Alsace Moselle Special case add reference to livre foncier -->
 			<xsl:choose>
@@ -268,7 +268,7 @@
 				<fo:table-row>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Désignation des propriétés
+							DÃ©signation des propriÃ©tÃ©s
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -309,7 +309,7 @@
 
 	<!-- Designation des proprietes -->
 	<xsl:template name="designationProprietes">
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="20%" />
 			<fo:table-column column-width="15%" />
@@ -324,12 +324,12 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							N° section
+							NÂ° section
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							N° plan
+							NÂ° plan
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -380,7 +380,7 @@
 	</xsl:template>
 
 	<xsl:template name="identificationLocal">
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
@@ -405,12 +405,12 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							N° porte
+							NÂ° porte
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							N° invar
+							NÂ° invar
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -450,7 +450,7 @@
 	</xsl:template>
 
 	<xsl:template name="evaluationLocal">
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
@@ -609,7 +609,7 @@
 
 	<xsl:template name="revenuImposable">
 		<fo:block>&#160;</fo:block>
-		<fo:table xsl:use-attribute-sets="bordure">
+		<fo:table table-layout="fixed" xsl:use-attribute-sets="bordure">
 			<fo:table-column column-width="15%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="10%" />
@@ -641,7 +641,7 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
 						<fo:block>
-							Revenu exonéré :
+							Revenu exonÃ©rÃ© :
 						</fo:block>
 						<fo:block>
 							Revenu imposable :
@@ -657,12 +657,12 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
-							Département -
+							DÃ©partement -
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
 						<fo:block>
-							Revenu exonéré :
+							Revenu exonÃ©rÃ© :
 						</fo:block>
 						<fo:block>
 							Revenu imposable :
@@ -678,12 +678,12 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
-							Région -
+							RÃ©gion -
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
 						<fo:block>
-							Revenu exonéré :
+							Revenu exonÃ©rÃ© :
 						</fo:block>
 						<fo:block>
 							Revenu imposable :
@@ -703,7 +703,7 @@
 	</xsl:template>
 
 	<xsl:template name="designationProprietesNonBaties">
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="20%" />
 			<fo:table-column column-width="15%" />
@@ -718,12 +718,12 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							N° section
+							NÂ° section
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							N° plan
+							NÂ° plan
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -775,7 +775,7 @@
 
 
 	<xsl:template name="evaluationLocalNonBatie">
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
@@ -795,7 +795,7 @@
 				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							N° parc Prim
+							NÂ° parc Prim
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -957,7 +957,7 @@
 	</xsl:template>
 
 	<xsl:template name="livreFoncier">
-		<fo:table>
+		<fo:table table-layout="fixed">
 			<fo:table-column column-width="100%" />
 			<fo:table-header background-color="silver">
 				<fo:table-row height="20pt">
@@ -984,7 +984,7 @@
 
 	<xsl:template name="revenuImposableNonBaties">
 		<fo:block>&#160;</fo:block>
-		<fo:table xsl:use-attribute-sets="bordure">
+		<fo:table table-layout="fixed" xsl:use-attribute-sets="bordure">
 			<fo:table-column column-width="8%" />
 			<fo:table-column column-width="7%" />
 			<fo:table-column column-width="12%" />
@@ -1029,7 +1029,7 @@
 					</fo:table-cell>
 					<fo:table-cell  text-align="end">
 						<fo:block>
-							Revenu éxonéré :
+							Revenu Ã©xonÃ©rÃ© :
 						</fo:block>
 						<fo:block>
 							Revenu imposable :
@@ -1045,12 +1045,12 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							Département -
+							DÃ©partement -
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
 						<fo:block>
-							Revenu éxonéré :
+							Revenu Ã©xonÃ©rÃ© :
 						</fo:block>
 						<fo:block>
 							Revenu imposable :
@@ -1066,12 +1066,12 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							Région -
+							RÃ©gion -
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
 						<fo:block>
-							Revenu exonéré :
+							Revenu exonÃ©rÃ© :
 						</fo:block>
 						<fo:block>
 							Revenu imposable :
