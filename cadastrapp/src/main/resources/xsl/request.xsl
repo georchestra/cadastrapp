@@ -87,12 +87,16 @@
 		</fo:block>
 		<fo:block xsl:use-attribute-sets="bordure">
 			<fo:table table-layout="fixed">
-				<fo:table-column column-width="50%" />
-				<fo:table-column column-width="50%" />
+				<fo:table-column column-width="10%" />
+				<fo:table-column column-width="450%" />
+				<fo:table-column column-width="45%" />
 				<fo:table-body>
 					<fo:table-row>
 						<fo:table-cell>
-							<fo:block xsl:use-attribute-sets="text">
+							<fo:block></fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block xsl:use-attribute-sets="text" padding-after="5pt">
 								<fo:inline padding-left="5pt">
 									<xsl:if test="userRequest/@type='A'">
 										Administration
@@ -176,10 +180,10 @@
 						<xsl:for-each select="objects/object">
 							<fo:block xsl:use-attribute-sets="text">
 								<xsl:if test="@type='0'">
-									Propriétaire : 
+									Propriétaire :
 								</xsl:if>
 								<xsl:if test="@type='1'">
-									Parcelle : 
+									Parcelle :
 								</xsl:if>
 								<xsl:if test="@type='2'">
 									Co-propriété :
@@ -200,7 +204,7 @@
 			<fo:table-body>
 				<fo:table-row>
 					<fo:table-cell>
-						<fo:block xsl:use-attribute-sets="text">
+						<fo:block xsl:use-attribute-sets="text" padding-before="5pt">
 							<fo:inline padding-left="5pt">
 								<xsl:call-template name="checkbox" />
 								J'ai pris connaissance de mes droits et obligations
@@ -209,7 +213,7 @@
 						<fo:block xsl:use-attribute-sets="text">
 							<fo:inline padding-left="5pt">
 								<xsl:call-template name="checkbox" />
-								Les informations ci-dessous sont correctes
+								Les informations ci-dessus sont correctes
 							</fo:inline>
 						</fo:block>
 					</fo:table-cell>
@@ -224,7 +228,7 @@
 						</fo:block>
 						<fo:block xsl:use-attribute-sets="text-bold" padding-top="50pt">
 							<fo:inline padding-left="5pt">
-								Le :
+								Le
 								<xsl:value-of
 									select="java:format(java:java.text.SimpleDateFormat.new('d MMMM yyyy'), java:java.util.Date.new())" />
 							</fo:inline>
@@ -252,12 +256,16 @@
 				Rappel de la réglementation
 			</fo:block>
 			<fo:block xsl:use-attribute-sets="text">
-				<fo:inline padding-left="5pt">Les articles R* 107 A-1 et
-					suivants du livre des procédures fiscales fixent les modalités de
-					communication des informations fiscales aux contribuables.
+				<fo:inline padding-left="5pt" padding-after="5pt">Les articles
+					R* 107 A-1 et
+					suivants du livre des procédures fiscales fixent les
+					modalités de
+					communication des informations fiscales aux
+					contribuables.
 					L'article
 					5
-					de la délibération 2012-088 prise par la Commission
+					de la délibération 2012-088 prise par la
+					Commission
 					nationale de
 					l'informatique et des libertés répertorie les
 					informations
@@ -269,38 +277,42 @@
 					immobiliers ou
 					un tiers demandeur.
 				</fo:inline>
-				<fo:inline></fo:inline>
+			</fo:block>
+			<fo:block padding-top="5pt">
+				<fo:inline padding-top="5pt"> </fo:inline>
 			</fo:block>
 			<fo:table table-layout="fixed">
 				<fo:table-column column-width="30%" />
 				<fo:table-column column-width="10%" />
 				<fo:table-column column-width="60%" />
-				<fo:table-body border="solid 0.1mm black">
+				<fo:table-body>
 					<fo:table-row>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block text-align="center">
-								<fo:inline padding-top="5pt">Titulaire ou mandataire</fo:inline>
+								<fo:inline padding-top="5pt" font-weight="bold">Titulaire ou
+									mandataire</fo:inline>
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block></fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block text-align="center">
-								<fo:inline padding-top="5pt">Tiers demandeur</fo:inline>
+								<fo:inline padding-top="5pt" font-weight="bold">Tiers
+									demandeur</fo:inline>
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block xsl:use-attribute-sets="text-bold">
 								<fo:inline padding-left="5pt">Vos Droits</fo:inline>
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block></fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block></fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -314,21 +326,26 @@
 									d'un bordereau parcellaire.</fo:inline>
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block></fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
 							<fo:block xsl:use-attribute-sets="text">
 								<fo:inline padding-left="5pt">Accès aux seules
 									informations
-									suivantes : « les
-									références cadastrales [...] ;
+									suivantes :
+								</fo:inline>
+								<fo:inline font-style="italic">« les
+									références
+									cadastrales [...] ;
 									l'évaluation du
 									bien pour la
-									détermination de sa base
+									détermination de
+									sa base
 									d'imposition à la taxe
 									foncière ainsi
-									que les nom, prénom et
+									que les nom, prénom
+									et
 									adresse du ou des
 									propriétaires, à
 									l'exclusion de toute autre
@@ -343,13 +360,13 @@
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
-					<fo:table-row border="solid 0.1mm black">
+					<fo:table-row>
 						<fo:table-cell>
 							<fo:block xsl:use-attribute-sets="text-bold">
 								<fo:inline padding-left="5pt">Vos obligations</fo:inline>
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block></fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
@@ -362,20 +379,25 @@
 								<fo:inline padding-left="5pt">Sans objet.</fo:inline>
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="solid 0.1mm black">
+						<fo:table-cell>
 							<fo:block></fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
 							<fo:block xsl:use-attribute-sets="text">
-								<fo:inline padding-left="5pt">Les informations
+								<fo:inline padding-left="5pt" font-weight="bold">Les
+									informations
 									transmises ce
 									jour le sont pour votre
-									usage strictement
+									usage
+									strictement
 									personnel. Vous ne
 									pouvez pas les communiquer
 									à
-									des tiers.
-
+									des
+									tiers.</fo:inline>
+							</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+								<fo:inline padding-top="5pt">
 									Les
 									informations
 									cadastrales communiquées ne peuvent
@@ -397,7 +419,8 @@
 									réutilisation des informations comportant des
 									données
 									à caractère
-									personnel est également subordonnée au respect
+									personnel est également subordonnée au
+									respect
 									des
 									dispositions
 									de
@@ -417,16 +440,18 @@
 
 			<xsl:call-template name="signatureDemandeur" />
 
-			<fo:block padding-top="10pt">
-				<fo:inline padding-left="5pt">Information relative au recueil de
-					données à caractère</fo:inline>
-				personnel
+			<fo:block padding-top="20pt">
+				<fo:inline font-size="8pt" padding-left="5pt">Information
+					relative au recueil de
+					données à caractère personnel</fo:inline>
 			</fo:block>
 			<fo:block xsl:use-attribute-sets="text">
-				<fo:inline padding-left="5pt">L'identité du demandeur
+				<fo:inline font-size="7pt" padding-left="5pt">L'identité du
+					demandeur
 					fait
 					l'objet d'un recueil et d'un
-					traitement informatique. Ces
+					traitement informatique.
+					Ces
 					informations sont stockées durant une
 					période maximale de 2 mois
 					afin
