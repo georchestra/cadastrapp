@@ -113,6 +113,11 @@
 								</fo:inline>
 								<fo:block>
 									<fo:inline padding-left="5pt">
+										CNI : <xsl:value-of select="userRequest/@cni" />
+									</fo:inline>
+								</fo:block>
+								<fo:block>
+									<fo:inline padding-left="5pt">
 										<xsl:value-of select="userRequest/@firstName" />
 										<xsl:text> </xsl:text>
 										<xsl:value-of select="userRequest/@lastName" />
