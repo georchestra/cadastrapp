@@ -5,7 +5,7 @@
 CREATE TABLE #schema_cadastrapp.groupe_autorisation
 (
   id serial NOT NULL, -- Id d'indentification de lignes
-  idgroup character varying(30), -- Identifiant du groupe LDAP devant être filtré
+  idgroup character varying(50), -- Identifiant du groupe LDAP devant être filtré
   cgocommune character varying(6), -- Code commune geographique officiel sur 6 caracteres (code departement + code direction (arrondissement) + code commune)
   ccodep character varying(3), -- Code département à mettre en relation avec le code commune
   CONSTRAINT groupe_autorisation_pk PRIMARY KEY (id ),
