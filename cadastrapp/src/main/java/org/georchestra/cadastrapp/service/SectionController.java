@@ -69,8 +69,8 @@ public class SectionController extends CadController {
 			
 		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre, queryParams));
 		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec, queryParams));
-		queryBuilder.append(" ORDER BY ccopre, ccosec ");
 		queryBuilder.append(addAuthorizationFiltering(headers));
+		queryBuilder.append(" ORDER BY ccopre, ccosec ");
 		queryBuilder.append(finalizeQuery());
 					
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
