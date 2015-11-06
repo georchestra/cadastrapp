@@ -237,14 +237,14 @@ public class CadController {
 				if(!deps.isEmpty()){
 					for (String dep : deps){
 						queryFilter.append(" AND ");
-						queryFilter.append("tableAlias");
+						queryFilter.append(tableAlias);
 						queryFilter.append("cgocommune LIKE ");
 						queryFilter.append("'" +dep+"%'");					
 					}			
 				}
 				if(!communes.isEmpty()){
 					queryFilter.append(" AND ");
-					queryFilter.append("tableAlias");
+					queryFilter.append(tableAlias);
 					queryFilter.append("cgocommune IN (");
 					queryFilter.append(createListToStringQuery(communes));					
 					queryFilter.append(" ) ");
