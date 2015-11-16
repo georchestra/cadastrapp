@@ -131,7 +131,7 @@
 								<fo:block>
 									<fo:inline padding-left="5pt">
 										<xsl:value-of select="userRequest/@codePostal" />
-										-
+										<xsl:text> </xsl:text>
 										<xsl:value-of select="userRequest/@commune" />
 									</fo:inline>
 								</fo:block>
