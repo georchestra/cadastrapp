@@ -349,7 +349,7 @@ public class ParcelleController extends CadController {
 			@FormParam("filePath") String fileContent) {
 
 		// space, , or ;
-		String delimitersRegex = "[\\s\\;\\,]"; 
+		String delimitersRegex = "[\\s\\;\\,\\n]"; 
 		
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 
@@ -405,7 +405,7 @@ public class ParcelleController extends CadController {
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 
 		// space, , or ;
-		String delimitersRegex = "[\\s\\;\\,]"; 
+		String delimitersRegex = "[\\s\\;\\,\\n]";  
 				
 		List<String> proprietaireList = new ArrayList<String>();
 		String line = null;

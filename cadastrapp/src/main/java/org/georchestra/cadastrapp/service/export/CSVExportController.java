@@ -38,7 +38,7 @@ public class CSVExportController extends CadController {
 
 		final String csvFileName = tempFolder + File.separator + "export-" + new Date().getTime() + ".csv";
 
-		final String COMMA_DELIMITER = "; ";
+		final String DELIMITER = "\n";
 		
 		try {
 			File file = new File(csvFileName);
@@ -47,7 +47,7 @@ public class CSVExportController extends CadController {
 
 			for (String value : values){
 				fileWriter.append(value);
-				fileWriter.append(COMMA_DELIMITER);
+				fileWriter.append(DELIMITER);
 			}
 
 			fileWriter.flush();
