@@ -57,9 +57,12 @@ public class CadController {
 	@Value("${pdf.imageWidth}")
 	protected int pdfImageWidth;
 	
-	@Value("${pdf.dateValiditeDonnees}")
-	protected String dateValiditeDonnees;
+	@Value("${pdf.dateValiditeDonneesMajic}")
+	protected String dateValiditeDonneesMajic;
 	
+	@Value("${pdf.dateValiditeDonneesEDIGEO}")
+	protected String dateValiditeDonneesEDIGEO;
+
 	@Value("${pdf.organisme}")
 	protected String organisme;
 	

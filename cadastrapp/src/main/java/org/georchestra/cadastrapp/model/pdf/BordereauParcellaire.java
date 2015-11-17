@@ -13,7 +13,9 @@ public class BordereauParcellaire {
 	
 	private String service;
 	
-	private String dateDeValidite;
+	private String dateDeValiditeMajic;
+	
+	private String dateDeValiditeEdigeo;
 	
 	private String baseMapUrl;
 	
@@ -25,8 +27,15 @@ public class BordereauParcellaire {
 	/**
 	 * @return the dateDeValidité
 	 */
-	public String getDateDeValidite() {
-		return dateDeValidite;
+	public String getDateDeValiditeMajic() {
+		return dateDeValiditeMajic;
+	}
+	
+	/**
+	 * @return the dateDeValidité
+	 */
+	public String getDateDeValiditeEdigeo() {
+		return dateDeValiditeEdigeo;
 	}
 
 	/**
@@ -48,10 +57,18 @@ public class BordereauParcellaire {
 
 	@XmlElement
 	/**
-	 * @param dateDeValidité the dateDeValidité to set
+	 * @param dateDeValidite the dateDeValidite to set
 	 */
-	public void setDateDeValidite(String dateDeValidité) {
-		this.dateDeValidite = dateDeValidité;
+	public void setDateDeValiditeMajic(String dateDeValidité) {
+		this.dateDeValiditeMajic = dateDeValidité;
+	}
+	
+	@XmlElement
+	/**
+	 * @param dateDeValidite the dateDeValidite to set
+	 */
+	public void setDateDeValiditeEdigeo(String dateDeValidité) {
+		this.dateDeValiditeMajic = dateDeValidité;
 	}
 	
 	/**

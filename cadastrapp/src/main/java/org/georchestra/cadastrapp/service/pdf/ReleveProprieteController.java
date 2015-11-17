@@ -185,7 +185,7 @@ public class ReleveProprieteController extends CadController {
 		logger.debug("Get information to fill releve propriete ");
 
 		// Information d'entête
-		relevePropriete.setAnneMiseAJour(dateValiditeDonnees);
+		relevePropriete.setAnneMiseAJour(dateValiditeDonneesMajic);
 		relevePropriete.setService(organisme);
 
 		List<CompteCommunal> comptesCommunaux = new ArrayList<CompteCommunal>();

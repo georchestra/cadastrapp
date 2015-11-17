@@ -43,6 +43,12 @@ import org.slf4j.LoggerFactory;
 public class ImageParcelleController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(ImageParcelleController.class);
+	
+	final private String URL_GET_CAPABILITIES="?REQUEST=GetCapabilities&version=1.0.0";
+	
+	final private String URL_GET_CAPABILITIES_WMS="?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
+	
+	final private String CONNECTION_PARAM = "WFSDataStoreFactory:GET_CAPABILITIES_URL";
 
 	@GET
 	@Path("/getImageBordereau")
@@ -60,93 +66,103 @@ public class ImageParcelleController extends CadController {
 			// Get parcelle geo information
 			// get featureById
 			logger.debug("Appel WFS avec la parcelle Id");
-			String getCapabilities = wfsUrl+ "?REQUEST=GetCapabilities&version=1.0.0";
-			Map connectionParameters = new HashMap();
-			connectionParameters.put("WFSDataStoreFactory:GET_CAPABILITIES_URL", getCapabilities);
+			String getCapabilities = wfsUrl + URL_GET_CAPABILITIES;
+			
+			Map<String, String> connectionParameters = new HashMap<String, String>();
+			connectionParameters.put(CONNECTION_PARAM, getCapabilities);
 			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
 
 			WFSDataStore dataStore = dsf.createDataStore(connectionParameters);
+			if (logger.isDebugEnabled()){
+				logger.debug("DataStore information : " + dataStore.getInfo());
+			}
+			
 			SimpleFeatureSource source = dataStore.getFeatureSource(cadastreLayerName);
-			Filter filter = CQL.toFilter(cadastreLayerIdParcelle +" == '" + parcelle + "'");
-			SimpleFeatureCollection collection = source.getFeatures(filter);
+			
+			if (source != null) {
+				Filter filter = CQL.toFilter(cadastreLayerIdParcelle + " = '" + parcelle + "'");
+				SimpleFeatureCollection collection = source.getFeatures(filter);
 
-			SimpleFeatureIterator it = collection.features();
-			if (it.hasNext()) {
-				SimpleFeature parcelleFeature = it.next();
-		
-				bounds = parcelleFeature.getBounds();
-								
-				// Ajout de la parcelle
-				logger.debug("Appel WMS pour la parcelle");
-				// Get basemap image with good BBOX
-				URL parcelleWMSUrl = new URL(wmsUrl + "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS");
-				WebMapServer wmsParcelle = new WebMapServer(parcelleWMSUrl);
+				SimpleFeatureIterator it = collection.features();
+				if (it.hasNext()) {
+					SimpleFeature parcelleFeature = it.next();
 
-				GetMapRequest requestParcelle = wmsParcelle.createGetMapRequest();
-				requestParcelle.setFormat(cadastreFormat);
+					bounds = parcelleFeature.getBounds();
 
-				// Add layer see to set this in configuration parameters
-				// Or use getCapatibilities
-				Layer layerParcelle = new Layer("Parcelle Qgis");
-				layerParcelle.setName(cadastreLayerName);
-				requestParcelle.addLayer(layerParcelle);
+					// Ajout de la parcelle
+					logger.debug("Appel WMS pour la parcelle");
+					// Get basemap image with good BBOX
+					URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
+					WebMapServer wmsParcelle = new WebMapServer(parcelleWMSUrl);
 
-				// sets the dimensions check with PDF size available
-				requestParcelle.setDimensions(pdfImageWidth, pdfImageHeight);
-				requestParcelle.setSRS(cadastreSRS);
-				requestParcelle.setTransparent(true);
-				// setBBox from Feature information
-				requestParcelle.setBBox(bounds);
+					GetMapRequest requestParcelle = wmsParcelle.createGetMapRequest();
+					requestParcelle.setFormat(cadastreFormat);
 
-				GetMapResponse parcelleResponse = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);
-				parcelleImage = ImageIO.read(parcelleResponse.getInputStream());
+					// Add layer see to set this in configuration parameters
+					// Or use getCapatibilities
+					Layer layerParcelle = new Layer("Parcelle cadastrapp");
+					layerParcelle.setName(cadastreLayerName);
+					requestParcelle.addLayer(layerParcelle);
 
-				logger.debug("Appel WMS pour le fond de carte");
-				// Get basemap image with good BBOX
-				URL baseMapUrl = new URL(baseMapWMSUrl);
-				WebMapServer wms = new WebMapServer(baseMapUrl);
+					// sets the dimensions check with PDF size available
+					requestParcelle.setDimensions(pdfImageWidth, pdfImageHeight);
+					requestParcelle.setSRS(cadastreSRS);
+					requestParcelle.setTransparent(true);
+					// setBBox from Feature information
+					requestParcelle.setBBox(bounds);
 
-				GetMapRequest request = wms.createGetMapRequest();
-				request.setFormat(baseMapFormat);
+					GetMapResponse parcelleResponse = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);
+					parcelleImage = ImageIO.read(parcelleResponse.getInputStream());
 
-				// Add layer see to set this in configuration parameters
-				// Or use getCapatibilities
-				Layer layer = new Layer("OpenStreetMap : carte style 'google'");
-				layer.setName(baseMapLayerName);
-				request.addLayer(layer);
+					logger.debug("Appel WMS pour le fond de carte");
+					// Get basemap image with good BBOX
+					URL baseMapUrl = new URL(baseMapWMSUrl);
+					WebMapServer wms = new WebMapServer(baseMapUrl);
 
-				// sets the dimensions check with PDF size available
-				request.setDimensions(pdfImageWidth, pdfImageHeight);
-				request.setSRS(baseMapSRS);
-				// setBBox from Feature information
-				request.setBBox(bounds);
+					GetMapRequest request = wms.createGetMapRequest();
+					request.setFormat(baseMapFormat);
 
-				GetMapResponse baseMapResponse = (GetMapResponse) wms.issueRequest(request);
-				baseMapImage = ImageIO.read(baseMapResponse.getInputStream());
+					// Add layer see to set this in configuration parameters
+					// Or use getCapatibilities
+					Layer layer = new Layer("OpenStreetMap : carte style 'google'");
+					layer.setName(baseMapLayerName);
+					request.addLayer(layer);
 
-				logger.debug("Creation de l'image finale");
-				BufferedImage finalImage = new BufferedImage(baseMapImage.getWidth(), baseMapImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+					// sets the dimensions check with PDF size available
+					request.setDimensions(pdfImageWidth, pdfImageHeight);
+					request.setSRS(baseMapSRS);
+					// setBBox from Feature information
+					request.setBBox(bounds);
 
-				// 1. Dessin couches
-				Graphics2D g2 = finalImage.createGraphics();
+					GetMapResponse baseMapResponse = (GetMapResponse) wms.issueRequest(request);
+					baseMapImage = ImageIO.read(baseMapResponse.getInputStream());
 
-				g2.drawImage(baseMapImage, 0, 0, null);
-				g2.drawImage(parcelleImage, 0, 0, null);
+					logger.debug("Creation de l'image finale");
+					BufferedImage finalImage = new BufferedImage(baseMapImage.getWidth(), baseMapImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-				drawCompass(g2, pdfImageHeight, pdfImageWidth);
-				// drawScale(g2, )
+					// 1. Dessin couches
+					Graphics2D g2 = finalImage.createGraphics();
 
-				g2.dispose();
-				// Add feature on basemap
-				
-				File file = new File(tempFolder+File.separator+"BP-"+parcelle+".png");
-				file.deleteOnExit();
-				ImageIO.write(finalImage, "png", file);
+					g2.drawImage(baseMapImage, 0, 0, null);
+					g2.drawImage(parcelleImage, 0, 0, null);
 
-				response = Response.ok((Object) file);
+					drawCompass(g2, pdfImageHeight, pdfImageWidth);
+					// drawScale(g2, )
+
+					g2.dispose();
+					// Add feature on basemap
+
+					File file = new File(tempFolder + File.separator + "BP-" + parcelle + ".png");
+					file.deleteOnExit();
+					ImageIO.write(finalImage, "png", file);
+
+					response = Response.ok((Object) file);
+				} else {
+
+					logger.info("Pas de parcelle correspondant à la demande");
+				}
 			} else {
-
-				logger.info("Pas de parcelle correspondant à la demande");
+				logger.error("Error when getting WFS feature source, please check configuration");
 			}
 		} else {
 			logger.info("Paramètres d'appel incorrecte");
@@ -156,9 +172,10 @@ public class ImageParcelleController extends CadController {
 	}
 
 	/**
-	 *  Add North panel in the Upper Right
-	 *  
-	 * @param g2 current Graphics2D
+	 * Add North panel in the Upper Right
+	 * 
+	 * @param g2
+	 *            current Graphics2D
 	 */
 	private void drawCompass(Graphics2D g2, int imageHeight, int imageWidth) {
 
@@ -166,14 +183,14 @@ public class ImageParcelleController extends CadController {
 
 		// Draw N in the Upper Right
 		g2.setColor(Color.white);
-		g2.setFont(new Font("Times New Roman", Font.BOLD, 18));	
+		g2.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		// TODO Change value by parameter from method
-		g2.drawString("N", imageHeight-32, 22);
+		g2.drawString("N", imageHeight - 32, 22);
 
 		// Draw an arrow in the Upper Right
-		int xtr_left[] = { imageHeight-43, imageHeight-29, imageHeight-29 };
+		int xtr_left[] = { imageHeight - 43, imageHeight - 29, imageHeight - 29 };
 		int ytr[] = { 53, 47, 26 };
-		int xtr_right[] = { imageHeight-15, imageHeight-29, imageHeight-29 };
+		int xtr_right[] = { imageHeight - 15, imageHeight - 29, imageHeight - 29 };
 
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.fillPolygon(xtr_right, ytr, 3);
@@ -183,14 +200,15 @@ public class ImageParcelleController extends CadController {
 	}
 
 	/**
-	 *  Add a scale in bottom left of images 
-	 *  
-	 * @param g2 current Graphics2D
+	 * Add a scale in bottom left of images
+	 * 
+	 * @param g2
+	 *            current Graphics2D
 	 */
 	private void drawScale(Graphics2D g2, String scaleValue) {
 
 		logger.debug("Ajout de l'echelle ");
-		
+
 		// Dessin de l'echelle
 		String zoom_[] = scaleValue.split(",");
 		String Zdistance = zoom_[0];

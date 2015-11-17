@@ -13,7 +13,7 @@
 					page-height="21cm" page-width="29.7cm" font-family="sans-serif"
 					margin-top="0.5cm" margin-bottom="0.5cm" margin-left="0.5cm"
 					margin-right="0.5cm">
-					<fo:region-body/>
+					<fo:region-body />
 				</fo:simple-page-master>
 			</fo:layout-master-set>
 
@@ -26,13 +26,6 @@
 		</fo:root>
 	</xsl:template>
 
-	<!-- Definition des styles -->
-	<!-- Bordure de tableau -->
-	<xsl:attribute-set name="bordure">
-		<xsl:attribute name="border">solid 0.1mm black</xsl:attribute>
-		<xsl:attribute name="text-align">center</xsl:attribute>
-	</xsl:attribute-set>
-
 	<!-- Format de text simple -->
 	<xsl:attribute-set name="text">
 		<xsl:attribute name="text-align">center</xsl:attribute>
@@ -40,7 +33,7 @@
 		<xsl:attribute name="padding-bottom">10pt</xsl:attribute>
 		<xsl:attribute name="font-size">8pt</xsl:attribute>
 	</xsl:attribute-set>
-	
+
 	<!-- Format de text gras -->
 	<xsl:attribute-set name="text-bold">
 		<xsl:attribute name="text-align">center</xsl:attribute>
@@ -62,18 +55,21 @@
 		<xsl:variable name="serviceUrl">
 			<xsl:value-of select="serviceUrl" />
 		</xsl:variable>
-		<xsl:variable name="dateDeValidite">
-			<xsl:value-of select="dateDeValidite" />
+		<xsl:variable name="dateDeValiditeMajic">
+			<xsl:value-of select="dateDeValiditeMajic" />
+		</xsl:variable>
+		<xsl:variable name="dateDeValiditeEdigeo">
+			<xsl:value-of select="dateDeValiditeEdigeo" />
 		</xsl:variable>
 
 		<xsl:for-each select="parcelles/parcelle">
-			<fo:table table-layout="fixed">
+			<fo:table table-layout="fixed" page-break-before="always">
 				<fo:table-column column-width="70%" />
 				<fo:table-column column-width="30%" />
 				<fo:table-body>
 					<fo:table-row>
 						<!-- Empreinte -->
-						<fo:table-cell xsl:use-attribute-sets="bordure">
+						<fo:table-cell>
 							<fo:block>
 								<fo:external-graphic>
 									<xsl:attribute name="src"><xsl:value-of
@@ -86,18 +82,9 @@
 						<fo:table-cell>
 							<fo:table table-layout="fixed">
 								<fo:table-column column-width="100%" />
-								<fo:table-footer>
-									<fo:table-row>
-										<fo:table-cell xsl:use-attribute-sets="bordure">
-											<fo:block xsl:use-attribute-sets="text-bold">
-												<xsl:value-of select="$service" />
-											</fo:block>
-										</fo:table-cell>
-									</fo:table-row>
-								</fo:table-footer>
 								<fo:table-body>
 									<fo:table-row>
-										<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text">
 												Extrait du plan
 												cadastral informatisé
@@ -105,19 +92,28 @@
 										</fo:table-cell>
 									</fo:table-row>
 									<fo:table-row>
-										<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text">
-												Données foncières valides au
-												<xsl:value-of select="$dateDeValidite" />
+												Données MAJIC valides au
+												<xsl:value-of select="$dateDeValiditeMajic" />
+											</fo:block>
+											<fo:block xsl:use-attribute-sets="text">
+												Données EDIGEO valides au
+												<xsl:value-of select="$dateDeValiditeEdigeo" />
 											</fo:block>
 											<fo:block xsl:use-attribute-sets="text">
 												Document créé le
 												<xsl:value-of select="$dateDeCreation" />
 											</fo:block>
+											<fo:block xsl:use-attribute-sets="text">
+												Fond de plan
+												origine DGFiP - Reproduction interdite - Mesures données à
+												titre indicatif
+											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
 									<fo:table-row>
-										<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text-bold">
 												<xsl:value-of select="@libelleCommune" />
 											</fo:block>
@@ -128,41 +124,38 @@
 										</fo:table-cell>
 									</fo:table-row>
 									<fo:table-row>
-										<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text">
 												<xsl:value-of select="@adresseCadastrale" />
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
 									<fo:table-row>
-										<fo:table-cell xsl:use-attribute-sets="bordure">
-											<fo:table>
+										<fo:table-cell>
+											<fo:table table-layout="fixed">
 												<fo:table-column column-width="15%" />
 												<fo:table-column column-width="15%" />
 												<fo:table-column column-width="35%" />
 												<fo:table-column column-width="35%" />
 												<fo:table-body>
 													<fo:table-row>
-														<fo:table-cell xsl:use-attribute-sets="bordure">
+														<fo:table-cell>
 															<fo:block xsl:use-attribute-sets="text">
 																section
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell xsl:use-attribute-sets="bordure">
+														<fo:table-cell>
 															<fo:block xsl:use-attribute-sets="text">
 																parcelle
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell xsl:use-attribute-sets="bordure">
+														<fo:table-cell>
 															<fo:block xsl:use-attribute-sets="text">
 																code de la
 																voie
 															</fo:block>
-															<fo:block xsl:use-attribute-sets="text">
-																(FANTOIR)
-															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell xsl:use-attribute-sets="bordure">
+														<fo:table-cell>
 															<fo:block xsl:use-attribute-sets="text">
 																surface
 																cadastrale
@@ -170,22 +163,22 @@
 														</fo:table-cell>
 													</fo:table-row>
 													<fo:table-row>
-														<fo:table-cell xsl:use-attribute-sets="bordure">
+														<fo:table-cell>
 															<fo:block xsl:use-attribute-sets="text">
 																<xsl:value-of select="@section" />
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell xsl:use-attribute-sets="bordure">
+														<fo:table-cell>
 															<fo:block xsl:use-attribute-sets="text">
 																<xsl:value-of select="@parcelle" />
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell xsl:use-attribute-sets="bordure">
+														<fo:table-cell>
 															<fo:block xsl:use-attribute-sets="text">
 																<xsl:value-of select="@codeFantoir" />
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell xsl:use-attribute-sets="bordure">
+														<fo:table-cell>
 															<fo:block xsl:use-attribute-sets="text">
 																<xsl:value-of select="@surfaceCadastrale" />
 															</fo:block>
@@ -196,21 +189,29 @@
 										</fo:table-cell>
 									</fo:table-row>
 
-									<xsl:if test="proprietaires">
-										<fo:table-row>
+									<fo:table-row height="10cm">
+										<xsl:if test="proprietaires">
 											<fo:table-cell>
 												<xsl:for-each select="proprietaires/proprietaire">
-													<fo:block text-align="center" padding-top="5pt" font-size="10pt">
+													<fo:block text-align="left" padding-top="5pt" padding-left="5pt"
+														font-size="10pt">
 														<xsl:value-of select="@nom" />
 													</fo:block>
-													<fo:block text-align="center" padding-bottom="5pt" font-size="8pt">
+													<fo:block text-align="left" padding-bottom="5pt" padding-left="5pt" 
+														font-size="8pt">
 														<xsl:value-of select="@adresse" />
 													</fo:block>
 												</xsl:for-each>
 											</fo:table-cell>
-										</fo:table-row>
-									</xsl:if>
-
+										</xsl:if>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell >
+											<fo:block xsl:use-attribute-sets="text-bold">
+												<xsl:value-of select="$service" />
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
 								</fo:table-body>
 							</fo:table>
 						</fo:table-cell>

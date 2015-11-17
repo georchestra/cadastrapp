@@ -205,7 +205,8 @@ public class BordereauParcellaireController extends CadController {
 		
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
 
-		bordereauParcellaire.setDateDeValidite(dateValiditeDonnees);
+		bordereauParcellaire.setDateDeValiditeMajic(dateValiditeDonneesMajic);
+		bordereauParcellaire.setDateDeValiditeEdigeo(dateValiditeDonneesEDIGEO);
 		bordereauParcellaire.setService(organisme);
 		bordereauParcellaire.setServiceUrl(webappUrl);
 
