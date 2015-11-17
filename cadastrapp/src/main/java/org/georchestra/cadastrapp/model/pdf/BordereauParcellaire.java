@@ -68,7 +68,7 @@ public class BordereauParcellaire {
 	 * @param dateDeValidite the dateDeValidite to set
 	 */
 	public void setDateDeValiditeEdigeo(String dateDeValidité) {
-		this.dateDeValiditeMajic = dateDeValidité;
+		this.dateDeValiditeEdigeo = dateDeValidité;
 	}
 	
 	/**

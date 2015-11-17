@@ -107,6 +107,7 @@ public class BordereauParcellaireController extends CadController {
 				// Create Empyt PDF File will be erase after
 				pdfResult = new File(pdfTmpFileName+".pdf");
 				pdfResult.deleteOnExit();
+				
 				out = new BufferedOutputStream(new FileOutputStream(pdfResult));
 
 				fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
@@ -119,10 +120,13 @@ public class BordereauParcellaireController extends CadController {
 				// Get bordereau parcellaire information
 				BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(newParcelleList, personalData, headers);
 
+				File xmlfile = null;
+				File foFile = null;
+				OutputStream foOutPutStream = null;
 				
 				try {
 					// Xml file will be deleted on JVM exit
-					File xmlfile = new File(pdfTmpFileName+".xml");
+					xmlfile = new File(pdfTmpFileName+".xml");
 					xmlfile.deleteOnExit();
 					
 					jaxbMarshaller.marshal(bordereauParcellaire, xmlfile);
@@ -134,10 +138,10 @@ public class BordereauParcellaireController extends CadController {
 
 					// FO file will be deleted on JVM exit
 					// XML TO FO
-					File foFile = new File(pdfTmpFileName+".fo");
+					foFile = new File(pdfTmpFileName+".fo");
 					foFile.deleteOnExit();
 					
-					OutputStream foOutPutStream = new java.io.FileOutputStream(foFile);
+					foOutPutStream = new java.io.FileOutputStream(foFile);
 
 					// Setup input for XSLT transformation
 					Source srcXml = new StreamSource(xmlfile);
@@ -154,6 +158,8 @@ public class BordereauParcellaireController extends CadController {
 					// Start PDF transformation and FOP processing
 					transformerPDF.transform(src, res);
 
+					out.close();
+					
 					// Create response
 					ResponseBuilder response = Response.ok((Object) pdfResult);
 					response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
@@ -170,6 +176,15 @@ public class BordereauParcellaireController extends CadController {
 						// Clean-up
 						out.close();
 					}
+					if(xmlfile != null){
+					xmlfile.delete();
+					}
+					if(foFile != null){
+						foFile.delete();
+					}
+					if (foOutPutStream != null){
+						foOutPutStream.close();
+					}
 				}
 
 			} catch (TransformerConfigurationException e) {
@@ -180,6 +195,8 @@ public class BordereauParcellaireController extends CadController {
 				logger.warn("Error when creationg FOP file type : " + fopException);
 			} catch (JAXBException jaxbException) {
 				logger.warn("Error creating Marsharller : " + jaxbException);
+			}finally{
+				// Could not delete pdfResult here because it's still used by cxf
 			}
 		} else {
 			logger.warn("Required parameter missing");

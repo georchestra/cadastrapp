@@ -26,12 +26,21 @@
 		</fo:root>
 	</xsl:template>
 
-	<!-- Format de text simple -->
-	<xsl:attribute-set name="text">
+	<!-- Definition des styles -->
+	
+	<!-- Format titre -->
+	<xsl:attribute-set name="titre">
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="padding-top">10pt</xsl:attribute>
 		<xsl:attribute name="padding-bottom">10pt</xsl:attribute>
-		<xsl:attribute name="font-size">8pt</xsl:attribute>
+		<xsl:attribute name="font-size">10pt</xsl:attribute>
+	</xsl:attribute-set>
+	
+	<!-- Format de text simple -->
+	<xsl:attribute-set name="text">
+		<xsl:attribute name="text-align">left</xsl:attribute>
+		<xsl:attribute name="padding-top">10pt</xsl:attribute>
+		<xsl:attribute name="font-size">9pt</xsl:attribute>
 	</xsl:attribute-set>
 
 	<!-- Format de text gras -->
@@ -72,148 +81,121 @@
 						<fo:table-cell>
 							<fo:block>
 								<fo:external-graphic>
-									<xsl:attribute name="src"><xsl:value-of
-										select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of
-										select="@parcelleId" /></xsl:attribute>
+									<xsl:attribute name="src">
+										<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" />
+									</xsl:attribute>
 								</fo:external-graphic>
 							</fo:block>
 						</fo:table-cell>
 						<!-- descriptif -->
 						<fo:table-cell>
+
+							<fo:block xsl:use-attribute-sets="titre">
+								Extrait du plan	cadastral informatisé
+							</fo:block>
+
+							<fo:block xsl:use-attribute-sets="text">
+								Données MAJIC valides au
+								<xsl:value-of select="$dateDeValiditeMajic" />
+							</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+								Données EDIGEO valides au
+								<xsl:value-of select="$dateDeValiditeEdigeo" />
+							</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+								Document créé le
+								<xsl:value-of select="$dateDeCreation" />
+							</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+								Fond de plan origine DGFiP - Reproduction interdite - Mesures données à titre indicatif
+							</fo:block>
+
+							<fo:block xsl:use-attribute-sets="text-bold">
+								<xsl:value-of select="@libelleCommune" />
+							</fo:block>
+							<fo:block xsl:use-attribute-sets="text">
+								Parcelle cadastrale
+								<xsl:value-of select="@parcelleId" />
+							</fo:block>
+
+							<fo:block xsl:use-attribute-sets="text">
+								<xsl:value-of select="@adresseCadastrale" />
+							</fo:block>
+
 							<fo:table table-layout="fixed">
-								<fo:table-column column-width="100%" />
+								<fo:table-column column-width="15%" />
+								<fo:table-column column-width="15%" />
+								<fo:table-column column-width="35%" />
+								<fo:table-column column-width="35%" />
 								<fo:table-body>
 									<fo:table-row>
 										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text">
-												Extrait du plan
-												cadastral informatisé
+												section
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block xsl:use-attribute-sets="text">
+												parcelle
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block xsl:use-attribute-sets="text">
+												code de la voie
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block xsl:use-attribute-sets="text">
+												surface cadastrale
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
 									<fo:table-row>
 										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text">
-												Données MAJIC valides au
-												<xsl:value-of select="$dateDeValiditeMajic" />
-											</fo:block>
-											<fo:block xsl:use-attribute-sets="text">
-												Données EDIGEO valides au
-												<xsl:value-of select="$dateDeValiditeEdigeo" />
-											</fo:block>
-											<fo:block xsl:use-attribute-sets="text">
-												Document créé le
-												<xsl:value-of select="$dateDeCreation" />
-											</fo:block>
-											<fo:block xsl:use-attribute-sets="text">
-												Fond de plan
-												origine DGFiP - Reproduction interdite - Mesures données à
-												titre indicatif
+												<xsl:value-of select="@section" />
 											</fo:block>
 										</fo:table-cell>
-									</fo:table-row>
-									<fo:table-row>
-										<fo:table-cell>
-											<fo:block xsl:use-attribute-sets="text-bold">
-												<xsl:value-of select="@libelleCommune" />
-											</fo:block>
-											<fo:block xsl:use-attribute-sets="text">
-												Parcelle cadastrale
-												<xsl:value-of select="@parcelleId" />
-											</fo:block>
-										</fo:table-cell>
-									</fo:table-row>
-									<fo:table-row>
 										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text">
-												<xsl:value-of select="@adresseCadastrale" />
+												<xsl:value-of select="@parcelle" />
 											</fo:block>
 										</fo:table-cell>
-									</fo:table-row>
-									<fo:table-row>
 										<fo:table-cell>
-											<fo:table table-layout="fixed">
-												<fo:table-column column-width="15%" />
-												<fo:table-column column-width="15%" />
-												<fo:table-column column-width="35%" />
-												<fo:table-column column-width="35%" />
-												<fo:table-body>
-													<fo:table-row>
-														<fo:table-cell>
-															<fo:block xsl:use-attribute-sets="text">
-																section
-															</fo:block>
-														</fo:table-cell>
-														<fo:table-cell>
-															<fo:block xsl:use-attribute-sets="text">
-																parcelle
-															</fo:block>
-														</fo:table-cell>
-														<fo:table-cell>
-															<fo:block xsl:use-attribute-sets="text">
-																code de la
-																voie
-															</fo:block>
-														</fo:table-cell>
-														<fo:table-cell>
-															<fo:block xsl:use-attribute-sets="text">
-																surface
-																cadastrale
-															</fo:block>
-														</fo:table-cell>
-													</fo:table-row>
-													<fo:table-row>
-														<fo:table-cell>
-															<fo:block xsl:use-attribute-sets="text">
-																<xsl:value-of select="@section" />
-															</fo:block>
-														</fo:table-cell>
-														<fo:table-cell>
-															<fo:block xsl:use-attribute-sets="text">
-																<xsl:value-of select="@parcelle" />
-															</fo:block>
-														</fo:table-cell>
-														<fo:table-cell>
-															<fo:block xsl:use-attribute-sets="text">
-																<xsl:value-of select="@codeFantoir" />
-															</fo:block>
-														</fo:table-cell>
-														<fo:table-cell>
-															<fo:block xsl:use-attribute-sets="text">
-																<xsl:value-of select="@surfaceCadastrale" />
-															</fo:block>
-														</fo:table-cell>
-													</fo:table-row>
-												</fo:table-body>
-											</fo:table>
+											<fo:block xsl:use-attribute-sets="text">
+												<xsl:value-of select="@codeFantoir" />
+											</fo:block>
 										</fo:table-cell>
-									</fo:table-row>
-
-									<fo:table-row height="10cm">
-										<xsl:if test="proprietaires">
-											<fo:table-cell>
-												<xsl:for-each select="proprietaires/proprietaire">
-													<fo:block text-align="left" padding-top="5pt" padding-left="5pt"
-														font-size="10pt">
-														<xsl:value-of select="@nom" />
-													</fo:block>
-													<fo:block text-align="left" padding-bottom="5pt" padding-left="5pt" 
-														font-size="8pt">
-														<xsl:value-of select="@adresse" />
-													</fo:block>
-												</xsl:for-each>
-											</fo:table-cell>
-										</xsl:if>
-									</fo:table-row>
-									<fo:table-row>
-										<fo:table-cell >
-											<fo:block xsl:use-attribute-sets="text-bold">
-												<xsl:value-of select="$service" />
+										<fo:table-cell>
+											<fo:block xsl:use-attribute-sets="text">
+												<xsl:value-of select="@surfaceCadastrale" />
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
 								</fo:table-body>
 							</fo:table>
+
+							<!--  owner date only if cnil1 right -->
+							<fo:block-container padding-top="10pt" height="10cm">
+								<fo:block/>
+								<xsl:if test="proprietaires">
+									<xsl:for-each select="proprietaires/proprietaire">
+										<fo:block text-align="left" padding-top="5pt"
+											padding-left="5pt" font-size="10pt">
+											<xsl:value-of select="@nom" />
+										</fo:block>
+										<fo:block text-align="left" padding-bottom="5pt"
+											padding-left="5pt" font-size="8pt">
+											<xsl:value-of select="@adresse" />
+										</fo:block>
+									</xsl:for-each>
+								</xsl:if>
+							</fo:block-container>
+
+							<fo:block xsl:use-attribute-sets="text-bold">
+								<xsl:value-of select="$service" />
+							</fo:block>
+
 						</fo:table-cell>
 					</fo:table-row>
 				</fo:table-body>

@@ -108,9 +108,12 @@ public class ReleveProprieteController extends CadController {
 				// Get information about releve de propriete
 				RelevePropriete relevePropriete = getReleveProprieteInformation(comptesCommunaux, headers);
 
+				File xmlfile = null;
+				File foFile = null;
+				
 				try {
 					// Xml file will be deleted on JVM exit
-					File xmlfile = new File(pdfTmpFileName + ".xml");
+					xmlfile = new File(pdfTmpFileName + ".xml");
 					xmlfile.deleteOnExit();
 
 					jaxbMarshaller.marshal(relevePropriete, xmlfile);
@@ -122,7 +125,7 @@ public class ReleveProprieteController extends CadController {
 
 					// FO file will be deleted on JVM exit
 					// XML TO FO
-					File foFile = new File(pdfTmpFileName + ".fo");
+					foFile = new File(pdfTmpFileName + ".fo");
 					foFile.deleteOnExit();
 
 					OutputStream foOutPutStream = new java.io.FileOutputStream(foFile);
@@ -141,6 +144,8 @@ public class ReleveProprieteController extends CadController {
 
 					// Start PDF transformation and FOP processing
 					transformerPDF.transform(src, res);
+					
+					out.close();
 
 					// Create response
 					ResponseBuilder response = Response.ok((Object) pdfResult);
@@ -155,6 +160,12 @@ public class ReleveProprieteController extends CadController {
 					if (out != null) {
 						// Clean-up
 						out.close();
+					}
+					if (xmlfile != null){
+						xmlfile.delete();
+					}
+					if (foFile != null){
+						foFile.delete();
 					}
 				}
 			} catch (JAXBException jaxbException) {
