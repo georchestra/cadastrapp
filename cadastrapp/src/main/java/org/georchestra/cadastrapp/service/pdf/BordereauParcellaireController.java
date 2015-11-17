@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,12 @@ public class BordereauParcellaireController extends CadController {
 		// Check if parcelle list is not empty
 		if (parcelleList != null && !parcelleList.isEmpty()) {
 			
+			List<String> newParcelleList = parcelleList;
+			
+			if(parcelleList.size() ==1) {	
+				newParcelleList = Arrays.asList(parcelleList.get(0).split("\\s|;|,"));
+			}
+			
 			// Pdf temporary filename using tmp folder and timestamp
 			final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();
 
@@ -110,7 +117,7 @@ public class BordereauParcellaireController extends CadController {
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 				// Get bordereau parcellaire information
-				BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(parcelleList, personalData, headers);
+				BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(newParcelleList, personalData, headers);
 
 				
 				try {
@@ -193,6 +200,9 @@ public class BordereauParcellaireController extends CadController {
 	 */
 	private BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers) {
 
+		logger.debug("Parcelle List : " + parcelleList);
+		
+		
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
 
 		bordereauParcellaire.setDateDeValidite(dateValiditeDonnees);
