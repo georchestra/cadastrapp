@@ -33,12 +33,17 @@ import org.geotools.data.wms.request.GetMapRequest;
 import org.geotools.data.wms.response.GetMapResponse;
 import org.geotools.filter.text.cql2.CQL;
 import org.geotools.filter.text.cql2.CQLException;
+import org.geotools.geometry.jts.JTS;
 import org.geotools.ows.ServiceException;
 import org.opengis.filter.Filter;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.geometry.BoundingBox;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.vividsolutions.jts.geom.Coordinate;
 
 public class ImageParcelleController extends CadController {
 
@@ -84,6 +89,7 @@ public class ImageParcelleController extends CadController {
 				SimpleFeatureCollection collection = source.getFeatures(filter);
 
 				SimpleFeatureIterator it = collection.features();
+				// Get only the first plot
 				if (it.hasNext()) {
 					SimpleFeature parcelleFeature = it.next();
 
@@ -140,17 +146,16 @@ public class ImageParcelleController extends CadController {
 					logger.debug("Creation de l'image finale");
 					BufferedImage finalImage = new BufferedImage(baseMapImage.getWidth(), baseMapImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-					// 1. Dessin couches
+					// Create graphics to add basemap, feature, scale and compass
 					Graphics2D g2 = finalImage.createGraphics();
 
 					g2.drawImage(baseMapImage, 0, 0, null);
 					g2.drawImage(parcelleImage, 0, 0, null);
 
 					drawCompass(g2, pdfImageHeight, pdfImageWidth);
-					// drawScale(g2, )
 
 					g2.dispose();
-					// Add feature on basemap
+
 
 					File file = new File(tempFolder + File.separator + "BP-" + parcelle + ".png");
 					file.deleteOnExit();
@@ -204,40 +209,23 @@ public class ImageParcelleController extends CadController {
 	 * 
 	 * @param g2
 	 *            current Graphics2D
+	 * @throws TransformException 
 	 */
-	private void drawScale(Graphics2D g2, String scaleValue) {
+	private void drawScale(Graphics2D g2, Coordinate start, Coordinate end, CoordinateReferenceSystem crs) throws TransformException {
+		
+		// Get distance beetween two point here bounds is used
+		double distance = JTS.orthodromicDistance(start, end, crs);
+	   
+		int totalmeters = (int) distance;
+	    int km = totalmeters / 1000;
+	    int meters = totalmeters - (km * 1000);
+	   
+	    float remaining_cm = (float) (distance - totalmeters) * 10000;
+	    remaining_cm = Math.round(remaining_cm);
+	    float cm = remaining_cm / 100;
+	    
 
-		logger.debug("Ajout de l'echelle ");
+		logger.debug("Add compass");
 
-		// Dessin de l'echelle
-		String zoom_[] = scaleValue.split(",");
-		String Zdistance = zoom_[0];
-		Integer ZdivisionCount = Integer.parseInt(zoom_[1]);
-		String ZuiSymbol = zoom_[2];
-		Integer Zwidth = Integer.parseInt(zoom_[4]);
-
-		g2.setColor(new Color(255, 255, 255, 127));
-		g2.fill(new Rectangle2D.Double(125, 567, Zwidth + 10, 23));
-
-		int Zbare = (int) Math.round(Zwidth / ZdivisionCount);
-		for (int i = 0; i < ZdivisionCount; i++) {
-			if (i % 2 == 0) {
-				g2.setColor(new Color(83, 83, 83, 115));
-			} else {
-				g2.setColor(new Color(25, 25, 25, 175));
-			}
-			g2.fill(new Rectangle2D.Double(130 + Zbare * i, 580, Zbare, 5));
-		}
-
-		String Zmin = "0";
-		String Zmax = Zdistance + " " + ZuiSymbol;
-		Font fnt = new Font("Verdana", Font.PLAIN, 11);
-		FontMetrics fm = g2.getFontMetrics(fnt);
-		int fm_width = fm.stringWidth(Zmax);
-
-		g2.setColor(Color.black);
-		g2.setFont(fnt);
-		g2.drawString(Zmin, 130, 578);
-		g2.drawString(Zmax, ((130 + Zwidth) - fm_width), 578);
 	}
 }
