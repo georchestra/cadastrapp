@@ -45,7 +45,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			c.ccodep || c.ccodir ||	c.ccocom as cgocommune,
 			l.ccopre,
 			l.ccosec,
-			l.dnupla,
+			ltrim(l.dnupla, '0') as dnupla,
 			COALESCE(to_char(l.jdatat, ''DD/MM/YYYY''), '''') as jdatat,
 			v.voie,
 			l.dnvoiri,

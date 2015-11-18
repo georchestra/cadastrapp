@@ -8,8 +8,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.section AS
    FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
    		'select 
 	   		codcomm as cgocommune,
-	   		substr(id_sect,10,2) as ccosec ,
-	   		substr(id_sect,7,3) as ccopre
+	   		ltrim(substr(id_sect,10,2),'0') as ccosec ,
+	   		ltrim(substr(id_sect,7,3),'0')  as ccopre
 		from #DBSchema_arcopole.edi_sectio '::text) 
 	section(
 		cgocommune character varying(6), 
