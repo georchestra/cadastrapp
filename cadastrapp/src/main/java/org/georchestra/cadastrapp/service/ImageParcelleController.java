@@ -73,6 +73,8 @@ public class ImageParcelleController extends CadController {
 			logger.debug("Appel WFS avec la parcelle Id");
 			String getCapabilities = wfsUrl + URL_GET_CAPABILITIES;
 			
+			logger.debug("WFS URL : " + getCapabilities);
+			
 			Map<String, String> connectionParameters = new HashMap<String, String>();
 			connectionParameters.put(CONNECTION_PARAM, getCapabilities);
 			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
@@ -99,6 +101,8 @@ public class ImageParcelleController extends CadController {
 					logger.debug("Appel WMS pour la parcelle");
 					// Get basemap image with good BBOX
 					URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
+					
+					logger.debug("WMS URL : " + parcelleWMSUrl);
 					WebMapServer wmsParcelle = new WebMapServer(parcelleWMSUrl);
 
 					GetMapRequest requestParcelle = wmsParcelle.createGetMapRequest();
