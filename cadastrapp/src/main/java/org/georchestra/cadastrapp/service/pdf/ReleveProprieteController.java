@@ -67,6 +67,8 @@ public class ReleveProprieteController extends CadController {
 	@Produces("application/pdf")
 	public Response createRelevePDFPropriete(@Context HttpHeaders headers, @QueryParam("compteCommunal") final List<String> comptesCommunaux) {
 
+		ResponseBuilder response = Response.noContent();
+		
 		// Check if parcelle list is not empty
 		if (comptesCommunaux != null && !comptesCommunaux.isEmpty()) {
 
@@ -148,9 +150,8 @@ public class ReleveProprieteController extends CadController {
 					out.close();
 
 					// Create response
-					ResponseBuilder response = Response.ok((Object) pdfResult);
+					response = Response.ok((Object) pdfResult);
 					response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
-					return response.build();
 
 				} catch (TransformerException transformerException) {
 					logger.error("Error during transformation : " + transformerException);
@@ -180,7 +181,7 @@ public class ReleveProprieteController extends CadController {
 		} else {
 			logger.warn("Required parameter missing");
 		}
-		return null;
+		return response.build();
 	}
 
 	/**

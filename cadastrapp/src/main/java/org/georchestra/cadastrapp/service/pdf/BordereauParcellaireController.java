@@ -73,6 +73,8 @@ public class BordereauParcellaireController extends CadController {
 	@Produces("application/pdf")
 	public Response createBordereauParcellaire(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("personaldata") int personalData) {
 
+		ResponseBuilder response = Response.noContent();
+		
 		// Check if parcelle list is not empty
 		if (parcelleList != null && !parcelleList.isEmpty()) {
 			
@@ -161,9 +163,8 @@ public class BordereauParcellaireController extends CadController {
 					out.close();
 					
 					// Create response
-					ResponseBuilder response = Response.ok((Object) pdfResult);
+					response = Response.ok((Object) pdfResult);
 					response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
-					return response.build();
 
 				} catch (JAXBException jaxbException) {
 					logger.warn("Error during converting object to xml : " + jaxbException);
@@ -201,7 +202,7 @@ public class BordereauParcellaireController extends CadController {
 		} else {
 			logger.warn("Required parameter missing");
 		}
-		return null;
+		return response.build();
 	}
 
 	/**
