@@ -72,8 +72,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			CAST (suftax.c1majposa * 10 as integer) as majposa,
 			CAST (suftax.c1bisufad * 10 as integer) as bisufad,
 			CAST (suftax.c2bisufad * 10 as integer) as bisufad_dep,
-			CAST (suftax.c3bisufad * 10 as integer) as bisufad_reg,
-			CAST (sufex.rcexnba * 10 as integer) as rcexnba
+			CAST (suftax.c3bisufad * 10 as integer) as bisufad_reg
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.voie v on v.voie=p.voie
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
