@@ -102,8 +102,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		majposa integer,
 		bisufad integer,
 		bisufad_dep integer,
-		bisufad_reg integer,
-		rcexnba integer);
+		bisufad_reg integer);
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;
 
