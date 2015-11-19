@@ -9,7 +9,7 @@ DROP MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc;
 DROP MATERIALIZED VIEW #schema_cadastrapp.proprietaire;
 
 DROP MATERIALIZED VIEW #schema_cadastrapp.proprietaire_parcelle;
-DROP MATERIALIZED VIEW #schema_cadastrapp.co_proprietaire_parcelle;
+DROP MATERIALIZED VIEW #schema_cadastrapp.co_propriete_parcelle;
 
 DROP MATERIALIZED VIEW #schema_cadastrapp.proprietebatie;
 DROP MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie;
