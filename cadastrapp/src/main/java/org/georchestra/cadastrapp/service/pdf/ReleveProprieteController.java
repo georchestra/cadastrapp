@@ -396,9 +396,9 @@ public class ReleveProprieteController extends CadController {
 				queryBuilderProprieteNonBatie.append("from ");
 				queryBuilderProprieteNonBatie.append(databaseSchema);
 				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
-				queryBuilderProprieteBatie.append(databaseSchema);
-				queryBuilderProprieteBatie.append(".proprietenonbatiesufexo pnbsufexo ");
-				queryBuilderProprieteNonBatie.append(" where pnb.cgocommune = pnbsufexo.cgocommune and pnb.id_local=pnbsufexo.id_local pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
+				queryBuilderProprieteNonBatie.append(databaseSchema);
+				queryBuilderProprieteNonBatie.append(".proprietenonbatiesufexo pnbsufexo ");
+				queryBuilderProprieteNonBatie.append(" where pnb.cgocommune = pnbsufexo.cgocommune and pnb.id_local=pnbsufexo.id_local and pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
 
 				logger.debug("Get undeveloped property information " );
 				List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal);
