@@ -39,7 +39,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.rcexnba
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
-			sufex.suf as id_local,
+			suf.suf as id_local,
 			COALESCE(to_char(p.jdatat, ''DD/MM/YYYY''), '''') as jdatat,
 			p.comptecommunal,
 			p.dnupro,
