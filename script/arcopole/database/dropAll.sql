@@ -12,6 +12,7 @@ DROP MATERIALIZED VIEW #schema_cadastrapp.proprietaire_parcelle;
 
 DROP MATERIALIZED VIEW #schema_cadastrapp.proprietebatie;
 DROP MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie;
+DROP MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo;
 
 DROP MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel;
 DROP MATERIALIZED VIEW #schema_cadastrapp.descdependance;

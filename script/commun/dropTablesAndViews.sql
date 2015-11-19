@@ -12,6 +12,7 @@ DROP VIEW #schema_cadastrapp.proprietaire_parcelle;
 
 DROP VIEW #schema_cadastrapp.proprietebatie;
 DROP VIEW #schema_cadastrapp.proprietenonbatie;
+DROP VIEW #schema_cadastrapp.proprietenonbatiesufexo;
 
 DROP VIEW #schema_cadastrapp.descproffessionnel;
 DROP VIEW #schema_cadastrapp.descdependance;

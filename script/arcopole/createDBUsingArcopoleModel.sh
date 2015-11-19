@@ -142,6 +142,7 @@ replaceAndLaunch ./views/arcopoleProprietaireParcelle.sql
 replaceAndLaunch ./views/arcopoleSection.sql
 replaceAndLaunch ./views/arcopoleProprieteBatie.sql
 replaceAndLaunch ./views/arcopoleProprieteNonBatie.sql
+replaceAndLaunch ./views/arcopoleProprieteNonBatieSufExo.sql
 replaceAndLaunch ./views/arcopoleHabitationDetails.sql
 
 # Create users correlation tables

@@ -139,6 +139,7 @@ replaceAndLaunch ./views/qgisProprietaire.sql
 replaceAndLaunch ./views/qgisProprietaireParcelle.sql
 replaceAndLaunch ./views/qgisProprieteBatie.sql
 replaceAndLaunch ./views/qgisProprieteNonBatie.sql
+replaceAndLaunch ./views/qgisProprieteNonBatieSufExo.sql
 replaceAndLaunch ./views/qgisSection.sql
 replaceAndLaunch ./views/qgisHabitationDetails.sql
 
