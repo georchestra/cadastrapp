@@ -112,7 +112,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
             gparbat,
             dnvoirie as dnvoiri,
             dindic,
-            ltrim(ccovoi, '0') as ccovoi,
+            ltrim(ccovoi, ''0'') as ccovoi,
             ccoriv,
             ccocif,
             cconvo,
