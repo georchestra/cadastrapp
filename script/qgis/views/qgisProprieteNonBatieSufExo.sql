@@ -35,7 +35,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
  		ccolloc character varying(2), 
  		gnexts character varying(2), 
  		jandeb character varying(4),
- 		janimp character varying(4), 
+ 		jfinex character varying(4), 
  		fcexb character varying(10), 
  		pexn integer);
 
