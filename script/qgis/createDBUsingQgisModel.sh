@@ -136,6 +136,7 @@ replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 replaceAndLaunch ./views/qgisCommune.sql
 replaceAndLaunch ./views/qgisParcelle.sql
 replaceAndLaunch ./views/qgisProprietaire.sql
+replaceAndLaunch ./views/qgisCoProprietaireParcelle.sql
 replaceAndLaunch ./views/qgisProprietaireParcelle.sql
 replaceAndLaunch ./views/qgisProprieteBatie.sql
 replaceAndLaunch ./views/qgisProprieteNonBatie.sql

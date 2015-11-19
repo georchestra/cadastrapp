@@ -9,6 +9,7 @@ DROP VIEW #schema_cadastrapp.v_parcelle_surfc;
 DROP VIEW #schema_cadastrapp.proprietaire;
 
 DROP VIEW #schema_cadastrapp.proprietaire_parcelle;
+DROP VIEW #schema_cadastrapp.co_proprietaire_parcelle;
 
 DROP VIEW #schema_cadastrapp.proprietebatie;
 DROP VIEW #schema_cadastrapp.proprietenonbatie;
