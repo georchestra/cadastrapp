@@ -61,7 +61,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			nbati.DNUPDL as pdl,
 			suf.DNulot,
 			nbati.dreflf,
-			CAST (exosuf.pexn AS INTEGER) as pexn,
 			CAST (taxsuf.majposa AS INTEGER) as majposa,
 			CAST (taxsuf.bisufad AS INTEGER) as bisufad,
 			CAST (taxsuf.bisufad_dep AS INTEGER) as bisufad_dep,
