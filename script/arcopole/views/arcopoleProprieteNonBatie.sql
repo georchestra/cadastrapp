@@ -28,13 +28,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.drcsuba, 
 		proprietenonbatie.pdl, 
 		proprietenonbatie.dnulot, 
-		proprietenonbatie.ccolloc, 
-		proprietenonbatie.gnextl, 
-		proprietenonbatie.jandeb, 
-		proprietenonbatie.janimp,  
-		proprietenonbatie.dreflf,
-		proprietenonbatie.fcexb,
-		proprietenonbatie.pexn,
 		proprietenonbatie.majposa,
 		proprietenonbatie.bisufad,
 		proprietenonbatie.bisufad_dep,
@@ -67,25 +60,18 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			CAST (suf.drcsuba AS INTEGER) as drcsuba,
 			nbati.DNUPDL as pdl,
 			suf.DNulot,
-			exosuf.ccolloc,
-			exosuf.gnexts as gnextl,
-			exosuf.jandeb,
-			exosuf.jfinex as janimp,
 			nbati.dreflf,
-			exosuf.rcexnba as fcexb,
 			CAST (exosuf.pexn AS INTEGER) as pexn,
 			CAST (taxsuf.majposa AS INTEGER) as majposa,
 			CAST (taxsuf.bisufad AS INTEGER) as bisufad,
 			CAST (taxsuf.bisufad_dep AS INTEGER) as bisufad_dep,
-			CAST (taxsuf.bisufad_reg AS INTEGER) as bisufad_reg,
-			CAST (exosuf.rcexnba AS INTEGER) as rcexnba
+			CAST (taxsuf.bisufad_reg AS INTEGER) as bisufad_reg
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
 			left join #DBSchema_arcopole.dgi_nbati nbati on invar.codparc=nbati.codparc
 			left join #DBSchema_arcopole.dgi_voie voie on voie.id_voie=invar.id_voie
 			left join #DBSchema_arcopole.dgi_suf suf on suf.codlot=local.codlot and suf.CODPARC=nbati.CODPARC
 			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=invar.codlot and pev.invar=invar.invar
-			left join #DBSchema_arcopole.dgi_exosuf exosuf on exosuf.id_suf=suf.id_suf and exosuf.CODPARC=suf.CODPARC
 			left join #DBSchema_arcopole.dgi_taxsuf taxsuf on taxsuf.id_suf=suf.id_suf and taxsuf.CODPARC=suf.CODPARC'::text) 
 	proprietenonbatie(
 		id_local character varying(16), 
@@ -114,13 +100,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		drcsuba integer, 
 		pdl character varying(3), 
 		dnulot character varying(7), 
-		ccolloc character varying(2), 
-		gnextl character varying(2), 
-		jandeb character varying(4), 
-		janimp character varying(4), 
-		dreflf character varying(9),
-		fcexb character varying(10),
-		pexn integer,
 		majposa integer,
 		bisufad integer,
 		bisufad_dep integer,

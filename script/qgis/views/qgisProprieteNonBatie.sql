@@ -31,12 +31,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.drcsuba, 
 		proprietenonbatie.pdl, 
 		proprietenonbatie.dnulot, 
-		proprietenonbatie.ccolloc, 
-		proprietenonbatie.gnexts, 
-		proprietenonbatie.jandeb, 
-		proprietenonbatie.janimp, 
-		proprietenonbatie.fcexb, 
-		proprietenonbatie.pexn, 
 		proprietenonbatie.dreflf,
 		proprietenonbatie.majposa,
 		proprietenonbatie.bisufad,
@@ -74,12 +68,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			CAST (suf.drcsuba* 10 as integer) as drcsuba,
 			suf.pdl,
 			suf.dnulot,
-			sufex.ccolloc,
-			sufex.gnexts,
-			sufex.jandeb,
-			sufex.jfinex as janimp,
-			sufex.fcexn as fcexb,
-			sufex.pexn,
 			p.dreflf,
 			CAST (suftax.c1majposa * 10 as integer) as majposa,
 			CAST (suftax.c1bisufad * 10 as integer) as bisufad,
@@ -89,7 +77,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.voie v on v.voie=p.voie
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
-			left join #DBSchema_qgis.sufexoneration as sufex on sufex.suf=suf.suf
 			left join #DBSchema_qgis.suftaxation as suftax on suftax.suf=suf.suf'::text)
 	proprietenonbatie(
 		id_local character varying(21),  
@@ -121,12 +108,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
  		drcsuba integer, 
  		pdl character varying(22), 
  		dnulot character varying(7), 
- 		ccolloc character varying(2), 
- 		gnexts character varying(2), 
- 		jandeb character varying(4),
- 		janimp character varying(4), 
- 		fcexb character varying(10), 
- 		pexn integer, 
  		dreflf character varying(5),
  		majposa integer,
 		bisufad integer,

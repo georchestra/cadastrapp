@@ -392,11 +392,13 @@ public class ReleveProprieteController extends CadController {
 
 				StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-				queryBuilderProprieteNonBatie.append("select distinct id_local, jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dparpi, gpafpd, ccostn, ccosub, cgrnum, dclssf, cnatsp, dcntsf, drcsuba, pdl, dnulot, ccolloc, jandeb, janimp, fcexb, dreflf, majposa, bisufad, bisufad_dep, bisufad_reg ");
+				queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.jdatat, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.dnvoiri, pnb.dindic, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.gpafpd, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.pdl, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jandeb, pnbsufexo.jfinex, pnbsufexo.fcexb, pnbsufexo.gnexts, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
 				queryBuilderProprieteNonBatie.append("from ");
 				queryBuilderProprieteNonBatie.append(databaseSchema);
-				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
-				queryBuilderProprieteNonBatie.append(" where pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
+				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
+				queryBuilderProprieteBatie.append(databaseSchema);
+				queryBuilderProprieteBatie.append(".proprietenonbatiesufexo pnbsufexo ");
+				queryBuilderProprieteNonBatie.append(" where pnb.cgocommune = pnbsufexo.cgocommune and pnb.id_local=pnbsufexo.id_local pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
 
 				logger.debug("Get undeveloped property information " );
 				List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal);
@@ -416,7 +418,7 @@ public class ReleveProprieteController extends CadController {
 					// "C";"Commune => l'exonération porte sur la seule part communale"
 					// "A";"l'exonération porte sur la taxe additionnelle"
 					String exonerationType = (String) propNonBat.get("ccolloc");
-					int exonerationValue = (Integer) propNonBat.get("rcexnba") == null ? 0 : (Integer) propNonBat.get("rcexnba");
+					int exonerationValue = (Integer) propNonBat.get("fcexb") == null ? 0 : (Integer) propNonBat.get("fcexb");
 					
 					if (exonerationType == "TC") {
 						pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
@@ -453,9 +455,9 @@ public class ReleveProprieteController extends CadController {
 					proprieteNonBatie.setGnextl((String) propNonBat.get("gnextl"));
 					proprieteNonBatie.setGpafpd((String) propNonBat.get("gpafpd"));
 					proprieteNonBatie.setJandeb((String) propNonBat.get("jandeb"));
-					proprieteNonBatie.setJanimp((String) propNonBat.get("janimp"));
+					proprieteNonBatie.setJanimp((String) propNonBat.get("jfinex"));
 					proprieteNonBatie.setJdatat((String) propNonBat.get("jdatat"));
-					proprieteNonBatie.setGnextl((String) propNonBat.get("gnextl"));
+					proprieteNonBatie.setGnextl((String) propNonBat.get("gnexts"));
 					proprieteNonBatie.setPdl((String) propNonBat.get("pdl"));
 					proprieteNonBatie.setPexb((String) propNonBat.get("pexn"));
 									

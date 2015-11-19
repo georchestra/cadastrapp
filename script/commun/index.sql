@@ -43,6 +43,10 @@ CREATE INDEX idxproprietebatiednubat ON #schema_cadastrapp.proprietebatie (dnuba
 CREATE INDEX idxproprietenonbatieparcelle ON #schema_cadastrapp.proprietenonbatie (parcelle);
 CREATE INDEX idxproprietenonbatiecgocommune ON #schema_cadastrapp.proprietenonbatie (cgocommune);
 
+-- ProprieteNonbatieSufExo
+CREATE INDEX idxproprietenonbatiesufexoparcelle ON #schema_cadastrapp.proprietenonbatiesufexo (parcelle);
+CREATE INDEX idxproprietenonbatiesufexocgocommune ON #schema_cadastrapp.proprietenonbatiesufexo (cgocommune);
+
 -- Section
 CREATE INDEX idxsectioncgocommune ON #schema_cadastrapp.section (cgocommune);
 CREATE INDEX idxsectioncgocommuneccosec ON #schema_cadastrapp.section (cgocommune, ccosec);
