@@ -78,7 +78,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		id_local character varying(21),  
 		jdatat character varying(10),  
 		comptecommunal character varying(15), 
-		dnupro character varying(6),
  		cgocommune character varying(6), 
  		ccopre character varying(3),
  		ccosec character varying(2),  
