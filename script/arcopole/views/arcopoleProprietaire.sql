@@ -81,7 +81,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 			gtyp5,
 			gtyp6,
 			dlign3,
-			ltrim(dlign4, '0') as dlign4,
+			ltrim(dlign4, ''0'') as dlign4,
 			dlign5,
 			dlign6,
 			ccopay,

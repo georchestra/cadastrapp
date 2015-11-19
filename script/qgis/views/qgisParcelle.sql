@@ -30,7 +30,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
  		'select 
 			parcelle,
 			ccodep||ccodir||ccocom as cgocommune,
-			ltrim(dnupla, '0') as dnupla,
+			ltrim(dnupla, ''0'') as dnupla,
 			dnvoiri,
 			dindic,
 			cconvo,
@@ -97,7 +97,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
    		'select 
 			parcelle,
 			ccodep||ccodir||ccocom as cgocommune,
-			ltrim(dnupla, '0') as dnupla,
+			ltrim(dnupla, ''0'') as dnupla,
 			dcntpa,
 			dsrpar,
 			jdatat,

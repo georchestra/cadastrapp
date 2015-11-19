@@ -52,7 +52,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			p.ccodep || p.ccodir ||	p.ccocom as cgocommune,
 			p.ccopre,
 			p.ccosec,
-			ltrim(p.dnupla, '0') as dnupla,
+			ltrim(p.dnupla, ''0'') as dnupla,
 			p.parcelle,
 			p.ccovoi,
 			p.voie,
