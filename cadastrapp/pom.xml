@@ -424,10 +424,14 @@
 								<goals><goal>copy-resources</goal></goals>
 								<configuration>
 									<overwrite>true</overwrite>
-									<outputDirectory>${basedir}/target/deb</outputDirectory>
+									<outputDirectory>${basedir}/target/deb/etc/georchestra/cadastrapp</outputDirectory>
 									<resources>
 										<resource>
-											<directory>src/deb/resources</directory>
+											<directory>src/main/resources</directory>
+											<includes>
+	          									<include>**/logback.xml</include>
+	          									<include>**/cadastrapp.properties</include>
+	        								</includes>
 										</resource>
 									</resources>
 								</configuration>
