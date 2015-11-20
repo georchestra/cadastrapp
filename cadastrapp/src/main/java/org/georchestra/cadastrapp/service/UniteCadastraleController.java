@@ -109,7 +109,6 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".commune c where p.parcelle = ? ");
 		queryBuilder.append(" and p.cgocommune = c.cgocommune ");
-		queryBuilder.append(addAuthorizationFiltering(headers, "c.")); 
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
