@@ -46,7 +46,6 @@ public class InfoBulleController extends CadController {
  
 		Map<String, Object> informations = null;
 		
-		//TODO simplify this
 		if(infocadastrale == 0 && infouf == 1){
 			informations = getInfoBulleUniteFonciere(headers, parcelle);
 		}else if (infocadastrale == 1 && infouf == 0){
@@ -149,13 +148,15 @@ public class InfoBulleController extends CadController {
 			// Create query
 			StringBuilder queryBuilder = new StringBuilder();
 		
-			//TODO add batical
-			queryBuilder.append("select proparc.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
+			queryBuilder.append("select uf.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelleDetails p, ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle proparc where proparc.parcelle = ? and proparc.parcelle = p.parcelle GROUP BY proparc.comptecommunal;");
-						
+			queryBuilder.append(".proprietaire_parcelle proparc, ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".uf_parcelle uf ");
+			queryBuilder.append(" where proparc.parcelle = ? and proparc.comptecommunal = uf.comptecommunal and p.parcelle=uf.parcelle GROUP BY uf.comptecommunal;");
+								
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
 		}
