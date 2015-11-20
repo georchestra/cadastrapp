@@ -102,7 +102,11 @@ public class CadController {
 	@Value("${webapp.url.services}")
 	protected String webappUrl;
 		
-	protected int cgoCommuneLength = 6;
+	@Value("${parcelleId.length}")
+	protected int parcelleIdLength;
+	
+	@Value("${cgoCommune.length}")
+	protected int cgoCommuneLength;
 	
 	/**
 	 * 
