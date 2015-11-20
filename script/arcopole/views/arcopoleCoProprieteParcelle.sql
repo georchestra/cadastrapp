@@ -15,7 +15,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.co_propriete_parcelle AS
 		from #DBSchema_arcopole.dgi_invar d 
 			left join #DBSchema_arcopole.dgi_local lo on lo.id_local = d.invar
 			left join #DBSchema_arcopole.dgi_lotloc ll on lo.id_local=ll.invloc'::text) 
-	proprietaire_parcelle(
+	co_propriete_parcelle(
 		lots character varying(255), 
 		parcelle character varying(16), 
 		comptecommunal character varying(12), 
