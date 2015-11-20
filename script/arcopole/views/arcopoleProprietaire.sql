@@ -90,7 +90,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 			ccomadr as ccocom_adr,
 			ccovoi,
 			ccoriv,
-			dnvoiri,
+			ltrim(dnvoiri, ''0'') as dnvoiri,
 			dindic,
 			ccopos,
 			dnirpp,

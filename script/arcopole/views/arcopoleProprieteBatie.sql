@@ -50,7 +50,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			ltrim(substr(invar.codparc,10,2), ''0'') ccosec ,
 			substr(invar.codparc,12,4) as dnupla,
 			local.jdatat,
-			invar.dnvoiri,
+			ltrim(invar.dnvoiri, ''0'') as dnvoiri,
 			invar.dindic,
 			voie.nature as natvoi,
 			invar.dvoilib,

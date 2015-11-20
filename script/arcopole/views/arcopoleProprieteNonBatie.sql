@@ -42,7 +42,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			ltrim(substr(nbati.codparc,10,2), ''0'') as ccosec ,
 			COALESCE(ltrim(to_char(nbati.dnupla,''999'')),'''') as dnupla,
 			local.jdatat,
-			invar.dnvoiri,
+			ltrim(invar.dnvoiri, ''0'') as dnvoiri,
 			invar.dindic,
 			voie.nature as natvoi,
 			invar.dvoilib,
