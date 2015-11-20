@@ -33,13 +33,13 @@
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="padding-top">10pt</xsl:attribute>
 		<xsl:attribute name="padding-bottom">10pt</xsl:attribute>
-		<xsl:attribute name="font-size">10pt</xsl:attribute>
+		<xsl:attribute name="font-size">14pt</xsl:attribute>
+		<xsl:attribute name="font-weight">bold</xsl:attribute>
 	</xsl:attribute-set>
 	
 	<!-- Format de text simple -->
 	<xsl:attribute-set name="text">
 		<xsl:attribute name="text-align">left</xsl:attribute>
-		<xsl:attribute name="padding-top">10pt</xsl:attribute>
 		<xsl:attribute name="font-size">9pt</xsl:attribute>
 	</xsl:attribute-set>
 
@@ -94,31 +94,34 @@
 								Extrait du plan	cadastral informatisé
 							</fo:block>
 
-							<fo:block xsl:use-attribute-sets="text">
-								Données MAJIC valides au
+							<fo:block xsl:use-attribute-sets="text" padding-top="10pt">
+								Données fonçières valides au
 								<xsl:value-of select="$dateDeValiditeMajic" />
 							</fo:block>
 							<fo:block xsl:use-attribute-sets="text">
-								Données EDIGEO valides au
+								Données cartographiques valides au
 								<xsl:value-of select="$dateDeValiditeEdigeo" />
 							</fo:block>
 							<fo:block xsl:use-attribute-sets="text">
 								Document créé le
 								<xsl:value-of select="$dateDeCreation" />
 							</fo:block>
-							<fo:block xsl:use-attribute-sets="text">
-								Fond de plan origine DGFiP - Reproduction interdite - Mesures données à titre indicatif
+							<fo:block xsl:use-attribute-sets="text" padding-top="10pt">
+								Fond de plan origine DGFiP - Reproduction interdite
 							</fo:block>
-
-							<fo:block xsl:use-attribute-sets="text-bold">
+							
+							<fo:block padding-top="10pt" font-size="8pt" font-weight="bold">
+								Les informations transmises ce jour le sont pour votre usage strictement personnel. Vous ne pouvez pas les communiquer à des tiers (art 13 loi Informatique et Libertés de 1978 modifiée 2004).
+							</fo:block>
+							<fo:block xsl:use-attribute-sets="text-bold" padding-top="20pt">
 								<xsl:value-of select="@libelleCommune" />
 							</fo:block>
-							<fo:block xsl:use-attribute-sets="text">
+							<fo:block xsl:use-attribute-sets="text" >
 								Parcelle cadastrale
 								<xsl:value-of select="@parcelleId" />
 							</fo:block>
 
-							<fo:block xsl:use-attribute-sets="text">
+							<fo:block xsl:use-attribute-sets="text" padding-top="10pt">
 								<xsl:value-of select="@adresseCadastrale" />
 							</fo:block>
 
@@ -127,7 +130,7 @@
 								<fo:table-column column-width="15%" />
 								<fo:table-column column-width="35%" />
 								<fo:table-column column-width="35%" />
-								<fo:table-body>
+								<fo:table-body padding-top="10pt">
 									<fo:table-row>
 										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text">
@@ -146,7 +149,7 @@
 										</fo:table-cell>
 										<fo:table-cell>
 											<fo:block xsl:use-attribute-sets="text">
-												surface cadastrale
+												contenance DGFiP
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
@@ -176,7 +179,7 @@
 							</fo:table>
 
 							<!--  owner date only if cnil1 right -->
-							<fo:block-container padding-top="10pt" height="10cm">
+							<fo:block-container padding-top="10pt" height="9cm">
 								<fo:block/>
 								<xsl:if test="proprietaires">
 									<xsl:for-each select="proprietaires/proprietaire">
