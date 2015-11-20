@@ -17,6 +17,20 @@
 	<context:component-scan base-package="org.georchestra.cadastrapp" />
 	<tx:annotation-driven/>
 	<jpa:repositories base-package="org.georchestra.cadastrapp.repository" />
+	
+	<!-- Only to load default_schema name in hibernate connection -->
+	<bean id="myPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  		<property name="ignoreResourceNotFound" value="true" />
+  		<property name="locations">
+  			<list>
+  				<value>classpath:cadastrapp.properties</value>
+  				<!-- <property name="ignoreUnresolvablePlaceholders" value="true" /> not working if ${georchestra.datadir} is not set  -->
+  				<!--  should be uncommented if use geOrchestra 15.12 and datadir -->
+  				<!--  <value>file:${georchestra.datadir}/cadastrapp/cadastrapp.properties</value>	-->	
+  			</list>
+  		</property> 
+  		<property name="placeholderPrefix" value="${props:"/>
+	</bean>
 
 	<jaxrs:server id="services" address="/">
 		<jaxrs:serviceBeans>
@@ -68,8 +82,8 @@
 		<property name="jpaProperties">
 			<props>
 
-				<!-- schema -->
-				<prop key="hibernate.default_schema">cadastrapp_qgis</prop>		
+				<!-- get schema name for cadastrapp.properties -->
+				<prop key="hibernate.default_schema">${props:schema.name}</prop>		
 						
 				<!-- dialect -->
 				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
