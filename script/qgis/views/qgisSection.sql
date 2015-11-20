@@ -8,8 +8,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.section AS
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis', 
 		'select 
 	   		distinct ccodep||ccodir||ccocom as cgocommune,
-			ccosec,
-			ccopre
+			ltrim(ccosec) as ccosec,
+			ltrim(ccopre) as ccopre
 		from #DBSchema_qgis.parcelle'::text)
 	parcelle(
 		cgocommune character varying(6), 

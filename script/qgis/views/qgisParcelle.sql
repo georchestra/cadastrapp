@@ -35,8 +35,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
 			dindic,
 			cconvo,
 			dvoilib,
-			ccopre,
-			ccosec,
+			ltrim(ccopre),
+			ltrim(ccosec),
 			dcntpa
 		from #DBSchema_qgis.parcelle'::text)
 	parcelle(
@@ -125,8 +125,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 			dnuplam,
 			type_filiation,
 			annee,
-			ccopre,
-			ccosec,
+			ltrim(ccopre),
+			ltrim(ccosec),
 			pdl,
 			inspireid 
 		from #DBSchema_qgis.parcelle'::text)
