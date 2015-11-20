@@ -84,8 +84,11 @@ public class CadController {
 	@Value("${cadastre.wfs.url}")
 	protected String wfsUrl;
 	
-	@Value("${cadastre.layer.name}")
-	protected String cadastreLayerName;
+	@Value("${cadastre.wms.layer.name}")
+	protected String cadastreWMSLayerName;
+	
+	@Value("${cadastre.wfs.layer.name}")
+	protected String cadastreWFSLayerName;
 	
 	@Value("${cadastre.format}")
 	protected String cadastreFormat;

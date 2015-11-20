@@ -33,7 +33,9 @@ public class ConfigurationController extends CadController {
 		
 		configuration.put("cadastreWFSURL", wfsUrl );
 		configuration.put("cadastreWMSURL", wmsUrl );
-		configuration.put("cadastreLayerName", cadastreLayerName); 
+		
+		configuration.put("cadastreWMSLayerName", cadastreWMSLayerName); 
+		configuration.put("cadastreWFSLayerName", cadastreWFSLayerName);
 		configuration.put("cadastreLayerIdParcelle", cadastreLayerIdParcelle);
 
 		configuration.put("cnil1RoleName", cnil1RoleName);

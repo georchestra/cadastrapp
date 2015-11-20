@@ -119,7 +119,7 @@ public class ImageParcelleController extends CadController {
 
 				SimpleFeatureSource source;
 
-				source = dataStore.getFeatureSource(cadastreLayerName);
+				source = dataStore.getFeatureSource(cadastreWFSLayerName);
 
 				// Make sure source have been found before making request filter
 				if (source != null) {
@@ -192,7 +192,7 @@ public class ImageParcelleController extends CadController {
 						// Add layer see to set this in configuration parameters
 						// Or use getCapatibilities
 						Layer layerParcelle = new Layer("Parcelle cadastrapp");
-						layerParcelle.setName(cadastreLayerName);
+						layerParcelle.setName(cadastreWMSLayerName);
 						requestParcelle.addLayer(layerParcelle);
 
 						// sets the dimensions check with PDF size available
