@@ -1,6 +1,8 @@
 Cadastrapp - Database Script
 =========================== 
 
+Prerequise for this installation, Postgresql 9.2 for materialized view, and have access to a arcopole or Qgis cadastre database.
+
 Database creation script for Arcopole and Qgis models.
 
 Application is base on views creation linked to specific model. To create new database you will need to active DBLINK extension for postgresql.
