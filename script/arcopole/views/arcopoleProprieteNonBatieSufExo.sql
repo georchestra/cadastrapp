@@ -38,7 +38,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 		gnexts character varying(2), 
 		jandeb character varying(4), 
 		jfinex character varying(4), 
-		fcexb character varying(10),
+		fcexb integer,
 		pexn integer);
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatiesufexo OWNER TO #user_cadastrapp;

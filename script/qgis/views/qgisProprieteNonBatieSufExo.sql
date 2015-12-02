@@ -22,7 +22,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			sufex.gnexts,
 			sufex.jandeb,
 			sufex.jfinex,
-			sufex.fcexn as fcexb,
+			CAST (sufex.rcexnba AS INTEGER) as fcexb,
 			sufex.pexn	
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
@@ -36,7 +36,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
  		gnexts character varying(2), 
  		jandeb character varying(4),
  		jfinex character varying(4), 
- 		fcexb character varying(10), 
+ 		fcexb integer, 
  		pexn integer);
 
 
