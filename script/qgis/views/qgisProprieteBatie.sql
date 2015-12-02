@@ -48,7 +48,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			ltrim(l.dnupla, ''0'') as dnupla,
 			COALESCE(to_char(l.jdatat, ''DD/MM/YYYY''), '''') as jdatat,
 			v.voie,
-			l.dnvoiri,
+			ltrim(l.dnvoiri,, ''0'') as dnvoiri,
 			l00.dindic,
 			v.natvoi,
 			l.ccovoi,

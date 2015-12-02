@@ -48,7 +48,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			p.ccovoi,
 			p.voie,
 			p.ccoriv,
-			p.dnvoiri,
+			ltrim(p.dnvoiri, ''0'') as dnvoiri,
 			p.dindic,
 			v.natvoi,
 			p.cconvo,
