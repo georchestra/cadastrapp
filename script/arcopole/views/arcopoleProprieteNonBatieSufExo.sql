@@ -24,7 +24,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			exosuf.jandeb,
 			exosuf.jfinex,
 			CAST (exosuf.rcexnba AS INTEGER) as rcexnba,
-			exosuf.fcexb2 as fcexn,
+			exosuf.vecexn as fcexn,
 			CAST (exosuf.pexn AS INTEGER) as pexn
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
