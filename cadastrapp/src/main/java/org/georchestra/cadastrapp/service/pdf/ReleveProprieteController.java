@@ -289,7 +289,7 @@ public class ReleveProprieteController extends CadController {
 
 				StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-				queryBuilderProprieteBatie.append("select distinct jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexn, mvltieomx, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg ");
+				queryBuilderProprieteBatie.append("select distinct jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg ");
 				queryBuilderProprieteBatie.append("from ");
 				queryBuilderProprieteBatie.append(databaseSchema);
 				queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -325,7 +325,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteBatie.setDpor((String) propBat.get("dpor"));
 					proprieteBatie.setDvltrl((String) propBat.get("dvltrl"));
 					proprieteBatie.setDvoilib((String) propBat.get("voie"));
-					proprieteBatie.setFcexn((String) propBat.get("fcexn"));
+					proprieteBatie.setFcexn((String) propBat.get("fcexb"));
 					proprieteBatie.setGnextl((String) propBat.get("gnextl"));
 					proprieteBatie.setJandeb((String) propBat.get("jandeb"));
 					proprieteBatie.setJanimp((String) propBat.get("janimp"));
