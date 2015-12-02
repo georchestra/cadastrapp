@@ -10,7 +10,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 		proprietenonbatiesufexo.gnexts, 
 		proprietenonbatiesufexo.jandeb, 
 		proprietenonbatiesufexo.jfinex,  
-		proprietenonbatiesufexo.fcexb,
+		proprietenonbatiesufexo.rcexnba,
+		proprietenonbatiesufexo.fcexn,
 		proprietenonbatiesufexo.pexn
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
@@ -22,7 +23,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			exosuf.gnexts,
 			exosuf.jandeb,
 			exosuf.jfinex,
-			CAST (exosuf.rcexnba AS INTEGER) as fcexb,
+			CAST (exosuf.rcexnba AS INTEGER) as rcexnba,
+			exosuf.fcexb2 as fcexn,
 			CAST (exosuf.pexn AS INTEGER) as pexn
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
@@ -38,7 +40,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 		gnexts character varying(2), 
 		jandeb character varying(4), 
 		jfinex character varying(4), 
-		fcexb integer,
+		rcexnba integer,
+		fcexn character varying(9),
 		pexn integer);
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatiesufexo OWNER TO #user_cadastrapp;

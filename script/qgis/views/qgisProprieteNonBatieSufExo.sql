@@ -10,7 +10,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 		proprietenonbatiesufexo.gnexts, 
 		proprietenonbatiesufexo.jandeb, 
 		proprietenonbatiesufexo.jfinex, 
-		proprietenonbatiesufexo.fcexb, 
+		proprietenonbatiesufexo.rcexnba, 
+		proprietenonbatiesufexo.fcexn, 
 		proprietenonbatiesufexo.pexn
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
@@ -22,7 +23,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			sufex.gnexts,
 			sufex.jandeb,
 			sufex.jfinex,
-			CAST (sufex.rcexnba AS INTEGER) as fcexb,
+			CAST (sufex.rcexnba AS INTEGER) as rcexnba,
+			sufex.fcexn,
 			sufex.pexn	
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
@@ -36,7 +38,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
  		gnexts character varying(2), 
  		jandeb character varying(4),
  		jfinex character varying(4), 
- 		fcexb integer, 
+ 		rcexnba integer, 
+ 		fcexn character varying(10),
  		pexn integer);
 
 

@@ -245,13 +245,13 @@ public class ReleveProprieteController extends CadController {
 				List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
 
 				StringBuilder queryBuilderProprietaire = new StringBuilder();
-				queryBuilderProprietaire.append("select prop.comptecommunal, ccodem_lib, dldnss, jdatnss,  ccodro_lib, prop.ccoqua_lib||' '||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");
+				queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, ccodem_lib, dldnss, jdatnss,  ccodro_lib, prop.ccoqua_lib||' '||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");
 				queryBuilderProprietaire.append("from ");
 				queryBuilderProprietaire.append(databaseSchema);
 				queryBuilderProprietaire.append(".proprietaire prop ");
-				queryBuilderProprietaire.append("where prop.comptecommunal = ?");
-				// TODO add order by dnulp
+				queryBuilderProprietaire.append("where prop.comptecommunal = ? ");
 				queryBuilderProprietaire.append(addAuthorizationFiltering(headers));
+				queryBuilderProprietaire.append("order by prop.dnulp DESC ");
 
 				logger.debug("Get owners information " );
 				List<Map<String, Object>> proprietairesResult = jdbcTemplate.queryForList(queryBuilderProprietaire.toString(), idCompteCommunal);
@@ -289,7 +289,7 @@ public class ReleveProprieteController extends CadController {
 
 				StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-				queryBuilderProprieteBatie.append("select distinct jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg ");
+				queryBuilderProprieteBatie.append("select distinct jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexn, mvltieomx, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg ");
 				queryBuilderProprieteBatie.append("from ");
 				queryBuilderProprieteBatie.append(databaseSchema);
 				queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -325,7 +325,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteBatie.setDpor((String) propBat.get("dpor"));
 					proprieteBatie.setDvltrl((String) propBat.get("dvltrl"));
 					proprieteBatie.setDvoilib((String) propBat.get("voie"));
-					proprieteBatie.setFcexb((String) propBat.get("fcexb"));
+					proprieteBatie.setFcexn((String) propBat.get("fcexn"));
 					proprieteBatie.setGnextl((String) propBat.get("gnextl"));
 					proprieteBatie.setJandeb((String) propBat.get("jandeb"));
 					proprieteBatie.setJanimp((String) propBat.get("janimp"));
@@ -392,7 +392,7 @@ public class ReleveProprieteController extends CadController {
 
 				StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-				queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.jdatat, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.dnvoiri, pnb.dindic, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.gpafpd, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.pdl, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jandeb, pnbsufexo.jfinex, pnbsufexo.fcexb, pnbsufexo.gnexts, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
+				queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.jdatat, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.dnvoiri, pnb.dindic, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.gpafpd, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.pdl, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jandeb, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.gnexts, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
 				queryBuilderProprieteNonBatie.append("from ");
 				queryBuilderProprieteNonBatie.append(databaseSchema);
 				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
@@ -418,7 +418,7 @@ public class ReleveProprieteController extends CadController {
 					// "C";"Commune => l'exonération porte sur la seule part communale"
 					// "A";"l'exonération porte sur la taxe additionnelle"
 					String exonerationType = (String) propNonBat.get("ccolloc");
-					int exonerationValue = (Integer) propNonBat.get("fcexb") == null ? 0 : (Integer) propNonBat.get("fcexb");
+					int exonerationValue = (Integer) propNonBat.get("rcexnba") == null ? 0 : (Integer) propNonBat.get("rcexnba");
 					
 					if (exonerationType == "TC") {
 						pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
@@ -451,7 +451,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 					proprieteNonBatie.setDsgrpf((String) propNonBat.get("dsgrpf"));
 					proprieteNonBatie.setDvoilib((String) propNonBat.get("voie"));
-					proprieteNonBatie.setFcexb((String) propNonBat.get("fcexb"));
+					proprieteNonBatie.setFcexn((String) propNonBat.get("fcexn"));
 					proprieteNonBatie.setGnextl((String) propNonBat.get("gnextl"));
 					proprieteNonBatie.setGpafpd((String) propNonBat.get("gpafpd"));
 					proprieteNonBatie.setJandeb((String) propNonBat.get("jandeb"));

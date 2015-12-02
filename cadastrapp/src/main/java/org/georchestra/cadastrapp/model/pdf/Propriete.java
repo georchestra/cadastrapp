@@ -45,7 +45,7 @@ public abstract class Propriete {
 	String janimp;
 
 	// Fraction EC exonérée
-	String fcexb;
+	String fcexn;
 	
 	// Taux d'éxonération accordée
 	String pexb;
@@ -234,16 +234,16 @@ public abstract class Propriete {
 	/**
 	 * @return the fcexb
 	 */
-	public String getFcexb() {
-		return fcexb;
+	public String getFcexn() {
+		return fcexn;
 	}
 
 	@XmlAttribute
 	/**
 	 * @param fcexb the fcexb to set
 	 */
-	public void setFcexb(String fcexb) {
-		this.fcexb = fcexb;
+	public void setFcexn(String fcexn) {
+		this.fcexn = fcexn;
 	}
 
 	/**
