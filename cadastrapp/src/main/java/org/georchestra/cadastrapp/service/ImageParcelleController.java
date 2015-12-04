@@ -212,40 +212,45 @@ public class ImageParcelleController extends CadController {
 
 						Graphics2D g2 = finalImage.createGraphics();
 
-						logger.debug("WMS call for basemap with URL : " + baseMapWMSUrl);
+						// Add basemap only if parameter is defined
+						if (baseMapWMSUrl != null && baseMapWMSUrl.length() > 1){
+							// Get basemap image with good BBOX
+							try {
+								logger.debug("WMS call for basemap with URL : " + baseMapWMSUrl);
+								URL baseMapUrl = new URL(baseMapWMSUrl);
+								WebMapServer wms = new WebMapServer(baseMapUrl);
 
-						// Get basemap image with good BBOX
-						try {
-							URL baseMapUrl = new URL(baseMapWMSUrl);
-							WebMapServer wms = new WebMapServer(baseMapUrl);
+								GetMapRequest request = wms.createGetMapRequest();
+								request.setFormat(baseMapFormat);
 
-							GetMapRequest request = wms.createGetMapRequest();
-							request.setFormat(baseMapFormat);
+								// Add layer see to set this in configuration
+								// parameters
+								// Or use getCapatibilities
+								Layer layer = new Layer("OpenStreetMap : carte style 'google'");
+								layer.setName(baseMapLayerName);
+								request.addLayer(layer);
 
-							// Add layer see to set this in configuration
-							// parameters
-							// Or use getCapatibilities
-							Layer layer = new Layer("OpenStreetMap : carte style 'google'");
-							layer.setName(baseMapLayerName);
-							request.addLayer(layer);
+								// sets the dimensions check with PDF size
+								// available
+								request.setDimensions(pdfImageWidth, pdfImageHeight);
+								request.setSRS(baseMapSRS);
 
-							// sets the dimensions check with PDF size available
-							request.setDimensions(pdfImageWidth, pdfImageHeight);
-							request.setSRS(baseMapSRS);
+								// setBBox from Feature information
+								request.setBBox(bounds);
 
-							// setBBox from Feature information
-							request.setBBox(bounds);
+								GetMapResponse baseMapResponse;
 
-							GetMapResponse baseMapResponse;
-
-							baseMapResponse = (GetMapResponse) wms.issueRequest(request);
-							logger.debug("Create basemap picture");
-							baseMapImage = ImageIO.read(baseMapResponse.getInputStream());
-							g2.drawImage(baseMapImage, 0, 0, null);
-						} catch (ServiceException e) {
-							logger.error("Error while getting basemap image, no basemap will be displayed on image", e);
-						} catch (IOException e) {
-							logger.error("Error while getting basemap image, no basemap will be displayed on image", e);
+								baseMapResponse = (GetMapResponse) wms.issueRequest(request);
+								logger.debug("Create basemap picture");
+								baseMapImage = ImageIO.read(baseMapResponse.getInputStream());
+								g2.drawImage(baseMapImage, 0, 0, null);
+							} catch (ServiceException e) {
+								logger.error("Error while getting basemap image, no basemap will be displayed on image", e);
+							} catch (IOException e) {
+								logger.error("Error while getting basemap image, no basemap will be displayed on image", e);
+							}
+						}else{
+							logger.debug("No basemapurl given, non basemap will be add ");
 						}
 
 						logger.debug("Add feature to final picture");
@@ -380,6 +385,7 @@ public class ImageParcelleController extends CadController {
 
 	/**
 	 * Draw selected plot in blue
+	 * 
 	 * @param g2
 	 * @param geometry
 	 */
@@ -387,7 +393,7 @@ public class ImageParcelleController extends CadController {
 
 		logger.debug("Add selected feature ");
 		if (geometry != null) {
-			
+
 			// Transform JTS in awt
 			ShapeWriter sw = new ShapeWriter();
 			Shape plot = sw.toShape(geometry);
