@@ -39,10 +39,11 @@ public class CSVExportController extends CadController {
 		final String csvFileName = tempFolder + File.separator + "export-" + new Date().getTime() + ".csv";
 
 		final String DELIMITER = "\n";
+		File file = null;
 		
 		try {
-			File file = new File(csvFileName);
-			
+			file = new File(csvFileName);
+
 			FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
 
 			for (String value : values){
@@ -58,6 +59,11 @@ public class CSVExportController extends CadController {
 
 		} catch (IOException e) {
 			logger.error("Error while creating CSV files : " + e.getMessage());
+		}
+		finally{
+			if(file != null){
+				file.deleteOnExit();
+			}
 		}
 
 		return response.build();
