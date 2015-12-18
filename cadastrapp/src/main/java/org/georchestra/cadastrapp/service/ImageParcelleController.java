@@ -333,13 +333,17 @@ public class ImageParcelleController extends CadController {
 	 * 
 	 * @throws TransformException
 	 */
-	private void drawScale(Graphics2D g2, int imageHeight, int imageWidth, int distanceVisible) throws TransformException {
+	private void drawScale(Graphics2D g2, int imageHeight, double imageWidth, int distanceVisible) throws TransformException {
 
 		logger.debug("Add scale ");
 
-		if (distanceVisible > 0) {
+		if (distanceVisible > 0 && imageWidth > 0) {
 			// define 1 pt size in meters
-			final int pixelSize = imageWidth / distanceVisible;
+			final double pixelSize = distanceVisible / imageWidth;
+			
+			logger.debug("Pixels size :  " + pixelSize);
+			logger.debug("Image width : " + imageWidth);
+			logger.debug("Visible distance : " + distanceVisible);
 
 			// Start x and y for scale bar
 			final int scaleX = 50;
@@ -349,14 +353,14 @@ public class ImageParcelleController extends CadController {
 			final int width = 100;
 			final int divisionCount = 2;
 
-			final int distance = width * pixelSize / divisionCount;
+			final double distance = width * pixelSize / divisionCount;
 			final String unit = "mètres";
 			final String Zmin = "0";
-			final String Zmax = distance + " " + unit;
-
-			// Create grey globla rectangle with label and scale bar in it
+			final String Zmax = (int) distance + " " + unit;
+			
+			// Create grey global rectangle with label and scale bar in it
 			g2.setColor(new Color(255, 255, 255, 127));
-			g2.fill(new Rectangle2D.Double(scaleX, scaleY - 23, width + 10, 23));
+			g2.fill(new Rectangle2D.Double(scaleX - 5, scaleY - 23, width + 10, 23));
 
 			final int scalebare = (int) Math.round(width / divisionCount);
 			for (int i = 0; i < divisionCount; i++) {
@@ -366,7 +370,9 @@ public class ImageParcelleController extends CadController {
 					g2.setColor(new Color(25, 25, 25, 175));
 				}
 				g2.setColor(new Color(83, 83, 83, 115));
-				g2.fill(new Rectangle2D.Double(scaleX - 5, scaleY - 10, scalebare, 5));
+				
+				// Scalebar position
+				g2.fill(new Rectangle2D.Double(scaleX + 5, scaleY - 10, scalebare, 5));
 			}
 
 			Font fnt = new Font("Verdana", Font.PLAIN, 11);
