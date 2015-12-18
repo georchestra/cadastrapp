@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" 
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
 						 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
@@ -13,24 +12,39 @@
 						 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	    
+
 	<context:component-scan base-package="org.georchestra.cadastrapp" />
-	<tx:annotation-driven/>
+	<tx:annotation-driven />
 	<jpa:repositories base-package="org.georchestra.cadastrapp.repository" />
-	
+
 	<!-- Only to load default_schema name in hibernate connection -->
-	<bean id="myPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-  		<property name="ignoreResourceNotFound" value="true" />
-  		<property name="locations">
-  			<list>
-  				<value>classpath:cadastrapp.properties</value>
-  				<!-- <property name="ignoreUnresolvablePlaceholders" value="true" /> not working if ${georchestra.datadir} is not set  -->
-  				<!--  should be uncommented if use geOrchestra 15.12 and datadir -->
-  				<!--  <value>file:${georchestra.datadir}/cadastrapp/cadastrapp.properties</value>	-->	
-  			</list>
-  		</property> 
-  		<property name="placeholderPrefix" value="${props:"/>
+	<bean id="cadPropertyConfigurer1"
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:cadastrapp.properties</value>
+			</list>
+		</property>
+		<property name="order" value="0" />
+		<property name="placeholderPrefix" value="${props:" />
 	</bean>
+
+	<bean id="cadPropertyConfigurer2"
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:#{systemProperties['georchestra.datadir']}/cadastrapp/cadastrapp.properties
+				</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="order" value="1" />
+		<property name="placeholderPrefix" value="${props:" />
+	</bean>
+
+
+
 
 	<jaxrs:server id="services" address="/">
 		<jaxrs:serviceBeans>
@@ -43,7 +57,8 @@
 			<bean class="org.georchestra.cadastrapp.service.ImageParcelleController" />
 			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
 			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />
-			<bean class="org.georchestra.cadastrapp.service.RequestInformationController" />
+			<bean
+				class="org.georchestra.cadastrapp.service.RequestInformationController" />
 			<bean class="org.georchestra.cadastrapp.service.SectionController" />
 			<bean class="org.georchestra.cadastrapp.service.UniteCadastraleController" />
 			<bean class="org.georchestra.cadastrapp.service.UniteFonciereController" />
@@ -51,8 +66,10 @@
 
 			<bean class="org.georchestra.cadastrapp.service.export.CSVExportController" />
 
-			<bean class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
-			<bean class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
+			<bean
+				class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
+			<bean
+				class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
 			<bean class="org.georchestra.cadastrapp.service.pdf.RequestPDFController" />
 
 		</jaxrs:serviceBeans>
@@ -64,7 +81,8 @@
 		</jaxrs:providers>
 	</jaxrs:server>
 
-	<!--  DataSource information using jndi, this datasource is used directly via JDBCTemplate and via Spring repository -->
+	<!-- DataSource information using jndi, this datasource is used directly 
+		via JDBCTemplate and via Spring repository -->
 	<bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/cadastrapp" />
 	</bean>
@@ -83,8 +101,8 @@
 			<props>
 
 				<!-- get schema name for cadastrapp.properties -->
-				<prop key="hibernate.default_schema">${props:schema.name}</prop>		
-						
+				<prop key="hibernate.default_schema">${props:schema.name}</prop>
+
 				<!-- dialect -->
 				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
 				<prop key="hibernate.connection.useUnicode">true</prop>
@@ -103,7 +121,7 @@
 				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
 				<prop key="hibernate.jdbc.fetch_size">16</prop>
 
-				<!-- logging debug information, change this to debug-->
+				<!-- logging debug information, change this to debug -->
 				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.generate_statistics">false</prop>
