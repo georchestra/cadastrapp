@@ -32,13 +32,13 @@ public class ConfigurationController {
 		
 		configuration.put("minNbCharForSearch", CadastrappPlaceHolder.getProperty("minNbCharForSearch"));
 		
-		configuration.put("cadastreWFSURL", CadastrappPlaceHolder.getProperty("wfsUrl"));
-		configuration.put("cadastreWMSURL", CadastrappPlaceHolder.getProperty("wmsUrl"));
+		configuration.put("cadastreWFSURL", CadastrappPlaceHolder.getProperty("cadastre.wfs.url"));
+		configuration.put("cadastreWMSURL", CadastrappPlaceHolder.getProperty("cadastre.wms.url"));
 		
-		configuration.put("cadastreWMSLayerName", CadastrappPlaceHolder.getProperty("cadastreWMSLayerName")); 
-		configuration.put("cadastreWFSLayerName", CadastrappPlaceHolder.getProperty("cadastreWFSLayerName"));
+		configuration.put("cadastreWMSLayerName", CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name")); 
+		configuration.put("cadastreWFSLayerName", CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name"));
 		
-		configuration.put("cadastreLayerIdParcelle", CadastrappPlaceHolder.getProperty("cadastreLayerIdParcelle"));
+		configuration.put("cadastreLayerIdParcelle", CadastrappPlaceHolder.getProperty("cadastre.layer.idParcelle"));
 
 		configuration.put("cnil1RoleName", CadastrappPlaceHolder.getProperty("cnil1RoleName"));
 		configuration.put("cnil2RoleName", CadastrappPlaceHolder.getProperty("cnil2RoleName"));
