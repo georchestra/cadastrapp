@@ -48,11 +48,11 @@ import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vividsolutions.jts.awt.GeometryCollectionShape;
 import com.vividsolutions.jts.awt.ShapeWriter;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Image Parcelle Controller
@@ -76,7 +76,7 @@ public class ImageParcelleController extends CadController {
 	final private String ESPG3857 = "EPSG:3857";
 
 	final private String ESPG900913 = "EPSG:900913";
-	
+
 	final private int SRID900913 = 900913;
 
 	/**
@@ -97,9 +97,9 @@ public class ImageParcelleController extends CadController {
 
 		// Create empty reponse for default value
 		ResponseBuilder response = Response.noContent();
-		
+
 		final int parcelleIdLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("parcelleId.length"));
-		
+
 		// Check parcelle value, at least
 		if (parcelle != null && parcelle.length() > parcelleIdLength) {
 
@@ -111,7 +111,6 @@ public class ImageParcelleController extends CadController {
 			// Get parcelle geo information
 			// get featureById
 			final String wfsUrl = CadastrappPlaceHolder.getProperty("cadastre.wfs.url");
-
 
 			String getCapabilities = wfsUrl + URL_GET_CAPABILITIES;
 
@@ -127,7 +126,7 @@ public class ImageParcelleController extends CadController {
 				dataStore = dsf.createDataStore(connectionParameters);
 
 				SimpleFeatureSource source;
-				
+
 				final String cadastreWFSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
 				final String cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("cadastre.layer.idParcelle");
 
@@ -151,11 +150,14 @@ public class ImageParcelleController extends CadController {
 
 						bounds = parcelleFeature.getBounds();
 						Geometry targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
-						
-						// ESPG3857 is not known by geotools 10.8 so changeit by ESPG900913
+
+						Geometry bufferGeometry = null;
+
+						// ESPG3857 is not known by geotools 10.8 so changeit by
+						// ESPG900913
 						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
-						
-						if (cadastreSRS.equals(ESPG3857) && targetGeometry!= null) {
+
+						if (cadastreSRS.equals(ESPG3857) && targetGeometry != null) {
 							crs = CRS.decode(ESPG900913);
 							targetGeometry.setSRID(SRID900913);
 						}
@@ -165,18 +167,19 @@ public class ImageParcelleController extends CadController {
 							logger.error("CRS not known by geotools, no buffering can be made, scale won't be seeing on image");
 
 						} else {
-							logger.debug("CRS : " + crs);					
-							logger.debug("Geometry SRID : " +targetGeometry.getSRID());
+							logger.debug("CRS : " + crs);
+							logger.debug("Geometry SRID : " + targetGeometry.getSRID());
 
-							logger.debug("Create buffer");					
-							targetGeometry = targetGeometry.buffer(bufferDistance);
-							
+							logger.debug("Create buffer");
+							bufferGeometry = targetGeometry.buffer(bufferDistance);
+
 							// transform JTS enveloppe to geotools enveloppe
-							Envelope envelope = targetGeometry.getEnvelopeInternal();
+							Envelope envelope = bufferGeometry.getEnvelopeInternal();
 
 							bounds = JTS.getEnvelope2D(envelope, crs);
 
-							// Get distance beetween two point here bounds is used
+							// Get distance beetween two point here bounds is
+							// used
 
 							Coordinate start = new Coordinate(bounds.getMinX(), bounds.getMinY());
 							Coordinate end = new Coordinate(bounds.getMaxX(), bounds.getMinY());
@@ -199,7 +202,7 @@ public class ImageParcelleController extends CadController {
 						final String cadastreWMSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
 						final int pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageWidth"));
 						final int pdfImageHeight = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageHeight"));
-												
+
 						URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
 
 						logger.debug("WMS URL : " + parcelleWMSUrl);
@@ -232,10 +235,10 @@ public class ImageParcelleController extends CadController {
 						Graphics2D g2 = finalImage.createGraphics();
 
 						// Add basemap only if parameter is defined
-						
+
 						final String baseMapWMSUrl = CadastrappPlaceHolder.getProperty("baseMap.WMS.url");
-						
-						if (baseMapWMSUrl != null && baseMapWMSUrl.length() > 1){
+
+						if (baseMapWMSUrl != null && baseMapWMSUrl.length() > 1) {
 							// Get basemap image with good BBOX
 							try {
 								logger.debug("WMS call for basemap with URL : " + baseMapWMSUrl);
@@ -243,9 +246,9 @@ public class ImageParcelleController extends CadController {
 								WebMapServer wms = new WebMapServer(baseMapUrl);
 
 								GetMapRequest request = wms.createGetMapRequest();
-								
+
 								final String baseMapFormat = CadastrappPlaceHolder.getProperty("baseMap.format");
-								
+
 								request.setFormat(baseMapFormat);
 
 								// Add layer see to set this in configuration
@@ -253,7 +256,7 @@ public class ImageParcelleController extends CadController {
 								// Or use getCapatibilities
 								Layer layer = new Layer("OpenStreetMap : carte style 'google'");
 								final String baseMapLayerName = CadastrappPlaceHolder.getProperty("baseMap.layer.name");
-								
+
 								layer.setName(baseMapLayerName);
 								request.addLayer(layer);
 
@@ -261,7 +264,7 @@ public class ImageParcelleController extends CadController {
 								// available
 								request.setDimensions(pdfImageWidth, pdfImageHeight);
 								final String baseMapSRS = CadastrappPlaceHolder.getProperty("baseMap.SRS");
-								
+
 								request.setSRS(baseMapSRS);
 
 								// setBBox from Feature information
@@ -278,7 +281,7 @@ public class ImageParcelleController extends CadController {
 							} catch (IOException e) {
 								logger.error("Error while getting basemap image, no basemap will be displayed on image", e);
 							}
-						}else{
+						} else {
 							logger.debug("No basemapurl given, non basemap will be add ");
 						}
 
@@ -295,10 +298,10 @@ public class ImageParcelleController extends CadController {
 						}
 
 						g2.dispose();
-						
+
 						// Get temp folder from properties file
 						final String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
-						
+
 						File file = new File(tempFolder + File.separator + "BP-" + parcelle + ".png");
 						file.deleteOnExit();
 						ImageIO.write(finalImage, "png", file);
@@ -372,7 +375,7 @@ public class ImageParcelleController extends CadController {
 		if (distanceVisible > 0 && imageWidth > 0) {
 			// define 1 pt size in meters
 			final double pixelSize = distanceVisible / imageWidth;
-			
+
 			logger.debug("Pixels size :  " + pixelSize);
 			logger.debug("Image width : " + imageWidth);
 			logger.debug("Visible distance : " + distanceVisible);
@@ -389,7 +392,7 @@ public class ImageParcelleController extends CadController {
 			final String unit = "mètres";
 			final String Zmin = "0";
 			final String Zmax = (int) distance + " " + unit;
-			
+
 			// Create grey global rectangle with label and scale bar in it
 			g2.setColor(new Color(255, 255, 255, 127));
 			g2.fill(new Rectangle2D.Double(scaleX - 5, scaleY - 23, width + 10, 23));
@@ -402,7 +405,7 @@ public class ImageParcelleController extends CadController {
 					g2.setColor(new Color(25, 25, 25, 175));
 				}
 				g2.setColor(new Color(83, 83, 83, 115));
-				
+
 				// Scalebar position
 				g2.fill(new Rectangle2D.Double(scaleX + 5, scaleY - 10, scalebare, 5));
 			}
@@ -432,15 +435,47 @@ public class ImageParcelleController extends CadController {
 		logger.debug("Add selected feature ");
 		if (geometry != null) {
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("Geometry SRID " + geometry.getSRID());
+				logger.debug("Geometry Type " + geometry.getGeometryType());
+			}
+
 			// Transform JTS in awt
 			ShapeWriter sw = new ShapeWriter();
-			Shape plot = sw.toShape((Polygon) geometry);
 
-			// draw in blue with transparence
-			g2.setColor(new Color(20, 255, 255, 128));
-			g2.draw(plot);
-			g2.setColor(new Color(20, 20, 255, 128));
-			g2.fill(plot);
+			// Geometry is can be a multipolygon and Java 1.7 awt does not display
+			// GeometryCollectionShape, so we have to loop on each polygon
+			for (int i = 0; i < geometry.getNumGeometries(); i++) {
+				Geometry g = (Geometry) geometry.getGeometryN(i);
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("Geometry " + i + " SRID " + g.getSRID());
+					logger.debug("Geometry " + i + " Type " + g.getGeometryType());
+				}
+
+				// Set SRID when using not knwon ESPG
+				if (ESPG3857.equals(CadastrappPlaceHolder.getProperty("cadastre.SRS")) && g != null) {
+					g.setSRID(SRID900913);
+				}
+
+				Shape plot = sw.toShape(g);
+
+				if (logger.isDebugEnabled()) {
+					logger.debug("Shape width : " + plot.getBounds2D().getWidth());
+					logger.debug("Shape heigh : " + plot.getBounds2D().getHeight());
+					logger.debug("Shape MinX : " + plot.getBounds2D().getMinX());
+					logger.debug("Shape MinY : " + plot.getBounds2D().getMinY());
+					logger.debug("Shape MaxY : " + plot.getBounds2D().getMaxY());
+					logger.debug("Shape MaxX : " + plot.getBounds2D().getMaxX());
+				}
+
+				// draw in blue with transparence
+				g2.setColor(new Color(20, 255, 255, 128));
+				g2.draw(plot);
+				g2.setColor(new Color(20, 20, 255, 128));
+				g2.fill(plot);
+			}
+
 		} else {
 			logger.error("No plot were given, cannot draw it on image");
 		}
