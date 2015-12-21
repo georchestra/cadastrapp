@@ -2,6 +2,8 @@
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
     <display-name>Cadastrapp</display-name>
     <description>Webapp supplémentaire pour la visualisation de données cadastrale dans georchestra</description>
+    
+    <!--  Load it first so properties can be use in servlet as well -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>WEB-INF/beans.xml</param-value>
@@ -25,6 +27,17 @@
    <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
    </welcome-file-list>
+   
+   <!-- Test folder on startup -->
+    <servlet>
+        <servlet-name>InitFolderServlet</servlet-name>
+        <servlet-class>org.georchestra.cadastrapp.servlet.InitFolderServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>        
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InitFolderServlet</servlet-name>
+        <url-pattern>/init/*</url-pattern>
+    </servlet-mapping>
         
     <!-- Define service endpoint -->
     <servlet>
