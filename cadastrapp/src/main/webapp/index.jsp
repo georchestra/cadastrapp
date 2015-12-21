@@ -20,7 +20,7 @@
   			<sql:query  var="rs"  dataSource="jdbc/cadastrapp"> SELECT datname FROM pg_database;</sql:query>      
         </c:catch>
         
-      	<div>Status :
+      	<div>Database link :
       		<c:choose>
       	   	 	<c:when test = "${catchException != null}">KO</c:when>
 				<c:otherwise>OK</c:otherwise>
