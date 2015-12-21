@@ -69,6 +69,9 @@ public class SectionController extends CadController {
 			
 		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre, queryParams));
 		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec, queryParams));
+		if(isSearchFiltered){
+    		queryBuilder.append(addAuthorizationFiltering(headers));
+    	}
 		queryBuilder.append(" ORDER BY ccopre, ccosec ");
 		queryBuilder.append(finalizeQuery());
 					

@@ -75,6 +75,8 @@ public class ImageParcelleController extends CadController {
 	final private String ESPG3857 = "EPSG:3857";
 
 	final private String ESPG900913 = "EPSG:900913";
+	
+	final private int SRID900913 = 900913;
 
 	/**
 	 * Using a given parcelle id, this service will get feature from WFS
@@ -165,16 +167,21 @@ public class ImageParcelleController extends CadController {
 							logger.debug("CRS : " + crs);
 
 							logger.debug("Create buffer");
+							
 							targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
+							
+							if (cadastreSRS.equals(ESPG3857)) {
+								targetGeometry.setSRID(SRID900913);
+							}
+							
 							targetGeometry = targetGeometry.buffer(bufferDistance);
-
+							
 							// transform JTS enveloppe to geotools enveloppe
 							Envelope envelope = targetGeometry.getEnvelopeInternal();
 
 							bounds = JTS.getEnvelope2D(envelope, crs);
 
-							// Get distance beetween two point here bounds is
-							// used
+							// Get distance beetween two point here bounds is used
 
 							Coordinate start = new Coordinate(bounds.getMinX(), bounds.getMinY());
 							Coordinate end = new Coordinate(bounds.getMaxX(), bounds.getMinY());
@@ -195,8 +202,8 @@ public class ImageParcelleController extends CadController {
 						final String wmsUrl = CadastrappPlaceHolder.getProperty("cadastre.wms.url");
 						final String cadastreFormat = CadastrappPlaceHolder.getProperty("cadastre.format");
 						final String cadastreWMSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
-						final int pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("cadastre.format"));
-						final int pdfImageHeight = Integer.parseInt(CadastrappPlaceHolder.getProperty("cadastre.format"));
+						final int pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageWidth"));
+						final int pdfImageHeight = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageHeight"));
 												
 						URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
 

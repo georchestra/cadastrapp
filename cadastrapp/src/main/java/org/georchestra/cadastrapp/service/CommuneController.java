@@ -113,6 +113,9 @@ public class CommuneController extends CadController{
 	    		queryBuilder.append(createLikeClauseRequest("cgocommune", cgoCommune, queryParams));     
 	  		
 	    	}
+	    	if(isSearchFiltered){
+	    		queryBuilder.append(addAuthorizationFiltering(headers));
+	    	}
 	    	queryBuilder.append(" order by libcom ");
 	    	queryBuilder.append(finalizeQuery());
 	         
