@@ -1,6 +1,6 @@
 <ehcache 
 	updateCheck="false"
-	monitoring="autodetect" dynamicConfig="true">
+	monitoring="autodetect" dynamicConfig="false">
 
 	<diskStore path="java.io.tmpdir" />
 
