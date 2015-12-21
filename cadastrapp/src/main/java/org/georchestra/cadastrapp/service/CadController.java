@@ -8,13 +8,9 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import javax.ws.rs.core.HttpHeaders;
 
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -22,94 +18,24 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author gfi
  *
  */
-@Configuration
-@PropertySource(value = {"classpath:cadastrapp.properties",
-			"file:${georchestra.datadir}/cadastrapp/cadastrapp.properties"}, ignoreResourceNotFound = true)
 public class CadController {
 	
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-		return new PropertySourcesPlaceholderConfigurer();
-	 }
 	
 	final static Logger logger = LoggerFactory.getLogger(CadController.class);
 
 	private boolean isWhereAdded;
 	
-	@Value("${schema.name}")
-	protected String databaseSchema;
-	
 	@Resource(name = "dbDataSource")
 	protected DataSource dataSource;
-
-	@Value("${cnil1RoleName}")
-	protected String cnil1RoleName;
 	
-	@Value("${cnil2RoleName}")
+	protected String databaseSchema;
+	
 	protected String cnil2RoleName;
 	
-	@Value("${minNbCharForSearch}")
+	protected String cnil1RoleName;
+	
 	protected int minNbCharForSearch;
 	
-	@Value("${pdf.imageHeight}")
-	protected int pdfImageHeight;
-	
-	@Value("${pdf.imageWidth}")
-	protected int pdfImageWidth;
-	
-	@Value("${pdf.dateValiditeDonneesMajic}")
-	protected String dateValiditeDonneesMajic;
-	
-	@Value("${pdf.dateValiditeDonneesEDIGEO}")
-	protected String dateValiditeDonneesEDIGEO;
-
-	@Value("${pdf.organisme}")
-	protected String organisme;
-	
-	@Value("${baseMap.WMS.url}")
-	protected String baseMapWMSUrl;
-			
-	@Value("${baseMap.layer.name}")
-	protected String baseMapLayerName;
-			
-	@Value("${baseMap.format}")
-	protected String baseMapFormat;
-			
-	@Value("${baseMap.SRS}")
-	protected String baseMapSRS;
-
-	@Value("${cadastre.wms.url}")
-	protected String wmsUrl;
-	
-	@Value("${cadastre.wfs.url}")
-	protected String wfsUrl;
-	
-	@Value("${cadastre.wms.layer.name}")
-	protected String cadastreWMSLayerName;
-	
-	@Value("${cadastre.wfs.layer.name}")
-	protected String cadastreWFSLayerName;
-	
-	@Value("${cadastre.format}")
-	protected String cadastreFormat;
-	
-	@Value("${cadastre.SRS}")
-	protected String cadastreSRS;
-	
-	@Value("${cadastre.layer.idParcelle}")
-	protected String cadastreLayerIdParcelle;
-	
-	@Value("${tempFolder}")
-	protected String tempFolder;
-	
-	@Value("${webapp.url.services}")
-	protected String webappUrl;
-		
-	@Value("${parcelleId.length}")
-	protected int parcelleIdLength;
-	
-	@Value("${cgoCommune.length}")
-	protected int cgoCommuneLength;
 	
 	/**
 	 * 
@@ -117,6 +43,10 @@ public class CadController {
 	public CadController() {
 		super();
 		this.isWhereAdded = false;
+		this.databaseSchema = CadastrappPlaceHolder.getProperty("schema.name");
+		this.cnil1RoleName = CadastrappPlaceHolder.getProperty("cnil1RoleName");
+		this.cnil2RoleName = CadastrappPlaceHolder.getProperty("cnil2RoleName");
+		this.minNbCharForSearch = Integer.parseInt(CadastrappPlaceHolder.getProperty("minNbCharForSearch"));
 	}
 	
 	/**

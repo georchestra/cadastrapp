@@ -15,6 +15,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,9 @@ public class CSVExportController extends CadController {
 	public Response CSVExport(@Context HttpHeaders headers, @QueryParam("data") List<String> values) {
 
 		ResponseBuilder response = Response.serverError();
+		
+		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
+	    
 
 		final String csvFileName = tempFolder + File.separator + "export-" + new Date().getTime() + ".csv";
 

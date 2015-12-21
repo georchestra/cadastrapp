@@ -37,6 +37,7 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.CompteCommunal;
 import org.georchestra.cadastrapp.model.pdf.Imposition;
 import org.georchestra.cadastrapp.model.pdf.ImpositionNonBatie;
@@ -71,6 +72,8 @@ public class ReleveProprieteController extends CadController {
 		
 		// Check if parcelle list is not empty
 		if (comptesCommunaux != null && !comptesCommunaux.isEmpty()) {
+			
+			String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 
 			// Pdf temporary filename using tmp folder and timestamp
 			final String pdfTmpFileName = tempFolder + File.separator + "RP" + new Date().getTime();
@@ -195,6 +198,9 @@ public class ReleveProprieteController extends CadController {
 		RelevePropriete relevePropriete = new RelevePropriete();
 		
 		logger.debug("Get information to fill releve propriete ");
+		
+		final String dateValiditeDonneesMajic = CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesMajic");
+		final String organisme = CadastrappPlaceHolder.getProperty("pdf.organisme");
 
 		// Information d'entête
 		relevePropriete.setAnneMiseAJour(dateValiditeDonneesMajic);

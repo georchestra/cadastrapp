@@ -8,11 +8,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class ConfigurationController extends CadController {
+public class ConfigurationController {
 
 	final static Logger logger = LoggerFactory.getLogger(ConfigurationController.class);
 	
@@ -29,17 +30,18 @@ public class ConfigurationController extends CadController {
 		
 		Map<String, Object> configuration = new HashMap<String, Object>();
 		
-		configuration.put("minNbCharForSearch",minNbCharForSearch);
+		configuration.put("minNbCharForSearch", CadastrappPlaceHolder.getProperty("minNbCharForSearch"));
 		
-		configuration.put("cadastreWFSURL", wfsUrl );
-		configuration.put("cadastreWMSURL", wmsUrl );
+		configuration.put("cadastreWFSURL", CadastrappPlaceHolder.getProperty("wfsUrl"));
+		configuration.put("cadastreWMSURL", CadastrappPlaceHolder.getProperty("wmsUrl"));
 		
-		configuration.put("cadastreWMSLayerName", cadastreWMSLayerName); 
-		configuration.put("cadastreWFSLayerName", cadastreWFSLayerName);
-		configuration.put("cadastreLayerIdParcelle", cadastreLayerIdParcelle);
+		configuration.put("cadastreWMSLayerName", CadastrappPlaceHolder.getProperty("cadastreWMSLayerName")); 
+		configuration.put("cadastreWFSLayerName", CadastrappPlaceHolder.getProperty("cadastreWFSLayerName"));
+		
+		configuration.put("cadastreLayerIdParcelle", CadastrappPlaceHolder.getProperty("cadastreLayerIdParcelle"));
 
-		configuration.put("cnil1RoleName", cnil1RoleName);
-		configuration.put("cnil2RoleName", cnil2RoleName);
+		configuration.put("cnil1RoleName", CadastrappPlaceHolder.getProperty("cnil1RoleName"));
+		configuration.put("cnil2RoleName", CadastrappPlaceHolder.getProperty("cnil2RoleName"));
 		
 		return configuration;
 	}

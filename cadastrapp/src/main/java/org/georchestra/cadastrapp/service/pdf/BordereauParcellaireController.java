@@ -39,6 +39,7 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
 import org.georchestra.cadastrapp.model.pdf.Parcelle;
 import org.georchestra.cadastrapp.model.pdf.Proprietaire;
@@ -83,6 +84,7 @@ public class BordereauParcellaireController extends CadController {
 			if(parcelleList.size() ==1) {	
 				newParcelleList = Arrays.asList(parcelleList.get(0).split("\\s|;|,"));
 			}
+			String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 			
 			// Pdf temporary filename using tmp folder and timestamp
 			final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();
@@ -220,6 +222,11 @@ public class BordereauParcellaireController extends CadController {
 
 		logger.debug("Parcelle List : " + parcelleList);
 		
+		final String dateValiditeDonneesMajic = CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesMajic");
+		final String organisme = CadastrappPlaceHolder.getProperty("pdf.organisme");
+		final String dateValiditeDonneesEDIGEO = CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesEDIGEO");
+		final String webappUrl = CadastrappPlaceHolder.getProperty("webapp.url.services");
+
 		
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
 

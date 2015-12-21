@@ -34,14 +34,14 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.request.InformationRequest;
 import org.georchestra.cadastrapp.repository.RequestRepository;
-import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class RequestPDFController extends CadController {
+public class RequestPDFController{
 
 	final static Logger logger = LoggerFactory.getLogger(RequestPDFController.class);
 
@@ -64,6 +64,8 @@ public class RequestPDFController extends CadController {
 			InformationRequest requestInformation = requestRepository.findByRequestId(requestId);
 
 			if (requestInformation != null) {
+				
+				String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 
 				// Pdf temporary filename using tmp folder and timestamp
 				final String pdfTmpFileName = tempFolder + File.separator + "DemandeInformation" + new Date().getTime();

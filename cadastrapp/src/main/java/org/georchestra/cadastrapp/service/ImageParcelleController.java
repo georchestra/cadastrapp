@@ -23,6 +23,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.geotools.data.ows.Layer;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
@@ -93,7 +94,9 @@ public class ImageParcelleController extends CadController {
 
 		// Create empty reponse for default value
 		ResponseBuilder response = Response.noContent();
-
+		
+		final int parcelleIdLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("parcelleId.length"));
+		
 		// Check parcelle value, at least
 		if (parcelle != null && parcelle.length() > parcelleIdLength) {
 
@@ -104,6 +107,9 @@ public class ImageParcelleController extends CadController {
 
 			// Get parcelle geo information
 			// get featureById
+			final String wfsUrl = CadastrappPlaceHolder.getProperty("cadastre.wfs.url");
+
+
 			String getCapabilities = wfsUrl + URL_GET_CAPABILITIES;
 
 			logger.debug("Call WFS with plot Id " + parcelle + " and WFS URL : " + getCapabilities);
@@ -118,6 +124,9 @@ public class ImageParcelleController extends CadController {
 				dataStore = dsf.createDataStore(connectionParameters);
 
 				SimpleFeatureSource source;
+				
+				final String cadastreWFSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
+				final String cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("cadastre.layer.idParcelle");
 
 				source = dataStore.getFeatureSource(cadastreWFSLayerName);
 
@@ -139,6 +148,8 @@ public class ImageParcelleController extends CadController {
 
 						// ESPG3857 is not known by geotools 10.8 so changeit by
 						// ESPG900913
+						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
+
 						if (cadastreSRS.equals(ESPG3857)) {
 							crs = CRS.decode(ESPG900913);
 						}
@@ -181,6 +192,12 @@ public class ImageParcelleController extends CadController {
 
 						logger.debug("Call WMS for plot");
 						// Get parcelle image with good BBOX
+						final String wmsUrl = CadastrappPlaceHolder.getProperty("cadastre.wms.url");
+						final String cadastreFormat = CadastrappPlaceHolder.getProperty("cadastre.format");
+						final String cadastreWMSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
+						final int pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("cadastre.format"));
+						final int pdfImageHeight = Integer.parseInt(CadastrappPlaceHolder.getProperty("cadastre.format"));
+												
 						URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
 
 						logger.debug("WMS URL : " + parcelleWMSUrl);
@@ -213,6 +230,9 @@ public class ImageParcelleController extends CadController {
 						Graphics2D g2 = finalImage.createGraphics();
 
 						// Add basemap only if parameter is defined
+						
+						final String baseMapWMSUrl = CadastrappPlaceHolder.getProperty("baseMap.WMS.url");
+						
 						if (baseMapWMSUrl != null && baseMapWMSUrl.length() > 1){
 							// Get basemap image with good BBOX
 							try {
@@ -221,18 +241,25 @@ public class ImageParcelleController extends CadController {
 								WebMapServer wms = new WebMapServer(baseMapUrl);
 
 								GetMapRequest request = wms.createGetMapRequest();
+								
+								final String baseMapFormat = CadastrappPlaceHolder.getProperty("baseMap.format");
+								
 								request.setFormat(baseMapFormat);
 
 								// Add layer see to set this in configuration
 								// parameters
 								// Or use getCapatibilities
 								Layer layer = new Layer("OpenStreetMap : carte style 'google'");
+								final String baseMapLayerName = CadastrappPlaceHolder.getProperty("baseMap.layer.name");
+								
 								layer.setName(baseMapLayerName);
 								request.addLayer(layer);
 
 								// sets the dimensions check with PDF size
 								// available
 								request.setDimensions(pdfImageWidth, pdfImageHeight);
+								final String baseMapSRS = CadastrappPlaceHolder.getProperty("baseMap.SRS");
+								
 								request.setSRS(baseMapSRS);
 
 								// setBBox from Feature information
@@ -266,7 +293,10 @@ public class ImageParcelleController extends CadController {
 						}
 
 						g2.dispose();
-
+						
+						// Get temp folder from properties file
+						final String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
+						
 						File file = new File(tempFolder + File.separator + "BP-" + parcelle + ".png");
 						file.deleteOnExit();
 						ImageIO.write(finalImage, "png", file);

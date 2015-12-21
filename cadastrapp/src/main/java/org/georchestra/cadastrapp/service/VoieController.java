@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -47,6 +48,9 @@ public class VoieController extends CadController {
 		List<Map<String, Object>> voies = new ArrayList<Map<String, Object>>();
 	   	List<String> queryParams = new ArrayList<String>();
 		
+	   	int cgoCommuneLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("cgoCommuneLength"));
+	    
+	   	
 		if (cgoCommune != null && cgoCommuneLength!=cgoCommune.length()-1 && 
 				dvoilib != null && minNbCharForSearch <= dvoilib.length()){
 						

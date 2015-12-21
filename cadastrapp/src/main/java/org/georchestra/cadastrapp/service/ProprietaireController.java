@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -73,6 +74,8 @@ public class ProprietaireController extends CadController{
     	logger.info("details : " + details);
     	// User need to be at least CNIL1 level
     	if (getUserCNILLevel(headers)>0){
+    		
+    		int cgoCommuneLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("cgoCommuneLength"));
     	    
     		// No search if all parameters are null or dnomlpPariel less than n char
     		// when searching by dnupro, cgocommune is mandatory
