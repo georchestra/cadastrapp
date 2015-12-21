@@ -52,6 +52,7 @@ import com.vividsolutions.jts.awt.ShapeWriter;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Image Parcelle Controller
@@ -148,32 +149,26 @@ public class ImageParcelleController extends CadController {
 
 						CoordinateReferenceSystem crs = parcelleFeature.getBounds().getCoordinateReferenceSystem();
 
-						// ESPG3857 is not known by geotools 10.8 so changeit by
-						// ESPG900913
+						bounds = parcelleFeature.getBounds();
+						Geometry targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
+						
+						// ESPG3857 is not known by geotools 10.8 so changeit by ESPG900913
 						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
-
-						if (cadastreSRS.equals(ESPG3857)) {
+						
+						if (cadastreSRS.equals(ESPG3857) && targetGeometry!= null) {
 							crs = CRS.decode(ESPG900913);
+							targetGeometry.setSRID(SRID900913);
 						}
 
-						bounds = parcelleFeature.getBounds();
-						Geometry targetGeometry = null;
-
 						// If CRS null
-						if (crs == null) {
+						if (crs == null || targetGeometry == null) {
 							logger.error("CRS not known by geotools, no buffering can be made, scale won't be seeing on image");
 
 						} else {
-							logger.debug("CRS : " + crs);
+							logger.debug("CRS : " + crs);					
+							logger.debug("Geometry SRID : " +targetGeometry.getSRID());
 
-							logger.debug("Create buffer");
-							
-							targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
-							
-							if (cadastreSRS.equals(ESPG3857)) {
-								targetGeometry.setSRID(SRID900913);
-							}
-							
+							logger.debug("Create buffer");					
 							targetGeometry = targetGeometry.buffer(bufferDistance);
 							
 							// transform JTS enveloppe to geotools enveloppe
@@ -439,7 +434,7 @@ public class ImageParcelleController extends CadController {
 
 			// Transform JTS in awt
 			ShapeWriter sw = new ShapeWriter();
-			Shape plot = sw.toShape(geometry);
+			Shape plot = sw.toShape((Polygon) geometry);
 
 			// draw in blue with transparence
 			g2.setColor(new Color(20, 255, 255, 128));
