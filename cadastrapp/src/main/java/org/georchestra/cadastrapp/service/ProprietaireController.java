@@ -75,7 +75,7 @@ public class ProprietaireController extends CadController{
     	// User need to be at least CNIL1 level
     	if (getUserCNILLevel(headers)>0){
     		
-    		int cgoCommuneLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("cgoCommuneLength"));
+    		int cgoCommuneLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("cgoCommune.length"));
     	    
     		// No search if all parameters are null or dnomlpPariel less than n char
     		// when searching by dnupro, cgocommune is mandatory

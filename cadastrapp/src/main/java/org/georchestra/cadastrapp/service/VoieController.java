@@ -48,7 +48,7 @@ public class VoieController extends CadController {
 		List<Map<String, Object>> voies = new ArrayList<Map<String, Object>>();
 	   	List<String> queryParams = new ArrayList<String>();
 		
-	   	int cgoCommuneLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("cgoCommuneLength"));
+	   	int cgoCommuneLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("cgoCommune.length"));
 	    
 	   	
 		if (cgoCommune != null && cgoCommuneLength!=cgoCommune.length()-1 && 
