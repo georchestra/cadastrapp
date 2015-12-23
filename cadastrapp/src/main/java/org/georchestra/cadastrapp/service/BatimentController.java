@@ -53,7 +53,7 @@ public class BatimentController extends CadController {
 			StringBuilder queryBuilder = new StringBuilder();
 			
 			// CNIL Niveau 2
-			queryBuilder.append("select distinct hab.annee, pb.invar, pb.descr, pb.dniv, pb.dpor, hab.ccoaff_lib, ");
+			queryBuilder.append("select distinct pb.jannat as annee, pb.invar, pb.descr, pb.dniv, pb.dpor, hab.ccoaff_lib, pb.dvltrt, ");
 			queryBuilder.append("prop.comptecommunal, prop.dnupro, prop.ddenom, prop.dnomlp, prop.dprnlp, prop.epxnee, prop.dnomcp, prop.dprncp ");
 			queryBuilder.append("from ");
 			queryBuilder.append(databaseSchema);
