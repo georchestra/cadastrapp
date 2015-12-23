@@ -42,7 +42,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS
 			ltrim(dnvoiri, ''0'') as dnvoiri,
 			dindic,
 			cconvo,
-			dvoilib,
+			rtrim(dvoilib),
 			ltrim(ccopre),
 			ltrim(ccosec),
 			dcntpa
