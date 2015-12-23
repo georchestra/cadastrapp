@@ -34,8 +34,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation as SELECT *
 			gesclc,
 			gasclc,
 			gvorlc,
-			dmatgm,
-			dmatto,
 			cconad1.cconad_lib as cconad_ga,
 			cconad2.cconad_lib as cconav_cv,
 			cconad3.cconad_lib as cconad_gr,
@@ -43,7 +41,9 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation as SELECT *
 			dep1_dsueic  as dsueic_ga,
 			dep2_dsueic  as dsueic_cv,dep3_dsueic  
 			as dsueic_gr,
-			dep4_dsueic  as dsueic_tr
+			dep4_dsueic  as dsueic_tr,
+			dmatgm,
+			dmatto
 		from #DBSchema_qgis.pev
 			left join #DBSchema_qgis.pevprincipale pevp on pev.pev=pevp.pev
 			left join #DBSchema_qgis.ccoaff on pev.ccoaff=ccoaff.ccoaff
