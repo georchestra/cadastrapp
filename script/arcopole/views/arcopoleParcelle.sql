@@ -1,15 +1,21 @@
 -- Create view parcelle, parcelledetails, v_parcelle_surfc based on Arcopole Models
 
 -- Create view for parcelle surface
-CREATE MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc as select  parcelle, surfc
+CREATE MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc as select  parcelle, surfc, surfb
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
-			distinct id_parc as parcelle,
-			round(st_area(shape)) as surfc 
-		from #DBSchema_arcopole.edi_parc'::text)
+			distinct ep.id_parc as parcelle,
+			round(st_area(ep.shape)) as surfc, 
+			round(st_area(eb.shape)) as surfb
+		from #DBSchema_arcopole.edi_parc as ep
+		left join #DBSchema_arcopole.edi_bati as eb on eb.id_parc = ep.id_parc
+		group by ep.id_parc, ep.shape		
+		'::text)
 	parcelle_surfc(
 		parcelle character varying(19),
-		surfc float);
+		surfc float, 
+		surfb float);
+		
 	
 ALTER TABLE #schema_cadastrapp.v_parcelle_surfc OWNER TO #user_cadastrapp;
 

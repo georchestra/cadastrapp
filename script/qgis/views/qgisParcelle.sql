@@ -2,15 +2,23 @@
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.v_parcelle_surfc AS
 	SELECT  v_parcelle_surfc.parcelle,
-			v_parcelle_surfc.surfc 
+			v_parcelle_surfc.surfc, 
+			v_parcelle_surfc.surfb 
 		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 			'select distinct 
-				geo_parcelle as parcelle,
-				round(st_area(geom)) as surfc 
-			from #DBSchema_qgis.geo_parcelle'::text)
+				gp.geo_parcelle as parcelle,
+				round(st_area(gp.geom)) as surfc, 
+				sum(round(st_area(gb.geom))) as surfb 
+			from #DBSchema_qgis.geo_parcelle as gp
+			left join DBSchema_qgis.geo_batiment_parcelle as gbp on gbp.geo_parcelle = gp.geo_parcelle
+			left join DBSchema_qgis.geo_batiment as gb on gb.geo_batiment = gbp.geo_batiment
+			group by gp.geo_parcelle, gp.geom		
+			'::text)
 	v_parcelle_surfc(
 		parcelle character varying(19),
-		surfc float);
+		surfc float,
+		surfb float);
+		
 
 ALTER TABLE #schema_cadastrapp.v_parcelle_surfc OWNER TO #user_cadastrapp;
 
@@ -168,4 +176,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 	left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelledetails.parcelle=p2.parcelle;
 
 ALTER TABLE #schema_cadastrapp.parcelleDetails OWNER TO #user_cadastrapp;
+
+
 
