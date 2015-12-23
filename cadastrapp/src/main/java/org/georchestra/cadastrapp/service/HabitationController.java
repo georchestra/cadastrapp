@@ -69,12 +69,12 @@ public class HabitationController extends CadController {
 		queryBuilder.append("select hab.dnudes, hab.detent, hab.dsupdc, hab.dnbniv, hab.dnbpdc, ");
 		queryBuilder.append("hab.dnbppr, hab.dnbsam, hab.dnbcha, hab.dnbcu8, hab.dnbcu9, hab.dnbsea, hab.dnbann, hab.dnbbai, hab.dnbdou, hab.dnblav, ");
 		queryBuilder.append("hab.dnbwc, hab.geaulc, hab.gelelc, hab.ggazlc, hab.gchclc, hab.gteglc, hab.gesclc, hab.gasclc, hab.gvorlc, ");
-		queryBuilder.append("toit.description as dmatgm, mur.description as dmatto");
+		queryBuilder.append("toit.description as dmatgmdesc, mur.description as dmattodesc");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".deschabitation hab , ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".prop_prop_dmatto toit, ");
+		queryBuilder.append(".prop_dmatto toit, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".prop_dmatgm mur");
 		queryBuilder.append(" where hab.annee = ? and hab.invar = ? ");
@@ -116,12 +116,12 @@ public class HabitationController extends CadController {
 		
 		// CNIL Niveau 2
 		queryBuilder.append("select dep.dnudes, dep.cconad_lib, dep.dsudep, dep.dnbbai, dep.dnbdou, dep.dnblav, dep.dnbwc, dep.geaulc, dep.gelelc, dep.gchclc, ");
-		queryBuilder.append("toit.description as dmatgm, mur.description as dmatto");
+		queryBuilder.append("toit.description as dmatgmdesc, mur.description as dmattodesc");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".descdependance dep , ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".prop_prop_dmatto toit, ");
+		queryBuilder.append(".prop_dmatto toit, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".prop_dmatgm mur");
 		queryBuilder.append(" where dep.annee = ? and dep.invar = ? ");
