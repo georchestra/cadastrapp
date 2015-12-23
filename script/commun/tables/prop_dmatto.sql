@@ -8,9 +8,8 @@ ALTER TABLE #schema_cadastrapp.prop_dmatto OWNER TO #user_cadastrapp;
 
 
 ALTER TABLE ONLY #schema_cadastrapp.prop_dmatto
-    ADD CONSTRAINT ccodem_pkey PRIMARY KEY (code);
+    ADD CONSTRAINT code_dmatto_pkey PRIMARY KEY (code);
     
-    #schema_cadastrapp.prop_dmatto (
     
 INSERT INTO #schema_cadastrapp.prop_dmatto (code, description) VALUES ('10', 'Tuiles et indéterminé');
 INSERT INTO #schema_cadastrapp.prop_dmatto (code, description) VALUES ('20', 'Ardoises et indéterminé');

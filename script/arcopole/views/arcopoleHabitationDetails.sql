@@ -53,8 +53,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			gesclc,
 			gasclc,
 			gvorlc,
-			dmatgm,
-			dmatto,
 			cconad1.description as cconad_ga,
 			cconad2.description as cconad_cv,
 			cconad3.description as cconad_gr,
@@ -62,7 +60,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			dsueic_ga,
 			dsueic_cv,
 			dsueic_gr,
-			dsueic_tr
+			dsueic_tr,
+			dmatgm,
+			dmatto
 		from #DBSchema_arcopole.DGI_PEV  as pev 
   			left join #DBSchema_arcopole.dgi_phab pevp on pev.id_pev=pevp.id_pev
 			left join #DBSchema_arcopole.dom_ccoaff as ccoaff on pev.ccoaff=ccoaff.code  

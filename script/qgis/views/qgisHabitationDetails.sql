@@ -140,7 +140,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS
 			descdependance.dnbwc,
 			descdependance.geaulc,
 			descdependance.gelelc,
-			descdependance.gchclc
+			descdependance.gchclc,
 			descdependance.dmatgm,
 			descdependance.dmatto
 		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,

@@ -8,7 +8,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc as select  parcelle
 			round(st_area(ep.shape)) as surfc, 
 			round(st_area(eb.shape)) as surfb
 		from #DBSchema_arcopole.edi_parc as ep
-		left join #DBSchema_arcopole.edi_bati as eb on eb.id_parc = ep.id_parc
+		left join #DBSchema_arcopole.edi_bati as eb on eb.codparc = ep.id_parc
 		group by ep.id_parc, ep.shape		
 		'::text)
 	parcelle_surfc(
