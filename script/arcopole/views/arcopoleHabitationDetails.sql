@@ -53,6 +53,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			gesclc,
 			gasclc,
 			gvorlc,
+			dmatgm,
+			dmatto,
 			cconad1.description as cconad_ga,
 			cconad2.description as cconad_cv,
 			cconad3.description as cconad_gr,
@@ -107,7 +109,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			dsueic_ga numeric, 
 			dsueic_cv numeric, 
 			dsueic_gr numeric, 
-			dsueic_tr numeric);
+			dsueic_tr numeric,
+			dmatgm character varying(2), 
+			dmatto character varying(2));
 
 ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
@@ -127,7 +131,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 			dnbwc,
 			geaulc,
 			GELECL as gelelc,
-			gchclc
+			gchclc,
+			dmatgm,
+			dmatto
 		from #DBSchema_arcopole.dgi_dep as pevdependances
 			left join #DBSchema_arcopole.dom_cconad as cconad on pevdependances.cconad=cconad.code'::text) 
 	descdependance(
@@ -143,7 +149,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 		dnbwc character varying(2), 
 		geaulc character varying(1), 
 		gelelc character varying(1), 
-		gchclc character varying(1));
+		gchclc character varying(1),
+		dmatgm character varying(2), 
+		dmatto character varying(2));
 
 ALTER TABLE #schema_cadastrapp.descdependance OWNER TO #user_cadastrapp;
 

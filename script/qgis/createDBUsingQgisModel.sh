@@ -22,6 +22,7 @@
 # Change version | Author |    Date    | Comments
 #	1.0		     | Pje	  | 07/02/2015 | Init
 #	1.1			 | Pje    | 08/07/2015 | Change user creation and management
+#   1.2			 | Pje	  | 23/12/2015 | Add properties tables
 #
 #////////////////////////////////////////////////////////////////////
 
@@ -131,6 +132,8 @@ replaceAndLaunch ../commun/tables/prop_ccodro.sql
 replaceAndLaunch ../commun/tables/prop_ccoqua.sql
 replaceAndLaunch ../commun/tables/prop_ccogrm.sql
 replaceAndLaunch ../commun/tables/prop_dnatpr.sql
+replaceAndLaunch ../commun/tables/prop_dmatto.sql
+replaceAndLaunch ../commun/tables/prop_dmatgm.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 replaceAndLaunch ./views/qgisCommune.sql

@@ -17,12 +17,13 @@
 # @since  
 # @brief  
 # @date   15/06/2015
-# Version : 1.0
+# Version : 1.3
 # 
 # Change version | Author |    Date    | Comments
 #	1.0		     | Pje	  | 15/06/2015 | Init
 #	1.1			 | Pje    | 08/07/2015 | Add proprieteBatie et ProprieteNonBatie
 #   1.2			 | Pje	  | 29/07/2015 | Add parameters
+#   1.3			 | Pje	  | 23/12/2015 | Add properties tables
 #////////////////////////////////////////////////////////////////////
 
 
@@ -130,6 +131,8 @@ replaceAndLaunch ../commun/tables/prop_ccodro.sql
 replaceAndLaunch ../commun/tables/prop_ccoqua.sql
 replaceAndLaunch ../commun/tables/prop_ccogrm.sql
 replaceAndLaunch ../commun/tables/prop_dnatpr.sql
+replaceAndLaunch ../commun/tables/prop_dmatto.sql
+replaceAndLaunch ../commun/tables/prop_dmatgm.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 echo "--------------------------------";

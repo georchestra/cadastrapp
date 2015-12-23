@@ -34,6 +34,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation as SELECT *
 			gesclc,
 			gasclc,
 			gvorlc,
+			dmatgm,
+			dmatto,
 			cconad1.cconad_lib as cconad_ga,
 			cconad2.cconad_lib as cconav_cv,
 			cconad3.cconad_lib as cconad_gr,
@@ -89,7 +91,9 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation as SELECT *
 		dsueic_ga integer,
 		dsueic_cv integer,
 		dsueic_gr  integer,
-		dsueic_tr  integer
+		dsueic_tr  integer,
+		dmatgm character varying(2),
+		dmatto character varying(2)
 		);
 
 ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
@@ -137,6 +141,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS
 			descdependance.geaulc,
 			descdependance.gelelc,
 			descdependance.gchclc
+			descdependance.dmatgm,
+			descdependance.dmatto
 		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 			'select 
 				pev,
@@ -151,7 +157,9 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS
 				dnbwc,
 				geaulc,
 				gelelc,
-				gchclc
+				gchclc,
+				dmatgm,
+				dmatto
 			from #DBSchema_qgis.pevdependances
 				left join #DBSchema_qgis.cconad on pevdependances.cconad=cconad.cconad
 				order by annee,invar'::text)
@@ -168,7 +176,9 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS
 		dnbwc character varying(2),
 		geaulc character varying(1),
 		gelelc  character varying(1),
-		gchclc  character varying(1)
+		gchclc  character varying(1),
+		dmatgm character varying(2),
+		dmatto character varying(2)
 	);
 
 ALTER TABLE #schema_cadastrapp.descdependance OWNER TO #user_cadastrapp;
