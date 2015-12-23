@@ -96,7 +96,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 			parcelledetails.ccosec,  
 			parcelledetails.pdl, 
 			parcelledetails.inspireid, 
-			surfc
+			surfc,
+			surfb
 		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select
 			codparc as parcelle,

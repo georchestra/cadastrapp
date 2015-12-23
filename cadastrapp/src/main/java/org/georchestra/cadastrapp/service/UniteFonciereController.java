@@ -43,7 +43,7 @@ public class UniteFonciereController extends CadController {
 			// Create query
 			StringBuilder queryBuilder = new StringBuilder();
 			
-			queryBuilder.append("select uf.uf, uf.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
+			queryBuilder.append("select uf.uf, uf.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum, sum(p.surfb) as sigcalb_sum from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelleDetails p, ");
 			queryBuilder.append(databaseSchema);
