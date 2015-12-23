@@ -10,8 +10,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.v_parcelle_surfc AS
 				round(st_area(gp.geom)) as surfc, 
 				sum(round(st_area(gb.geom))) as surfb 
 			from #DBSchema_qgis.geo_parcelle as gp
-			left join DBSchema_qgis.geo_batiment_parcelle as gbp on gbp.geo_parcelle = gp.geo_parcelle
-			left join DBSchema_qgis.geo_batiment as gb on gb.geo_batiment = gbp.geo_batiment
+			left join #DBSchema_qgis.geo_batiment_parcelle as gbp on gbp.geo_parcelle = gp.geo_parcelle
+			left join #DBSchema_qgis.geo_batiment as gb on gb.geo_batiment = gbp.geo_batiment
 			group by gp.geo_parcelle, gp.geom		
 			'::text)
 	v_parcelle_surfc(
