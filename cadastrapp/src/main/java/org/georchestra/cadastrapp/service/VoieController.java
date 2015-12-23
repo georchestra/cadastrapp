@@ -58,7 +58,8 @@ public class VoieController extends CadController {
 			StringBuilder queryBuilder = new StringBuilder();				
 			queryBuilder.append("select distinct cconvo, dvoilib from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".parcelle where cgocommune = ? and UPPER(dvoilib) LIKE UPPER(?) ;");
+			queryBuilder.append(".parcelle where cgocommune = ? and UPPER(dvoilib) LIKE UPPER(?) ");
+			queryBuilder.append(" ORDER BY dvoilib;");
 			
 			// Add parameter to statement
 			queryParams.add(cgoCommune);
