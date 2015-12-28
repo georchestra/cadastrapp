@@ -4,7 +4,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 	SELECT 
 		proprietebatie.id_local,
 		proprietebatie.parcelle,
-		proprietebatie.comptecommunal , 
+		proprietebatie.comptecommunal, 
 		proprietebatie.dnupro,
 		proprietebatie.cgocommune,
 		proprietebatie.ccopre,
@@ -38,7 +38,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.vlbaia,
 		proprietebatie.vlbaia_com,
 		proprietebatie.vlbaia_dep,
-		proprietebatie.vlbaia_reg   
+		proprietebatie.vlbaia_reg,
+		proprietebatie.jannat 
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
 		'select 
 			local.id_local,
@@ -77,7 +78,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			CAST (taxpev.vlbaia AS INTEGER) as vlbaia,
 			CAST (taxpev.vlbaia AS INTEGER) as  vlbaia_com,
 			CAST (taxpev.vlbaia_dep AS INTEGER) as vlbaia_dep,
-			CAST (taxpev.vlbaia_reg AS INTEGER) as vlbaia_reg   
+			CAST (taxpev.vlbaia_reg AS INTEGER) as vlbaia_reg,
+			local.jannat   
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
 			left join #DBSchema_arcopole.dgi_voie voie on voie.id_voie=invar.id_voie
@@ -121,7 +123,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		vlbaia integer,
 		vlbaia_com integer,
 		vlbaia_dep integer,
-		vlbaia_reg integer);
+		vlbaia_reg integer,
+		jannat character varying(10));
 
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;
