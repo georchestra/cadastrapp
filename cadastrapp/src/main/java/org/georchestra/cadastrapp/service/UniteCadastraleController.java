@@ -129,7 +129,7 @@ public class UniteCadastraleController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 1
-		queryBuilder.append("select distinct p.comptecommunal, p.ddenom, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
+		queryBuilder.append("select distinct p.dnulp, p.comptecommunal, p.ddenom, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietaire_parcelle propar,");
@@ -137,7 +137,7 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(".proprietaire p where propar.parcelle = ? ");
 		queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
 		queryBuilder.append(addAuthorizationFiltering(headers, "p."));
-		queryBuilder.append(" ORDER BY p.ddenom ;");
+		queryBuilder.append(" ORDER BY p.dnulp, p.ddenom ;");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
