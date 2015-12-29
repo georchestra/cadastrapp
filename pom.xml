@@ -23,11 +23,4 @@
 		<system>GitHub Issues</system>
 		<url>https://github.com/GFI-Informatique/cadastrapp/issues</url>
 	</issueManagement>
-	<repositories>
-		<repository>
-			<id>Gfi repository public</id>
-			<name>Internal gfi repository</name>
-			<url>http://go-nexus-001.fasgfi.fr:8081/nexus/content/groups/public/</url>
-		</repository>
-	</repositories>
 </project>
