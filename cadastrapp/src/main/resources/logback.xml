@@ -5,12 +5,12 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.georchestra.cadastrapp" level="DEBUG" />
+	<logger name="org.georchestra.cadastrapp" level="INFO" />
 	<logger name="org.springframework" level="INFO" />
 	
 	<!--  database -->
 	<logger name="org.hibernate" level="INFO" />	
-	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="INFO" />
+	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" />
 	
 	<!--  services -->
 	<logger name="org.apache.cxf" level="WARN" />
