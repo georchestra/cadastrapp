@@ -9,4 +9,25 @@
 	<modules>
 		<module>cadastrapp</module>
 	</modules>
+	<url>https://github.com/GFI-Informatique/cadastrapp</url>
+	<name>Addons Cadastre pour georchestra</name>
+	<description>Ce projet est la partie serveur de l'addon cadastrapp pour la suite georchestra</description>
+	<organization>
+		<name>Gfi</name>
+		<url>https://github.com/GFI-Informatique</url>
+	</organization>
+	<scm>
+		<url>https://github.com/GFI-Informatique/cadastrapp.git</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/GFI-Informatique/cadastrapp/issues</url>
+	</issueManagement>
+	<repositories>
+		<repository>
+			<id>Gfi repository public</id>
+			<name>Internal gfi repository</name>
+			<url>http://go-nexus-001.fasgfi.fr:8081/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
 </project>
