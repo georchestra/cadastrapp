@@ -37,12 +37,9 @@ import org.geotools.filter.text.cql2.CQL;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.ows.ServiceException;
-import org.geotools.referencing.CRS;
 import org.opengis.filter.Filter;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.geometry.BoundingBox;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
@@ -68,15 +65,9 @@ public class ImageParcelleController extends CadController {
 	final private String URL_GET_CAPABILITIES_WMS = "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
 
 	final private String CONNECTION_PARAM = "WFSDataStoreFactory:GET_CAPABILITIES_URL";
-
+	
 	// buffer distance in CRS unit
-	final double bufferDistance = 10.0;
-
-	final private String ESPG3857 = "EPSG:3857";
-
-	final private String ESPG900913 = "EPSG:900913";
-
-	final private int SRID900913 = 900913;
+	final private double BUFFER_DISTANCE = 10.0;
 
 	/**
 	 * Using a given parcelle id, this service will get feature from WFS
@@ -144,22 +135,14 @@ public class ImageParcelleController extends CadController {
 						logger.debug("Get feature");
 						// Get only the first plot
 						SimpleFeature parcelleFeature = it.next();
-
-						CoordinateReferenceSystem crs = parcelleFeature.getBounds().getCoordinateReferenceSystem();
-
+						
 						bounds = parcelleFeature.getBounds();
+						CoordinateReferenceSystem crs = bounds.getCoordinateReferenceSystem();
+				
 						Geometry targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
+						
 
-						Geometry bufferGeometry = null;
-
-						// ESPG3857 is not known by geotools 10.8 so changeit by
-						// ESPG900913
 						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
-
-						if (cadastreSRS.equals(ESPG3857) && targetGeometry != null) {
-							crs = CRS.decode(ESPG900913);
-							targetGeometry.setSRID(SRID900913);
-						}
 
 						// If CRS null
 						if (crs == null || targetGeometry == null) {
@@ -167,18 +150,16 @@ public class ImageParcelleController extends CadController {
 
 						} else {
 							logger.debug("CRS : " + crs);
-							logger.debug("Geometry SRID : " + targetGeometry.getSRID());
-
+	
 							logger.debug("Create buffer");
-							bufferGeometry = targetGeometry.buffer(bufferDistance);
+							Geometry bufferGeometry = targetGeometry.buffer(BUFFER_DISTANCE);
 
 							// transform JTS enveloppe to geotools enveloppe
 							Envelope envelope = bufferGeometry.getEnvelopeInternal();
 
 							bounds = JTS.getEnvelope2D(envelope, crs);
 
-							// Get distance beetween two point here bounds is
-							// used
+							// Get distance beetween two point here bounds is used
 
 							Coordinate start = new Coordinate(bounds.getMinX(), bounds.getMinY());
 							Coordinate end = new Coordinate(bounds.getMaxX(), bounds.getMinY());
@@ -191,7 +172,6 @@ public class ImageParcelleController extends CadController {
 							} catch (TransformException e) {
 								logger.error("Could not calculate distance, no scale bar will be displayed on image", e);
 							}
-
 						}
 
 						logger.debug("Call WMS for plot");
@@ -314,11 +294,7 @@ public class ImageParcelleController extends CadController {
 				}
 			} catch (IOException e) {
 				logger.error("Error while trying to init connection, please check configuration", e);
-			} catch (NoSuchAuthorityCodeException e) {
-				logger.error("Error while trying to decode CRS", e);
-			} catch (FactoryException e) {
-				logger.error("Error while trying to decode CRS", e);
-			} catch (ServiceException e) {
+			}  catch (ServiceException e) {
 				logger.error("Error while trying to connect to WMS server", e);
 			} catch (CQLException e) {
 				logger.error("Error while trying to create CQL filter", e);
@@ -429,18 +405,22 @@ public class ImageParcelleController extends CadController {
 	 * @param g2
 	 * @param geometry
 	 */
-	private void drawPlot(Graphics2D g2, Geometry geometry) {
+	private void drawPlot(Graphics2D g2d, Geometry geometry) {
+		
+
 
 		logger.debug("Add selected feature ");
 		if (geometry != null) {
 
 			if (logger.isDebugEnabled()) {
-				logger.debug("Geometry SRID " + geometry.getSRID());
 				logger.debug("Geometry Type " + geometry.getGeometryType());
 			}
 
 			// Transform JTS in awt
 			ShapeWriter sw = new ShapeWriter();
+			
+			// TODO add scale and transform coordinate sytem from WFS to AWT x,y
+			// can be done in creating new transformation in shapewriter
 
 			// Geometry is can be a multipolygon and Java 1.7 awt does not display
 			// GeometryCollectionShape, so we have to loop on each polygon
@@ -448,13 +428,7 @@ public class ImageParcelleController extends CadController {
 				Geometry g = (Geometry) geometry.getGeometryN(i);
 				
 				if (logger.isDebugEnabled()) {
-					logger.debug("Geometry " + i + " SRID " + g.getSRID());
 					logger.debug("Geometry " + i + " Type " + g.getGeometryType());
-				}
-
-				// Set SRID when using not knwon ESPG
-				if (ESPG3857.equals(CadastrappPlaceHolder.getProperty("cadastre.SRS")) && g != null) {
-					g.setSRID(SRID900913);
 				}
 
 				Shape plot = sw.toShape(g);
@@ -467,12 +441,13 @@ public class ImageParcelleController extends CadController {
 					logger.debug("Shape MaxY : " + plot.getBounds2D().getMaxY());
 					logger.debug("Shape MaxX : " + plot.getBounds2D().getMaxX());
 				}
-
+		
+	
 				// draw in blue with transparence
-				g2.setColor(new Color(20, 255, 255, 128));
-				g2.draw(plot);
-				g2.setColor(new Color(20, 20, 255, 128));
-				g2.fill(plot);
+				g2d.setColor(new Color(20, 255, 255, 128));
+				g2d.draw(plot);
+				g2d.setColor(new Color(20, 20, 255, 128));
+				g2d.fill(plot);
 			}
 
 		} else {
