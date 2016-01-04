@@ -178,12 +178,20 @@ public class CadController {
 	
 				// If table contains cgocommune
 				if(!deps.isEmpty()){
+					queryFilter.append(" AND ( ");
+					boolean isFirstDep = true;
 					for (String dep : deps){
-						queryFilter.append(" AND ");
+						if(!isFirstDep){
+							queryFilter.append(" OR ");
+						}
 						queryFilter.append(tableAlias);
 						queryFilter.append("cgocommune LIKE ");
-						queryFilter.append("'" +dep+"%'");					
-					}			
+						queryFilter.append("'" +dep+"%' ");	
+						if(isFirstDep){
+							isFirstDep = false;
+						}
+					}		
+					queryFilter.append(" ) ");
 				}
 				if(!communes.isEmpty()){
 					queryFilter.append(" AND ");
