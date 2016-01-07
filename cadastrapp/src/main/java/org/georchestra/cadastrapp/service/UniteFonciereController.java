@@ -1,6 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
@@ -36,7 +38,7 @@ public class UniteFonciereController extends CadController {
 			@Context HttpHeaders headers,
 			@QueryParam("parcelle") String parcelle) throws SQLException {
  
-		Map<String, Object> informations = null;
+		Map<String, Object> informations = new HashMap<String, Object>();
 
 		if (isMandatoryParameterValid(parcelle)){
 		
@@ -55,7 +57,12 @@ public class UniteFonciereController extends CadController {
 			queryBuilder.append("GROUP BY uf.uf, uf.comptecommunal;");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);		
+			
+			try{
+				informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);	
+			}catch (EmptyResultDataAccessException e){
+				logger.info("No result, user might not have right to get those informations");
+			}		
 		}
 		else{
 			logger.warn("missing mandatory parameters");

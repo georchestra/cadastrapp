@@ -49,6 +49,7 @@ public class SectionController extends CadController {
 
 		List<Map<String, Object>> sections = new ArrayList<Map<String, Object>>();
 	   	List<String> queryParams = new ArrayList<String>();
+	   	boolean isWhereAdded = false; 
 		
 		// Create query
 		StringBuilder queryBuilder = new StringBuilder();
@@ -61,19 +62,18 @@ public class SectionController extends CadController {
 		// Convert 350206 to 35%206 for query
 		if(cgoCommune!= null && 5 == cgoCommune.length()){
 			cgoCommune = cgoCommune.substring(0, 2) + "%" +cgoCommune.substring(2); 
-			queryBuilder.append(createLikeClauseRequest("cgocommune", cgoCommune, queryParams));
+			queryBuilder.append(createLikeClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));
 		} 
 		else{
-			queryBuilder.append(createEqualsClauseRequest("cgocommune", cgoCommune, queryParams));
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));
 		}
 			
-		queryBuilder.append(createLikeClauseRequest("ccopre", ccopre, queryParams));
-		queryBuilder.append(createLikeClauseRequest("ccosec", ccosec, queryParams));
+		queryBuilder.append(createLikeClauseRequest(isWhereAdded, "ccopre", ccopre, queryParams));
+		queryBuilder.append(createLikeClauseRequest(isWhereAdded, "ccosec", ccosec, queryParams));
 		if(isSearchFiltered){
     		queryBuilder.append(addAuthorizationFiltering(headers));
     	}
 		queryBuilder.append(" ORDER BY ccopre, ccosec ");
-		queryBuilder.append(finalizeQuery());
 					
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		sections = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());

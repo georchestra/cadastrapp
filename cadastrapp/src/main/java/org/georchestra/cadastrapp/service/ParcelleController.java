@@ -82,7 +82,7 @@ public class ParcelleController extends CadController {
 			@QueryParam("cconvo") String cconvo, 
 			@QueryParam("dvoilib") String dvoilib, 
 			@QueryParam("comptecommunal") final List<String> comptecommunalList,
-			@QueryParam("unitefonciere") int uf) throws SQLException {
+			@DefaultValue("0") @QueryParam("unitefonciere") int uf) throws SQLException {
 
 		List<Map<String, Object>> parcellesResult = new ArrayList<Map<String, Object>>();;
 		
@@ -107,17 +107,17 @@ public class ParcelleController extends CadController {
 			List<String> queryParams = new ArrayList<String>();
 			
 			StringBuilder queryBuilder = new StringBuilder();
+			boolean isWhereAdded = false;
 
 			queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
-			queryBuilder.append(createEqualsClauseRequest("cgocommune", cgoCommune, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("ccopre", ccopre, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("ccosec", ccosec, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("dnupla", dnupla, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("dnvoiri", dnvoiri, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("dindic", dindic, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("cconvo", cconvo, queryParams));
-			queryBuilder.append(createEqualsClauseRequest("dvoilib", dvoilib, queryParams));
-			queryBuilder.append(finalizeQuery());
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "ccopre", ccopre, queryParams));
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "ccosec", ccosec, queryParams));
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dnupla", dnupla, queryParams));
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dnvoiri", dnvoiri, queryParams));
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dindic", dindic, queryParams));
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cconvo", cconvo, queryParams));
+			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dvoilib", dvoilib, queryParams));
 			
 			if(queryParams.size()>1){
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -459,16 +459,16 @@ public class ParcelleController extends CadController {
 	
 		List<Map<String,Object>> dnuplaList = null;
 		List<String> queryParams = new ArrayList<String>();
+		boolean isWhereAdded = false;
 		
 		StringBuilder dnuplaQueryBuilder = new StringBuilder();
 		dnuplaQueryBuilder.append("select distinct dnupla from ");
 		dnuplaQueryBuilder.append(databaseSchema);
 		dnuplaQueryBuilder.append(".parcelle");
-		dnuplaQueryBuilder.append(createEqualsClauseRequest("cgocommune", cgoCommune, queryParams));
-		dnuplaQueryBuilder.append(createEqualsClauseRequest("ccopre", ccopre, queryParams));
-		dnuplaQueryBuilder.append(createEqualsClauseRequest("ccosec", ccosec, queryParams));
+		dnuplaQueryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));
+		dnuplaQueryBuilder.append(createEqualsClauseRequest(isWhereAdded, "ccopre", ccopre, queryParams));
+		dnuplaQueryBuilder.append(createEqualsClauseRequest(isWhereAdded, "ccosec", ccosec, queryParams));
 		dnuplaQueryBuilder.append("ORDER BY dnupla ASC");
-		dnuplaQueryBuilder.append(finalizeQuery());
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		dnuplaList = jdbcTemplate.queryForList(dnuplaQueryBuilder.toString(), queryParams.toArray());

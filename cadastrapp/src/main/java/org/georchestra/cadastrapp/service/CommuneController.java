@@ -10,7 +10,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -23,33 +22,6 @@ public class CommuneController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(CommuneController.class);
 	
-	@Path("/getCommune/all")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    /**
-     *  /getCommune/all
-     *  
-     * @param headers http headers, used to get ldap role information about the user group
-     * 
-     * @return all communes from database depending on group geographical autorization
-     */
-    public List<Map<String,Object>> getCommunesList(@Context HttpHeaders headers){
-    	
-	
-    	StringBuilder queryBuilder = new StringBuilder();
-    	queryBuilder.append("select cgocommune, libcom, libcom_min from ");
-     	queryBuilder.append(databaseSchema);
-    	queryBuilder.append(".commune "); 	
-    	queryBuilder.append(addAuthorizationFiltering(headers));
-    	queryBuilder.append(finalizeQuery());
-    	
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        List<Map<String,Object>> communes = jdbcTemplate.queryForList(queryBuilder.toString());
-            
-              
-        return communes;
-    }
-    
 	@Path("/getCommune/")
     @GET
     @Produces("application/json")
@@ -83,6 +55,7 @@ public class CommuneController extends CadController{
     		 logger.warn("No parameter in request or not enough characters");
     	 }
     	 else{
+    		 boolean isWhereAdded = false;
     		 StringBuilder queryBuilder = new StringBuilder();
     	    	
     		 queryBuilder.append("select cgocommune, libcom, libcom_min from ");
@@ -94,7 +67,7 @@ public class CommuneController extends CadController{
 		    	
 	    		// Remove all accent from url
 	    		String newLibCom = StringUtils.stripAccents(libCom);	    		    	 
-	    		queryBuilder.append(createRightLikeClauseRequest("libcom", newLibCom.toUpperCase(), queryParams));      
+	    		queryBuilder.append(createRightLikeClauseRequest(isWhereAdded, "libcom", newLibCom.toUpperCase(), queryParams));      
 	    	}
 	    	else{
 	    		logger.info("LibCom has not enough characters to launch research with libCom");
@@ -110,14 +83,13 @@ public class CommuneController extends CadController{
 	    			logger.debug("Missing ccodir in cgoCommune parameters adding it");
 	    		} 	
 	    		// Like query because cgocommune can be only 1 or 2 digit
-	    		queryBuilder.append(createLikeClauseRequest("cgocommune", cgoCommune, queryParams));     
+	    		queryBuilder.append(createLikeClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));     
 	  		
 	    	}
 	    	if(isSearchFiltered){
 	    		queryBuilder.append(addAuthorizationFiltering(headers));
 	    	}
 	    	queryBuilder.append(" order by libcom ");
-	    	queryBuilder.append(finalizeQuery());
 	         
 	    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 	        communes = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());

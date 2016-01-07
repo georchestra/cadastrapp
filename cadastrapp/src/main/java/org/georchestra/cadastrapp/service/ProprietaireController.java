@@ -87,6 +87,7 @@ public class ProprietaireController extends CadController{
 	    			|| (compteCommunal != null && compteCommunal.length()>0)){
 	    		
 	    		StringBuilder queryBuilder = new StringBuilder();
+	    		boolean isWhereAdded = false;
 	    		
 	    		logger.info("details : " + details);
 	    		
@@ -103,7 +104,7 @@ public class ProprietaireController extends CadController{
 		        queryBuilder.append(databaseSchema);
 		        queryBuilder.append(".proprietaire");
 
-    		   queryBuilder.append(createEqualsClauseRequest("cgocommune", cgocommune, queryParams));
+    		   queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cgocommune", cgocommune, queryParams));
     		   
     		   // dnomlp can be null here
     		   if(dnomlp!=null){
@@ -126,15 +127,14 @@ public class ProprietaireController extends CadController{
 			       queryParams.add("%"+ddenom+"%");
     		   }
 		       
-		       queryBuilder.append(createEqualsClauseRequest("dnupro", dnupro, queryParams));
-		       queryBuilder.append(createEqualsClauseRequest("comptecommunal", compteCommunal, queryParams));
+		       queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dnupro", dnupro, queryParams));
+		       queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "comptecommunal", compteCommunal, queryParams));
 		      
 		       queryBuilder.append(addAuthorizationFiltering(headers));
 		      
 		       if(details != 2){
 		    	   queryBuilder.append("order by dnomlp, dprnlp, dnomcp,  dprncp limit 25 ");
 		       }
-		       queryBuilder.append(finalizeQuery());
 	 	       
 		    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
@@ -188,7 +188,6 @@ public class ProprietaireController extends CadController{
     			queryBuilder.append(".proprietaire_parcelle proparc ");
     			queryBuilder.append("where proparc.parcelle IN (?) and prop.comptecommunal = proparc.comptecommunal");
     			queryBuilder.append(addAuthorizationFiltering(headers));
-    			queryBuilder.append(finalizeQuery());
 	 	       
 		    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList.toArray());

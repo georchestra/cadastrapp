@@ -22,8 +22,6 @@ public class CadController {
 	
 	
 	final static Logger logger = LoggerFactory.getLogger(CadController.class);
-
-	private boolean isWhereAdded;
 	
 	@Resource(name = "dbDataSource")
 	protected DataSource dataSource;
@@ -44,7 +42,6 @@ public class CadController {
 	 */
 	public CadController() {
 		super();
-		this.isWhereAdded = false;
 		this.databaseSchema = CadastrappPlaceHolder.getProperty("schema.name");
 		this.cnil1RoleName = CadastrappPlaceHolder.getProperty("cnil1RoleName");
 		this.cnil2RoleName = CadastrappPlaceHolder.getProperty("cnil2RoleName");
@@ -137,6 +134,8 @@ public class CadController {
 	 */
 	protected String addAuthorizationFiltering(HttpHeaders headers, String tableAlias) {
 
+		logger.debug("Check user geographical limitation ");
+
 		List<Map<String, Object>> limitations;
 		List<String> communes = new ArrayList<String>();
 		List<String> deps = new ArrayList<String>();
@@ -144,10 +143,10 @@ public class CadController {
  		StringBuilder queryFilter = new StringBuilder();
 
 		// get roles list in header
-		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN,ROLE_ADMINISTRATOR,ROLE_MOD_ANALYTICS,ROLE_MOD_EXTRACTORAPP' 
+		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN'
 		String roleListString = headers.getHeaderString("sec-roles");
 		
-		logger.debug("RoleList : "+ roleListString);
+		logger.debug("user roleList : "+ roleListString);
 		if(roleListString!=null && !roleListString.isEmpty()){
 			
 			// Force to add the array of value in first place of a new Array
@@ -167,7 +166,10 @@ public class CadController {
 			// filter request on commune
 			if (limitations != null && !limitations.isEmpty()) {
 				
+				
 				for (Map<String, Object> limitation : limitations) {
+					
+									
 					if(limitation.get("cgocommune") != null){
 						communes.add((String)limitation.get("cgocommune"));
 					}
@@ -175,6 +177,12 @@ public class CadController {
 						deps.add((String)limitation.get("ccodep"));
 					}
 				}
+				
+				if(logger.isDebugEnabled()){
+					logger.debug("User have geographical limitation on zip code : " + communes.toString());
+					logger.debug("User have geographical limitation on dep : " + deps.toString());
+				}
+				
 	
 				// If table contains cgocommune
 				if(!deps.isEmpty()){
@@ -217,7 +225,7 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	protected String createLikeClauseRequest(String libelle, String value, List<String> paramList) {
+	protected String createLikeClauseRequest(boolean isWhereAdded, String libelle, String value, List<String> paramList) {
 
 		StringBuilder subQuery = new StringBuilder();
 
@@ -243,7 +251,7 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	protected String createRightLikeClauseRequest(String libelle, String value, List<String> paramList) {
+	protected String createRightLikeClauseRequest(boolean isWhereAdded, String libelle, String value, List<String> paramList) {
 
 		StringBuilder subQuery = new StringBuilder();
 
@@ -268,7 +276,7 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	protected String createEqualsClauseRequest(String libelle, String value, List<String> paramList) {
+	protected String createEqualsClauseRequest(boolean isWhereAdded, String libelle, String value, List<String> paramList) {
 
 		StringBuilder subQuery = new StringBuilder();
 
@@ -343,16 +351,6 @@ public class CadController {
 		logger.debug("List to String : " + listToString);
 		
 		return listToString.toString();
-	}
-	
-	/**
-	 * Set boolean isWhereAdded to false
-	 * 
-	 * @return ;
-	 */
-	protected String finalizeQuery(){
-		isWhereAdded =false;
-		return (";");
 	}
 	
 
