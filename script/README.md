@@ -14,7 +14,7 @@ CREATE EXTENSION dblink
 See http://www.postgresql.org/docs/9.1/static/dblink.html
 
 
-If your are using Postgresql upper to 9.2 version, you could change script to use MATERIALIZED view, application will be quiker because DLink with the other database won't be query each time :
+If your are using Postgresql upper to 9.3 version, you could change script to use MATERIALIZED view, application will be quiker because DLink with the other database won't be query each time :
 
 http://www.postgresql.org/docs/9.4/static/sql-creatematerializedview.html
 
