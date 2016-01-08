@@ -104,7 +104,7 @@ public class ProprietaireController extends CadController{
 		        queryBuilder.append(databaseSchema);
 		        queryBuilder.append(".proprietaire");
 
-    		   queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cgocommune", cgocommune, queryParams));
+    		   isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "cgocommune", cgocommune, queryParams);
     		   
     		   // dnomlp can be null here
     		   if(dnomlp!=null){
@@ -127,8 +127,8 @@ public class ProprietaireController extends CadController{
 			       queryParams.add("%"+ddenom+"%");
     		   }
 		       
-		       queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dnupro", dnupro, queryParams));
-		       queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "comptecommunal", compteCommunal, queryParams));
+    		   isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "dnupro", dnupro, queryParams);
+    		   isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "comptecommunal", compteCommunal, queryParams);
 		      
 		       queryBuilder.append(addAuthorizationFiltering(headers));
 		      

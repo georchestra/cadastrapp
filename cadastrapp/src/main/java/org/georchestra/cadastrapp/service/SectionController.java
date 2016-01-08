@@ -62,14 +62,14 @@ public class SectionController extends CadController {
 		// Convert 350206 to 35%206 for query
 		if(cgoCommune!= null && 5 == cgoCommune.length()){
 			cgoCommune = cgoCommune.substring(0, 2) + "%" +cgoCommune.substring(2); 
-			queryBuilder.append(createLikeClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));
+			isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder, "cgocommune", cgoCommune, queryParams);
 		} 
 		else{
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "cgocommune", cgoCommune, queryParams);
 		}
 			
-		queryBuilder.append(createLikeClauseRequest(isWhereAdded, "ccopre", ccopre, queryParams));
-		queryBuilder.append(createLikeClauseRequest(isWhereAdded, "ccosec", ccosec, queryParams));
+		isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder, "ccopre", ccopre, queryParams);
+		isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder, "ccosec", ccosec, queryParams);
 		if(isSearchFiltered){
     		queryBuilder.append(addAuthorizationFiltering(headers));
     	}

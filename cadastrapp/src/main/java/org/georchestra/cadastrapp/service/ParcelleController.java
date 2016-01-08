@@ -110,14 +110,14 @@ public class ParcelleController extends CadController {
 			boolean isWhereAdded = false;
 
 			queryBuilder.append(createSelectParcelleQuery(details, getUserCNILLevel(headers)));
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "ccopre", ccopre, queryParams));
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "ccosec", ccosec, queryParams));
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dnupla", dnupla, queryParams));
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dnvoiri", dnvoiri, queryParams));
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dindic", dindic, queryParams));
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cconvo", cconvo, queryParams));
-			queryBuilder.append(createEqualsClauseRequest(isWhereAdded, "dvoilib", dvoilib, queryParams));
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "cgocommune", cgoCommune, queryParams);
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "ccopre", ccopre, queryParams);
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "ccosec", ccosec, queryParams);
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "dnupla", dnupla, queryParams);
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "dnvoiri", dnvoiri, queryParams);
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "dindic", dindic, queryParams);
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "cconvo", cconvo, queryParams);
+			isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "dvoilib", dvoilib, queryParams);
 			
 			if(queryParams.size()>1){
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -465,9 +465,9 @@ public class ParcelleController extends CadController {
 		dnuplaQueryBuilder.append("select distinct dnupla from ");
 		dnuplaQueryBuilder.append(databaseSchema);
 		dnuplaQueryBuilder.append(".parcelle");
-		dnuplaQueryBuilder.append(createEqualsClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));
-		dnuplaQueryBuilder.append(createEqualsClauseRequest(isWhereAdded, "ccopre", ccopre, queryParams));
-		dnuplaQueryBuilder.append(createEqualsClauseRequest(isWhereAdded, "ccosec", ccosec, queryParams));
+		isWhereAdded = createEqualsClauseRequest(isWhereAdded, dnuplaQueryBuilder, "cgocommune", cgoCommune, queryParams);
+		isWhereAdded = createEqualsClauseRequest(isWhereAdded, dnuplaQueryBuilder, "ccopre", ccopre, queryParams);
+		createEqualsClauseRequest(isWhereAdded, dnuplaQueryBuilder, "ccosec", ccosec, queryParams);
 		dnuplaQueryBuilder.append("ORDER BY dnupla ASC");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

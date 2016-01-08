@@ -225,23 +225,21 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	protected String createLikeClauseRequest(boolean isWhereAdded, String libelle, String value, List<String> paramList) {
-
-		StringBuilder subQuery = new StringBuilder();
+	protected boolean createLikeClauseRequest(boolean isWhereAdded, StringBuilder sb, String libelle, String value, List<String> paramList) {
 
 		if (value != null && !value.isEmpty()) {
 			if (!isWhereAdded) {
-				subQuery.append(" where ");
+				sb.append(" where ");
 				isWhereAdded = true;
 			} else {
-				subQuery.append(" and ");
+				sb.append(" and ");
 			}
-			subQuery.append(libelle);
-			subQuery.append(" LIKE ? ");
+			sb.append(libelle);
+			sb.append(" LIKE ? ");
 			paramList.add("%"+value+"%");
 
 		}
-		return subQuery.toString();
+		return isWhereAdded;
 	}
 	
 	/**
@@ -251,22 +249,20 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	protected String createRightLikeClauseRequest(boolean isWhereAdded, String libelle, String value, List<String> paramList) {
-
-		StringBuilder subQuery = new StringBuilder();
+	protected boolean createRightLikeClauseRequest(boolean isWhereAdded, StringBuilder sb, String libelle, String value, List<String> paramList) {
 
 		if (value != null && !value.isEmpty()) {
 			if (!isWhereAdded) {
-				subQuery.append(" where ");
+				sb.append(" where ");
 				isWhereAdded = true;
 			} else {
-				subQuery.append(" and ");
+				sb.append(" and ");
 			}
-			subQuery.append(libelle);
-			subQuery.append(" LIKE ?");
+			sb.append(libelle);
+			sb.append(" LIKE ?");
 			paramList.add(value+"%");
 		}
-		return subQuery.toString();
+		return isWhereAdded;
 	}
 
 	/**
@@ -276,23 +272,21 @@ public class CadController {
 	 * @param value
 	 * @return
 	 */
-	protected String createEqualsClauseRequest(boolean isWhereAdded, String libelle, String value, List<String> paramList) {
-
-		StringBuilder subQuery = new StringBuilder();
+	protected boolean createEqualsClauseRequest(boolean isWhereAdded, StringBuilder sb, String libelle, String value, List<String> paramList) {
 
 		if (value != null && !value.isEmpty()) {
 			if (!isWhereAdded) {
-				subQuery.append(" where ");
+				sb.append(" where ");
 				isWhereAdded = true;
 			} else {
-				subQuery.append(" and ");
+				sb.append(" and ");
 			}
 
-			subQuery.append(libelle);
-			subQuery.append(" = ? ");
+			sb.append(libelle);
+			sb.append(" = ? ");
 			paramList.add(value);
 		}
-		return subQuery.toString();
+		return isWhereAdded;
 	}
 
 	/**

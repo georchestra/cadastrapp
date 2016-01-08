@@ -67,7 +67,7 @@ public class CommuneController extends CadController{
 		    	
 	    		// Remove all accent from url
 	    		String newLibCom = StringUtils.stripAccents(libCom);	    		    	 
-	    		queryBuilder.append(createRightLikeClauseRequest(isWhereAdded, "libcom", newLibCom.toUpperCase(), queryParams));      
+	    		isWhereAdded = createRightLikeClauseRequest(isWhereAdded, queryBuilder, "libcom", newLibCom.toUpperCase(), queryParams);      
 	    	}
 	    	else{
 	    		logger.info("LibCom has not enough characters to launch research with libCom");
@@ -83,7 +83,7 @@ public class CommuneController extends CadController{
 	    			logger.debug("Missing ccodir in cgoCommune parameters adding it");
 	    		} 	
 	    		// Like query because cgocommune can be only 1 or 2 digit
-	    		queryBuilder.append(createLikeClauseRequest(isWhereAdded, "cgocommune", cgoCommune, queryParams));     
+	    		isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder,"cgocommune", cgoCommune, queryParams);     
 	  		
 	    	}
 	    	if(isSearchFiltered){
