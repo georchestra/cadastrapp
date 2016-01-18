@@ -124,9 +124,22 @@ public class ImageParcelleController extends CadController {
 
 				// Make sure source have been found before making request filter
 				if (source != null) {
-					Filter filter = CQL.toFilter(cadastreLayerIdParcelle + " = '" + parcelle + "'");
+					
+					StringBuilder filterBuilder = new StringBuilder();
+					filterBuilder.append(cadastreLayerIdParcelle);
+					filterBuilder.append(" = '");
+					filterBuilder.append(parcelle);
+					filterBuilder.append("'");
+					
+					Filter filter = CQL.toFilter(filterBuilder.toString());
+					
+					if(logger.isDebugEnabled()){
+						logger.debug("WFS call information");
+						logger.debug("WFS layerName : " + cadastreWFSLayerName);
+						logger.debug("Filter information : " + filterBuilder.toString());
+					}
+						
 					SimpleFeatureCollection collection = source.getFeatures(filter);
-
 					SimpleFeatureIterator it = collection.features();
 
 					// Check if there is a leat one feature
@@ -140,27 +153,23 @@ public class ImageParcelleController extends CadController {
 						CoordinateReferenceSystem crs = bounds.getCoordinateReferenceSystem();
 				
 						Geometry targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
-						
-
-						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
 
 						// If CRS null
 						if (crs == null || targetGeometry == null) {
 							logger.error("CRS not known by geotools, no buffering can be made, scale won't be seeing on image");
 
 						} else {
-							logger.debug("CRS : " + crs);
-	
-							logger.debug("Create buffer");
+							if(logger.isDebugEnabled()){
+								logger.debug("CRS : " + crs);
+								logger.debug("Create buffer");
+							}
 							Geometry bufferGeometry = targetGeometry.buffer(BUFFER_DISTANCE);
 
 							// transform JTS enveloppe to geotools enveloppe
 							Envelope envelope = bufferGeometry.getEnvelopeInternal();
-
 							bounds = JTS.getEnvelope2D(envelope, crs);
 
 							// Get distance beetween two point here bounds is used
-
 							Coordinate start = new Coordinate(bounds.getMinX(), bounds.getMinY());
 							Coordinate end = new Coordinate(bounds.getMaxX(), bounds.getMinY());
 
@@ -198,6 +207,7 @@ public class ImageParcelleController extends CadController {
 
 						// sets the dimensions check with PDF size available
 						requestParcelle.setDimensions(pdfImageWidth, pdfImageHeight);
+						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
 						requestParcelle.setSRS(cadastreSRS);
 						requestParcelle.setTransparent(true);
 
@@ -417,6 +427,7 @@ public class ImageParcelleController extends CadController {
 			}
 
 			// Transform JTS in awt
+
 			ShapeWriter sw = new ShapeWriter();
 			
 			// TODO add scale and transform coordinate sytem from WFS to AWT x,y
