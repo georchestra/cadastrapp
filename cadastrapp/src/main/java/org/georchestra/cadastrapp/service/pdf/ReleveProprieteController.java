@@ -295,7 +295,7 @@ public class ReleveProprieteController extends CadController {
 
 				StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-				queryBuilderProprieteBatie.append("select distinct jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg ");
+				queryBuilderProprieteBatie.append("select distinct jdatat, ccopre, ccosec, dnupla, dnvoiri, dindic, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, dvltrt ");
 				queryBuilderProprieteBatie.append("from ");
 				queryBuilderProprieteBatie.append(databaseSchema);
 				queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -315,7 +315,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteBatie.setInvar(proprieteId);
 
 					proprieteBatie.setCcoaff((String) propBat.get("ccoaff"));
-					proprieteBatie.setCcoeav((String) propBat.get("ccoeav"));
+					proprieteBatie.setCcoeva((String) propBat.get("ccoeva"));
 					proprieteBatie.setCcolloc((String) propBat.get("ccolloc"));
 					proprieteBatie.setCconlc((String) propBat.get("cconlc"));
 					proprieteBatie.setCcopre((String) propBat.get("ccopre"));
@@ -329,23 +329,24 @@ public class ReleveProprieteController extends CadController {
 					proprieteBatie.setDnupla((String) propBat.get("dnupla"));
 					proprieteBatie.setDnvoiri((String) propBat.get("dnvoiri"));
 					proprieteBatie.setDpor((String) propBat.get("dpor"));
-					proprieteBatie.setDvltrl((String) propBat.get("dvltrl"));
+					proprieteBatie.setDvltrt(propBat.get("dvltrt") == null ? "":propBat.get("dvltrt").toString());
 					proprieteBatie.setDvoilib((String) propBat.get("voie"));
 					proprieteBatie.setFcexn((String) propBat.get("fcexb"));
 					proprieteBatie.setGnextl((String) propBat.get("gnextl"));
 					proprieteBatie.setJandeb((String) propBat.get("jandeb"));
 					proprieteBatie.setJanimp((String) propBat.get("janimp"));
 					proprieteBatie.setJdatat((String) propBat.get("jdatat"));
-					proprieteBatie.setMvltieomx((String) propBat.get("mvltieomx"));
+					proprieteBatie.setMvltieomx(propBat.get("mvltieomx") == null ? "":propBat.get("mvltieomx").toString());
+					proprieteBatie.setPexb(propBat.get("pexb") == null ? "":propBat.get("pexb").toString());
 
 					String exoneration = (String) propBat.get("ccolloc");
-					if (exoneration == "TC") {
+					if ("TC".equals(exoneration)) {
 						pbDepartementRevenuExonere = (Integer) propBat.get("dvldif2a");
-					} else if (exoneration == "R") {
+					} else if ( "R".equals(exoneration)) {
 						pbRegionRevenuExonere = (Integer) propBat.get("dvldif2a");
-					} else if (exoneration == "D") {
+					} else if ("D".equals(exoneration)) {
 						pbDepartementRevenuExonere = 0;
-					} else if (exoneration == "GC" || exoneration == "C") {
+					} else if ("GC".equals(exoneration) || "C".equals(exoneration)) {
 						pbCommuneRevenuExonere = (Integer) propBat.get("dvldif2a");
 					} else {
 						logger.debug("Exoneration on additional taxes");
@@ -398,7 +399,7 @@ public class ReleveProprieteController extends CadController {
 
 				StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-				queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.jdatat, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.dnvoiri, pnb.dindic, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.gpafpd, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.pdl, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jandeb, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.gnexts, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
+				queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.jdatat, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.dnvoiri, pnb.dindic, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.gpafpd, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.pdl, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jandeb, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.gnexts, pnb.dreflf, pnb.pexn, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
 				queryBuilderProprieteNonBatie.append("from ");
 				queryBuilderProprieteNonBatie.append(databaseSchema);
 				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
@@ -426,13 +427,13 @@ public class ReleveProprieteController extends CadController {
 					String exonerationType = (String) propNonBat.get("ccolloc");
 					int exonerationValue = (Integer) propNonBat.get("rcexnba") == null ? 0 : (Integer) propNonBat.get("rcexnba");
 					
-					if (exonerationType == "TC") {
+					if ("TC".equals(exonerationType)) {
 						pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
-					} else if (exonerationType == "R") {
+					} else if ("R".equals(exonerationType)) {
 						pnbRegionRevenuExonere = pnbRegionRevenuExonere + exonerationValue;
-					} else if (exonerationType == "D") {
+					} else if ("D".equals(exonerationType)) {
 						pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
-					} else if (exonerationType == "GC" || exonerationType == "C") {
+					} else if ("GC".equals(exonerationType)  || "C".equals(exonerationType)) {
 						pnbCommuneRevenuExonere = pnbCommuneRevenuExonere + exonerationValue;
 					} else {
 						logger.debug("Exoneration on additional taxes");
@@ -465,7 +466,7 @@ public class ReleveProprieteController extends CadController {
 					proprieteNonBatie.setJdatat((String) propNonBat.get("jdatat"));
 					proprieteNonBatie.setGnextl((String) propNonBat.get("gnexts"));
 					proprieteNonBatie.setPdl((String) propNonBat.get("pdl"));
-					proprieteNonBatie.setPexb((String) propNonBat.get("pexn"));
+					proprieteNonBatie.setPexb(propNonBat.get("pexn") == null ?"":propNonBat.get("pexn").toString());//à voir si besoin de divider par 100
 									
 					int surface = (Integer) propNonBat.get("dcntsf") == null ? 0 : (Integer) propNonBat.get("dcntsf");
 					proprieteNonBatie.setDcntsf(surface);

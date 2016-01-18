@@ -36,7 +36,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.vlbaia,
 		proprietebatie.vlbaia_com,
 		proprietebatie.vlbaia_dep,
-		proprietebatie.vlbaia_reg
+		proprietebatie.vlbaia_reg,
+		proprietebatie.pexb
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
 		'select 
 			l.local00 as id_local,
@@ -74,7 +75,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 			pevtax.tse_vlbaia as vlbaia,
 			pevtax.co_vlbaia as vlbaia_com,
 			pevtax.de_vlbaia as vlbaia_dep,
-			pevtax.re_vlbaia as vlbaia_reg
+			pevtax.re_vlbaia as vlbaia_reg,
+			pevx.pexb
 		from #DBSchema_qgis.comptecommunal c
 			left join #DBSchema_qgis.local10 as l on c.comptecommunal=l.comptecommunal
 			left join #DBSchema_qgis.local00 as l00 on l00.local00=l.local00
@@ -119,6 +121,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS
 		vlbaia integer,
 		vlbaia_com integer,
 		vlbaia_dep integer,
-		vlbaia_reg integer);
+		vlbaia_reg integer,
+		pexb numeric);
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;

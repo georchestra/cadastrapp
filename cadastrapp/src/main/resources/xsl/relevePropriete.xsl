@@ -543,7 +543,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@ccoafa" />
+								<xsl:value-of select="@ccoaff" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -573,12 +573,12 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@janret" />
+								<xsl:value-of select="@janimp" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@janimp" />
+								<xsl:value-of select="@jandeb" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -932,7 +932,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="gnextl" />
+								<xsl:value-of select="@gnextl" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">

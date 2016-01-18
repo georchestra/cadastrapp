@@ -23,7 +23,7 @@ public class ProprieteBatie extends Propriete{
 	String ccoaff;
 	
 	// Code évaluation 
-	String ccoeav;
+	String ccoeva;
 	
 	// Nature du local
 	String cconlc;
@@ -32,7 +32,7 @@ public class ProprieteBatie extends Propriete{
 	String dcapec;
 	
 	// Valeur locative
-	String dvltrl;
+	String dvltrt;
 	
 	// Montant TIEOM
 	String mvltieomx;
@@ -128,18 +128,18 @@ public class ProprieteBatie extends Propriete{
 	}
 
 	/**
-	 * @return the ccoeav
+	 * @return the ccoeva
 	 */
-	public String getCcoeav() {
-		return ccoeav;
+	public String getCcoeva() {
+		return ccoeva;
 	}
 
 	@XmlAttribute
 	/**
-	 * @param ccoeav the ccoeav to set
+	 * @param ccoeva the ccoeva to set
 	 */
-	public void setCcoeav(String ccoeav) {
-		this.ccoeav = ccoeav;
+	public void setCcoeva(String ccoeva) {
+		this.ccoeva = ccoeva;
 	}
 
 	/**
@@ -173,18 +173,18 @@ public class ProprieteBatie extends Propriete{
 	}
 
 	/**
-	 * @return the dvltrl
+	 * @return the dvltrt
 	 */
-	public String getDvltrl() {
-		return dvltrl;
+	public String getDvltrt() {
+		return dvltrt;
 	}
 
 	@XmlAttribute
 	/**
-	 * @param dvltrl the dvltrl to set
+	 * @param dvltrt the dvltrt to set
 	 */
-	public void setDvltrl(String dvltrl) {
-		this.dvltrl = dvltrl;
+	public void setDvltrt(String dvltrt) {
+		this.dvltrt = dvltrt;
 	}
 
 	/**
