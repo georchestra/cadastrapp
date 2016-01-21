@@ -548,7 +548,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@ccoeva" />
+								<xsl:value-of select="@cconlc" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -583,7 +583,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@fcexb" />
+								<xsl:value-of select="@fcexn" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -942,7 +942,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@fcexb" />
+								<xsl:value-of select="@fcexn" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">

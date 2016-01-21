@@ -399,7 +399,7 @@ public class ReleveProprieteController extends CadController {
 
 				StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-				queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.jdatat, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.dnvoiri, pnb.dindic, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.gpafpd, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.pdl, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jandeb, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.gnexts, pnb.dreflf, pnb.pexn, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
+				queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.jdatat, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.dnvoiri, pnb.dindic, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.gpafpd, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.pdl, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jandeb, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.pexn, pnbsufexo.gnexts, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
 				queryBuilderProprieteNonBatie.append("from ");
 				queryBuilderProprieteNonBatie.append(databaseSchema);
 				queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
