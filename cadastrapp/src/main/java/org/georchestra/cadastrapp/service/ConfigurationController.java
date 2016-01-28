@@ -43,6 +43,8 @@ public class ConfigurationController {
 		configuration.put("cnil1RoleName", CadastrappPlaceHolder.getProperty("cnil1RoleName"));
 		configuration.put("cnil2RoleName", CadastrappPlaceHolder.getProperty("cnil2RoleName"));
 		
+		configuration.put("maxRequest", CadastrappPlaceHolder.getProperty("maxRequest"));
+		
 		return configuration;
 	}
 

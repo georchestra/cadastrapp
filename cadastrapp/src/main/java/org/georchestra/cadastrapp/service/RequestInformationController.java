@@ -183,7 +183,7 @@ public class RequestInformationController {
 	 * @throws SQLException
 	 */
 	public Map<String, Object> saveInformationRequest(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("adress") String adress, @QueryParam("commune") String commune, @QueryParam("codepostal") String codePostal, @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname, @QueryParam("mail") String mail,
-			@QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("parcelles") List<String> parcelleIds, @QueryParam("coproprietes") List<String> coProprietes, @QueryParam("askby") int askby, @QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
+			@QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("parcelleIds") List<String> parcelleIds, @QueryParam("proprietaires") List<String> proprietaires, @QueryParam("parcelles") List<String> parcelles, @QueryParam("coproprietes") List<String> coProprietes, @QueryParam("askby") int askby, @QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
 
 		// todo recheck value
 
@@ -256,7 +256,6 @@ public class RequestInformationController {
 					ObjectRequest objectRequest = new ObjectRequest();
 					objectRequest.setType(2);
 					objectRequest.setValue(comptePropriete);
-
 					objectRequestSet.add(objectRequest);
 				}
 			}
@@ -281,6 +280,37 @@ public class RequestInformationController {
 				}
 			}
 		}
+		
+		// Add parcelles to request information
+		if (parcelles != null && !parcelles.isEmpty()) {
+
+			Set<String> parcellesSet = new HashSet<String>(parcelles);
+
+			for (String parcelle : parcellesSet) {
+				if (parcelle != null && parcelle.length() > 0) {
+					ObjectRequest objectRequest = new ObjectRequest();
+					objectRequest.setType(3);
+					objectRequest.setValue(parcelle);
+
+					objectRequestSet.add(objectRequest);
+				}
+			}
+		}
+		// Add proprietaire to request information
+				if (proprietaires != null && !proprietaires.isEmpty()) {
+
+					Set<String> proprietairesSet = new HashSet<String>(proprietaires);
+					for (String proprio : proprietairesSet) {
+						if (proprio != null && proprio.length() > 0) {
+							ObjectRequest objectRequest = new ObjectRequest();
+							objectRequest.setType(4);
+							objectRequest.setValue(proprio);
+
+							objectRequestSet.add(objectRequest);
+						}
+					}
+				}
+		
 
 		informationRequest.setObjectNumber(objectRequestSet.size());
 		informationRequest.setObjectsRequest(objectRequestSet);

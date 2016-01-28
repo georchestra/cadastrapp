@@ -185,13 +185,22 @@
 						<xsl:for-each select="objects/object">
 							<fo:block xsl:use-attribute-sets="text">
 								<xsl:if test="@type='0'">
-									Propriétaire :
+									Compte communal :
 								</xsl:if>
 								<xsl:if test="@type='1'">
-									Parcelle :
+									Parcelle id :
 								</xsl:if>
 								<xsl:if test="@type='2'">
 									Co-propriété :
+								</xsl:if>
+								<xsl:if test="@type='4'">
+									Propriétaire :
+								</xsl:if>
+								<xsl:if test="@type='3'">
+									Parcelle :
+								</xsl:if>
+								<xsl:if test="@type='5'">
+									lot co-propriété :
 								</xsl:if>
 								<xsl:value-of select="@value" />
 							</fo:block>
