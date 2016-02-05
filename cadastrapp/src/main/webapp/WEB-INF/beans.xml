@@ -58,6 +58,7 @@
 			<bean
 				class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
 			<bean class="org.georchestra.cadastrapp.service.pdf.RequestPDFController" />
+			<bean class="org.georchestra.cadastrapp.service.pdf.DemandeController" />
 
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>

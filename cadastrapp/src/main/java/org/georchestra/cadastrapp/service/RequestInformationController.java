@@ -24,6 +24,7 @@ import org.georchestra.cadastrapp.model.request.ObjectRequest;
 import org.georchestra.cadastrapp.model.request.UserRequest;
 import org.georchestra.cadastrapp.repository.RequestRepository;
 import org.georchestra.cadastrapp.repository.UserRequestRepository;
+import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,7 +184,7 @@ public class RequestInformationController {
 	 * @throws SQLException
 	 */
 	public Map<String, Object> saveInformationRequest(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("adress") String adress, @QueryParam("commune") String commune, @QueryParam("codepostal") String codePostal, @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname, @QueryParam("mail") String mail,
-			@QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("parcelleIds") List<String> parcelleIds, @QueryParam("proprietaires") List<String> proprietaires, @QueryParam("parcelles") List<String> parcelles, @QueryParam("coproprietes") List<String> coProprietes, @QueryParam("askby") int askby, @QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
+			@QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("parcelleIds") List<String> parcelleIds, @QueryParam("proprietaires") List<String> proprietaires, @QueryParam("parcelles") List<String> parcelles, @QueryParam("coproprietes") List<String> coProprietes, @QueryParam("lotCoproprietes") List<String> lotCoproprietes, @QueryParam("askby") int askby, @QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
 
 		// todo recheck value
 
@@ -233,8 +234,12 @@ public class RequestInformationController {
 			for (String compteCommunal : compteCommunauxSet) {
 				if (compteCommunal != null && compteCommunal.length() > 0) {
 					ObjectRequest objectRequest = new ObjectRequest();
-					objectRequest.setType(0);
-					objectRequest.setValue(compteCommunal);
+					objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_COMPTE_COMMUNAL);
+					objectRequest.setComptecommunal(compteCommunal.split("\\|")[0]);
+					//objectRequest.setBp(compteCommunal.split("\\|")[1]);
+					//objectRequest.setRp(compteCommunal.split("\\|")[2]);
+					objectRequest.setBp("1");
+					objectRequest.setRp("1");
 
 					objectRequestSet.add(objectRequest);
 				}
@@ -254,8 +259,14 @@ public class RequestInformationController {
 			for (String comptePropriete : coProprietesSet) {
 				if (comptePropriete != null && comptePropriete.length() > 0) {
 					ObjectRequest objectRequest = new ObjectRequest();
-					objectRequest.setType(2);
-					objectRequest.setValue(comptePropriete);
+					objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_COPROPRIETE);
+					
+					objectRequest.setComptecommunal(comptePropriete.split("\\|")[0]);
+					objectRequest.setParcelle(comptePropriete.split("\\|")[1]);
+					//objectRequest.setBp(comptePropriete.split("\\|")[2]);
+					//objectRequest.setRp(comptePropriete.split("\\|")[3]);
+					objectRequest.setBp("1");
+					objectRequest.setRp("1");
 					objectRequestSet.add(objectRequest);
 				}
 			}
@@ -273,8 +284,12 @@ public class RequestInformationController {
 			for (String parcelle : parcellesSet) {
 				if (parcelle != null && parcelle.length() > 0) {
 					ObjectRequest objectRequest = new ObjectRequest();
-					objectRequest.setType(1);
-					objectRequest.setValue(parcelle);
+					objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_PARCELLE_ID);
+					objectRequest.setParcelle(parcelle.split("\\|")[0]);
+//					objectRequest.setBp(parcelle.split("\\|")[1]);
+//					objectRequest.setRp(parcelle.split("\\|")[2]);
+					objectRequest.setBp("1");
+					objectRequest.setRp("1");
 
 					objectRequestSet.add(objectRequest);
 				}
@@ -289,9 +304,14 @@ public class RequestInformationController {
 			for (String parcelle : parcellesSet) {
 				if (parcelle != null && parcelle.length() > 0) {
 					ObjectRequest objectRequest = new ObjectRequest();
-					objectRequest.setType(3);
-					objectRequest.setValue(parcelle);
-
+					objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_PARCELLE);
+					objectRequest.setCommune(parcelle.split("\\|")[0]);
+					objectRequest.setSection(parcelle.split("\\|")[1]);
+					objectRequest.setNumero(parcelle.split("\\|")[2]);
+//					objectRequest.setBp(parcelle.split("\\|")[3]);
+//					objectRequest.setRp(parcelle.split("\\|")[4]);
+					objectRequest.setBp("1");
+					objectRequest.setRp("1");
 					objectRequestSet.add(objectRequest);
 				}
 			}
@@ -303,9 +323,35 @@ public class RequestInformationController {
 					for (String proprio : proprietairesSet) {
 						if (proprio != null && proprio.length() > 0) {
 							ObjectRequest objectRequest = new ObjectRequest();
-							objectRequest.setType(4);
-							objectRequest.setValue(proprio);
+							objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_PROPRIETAIRE);
+							objectRequest.setCommune(proprio.split("\\|")[0]);
+							objectRequest.setProprietaire(proprio.split("\\|")[1]);
+//							objectRequest.setBp(proprio.split("\\|")[3]);
+//							objectRequest.setRp(proprio.split("\\|")[4]);
+							objectRequest.setBp("1");
+							objectRequest.setRp("1");
+							
+							objectRequestSet.add(objectRequest);
+						}
+					}
+				}
+				
+				// Add proprietaire to request information
+				if (lotCoproprietes != null && !lotCoproprietes.isEmpty()) {
 
+					Set<String> lotCoproprietesSet = new HashSet<String>(lotCoproprietes);
+					for (String lotProprio : lotCoproprietesSet) {
+						if (lotProprio != null && lotProprio.length() > 0) {
+							ObjectRequest objectRequest = new ObjectRequest();
+							objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_LOT_COPROPRIETE);
+							objectRequest.setCommune(lotProprio.split("\\|")[0]);
+							objectRequest.setSection(lotProprio.split("\\|")[1]);
+							objectRequest.setNumero(lotProprio.split("\\|")[2]);
+							objectRequest.setProprietaire(lotProprio.split("\\|")[3]);
+//							objectRequest.setBp(lotProprio.split("\\|")[4]);
+//							objectRequest.setRp(lotProprio.split("\\|")[5]);
+							objectRequest.setBp("1");
+							objectRequest.setRp("1");
 							objectRequestSet.add(objectRequest);
 						}
 					}

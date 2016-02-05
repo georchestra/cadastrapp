@@ -64,6 +64,15 @@ public final class CadastrappConstants {
 	public static final String CODE_COLL_EXO_A			= "A";
 	
 	
+	//code pour type de demandeur
+	public static final int CODE_DEMANDEUR_COMPTE_COMMUNAL		= 0;
+	public static final int CODE_DEMANDEUR_PARCELLE_ID			= 1;
+	public static final int CODE_DEMANDEUR_COPROPRIETE			= 2;
+	public static final int CODE_DEMANDEUR_PARCELLE				= 3;
+	public static final int CODE_DEMANDEUR_PROPRIETAIRE			= 4;
+	public static final int CODE_DEMANDEUR_LOT_COPROPRIETE		= 5;
+	
+	public static final String CODE_DEMANDEUR_TIER		= "P3";
 	
 
 }

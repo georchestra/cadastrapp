@@ -22,7 +22,19 @@ public class BordereauParcellaire {
 	private String serviceUrl;
 	
 	private List<Parcelle> parcelleList;
+	
+	private List<String> fieldSearch;
+	
+	boolean noData;
 
+
+
+	public BordereauParcellaire(List<String> fields) {
+		setFieldSearch(fields);
+	}
+
+	public BordereauParcellaire() {
+	}
 
 	/**
 	 * @return the dateDeValidité
@@ -114,6 +126,34 @@ public class BordereauParcellaire {
 	 */
 	public void setServiceUrl(String serviceUrl) {
 		this.serviceUrl = serviceUrl;
+	}
+
+	/**
+	 * @return the fieldSearch
+	 */
+	public List<String> getFieldSearch() {
+		return fieldSearch;
+	}
+
+	/**
+	 * @param fieldSearch the fieldSearch to set
+	 */
+	@XmlElementWrapper(name="fields")
+    @XmlElements({@XmlElement(name="field",     type=String.class)})
+	public void setFieldSearch(List<String> fieldSearch) {
+		this.fieldSearch = fieldSearch;
+	}
+	
+	/**
+	 * @return the serviceUrl
+	 */
+	public boolean getNoData() {
+		return noData;
+	}
+
+	public void setNoData(boolean b) {
+		noData = b;
+		
 	}
 	
 }

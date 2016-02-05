@@ -25,6 +25,7 @@
 		<hibernate-version>4.1.7.Final</hibernate-version>
 		<hibernate-annotations-version>4.0.1.Final</hibernate-annotations-version>
 		<geotools.version>10.8</geotools.version>
+		<pdfbox.version>2.0.0-RC3</pdfbox.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -278,6 +279,11 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>${pdfbox.version}</version>
+		</dependency>
 	</dependencies>
 	<pluginRepositories>
 	</pluginRepositories>
@@ -391,6 +397,7 @@
 								<classResourceName>org.georchestra.cadastrapp.service.VoieController</classResourceName>
 								<classResourceName>org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController</classResourceName>
 								<classResourceName>org.georchestra.cadastrapp.service.pdf.ReleveProprieteController</classResourceName>
+								<classResourceName>org.georchestra.cadastrapp.service.pdf.DemandeController</classResourceName>
 							</classResourceNames>
 							<docProvider>org.apache.cxf.maven_plugin.javatowadl.ResourceMapJavaDocProvider</docProvider>
 							<attachWadl>true</attachWadl>

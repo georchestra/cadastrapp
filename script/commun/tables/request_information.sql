@@ -72,7 +72,14 @@ CREATE TABLE #schema_cadastrapp.object_request
 (
   objectid bigint NOT NULL,
   type integer,
-  value character varying(255)
+  comptecommunal character varying(255),
+  parcelle character varying(255),
+  commune character varying(255),
+  section character varying(255),
+  numero character varying(255),
+  proprietaire character varying(255),
+  bp character varying(5),
+  rp character varying(5)
 )
 WITH (
   OIDS=FALSE

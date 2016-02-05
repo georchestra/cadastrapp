@@ -7,11 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -41,18 +39,19 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
-import org.georchestra.cadastrapp.model.pdf.Parcelle;
-import org.georchestra.cadastrapp.model.pdf.Proprietaire;
 import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class BordereauParcellaireController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(BordereauParcellaireController.class);
 		
 	final String xslTemplate = "xsl/bordereauParcellaire.xsl";
+	
+	@Autowired
+	BordereauParcellaireHelper bordereauParcellaireHelper;
 
 	/**
 	 * This will create a PDF file using apache FOP framework,
@@ -122,8 +121,8 @@ public class BordereauParcellaireController extends CadController {
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 				// Get bordereau parcellaire information
-				BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(newParcelleList, personalData, headers);
-
+				//BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(newParcelleList, personalData, headers);
+				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, headers, false);
 				File xmlfile = null;
 				File foFile = null;
 				OutputStream foOutPutStream = null;
@@ -207,94 +206,5 @@ public class BordereauParcellaireController extends CadController {
 		return response.build();
 	}
 
-	/**
-	 * Get all information from database for all parcelle list
-	 * 
-	 * @param parcelle
-	 *            List of parcelle id, like
-	 * @param personalData
-	 *            filter use to add owners information about parcelle, 1 to get
-	 *            owner information
-	 * 
-	 * @return BordereauParcellaire witch contains list of parcelle
-	 */
-	private BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers) {
-
-		logger.debug("Parcelle List : " + parcelleList);
-		
-		final String dateValiditeDonneesMajic = CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesMajic");
-		final String organisme = CadastrappPlaceHolder.getProperty("pdf.organisme");
-		final String dateValiditeDonneesEDIGEO = CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesEDIGEO");
-		final String webappUrl = CadastrappPlaceHolder.getProperty("webapp.url.services");
-
-		
-		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
-
-		bordereauParcellaire.setDateDeValiditeMajic(dateValiditeDonneesMajic);
-		bordereauParcellaire.setDateDeValiditeEdigeo(dateValiditeDonneesEDIGEO);
-		bordereauParcellaire.setService(organisme);
-		bordereauParcellaire.setServiceUrl(webappUrl);
-
-		List<Parcelle> parcellesInformation = new ArrayList<Parcelle>();
-
-		// Create query
-		StringBuilder queryBuilder = new StringBuilder();
-
-		queryBuilder.append("select p.parcelle, c.libcom, p.dcntpa, p.ccosec, p.dnupla, p.dnvoiri||' '||p.dindic||' '||p.cconvo||' '||dvoilib as adresse, p.ccoriv from ");
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelleDetails p, ");
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".commune c ");
-		queryBuilder.append(createWhereInQuery(parcelleList.size(), "parcelle"));
-		queryBuilder.append("and p.cgocommune = c.cgocommune;");
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		List<Map<String, Object>> parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList.toArray());
-
-		logger.debug("Parcelle size : " + parcelles.size());
-		
-		for (Map<String, Object> row : parcelles) {
-			logger.debug("Parcelle information : " + row);
-			Parcelle parcelle = new Parcelle();
-			parcelle.setParcelleId((String) row.get("parcelle"));
-			parcelle.setLibelleCommune((String) row.get("libcom"));
-			parcelle.setAdresseCadastrale((String) row.get("adresse"));
-			parcelle.setCodeFantoir((String) row.get("ccoriv"));
-			parcelle.setParcelle((String) row.get("dnupla"));
-			parcelle.setSection((String) row.get("ccosec"));
-			parcelle.setSurfaceCadastrale((Integer) row.get("dcntpa"));
-
-			logger.debug("Parcelle information : " + parcelle);
-
-			if (personalData > 0 && getUserCNILLevel(headers)>0) {
-				List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
-								
-				StringBuilder queryBuilderProprietaire = new StringBuilder();
-				queryBuilderProprietaire.append("select prop.comptecommunal, prop.ccoqua_lib||' '||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");   			    
-				queryBuilderProprietaire.append("from ");
-				queryBuilderProprietaire.append(databaseSchema);
-				queryBuilderProprietaire.append(".proprietaire prop, ");
-				queryBuilderProprietaire.append(databaseSchema);
-				queryBuilderProprietaire.append(".proprietaire_parcelle proparc ");
-				queryBuilderProprietaire.append("where proparc.parcelle = ? and prop.comptecommunal = proparc.comptecommunal");
-				queryBuilderProprietaire.append(addAuthorizationFiltering(headers));
-	 	       
-				List<Map<String, Object>> proprietairesResult = jdbcTemplate.queryForList(queryBuilderProprietaire.toString(), row.get("parcelle"));
-
-				for (Map<String, Object> prop : proprietairesResult) {
-					Proprietaire proprietaire = new Proprietaire();
-					proprietaire.setNom((String) prop.get("nom"));
-					proprietaire.setAdresse((String) prop.get("adresse"));
-					
-					proprietaires.add(proprietaire);
-				}			
-				parcelle.setProprietaires(proprietaires);
-			}
-			parcellesInformation.add(parcelle);
-		}
-		bordereauParcellaire.setParcelleList(parcellesInformation);
-
-		return bordereauParcellaire;
-	}
 
 }
