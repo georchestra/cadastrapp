@@ -35,6 +35,7 @@ import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
 import org.georchestra.cadastrapp.model.pdf.Parcelle;
 import org.georchestra.cadastrapp.model.pdf.Proprietaire;
 import org.georchestra.cadastrapp.service.CadController;
+import org.georchestra.cadastrapp.service.exception.CadastrappServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -202,8 +203,9 @@ public final class BordereauParcellaireHelper extends CadController{
 	 * @param bp object that contain all information about Plots 
 	 * @param noData  
 	 * @return pdf file by FOP
+	 * @throws CadastrappServiceException 
 	 */
-	public File generatePDF(BordereauParcellaire bp, boolean noData){
+	public File generatePDF(BordereauParcellaire bp, boolean noData) throws CadastrappServiceException{
 		
 		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 		
@@ -318,6 +320,8 @@ public final class BordereauParcellaireHelper extends CadController{
 			logger.warn("Error when creationg FOP file type : " + fopException);
 		} catch (JAXBException jaxbException) {
 			logger.warn("Error creating Marsharller : " + jaxbException);
+		}catch (Exception globalException) {
+			throw new CadastrappServiceException(globalException.getMessage());
 		}finally{
 			// Could not delete pdfResult here because it's still used by cxf
 		}
