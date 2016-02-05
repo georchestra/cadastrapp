@@ -156,8 +156,12 @@ public class DemandeController extends CadController {
 				ut.setDestinationFileName(pdfTmpFileName);
 				ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
 				
-				response = Response.ok((Object) ut);
-				response.header("Content-Disposition", "attachment; filename=" + ut.getDestinationFileName());
+				File pdfResult = new File(ut.getDestinationFileName());
+				
+				pdfResult.deleteOnExit();
+				
+				response = Response.ok((Object) pdfResult);
+				response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName() + ".pdf");
 			}
 			
 
@@ -167,19 +171,33 @@ public class DemandeController extends CadController {
 
 	private File createReleveProprieteByCC(String compteCommunal, HttpHeaders headers, boolean isMinimal) {
 
+		//Store field search if no data to display => inform on PDF file
+		List<String> fields = new ArrayList<String>();
+
 		List<String> compteCommIds = new ArrayList<String>();
 		compteCommIds.add(compteCommunal);
 		// Get Releve Propriete information
 		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommIds, headers);
 
+		
+		File pdf = null;
 		//generate PDF
-		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal);
+		if(relevePropriete.getNoData()){
+			fields.add(compteCommunal);
+			relevePropriete.setFieldSearch(fields);     
+			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, true);
+		}else {
+			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
+		}
 
 		return pdf;
 	}
 	
 	private File createReleveProprieteById(String parcelle, HttpHeaders headers, boolean isMinimal) {
 
+		//Store field search if no data to display => inform on PDF file
+		List<String> fields = new ArrayList<String>();
+		
 		List<String> compteCommunauxList = new ArrayList<String>();
 		//get compte communal by parcelle 
 		List<Map<String, Object>> compteCommunaux = releveProprieteHelper.getProprietaireByParcelles(parcelle);
@@ -192,8 +210,16 @@ public class DemandeController extends CadController {
 		// Get Releve Propriete information
 		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers);
 
+		
+		File pdf = null;
 		//generate PDF
-		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal);
+		if(relevePropriete.getNoData()){
+			fields.add(parcelle);
+			relevePropriete.setFieldSearch(fields);     
+			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, true);
+		}else {
+			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
+		}
 
 		return pdf;
 	}
@@ -263,14 +289,25 @@ public class DemandeController extends CadController {
 	
 	
 	private File createReleveCoProprieteByCCandParcelle(String compteCommunal, String parcellaId, HttpHeaders headers, boolean isMinimal) {
+		
+		//Store field search if no data to display => inform on PDF file
+		List<String> fields = new ArrayList<String>();
 		List<String> compteCommIds = new ArrayList<String>();
 		compteCommIds.add(compteCommunal);
 		
 		// Get Releve Propriete information
 		RelevePropriete relevePropriete = releveProprieteHelper.getReleveCoProprieteInformation(compteCommIds, headers, parcellaId);
 
+		File pdf = null;
 		//generate PDF
-		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal);
+		if(relevePropriete.getNoData()){
+			fields.add(compteCommunal);
+			fields.add(parcellaId);
+			relevePropriete.setFieldSearch(fields);     
+			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, true);
+		}else {
+			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
+		}
 
 		return pdf;
 	}
@@ -309,7 +346,7 @@ public class DemandeController extends CadController {
 		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers);
 
 		//generate PDF
-		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal);
+		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 
 		return pdf;
 	}
@@ -351,7 +388,7 @@ public class DemandeController extends CadController {
 		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers);
 
 		//generate PDF
-		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal);
+		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 
 		return pdf;
 	}
@@ -391,7 +428,7 @@ public class DemandeController extends CadController {
 		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers);
 
 		//generate PDF
-		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal);
+		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 
 		return pdf;
 	}

@@ -16,6 +16,19 @@ public class RelevePropriete {
 	private String anneMiseAJour;
 	
 	private List<CompteCommunal> comptesCommunaux;
+	
+	private List<String> fieldSearch;
+	
+	boolean noData;
+
+
+	public RelevePropriete(List<String> fields) {
+		setFieldSearch(fields);
+	}
+	
+	public RelevePropriete() {
+		
+	}
 		
 
 	/**
@@ -65,6 +78,34 @@ public class RelevePropriete {
 	 */
 	public void setComptesCommunaux(List<CompteCommunal> comptesCommunaux) {
 		this.comptesCommunaux = comptesCommunaux;
+	}
+	
+	/**
+	 * @return the fieldSearch
+	 */
+	public List<String> getFieldSearch() {
+		return fieldSearch;
+	}
+
+	/**
+	 * @param fieldSearch the fieldSearch to set
+	 */
+	@XmlElementWrapper(name="fields")
+    @XmlElements({@XmlElement(name="field",     type=String.class)})
+	public void setFieldSearch(List<String> fieldSearch) {
+		this.fieldSearch = fieldSearch;
+	}
+	
+	/**
+	 * @return the serviceUrl
+	 */
+	public boolean getNoData() {
+		return noData;
+	}
+
+	public void setNoData(boolean b) {
+		noData = b;
+		
 	}
 
 	
