@@ -350,9 +350,10 @@
 
 	<xsl:template name="identificationLocal">
 		<fo:table table-layout="fixed">
-			<fo:table-column column-width="20%" />
-			<fo:table-column column-width="20%" />
-			<fo:table-column column-width="20%" />
+			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="30%" />
 			<fo:table-column column-width="40%" />
 			<fo:table-header background-color="silver">
 				<fo:table-row height="20pt">
