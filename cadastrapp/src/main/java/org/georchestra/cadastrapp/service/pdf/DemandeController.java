@@ -169,6 +169,7 @@ public class DemandeController extends CadController {
 		return response.build();
 	}
 
+	
 	private File createReleveProprieteByCC(String compteCommunal, HttpHeaders headers, boolean isMinimal) {
 
 		//Store field search if no data to display => inform on PDF file
@@ -182,7 +183,7 @@ public class DemandeController extends CadController {
 		File pdf = null;
 		//generate PDF
 		if(relevePropriete.getNoData()){
-			fields.add(compteCommunal);
+			fields.add("Compte communal : "+ compteCommunal);
 			relevePropriete.setFieldSearch(fields);     
 			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, true);
 		}else {
@@ -213,7 +214,7 @@ public class DemandeController extends CadController {
 		File pdf = null;
 		//generate PDF
 		if(relevePropriete.getNoData()){
-			fields.add(parcelle);
+			fields.add("Parcelle : "+ parcelle);
 			relevePropriete.setFieldSearch(fields);     
 			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, true);
 		}else {
@@ -237,10 +238,11 @@ public class DemandeController extends CadController {
 
 		File pdf = null;
 		try {
-			fields.add(parcelle);
 			//generate PDF
 			if(bordereauParcellaire.getNoData()){
 
+				fields.add("Parcelle : "+parcelle);
+				
 				bordereauParcellaire.setFieldSearch(fields);     
 
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire, true);
@@ -249,8 +251,9 @@ public class DemandeController extends CadController {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,false);
 			}
 		} catch (CadastrappServiceException e) {
-			fields.add("Probleme lors de la création de l'image du bordereau.");
+			fields.add(CadastrappConstants.GENERATING_PICTURE_ERROR);
 			bordereauParcellaire.setFieldSearch(fields);
+			logger.error(CadastrappConstants.GENERATING_PICTURE_ERROR, e);
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {
@@ -287,16 +290,17 @@ public class DemandeController extends CadController {
 		try {
 			//generate PDF
 			if(bordereauParcellaire.getNoData()){
-				fields.add(comptecommunal);
-				fields.add(parcelleId);
+				fields.add("Compte communal : "+ comptecommunal);
+				fields.add("Parcelle : "+ parcelleId);
 				bordereauParcellaire.setFieldSearch(fields);     
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire, true);
 			}else {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,false);
 			}
 		} catch (CadastrappServiceException e) {
-			fields.add("Probleme lors de la création de l'image du bordereau.");
+			fields.add(CadastrappConstants.GENERATING_PICTURE_ERROR);
 			bordereauParcellaire.setFieldSearch(fields);
+			logger.error(CadastrappConstants.GENERATING_PICTURE_ERROR, e);
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {
@@ -321,8 +325,8 @@ public class DemandeController extends CadController {
 		File pdf = null;
 		//generate PDF
 		if(relevePropriete.getNoData()){
-			fields.add(compteCommunal);
-			fields.add(parcellaId);
+			fields.add("Compte communal : "+compteCommunal);
+			fields.add("Parcelle : "+parcellaId);
 			relevePropriete.setFieldSearch(fields);     
 			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, true);
 		}else {
@@ -352,8 +356,9 @@ public class DemandeController extends CadController {
 			//generate PDF
 			pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,false);
 		} catch (CadastrappServiceException e) {
-			fields.add("Probleme lors de la création de l'image du bordereau.");
+			fields.add(CadastrappConstants.GENERATING_PICTURE_ERROR);
 			bordereauParcellaire.setFieldSearch(fields);
+			logger.error(CadastrappConstants.GENERATING_PICTURE_ERROR, e);
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {
@@ -404,8 +409,9 @@ public class DemandeController extends CadController {
 			//generate PDF
 			pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,false);
 		} catch (CadastrappServiceException e) {
-			fields.add("Probleme lors de la création de l'image du bordereau.");
+			fields.add(CadastrappConstants.GENERATING_PICTURE_ERROR);
 			bordereauParcellaire.setFieldSearch(fields);
+			logger.error(CadastrappConstants.GENERATING_PICTURE_ERROR, e);
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {
@@ -457,8 +463,9 @@ public class DemandeController extends CadController {
 			//generate PDF
 			pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,false);
 		} catch (CadastrappServiceException e) {
-			fields.add("Probleme lors de la création de l'image du bordereau.");
+			fields.add(CadastrappConstants.GENERATING_PICTURE_ERROR);
 			bordereauParcellaire.setFieldSearch(fields);
+			logger.error(CadastrappConstants.GENERATING_PICTURE_ERROR, e);
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {

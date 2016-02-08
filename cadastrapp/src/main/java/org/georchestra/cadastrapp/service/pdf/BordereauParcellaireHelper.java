@@ -321,7 +321,7 @@ public final class BordereauParcellaireHelper extends CadController{
 		} catch (JAXBException jaxbException) {
 			logger.warn("Error creating Marsharller : " + jaxbException);
 		}catch (Exception globalException) {
-			throw new CadastrappServiceException(globalException.getMessage());
+			throw new CadastrappServiceException(globalException);
 		}finally{
 			// Could not delete pdfResult here because it's still used by cxf
 		}

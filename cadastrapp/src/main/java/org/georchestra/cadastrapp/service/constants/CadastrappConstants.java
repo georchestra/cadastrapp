@@ -74,5 +74,9 @@ public final class CadastrappConstants {
 	
 	public static final String CODE_DEMANDEUR_TIER		= "P3";
 	
+	
+	//message erreur
+	public static final String GENERATING_PICTURE_ERROR = "Problème lors de la création de l'image du bordereau.";
+	
 
 }
