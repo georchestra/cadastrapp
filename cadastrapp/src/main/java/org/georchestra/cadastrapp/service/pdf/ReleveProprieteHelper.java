@@ -614,7 +614,7 @@ public final class ReleveProprieteHelper extends CadController{
 	 * @param parcellaId
 	 * @return RelevePropriete
 	 */
-	public RelevePropriete getReleveCoProprieteInformation(List<String> compteCommIds, HttpHeaders headers, String parcellaId) {
+	public RelevePropriete getReleveCoProprieteInformation(List<String> compteCommIds, HttpHeaders headers, String parcelleId) {
 
 
 		RelevePropriete relevePropriete = new RelevePropriete();
@@ -654,7 +654,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 			logger.debug("Get town information " );
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			List<Map<String, Object>> rows = jdbcTemplate.queryForList(queryBuilder.toString(), idCompteCommunal, parcellaId);
+			List<Map<String, Object>> rows = jdbcTemplate.queryForList(queryBuilder.toString(), idCompteCommunal, parcelleId);
 
 			for (Map<?, ?> row : rows) {
 				compteCommunal.setLibelleCommune((String) row.get("libcom"));
@@ -724,7 +724,7 @@ public final class ReleveProprieteHelper extends CadController{
 				queryBuilderProprieteBatie.append(" where pb.comptecommunal = ? and pb.parcelle = ? ORDER BY ccosec, dnupla");
 
 				logger.debug("Get developed property information " );
-				List<Map<String, Object>> proprietesBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteBatie.toString(), idCompteCommunal, parcellaId);
+				List<Map<String, Object>> proprietesBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteBatie.toString(), idCompteCommunal, parcelleId);
 
 				for (Map<String, Object> propBat : proprietesBatiesResult) {
 					ProprieteBatie proprieteBatie = new ProprieteBatie();
@@ -827,7 +827,7 @@ public final class ReleveProprieteHelper extends CadController{
 				queryBuilderProprieteNonBatie.append(" where pnb.cgocommune = pnbsufexo.cgocommune and pnb.id_local=pnbsufexo.id_local and pnb.comptecommunal = ? and pnb.parcelle = ? ORDER BY ccosec, dnupla");
 
 				logger.debug("Get undeveloped property information " );
-				List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal, parcellaId);
+				List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal, parcelleId);
 
 				for (Map<String, Object> propNonBat : proprietesNonBatiesResult) {
 					
@@ -1012,10 +1012,10 @@ public final class ReleveProprieteHelper extends CadController{
 		// directly search in view parcelle
 		if(commune != null || section != null || numero != null){
 			queryBuilder.append("select distinct ");
-			queryBuilder.append("proparc.comptecommunal ");
+			queryBuilder.append("proparc.comptecommunal, proparc.parcelle ");
 			queryBuilder.append("from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle proparc ");
+			queryBuilder.append(".co_propriete_parcelle proparc ");
 			queryBuilder.append(", ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle p ");

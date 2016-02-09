@@ -478,14 +478,16 @@ public class DemandeController extends CadController {
 		List<String> compteCommunauxList = new ArrayList<String>();
 		//get compte communal by parcelle commune,section,numero, and proprietaire
 		List<Map<String, Object>> compteCommunaux = releveProprieteHelper.getProprietaireByInfoLot(commune,section,numero,proprietaire);
+		String parcelleId = null;
 
 		for (Map<?, ?> row : compteCommunaux) {
 			compteCommunauxList.add((String) row.get("comptecommunal"));
+			parcelleId = (String) row.get("parcelle");
 
 		}
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveCoProprieteInformation(compteCommunauxList, headers, parcelleId);
 
 		//generate PDF
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);

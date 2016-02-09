@@ -202,5 +202,69 @@ public class ProprietaireController extends CadController{
               
         return proprietaires;
     }
+    
+    @GET
+    @Path("/getProprietairesByInfoParcelles")
+    @Produces("application/json")
+    /**
+     * This will return information about owners in JSON format
+     *
+     * 
+     * @param headers headers from request used to filter search using LDAP Roles
+     * @param commune
+     * @param section
+     * @param numero
+     * 					 
+     * 
+     * @return list of information about all proprietaire of given parcelles 
+     * 
+     * @throws SQLException
+     */
+    public List<Map<String,Object>> getProprietairesByInfoParcelle(
+    			@Context HttpHeaders headers,
+    			@QueryParam("commune") String commune,
+    			@QueryParam("section") String section,
+    			@QueryParam("numero") String numero
+    			) throws SQLException {
+    	
+    	// Init list to return response even if nothing in it.
+    	List<Map<String,Object>> proprietaires = new ArrayList<Map<String,Object>>();;
+    	
+    	// User need to be at least CNIL1 level
+    	if (getUserCNILLevel(headers)>0){
+    	    
+    		// if search by dnuproList or comptecommunal
+    		// directly search in view parcelle
+    		if(commune != null || section != null || numero != null){
+    			StringBuilder queryBuilder = new StringBuilder();
+    			queryBuilder.append("select distinct ");
+    			queryBuilder.append("ddenom ");
+    			queryBuilder.append("from ");
+    			queryBuilder.append(databaseSchema);
+    			queryBuilder.append(".");
+    			queryBuilder.append("parcelle p,");
+    			queryBuilder.append(databaseSchema);
+    			queryBuilder.append(".");
+    			queryBuilder.append("co_propriete_parcelle copropar, ");
+    			queryBuilder.append(databaseSchema);
+    			queryBuilder.append(".");
+    			queryBuilder.append("proprietaire pro ");
+    			queryBuilder.append(" where p.parcelle = copropar.parcelle ");
+    			queryBuilder.append(" and pro.comptecommunal = copropar.comptecommunal ");
+    			queryBuilder.append(" and p.cgocommune = ? and p.ccosec = ? and p.dnupla = ? ");
+    			queryBuilder.append(";");
+		    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		        proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), commune,section,numero);
+	    	}
+	    	else{
+			//log empty request
+			logger.info("Parcelle Id List is empty nothing to search");
+		}
+    	}else{
+    		logger.info("User does not have rights to see thoses informations");
+    	}
+              
+        return proprietaires;
+    }
 }
 

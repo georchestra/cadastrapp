@@ -184,7 +184,7 @@ public class RequestInformationController {
 	 * @throws SQLException
 	 */
 	public Map<String, Object> saveInformationRequest(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("adress") String adress, @QueryParam("commune") String commune, @QueryParam("codepostal") String codePostal, @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname, @QueryParam("mail") String mail,
-			@QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("parcelleIds") List<String> parcelleIds, @QueryParam("proprietaires") List<String> proprietaires, @QueryParam("parcelles") List<String> parcelles, @QueryParam("coproprietes") List<String> coProprietes, @QueryParam("lotCoproprietes") List<String> lotCoproprietes, @QueryParam("askby") int askby, @QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
+			@QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("parcelleIds") List<String> parcelleIds, @QueryParam("proprietaires") List<String> proprietaires, @QueryParam("parcelles") List<String> parcelles, @QueryParam("coproprietes") List<String> coProprietes, @QueryParam("proprietaireLots") List<String> lotCoproprietes, @QueryParam("askby") int askby, @QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
 
 		// todo recheck value
 
