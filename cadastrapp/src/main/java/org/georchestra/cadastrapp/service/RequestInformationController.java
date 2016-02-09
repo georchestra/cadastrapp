@@ -236,10 +236,8 @@ public class RequestInformationController {
 					ObjectRequest objectRequest = new ObjectRequest();
 					objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_COMPTE_COMMUNAL);
 					objectRequest.setComptecommunal(compteCommunal.split("\\|")[0]);
-					//objectRequest.setBp(compteCommunal.split("\\|")[1]);
-					//objectRequest.setRp(compteCommunal.split("\\|")[2]);
-					objectRequest.setBp("1");
-					objectRequest.setRp("1");
+					objectRequest.setBp(compteCommunal.split("\\|")[1]);
+					objectRequest.setRp(compteCommunal.split("\\|")[2]);
 
 					objectRequestSet.add(objectRequest);
 				}
@@ -263,10 +261,8 @@ public class RequestInformationController {
 					
 					objectRequest.setComptecommunal(comptePropriete.split("\\|")[0]);
 					objectRequest.setParcelle(comptePropriete.split("\\|")[1]);
-					//objectRequest.setBp(comptePropriete.split("\\|")[2]);
-					//objectRequest.setRp(comptePropriete.split("\\|")[3]);
-					objectRequest.setBp("1");
-					objectRequest.setRp("1");
+					objectRequest.setBp(comptePropriete.split("\\|")[2]);
+					objectRequest.setRp(comptePropriete.split("\\|")[3]);
 					objectRequestSet.add(objectRequest);
 				}
 			}
@@ -286,10 +282,8 @@ public class RequestInformationController {
 					ObjectRequest objectRequest = new ObjectRequest();
 					objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_PARCELLE_ID);
 					objectRequest.setParcelle(parcelle.split("\\|")[0]);
-//					objectRequest.setBp(parcelle.split("\\|")[1]);
-//					objectRequest.setRp(parcelle.split("\\|")[2]);
-					objectRequest.setBp("1");
-					objectRequest.setRp("1");
+					objectRequest.setBp(parcelle.split("\\|")[1]);
+					objectRequest.setRp(parcelle.split("\\|")[2]);
 
 					objectRequestSet.add(objectRequest);
 				}
@@ -308,10 +302,8 @@ public class RequestInformationController {
 					objectRequest.setCommune(parcelle.split("\\|")[0]);
 					objectRequest.setSection(parcelle.split("\\|")[1]);
 					objectRequest.setNumero(parcelle.split("\\|")[2]);
-//					objectRequest.setBp(parcelle.split("\\|")[3]);
-//					objectRequest.setRp(parcelle.split("\\|")[4]);
-					objectRequest.setBp("1");
-					objectRequest.setRp("1");
+					objectRequest.setBp(parcelle.split("\\|")[3]);
+					objectRequest.setRp(parcelle.split("\\|")[4]);
 					objectRequestSet.add(objectRequest);
 				}
 			}
@@ -326,11 +318,8 @@ public class RequestInformationController {
 							objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_PROPRIETAIRE);
 							objectRequest.setCommune(proprio.split("\\|")[0]);
 							objectRequest.setProprietaire(proprio.split("\\|")[1]);
-//							objectRequest.setBp(proprio.split("\\|")[3]);
-//							objectRequest.setRp(proprio.split("\\|")[4]);
-							objectRequest.setBp("1");
-							objectRequest.setRp("1");
-							
+							objectRequest.setBp(proprio.split("\\|")[2]);
+							objectRequest.setRp(proprio.split("\\|")[3]);			
 							objectRequestSet.add(objectRequest);
 						}
 					}
@@ -348,10 +337,8 @@ public class RequestInformationController {
 							objectRequest.setSection(lotProprio.split("\\|")[1]);
 							objectRequest.setNumero(lotProprio.split("\\|")[2]);
 							objectRequest.setProprietaire(lotProprio.split("\\|")[3]);
-//							objectRequest.setBp(lotProprio.split("\\|")[4]);
-//							objectRequest.setRp(lotProprio.split("\\|")[5]);
-							objectRequest.setBp("1");
-							objectRequest.setRp("1");
+							objectRequest.setBp(lotProprio.split("\\|")[4]);
+							objectRequest.setRp(lotProprio.split("\\|")[5]);
 							objectRequestSet.add(objectRequest);
 						}
 					}
