@@ -154,11 +154,8 @@ public class UniteCadastraleController extends CadController {
 		// CNIL Niveau 2
 		queryBuilder.append("select distinct pb.dnubat from ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietaire_parcelle propar, ");
-		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietebatie pb ");
-		queryBuilder.append(" where propar.parcelle = ? ");
-		queryBuilder.append(" and propar.comptecommunal = pb.comptecommunal ");
+		queryBuilder.append(" where pb.parcelle = ? ");
 		queryBuilder.append(addAuthorizationFiltering(headers, "pb."));
 		queryBuilder.append(" ORDER BY pb.dnubat");
 		
