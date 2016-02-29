@@ -10,7 +10,7 @@
 	
 	<!--  database -->
 	<logger name="org.hibernate" level="INFO" />	
-	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" />
+	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="INFO" />
 	
 	<!--  services -->
 	<logger name="org.apache.cxf" level="WARN" />
