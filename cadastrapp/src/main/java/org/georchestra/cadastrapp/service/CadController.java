@@ -32,6 +32,8 @@ public class CadController {
 	
 	protected String cnil1RoleName;
 	
+	protected String roleSeparator;
+	
 	protected int minNbCharForSearch;
 	
 	protected boolean isSearchFiltered;
@@ -149,8 +151,13 @@ public class CadController {
 		logger.debug("user roleList : "+ roleListString);
 		if(roleListString!=null && !roleListString.isEmpty()){
 			
+			// set separator by default if not set
+			if(roleSeparator.isEmpty()){
+				roleSeparator = ",";
+			}
+						
 			// Force to add the array of value in first place of a new Array
-			String[] roleList = roleListString.split(",");  
+			String[] roleList = roleListString.split(roleSeparator);  
  	
 			// get commune list in database corresponding to this header
 			StringBuilder queryBuilder = new StringBuilder();
