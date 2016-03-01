@@ -154,7 +154,7 @@ public class CadController {
 			
 			// set separator by default if not set
 			if(roleSeparator.isEmpty()){
-				roleSeparator = ",";
+				roleSeparator = ";";
 			}
 						
 			// Force to add the array of value in first place of a new Array
