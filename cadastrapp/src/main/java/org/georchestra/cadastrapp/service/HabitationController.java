@@ -45,7 +45,7 @@ public class HabitationController extends CadController {
 		queryParams.add(annee);
 		queryParams.add(invar);
 		
-		if(annee != null && annee != null && getUserCNILLevel(headers) > 1) 
+		if(annee != null && invar != null && getUserCNILLevel(headers) > 1) 
 		{		
 			habitationDesc.put("article40", getArticle40Details(queryParams));
 			habitationDesc.put("article50", getArticle50Details(queryParams));

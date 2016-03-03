@@ -83,7 +83,7 @@ public class CommuneController extends CadController{
 	    			logger.debug("Missing ccodir in cgoCommune parameters adding it");
 	    		} 	
 	    		// Like query because cgocommune can be only 1 or 2 digit
-	    		isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder,"cgocommune", cgoCommune, queryParams);     
+	    		createLikeClauseRequest(isWhereAdded, queryBuilder,"cgocommune", cgoCommune, queryParams);     
 	  		
 	    	}
 	    	if(isSearchFiltered){

@@ -69,7 +69,12 @@ public class DemandeController extends CadController {
 
 			// Get bordereau parcellaire information
 			InformationRequest requestInformation = requestRepository.findByRequestId(requestId);
-			boolean isMinimal = CadastrappConstants.CODE_DEMANDEUR_TIER.equals(requestInformation.getUser().getType());
+			
+			boolean isMinimal = false;
+			// If demandeur tiers, pdf has less information
+			if(requestInformation.getUser() != null && requestInformation.getUser().getType() != null){
+				isMinimal = CadastrappConstants.CODE_DEMANDEUR_TIER.equals(requestInformation.getUser().getType());
+			}
 
 			if (requestInformation != null && requestInformation.getObjectsRequest().size() <= maxRequest) {
 
@@ -264,29 +269,42 @@ public class DemandeController extends CadController {
 
 	}
 
+	/**
+	 * createBordereauParcellaireByCC
+	 * 
+	 * @param comptecommunal 
+	 * @param parcelleId
+	 * @param headers http headers to test wrights
+	 * @param isCoPro boolean to check is request is a copropriete
+	 * 
+	 * @return PDF file contening wanted Bordereau Parcellaire
+	 */
 	private File createBordereauParcellaireByCC(String comptecommunal,String parcelleId, HttpHeaders headers, boolean isCoPro) {
 
-		//Store field search if no data to display => inform on PDF file
+		// Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
-		//parcelle list
-		List<String> parcellId = new ArrayList<String>();
+		
+		// Parcelle list
+		List<String> parcellesId = new ArrayList<String>();
+		
+		// Init pdf
+		File pdf = null;
 
 		if(parcelleId == null){
-			//get parcelle by compte communal
-			List<Map<String, Object>> parcelleIds = bordereauParcellaireHelper.getParcellesByProprietaire(comptecommunal,isCoPro,parcelleId);
+			
+			// Get parcelle by compte communal
+			List<Map<String, Object>> parcelleIds = bordereauParcellaireHelper.getParcellesByProprietaire(comptecommunal, isCoPro, null);
 
 			for (Map<?, ?> row : parcelleIds) {
-				parcellId.add((String) row.get("parcelle"));
+				parcellesId.add((String) row.get("parcelle"));
 
 			}
 		}else {
-			parcellId.add(parcelleId);
+			parcellesId.add(parcelleId);
 		}
 
-		File pdf = null;
-
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers, isCoPro);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellesId, 1, headers, isCoPro);
 		try {
 			//generate PDF
 			if(bordereauParcellaire.getNoData()){

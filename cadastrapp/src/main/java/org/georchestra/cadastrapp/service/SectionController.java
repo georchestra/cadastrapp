@@ -47,6 +47,7 @@ public class SectionController extends CadController {
 			@QueryParam("ccopre") String ccopre,
 			@QueryParam("ccosec") String ccosec) throws SQLException {
 
+		// Create empty List to send empty reponse if SQL value is empty. (List instead of null in http response)
 		List<Map<String, Object>> sections = new ArrayList<Map<String, Object>>();
 	   	List<String> queryParams = new ArrayList<String>();
 	   	boolean isWhereAdded = false; 

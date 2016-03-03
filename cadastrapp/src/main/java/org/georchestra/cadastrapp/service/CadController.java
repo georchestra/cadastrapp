@@ -49,7 +49,7 @@ public class CadController {
 		this.cnil2RoleName = CadastrappPlaceHolder.getProperty("cnil2RoleName");
 		this.roleSeparator = CadastrappPlaceHolder.getProperty("roleSeparator");
 		this.minNbCharForSearch = Integer.parseInt(CadastrappPlaceHolder.getProperty("minNbCharForSearch"));
-		this.isSearchFiltered =  (CadastrappPlaceHolder.getProperty("user.search.are.filtered").equals('0') ? false : true);
+		this.isSearchFiltered =  (CadastrappPlaceHolder.getProperty("user.search.are.filtered").equals("0") ? false : true);
 	}
 	
 	/**
