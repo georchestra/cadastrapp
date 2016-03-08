@@ -215,11 +215,12 @@ public class ImageParcelleController extends CadController {
 						requestParcelle.setBBox(bounds);
 
 						logger.debug("Create feature picture");
-						GetMapResponse parcelleResponse = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);
+						GetMapResponse parcelleResponse = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);			
 						parcelleImage = ImageIO.read(parcelleResponse.getInputStream());
 
 						logger.debug("Create final picture");
-						BufferedImage finalImage = new BufferedImage(parcelleImage.getWidth(), parcelleImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+						// createFinal buffer with pdf image size and not with result from parcellResponse
+						BufferedImage finalImage = new BufferedImage(pdfImageWidth, pdfImageHeight, BufferedImage.TYPE_INT_ARGB);
 
 						Graphics2D g2 = finalImage.createGraphics();
 
