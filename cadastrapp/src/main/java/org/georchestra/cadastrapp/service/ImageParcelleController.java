@@ -140,10 +140,19 @@ public class ImageParcelleController extends CadController {
 					}
 						
 					SimpleFeatureCollection collection = source.getFeatures(filter);
-					SimpleFeatureIterator it = collection.features();
+					
+					// Nullpointer exception in geotools features() when WFS is activate but not publish in geoserver
+					// collection is not null, but features() method throw a java.lang.NullPointerException
+					// org.geotools.data.wfs.v1_0_0.NonStrictWFSStrategy.correctFilterForServer(NonStrictWFSStrategy.java:221)
+					SimpleFeatureIterator it = null;
+					try{
+						it = collection.features();
+					} catch (NullPointerException e) {
+						logger.error("Error when try to filter information from WFS service, check WFS service is activated and published", e);
+					} 
 
 					// Check if there is a leat one feature
-					if (it.hasNext()) {
+					if (it != null && it.hasNext()) {
 
 						logger.debug("Get feature");
 						// Get only the first plot
