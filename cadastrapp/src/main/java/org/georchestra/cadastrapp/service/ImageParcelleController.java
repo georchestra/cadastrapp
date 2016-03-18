@@ -93,7 +93,8 @@ public class ImageParcelleController extends CadController {
 		// Check parcelle value, at least
 		if (parcelle != null && parcelle.length() > parcelleIdLength) {
 
-			int distanceVisible = 0;
+			int visibleLength = 0;
+			int visibleHeight = 0;
 			BufferedImage baseMapImage;
 			BufferedImage parcelleImage;
 			BoundingBox bounds;
@@ -162,7 +163,10 @@ public class ImageParcelleController extends CadController {
 						CoordinateReferenceSystem crs = bounds.getCoordinateReferenceSystem();
 				
 						Geometry targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
-
+						
+						float pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageWidth"));
+						float pdfImageHeight = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageHeight"));
+						
 						// If CRS null
 						if (crs == null || targetGeometry == null) {
 							logger.error("CRS not known by geotools, no buffering can be made, scale won't be seeing on image");
@@ -179,14 +183,34 @@ public class ImageParcelleController extends CadController {
 							bounds = JTS.getEnvelope2D(envelope, crs);
 
 							// Get distance beetween two point here bounds is used
-							Coordinate start = new Coordinate(bounds.getMinX(), bounds.getMinY());
-							Coordinate end = new Coordinate(bounds.getMaxX(), bounds.getMinY());
+							Coordinate lowerLeftCorner = new Coordinate(bounds.getMinX(), bounds.getMinY());
+							Coordinate lowerRightCorner = new Coordinate(bounds.getMaxX(), bounds.getMinY());
+							Coordinate upperLeftCorner = new Coordinate(bounds.getMinX(), bounds.getMaxY());
 
 							try {
-								double distance = JTS.orthodromicDistance(start, end, crs);
-								distanceVisible = (int) distance;
-								logger.debug("Bounding box length : " + distanceVisible + " meters");
-
+								double bblength = JTS.orthodromicDistance(lowerLeftCorner, lowerRightCorner, crs);
+								visibleLength = (int) bblength;						
+								logger.debug("Bounding box length : " + visibleLength + " meters");
+								
+								double bbheight = JTS.orthodromicDistance(lowerLeftCorner, upperLeftCorner, crs);
+								visibleHeight = (int) bbheight;
+								logger.debug("Bounding box height : " + visibleHeight + " meters");
+								
+								// calculate current ratio
+								float ratio =  (float) visibleLength / visibleHeight;
+								logger.debug("Ratio L/W : " + ratio );
+								
+								// Wider than it is tall
+								if(ratio < 1){
+									pdfImageWidth = pdfImageWidth * ratio;
+								}
+								// Taller than it is wide
+								else{
+									pdfImageHeight = pdfImageWidth / ratio;	
+								}
+								
+								logger.debug("Image size  : " + pdfImageHeight + " : " + pdfImageWidth);
+								
 							} catch (TransformException e) {
 								logger.error("Could not calculate distance, no scale bar will be displayed on image", e);
 							}
@@ -197,8 +221,6 @@ public class ImageParcelleController extends CadController {
 						final String wmsUrl = CadastrappPlaceHolder.getProperty("cadastre.wms.url");
 						final String cadastreFormat = CadastrappPlaceHolder.getProperty("cadastre.format");
 						final String cadastreWMSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
-						final int pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageWidth"));
-						final int pdfImageHeight = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageHeight"));
 
 						URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
 
@@ -215,7 +237,7 @@ public class ImageParcelleController extends CadController {
 						requestParcelle.addLayer(layerParcelle);
 
 						// sets the dimensions check with PDF size available
-						requestParcelle.setDimensions(pdfImageWidth, pdfImageHeight);
+						requestParcelle.setDimensions((int) pdfImageWidth, (int)pdfImageHeight);
 						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
 						requestParcelle.setSRS(cadastreSRS);
 						requestParcelle.setTransparent(true);
@@ -229,7 +251,7 @@ public class ImageParcelleController extends CadController {
 
 						logger.debug("Create final picture");
 						// createFinal buffer with pdf image size and not with result from parcellResponse
-						BufferedImage finalImage = new BufferedImage(pdfImageWidth, pdfImageHeight, BufferedImage.TYPE_INT_ARGB);
+						BufferedImage finalImage = new BufferedImage((int)pdfImageWidth, (int)pdfImageHeight, BufferedImage.TYPE_INT_ARGB);
 
 						Graphics2D g2 = finalImage.createGraphics();
 
@@ -261,7 +283,7 @@ public class ImageParcelleController extends CadController {
 
 								// sets the dimensions check with PDF size
 								// available
-								request.setDimensions(pdfImageWidth, pdfImageHeight);
+								request.setDimensions((int) pdfImageWidth, (int) pdfImageHeight);
 								final String baseMapSRS = CadastrappPlaceHolder.getProperty("baseMap.SRS");
 
 								request.setSRS(baseMapSRS);
@@ -288,10 +310,10 @@ public class ImageParcelleController extends CadController {
 						g2.drawImage(parcelleImage, 0, 0, null);
 
 						drawPlot(g2, targetGeometry);
-						drawCompass(g2, pdfImageHeight, pdfImageWidth);
+						drawCompass(g2, (int) pdfImageHeight, (int) pdfImageWidth);
 
 						try {
-							drawScale(g2, pdfImageHeight, pdfImageWidth, distanceVisible);
+							drawScale(g2, (int) pdfImageHeight, (int) pdfImageWidth, visibleLength);
 						} catch (TransformException e) {
 							logger.warn("Error while creating scale bar, no scale bar will be displayed on image", e);
 						}

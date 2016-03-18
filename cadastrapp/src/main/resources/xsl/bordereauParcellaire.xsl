@@ -80,7 +80,7 @@
 						<!-- Empreinte -->
 						<fo:table-cell>
 							<fo:block>
-								<fo:external-graphic>
+								<fo:external-graphic  content-width="scale-to-fit" content-height="100%" width="100%" scaling="uniform">
 									<xsl:attribute name="src">
 										<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" />
 									</xsl:attribute>
