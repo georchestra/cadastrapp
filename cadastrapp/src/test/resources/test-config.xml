@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+						 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+						 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd 
+						 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+						 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+						 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<context:component-scan base-package="org.georchestra.cadastrapp" />
+	
+	<tx:annotation-driven />
+	
+	<jpa:repositories base-package="org.georchestra.cadastrapp.repository" />
+
+	<!-- Only to load default_schema name in hibernate connection -->
+	<bean id="cadastrappProperties"
+		class="org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder">
+		<property name="locations">
+			<list>
+				<value>classpath:cadastrapp-test.properties</value>
+			</list>
+		</property>
+		<property name="fileEncoding" value="UTF-8" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="ignoreResourceNotFound" value="true" />
+	</bean>
+
+	<jaxrs:server id="services" address="/">
+		<jaxrs:serviceBeans>
+			<bean class="org.georchestra.cadastrapp.service.BatimentController" />
+			<bean class="org.georchestra.cadastrapp.service.CommuneController" />
+			<bean class="org.georchestra.cadastrapp.service.ConfigurationController" />
+			<bean class="org.georchestra.cadastrapp.service.CoProprietaireController" />
+			<bean class="org.georchestra.cadastrapp.service.HabitationController" />
+			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
+			<bean class="org.georchestra.cadastrapp.service.ImageParcelleController" />
+			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
+			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />
+			<bean
+				class="org.georchestra.cadastrapp.service.RequestInformationController" />
+			<bean class="org.georchestra.cadastrapp.service.SectionController" />
+			<bean class="org.georchestra.cadastrapp.service.UniteCadastraleController" />
+			<bean class="org.georchestra.cadastrapp.service.UniteFonciereController" />
+			<bean class="org.georchestra.cadastrapp.service.VoieController" />
+
+			<bean class="org.georchestra.cadastrapp.service.export.CSVExportController" />
+
+			<bean
+				class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
+			<bean
+				class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
+			<bean class="org.georchestra.cadastrapp.service.pdf.RequestPDFController" />
+			<bean class="org.georchestra.cadastrapp.service.pdf.DemandeController" />
+
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+			<!-- Use to add context in logg and can be use for autorization filtering -->
+			<bean class="org.georchestra.cadastrapp.providers.PreRequestFilter" />
+			<bean class="org.georchestra.cadastrapp.providers.PreReponseFilter" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	
+	<!--  h2 datasource for unit test -->
+	<bean id="dbDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:test;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>
+
+
+	<!-- ============================= -->
+	<!-- ENTITY MANAGER -->
+	<!-- ============================= -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dbDataSource" />
+		<property name="persistenceUnitName" value="springDataJPA" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+
+				<!-- get schema name for cadastrapp.properties -->
+				<prop key="hibernate.default_schema">${schema.name}</prop>
+
+				<!-- dialect -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+
+				<!-- 2d level cache -->
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+
+				<!-- ehcache -->
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+				</prop>
+
+				<prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+				<prop key="hibernate.jdbc.use_scrollable_resultset">true</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
+				<prop key="hibernate.jdbc.fetch_size">16</prop>
+
+				<!-- logging debug information, change this to debug -->
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+
+			</props>
+		</property>
+	</bean>
+
+	<!-- ============================= -->
+	<!-- TRANSACTION MANAGER -->
+	<!-- ============================= -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- ============================= -->
+	<!-- SESSION FACTORY -->
+	<!-- ============================= -->
+	<bean id="sessionFactory" factory-bean="entityManagerFactory"
+		factory-method="getSessionFactory" />
+
+
+</beans>
