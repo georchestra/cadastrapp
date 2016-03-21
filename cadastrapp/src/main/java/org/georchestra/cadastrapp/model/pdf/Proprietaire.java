@@ -4,19 +4,19 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 public class Proprietaire {
 	
-	String compteCommunal;
+	private String compteCommunal;
 	
-	String nom;
+	private String nom;
 		
-	String adresse;
+	private String adresse;
 	
-	String dateNaissance;
+	private String dateNaissance;
 	
-	String lieuNaissance;
+	private String lieuNaissance;
 	
-	String droitReel;
+	private String droitReel;
 	
-	String codeDeDemenbrement;
+	private String codeDeDemenbrement;
 
 
 	/**

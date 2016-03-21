@@ -379,13 +379,13 @@ public final class ReleveProprieteHelper extends CadController{
 					}
 
 				}else{
-					relevePropriete.setNoData(true);
+					relevePropriete.setEmpty(true);
 				}
 			}
 			relevePropriete.setComptesCommunaux(comptesCommunaux);
 
 		}else {
-			relevePropriete.setNoData(true);
+			relevePropriete.setEmpty(true);
 		}
 
 		return relevePropriete;
@@ -932,12 +932,12 @@ public final class ReleveProprieteHelper extends CadController{
 						comptesCommunaux.add(compteCommunal);
 					}
 				}else {
-					relevePropriete.setNoData(true);
+					relevePropriete.setEmpty(true);
 				}
 
 			}
 		}else {
-			relevePropriete.setNoData(true);
+			relevePropriete.setEmpty(true);
 		}
 
 		relevePropriete.setComptesCommunaux(comptesCommunaux);

@@ -19,7 +19,7 @@ public class RelevePropriete {
 	
 	private List<String> fieldSearch;
 	
-	boolean noData;
+	private boolean isEmpty;
 
 
 	public RelevePropriete(List<String> fields) {
@@ -97,15 +97,17 @@ public class RelevePropriete {
 	}
 	
 	/**
-	 * @return the serviceUrl
+	 * @return the isEmpty
 	 */
-	public boolean getNoData() {
-		return noData;
+	public boolean isEmpty() {
+		return isEmpty;
 	}
 
-	public void setNoData(boolean b) {
-		noData = b;
-		
+	/**
+	 * @param isEmpty the isEmpty to set
+	 */
+	public void setEmpty(boolean isEmpty) {
+		this.isEmpty = isEmpty;
 	}
 
 	

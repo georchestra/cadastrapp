@@ -6,43 +6,43 @@ import javax.xml.bind.annotation.XmlAttribute;
 public class ProprieteNonBatie extends Propriete{
 	
 	// Numéro de parcelle prémitive
-	String dparpi;
+	private String dparpi;
 	
 	// Domanialité, représentation du plan
-	String gpafpd;
+	private String gpafpd;
 	
 	// Lettres indicatives de su
-	String ccosub;
+	private String ccosub;
 	
 	// Groupe de nature de culture
-	String cgrnum;
+	private String cgrnum;
 	
 	// Sous-groupe alphabétique
-	String dsgrpf;
+	private String dsgrpf;
 	
 	// Classe dans le groupe et la série-tarif
-	String dclssf;
+	private String dclssf;
 	
 	// Code nature de culture spéciale
-	String cnatsp;
+	private String cnatsp;
 	
 	// Contenance de la suf, en centiares
-	int dcntsf;
+	private int dcntsf;
 	
 	// Revenu cadastral revalorisé en valeur deu 01-01 de l'année 
-	int drcsuba;
+	private int drcsuba;
 	
 	// Référence pdl
-	String pdl;
+	private String pdl;
 	
 	// Numéro du lot 
-	String dnulot;
+	private String dnulot;
 	
 	// Référence au livre Foncier en Alsace-Moselle
-	String dreflf;
+	private String dreflf;
 	
 	// Tarif de la commune
-	String ccostn;
+	private String ccostn;
 
 	/**
 	 * @return the dparpi

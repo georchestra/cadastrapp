@@ -4,9 +4,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 public class ImpositionNonBatie extends Imposition{
 	
-	int surface;
+	private int surface;
 	
-	int majorationTerraion;
+	private int majorationTerraion;
 
 	/**
 	 * @return the surface

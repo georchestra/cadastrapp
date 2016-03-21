@@ -9,46 +9,46 @@ import javax.xml.bind.annotation.XmlTransient;
 public abstract class Propriete {
 
 	// Date d'acte de mutation du local
-	String jdatat;
+	private String jdatat;
 
 	// Préfixe de section
-	String ccopre;
+	private String ccopre;
 
 	// Section
-	String ccosec;
+	private String ccosec;
 
 	// Numéro de plan de la parcelle
-	String dnupla;
+	private String dnupla;
 
 	// Numéro de la voirie
-	String dnvoiri;
+	private String dnvoiri;
 
 	// Indice de répétition
-	String dindic;
+	private String dindic;
 
 	// Libellé de la voie
-	String dvoilib;
+	private String dvoilib;
 
 	// Code Rivoli de la voie (code fantoir)
-	String ccoriv;
+	private String ccoriv;
 
 	// Code de collectivité locale accordant l'éxonération
-	String ccolloc;
+	private String ccolloc;
 
 	// Nature d'éxonération
-	String gnextl;
+	private String gnextl;
 
 	// Année de début éxonération
-	String jandeb;
+	private String jandeb;
 
 	// Année de retour à imposition
-	String janimp;
+	private String janimp;
 
 	// Fraction EC exonérée
-	String fcexn;
+	private String fcexn;
 	
 	// Taux d'éxonération accordée
-	String pexb;
+	private String pexb;
 
 	/**
 	 * @return the jdatat

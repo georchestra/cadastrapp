@@ -5,37 +5,37 @@ import javax.xml.bind.annotation.XmlAttribute;
 public class ProprieteBatie extends Propriete{
 	
 	// Lettre de batiment
-	String dnubat;
+	private String dnubat;
 	
 	// Numéro d'entrée
-	String descr;
+	private String descr;
 	
 	// Niveau d'étage
-	String dniv;
+	private String dniv;
 	
 	// Numéro de local
-	String dpor;
+	private String dpor;
 	
 	// Numéro de local
-	String invar;
+	private String invar;
 	
 	// Affectation de la pev
-	String ccoaff;
+	private String ccoaff;
 	
 	// Code évaluation 
-	String ccoeva;
+	private String ccoeva;
 	
 	// Nature du local
-	String cconlc;
+	private String cconlc;
 	
 	// Catégorie
-	String dcapec;
+	private String dcapec;
 	
 	// Valeur locative
-	String dvltrt;
+	private String dvltrt;
 	
 	// Montant TIEOM
-	String mvltieomx;
+	private String mvltieomx;
 
 	/**
 	 * @return the dnubat

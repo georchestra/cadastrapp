@@ -187,7 +187,7 @@ public class DemandeController extends CadController {
 
 		File pdf = null;
 		//generate PDF
-		if(relevePropriete.getNoData()){
+		if(relevePropriete.isEmpty()){
 			fields.add("Compte communal : "+ compteCommunal);
 			relevePropriete.setFieldSearch(fields);     
 			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, true);
@@ -218,7 +218,7 @@ public class DemandeController extends CadController {
 
 		File pdf = null;
 		//generate PDF
-		if(relevePropriete.getNoData()){
+		if(relevePropriete.isEmpty()){
 			fields.add("Parcelle : "+ parcelle);
 			relevePropriete.setFieldSearch(fields);     
 			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, true);
@@ -342,7 +342,7 @@ public class DemandeController extends CadController {
 
 		File pdf = null;
 		//generate PDF
-		if(relevePropriete.getNoData()){
+		if(relevePropriete.isEmpty()){
 			fields.add("Compte communal : "+compteCommunal);
 			fields.add("Parcelle : "+parcellaId);
 			relevePropriete.setFieldSearch(fields);     
