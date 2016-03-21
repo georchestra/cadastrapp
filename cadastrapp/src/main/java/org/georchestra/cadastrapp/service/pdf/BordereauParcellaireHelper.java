@@ -150,11 +150,11 @@ public final class BordereauParcellaireHelper extends CadController{
 				bordereauParcellaire.setParcelleList(parcellesInformation);
 				
 			}else {
-				bordereauParcellaire.setNoData(true);
+				bordereauParcellaire.setEmpty(true);
 			}
 			
 		}else{
-			bordereauParcellaire.setNoData(true);
+			bordereauParcellaire.setEmpty(true);
 		}
 
 		return bordereauParcellaire;

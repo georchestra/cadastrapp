@@ -244,7 +244,7 @@ public class DemandeController extends CadController {
 		File pdf = null;
 		try {
 			//generate PDF
-			if(bordereauParcellaire.getNoData()){
+			if(bordereauParcellaire.isEmpty()){
 
 				fields.add("Parcelle : "+parcelle);
 				
@@ -307,7 +307,7 @@ public class DemandeController extends CadController {
 		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellesId, 1, headers, isCoPro);
 		try {
 			//generate PDF
-			if(bordereauParcellaire.getNoData()){
+			if(bordereauParcellaire.isEmpty()){
 				fields.add("Compte communal : "+ comptecommunal);
 				fields.add("Parcelle : "+ parcelleId);
 				bordereauParcellaire.setFieldSearch(fields);     

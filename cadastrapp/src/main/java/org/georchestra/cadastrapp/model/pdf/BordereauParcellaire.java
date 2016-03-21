@@ -25,7 +25,7 @@ public class BordereauParcellaire {
 	
 	private List<String> fieldSearch;
 	
-	boolean noData;
+	private boolean isEmpty;
 
 
 
@@ -37,14 +37,14 @@ public class BordereauParcellaire {
 	}
 
 	/**
-	 * @return the dateDeValidité
+	 * @return the MAJIC information date
 	 */
 	public String getDateDeValiditeMajic() {
 		return dateDeValiditeMajic;
 	}
 	
 	/**
-	 * @return the dateDeValidité
+	 * @return the Edigeo informataion date
 	 */
 	public String getDateDeValiditeEdigeo() {
 		return dateDeValiditeEdigeo;
@@ -69,18 +69,18 @@ public class BordereauParcellaire {
 
 	@XmlElement
 	/**
-	 * @param dateDeValidite the dateDeValidite to set
+	 * @param dateDeValidite the information date of Majic data to be set
 	 */
-	public void setDateDeValiditeMajic(String dateDeValidité) {
-		this.dateDeValiditeMajic = dateDeValidité;
+	public void setDateDeValiditeMajic(String dateDeValidite) {
+		this.dateDeValiditeMajic = dateDeValidite;
 	}
 	
 	@XmlElement
 	/**
-	 * @param dateDeValidite the dateDeValidite to set
+	 * @param dateDeValidite the information date of Edigeo to be set
 	 */
-	public void setDateDeValiditeEdigeo(String dateDeValidité) {
-		this.dateDeValiditeEdigeo = dateDeValidité;
+	public void setDateDeValiditeEdigeo(String dateDeValidite) {
+		this.dateDeValiditeEdigeo = dateDeValidite;
 	}
 	
 	/**
@@ -144,16 +144,19 @@ public class BordereauParcellaire {
 		this.fieldSearch = fieldSearch;
 	}
 	
+
 	/**
-	 * @return the serviceUrl
+	 * @return the isEmpty
 	 */
-	public boolean getNoData() {
-		return noData;
+	public boolean isEmpty() {
+		return isEmpty;
 	}
 
-	public void setNoData(boolean b) {
-		noData = b;
-		
+	/**
+	 * @param isEmpty the isEmpty to set
+	 */
+	public void setEmpty(boolean isEmpty) {
+		this.isEmpty = isEmpty;
 	}
 	
 }
