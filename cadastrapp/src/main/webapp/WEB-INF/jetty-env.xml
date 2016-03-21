@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+	<New id="cadastrapp" class="org.eclipse.jetty.plus.jndi.Resource">
+		<Arg>jdbc/cadastrapp</Arg>
+		<Arg>
+			<New class="org.postgresql.ds.PGSimpleDataSource">
+				<Set name="User">www-data</Set>
+				<Set name="Password">www-data</Set>
+				<Set name="DatabaseName">cadastrapp</Set>
+				<Set name="ServerName">127.0.0.1</Set>
+				<Set name="PortNumber">5432</Set>
+			</New>
+		</Arg>
+	</New>
+</Configure>

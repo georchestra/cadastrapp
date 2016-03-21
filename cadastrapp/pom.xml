@@ -256,6 +256,12 @@
 		</dependency>
 		<!-- use for test -->
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
@@ -290,6 +296,26 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>9.2.11.v20150529</version>
+					<configuration>
+						<webApp>
+							<contextPath>/cadastrapp/</contextPath>
+						</webApp>
+						<scanIntervalSeconds>5</scanIntervalSeconds>
+						<scanTargets>
+							<scanTarget>src/main/java</scanTarget>
+							<scanTarget>src/main/resources</scanTarget>
+						</scanTargets>
+						<jettyEnvXml>jetty-env.xml</jettyEnvXml>
+						<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+						<httpConnector>
+							<port>8287</port>
+						</httpConnector>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
@@ -428,7 +454,9 @@
 							<execution>
 								<id>copy-deb-resources</id>
 								<phase>process-resources</phase>
-								<goals><goal>copy-resources</goal></goals>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
 								<configuration>
 									<overwrite>true</overwrite>
 									<outputDirectory>${basedir}/target/deb/etc/georchestra/cadastrapp</outputDirectory>
@@ -436,9 +464,9 @@
 										<resource>
 											<directory>src/main/resources</directory>
 											<includes>
-	          									<include>**/logback.xml</include>
-	          									<include>**/cadastrapp.properties</include>
-	        								</includes>
+												<include>**/logback.xml</include>
+												<include>**/cadastrapp.properties</include>
+											</includes>
 										</resource>
 									</resources>
 								</configuration>
@@ -457,15 +485,17 @@
 									<target>
 										<chmod perm="ugo+x">
 											<fileset dir="${basedir}/target/deb">
-												<include name="**/bin/**"/>
-												<include name="**/sbin/**"/>
-												<include name="DEBIAN/post*"/>
-												<include name="DEBIAN/pre*"/>
+												<include name="**/bin/**" />
+												<include name="**/sbin/**" />
+												<include name="DEBIAN/post*" />
+												<include name="DEBIAN/pre*" />
 											</fileset>
 										</chmod>
 									</target>
 								</configuration>
-								<goals><goal>run</goal></goals>
+								<goals>
+									<goal>run</goal>
+								</goals>
 							</execution>
 						</executions>
 					</plugin>
