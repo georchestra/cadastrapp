@@ -2,8 +2,12 @@ package org.georchestra.cadastrapp.service.constants;
 
 public final class CadastrappConstants {
 
+	// set private constructor
+	private CadastrappConstants() {
+
+	}
+
 	//Relevé proprietaire partie batie
-	
 	public static final String PB_PREFIX_SECTION			= "ccopre";
 	public static final String PB_LETTRE_SECTION			= "ccosec";
 	public static final String PB_NUM_PLAN					= "dnupla";
