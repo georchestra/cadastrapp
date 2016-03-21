@@ -23,6 +23,8 @@ import org.slf4j.LoggerFactory;
 public class CSVExportController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(CSVExportController.class);
+	
+	final static String DELIMITER = "\n";
 
 	/**
 	 * 
@@ -33,16 +35,12 @@ public class CSVExportController extends CadController {
 	@GET
 	@Path("/exportAsCsv")
 	@Produces({ "text/csv" })
-	public Response CSVExport(@Context HttpHeaders headers, @QueryParam("data") List<String> values) {
+	public Response cSVExport(@Context HttpHeaders headers, @QueryParam("data") List<String> values) {
 
 		ResponseBuilder response = Response.serverError();
 		
-		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
-	    
-
+		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");    
 		final String csvFileName = tempFolder + File.separator + "export-" + new Date().getTime() + ".csv";
-
-		final String DELIMITER = "\n";
 		File file = null;
 		
 		try {
