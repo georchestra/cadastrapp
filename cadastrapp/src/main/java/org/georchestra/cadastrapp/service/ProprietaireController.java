@@ -45,8 +45,9 @@ public class ProprietaireController extends CadController{
 	 * 					cgocommun should be on 6 char
 	 * @param dnupro id to be search, a same dnupro can be found in several commune
 	 * @param comptecommunal id specific for a owner
+	 * @param maritalsearch is a boolean to know when searching with ddenom you want to search as well in dnomlp, default value is false
 	 * 
-	 * @param details -> change list of fields in result 0 dy default or if not present
+	 * @param details -> change list of fields in result 0 by default or if not present
 	 * 					0 : dnomlp, dprnlp
 	 * 					1 : dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal will be return
 	 * 					2 : comptecommunal
@@ -64,6 +65,7 @@ public class ProprietaireController extends CadController{
 			@QueryParam("comptecommunal") String compteCommunal,
 			@QueryParam("globalname") String globalName,
 			@QueryParam("ddenom") String ddenom,
+			@DefaultValue("false") @QueryParam("maritalsearch") boolean isMaritalSearch,
 			@DefaultValue("0") @QueryParam("details") int details
 			) throws SQLException {
 
@@ -122,9 +124,17 @@ public class ProprietaireController extends CadController{
 					queryParams.add(globalName+"%");		       
 				}
 
+				// search by ddenom
 				if(ddenom!=null){
-					queryBuilder.append(" and UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?)) ");
-					queryParams.add("%"+ddenom+"%");
+					if(isMaritalSearch){
+						logger.debug("Search owners with marital informations ");
+						queryBuilder.append("and (UPPER(dnomlp) LIKE UPPER(?) or UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?))) ");
+						queryParams.add(ddenom+"%");
+						queryParams.add(ddenom+"%");						
+					}else{
+						queryBuilder.append(" and UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?)) ");
+						queryParams.add("%"+ddenom+"%");
+					}	
 				}
 
 				isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "dnupro", dnupro, queryParams);
