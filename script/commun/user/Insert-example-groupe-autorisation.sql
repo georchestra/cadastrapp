@@ -2,7 +2,7 @@
 
 -- All for only those commune
 -- cgocommune (Code Geographique Officiel Commune ) 6 char ->  made with ccodpe + ccodir + ccocom
-INSERT INTO cadastreapp_qgis.groupe_autorisation (idgroup, cgocommune) VALUES ('ROLE_ROLE_EL_COMMUNES', '630001');
+INSERT INTO cadastreapp_qgis.groupe_autorisation (idgroup, cgocommune) VALUES ('ROLE_EL_COMMUNES', '630001');
 INSERT INTO cadastreapp_qgis.groupe_autorisation (idgroup, cgocommune) VALUES ('ROLE_EL_COMMUNES', '630002');
 INSERT INTO cadastreapp_qgis.groupe_autorisation (idgroup, cgocommune) VALUES ('ROLE_EL_COMMUNES', '630003');
 INSERT INTO cadastreapp_qgis.groupe_autorisation (idgroup, cgocommune) VALUES ('ROLE_EL_COMMUNES', '630004');

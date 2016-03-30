@@ -17,8 +17,8 @@
 		<url>https://github.com/GFI-Informatique</url>
 	</organization>
 	<scm>
-		<connection>scm:git:https://pierrejego@github.com/cadastrapp.git</connection>
-		<developerConnection>scm:git:https://pierrejego@github.com/cadastrapp.git</developerConnection>
+		<connection>scm:git:https://github.com/GFI-Informatique/cadastrapp.git</connection>
+		<developerConnection>scm:git:https://github.com/GFI-Informatique/cadastrapp.git</developerConnection>
 		<url>https://github.com/GFI-Informatique/cadastrapp.git</url>
 	</scm>
 	<issueManagement>
