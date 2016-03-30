@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -163,6 +164,7 @@ public class ImageParcelleController extends CadController {
 						CoordinateReferenceSystem crs = bounds.getCoordinateReferenceSystem();
 				
 						Geometry targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
+						Geometry bufferGeometry = targetGeometry;
 						
 						float pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageWidth"));
 						float pdfImageHeight = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageHeight"));
@@ -176,7 +178,7 @@ public class ImageParcelleController extends CadController {
 								logger.debug("CRS : " + crs);
 								logger.debug("Create buffer");
 							}
-							Geometry bufferGeometry = targetGeometry.buffer(BUFFER_DISTANCE);
+							bufferGeometry = targetGeometry.buffer(BUFFER_DISTANCE);
 
 							// transform JTS enveloppe to geotools enveloppe
 							Envelope envelope = bufferGeometry.getEnvelopeInternal();
@@ -241,7 +243,7 @@ public class ImageParcelleController extends CadController {
 						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
 						requestParcelle.setSRS(cadastreSRS);
 						requestParcelle.setTransparent(true);
-
+						
 						// setBBox from Feature information
 						requestParcelle.setBBox(bounds);
 
@@ -256,7 +258,6 @@ public class ImageParcelleController extends CadController {
 						Graphics2D g2 = finalImage.createGraphics();
 
 						// Add basemap only if parameter is defined
-
 						final String baseMapWMSUrl = CadastrappPlaceHolder.getProperty("baseMap.WMS.url");
 
 						if (baseMapWMSUrl != null && baseMapWMSUrl.length() > 1) {
@@ -306,10 +307,9 @@ public class ImageParcelleController extends CadController {
 							logger.debug("No basemapurl given, non basemap will be add ");
 						}
 
-						logger.debug("Add feature to final picture");
+						drawPlot(g2, bufferGeometry, targetGeometry, (int) pdfImageHeight, (int) pdfImageWidth);
+						logger.debug("Add Image to final picture");
 						g2.drawImage(parcelleImage, 0, 0, null);
-
-						drawPlot(g2, targetGeometry);
 						drawCompass(g2, (int) pdfImageHeight, (int) pdfImageWidth);
 
 						try {
@@ -324,7 +324,7 @@ public class ImageParcelleController extends CadController {
 						final String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 
 						File file = new File(tempFolder + File.separator + "BP-" + parcelle + ".png");
-						file.deleteOnExit();
+						//file.deleteOnExit();
 						ImageIO.write(finalImage, "png", file);
 
 						response = Response.ok((Object) file);
@@ -447,36 +447,39 @@ public class ImageParcelleController extends CadController {
 	 * @param g2
 	 * @param geometry
 	 */
-	private void drawPlot(Graphics2D g2d, Geometry geometry) {
+	private void drawPlot(Graphics2D g2d, Geometry bufferGeometry, Geometry originalGeometry, int imageHeight, int imageWidth) {
 		
-
-
 		logger.debug("Add selected feature ");
-		if (geometry != null) {
+		if (bufferGeometry != null) {
 
 			if (logger.isDebugEnabled()) {
-				logger.debug("Geometry Type " + geometry.getGeometryType());
+				logger.debug("Geometry Type " + bufferGeometry.getGeometryType());
 			}
 
-			// Transform JTS in awt
-
+			Envelope envelope = (Envelope) bufferGeometry.getEnvelopeInternal();
+			
+			AffineTransform translate= AffineTransform.getTranslateInstance(-envelope.getMinX(), -envelope.getMaxY());
+			logger.debug("Translate to origin 0,0 :" + translate.toString());	
+			
+			AffineTransform scale= AffineTransform.getScaleInstance(imageWidth/(envelope.getMaxX()-envelope.getMinX()), imageHeight/ (envelope.getMinY()-envelope.getMaxY()));
+			logger.debug("Scale to image size : " + scale.toString());	
+			
+		
 			ShapeWriter sw = new ShapeWriter();
 			
-			// TODO add scale and transform coordinate sytem from WFS to AWT x,y
-			// can be done in creating new transformation in shapewriter
-
 			// Geometry is can be a multipolygon and Java 1.7 awt does not display
 			// GeometryCollectionShape, so we have to loop on each polygon
-			for (int i = 0; i < geometry.getNumGeometries(); i++) {
-				Geometry g = (Geometry) geometry.getGeometryN(i);
+			for (int i = 0; i < originalGeometry.getNumGeometries(); i++) {
+				Geometry g = (Geometry) originalGeometry.getGeometryN(i);
 				
 				if (logger.isDebugEnabled()) {
-					logger.debug("Geometry " + i + " Type " + g.getGeometryType());
+					logger.debug("Geometry n°: " + i + " of type " + g.getGeometryType());
 				}
 
 				Shape plot = sw.toShape(g);
 
 				if (logger.isDebugEnabled()) {
+					logger.debug("Before transalation");
 					logger.debug("Shape width : " + plot.getBounds2D().getWidth());
 					logger.debug("Shape heigh : " + plot.getBounds2D().getHeight());
 					logger.debug("Shape MinX : " + plot.getBounds2D().getMinX());
@@ -484,8 +487,30 @@ public class ImageParcelleController extends CadController {
 					logger.debug("Shape MaxY : " + plot.getBounds2D().getMaxY());
 					logger.debug("Shape MaxX : " + plot.getBounds2D().getMaxX());
 				}
+				plot = translate.createTransformedShape(plot);
 		
-	
+
+				if (logger.isDebugEnabled()) {
+					logger.debug("After transalation");
+					logger.debug("Shape width : " + plot.getBounds2D().getWidth());
+					logger.debug("Shape heigh : " + plot.getBounds2D().getHeight());
+					logger.debug("Shape MinX : " + plot.getBounds2D().getMinX());
+					logger.debug("Shape MinY : " + plot.getBounds2D().getMinY());
+					logger.debug("Shape MaxY : " + plot.getBounds2D().getMaxY());
+					logger.debug("Shape MaxX : " + plot.getBounds2D().getMaxX());
+				}
+				plot =scale.createTransformedShape(plot);
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("After scale");
+					logger.debug("Shape width : " + plot.getBounds2D().getWidth());
+					logger.debug("Shape heigh : " + plot.getBounds2D().getHeight());
+					logger.debug("Shape MinX : " + plot.getBounds2D().getMinX());
+					logger.debug("Shape MinY : " + plot.getBounds2D().getMinY());
+					logger.debug("Shape MaxY : " + plot.getBounds2D().getMaxY());
+					logger.debug("Shape MaxX : " + plot.getBounds2D().getMaxX());
+				}
+				
 				// draw in blue with transparence
 				g2d.setColor(new Color(20, 255, 255, 128));
 				g2d.draw(plot);
