@@ -138,7 +138,7 @@
 					<fo:table-cell>
 						<fo:block text-align="center" padding-top="10pt">
 							Commune :
-							<xsl:value-of select="@codeCommune" />
+							<xsl:value-of select="@codeCommune" />&#160;
 							<xsl:value-of select="@libelleCommune" />
 						</fo:block>
 					</fo:table-cell>
