@@ -92,10 +92,14 @@ public class UniteCadastraleController extends CadController {
 		return information;
 	}
 	
-	/**
+	 /**
 	 * 
-	 * @param parcelle / Id Parcelle exemple : 2014630103000AP0025
-	 * @return
+	 * infoOngletParcelle
+	 * 
+	 * @param String parcelle  / Id Parcelle exemple : 2014630103000AP0025
+	 * @param HttpHeaders headers
+	 * 
+	 * @return List<Map<String, Object>> 
 	 */
 	private List<Map<String, Object>> infoOngletParcelle(String parcelle, HttpHeaders headers){
 		
@@ -116,8 +120,12 @@ public class UniteCadastraleController extends CadController {
 	
 	/**
 	 * 
-	 * @param parcelle
-	 * @return
+	 * infoOngletProprietaire
+	 * 
+	 * @param String parcelle / Id Parcelle exemple : 2014630103000AP0025
+	 * @param HttpHeaders headers
+	 * 
+	 * @return List<Map<String, Object>> 
 	 */
 	private List<Map<String, Object>> infoOngletProprietaire(String parcelle, HttpHeaders headers){
 		
@@ -142,8 +150,12 @@ public class UniteCadastraleController extends CadController {
 	
 	/**
 	 * 
-	 * @param parcelle
-	 * @return
+	 * infoOngletBatimentList
+	 * 
+	 * @param String parcelle / Id Parcelle exemple : 2014630103000AP0025
+	 * @param HttpHeaders headers
+	 * 
+	 * @return List<Map<String, Object>> 
 	 */
 	private List<Map<String, Object>> infoOngletBatimentList(String parcelle, HttpHeaders headers ){
 		
@@ -164,32 +176,43 @@ public class UniteCadastraleController extends CadController {
 	}
 		
 	/**
+	 *  infoOngletSubdivision get information about subdivision
+	 *  
+	 *  This method is filtered using information contains in httpheader
+	 *  
+	 *  call to this method should  only be done by CNIL2 level user with geographical rights
+	 *  
+	 * @param String parcelle / Id Parcelle exemple : 2014630103000AP0025
+	 * @param HttpHeaders headers
 	 * 
-	 * @param parcelle
-	 * @return
+	 * @return List<Map<String, Object>>  containing Lettre indicative, Contenance, Code Nature de culture et Revenu au 01/01
 	 */
 	private List<Map<String, Object>> infoOngletSubdivision(String parcelle, HttpHeaders headers ){
 		
 		logger.debug("infoOngletSubdivision - parcelle : " + parcelle);
 		
-		//TODO Change with subdivision
-		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder subDivisionqueryBuilder = new StringBuilder();
 		
-		// CNIL Niveau 2
-		queryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum, pnb.drcsuba as drcsub from ");	
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietenonbatie pnb ");
-		queryBuilder.append(" where pnb.parcelle = ? ");
-		queryBuilder.append(addAuthorizationFiltering(headers, "pnb."));
+		// Select information from view proprietenonbatie
+		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum, pnb.drcsuba as drcsub from ");	
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".proprietenonbatie pnb ");
+		subDivisionqueryBuilder.append(" where pnb.parcelle = ? ");
+		subDivisionqueryBuilder.append(addAuthorizationFiltering(headers, "pnb."));
 		
+		// init jdbc template
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
+		
+		// return list to service 
+		return jdbcTemplate.queryForList(subDivisionqueryBuilder.toString(), parcelle);	
 	}
 	
 	/**
+	 * infoOngletHistorique
 	 * 
-	 * @param parcelle
-	 * @return
+	 * @param String parcelle / Id Parcelle exemple : 2014630103000AP0025
+	 * @param HttpHeaders headers
+	 * @return  List<Map<String, Object>>
 	 */
 	private List<Map<String, Object>> infoOngletHistorique(String parcelle, HttpHeaders headers){
 		
