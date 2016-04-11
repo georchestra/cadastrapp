@@ -135,6 +135,10 @@ replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 replaceAndLaunch ../commun/tables/prop_dmatto.sql
 replaceAndLaunch ../commun/tables/prop_dmatgm.sql
 
+replaceAndLaunch ../commun/tables/sf_cgrnum.sql
+replaceAndLaunch ../commun/tables/sf_cnatsp.sql
+replaceAndLaunch ../commun/tables/sf_dsgrpf.sql
+
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 replaceAndLaunch ./views/qgisCommune.sql
 replaceAndLaunch ./views/qgisParcelle.sql
