@@ -53,7 +53,7 @@ public class BatimentController extends CadController {
 			StringBuilder queryBuilder = new StringBuilder();
 			
 			// CNIL Niveau 2
-			queryBuilder.append("select distinct hab.annee, pb.jannat, pb.invar, pb.descr, pb.dniv, pb.dpor, hab.ccoaff_lib, ");
+			queryBuilder.append("select distinct hab.annee, pb.jannat, pb.invar, pb.descr, pb.dniv, pb.dpor, pb.dvltrt, hab.ccoaff_lib, ");
 			queryBuilder.append("prop.comptecommunal, prop.dnupro, prop.ddenom, prop.dnomlp, prop.dprnlp, prop.epxnee, prop.dnomcp, prop.dprncp ");
 			queryBuilder.append("from ");
 			queryBuilder.append(databaseSchema);
@@ -61,11 +61,8 @@ public class BatimentController extends CadController {
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire prop, ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle propar, ");
-			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".deschabitation hab ");
-			queryBuilder.append(" where propar.parcelle = ? ");
-			queryBuilder.append(" and propar.comptecommunal = pb.comptecommunal");
+			queryBuilder.append(" where pb.parcelle = ? ");
 			queryBuilder.append(" and pb.comptecommunal = prop.comptecommunal ");
 			queryBuilder.append(" and pb.dnubat = ? and hab.invar = pb.invar ;");
 			
