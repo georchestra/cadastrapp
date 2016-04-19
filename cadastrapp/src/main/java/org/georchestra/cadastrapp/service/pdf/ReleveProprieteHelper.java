@@ -102,7 +102,30 @@ public final class ReleveProprieteHelper extends CadController{
 				logger.debug("Get town information " );
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 				List<Map<String, Object>> rows = jdbcTemplate.queryForList(queryBuilder.toString(), idCompteCommunal);
+				
+				// Can be a coproprietaire
+				if(rows.isEmpty()){
+					rows = new ArrayList<Map<String, Object>>();
+					
+					// Select parcelle information to get entete information
+					queryBuilder = new StringBuilder();
 
+					queryBuilder.append("select c.cgocommune, c.libcom from ");
+					queryBuilder.append(databaseSchema);
+					queryBuilder.append(".parcelle p, ");
+					queryBuilder.append(databaseSchema);
+					queryBuilder.append(".commune c, ");
+					queryBuilder.append(databaseSchema);
+					queryBuilder.append(".co_propriete_parcelle proparc ");
+					queryBuilder.append("where proparc.comptecommunal = ? ");
+					queryBuilder.append("and p.parcelle = proparc.parcelle ");
+					queryBuilder.append("and p.cgocommune = c.cgocommune;");
+
+					logger.debug("Get town information " );
+					rows = jdbcTemplate.queryForList(queryBuilder.toString(), idCompteCommunal);
+				}
+
+				// If result found
 				if (!rows.isEmpty()){
 					for (Map<?, ?> row : rows) {
 						compteCommunal.setLibelleCommune((String) row.get("libcom"));
@@ -121,7 +144,7 @@ public final class ReleveProprieteHelper extends CadController{
 						List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
 
 						StringBuilder queryBuilderProprietaire = new StringBuilder();
-						queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, ccodem_lib, dldnss, jdatnss,  ccodro_lib, prop.ccoqua_lib||' '||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");
+						queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, prop.ccodem_lib, prop.dldnss, prop.jdatnss,  prop.ccodro_lib, COALESCE(prop.ccoqua_lib, '')||' '||prop.ddenom as nom, COALESCE(prop.dlign3, '')||' '||COALESCE(prop.dlign4,'')||' '||COALESCE(prop.dlign5,'')||' '||COALESCE(prop.dlign6,'') as adresse ");
 						queryBuilderProprietaire.append("from ");
 						queryBuilderProprietaire.append(databaseSchema);
 						queryBuilderProprietaire.append(".proprietaire prop ");
@@ -135,7 +158,7 @@ public final class ReleveProprieteHelper extends CadController{
 						for (Map<String, Object> prop : proprietairesResult) {
 
 							if(logger.isDebugEnabled()){
-								logger.debug("Get town information name : " + (String) prop.get("nom") );
+								logger.debug("Get owner information name : " + (String) prop.get("nom") );
 							}
 
 							Proprietaire proprietaire = new Proprietaire();
@@ -165,7 +188,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 						StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-						queryBuilderProprieteBatie.append("select distinct ccopre, ccosec, dnupla, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, dvltrt ");
+						queryBuilderProprieteBatie.append("select distinct ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, dvltrt ");
 						queryBuilderProprieteBatie.append("from ");
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -266,7 +289,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 						StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.pexn, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
+						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.pexn, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
 						queryBuilderProprieteNonBatie.append("from ");
 						queryBuilderProprieteNonBatie.append(databaseSchema);
 						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
