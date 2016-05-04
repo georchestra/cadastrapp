@@ -28,6 +28,7 @@ import org.georchestra.cadastrapp.model.pdf.ExtFormResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class ParcelleController extends CadController {
@@ -284,16 +285,26 @@ public class ParcelleController extends CadController {
 		// directly search in view parcelle
 		if(comptecommunal != null && !comptecommunal.isEmpty()){
 			
+			queryBuilder.append("(");
 			queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
 			queryBuilder.append(", ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire_parcelle proparc ");
 			queryBuilder.append(createWhereInQuery(comptecommunal.size(), "proparc.comptecommunal"));
 			queryBuilder.append(" and proparc.parcelle = p.parcelle ");
+			queryBuilder.append(") UNION (");
+			queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
+			queryBuilder.append(", ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".co_propriete_parcelle coproparc ");
+			queryBuilder.append(createWhereInQuery(comptecommunal.size(), "coproparc.comptecommunal"));
+			queryBuilder.append(" and coproparc.parcelle = p.parcelle ");
+			queryBuilder.append(")");
 			queryBuilder.append(";");
 			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), comptecommunal.toArray());
+			String param = StringUtils.join(comptecommunal, ',');
+			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), new String[]{param,param});
 		}
 		else{
 			logger.info("Missing or empty input parameter");
