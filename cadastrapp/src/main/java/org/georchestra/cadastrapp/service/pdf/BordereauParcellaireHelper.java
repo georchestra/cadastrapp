@@ -122,7 +122,7 @@ public final class BordereauParcellaireHelper extends CadController{
 						String tableName = (isCoPro)?tableCoProprietaire:tableProprietaire;
 										
 						StringBuilder queryBuilderProprietaire = new StringBuilder();
-						queryBuilderProprietaire.append("select prop.comptecommunal, prop.ccoqua_lib||' '||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");   			    
+						queryBuilderProprietaire.append("select prop.comptecommunal, COALESCE(prop.ccoqua_lib||' ','')||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");   			    
 						queryBuilderProprietaire.append("from ");
 						queryBuilderProprietaire.append(databaseSchema);
 						queryBuilderProprietaire.append(".proprietaire prop, ");
