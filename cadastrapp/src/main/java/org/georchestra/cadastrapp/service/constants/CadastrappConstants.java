@@ -30,7 +30,7 @@ public final class CadastrappConstants {
 	public static final String PB_NATURE_EXO				= "gnextl";
 	public static final String PB_ANNEE_RETOUR_IMPOSITION	= "janimp";
 	public static final String PB_ANNEE_DEB_EXO				= "jandeb";
-	public static final String PB_FRACTION_EXO				= "fcexb";
+	public static final String PB_FRACTION_EXO				= "dvldif2a";
 	public static final String PB_TAUX_EXO_ACCORDEE			= "pexb";
 	public static final String PB_MONTANT_TIEOM				= "mvltieomx";
 	
