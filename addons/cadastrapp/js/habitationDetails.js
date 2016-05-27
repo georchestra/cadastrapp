@@ -83,31 +83,32 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
         if(article40Details && article40Details.detent && article40Details.detent!=null){
            
             var details = '<div class=\'habitationDetailsMenuTitle\'> Caractéristiques générales </div>'; 
-            article40Details.detent &&  article40Details.detent!='00' ? details = details + '<div> Etat d\'entretien ' + article40Details.detent + '</div>' : null;
-            article40Details.dsupdc &&  article40Details.dsupdc!='00' ? details = details + '<div> Surface habitable ' + article40Details.dsupdc + ' m²</div>' : null;
-            article40Details.dnbppr && article40Details.dnbpdc &&  article40Details.dnbpdc!='00' ? details = details + '<div> Nombre de pièces ' + article40Details.dnbpdc.replace(/^0+/,'') + ' dont ' + article40Details.dnbppr.replace(/^0+/,'') + ' principales</div>' : null;
+            article40Details.detent &&  article40Details.detent!='00' ? details = details + '<div> Etat d\'entretien &nbsp;:&nbsp;&nbsp;' + article40Details.detent + '</div>' : null;
+            article40Details.dsupdc &&  article40Details.dsupdc!='00' ? details = details + '<div> Surface habitable &nbsp;:&nbsp;&nbsp;' + article40Details.dsupdc + ' m²</div>' : null;
+            article40Details.dnbppr && article40Details.dnbpdc &&  article40Details.dnbpdc!='00' ? details = details + '<div> Nombre de pièces &nbsp;:&nbsp;&nbsp;' + article40Details.dnbpdc.replace(/^0+/,'') + ' dont ' + article40Details.dnbppr.replace(/^0+/,'') + ' principales</div>' : null;
+            article40Details.dnbniv &&  article40Details.dnbniv!='00' ? details = details +  '<div> Nombre de niveaux &nbsp;:&nbsp;&nbsp;' + article40Details.dnbniv.replace(/^0+/,'' ) + '</div>' : null;  
                  
             article40Details.dmatgmdesc ? details = details + '<div class=\'habitationDetailsMenuTitle\'> Type de matériaux pour les murs</div><div>' + article40Details.dmatgmdesc + '</div>' : null;
             article40Details.dmattodesc ? details = details + '<div class=\'habitationDetailsMenuTitle\'> Type de matériaux pour la toiture</div><div>' + article40Details.dmattodesc + '</div>' : null;
             
-            article40Details.dnbniv &&  article40Details.dnbniv!='00' ? details = details +  '<div> Nombre de niveaux ' + article40Details.dnbniv.replace(/^0+/,'' ) + '</div>' : null;  
             details = details + '<div class=\'habitationDetailsMenuTitle\'>Répartition des pièces</div>';
-            article40Details.dnbsam &&  article40Details.dnbsam!='00' ? details = details +         '<div>' + article40Details.dnbsam.replace(/^0+/,'' ) + ' Salle(s) à manger</div>'  : null;  
-            article40Details.dnbcha &&  article40Details.dnbcha!='00' ? details = details +  '<div>' + article40Details.dnbcha.replace(/^0+/,'' ) + ' Chambre(s)</div>' : null; 
-            article40Details.dnbcu8 &&  article40Details.dnbcu8!='00' ? details = details +   '<div>' + article40Details.dnbcu8.replace(/^0+/,'' ) + ' Cusine(s) de moins de 9m²</div>' : null; 
-            article40Details.dnbcu9 &&  article40Details.dnbcu9!='00' ? details = details +   '<div>' + article40Details.dnbcu9.replace(/^0+/,'' ) + ' Cusine(s) d\'au moins de 9m²</div>' : null;  
-            article40Details.dnbsea &&  article40Details.dnbsea!='00' ? details = details +   '<div>' + article40Details.dnbsea.replace(/^0+/, '') + ' Salles(s) de bain</div>' : null; 
-            article40Details.dnbann &&  article40Details.dnbann!='00' ? details = details +   '<div>'   + article40Details.dnbann.replace(/^0+/,'' ) + ' Annexe(s)</div>' : null; 
+            article40Details.dnbsam &&  article40Details.dnbsam!='00' ? details = details +         '<div>' + article40Details.dnbsam.replace(/^0+/,'' ) + ' salle(s) à manger</div>'  : null;  
+            article40Details.dnbcha &&  article40Details.dnbcha!='00' ? details = details +  '<div>' + article40Details.dnbcha.replace(/^0+/,'' ) + ' chambre(s)</div>' : null; 
+            article40Details.dnbcu8 &&  article40Details.dnbcu8!='00' ? details = details +   '<div>' + article40Details.dnbcu8.replace(/^0+/,'' ) + ' cuisine(s) de moins de 9m²</div>' : null; 
+            article40Details.dnbcu9 &&  article40Details.dnbcu9!='00' ? details = details +   '<div>' + article40Details.dnbcu9.replace(/^0+/,'' ) + ' cuisine(s) d\'au moins de 9m²</div>' : null;  
+            article40Details.dnbsea &&  article40Details.dnbsea!='00' ? details = details +   '<div>' + article40Details.dnbsea.replace(/^0+/, '') + ' salles(s) de bain</div>' : null; 
+            article40Details.dnbann &&  article40Details.dnbann!='00' ? details = details +   '<div>'   + article40Details.dnbann.replace(/^0+/,'' ) + ' annexe(s)</div>' : null; 
+            
             details = details + '<div class=\'habitationDetailsMenuTitle\'>Eléments de confort</div>'; 
-            article40Details.dnbbai &&  article40Details.dnbbai!='00' ? details = details +   '<div>' + article40Details.dnbbai.replace(/^0+/,'' ) + ' Baignoire(s)</div>'  : null; 
-            article40Details.dnblav &&  article40Details.dnblav!='00' ? details = details +   '<div>' + article40Details.dnblav.replace(/^0+/,'' ) + ' Lavabo(s)</div>'  : null; 
-            article40Details.dnbdou &&  article40Details.dnbdou!='00' ? details = details +   '<div>' + article40Details.dnbdou.replace(/^0+/,'' ) + ' Douche(s)</div>'  : null; 
+            article40Details.dnbbai &&  article40Details.dnbbai!='00' ? details = details +   '<div>' + article40Details.dnbbai.replace(/^0+/,'' ) + ' baignoire(s)</div>'  : null; 
+            article40Details.dnblav &&  article40Details.dnblav!='00' ? details = details +   '<div>' + article40Details.dnblav.replace(/^0+/,'' ) + ' lavabo(s)</div>'  : null; 
+            article40Details.dnbdou &&  article40Details.dnbdou!='00' ? details = details +   '<div>' + article40Details.dnbdou.replace(/^0+/,'' ) + ' douche(s)</div>'  : null; 
             article40Details.dnbwc &&  article40Details.dnbwc!='00' ? details = details +   '<div>' + article40Details.dnbwc.replace(/^0+/,'' ) + ' WC</div>' : null;                 
             article40Details.geaulc &&  article40Details.geaulc=='O' ? details = details + '<div>Eau</div>' : null; 
             article40Details.gelelc &&  article40Details.gelelc=='O'? details = details + '<div>Electricité</div>' : null; 
             article40Details.ggazlc &&  article40Details.ggazlc=='O' ? details = details + '<div>Gaz</div>' : null;        
-            article40Details.gchclc &&  article40Details.gchclc=='O' ? details = details + '<div>Chauffage centrale</div>' : null; 
-            article40Details.gteglc &&  article40Details.gteglc=='O' ? details = details + '<div>Tout à l\'égout</div>' : null; 
+            article40Details.gchclc &&  article40Details.gchclc=='O' ? details = details + '<div>Chauffage central</div>' : null; 
+            article40Details.gteglc &&  article40Details.gteglc=='O' ? details = details + '<div>Tout à l\'égoût</div>' : null; 
             article40Details.gesclc &&  article40Details.gesclc=='O' ? details = details + '<div>Escalier de service</div>' : null;
             article40Details.gaslc &&  article40Details.gaslc=='O' ? details = details + '<div>Ascenseur</div>' : null; 
             article40Details.gvorlc &&  article40Details.gvorlc=='O' ? details = details + '<div>Vide-ordure</div>' : null;
