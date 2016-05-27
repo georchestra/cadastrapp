@@ -121,7 +121,6 @@ public class BordereauParcellaireController extends CadController {
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 				// Get bordereau parcellaire information
-				//BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(newParcelleList, personalData, headers);
 				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, headers, false);
 				File xmlfile = null;
 				File foFile = null;
