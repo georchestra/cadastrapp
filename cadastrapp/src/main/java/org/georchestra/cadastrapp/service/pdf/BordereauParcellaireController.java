@@ -170,7 +170,7 @@ public class BordereauParcellaireController extends CadController {
 				} catch (JAXBException jaxbException) {
 					logger.warn("Error during converting object to xml : " + jaxbException);
 				} catch (TransformerException transformerException) {
-
+					logger.warn("Error during converting object to xml : " + transformerException);
 				} catch (FileNotFoundException fileNotFoundException) {
 					logger.warn("Error when using temporary files : " + fileNotFoundException);
 				} finally {
