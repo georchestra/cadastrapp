@@ -339,7 +339,7 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Code Rivoli
+							Code Fantoir
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -390,7 +390,7 @@
 				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Bat
+							Bât
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -626,7 +626,7 @@
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
 							Revenu imposable
-							totale :
+							total :
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1014,7 +1014,7 @@
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
 							Revenu imposable
-							totale :
+							total :
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1029,7 +1029,7 @@
 					</fo:table-cell>
 					<fo:table-cell  text-align="end">
 						<fo:block>
-							Revenu éxonéré :
+							Revenu exonéré :
 						</fo:block>
 						<fo:block>
 							Revenu imposable :
@@ -1050,7 +1050,7 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
 						<fo:block>
-							Revenu éxonéré :
+							Revenu exonéré :
 						</fo:block>
 						<fo:block>
 							Revenu imposable :
