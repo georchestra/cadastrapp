@@ -25,7 +25,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
+import org.geotools.data.ows.HTTPClient;
 import org.geotools.data.ows.Layer;
+import org.geotools.data.ows.SimpleHttpClient;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
@@ -65,7 +67,9 @@ public class ImageParcelleController extends CadController {
 
 	final private String URL_GET_CAPABILITIES_WMS = "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
 
-	final private String CONNECTION_PARAM = "WFSDataStoreFactory:GET_CAPABILITIES_URL";
+	final private String GET_CAPABILITIES_URL_PARAM = "WFSDataStoreFactory:GET_CAPABILITIES_URL";
+	final private String USERNAME_PARAM = "WFSDataStoreFactory:USERNAME";
+	final private String PASSWORD_PARAM = "WFSDataStoreFactory:PASSWORD";
 	
 	// buffer distance in CRS unit
 	final private double BUFFER_DISTANCE = 10.0;
@@ -105,11 +109,21 @@ public class ImageParcelleController extends CadController {
 			final String wfsUrl = CadastrappPlaceHolder.getProperty("cadastre.wfs.url");
 
 			String getCapabilities = wfsUrl + URL_GET_CAPABILITIES;
-
+			
 			logger.debug("Call WFS with plot Id " + parcelle + " and WFS URL : " + getCapabilities);
 
 			Map<String, String> connectionParameters = new HashMap<String, String>();
-			connectionParameters.put(CONNECTION_PARAM, getCapabilities);
+			connectionParameters.put(GET_CAPABILITIES_URL_PARAM, getCapabilities);
+			
+			// Add basic authent parameter if not empty
+			final String cadastreWFSUsername = CadastrappPlaceHolder.getProperty("cadastre.wfs.username");
+			final String cadastreWFSPassword = CadastrappPlaceHolder.getProperty("cadastre.wfs.password");
+			if (cadastreWFSUsername != null && !cadastreWFSUsername.isEmpty()
+					&& cadastreWFSUsername != null && !cadastreWFSUsername.isEmpty()){
+				connectionParameters.put(USERNAME_PARAM, cadastreWFSUsername);
+				connectionParameters.put(PASSWORD_PARAM, cadastreWFSPassword);
+			}
+			
 			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
 
 			WFSDataStore dataStore;
@@ -225,10 +239,30 @@ public class ImageParcelleController extends CadController {
 						final String cadastreWMSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
 
 						URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
+						WebMapServer wmsParcelle = null;
 
 						logger.debug("WMS URL : " + parcelleWMSUrl);
-						WebMapServer wmsParcelle = new WebMapServer(parcelleWMSUrl);
-
+						
+						
+						// Add basic authent parameter if not empty
+						final String cadastreWMSUsername = CadastrappPlaceHolder.getProperty("cadastre.wms.username");
+						final String cadastreWMSPassword = CadastrappPlaceHolder.getProperty("cadastre.wms.password");
+						
+						// if authentification is not null
+						if (cadastreWFSUsername != null && !cadastreWFSUsername.isEmpty()
+								&& cadastreWMSPassword != null && !cadastreWMSPassword.isEmpty()){
+							
+							HTTPClient httpClient = new SimpleHttpClient();
+							httpClient.setUser(cadastreWMSUsername);
+							httpClient.setPassword(cadastreWMSPassword);
+							
+							wmsParcelle = new WebMapServer(parcelleWMSUrl, httpClient);
+						}
+						// else without authentification
+						else{
+							wmsParcelle = new WebMapServer(parcelleWMSUrl);
+						}
+						
 						GetMapRequest requestParcelle = wmsParcelle.createGetMapRequest();
 						requestParcelle.setFormat(cadastreFormat);
 

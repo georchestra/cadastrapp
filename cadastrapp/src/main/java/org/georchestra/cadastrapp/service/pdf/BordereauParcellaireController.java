@@ -121,7 +121,6 @@ public class BordereauParcellaireController extends CadController {
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 				// Get bordereau parcellaire information
-				//BordereauParcellaire bordereauParcellaire = getBordereauParcellaireInformation(newParcelleList, personalData, headers);
 				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, headers, false);
 				File xmlfile = null;
 				File foFile = null;
@@ -170,7 +169,7 @@ public class BordereauParcellaireController extends CadController {
 				} catch (JAXBException jaxbException) {
 					logger.warn("Error during converting object to xml : " + jaxbException);
 				} catch (TransformerException transformerException) {
-
+					logger.warn("Error during converting object to xml : " + transformerException);
 				} catch (FileNotFoundException fileNotFoundException) {
 					logger.warn("Error when using temporary files : " + fileNotFoundException);
 				} finally {
