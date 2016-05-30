@@ -154,6 +154,8 @@ GEOR.Addons.Cadastre.addPopupOnhover = function(popupConfig) {
             }
         })
     };
+    // Add controls to control list created by cadastrapp
+    GEOR.Addons.Cadastre.menu.cadastrappControls.push(infoControls.hover);
     map.addControl(infoControls["hover"]);
     infoControls["hover"].activate();
 }
