@@ -96,7 +96,7 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
             article40Details.dnbcha &&  article40Details.dnbcha!='00' ? details = details +  '<div>' + article40Details.dnbcha.replace(/^0+/,'' ) + ' chambre(s)</div>' : null; 
             article40Details.dnbcu8 &&  article40Details.dnbcu8!='00' ? details = details +   '<div>' + article40Details.dnbcu8.replace(/^0+/,'' ) + ' cuisine(s) de moins de 9m²</div>' : null; 
             article40Details.dnbcu9 &&  article40Details.dnbcu9!='00' ? details = details +   '<div>' + article40Details.dnbcu9.replace(/^0+/,'' ) + ' cuisine(s) d\'au moins de 9m²</div>' : null;  
-            article40Details.dnbsea &&  article40Details.dnbsea!='00' ? details = details +   '<div>' + article40Details.dnbsea.replace(/^0+/, '') + ' salles(s) de bain</div>' : null; 
+            article40Details.dnbsea &&  article40Details.dnbsea!='00' ? details = details +   '<div>' + article40Details.dnbsea.replace(/^0+/, '') + ' salle(s) de bain</div>' : null; 
             article40Details.dnbann &&  article40Details.dnbann!='00' ? details = details +   '<div>'   + article40Details.dnbann.replace(/^0+/,'' ) + ' annexe(s)</div>' : null; 
             
             details = details + '<div class=\'habitationDetailsMenuTitle\'>Eléments de confort</div>'; 

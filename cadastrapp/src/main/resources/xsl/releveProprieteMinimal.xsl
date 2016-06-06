@@ -359,7 +359,7 @@
 				<fo:table-row height="20pt">
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Bat
+							Bât
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
