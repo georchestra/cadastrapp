@@ -109,7 +109,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
       ltrim(dnupla, ''0'') as dnupla,
       dcntpa,
       dsrpar,
-      jdatat,
+      concat(substr(jdatat,9,2),'/',substr(jdatat,6,2),'/',substr(jdatat,1,4)) as jdatat,
       dreflf,
       gpdl,
       cprsecr,
