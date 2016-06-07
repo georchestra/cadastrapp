@@ -1,4 +1,4 @@
-#!/bin/sh
+﻿#!/bin/sh
 
 #-----------------------------------------------------------------
 # Project      : Cadastrapp 
@@ -29,35 +29,35 @@
 
 # Set parameters
 if [ "$#" -ne 9 ]; then
-	echo "No parameters given or not the good number of params" >&2
-	echo "Usage could be : $0 DatabaseName DatabaseSchema DatabaseUser DatabasePasswd ArcopoleHost ArcopoleDataBaseName ArcopoleDataBaseSchema ArcopoleDataBaseUser ArcopoleDataBasePasswd" >&2
-	echo "Use constant in script" >&2
-	
-	## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
-	# LOCAL Postgresql information
-	dbname="cadastrapp_arcopole"
-	schema="cadastrapp_arcopole"
-	username="cadastrapp"
-	userpwd="cadastrapp"
+  echo "No parameters given or not the good number of params" >&2
+  echo "Usage could be : $0 DatabaseName DatabaseSchema DatabaseUser DatabasePasswd ArcopoleHost ArcopoleDataBaseName ArcopoleDataBaseSchema ArcopoleDataBaseUser ArcopoleDataBasePasswd" >&2
+  echo "Use constant in script" >&2
+  
+  ## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
+  # LOCAL Postgresql information
+  dbname="cadastrapp_arcopole"
+  schema="cadastrapp_arcopole"
+  username="cadastrapp"
+  userpwd="cadastrapp"
 
-	# REMOTE Arcopole Database information
-	arcopoleDBHost=
-	arcopoleDBName=
-	arcopoleDBSchema=
-	arcopoleDBUser=
-	arcopoleDBPassword=
+  # REMOTE Arcopole Database information
+  arcopoleDBHost=
+  arcopoleDBName=
+  arcopoleDBSchema=
+  arcopoleDBUser=
+  arcopoleDBPassword=
 else
-	echo "Launch Script using parameters" >&2
-	dbname=$1
-	schema=$2
-	username=$3
-	userpwd=$4
+  echo "Launch Script using parameters" >&2
+  dbname=$1
+  schema=$2
+  username=$3
+  userpwd=$4
 
-	arcopoleDBHost=$5
-	arcopoleDBName=$6
-	arcopoleDBSchema=$7
-	arcopoleDBUser=$8
-	arcopoleDBPassword=$9
+  arcopoleDBHost=$5
+  arcopoleDBName=$6
+  arcopoleDBSchema=$7
+  arcopoleDBUser=$8
+  arcopoleDBPassword=$9
 fi
 
 echo "--------------------------------";
@@ -87,22 +87,22 @@ echo "--------------------------------";
 # #DBpasswd_arcopole replace with $arcopoleDBPassword
 #
 replaceAndLaunch (){
-	
-	if [ -z "$1" ] || [ ! -e $1 ] ; then
-		echo "Sql file is unset or file does not exists"
-		exit 1
-	else
-		echo "Launch file :  $1"
-	fi
-	
-	cat $1 | sed "{ s/#user_cadastrapp/$username/g
-				 	s/#schema_cadastrapp/$schema/g
-				 	s/#DBHost_arcopole/$arcopoleDBHost/g
-				 	s/#DBName_arcopole/$arcopoleDBName/g
-				 	s/#DBUser_arcopole/$arcopoleDBUser/g
-				 	s/#DBpasswd_arcopole/$arcopoleDBPassword/g
-				 	s/#DBSchema_arcopole/$arcopoleDBSchema/g }" |\
-			 psql -d $dbname
+  
+  if [ -z "$1" ] || [ ! -e $1 ] ; then
+    echo "Sql file is unset or file does not exists"
+    exit 1
+  else
+    echo "Launch file :  $1"
+  fi
+  
+  cat $1 | sed "{ s/#user_cadastrapp/$username/g
+          s/#schema_cadastrapp/$schema/g
+          s/#DBHost_arcopole/$arcopoleDBHost/g
+          s/#DBName_arcopole/$arcopoleDBName/g
+          s/#DBUser_arcopole/$arcopoleDBUser/g
+          s/#DBpasswd_arcopole/$arcopoleDBPassword/g
+          s/#DBSchema_arcopole/$arcopoleDBSchema/g }" |\
+       psql -d $dbname
 }
 
 # Init database
@@ -110,11 +110,11 @@ echo "--------------------------------";
 echo " Init database";
 echo "--------------------------------";
 cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
-								  s/#pwd_cadastrapp/$userpwd/g
-						 		  s/#dbname_arcopole/$dbname/g
-						 	  	  s/#schema_cadastrapp/$schema/g }" |\
-								  psql
-	
+                  s/#pwd_cadastrapp/$userpwd/g
+                  s/#dbname_arcopole/$dbname/g
+                    s/#schema_cadastrapp/$schema/g }" |\
+                  psql
+  
 echo "--------------------------------";
 echo " Drop View and Tables except groupeAutorisation ";
 echo "--------------------------------";								  
