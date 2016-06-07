@@ -159,14 +159,23 @@ GEOR.Addons.Cadastre.exportOwnerSelectionAsCSV = function() {
         var selection = GEOR.Addons.Cadastre.result.owner.window.items.items[0].getSelectionModel().getSelections();
 
         if (selection && selection.length > 0) {
-            var ownerIds = [];
+            var owners = [];
+            
+            var header = [];
+            header.push(OpenLayers.i18n('cadastrapp.result.owner.comptecommunal'));
+            header.push(OpenLayers.i18n('cadastrapp.result.owner.ddenom'));         
+            owners.push(header);
+            
             Ext.each(selection, function(item) {
-                ownerIds.push(item.data.comptecommunal);
+                var owner = [];
+                owner.push(item.data.comptecommunal);
+                owner.push(item.data.ddenom);
+                owners.push(owner);
             });
 
             // PARAMS
             var params = {
-                data : ownerIds
+                data : owners
             }
             var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'exportAsCsv?' + Ext.urlEncode(params);
 

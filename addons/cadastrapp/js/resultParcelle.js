@@ -583,15 +583,36 @@ GEOR.Addons.Cadastre.exportPlotSelectionAsCSV = function() {
     if (GEOR.Addons.Cadastre.result.tabs && GEOR.Addons.Cadastre.result.tabs.getActiveTab()) {
         var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
 
+        // verify selected information
         if (selection && selection.length > 0) {
-            var parcelleIds = [];
+            
+            // Create array to store value
+            var parcelles = [];
+            
+            var entete = [];
+            entete.push(OpenLayers.i18n('cadastrapp.parcelle.ident'));
+            entete.push(OpenLayers.i18n('cadastrapp.parcelle.result.commune'));
+            entete.push(OpenLayers.i18n('cadastrapp.parcelle.result.ccosec'));
+            entete.push(OpenLayers.i18n('cadastrapp.parcelle.result.dnupla'));
+            entete.push(OpenLayers.i18n('cadastrapp.parcelle.result.adresse'));
+            entete.push(OpenLayers.i18n('cadastrapp.parcelle.result.surface'));
+            parcelles.push(entete);
+            
+            // Add each parcelle in csv
             Ext.each(selection, function(item) {
-                parcelleIds.push(item.data.parcelle);
+                var parcelle = []
+                parcelle.push(item.data.parcelle);
+                parcelle.push(item.data.cgocommune);
+                parcelle.push(item.data.ccopre + item.data.ccosec);
+                parcelle.push(item.data.dnupla);
+                parcelle.push(item.data.dvoilib);
+                parcelle.push(item.data.dcntpa);
+                parcelles.push(parcelle);
             });
 
             // PARAMS
             var params = {
-                data : parcelleIds
+                data : parcelles
             }
             var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'exportAsCsv?' + Ext.urlEncode(params);
 
