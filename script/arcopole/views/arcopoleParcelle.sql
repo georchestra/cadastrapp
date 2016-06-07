@@ -105,7 +105,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
       dnupla,
       CAST(dcntpa as integer),
       dsrpar,
-      concat(substr(jdatat,1,2),'/',substr(jdatat,3,2),'/',substr(jdatat,5,4)) as jdatat,
+      concat(substr(jdatat,1,2),''/'',substr(jdatat,3,2),''/'',substr(jdatat,5,4)) as jdatat,
       dreflf,
       gpdl,
       cprsecr,
