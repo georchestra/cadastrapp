@@ -23,10 +23,19 @@
 		<spring.version>4.1.7.RELEASE</spring.version>
 		<hibernate-version>4.1.7.Final</hibernate-version>
 		<hibernate-annotations-version>4.0.1.Final</hibernate-annotations-version>
-		<geotools.version>10.8</geotools.version>
+		<geotools.version>9.2</geotools.version>
 		<pdfbox.version>2.0.0-RC3</pdfbox.version>
 	</properties>
 	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>true</enabled>
+				<checksumPolicy>ignore</checksumPolicy>
+			</snapshots>
+			<id>georchestra</id>
+			<url>http://build.georchestra.org/maven/repository</url>
+		</repository>
+		<!-- geotools -->
 		<repository>
 			<id>osgeo</id>
 			<name>Open Source Geospatial Foundation Repository</name>
@@ -250,7 +259,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.geotools</groupId>
-			<artifactId>gt-wfs</artifactId>
+			<artifactId>gt-wfs-ng</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
 		<!-- use for test -->

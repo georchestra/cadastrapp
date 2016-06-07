@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +32,8 @@ import org.geotools.data.ows.SimpleHttpClient;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.data.wfs.WFSDataStore;
-import org.geotools.data.wfs.WFSDataStoreFactory;
+import org.geotools.data.wfs.impl.WFSContentDataStore;
+import org.geotools.data.wfs.impl.WFSDataStoreFactory;
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.data.wms.request.GetMapRequest;
 import org.geotools.data.wms.response.GetMapResponse;
@@ -67,7 +68,7 @@ public class ImageParcelleController extends CadController {
 
 	final private String URL_GET_CAPABILITIES_WMS = "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
 
-	final private String GET_CAPABILITIES_URL_PARAM = "WFSDataStoreFactory:GET_CAPABILITIES_URL";
+	final private String GET_CAPABILITIES_URL_PARAM = "WFSDataStoreFactory:WFS_GET_CAPABILITIES_URL";
 	final private String USERNAME_PARAM = "WFSDataStoreFactory:USERNAME";
 	final private String PASSWORD_PARAM = "WFSDataStoreFactory:PASSWORD";
 	
@@ -112,7 +113,7 @@ public class ImageParcelleController extends CadController {
 			
 			logger.debug("Call WFS with plot Id " + parcelle + " and WFS URL : " + getCapabilities);
 
-			Map<String, String> connectionParameters = new HashMap<String, String>();
+			Map<String, Serializable> connectionParameters = new HashMap<String, Serializable>();
 			connectionParameters.put(GET_CAPABILITIES_URL_PARAM, getCapabilities);
 			
 			// Add basic authent parameter if not empty
@@ -126,14 +127,18 @@ public class ImageParcelleController extends CadController {
 			
 			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
 
-			WFSDataStore dataStore;
+			WFSContentDataStore dataStore;
 
 			try {
 				dataStore = dsf.createDataStore(connectionParameters);
 
 				SimpleFeatureSource source;
 
-				final String cadastreWFSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
+				String cadastreWFSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
+				
+				// TODO remove this if not using gt-wfs-ng anymore
+				// using ng extension : need to be changed by_
+				cadastreWFSLayerName = cadastreWFSLayerName.replaceFirst(":", "_");
 				final String cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("cadastre.layer.idParcelle");
 
 				source = dataStore.getFeatureSource(cadastreWFSLayerName);
