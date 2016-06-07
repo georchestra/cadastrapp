@@ -10,8 +10,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -23,48 +21,74 @@ import org.slf4j.LoggerFactory;
 public class CSVExportController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(CSVExportController.class);
-	
-	final static String DELIMITER = "\n";
+
+	final static char DELIMITER = '\n';
+	final static char SEPARATOR = ';';
 
 	/**
+
+	 * @param values
+	 *            List<String> contains all data to export, each list of elements are separated by |
 	 * 
-	 * @param headers
-	 * @param data contains all data to export
-	 * @return Rest Response containing CSV file
+	 * @return Rest Response containing CSV file with name
+	 *         export-"currentDateTime".csv When header exist, if value have not
+	 *         same number of value, the corresponding line won't be added to
+	 *         csv
 	 */
 	@GET
 	@Path("/exportAsCsv")
 	@Produces({ "text/csv" })
-	public Response cSVExport(@Context HttpHeaders headers, @QueryParam("data") List<String> values) {
+	public Response cSVExport(@QueryParam("data") List<String> values) {
 
 		ResponseBuilder response = Response.serverError();
-		
-		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");    
-		final String csvFileName = tempFolder + File.separator + "export-" + new Date().getTime() + ".csv";
-		File file = null;
-		
-		try {
-			file = new File(csvFileName);
 
-			FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
+		if (values != null && !values.isEmpty()) {
+			
 
-			for (String value : values){
-				fileWriter.append(value);
-				fileWriter.append(DELIMITER);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Export CSV,  given values: " + values);
 			}
+			
+			// Split values into single line element
+			//String[] arrayLines = values.split(URL_SEPARATOR);
+			
+			String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
+			
+			// File with current time
+			final String csvFileName = tempFolder + File.separator + "export-" + new Date().getTime() + ".csv";
+			File file = null;
 
-			fileWriter.flush();
-			fileWriter.close();
+			try {
+				// Create file
+				file = new File(csvFileName);
+				FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
+			
+				// For each line
+				for (String line : values) {
 
-			response = Response.ok((Object) file);
-			response.header("Content-Disposition", "attachment; filename=" + file.getName());
+					// Debug information
+					if (logger.isDebugEnabled()) {
+						logger.debug("Export CSV - value : " + line);
+					}
+					
+					line = line.replace(',', SEPARATOR);
+					fileWriter.append(line);
+					fileWriter.append(DELIMITER);
+				}
 
-		} catch (IOException e) {
-			logger.error("Error while creating CSV files : " + e.getMessage());
-		}
-		finally{
-			if(file != null){
-				file.deleteOnExit();
+				// release file
+				fileWriter.flush();
+				fileWriter.close();
+
+				response = Response.ok((Object) file);
+				response.header("Content-Disposition", "attachment; filename=" + file.getName());
+
+			} catch (IOException e) {
+				logger.error("Error while creating CSV files : " + e.getMessage());
+			} finally {
+				if (file != null) {
+					file.deleteOnExit();
+				}
 			}
 		}
 
