@@ -145,7 +145,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
     dnupla character varying(4),
     dcntpa integer, 
     dsrpar character varying(1), 
-    jdatat date,
+    jdatat character varying(10), 
     dreflf character varying(5), 
     gpdl character varying(1), 
     cprsecr character varying(3), 
