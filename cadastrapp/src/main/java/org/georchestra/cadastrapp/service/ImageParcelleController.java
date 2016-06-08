@@ -254,7 +254,7 @@ public class ImageParcelleController extends CadController {
 						final String cadastreWMSPassword = CadastrappPlaceHolder.getProperty("cadastre.wms.password");
 						
 						// if authentification is not null
-						if (cadastreWFSUsername != null && !cadastreWFSUsername.isEmpty()
+						if (cadastreWMSUsername != null && !cadastreWMSUsername.isEmpty()
 								&& cadastreWMSPassword != null && !cadastreWMSPassword.isEmpty()){
 							
 							HTTPClient httpClient = new SimpleHttpClient();
@@ -297,25 +297,40 @@ public class ImageParcelleController extends CadController {
 						Graphics2D g2 = finalImage.createGraphics();
 
 						// Add basemap only if parameter is defined
-						final String baseMapWMSUrl = CadastrappPlaceHolder.getProperty("baseMap.WMS.url");
+						final String baseMapWMSUrl = CadastrappPlaceHolder.getProperty("baseMap.wms.url");
 
 						if (baseMapWMSUrl != null && baseMapWMSUrl.length() > 1) {
 							// Get basemap image with good BBOX
 							try {
 								logger.debug("WMS call for basemap with URL : " + baseMapWMSUrl);
 								URL baseMapUrl = new URL(baseMapWMSUrl);
-								WebMapServer wms = new WebMapServer(baseMapUrl);
+								WebMapServer wms = null;
+								
+								// Add basic authent parameter if not empty
+								final String baseMapWMSUsername = CadastrappPlaceHolder.getProperty("baseMap.wms.username");
+								final String baseMapWMSPassword = CadastrappPlaceHolder.getProperty("baseMap.wms.password");
+								
+								// if authentification is not null
+								if (baseMapWMSUsername != null && !baseMapWMSUsername.isEmpty()
+										&& baseMapWMSPassword != null && !baseMapWMSPassword.isEmpty()){
+									
+									HTTPClient httpClient = new SimpleHttpClient();
+									httpClient.setUser(baseMapWMSUsername);
+									httpClient.setPassword(baseMapWMSPassword);
+									
+									wms = new WebMapServer(baseMapUrl, httpClient);
+								}else{
+									wms = new WebMapServer(baseMapUrl);
+								}
 
 								GetMapRequest request = wms.createGetMapRequest();
-
 								final String baseMapFormat = CadastrappPlaceHolder.getProperty("baseMap.format");
-
 								request.setFormat(baseMapFormat);
 
 								// Add layer see to set this in configuration
 								// parameters
 								// Or use getCapatibilities
-								Layer layer = new Layer("OpenStreetMap : carte style 'google'");
+								Layer layer = new Layer("BaseMap module cadastrapp");
 								final String baseMapLayerName = CadastrappPlaceHolder.getProperty("baseMap.layer.name");
 
 								layer.setName(baseMapLayerName);
