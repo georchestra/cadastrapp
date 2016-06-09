@@ -32,7 +32,7 @@
 # Set parameters
 if [ "$#" -ne 9 ]; then
   echo "No parameters given or not the good number of params" >&2
-  echo "Usage could be : $0 DatabaseName DatabaseSchema DatabaseUser DatabasePasswd ArcopoleHost ArcopoleDataBaseName ArcopoleDataBaseSchema ArcopoleDataBaseUser ArcopoleDataBasePasswd" >&2
+  echo "Usage could be : $0 DatabaseHost DatabaseName DatabaseSchema DatabaseUser DatabasePasswd ArcopoleHost ArcopoleDataBaseName ArcopoleDataBaseSchema ArcopoleDataBaseUser ArcopoleDataBasePasswd" >&2
   echo "Use constant in script" >&2
   
   ## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
