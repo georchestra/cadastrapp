@@ -106,7 +106,7 @@ public class UniteCadastraleController extends CadController {
 		logger.debug("infoOngletParcelle - parcelle : " + parcelle);
 		
 		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("select p.cgocommune, c.libcom, p.ccopre, p.ccosec, p.dnupla, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib, p.dcntpa, p.surfc, p.gparbat, p.gurbpa");
+		queryBuilder.append("select p.cgocommune, c.libcom, p.ccopre, p.ccosec, p.dnupla, p.ccoriv, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib, p.dcntpa, p.surfc, p.gparbat, p.gurbpa");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".parcelledetails p, ");
