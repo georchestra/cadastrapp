@@ -378,7 +378,10 @@
 			"cadastrapp.infobulle.nplan" : "Plot",
 			"cadastrapp.infobulle.adresse" : "Adress",
 			"cadastrapp.infobulle.proprietaire" : "Owner",
-			"cadastrapp.infobulle.ccomunal" : "Municipal account"
+			"cadastrapp.infobulle.ccomunal" : "Municipal account",
+			
+			"cadastrapp.no_feature" : "Unable to locate the geometry, please select at least one.\nIf this is already the case, this may be due to the incompleteness of EDIGEO file.",
+			"cadastrapp.no_edigeo" : "No corresponding EDIGEO"
         },
         "fr": {
        		"cadastrapp.no": "non",
@@ -735,7 +738,10 @@
 			"cadastrapp.infobulle.nplan" : "N° de plan",
 			"cadastrapp.infobulle.adresse" : "Adresse",
 			"cadastrapp.infobulle.proprietaire" : "Propriétaire",
-			"cadastrapp.infobulle.ccomunal" : "Compte communal"
+			"cadastrapp.infobulle.ccomunal" : "Compte communal",
+			
+			"cadastrapp.no_feature" : "Impossible de retrouver la géometrie, veuillez en sélectionner au moins une.\nSi c'est déjà le cas, ceci peut être dû à une incompletude du fichier EDIGEO.",
+			"cadastrapp.no_edigeo" : "Pas d'EDIGEO correspondant"
         }
     }
 }
