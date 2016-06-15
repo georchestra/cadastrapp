@@ -16,50 +16,55 @@
 # @author Jégo Pierre
 # @since  
 # @brief  
-# @date   07/02/2015
-# Version : 1.0
+# @date   09/06/2016
+# Version : 1.3
 # 
 # Change version | Author |    Date    | Comments
-#	1.0		     | Pje	  | 07/02/2015 | Init
-#	1.1			 | Pje    | 08/07/2015 | Change user creation and management
-#   1.2			 | Pje	  | 23/12/2015 | Add properties tables
+#   1.0          | Pje    | 07/02/2015 | Init
+#   1.1          | Pje    | 08/07/2015 | Change user creation and management
+#   1.2          | Pje    | 23/12/2015 | Add properties tables
+#   1.3          | Jsa    | 09/06/2016 | Add capability to use non local postgresql database
 #
 #////////////////////////////////////////////////////////////////////
 
 # Set parameters
 if [ "$#" -ne 9 ]; then
-	echo "No parameters given or not the good number of params" >&2
-	echo "Usage could be : $0 DatabaseName DatabaseSchema DatabaseUser DatabasePasswd QgisHost QgisDataBaseName QgisDataBaseSchema QgisDataBaseUser QgisDataBasePasswd" >&2
-	echo "Use constant in script" >&2
-	
-	## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
-	# LOCAL Postgresql information
-	dbname="cadastrapp_qgis"
-	schema="cadastrapp_qgis"
-	username="cadastrapp"
-	userpwd="cadastrapp"
+    echo "No parameters given or not the good number of params" >&2
+    echo "Usage could be : $0 DatabaseHost DatabaseName DatabaseSchema DatabaseUser DatabasePasswd QgisHost QgisDataBaseName QgisDataBaseSchema QgisDataBaseUser QgisDataBasePasswd" >&2
+    echo "Use constant in script" >&2
+    
+    ## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
+    # LOCAL Postgresql information
+    # Postgresql information (the database to load)
+    dbhost="localhost"
+    dbname="cadastrapp_qgis"
+    schema="cadastrapp_qgis"
+    username="cadastrapp_user"
+    userpwd="cadastrapp_pwd"
 
-	# REMOTE Arcopole Database information
-	qgisDBHost=
-	qgisDBName=
-	qgisDBSchema=
-	qgisDBUser=
-	qgisDBPassword=
+    # REMOTE Arcopole Database information (the database to read)
+    qgisDBHost=postgis-bdu
+    qgisDBName=bdu
+    qgisDBSchema=cadastre
+    qgisDBUser=xxxxxxxxxxxxxx
+    qgisDBPassword=xxxxxxxxxxxxxx
 else
-	echo "Launch Script using parameters" >&2
-	dbname=$1
-	schema=$2
-	username=$3
-	userpwd=$4
+    echo "Launch Script using parameters" >&2
+    dbhost=$1
+    dbname=$2
+    schema=$3
+    username=$4
+    userpwd=$5
 
-	qgisDBHost=$5
-	qgisDBName=$6
-	qgisDBSchema=$7
-	qgisDBUser=$8
-	qgisDBPassword=$9
+    qgisDBHost=$6
+    qgisDBName=$7
+    qgisDBSchema=$8
+    qgisDBUser=$9
+    qgisDBPassword=$10
 fi
 
 echo "--------------------------------";
+echo "Database host : $dbhost"
 echo "Database name : $dbname"
 echo "Schema name : $schema"
 echo "Username : $username"
@@ -84,22 +89,22 @@ echo "--------------------------------";
 # #DBpasswd_qgis replace with $qgisDBPassword
 #
 replaceAndLaunch (){
-	
-	if [ -z "$1" ] || [ ! -e $1 ] ; then
-		echo "Sql file is unset or file does not exists"
-		exit 1
-	else
-		echo "Launch file :  $1"
-	fi
-	
-	cat $1 | sed "{ s/#user_cadastrapp/$username/g
-				 	s/#schema_cadastrapp/$schema/g
-				 	s/#DBHost_qgis/$qgisDBHost/g
-				 	s/#DBName_qgis/$qgisDBName/g
-					s/#DBSchema_qgis/$qgisDBSchema/g
-				 	s/#DBUser_qgis/$qgisDBUser/g
-				 	s/#DBpasswd_qgis/$qgisDBPassword/g }" |\
-					psql -d $dbname
+    
+    if [ -z "$1" ] || [ ! -e $1 ] ; then
+        echo "Sql file is unset or file does not exists"
+        exit 1
+    else
+        echo "Launch file :  $1"
+    fi
+    
+    cat $1 | sed "{ s/#user_cadastrapp/$username/g
+                    s/#schema_cadastrapp/$schema/g
+                    s/#DBHost_qgis/$qgisDBHost/g
+                    s/#DBName_qgis/$qgisDBName/g
+                    s/#DBSchema_qgis/$qgisDBSchema/g
+                    s/#DBUser_qgis/$qgisDBUser/g
+                    s/#DBpasswd_qgis/$qgisDBPassword/g }" |\
+                    psql -h $dbhost -U $username -d $dbname
 }
 
 # Check to user before changing Qgis model
@@ -110,14 +115,14 @@ echo "--------------------------------";
 echo " Init database";
 echo "--------------------------------";
 cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
-								  s/#pwd_cadastrapp/$userpwd/g
-						 		  s/#dbname_qgis/$dbname/g
-						 	  	  s/#schema_cadastrapp/$schema/g }" |\
-								  psql
+                                  s/#pwd_cadastrapp/$userpwd/g
+                                  s/#dbname_qgis/$dbname/g
+                                  s/#schema_cadastrapp/$schema/g }" |\
+                                  psql -h $dbhost -U $username -d $dbname
 
 echo "--------------------------------";
 echo " Drop View and Tables except groupeAutorisation ";
-echo "--------------------------------";								  
+echo "--------------------------------";
 replaceAndLaunch ../commun/dropTablesAndViews.sql
 
 # Create tables
