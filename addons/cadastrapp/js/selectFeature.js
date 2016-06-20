@@ -549,6 +549,7 @@ GEOR.Addons.Cadastre.zoomOnFeatures = function(features) {
         map.zoomToExtent([ minLeft, minBottom, maxRight, maxTop ]); // zoom sur
         // l'emprise
     } else {
+		alert(OpenLayers.i18n('cadastrapp.no_feature'));
         console.log("No feature in input, could not zoom on it");
     }
 }

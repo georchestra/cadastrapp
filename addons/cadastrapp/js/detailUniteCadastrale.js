@@ -99,6 +99,10 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                 if (result[0].gparbat == '1') {
                     isBuilding = OpenLayers.i18n('cadastrapp.yes')
                 }
+				// Check if EDIGEO is available
+				if(result[0].surfc == undefined) {
+					result[0].surfc = OpenLayers.i18n('cadastrapp.no_edigeo');
+				}
                 // Remplissage du tableau de données
                 fiucParcelleData = [ 
 					[ OpenLayers.i18n('cadastrapp.ficu.commune'), result[0].libcom + ' (' + result[0].cgocommune + ')' ], 
