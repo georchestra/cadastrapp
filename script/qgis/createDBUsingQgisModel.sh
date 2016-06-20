@@ -172,6 +172,7 @@ replaceAndLaunch ./views/qgisProprieteNonBatie.sql
 replaceAndLaunch ./views/qgisProprieteNonBatieSufExo.sql
 replaceAndLaunch ./views/qgisSection.sql
 replaceAndLaunch ./views/qgisHabitationDetails.sql
+replaceAndLaunch ./views/qgisLot.sql
 
 # Create users correlation tables
 replaceAndLaunch ../commun/user/groupe_autorisation.sql
