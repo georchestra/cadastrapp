@@ -1,6 +1,11 @@
 package org.georchestra.cadastrapp.model.pdf;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 
 public class ProprieteBatie extends Propriete{
 	
@@ -36,6 +41,9 @@ public class ProprieteBatie extends Propriete{
 	
 	// Montant TIEOM
 	private String mvltieomx;
+	
+	// Liste de lots
+	private List<Lot> lots;
 
 	/**
 	 * @return the dnubat
@@ -200,6 +208,22 @@ public class ProprieteBatie extends Propriete{
 	 */
 	public void setMvltieomx(String mvltieomx) {
 		this.mvltieomx = mvltieomx;
+	}
+
+	/**
+	 * @return the lots
+	 */
+	public List<Lot> getLots() {
+		return lots;
+	}
+
+	@XmlElementWrapper(name="lots")
+    @XmlElements({@XmlElement(name="lot",   type=Lot.class)})
+	/**
+	 * @param lots the lots to set
+	 */
+	public void setLots(List<Lot> lots) {
+		this.lots = lots;
 	}
 }
 
