@@ -11,32 +11,41 @@
 #
 # Purpose     :   Create table and view neccessary for Cadastrapp addons for QGIS model
 # Warnings    :   This script should be launch with user postgres on the database server
-# Description :   
+# Description :
 #
 # @author Jégo Pierre
-# @since  
-# @brief  
-# @date   09/06/2016
-# Version : 1.3
-# 
+# @since
+# @brief
+# @date   20/06/2016
+# Version : 1.4
+#
 # Change version | Author |    Date    | Comments
 #   1.0          | Pje    | 07/02/2015 | Init
 #   1.1          | Pje    | 08/07/2015 | Change user creation and management
 #   1.2          | Pje    | 23/12/2015 | Add properties tables
 #   1.3          | Jsa    | 09/06/2016 | Add capability to use non local postgresql database
-#
+#   1.4          | Pje    | 20/06/2016 | Use script in batch mode
 #////////////////////////////////////////////////////////////////////
 
 # Set parameters
-if [ "$#" -ne 9 ]; then
-    echo "No parameters given or not the good number of params" >&2
-    echo "Usage could be : $0 DatabaseHost DatabaseName DatabaseSchema DatabaseUser DatabasePasswd QgisHost QgisDataBaseName QgisDataBaseSchema QgisDataBaseUser QgisDataBasePasswd" >&2
-    echo "Use constant in script" >&2
-    
-    ## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
-    # LOCAL Postgresql information
+if [ "$#" -ne 12 ]; then
+  echo "No parameters given or not the good number of params" >&2
+  echo "Usage could be : $0 Batchmode(0/1) DatabaseHost DatabaseAdminUser DatabaseName DatabaseSchema DatabaseUser DatabasePasswd QgisHost QgisDataBaseName QgisDataBaseSchema QgisDataBaseUser QgisDataBasePasswd" >&2
+  echo "Use constant in script" >&2
+
+  ## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
+  # Script configuration
+
+  # batch mode information
+  # 0 not batch mode (password wil be prompted)
+  # 1 batch mode using information from .pgpass
+  #   make sure to have new user for cadastrapp in .pgpass files before launching this script
+  batchmode=0
+  
     # Postgresql information (the database to load)
     dbhost="localhost"
+    # Postgres user which have role creation and schema creation rights
+    dbadminuser="admindbuser"
     dbname="cadastrapp_qgis"
     schema="cadastrapp_qgis"
     username="cadastrapp_user"
@@ -49,26 +58,31 @@ if [ "$#" -ne 9 ]; then
     qgisDBUser=xxxxxxxxxxxxxx
     qgisDBPassword=xxxxxxxxxxxxxx
 else
-    echo "Launch Script using parameters" >&2
-    dbhost=$1
-    dbname=$2
-    schema=$3
-    username=$4
-    userpwd=$5
+  echo "Launch Script using parameters" >&2
+  batchmode=$1
+  dbhost=$2
+  dbadminuser=$3
+  dbname=$4
+  schema=$5
+  username=$6
+  userpwd=$7
 
-    qgisDBHost=$6
-    qgisDBName=$7
-    qgisDBSchema=$8
-    qgisDBUser=$9
-    qgisDBPassword=$10
+    qgisDBHost=$8
+    qgisDBName=$9
+    qgisDBSchema=$10
+    qgisDBUser=$11
+    qgisDBPassword=$12
 fi
 
 echo "--------------------------------";
+echo "Batch mode : $batchmode"
 echo "Database host : $dbhost"
+echo "Database admin user : $dbadminuser"
 echo "Database name : $dbname"
 echo "Schema name : $schema"
 echo "Username : $username"
 echo "Password : $userpwd"
+echo "If using batch mode, make sure username and password had been set in pgpass.conf in order to use batch mode"
 
 echo "Qgis Database host : $qgisDBHost"
 echo "Qgis Database name : $qgisDBName"
@@ -76,6 +90,10 @@ echo "Qgis Schema : $qgisDBSchema"
 echo "Qgis UserName : $qgisDBUser"
 echo "Qgis Password : $qgisDBPassword"
 echo "--------------------------------";
+
+if [ $batchmode = "1" ]; then
+  connectionOption=" -w"
+fi
 
 # replaceAndLaunch
 # Replace fields in sql file and launch sql execution
@@ -104,7 +122,7 @@ replaceAndLaunch (){
                     s/#DBSchema_qgis/$qgisDBSchema/g
                     s/#DBUser_qgis/$qgisDBUser/g
                     s/#DBpasswd_qgis/$qgisDBPassword/g }" |\
-                    psql -h $dbhost -U $username -d $dbname
+                    psql -h $dbhost -U $username -d $dbname $connectionOption
 }
 
 # Check to user before changing Qgis model
@@ -118,7 +136,7 @@ cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
                                   s/#pwd_cadastrapp/$userpwd/g
                                   s/#dbname_qgis/$dbname/g
                                   s/#schema_cadastrapp/$schema/g }" |\
-                                  psql -h $dbhost -U $username -d $dbname
+                                  psql -h $dbhost -U $dbadminuser -d postgres $connectionOption
 
 echo "--------------------------------";
 echo " Drop View and Tables except groupeAutorisation ";
@@ -141,6 +159,9 @@ replaceAndLaunch ../commun/tables/prop_dmatto.sql
 replaceAndLaunch ../commun/tables/prop_dmatgm.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
+echo "--------------------------------";
+echo " Create views ";
+echo "--------------------------------";
 replaceAndLaunch ./views/qgisCommune.sql
 replaceAndLaunch ./views/qgisParcelle.sql
 replaceAndLaunch ./views/qgisProprietaire.sql
