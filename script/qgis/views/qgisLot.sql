@@ -10,10 +10,10 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.lot AS
 		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
  	 		'select distinct
 				l.local10 as id_local,
-				l.dnulot as dnulot,
-				l.dnumql as dnumql,
-				l.ddenql as ddenql
-			from public.lotslocaux l where ddenql not like ''0000000''
+				ltrim(l.dnulot, ''0'') as dnulot,
+				ltrim(l.dnumql, ''0'') as dnumql,
+				ltrim(l.ddenql, ''0'') as ddenql
+			from #DBSchema_qgis.lotslocaux l where ddenql not like ''0000000''
 			'::text) 
 		lot(
 			id_local character varying(14), 
