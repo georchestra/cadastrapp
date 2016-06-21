@@ -34,6 +34,7 @@ import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.CompteCommunal;
 import org.georchestra.cadastrapp.model.pdf.Imposition;
 import org.georchestra.cadastrapp.model.pdf.ImpositionNonBatie;
+import org.georchestra.cadastrapp.model.pdf.Lot;
 import org.georchestra.cadastrapp.model.pdf.Proprietaire;
 import org.georchestra.cadastrapp.model.pdf.ProprieteBatie;
 import org.georchestra.cadastrapp.model.pdf.ProprieteNonBatie;
@@ -188,7 +189,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 						StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-						queryBuilderProprieteBatie.append("select distinct ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, dvltrt ");
+						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, dvltrt ");
 						queryBuilderProprieteBatie.append("from ");
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -206,7 +207,38 @@ public final class ReleveProprieteHelper extends CadController{
 
 							String proprieteId = (String) propBat.get(CadastrappConstants.PB_NUM_INVARIANT);//N° invar
 							proprieteBatie.setInvar(proprieteId);
-
+							
+							// TODO try changing this, 
+							// making a request on each loop might not the best solution, but it can have more than one lot for one invar
+							// Make sure an index exist on id_local
+							String idLocal = (String) propBat.get(CadastrappConstants.PB_ID_LOCAL); 
+							
+							StringBuilder queryBuilderLots = new StringBuilder();
+							queryBuilderLots.append("select dnulot, dnumql, ddenql ");
+							queryBuilderLots.append("from ");
+							queryBuilderLots.append(databaseSchema);
+							queryBuilderLots.append(".lot l ");
+							queryBuilderLots.append(" where l.id_local = ? ");
+							List<Map<String, Object>> proprietesBatiesLots = jdbcTemplate.queryForList(queryBuilderLots.toString(), idLocal);
+							
+							List<Lot> proprieteBatieLot = new ArrayList<Lot>();
+							for (Map<String, Object> propBatLot : proprietesBatiesLots) {
+								// Create lot and add information
+								Lot lot = new Lot();
+								lot.setLotId((String) propBatLot.get(CadastrappConstants.PB_LOT_ID));
+								lot.setDenominateur((String) propBatLot.get(CadastrappConstants.PB_LOT_DENOMINATEUR)); 
+								lot.setNumerateur((String) propBatLot.get(CadastrappConstants.PB_LOT_NUMERATEUR));
+								
+								if(logger.isDebugEnabled()){
+									logger.debug("Lot : " + lot );
+								}
+								
+								// add lot to list
+								proprieteBatieLot.add(lot);
+							}
+							// Add lot to list
+							proprieteBatie.setLots(proprieteBatieLot);
+							
 							proprieteBatie.setCcoaff((String) propBat.get(CadastrappConstants.PB_AFFECTATION_PEV)); 																	//AF
 							proprieteBatie.setCcoeva((String) propBat.get(CadastrappConstants.PB_CODE_EVAL)); 																			//M EVAL
 							proprieteBatie.setCcolloc((String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO));																		//COLL

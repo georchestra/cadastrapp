@@ -8,6 +8,7 @@ public final class CadastrappConstants {
 	}
 
 	//Relevé proprietaire partie batie
+	public static final String PB_ID_LOCAL					= "id_local";
 	public static final String PB_PREFIX_SECTION			= "ccopre";
 	public static final String PB_LETTRE_SECTION			= "ccosec";
 	public static final String PB_NUM_PLAN					= "dnupla";
@@ -33,6 +34,11 @@ public final class CadastrappConstants {
 	public static final String PB_FRACTION_EXO				= "fcexb";
 	public static final String PB_TAUX_EXO_ACCORDEE			= "pexb";
 	public static final String PB_MONTANT_TIEOM				= "mvltieomx";
+	
+	//Relevé proprietaire partie lot
+	public static final String PB_LOT_ID					= "dnulot";
+	public static final String PB_LOT_NUMERATEUR			= "dnumql";
+	public static final String PB_LOT_DENOMINATEUR			= "ddenql";
 	
 	//Relevé proprietaire partie non batie
 	
