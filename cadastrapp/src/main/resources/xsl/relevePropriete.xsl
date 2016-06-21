@@ -441,6 +441,11 @@
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								<xsl:value-of select="@invar" />
+								<xsl:if test="lots/lot">
+									<xsl:for-each select="lots/lot">
+										Lot <xsl:value-of select="@lotId" /> - <xsl:value-of select="@numerateur" />/<xsl:value-of select="@denominateur" />
+									</xsl:for-each>
+								</xsl:if>
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
