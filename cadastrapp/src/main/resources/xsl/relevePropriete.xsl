@@ -231,15 +231,182 @@
 				<fo:table-row>
 					<!-- Adresses des propriétés -->
 					<fo:table-cell xsl:use-attribute-sets="bordure">
-						<xsl:call-template name="designationProprietes" />
+						<fo:table table-layout="fixed">
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="20%" />
+							<fo:table-column column-width="15%" />
+							<fo:table-column column-width="35%" />
+							<fo:table-column column-width="20%" />
+							<fo:table-body background-color="silver">
+								<fo:table-row height="20pt">
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											M
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											N° section
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											N° plan
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Adresse
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Code Fantoir
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
-						<xsl:call-template name="identificationLocal" />
+						<fo:table table-layout="fixed">
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="25%" />
+							<fo:table-column column-width="45%" />
+							<fo:table-body background-color="silver">
+								<fo:table-row height="20pt">
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Bât
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Ent
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Niv
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											N° porte
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											N° invar
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
-						<xsl:call-template name="evaluationLocal" />
+						<fo:table table-layout="fixed">
+							<fo:table-column column-width="5%" />
+							<fo:table-column column-width="5%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="5%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="10%" />
+							<fo:table-column column-width="5%" />
+							<fo:table-column column-width="5%" />
+							<fo:table-column column-width="5%" />
+							<fo:table-body background-color="silver">
+								<fo:table-row height="20pt">
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											M.EVAL
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											AF
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Nat Loc
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Cat
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Revenu cadastral
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Coll
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Nat Exo
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											An ret
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											An deb
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Fraction exo
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Exo
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Tx Om
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell xsl:use-attribute-sets="bordure">
+										<fo:block>
+											Coef
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
 					</fo:table-cell>
 				</fo:table-row>
+				<xsl:for-each select="proprietesBaties/proprieteBatie">
+					<fo:table-row>
+						<!-- Adresses des propriétés -->
+						<fo:table-cell xsl:use-attribute-sets="bordure">
+							<xsl:call-template name="designationProprietes" />
+						</fo:table-cell>
+						<fo:table-cell xsl:use-attribute-sets="bordure">
+							<xsl:call-template name="identificationLocal" />
+						</fo:table-cell>
+						<fo:table-cell xsl:use-attribute-sets="bordure">
+							<xsl:call-template name="evaluationLocal" />
+						</fo:table-cell>
+					</fo:table-row>
+				</xsl:for-each>
 			</fo:table-body>
 		</fo:table>
 	</xsl:template>
@@ -315,66 +482,35 @@
 			<fo:table-column column-width="15%" />
 			<fo:table-column column-width="35%" />
 			<fo:table-column column-width="20%" />
-			<fo:table-header background-color="silver">
-				<fo:table-row height="20pt">
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+			<fo:table-body>
+				<fo:table-row height="10pt">
+					<fo:table-cell>
 						<fo:block>
-							M
+							<!--  TODO M -->
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							N° section
+							<xsl:value-of select="@ccopre" />
+							<xsl:value-of select="@ccosec" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							N° plan
+							<xsl:value-of select="@dnupla" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
-						<fo:block>
-							Adresse
+					<fo:table-cell>
+						<fo:block font-size="6pt">
+							<xsl:value-of select="@dvoilib" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Code Fantoir
+							<xsl:value-of select="@ccoriv" />
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
-			</fo:table-header>
-			<fo:table-body>
-				<xsl:for-each select="proprietesBaties/proprieteBatie">
-					<fo:table-row height="20pt">
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<!--  TODO M -->
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@ccopre" />
-								<xsl:value-of select="@ccosec" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@dnupla" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block font-size="6pt">
-								<xsl:value-of select="@dvoilib" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@ccoriv" />
-							</fo:block>
-						</fo:table-cell>
-					</fo:table-row>
-				</xsl:for-each>
 			</fo:table-body>
 		</fo:table>
 	</xsl:template>
@@ -386,70 +522,45 @@
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="25%" />
 			<fo:table-column column-width="45%" />
-			<fo:table-header background-color="silver">
-				<fo:table-row height="20pt">
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+			<fo:table-body>
+				<fo:table-row height="10pt">
+					<fo:table-cell>
 						<fo:block>
-							Bât
+							<xsl:value-of select="@dnubat" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Ent
+							<xsl:value-of select="@descr" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Niv
+							<xsl:value-of select="@dniv" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							N° porte
+							<xsl:value-of select="@dpor" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							N° invar
+							<xsl:value-of select="@invar" />
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
-			</fo:table-header>
-			<fo:table-body>
-				<xsl:for-each select="proprietesBaties/proprieteBatie">
-					<fo:table-row height="20pt">
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@dnubat" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@descr" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@dniv" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@dpor" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@invar" />
-								<xsl:if test="lots/lot">
-									<xsl:for-each select="lots/lot">
-										Lot <xsl:value-of select="@lotId" /> - <xsl:value-of select="@numerateur" />/<xsl:value-of select="@denominateur" />
-									</xsl:for-each>
-								</xsl:if>
-							</fo:block>
+				<xsl:if test="lots/lot">
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="5">
+							<xsl:for-each select="lots/lot">
+								<fo:block>
+									Lot <xsl:value-of select="@lotId" /> - <xsl:value-of select="@numerateur" />/<xsl:value-of select="@denominateur" />
+								</fo:block>
+							</xsl:for-each>
 						</fo:table-cell>
 					</fo:table-row>
-				</xsl:for-each>
+				</xsl:if>
 			</fo:table-body>
 		</fo:table>
 	</xsl:template>
@@ -469,145 +580,74 @@
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
-			<fo:table-header background-color="silver">
-				<fo:table-row height="20pt">
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+			<fo:table-body>
+				<fo:table-row height="10pt">
+					<fo:table-cell>
 						<fo:block>
-							M.EVAL
+							<xsl:value-of select="@ccoeva" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							AF
+							<xsl:value-of select="@ccoaff" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Nat Loc
+							<xsl:value-of select="@cconlc" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Cat
+							<xsl:value-of select="@dcapec" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Revenu cadastral
+							<xsl:value-of select="@dvltrt" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Coll
+							<xsl:value-of select="@ccolloc" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Nat Exo
+							<xsl:value-of select="@gnextl" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							An ret
+							<xsl:value-of select="@janimp" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							An deb
+							<xsl:value-of select="@jandeb" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Fraction exo
+							<xsl:value-of select="@fcexn" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Exo
+							<xsl:value-of select="@pexb" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Tx Om
+							<xsl:value-of select="@mvltieomx" />
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
+					<fo:table-cell>
 						<fo:block>
-							Coef
+							<!--  TODO Coef -->
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
-			</fo:table-header>
-			<fo:table-body>
-				<xsl:for-each select="proprietesBaties/proprieteBatie">
-					<fo:table-row height="20pt">
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@ccoeva" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@ccoaff" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@cconlc" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@dcapec" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@dvltrt" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@ccolloc" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@gnextl" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@janimp" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@jandeb" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@fcexn" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@pexb" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:value-of select="@mvltieomx" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<!--  TODO Coef -->
-							</fo:block>
-						</fo:table-cell>
-					</fo:table-row>
-				</xsl:for-each>
 			</fo:table-body>
 		</fo:table>
 	</xsl:template>
