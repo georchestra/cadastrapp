@@ -26,6 +26,7 @@
 #   1.3          | Pierre JEGO    | 23/12/2015 | Add properties tables
 #   1.4          | Maël REBOUX    | 07/06/2016 | Add capability to use non local postgresql database
 #   1.5          | Pierre JEGO    | 20/06/2016 | Use script in batch mode
+#   1.6          | Pierre JEGO    | 22/06/2016 | Add lot view
 #////////////////////////////////////////////////////////////////////
 
 
@@ -171,6 +172,7 @@ replaceAndLaunch ./views/arcopoleProprieteBatie.sql
 replaceAndLaunch ./views/arcopoleProprieteNonBatie.sql
 replaceAndLaunch ./views/arcopoleProprieteNonBatieSufExo.sql
 replaceAndLaunch ./views/arcopoleHabitationDetails.sql
+replaceAndLaunch ./views/arcopoleLot.sql
 
 # Create users correlation tables
 echo "--------------------------------";
