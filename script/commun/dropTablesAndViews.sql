@@ -1,6 +1,7 @@
 
 -- Drop all view
 DROP VIEW #schema_cadastrapp.commune;
+DROP VIEW #schema_cadastrapp.lot;
 
 DROP VIEW #schema_cadastrapp.parcelledetails;
 DROP VIEW #schema_cadastrapp.parcelle;

@@ -1,7 +1,5 @@
 -- Create lot Views based on Qgis Models
 
-DROP VIEW cadastrapp_qgis.lot;
-
 CREATE OR REPLACE VIEW #schema_cadastrapp.lot AS 
 	SELECT	lot.id_local, 
 			lot.dnulot, 
