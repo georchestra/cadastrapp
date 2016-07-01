@@ -60,6 +60,10 @@
     width:20px!important; height:20px!important;
 }
 
+.help-button {
+    background-image: url(../../../../app/img/famfamfam/information.png);
+}
+
 .cadastrapp-infobulle-parcelle{
      color: black;
 }

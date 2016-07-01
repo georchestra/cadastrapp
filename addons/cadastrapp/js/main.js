@@ -42,6 +42,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                           
                 GEOR.Addons.Cadastre.menu = new GEOR.Addons.Cadastre.Menu({
                     map: initThis.map,
+                    helpUrl: record.data.options.helpUrl,
                     popupOptions: {
                         unpinnable: false,
                         draggable: true
