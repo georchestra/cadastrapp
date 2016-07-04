@@ -183,6 +183,10 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                         }
                     });
                 }
+		if (initThis.options.openToolbarOnLoad) {
+			initThis.window.show();
+			initThis.window.alignTo(Ext.get(initThis.map.div), "t-t", [ 0, 5 ], true);
+		}
             },
             failure: function(result) {
                 alert(OpenLayers.i18n('cadastrapp.connection.error'));

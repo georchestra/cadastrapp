@@ -173,7 +173,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS
 		ccopre character varying(3),
 		ccosec character varying(2), 
 		pdl character varying(22),
-		inspireid character varying(16))
+		inspireid character varying(17))
 	left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelledetails.parcelle=p2.parcelle;
 
 ALTER TABLE #schema_cadastrapp.parcelleDetails OWNER TO #user_cadastrapp;
