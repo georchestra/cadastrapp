@@ -32,6 +32,7 @@ Il faut rajouter ```ROLE_``` devant le nom du groupe ldap. Par exemple si votre 
 		"de": "TODO" },
 	"options": { 
 		"target": "tbar_12",
+		"openToolbarOnLoad": false,
 		"webapp":{
 			"url" : "/cadastrapp/"
 		},
