@@ -91,11 +91,13 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
             } ],
             listeners: {
                 "show": function() {
+                    this.item.setChecked(true, true);
                     GEOR.Addons.Cadastre.addWMSLayer(WMSSetting);
                     GEOR.Addons.Cadastre.addPopupOnhover(this.options.popup);
                 },
                 "hide": function() {
 
+                    this.item.setChecked(false, true);
                     // deactivate all controls create by cadastrapp addons
                     // All controls used by cadastrapp are store in the field GEOR.Addons.Cadastre.menu.cadastrappControls
                     Ext.each(GEOR.Addons.Cadastre.menu.cadastrappControls, function(control, index) {
