@@ -353,7 +353,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     border : true,
                     sortable : true,
                 },
-                columns : [ fiucProprietairesSM, {
+                columns : [ fiucCoProprietairesSM, {
                     header : OpenLayers.i18n('cadastrapp.proprietaires.ccodro'),
                     dataIndex : 'ccodro',
                     width : 100
