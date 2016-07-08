@@ -26,6 +26,7 @@
     ],
 	"default_options": {
 		"target": "tbar_12",
+		"helpUrl": "https://github.com/georchestra/cadastrapp/wiki/Guide-Utilisateur",
 		"openToolbarOnLoad": false,
 		"webapp":{
 			"url" : "/cadastrapp/"
@@ -75,6 +76,7 @@
             "cadastrapp.delete": "Delete",
             "cadastrapp.export_as_kml": "Export",
             "cadastrapp.export_as_kml_tip": "Export as KML",
+            "cadastrapp.help": "Help",
             "cadastrapp.linestring": "LineString",
             "cadastrapp.multilinestring": "MultiLineString",
             "cadastrapp.zoom": "Zoom",
@@ -433,6 +435,7 @@
             "cadastrapp.export_as_kml": "Exporter",
             "cadastrapp.export_as_kml_tip": "Exporter en KML",
             "cadastrapp.linestring": "Ligne",
+            "cadastrapp.help": "Aide",
             "cadastrapp.multilinestring": "MultidCompteComiLigne",
 			"cadastrapp.zoom": "Zoom",
 			"cadastrapp.cadastre": "Cadastre",

@@ -79,6 +79,8 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
         this.initRechercheControls(layer);
         this.items.push('-');
         this.initDemandeControl(layer);
+        this.items.push('-');
+        this.initHelpControl();
 
         GEOR.Addons.Cadastre.Menu.superclass.constructor.apply(this, arguments);
     },
@@ -485,6 +487,28 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
             handler : GEOR.Addons.Cadastre.onClickAskInformations
         };
         this.items.push(new Ext.Button(configDemande));
+    },
+
+    /**
+     * private: method[initHelpControl]
+     */
+    initHelpControl : function() {
+
+        var configHelp = {
+            tooltip : OpenLayers.i18n("cadastrapp.help"),
+            iconCls : "help-button",
+            iconAlign : 'top',
+            helpUrl: this.helpUrl,
+            text : OpenLayers.i18n("cadastrapp.help"),
+            handler: function() {
+                if (Ext.isIE) {
+                    window.open(this.helpUrl);
+                } else {
+                    window.open(this.helpUrl, OpenLayers.i18n("cadastrapp.help"), "menubar=no,status=no,scrollbars=yes");
+                }
+            }
+        };
+        this.items.push(new Ext.Button(configHelp));
     },
 
     /**
