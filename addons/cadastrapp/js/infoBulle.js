@@ -13,12 +13,9 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
         GEOR.Addons.Cadastre.popup.close();
     }
 
-    // Build url depending on check button Cadastre or Foncier
+    // Build url depending on check button Foncier
     urlInfoBulleService =  GEOR.Addons.Cadastre.cadastrappWebappUrl+ 'getInfoBulle?parcelle=' + idParcelle
     
-    if (!GEOR.Addons.Cadastre.isCadastre()){
-        urlInfoBulleService += "&infocadastrale=0";
-    }
     if (!GEOR.Addons.Cadastre.isFoncier()){
         urlInfoBulleService += "&infouf=0";
     }
@@ -37,7 +34,6 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
             html = "";
             if (typeof(result) != "undefined"){
             
-                if (GEOR.Addons.Cadastre.isCadastre()){
                     html = "<div class=\"cadastrapp-infobulle-parcelle\">";
                     
                     html += "<table style=\"width:100%;\">";
@@ -73,12 +69,9 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
                     html += "</table>";
                     
                     html += "</div>";
-                }
-				
-				if (GEOR.Addons.Cadastre.isCadastre() && GEOR.Addons.Cadastre.isFoncier())
-					html += "<br/>";
 				
                 if (GEOR.Addons.Cadastre.isFoncier()){
+					html += "<br/>";
                     html += "<div class=\"cadastrapp-infobulle-unite-fonciere\">";
 					
 					html += "<table style=\"width:100%;\">";
