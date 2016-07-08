@@ -189,8 +189,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         }
 
         if (this.options.openToolbarOnLoad) {
-            this.window.show();
-            this.window.alignTo(Ext.get(this.map.div), "t-t", [ 0, 5 ], true);
+            this._onCheckchange(this.item, true);
         }
     },
 
