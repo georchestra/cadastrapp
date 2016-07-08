@@ -11,15 +11,12 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
      */
     init: function(record) {
         
-        // Create closure to be able to create windows
-        var initThis = this;
-        
         // Get information for addons options
-        GEOR.Addons.Cadastre.cadastrappWebappUrl = record.data.options.webapp.url+"services/";
+        GEOR.Addons.Cadastre.cadastrappWebappUrl = this.options.webapp.url+"services/";
        
-        GEOR.Addons.Cadastre.WFSLayerSetting = record.data.options.WFSLayerSetting; 
-        var WMSSetting = record.data.options.WMSLayer;
-        var popupSetting = record.data.options.popup;
+        GEOR.Addons.Cadastre.WFSLayerSetting = this.options.WFSLayerSetting; 
+        // those are only used here to initialize other components
+        var WMSSetting = this.options.WMSLayer;
         
         // Call the webapp configuration services
         Ext.Ajax.request({
@@ -39,10 +36,15 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 
                 WMSSetting.layerNameGeoserver = configuration.cadastreWMSLayerName;
                 WMSSetting.url =  configuration.cadastreWMSURL;
+            },
+            failure: function(result) {
+                alert(OpenLayers.i18n('cadastrapp.connection.error'));
+            }
+        });
                           
                 GEOR.Addons.Cadastre.menu = new GEOR.Addons.Cadastre.Menu({
-                    map: initThis.map,
-                    helpUrl: record.data.options.helpUrl,
+                    map: this.map,
+                    helpUrl: this.options.helpUrl,
                     popupOptions: {
                         unpinnable: false,
                         draggable: true
@@ -53,9 +55,9 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                
                 GEOR.Addons.Cadastre.selection=[];
                 GEOR.Addons.Cadastre.selection.state=[];
-                GEOR.Addons.Cadastre.selection.state.list = record.data.options.selectedStyle.colorState1;
-                GEOR.Addons.Cadastre.selection.state.selected = record.data.options.selectedStyle.colorState2;
-                GEOR.Addons.Cadastre.selection.state.details = record.data.options.selectedStyle.colorState3;
+                GEOR.Addons.Cadastre.selection.state.list = this.options.selectedStyle.colorState1;
+                GEOR.Addons.Cadastre.selection.state.selected = this.options.selectedStyle.colorState2;
+                GEOR.Addons.Cadastre.selection.state.details = this.options.selectedStyle.colorState3;
                 
                 GEOR.Addons.Cadastre.relevePropriete=[];
                 GEOR.Addons.Cadastre.relevePropriete.maxProprietaire = 25;
@@ -71,9 +73,9 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 GEOR.Addons.Cadastre.result.owner=[];
                 GEOR.Addons.Cadastre.result.owner.window;
                 
-                GEOR.Addons.Cadastre.createSelectionControl(record.data.options.defautStyleParcelle , record.data.options.selectedStyle);
+                GEOR.Addons.Cadastre.createSelectionControl(this.options.defautStyleParcelle , this.options.selectedStyle);
                                 
-                initThis.window = new Ext.Window({
+                this.window = new Ext.Window({
                     title: OpenLayers.i18n('cadastrapp.cadastre_tools'),
                     closable: true,
                     closeAction: "hide",
@@ -90,7 +92,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                     listeners: {
                     	"show": function() {
                     		GEOR.Addons.Cadastre.addWMSLayer(WMSSetting);
-                    		GEOR.Addons.Cadastre.addPopupOnhover(popupSetting);                    		
+                    		GEOR.Addons.Cadastre.addPopupOnhover(this.options.popup);
                     	},
                         "hide": function() {
                           
@@ -157,41 +159,36 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                             }
                             
                         },
-                        scope: initThis
+                        scope: this
                     }
                 });
         
-                if (initThis.target) {
+                if (this.target) {
                     // create a button to be inserted in toolbar:
-                    initThis.components = initThis.target.insertButton(initThis.position, {
+                    this.components = this.target.insertButton(this.position, {
                         xtype: 'button',
-                        tooltip: initThis.getTooltip(record),
+                        tooltip: this.getTooltip(record),
                         iconCls: "addon-cadastrapp",
-                        handler: initThis._onCheckchange,
-                        scope: initThis
+                        handler: this._onCheckchange,
+                        scope: this
                     });
-                    initThis.target.doLayout();
+                    this.target.doLayout();
                     // create a menu item for the "tools" menu:
-                    initThis.item = new Ext.menu.CheckItem({
-                        text: initThis.getText(record),
-                        qtip: initThis.getQtip(record),
+                    this.item = new Ext.menu.CheckItem({
+                        text: this.getText(record),
+                        qtip: this.getQtip(record),
                         iconCls: "addon-cadastrapp",
                         checked: false,
                         listeners: {
-                            "checkchange": initThis._onCheckchange,
-                            scope: initThis
+                            "checkchange": this._onCheckchange,
+                            scope: this
                         }
                     });
                 }
-		if (initThis.options.openToolbarOnLoad) {
-			initThis.window.show();
-			initThis.window.alignTo(Ext.get(initThis.map.div), "t-t", [ 0, 5 ], true);
+		if (this.options.openToolbarOnLoad) {
+			this.window.show();
+			this.window.alignTo(Ext.get(this.map.div), "t-t", [ 0, 5 ], true);
 		}
-            },
-            failure: function(result) {
-                alert(OpenLayers.i18n('cadastrapp.connection.error'));
-            }
-        });
     },
     
 
