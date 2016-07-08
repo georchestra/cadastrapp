@@ -172,7 +172,16 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 tooltip: this.getTooltip(record),
                 iconCls: "addon-cadastrapp",
                 handler: this._onCheckchange,
-                scope: this
+                scope: this,
+                listeners: {
+                    "afterrender": function() {
+                        if (this.options.openToolbarOnLoad) {
+                            this._onCheckchange(this.item, true);
+                        }
+                    },
+                    delay: 500,
+                    scope: this
+                }
             });
             this.target.doLayout();
             // create a menu item for the "tools" menu:
@@ -186,10 +195,6 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                     scope: this
                 }
             });
-        }
-
-        if (this.options.openToolbarOnLoad) {
-            this._onCheckchange(this.item, true);
         }
     },
 
