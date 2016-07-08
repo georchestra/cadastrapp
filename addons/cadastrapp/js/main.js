@@ -196,6 +196,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
 
     /**
      * Method: _onCheckchange Callback on checkbox state changed
+     * when called from toolbar button, checked is an mouseevent object
+     * when called from tools menu checkitem or manually from openToolbarOnLoad, checked is a boolean
      */
     _onCheckchange: function(item, checked) {
         if (checked && !this.window.isVisible()) {
