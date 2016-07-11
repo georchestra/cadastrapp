@@ -24,9 +24,7 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
         },
         layoutConfig: {
             // layout-specific configs go here
-            titleCollapse: false,
-            animate: true,
-            activeOnTop: true
+            fill: false
         },
         items: [],
         listeners : {
