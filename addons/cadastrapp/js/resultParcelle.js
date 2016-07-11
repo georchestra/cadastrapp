@@ -461,26 +461,12 @@ GEOR.Addons.Cadastre.openFoncierOrCadastre = function(id, grid) {
     var cadastreExiste = (grid.idParcellesCOuvertes.indexOf(id) != -1)
     var foncierExiste = (grid.idParcellesFOuvertes.indexOf(id) != -1)
 
-    if (GEOR.Addons.Cadastre.isFoncier() && GEOR.Addons.Cadastre.isCadastre()) {
-        if (!foncierExiste) {
-            grid.detailParcelles.push(GEOR.Addons.Cadastre.onClickDisplayFIUF(id));
-        }
-        if (!cadastreExiste) {
-            grid.detailParcelles.push(GEOR.Addons.Cadastre.displayFIUC(id));
-        }
-        return "2";
-    } else if (GEOR.Addons.Cadastre.isCadastre()) {
-        if (!cadastreExiste) {
-            grid.detailParcelles.push(GEOR.Addons.Cadastre.displayFIUC(id));
-        }
-        return "F";
-    } else if (GEOR.Addons.Cadastre.isFoncier()) {
-        if (!foncierExiste) {
-            grid.detailParcelles.push(GEOR.Addons.Cadastre.onClickDisplayFIUF(id));
-        }
-        return "C";
+    if (!foncierExiste && GEOR.Addons.Cadastre.isFoncier()) {
+        grid.detailParcelles.push(GEOR.Addons.Cadastre.onClickDisplayFIUF(id));
     }
-    return "0";
+    if (!cadastreExiste) {
+        grid.detailParcelles.push(GEOR.Addons.Cadastre.displayFIUC(id));
+    }
 }
 
 /**

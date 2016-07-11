@@ -1,12 +1,8 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
 // ***************
-var _isCadastre = true;
 var _isFoncier = false;
 
-GEOR.Addons.Cadastre.isCadastre = function() {
-    return _isCadastre;
-}
 GEOR.Addons.Cadastre.isFoncier = function() {
     return _isFoncier;
 }
@@ -225,37 +221,9 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
      * private: method[initCadastrappControls] :param layer:
      * ``OpenLayers.Layer.Vector``
      * 
-     * Init action on checkBox Foncier or Cadastre
+     * Init action on checkBox Foncier
      */
     initCadastrappControls : function(layer) {
-        // menu : checkbox cadastre
-        var cadastrePanel = new Ext.Panel({
-            frame : false,
-            border : false,
-            bodyStyle : 'background:transparent;',
-            style : 'margin-left:5px;margin-right:5px',
-            items : [ {
-                id : 'UCCheckbox',
-                xtype : 'checkbox',
-                checked : _isCadastre,
-                style : 'margin-top:2px;margin-left:15px',
-                listeners : {
-                    check : function(cb, checked) {
-                        _isCadastre = checked;
-                    },
-                    render : function(c) {
-                        Ext.QuickTips.register({
-                            target : c,
-                            text : OpenLayers.i18n("cadastrapp.menu.tooltips.cadastre")
-                        });
-                    }
-                }
-            }, {
-                xtype : 'displayfield',
-                value : OpenLayers.i18n("cadastrapp.cadastre"),
-            } ]
-        });
-        this.items.push(cadastrePanel);
 
         // menu : checkbox foncier
         var foncierPanel = new Ext.Panel({
