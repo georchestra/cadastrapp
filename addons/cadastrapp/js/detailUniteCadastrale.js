@@ -143,13 +143,9 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         // inline toolbars
         tbar : new Ext.Toolbar({
             items : [ {
-                xtype : 'button',
-                width : 30,
-                iconCls : 'small-pdf-button',
-                handler : function() {
-                    GEOR.Addons.Cadastre.onClickPrintBordereauParcellaireWindow(parcelleId);
-                }
-            }, {
+                iconCls : 'pdf-button',
+                scale: 'medium',
+                cls : 'x-btn-text-icon',
                 text : OpenLayers.i18n('cadastrapp.duc.bordereau.parcellaire'),
                 handler : function() {
                     GEOR.Addons.Cadastre.onClickPrintBordereauParcellaireWindow(parcelleId);
@@ -248,28 +244,9 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             }),
             // inline toolbars
             tbar : [ {
-                iconCls : 'small-pdf-button',
-                handler : function() {
-                    var selectedRecordsArray = fiucProprietairesGrid.getSelectionModel().getSelections();
-
-                    // check if at least one row is check
-                    if (selectedRecordsArray.length > 0 && selectedRecordsArray.length < GEOR.Addons.Cadastre.relevePropriete.maxProprietaire) {
-                        var comptecommunaux = []
-                        Ext.each(selectedRecordsArray, function(selection, index) {
-                            // only add comptecommunal if not in the list
-                            if (comptecommunaux.indexOf(selection.data.comptecommunal) == -1) {
-                                comptecommunaux.push(selection.data.comptecommunal);
-                            }
-                        })
-                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(comptecommunaux);
-                    } else if (selectedRecordsArray.length >= GEOR.Addons.Cadastre.relevePropriete.maxProprietaire) {
-                        Ext.Msg.alert('Vous ne pouvez pas sélectionner plus de ' + GEOR.Addons.Cadastre.relevePropriete.maxProprietaire + ' proprietaires');
-                        // TODO see if we remove selection
-                    } else {
-                        Ext.Msg.alert('Vous devez d\'abord sélectionner au moins un proprietaire');
-                    }
-                }
-            }, {
+                iconCls : 'pdf-button',
+                scale: 'medium',
+                cls : 'x-btn-text-icon',
                 text : OpenLayers.i18n('cadastrapp.duc.releve.depropriete'),
                 handler : function() {
                     var selectedRecordsArray = fiucProprietairesGrid.getSelectionModel().getSelections();
@@ -285,10 +262,10 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                         })
                         GEOR.Addons.Cadastre.onClickPrintRelevePropriete(comptecommunaux);
                     } else if (selectedRecordsArray.length >= GEOR.Addons.Cadastre.relevePropriete.maxProprietaire) {
-                        Ext.Msg.alert('Vous ne pouvez pas sélectionner plus de ' + GEOR.Addons.Cadastre.relevePropriete.maxProprietaire + ' proprietaires');
+                        Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous ne pouvez pas sélectionner plus de ' + GEOR.Addons.Cadastre.relevePropriete.maxProprietaire + ' proprietaires'});
                         // TODO see if we remove selection
                     } else {
-                        Ext.Msg.alert('Vous devez d\'abord sélectionner au moins un proprietaire');
+                        Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous devez d\'abord sélectionner au moins un proprietaire'});
                     }
                 }
             } ]
@@ -386,28 +363,9 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             }),
             // inline toolbars
             tbar : [ {
-                iconCls : 'small-pdf-button',
-                handler : function() {
-                    var selectedRecordsArray = fiucCoProprietairesGrid.getSelectionModel().getSelections();
-
-                    // check if at least one row is check
-                    if (selectedRecordsArray.length > 0 && selectedRecordsArray.length < GEOR.Addons.Cadastre.relevePropriete.maxProprietaire) {
-                        var comptecommunaux = []
-                        Ext.each(selectedRecordsArray, function(selection, index) {
-                            // only add comptecommunal if not in the list
-                            if (comptecommunaux.indexOf(selection.data.comptecommunal) == -1) {
-                                comptecommunaux.push(selection.data.comptecommunal);
-                            }
-                        })
-                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(comptecommunaux);
-                    } else if (selectedRecordsArray.length >= GEOR.Addons.Cadastre.relevePropriete.maxProprietaire) {
-                        Ext.Msg.alert('Vous ne pouvez pas sélectionner plus de ' + GEOR.Addons.Cadastre.relevePropriete.maxProprietaire + ' proprietaires');
-                        // TODO see if we remove selection
-                    } else {
-                        Ext.Msg.alert('Vous devez d\'abord sélectionner au moins un proprietaire');
-                    }
-                }
-            }, {
+                iconCls : 'pdf-button',
+                scale: 'medium',
+                cls : 'x-btn-text-icon',
                 text : OpenLayers.i18n('cadastrapp.duc.releve.depropriete'),
                 handler : function() {
                     var selectedRecordsArray = fiucCoProprietairesGrid.getSelectionModel().getSelections();
@@ -423,10 +381,10 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                         })
                         GEOR.Addons.Cadastre.onClickPrintRelevePropriete(comptecommunaux);
                     } else if (selectedRecordsArray.length >= GEOR.Addons.Cadastre.relevePropriete.maxProprietaire) {
-                        Ext.Msg.alert('Vous ne pouvez pas sélectionner plus de ' + GEOR.Addons.Cadastre.relevePropriete.maxProprietaire + ' proprietaires');
+                        Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous ne pouvez pas sélectionner plus de ' + GEOR.Addons.Cadastre.relevePropriete.maxProprietaire + ' proprietaires'});
                         // TODO see if we remove selection
                     } else {
-                        Ext.Msg.alert('Vous devez d\'abord sélectionner au moins un proprietaire');
+                        Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous devez d\'abord sélectionner au moins un proprietaire'});
                     }
                 }
             } ]
@@ -584,17 +542,9 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             }),
             // inline toolbars
             tbar : [ {
-                iconCls : 'small-pdf-button',
-                handler : function() {
-                    var selectedRecordsArray = fiucBatimentsGrid.getSelectionModel().getSelected();
-
-                    if (selectedRecordsArray) {
-                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(selectedRecordsArray.data.comptecommunal);
-                    } else {
-                        Ext.Msg.alert('Vous devez d\'abord sélectionner un propriétaire');
-                    }
-                }
-            }, {
+                iconCls : 'pdf-button',
+                scale: 'medium',
+                cls : 'x-btn-text-icon',
                 text : OpenLayers.i18n('cadastrapp.duc.releve.depropriete'),
                 handler : function() {
                     var selectedRecordsArray = fiucBatimentsGrid.getSelectionModel().getSelected();
@@ -602,21 +552,13 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     if (selectedRecordsArray) {
                         GEOR.Addons.Cadastre.onClickPrintRelevePropriete(selectedRecordsArray.data.comptecommunal);
                     } else {
-                        Ext.Msg.alert('Vous devez d\'abord sélectionner un propriétaire');
+                        Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous devez d\'abord sélectionner un propriétaire'});
                     }
                 }
             }, {
                 iconCls : 'house-button',
-                handler : function() {
-                    var selectedRecordsArray = fiucBatimentsGrid.getSelectionModel().getSelected();
-
-                    if (selectedRecordsArray) {
-                        GEOR.Addons.Cadastre.showHabitationDetails('A', selectedRecordsArray.data.dniv, selectedRecordsArray.data.dpor, selectedRecordsArray.data.annee, selectedRecordsArray.data.invar);
-                    } else {
-                        Ext.Msg.alert('Vous devez d\'abord sélectionner un batiment');
-                    }
-                }
-            }, {
+                scale: 'medium',
+                cls : 'x-btn-text-icon',
                 text : OpenLayers.i18n('cadastrapp.duc.batiment_descriptif'),
                 handler : function() {
                     selectedRecordsArray = fiucBatimentsGrid.getSelectionModel().getSelected();
@@ -624,7 +566,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     if (selectedRecordsArray) {
                         GEOR.Addons.Cadastre.showHabitationDetails('A', selectedRecordsArray.data.dniv, selectedRecordsArray.data.dpor, selectedRecordsArray.data.annee, selectedRecordsArray.data.invar);
                     } else {
-                        Ext.Msg.alert('Vous devez d\'abord sélectionner un batiment');
+                        Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous devez d\'abord sélectionner un batiment'});
                     }
                 }
             } ],

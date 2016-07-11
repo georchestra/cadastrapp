@@ -46,18 +46,11 @@
 }
 
 .pdf-button {
-    background-image: url(../img/silk/pdf_icon.png) !important;
-    width:48px!important; height:48px!important;
-}
-
-.small-pdf-button {
-    background-image: url(../img/silk/pdf_icon.png) !important;
-    width:20px!important; height:20px!important;
+    background-image: url(../img/silk/pdf_icon.png);
 }
 
 .house-button {
-    background-image: url(../img/silk/house.png) !important;
-    width:20px!important; height:20px!important;
+    background-image: url(../img/silk/house.png);
 }
 
 .help-button {
@@ -80,12 +73,10 @@
 }
 
 .add-button {
-    background-image: url(../img/famfamfam/add.png) !important;
-    width:16!important; height:15px!important;
+    background-image: url(../img/famfamfam/add.png)
 }
 .del-button {
-    background-image: url(../img/famfamfam/delete.png) !important;
-    width:16!important; height:15px!important; 
+    background-image: url(../img/famfamfam/delete.png)
 }
 .addButton{
 	padding-left:4px; padding-right:2px;
