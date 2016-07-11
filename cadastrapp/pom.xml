@@ -396,6 +396,22 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>jsbuild/jsbuild.sh</executable>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-java2wadl-plugin</artifactId>
         <version>${cxf.version}</version>
@@ -571,6 +587,81 @@
                 </mapping>
               </mappings>
             </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>docker</id>
+      <properties>
+        <dockerImageName>georchestra/${project.artifactId}</dockerImageName>
+        <dockerDatadirScmUrl>scm:git:https://github.com/georchestra/datadir.git</dockerDatadirScmUrl>
+        <dockerDatadirScmVersion>docker-master</dockerDatadirScmVersion>
+      </properties>
+      <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <version>1.9.4</version>
+            <configuration>
+              <checkoutDirectory>${project.build.directory}/datadir/</checkoutDirectory>
+              <connectionUrl>${dockerDatadirScmUrl}</connectionUrl>
+              <pushChanges>false</pushChanges>
+              <scmVersion>${dockerDatadirScmVersion}</scmVersion>
+              <scmVersionType>branch</scmVersionType>
+            </configuration>
+            <executions>
+              <execution>
+                <id>checkout-docker-default-datadir</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>checkout</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.maven.scm</groupId>
+                <artifactId>maven-scm-provider-gitexe</artifactId>
+                <version>1.9.4</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>0.3.8</version>
+            <configuration>
+              <imageName>${dockerImageName}</imageName>
+              <dockerDirectory>${project.basedir}/src/docker</dockerDirectory>
+              <resources>
+                <resource>
+                  <targetPath>/var/lib/jetty/webapps</targetPath>
+                  <directory>${project.build.directory}</directory>
+                  <include>${project.artifactId}.war</include>
+                </resource>
+                <resource>
+                  <targetPath>/etc/georchestra</targetPath>
+                  <directory>${project.build.directory}/datadir</directory>
+                  <include>${project.artifactId}/**</include>
+                </resource>
+              </resources>
+              <!-- This will require to set up the docker-hub credentials correctly
+                   into your ~/.m2/settings.xml, see:
+                   https://github.com/spotify/docker-maven-plugin#authenticating-with-private-registries
+              -->
+              <serverId>docker-hub</serverId>
+              <registryUrl>https://index.docker.io/v1/</registryUrl>
+            </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>19.0</version>
+              </dependency>
+            </dependencies>
           </plugin>
         </plugins>
       </build>
