@@ -126,6 +126,8 @@ public class ProprietaireController extends CadController{
 
 				// search by ddenom
 				if(ddenom!=null){
+					// replace all space by %
+					ddenom = ddenom.replace(' ', '%');
 					if(isMaritalSearch){
 						logger.debug("Search owners with marital informations ");
 						queryBuilder.append("and (UPPER(dnomlp) LIKE UPPER(?) or UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?))) ");
