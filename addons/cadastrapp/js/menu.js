@@ -305,8 +305,8 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
         this.items.push(new Ext.Button(configRechercheParcelle));
 
         // menu : recherche propriétaire
-        if (GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()) {
             var configRechercheProprietaire = {
+                id : 'owner-lookup-button',
                 tooltip : OpenLayers.i18n("cadastrapp.proprietaire"),
                 iconCls : "gx-featureediting-cadastrapp-parcelle",
                 iconAlign : 'top',
@@ -316,7 +316,6 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
                 }
             };
             this.items.push(new Ext.Button(configRechercheProprietaire));
-        }
 
         // menu : recherche avancée
         var scrollMenu = new Ext.menu.Menu();
@@ -372,10 +371,10 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
             GEOR.Addons.Cadastre.onClickRechercheParcelle(3)
         });
 
-        if (GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()) {
             // sous-menu : recherche proprietaire
             var scrollMenuRechercheProprietaire = new Ext.menu.Menu();
             var buttonRechercheProprietaire = scrollMenu.add({
+                id : 'owner-lookup-submenu',
                 tooltip : OpenLayers.i18n("cadastrapp.proprietaire"),
                 text : OpenLayers.i18n("cadastrapp.proprietaire"),
                 menu : scrollMenuRechercheProprietaire
@@ -415,7 +414,6 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
             buttonRechercheCopropriete.on('click', function() {
                 GEOR.Addons.Cadastre.onClickRechercheCoPropriete()
             });
-        }
 
         // sous-menu : traitement sélection
         var scrollMenuTraitementSelection = new Ext.menu.Menu();
@@ -449,10 +447,10 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
             GEOR.Addons.Cadastre.printSelectedBordereauParcellaire()
         });
 
-        if (GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()) {
             // sous-sous-menu : traitement sélection - proprietaires
             var scrollMenuTraitementSelectionProprietaires = new Ext.menu.Menu();
             var buttonTraitementSelectionProprietaires = scrollMenuTraitementSelection.add({
+                id : 'owner-selection-submenu',
                 tooltip : OpenLayers.i18n("cadastrapp.selection.proprietaires"),
                 text : OpenLayers.i18n("cadastrapp.selection.proprietaires"),
                 menu : scrollMenuTraitementSelectionProprietaires
@@ -469,7 +467,6 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
                 GEOR.Addons.Cadastre.exportOwnerSelectionAsCSV()
             });
 
-        }
     },
 
     /**

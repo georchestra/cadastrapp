@@ -36,6 +36,11 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
 
                 WMSSetting.layerNameGeoserver = configuration.cadastreWMSLayerName;
                 WMSSetting.url =  configuration.cadastreWMSURL;
+                if (!GEOR.Addons.Cadastre.isCNIL1() && !GEOR.Addons.Cadastre.isCNIL2()) {
+                   Ext.getCmp('owner-selection-submenu').hide();
+                   Ext.getCmp('owner-lookup-submenu').hide();
+                   Ext.getCmp('owner-lookup-button').hide();
+                }
             },
             failure: function(result) {
                 alert(OpenLayers.i18n('cadastrapp.connection.error'));
