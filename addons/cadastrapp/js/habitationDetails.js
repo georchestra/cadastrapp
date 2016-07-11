@@ -128,7 +128,7 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
             return  new Ext.Panel({
                 title: 'Partie professionelle   ' + article50Details.dnudes,
                 html:'<div>Surface réelle ' + article50Details.vsurzt + ' m²</div>',
-                layout: 'fit',
+                layout: 'fit'
             });
         }
     }
@@ -154,7 +154,7 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
           return  new Ext.Panel({
               title: 'Dépendance(s)  ' + article60Details.dnudes,
               html: details,
-              layout: 'fit',
+              layout: 'fit'
           });
       }
   }
