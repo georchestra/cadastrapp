@@ -24,7 +24,45 @@
         "css/cadastrapp.css",
         "css/external/fileuploadfield.css"
     ],
-    "default_options": {},
+	"default_options": {
+		"target": "tbar_12",
+		"helpUrl": "https://github.com/georchestra/cadastrapp/wiki/Guide-Utilisateur",
+		"openToolbarOnLoad": false,
+		"webapp":{
+			"url" : "/cadastrapp/"
+		},
+		"WMSLayer":{
+			"layerNameInPanel":"",
+			"transparent":true,
+			"format": "image/png"
+		},
+		"WFSLayerSetting": {
+			"request" : "getfeature",
+			"version" : "1.0.0",
+			"service" : "wfs",
+			"outputFormat" : "application/json",
+			"geometryField":"geom"
+		},
+		"defautStyleParcelle" :{
+			"strokeColor": "#000000",
+			"strokeWidth":"0.5",
+			"pointRadius": 6,
+			"pointerEvents": "visiblePainted",
+			"fontSize": "10px"
+		},
+		"selectedStyle" : {
+			"defautColor":"#AAAAAA",
+			"colorState1":"#FFFF00",
+			"colorState2":"#81BEF7",
+			"colorState3":"#57D53B",
+			"opacity":"0.4",
+			"strokeWidth":"3"
+		},
+		"popup" : {
+			"timeToShow": 5000,
+			"minZoom":14
+		}
+	},
     "i18n": {
         "en": {
         	"cadastrapp.no": "no",
