@@ -1,5 +1,6 @@
 {
-    "js": [
+	"js": [ "js/build/cadastrapp.js" ],
+	"debugjs": [
     	"js/printBordereauParcellaire.js",
     	"js/printRelevePropriete.js",
 		"js/selectFeature.js",
