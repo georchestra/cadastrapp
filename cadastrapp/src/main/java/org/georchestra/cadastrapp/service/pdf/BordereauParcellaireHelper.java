@@ -375,19 +375,31 @@ public final class BordereauParcellaireHelper extends CadController{
 		// if search by dnuproList or comptecommunal
 		// directly search in view parcelle
 		if(commune != null || ownerName != null){
+			queryBuilder.append("(");
 			queryBuilder.append("select distinct ");
 			queryBuilder.append("propar.parcelle ");
 			queryBuilder.append("from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire p ,");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle propar ");
+			queryBuilder.append(".proprietaire_parcelle propar ,");
 			queryBuilder.append(" where p.comptecommunal = propar.comptecommunal ");
 			queryBuilder.append(" and p.cgocommune = ? and p.ddenom = ? ");
+			queryBuilder.append(") UNION (");
+			queryBuilder.append("select distinct ");
+			queryBuilder.append("copropar.parcelle ");
+			queryBuilder.append("from ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".proprietaire p ,");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".co_propriete_parcelle copropar ,");
+			queryBuilder.append(" where p.comptecommunal = copropar.comptecommunal ");
+			queryBuilder.append(" and p.cgocommune = ? and p.ddenom = ? ");
+			queryBuilder.append(")");
 			queryBuilder.append(";");
 			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), commune,ownerName);
+			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(),commune,ownerName,commune,ownerName);
 		}
 		else{
 			logger.info("Missing or empty input parameter");
