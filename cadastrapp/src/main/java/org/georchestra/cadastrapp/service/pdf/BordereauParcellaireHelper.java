@@ -382,7 +382,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire p ,");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle propar ,");
+			queryBuilder.append(".proprietaire_parcelle propar");
 			queryBuilder.append(" where p.comptecommunal = propar.comptecommunal ");
 			queryBuilder.append(" and p.cgocommune = ? and p.ddenom = ? ");
 			queryBuilder.append(") UNION (");
@@ -392,7 +392,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire p ,");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".co_propriete_parcelle copropar ,");
+			queryBuilder.append(".co_propriete_parcelle copropar");
 			queryBuilder.append(" where p.comptecommunal = copropar.comptecommunal ");
 			queryBuilder.append(" and p.cgocommune = ? and p.ddenom = ? ");
 			queryBuilder.append(")");
