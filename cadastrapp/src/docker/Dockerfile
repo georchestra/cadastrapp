@@ -9,7 +9,7 @@ RUN  unzip -d /var/lib/jetty/webapps/cadastrapp /var/lib/jetty/webapps/cadastrap
   cp /etc/georchestra/cadastrapp/jetty-env.xml /var/lib/jetty/webapps/cadastrapp/WEB-INF/
 
 CMD ["sh", "-c", "exec java -Djava.io.tmpdir=/tmp/jetty -Dgeorchestra.datadir=/etc/georchestra \
- -Dmapfish-print-config=/etc/georchestra/mapfishapp/print/config.yaml -Xmx$XMX -Xms$XMX        \
+ -Xmx${XMX:-512m} -Xms${XMX:-512m}                                                             \
  $TRUSTORE_PASSWORD $TRUSTSTORE_PATH                                                           \
  -jar /usr/local/jetty/start.jar"]
 
