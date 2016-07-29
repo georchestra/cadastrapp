@@ -124,6 +124,9 @@ for exemple : ```schema.name=cadastreapp```
 
 ##  Build application : 
 
+Note that you'll need ```virtualenv``` to build/minify the addon javascript - on debian derivatives,
+it's provided by the ```python-virtualenv``` package.
+
 ```
 mvn clean install
 ```
