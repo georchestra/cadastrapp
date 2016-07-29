@@ -1,0 +1,44 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl-56f0350:150666c28a1:-7ef8</id>
+  <name>cadastre_2016</name>
+  <mode>SINGLE</mode>
+  <title>Assemblage des couches du PCI vecteur 2016</title>
+  <workspace>
+    <id>WorkspaceInfoImpl-56f0350:150666c28a1:-7f6c</id>
+  </workspace>
+  <publishables>
+    <published type="layer">
+      <id>LayerInfoImpl-56f0350:150666c28a1:-7f0d</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-56f0350:150666c28a1:-7f21</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-56f0350:150666c28a1:-7f34</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-56f0350:150666c28a1:-7f68</id>
+    </published>
+  </publishables>
+  <styles>
+    <style>
+      <id>StyleInfoImpl-56f0350:150666c28a1:-7f5a</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-56f0350:150666c28a1:-7f5d</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-56f0350:150666c28a1:-7f60</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-56f0350:150666c28a1:-7f63</id>
+    </style>
+  </styles>
+  <bounds>
+    <minx>224694.35652387538</minx>
+    <maxx>506123.9908379943</maxx>
+    <miny>5558428.722801397</miny>
+    <maxy>5911947.15959451</maxy>
+    <crs class="projected">EPSG:3857</crs>
+  </bounds>
+</layerGroup>

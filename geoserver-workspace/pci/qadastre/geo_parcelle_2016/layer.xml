@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_parcelle_2016</name>
+  <id>LayerInfoImpl-56f0350:150666c28a1:-7f21</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-56f0350:150666c28a1:-7f5d</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-56f0350:150666c28a1:-7f22</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>
