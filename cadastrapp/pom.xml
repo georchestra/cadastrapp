@@ -303,6 +303,29 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.0.0</version>
+          <executions>
+            <execution>
+              <id>cleaning-jsbuild-addon</id>
+              <phase>clean</phase>
+              <goals>
+                <goal>clean</goal>
+              </goals>
+              <configuration>
+                <filesets>
+                  <fileset>
+                    <directory>${project.parent.basedir}/addons/cadastrapp/js/build</directory>
+                    <includes>
+                      <include>**</include>
+                    </includes>
+                  </fileset>
+                </filesets>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-maven-plugin</artifactId>
           <version>9.2.11.v20150529</version>
@@ -410,6 +433,49 @@
         <configuration>
           <executable>jsbuild/jsbuild.sh</executable>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <id>copy-mapfishapp-addon-files</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <overwrite>true</overwrite>
+              <outputDirectory>${basedir}/target/addon</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.parent.basedir}/addons/cadastrapp</directory>
+                  <includes>
+                    <include>**</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <descriptors>
+            <descriptor>addon-assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.cxf</groupId>
