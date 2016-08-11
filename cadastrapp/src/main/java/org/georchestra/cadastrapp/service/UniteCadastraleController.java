@@ -194,7 +194,7 @@ public class UniteCadastraleController extends CadController {
 		StringBuilder subDivisionqueryBuilder = new StringBuilder();
 		
 		// Select information from view proprietenonbatie
-		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum, pnb.drcsuba as drcsub from ");	
+		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.nat_culture, pnb.drcsuba as drcsub from ");	
 		subDivisionqueryBuilder.append(databaseSchema);
 		subDivisionqueryBuilder.append(".proprietenonbatie pnb ");
 		subDivisionqueryBuilder.append(" where pnb.parcelle = ? ");
