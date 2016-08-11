@@ -26,6 +26,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.dsgrpf, 
 		proprietenonbatie.dclssf, 
 		proprietenonbatie.cnatsp, 
+		proprietenonbatie.nat_culture, 
 		proprietenonbatie.dcntsf, 
 		proprietenonbatie.drcsuba, 
 		proprietenonbatie.pdl, 
@@ -57,10 +58,11 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 			p.gpafpd,
 			suf.ccostn,
 			suf.ccosub,
-			suf.cgrnum,
-			suf.dsgrpf,
+			gnc.cgrnum_lib,
+			sga.dsgrpf_lib,
 			suf.dclssf,
-			suf.cnatsp,
+			cncs.cnatsp_lib,
+			gnc.cgrnum_lib||COALESCE(NULLIF('', ''||COALESCE(sga.dsgrpf_lib,''''), '', ''),'''')||COALESCE(NULLIF('', ''||COALESCE(cncs.cnatsp_lib,''''), '', ''),'''') as nat_culture,
 			suf.dcntsf,
 			CAST (suf.drcsuba* 10 as integer) as drcsuba,
 			suf.pdl,
@@ -73,7 +75,10 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.voie v on v.voie=p.voie
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
-			left join #DBSchema_qgis.suftaxation as suftax on suftax.suf=suf.suf'::text)
+			left join #DBSchema_qgis.suftaxation as suftax on suftax.suf=suf.suf
+			left join #DBSchema_qgis.cgrnum as gnc on gnc.cgrnum = suf.cgrnum
+			left join #DBSchema_qgis.dsgrpf as sga on sga.dsgrpf = suf.dsgrpf
+			left join #DBSchema_qgis.cnatsp as cncs on cncs.cnatsp = suf.cnatsp'::text)
 	proprietenonbatie(
 		id_local character varying(21),  
 		jdatat character varying(10),  
@@ -99,6 +104,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
  		dsgrpf character varying(2), 
  		dclssf character varying(2), 
  		cnatsp character varying(5),
+ 		nat_culture character varying(255),
  		dcntsf integer, 
  		drcsuba integer, 
  		pdl character varying(22), 
@@ -108,6 +114,4 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		bisufad integer,
 		bisufad_dep integer,
 		bisufad_reg integer);
-
-
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;
