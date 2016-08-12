@@ -26,7 +26,6 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.dsgrpf, 
 		proprietenonbatie.dclssf, 
 		proprietenonbatie.cnatsp, 
-		proprietenonbatie.nat_culture, 
 		proprietenonbatie.dcntsf, 
 		proprietenonbatie.drcsuba, 
 		proprietenonbatie.pdl, 
