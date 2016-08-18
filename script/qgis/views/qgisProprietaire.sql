@@ -101,24 +101,24 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.dqualp,
 			rtrim(pqgis.dnomlp) as dnomlp,
 			rtrim(pqgis.dprnlp) as dprnlp,
-			rtrim(pqgis.dnomus) as dnomus,
-			rtrim(pqgis.dprnus) as dprnus,
 			COALESCE(to_char(pqgis.jdatnss, ''DD/MM/YYYY''), '''') as jdatnss,
 			pqgis.dldnss,
 			pqgis.epxnee,
 			rtrim(pqgis.dnomcp) as dnomcp,
 			rtrim(pqgis.dprncp) as dprncp,
+			rtrim(pqgis.dnomus) as dnomus,
+			rtrim(pqgis.dprnus) as dprnus,
 			pqgis.dformjur,
 			pqgis.dsiren,
 			pqgis.ccodep || pqgis.ccodir || pqgis.ccocom as cgocommune,
 			pqgis.comptecommunal, 
-			(SELECT CASE
-					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomus),'''')||'' ''||COALESCE(rtrim(dprnus),'''')
-					WHEN gtoper = ''2'' THEN rtrim(ddenom)
-				END) AS app_nom_usage,
-			(SELECT CASE
-					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
-				END) AS app_nom_naissance
+			CASE
+				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomus),'''')||'' ''||COALESCE(rtrim(dprnus),'''')
+				WHEN gtoper = ''2'' THEN rtrim(ddenom)
+			END AS app_nom_usage,
+			CASE
+				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
+			END AS app_nom_naissance
 		from #DBSchema_qgis.proprietaire pqgis'::text)
 	proprietaire(
 		id_proprietaire character varying(20), 
@@ -168,6 +168,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 		dformjur character varying(4), 
 		dsiren character varying(10),
 		cgocommune character varying(6), 
+		comptecommunal character varying(15),
 		app_nom_usage character varying(120),
 		app_nom_naissance character varying(70))
 	LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
