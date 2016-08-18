@@ -79,7 +79,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.ccogrm as ccogrm_c,
 			pqgis.dsglpm,
 			pqgis.dforme,
-			rtrim(pqgis.ddenom) as ddenom,
+			REPLACE(rtrim(pqgis.ddenom),''/'','' '') as ddenom,
 			pqgis.gtyp3,
 			pqgis.gtyp4,
 			pqgis.gtyp5,

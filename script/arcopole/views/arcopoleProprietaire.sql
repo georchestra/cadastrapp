@@ -79,7 +79,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 			ccogrm as ccogrm_c,
 			dsglpm,
 			dforme,
-			rtrim(ddenom) as ddenom,
+			REPLACE(rtrim(ddenom),''/'','' '') as ddenom,
 			gtyp3,
 			gtyp4,
 			gtyp5,
