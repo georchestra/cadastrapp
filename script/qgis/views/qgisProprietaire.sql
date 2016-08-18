@@ -113,11 +113,11 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.ccodep || pqgis.ccodir || pqgis.ccocom as cgocommune,
 			pqgis.comptecommunal, 
 			(SELECT CASE
-					WHEN gtoper = ''1'' THEN concat(rtrim(dnomus),'' '',rtrim(dprnus))
+					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomus),'''')||'' ''||COALESCE(rtrim(dprnus),'''')
 					WHEN gtoper = ''2'' THEN rtrim(ddenom)
 				END) AS app_nom_usage,
 			(SELECT CASE
-					WHEN gtoper = ''1'' THEN concat(rtrim(dnomlp),'' '',rtrim(dprnlp))
+					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
 				END) AS app_nom_naissance
 		from #DBSchema_qgis.proprietaire pqgis'::text)
 	proprietaire(
@@ -169,7 +169,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 		dsiren character varying(10),
 		cgocommune character varying(6), 
 		app_nom_usage character varying(120),
-		app_nom_naissance character varying(50))
+		app_nom_naissance character varying(70))
 	LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
 	LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
 	LEFT JOIN #schema_cadastrapp.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text

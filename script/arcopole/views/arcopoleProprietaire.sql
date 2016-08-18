@@ -113,11 +113,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 			substr(id_prop,1,6) as cgocommune,
 			id_prop as  comptecommunal,
 			(SELECT CASE
-					WHEN gtoper = ''1'' THEN concat(rtrim(dnomus),'' '',rtrim(dprnus))
+					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomus),'''')||'' ''||COALESCE(rtrim(dprnus),'''')
 					WHEN gtoper = ''2'' THEN rtrim(ddenom)
 				END) AS app_nom_usage,
 			(SELECT CASE
-					WHEN gtoper = ''1'' THEN concat(rtrim(dnomlp),'' '',rtrim(dprnlp))
+					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
 				END) AS app_nom_naissance
 		from #DBSchema_arcopole.dgi_prop'::text) 
 	proprietaire(
@@ -170,7 +170,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 		cgocommune character varying(6), 
 		comptecommunal character varying(15),
 		app_nom_usage character varying(120),
-		app_nom_naissance character varying(50))
+		app_nom_naissance character varying(70))
 			LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
 			LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
 			LEFT JOIN #schema_cadastrapp.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text
