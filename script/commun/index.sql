@@ -13,7 +13,7 @@ CREATE INDEX idxproprietairecgocommune ON #schema_cadastrapp.proprietaire (cgoco
 CREATE INDEX idxproprietaireddenom ON #schema_cadastrapp.proprietaire (UPPER(rtrim(ddenom)));
 CREATE INDEX idxproprietaireupperdnomlp ON #schema_cadastrapp.proprietaire (UPPER(dnomlp));
 CREATE INDEX idxproprietairenomusage ON #schema_cadastrapp.proprietaire (UPPER(app_nom_usage));
-CREATE INDEX idxproprietairenomusage ON #schema_cadastrapp.proprietaire (UPPER(app_nom_naissance));
+CREATE INDEX idxproprietairenomnaissance ON #schema_cadastrapp.proprietaire (UPPER(app_nom_naissance));
 
 -- Proprietaire_parcelle
 CREATE INDEX idxproprietaireparcellecomptecommunal ON #schema_cadastrapp.proprietaire_parcelle (comptecommunal);
