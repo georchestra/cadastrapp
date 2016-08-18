@@ -112,11 +112,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 			''dsiren'' as dsiren,
 			substr(id_prop,1,6) as cgocommune,
 			id_prop as  comptecommunal,
-			(SELECT CASE
+			(CASE
 					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomus),'''')||'' ''||COALESCE(rtrim(dprnus),'''')
 					WHEN gtoper = ''2'' THEN rtrim(ddenom)
 				END) AS app_nom_usage,
-			(SELECT CASE
+			(CASE
 					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
 				END) AS app_nom_naissance
 		from #DBSchema_arcopole.dgi_prop'::text) 
