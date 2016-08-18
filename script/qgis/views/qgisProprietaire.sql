@@ -1,7 +1,8 @@
 -- Create view proprietaire based on Qgis Models
 
 CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS 
-	SELECT proprietaire.id_proprietaire, 
+	SELECT 
+		proprietaire.id_proprietaire, 
 		proprietaire.dnupro, 
 		proprietaire.lot, 
 		proprietaire.dnulp, 
@@ -43,6 +44,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 		proprietaire.epxnee, 
 		proprietaire.dnomcp, 
 		proprietaire.dprncp, 
+    proprietaire.dnomus,
+    proprietaire.dprnus,
 		proprietaire.dformjur, 
 		proprietaire.dsiren, 
 		proprietaire.cgocommune, 
@@ -59,7 +62,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 		prop_dnatpr.dnatpr_lib
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
-	        pqgis.proprietaire,
+	    pqgis.proprietaire,
 			pqgis.dnupro,
 			pqgis.lot,
 			pqgis.dnulp,
@@ -96,6 +99,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.dqualp,
 			rtrim(pqgis.dnomlp) as dnomlp,
 			rtrim(pqgis.dprnlp) as dprnlp,
+      rtrim(pqgis.dnomus) as dnomus,
+      rtrim(pqgis.dprnus) as dprnus,
 			COALESCE(to_char(pqgis.jdatnss, ''DD/MM/YYYY''), '''') as jdatnss,
 			pqgis.dldnss,
 			pqgis.epxnee,
@@ -149,6 +154,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 		epxnee character varying(3), 
 		dnomcp character varying(30), 
 		dprncp character varying(15), 
+    dnomus character varying(60),
+    dprnus character varying(40),
 		dformjur character varying(4), 
 		dsiren character varying(10),
 		cgocommune character varying(6), 
