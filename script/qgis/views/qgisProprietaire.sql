@@ -50,6 +50,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 		proprietaire.dsiren, 
 		proprietaire.cgocommune, 
 		proprietaire.comptecommunal, 
+		proprietaire.app_nom_usage,
 		prop_ccodro.ccodro, 
 		prop_ccodro.ccodro_lib, 
 		prop_ccoqua.ccoqua, 
@@ -109,7 +110,11 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.dformjur,
 			pqgis.dsiren,
 			pqgis.ccodep || pqgis.ccodir || pqgis.ccocom as cgocommune,
-			pqgis.comptecommunal 
+			pqgis.comptecommunal, 
+			(SELECT CASE
+					WHEN gtoper = ''1'' THEN concat(rtrim(dnomus),'' '',rtrim(dprnus))
+					WHEN gtoper = ''2'' THEN rtrim(ddenom)
+				END) AS app_nom_usage
 		from #DBSchema_qgis.proprietaire pqgis'::text)
 	proprietaire(
 		id_proprietaire character varying(20), 
@@ -159,7 +164,8 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 		dformjur character varying(4), 
 		dsiren character varying(10),
 		cgocommune character varying(6), 
-		comptecommunal character varying(15))
+		comptecommunal character varying(15),
+		app_nom_usage character varying(100))
 	LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
 	LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
 	LEFT JOIN #schema_cadastrapp.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text

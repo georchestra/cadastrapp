@@ -50,6 +50,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 		proprietaire.dsiren,
 		proprietaire.cgocommune,
 		proprietaire.comptecommunal,
+		proprietaire.app_nom_usage,
 		prop_ccodro.ccodro, 
 		prop_ccodro.ccodro_lib, 
 		prop_ccoqua.ccoqua, 
@@ -59,10 +60,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 		prop_ccodem.ccodem, 
 		prop_ccodem.ccodem_lib, 
 		prop_dnatpr.dnatpr, 
-		prop_dnatpr.dnatpr_lib 	
+		prop_dnatpr.dnatpr_lib 
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
-		id_prop as id_proprietaire,
+			id_prop as id_proprietaire,
 			id_prop as dnupro,
 			codlot as lot,
 			dnulp,
@@ -109,7 +110,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 			dformjur,
 			''dsiren'' as dsiren,
 			substr(id_prop,1,6) as cgocommune,
-			id_prop as  comptecommunal 
+			id_prop as  comptecommunal,
+			(SELECT CASE
+					WHEN gtoper = ''1'' THEN concat(rtrim(dnomus),'' '',rtrim(dprnus))
+					WHEN gtoper = ''2'' THEN rtrim(ddenom)
+				END) AS app_nom_usage
 		from #DBSchema_arcopole.dgi_prop'::text) 
 	proprietaire(
 		id_proprietaire character varying(20), 
@@ -159,7 +164,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 		dformjur character varying(4), 
 		dsiren character varying(10),
 		cgocommune character varying(6), 
-		comptecommunal character varying(15))
+		comptecommunal character varying(15),
+		app_nom_usage character varying(100))
 			LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
 			LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
 			LEFT JOIN #schema_cadastrapp.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text
