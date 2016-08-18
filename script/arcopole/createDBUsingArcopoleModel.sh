@@ -16,8 +16,8 @@
 # @author Jégo Pierre
 # @since
 # @brief
-# @date   20/06/2016
-# Version : 1.5
+# @date   19/08/2016
+# Version : 1.7
 #
 # Change version | Author         |    Date    | Comments
 #   1.0          | Pierre JEGO    | 15/06/2015 | Init
@@ -27,6 +27,7 @@
 #   1.4          | Maël REBOUX    | 07/06/2016 | Add capability to use non local postgresql database
 #   1.5          | Pierre JEGO    | 20/06/2016 | Use script in batch mode
 #   1.6          | Pierre JEGO    | 22/06/2016 | Add lot view
+#   1.7          | Maël REBOUX    | 19/08/2016 | No more need specific drop tables and views script
 #////////////////////////////////////////////////////////////////////
 
 
@@ -55,11 +56,11 @@ if [ "$#" -ne 12 ]; then
   userpwd="cadastrapp_pwd"
 
   # REMOTE Arcopole Database information (the database to read)
-  arcopoleDBHost=
-  arcopoleDBName=
-  arcopoleDBSchema=
-  arcopoleDBUser=
-  arcopoleDBPassword=
+  arcopoleDBHost="xxx"
+  arcopoleDBName="xxx"
+  arcopoleDBSchema="xxx"
+  arcopoleDBUser="xxx"
+  arcopoleDBPassword="xxx"
 else
   echo "Launch Script using parameters" >&2
   batchmode=$1
@@ -142,7 +143,7 @@ cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
 echo "--------------------------------";
 echo " Drop View and Tables except groupeAutorisation ";
 echo "--------------------------------";
-replaceAndLaunch ./database/dropAll.sql
+replaceAndLaunch ../commun/dropTablesAndViews.sql
 
 # Create tables
 echo "--------------------------------";
