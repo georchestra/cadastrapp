@@ -1,6 +1,6 @@
 -- Create view proprietebatie based on Qgis Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.proprietebatie AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS 
 	SELECT proprietebatie.id_local,
 		proprietebatie.comptecommunal,
 		proprietebatie.dnupro,
