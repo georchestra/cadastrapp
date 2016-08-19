@@ -1,6 +1,6 @@
 -- Create lot Views based on Qgis Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.lot AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.lot AS 
 	SELECT	lot.id_local, 
 			lot.dnulot, 
 			lot.dnumql, 
