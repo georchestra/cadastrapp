@@ -1,6 +1,6 @@
 -- Create view section based on Qgis Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.section AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.section AS 
 	SELECT 
 		cgocommune,
 		ccosec,
