@@ -1,6 +1,6 @@
 -- Create views deschabitation, descproffessionnel, descdependance based on Qgis Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.deschabitation as SELECT *
+CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation as SELECT *
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 		'select 
 			pev.pev,
