@@ -100,7 +100,7 @@ ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
 -- View: cadastrapp_qgis.descproffessionnel
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.descproffessionnel AS
+CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 	SELECT 	descproffessionnel.pev,
 			descproffessionnel.invar,
 			descproffessionnel.annee,
@@ -127,7 +127,7 @@ ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 -- View: cadastrapp_qgis.descdependance
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.descdependance AS
+CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 	SELECT descdependance.pev,
 			descdependance.invar,
 			descdependance.annee,
