@@ -1,6 +1,6 @@
 -- Create view proprietenonbatiesufexo based on Qgis Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.proprietenonbatiesufexo AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS 
 	SELECT 
 		proprietenonbatiesufexo.parcelle, 
 		proprietenonbatiesufexo.id_local, 
