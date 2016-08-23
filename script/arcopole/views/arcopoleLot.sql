@@ -1,6 +1,6 @@
 --- Create lot Views based on Arcopole Models
 
-CREATE MATERIALIZED VIEW #schema_cadastrapp.lots AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.lot AS 
 	SELECT 
 		lot.codlot,
 		lot.id_local, 

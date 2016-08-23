@@ -1,7 +1,7 @@
 -- Create commune Views based on Qgis Models
 -- RTRIM is made on libcom because space exist in data from Qgis Model
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.commune AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.commune AS 
 	SELECT commune.cgocommune, 
 			commune.annee, 
 			commune.clerivili, 
