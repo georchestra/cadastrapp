@@ -101,13 +101,13 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.dqualp,
 			rtrim(pqgis.dnomlp) as dnomlp,
 			rtrim(pqgis.dprnlp) as dprnlp,
-			rtrim(pqgis.dnomus) as dnomus,
-			rtrim(pqgis.dprnus) as dprnus,
 			COALESCE(to_char(pqgis.jdatnss, ''DD/MM/YYYY''), '''') as jdatnss,
 			pqgis.dldnss,
 			pqgis.epxnee,
 			rtrim(pqgis.dnomcp) as dnomcp,
 			rtrim(pqgis.dprncp) as dprncp,
+			rtrim(pqgis.dnomus) as dnomus,
+			rtrim(pqgis.dprnus) as dprnus,
 			pqgis.dformjur,
 			pqgis.dsiren,
 			pqgis.ccodep || pqgis.ccodir || pqgis.ccocom as cgocommune,
@@ -168,6 +168,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS
 		dformjur character varying(4), 
 		dsiren character varying(10),
 		cgocommune character varying(6), 
+		comptecommunal character varying(15),
 		app_nom_usage character varying(120),
 		app_nom_naissance character varying(70))
 	LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
