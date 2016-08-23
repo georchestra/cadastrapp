@@ -31,7 +31,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 			method : 'GET',
 			autoLoad : false
 		}),
-		fields : [ 'comptecommunal', 'ddenom' ]
+		fields : [ 'comptecommunal', 'app_nom_usage' ]
 	});
 
 	// Store contenant les informations des différentes parcelles
@@ -128,16 +128,16 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 		store : fiufProprietaireStore,
 		name : 'Fiuf_Proprietaire',
 		xtype : 'editorgrid ',
-		autoExpandColumn : 'ddenom',
+		autoExpandColumn : 'app_nom_usage',
 		colModel : new Ext.grid.ColumnModel({
 			columns : [ {
 				header : 'Id propriétaire',
 				width : 110,
 				dataIndex : 'comptecommunal'
 			}, {
-				id : 'ddenom',
+				id : 'app_nom_usage',
 				header : 'Nom',
-				dataIndex : 'ddenom'
+				dataIndex : 'app_nom_usage'
 			}, ],
 		}),
 		columnWidth : .6,

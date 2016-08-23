@@ -134,7 +134,7 @@ public class UniteCadastraleController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 1
-		queryBuilder.append("select distinct p.dnulp, p.comptecommunal, p.ddenom, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
+		queryBuilder.append("select distinct p.dnulp, p.comptecommunal, p.app_nom_usage, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietaire_parcelle propar,");
@@ -142,7 +142,7 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(".proprietaire p where propar.parcelle = ? ");
 		queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
 		queryBuilder.append(addAuthorizationFiltering(headers, "p."));
-		queryBuilder.append(" ORDER BY p.dnulp, p.ddenom ;");
+		queryBuilder.append(" ORDER BY p.dnulp, p.app_nom_usage ;");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
@@ -194,7 +194,7 @@ public class UniteCadastraleController extends CadController {
 		StringBuilder subDivisionqueryBuilder = new StringBuilder();
 		
 		// Select information from view proprietenonbatie
-		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum, pnb.drcsuba as drcsub from ");	
+		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum, pnb.drcsuba as drcsub from ");
 		subDivisionqueryBuilder.append(databaseSchema);
 		subDivisionqueryBuilder.append(".proprietenonbatie pnb ");
 		subDivisionqueryBuilder.append(" where pnb.parcelle = ? ");

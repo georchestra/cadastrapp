@@ -113,8 +113,8 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                 value : '',
                 forceSelection : false,
                 editable : true,
-                displayField : 'displayname',
-                valueField : 'ddenom',
+                displayField : 'app_nom_usage',
+                valueField : 'app_nom_usage',
                 disabled : true,
                 store : new Ext.data.JsonStore({
                     proxy : new Ext.data.HttpProxy({
@@ -122,12 +122,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                         method : 'GET',
                         autoload : true
                     }),
-                    fields : [ 'ddenom', {
-                        name : 'displayname',
-                        convert : function(v, rec) {
-                            return rec.ddenom.replace('/', ' ');
-                        }
-                    } ]
+                    fields : [ 'app_nom_usage' ]
                 }),
                 validator : function(value) {
                     // if other field are empty, check value size
