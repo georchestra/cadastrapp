@@ -55,11 +55,11 @@ if [ "$#" -ne 12 ]; then
   userpwd="cadastrapp_pwd"
 
   # REMOTE Arcopole Database information (the database to read)
-  arcopoleDBHost=
-  arcopoleDBName=
-  arcopoleDBSchema=
-  arcopoleDBUser=
-  arcopoleDBPassword=
+  arcopoleDBHost="xxx"
+  arcopoleDBName="xxx"
+  arcopoleDBSchema="xxx"
+  arcopoleDBUser="xxx"
+  arcopoleDBPassword="xxx"
 else
   echo "Launch Script using parameters" >&2
   batchmode=$1
@@ -142,7 +142,7 @@ cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
 echo "--------------------------------";
 echo " Drop View and Tables except groupeAutorisation ";
 echo "--------------------------------";
-replaceAndLaunch ./database/dropAll.sql
+replaceAndLaunch ../commun/dropTablesAndViews.sql
 
 # Create tables
 echo "--------------------------------";

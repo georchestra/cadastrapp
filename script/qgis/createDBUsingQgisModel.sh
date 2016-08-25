@@ -180,4 +180,5 @@ replaceAndLaunch ../commun/user/groupe_autorisation.sql
 # Create table for information request
 replaceAndLaunch ../commun/tables/request_information.sql
 
-
+# -- create index
+replaceAndLaunch ../commun/index.sql

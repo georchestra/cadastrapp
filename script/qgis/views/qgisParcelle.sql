@@ -1,6 +1,6 @@
 -- Create view parcelle, parcelledetails, v_parcelle_surfc based on Qgis Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.v_parcelle_surfc AS
+CREATE MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc AS
 	SELECT  v_parcelle_surfc.parcelle,
 			v_parcelle_surfc.surfc, 
 			v_parcelle_surfc.surfb 
@@ -23,7 +23,7 @@ CREATE OR REPLACE VIEW #schema_cadastrapp.v_parcelle_surfc AS
 ALTER TABLE #schema_cadastrapp.v_parcelle_surfc OWNER TO #user_cadastrapp;
 
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.parcelle AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS 
 	SELECT parcelle.parcelle, 
 		parcelle.cgocommune, 
 		parcelle.dnupla, 
@@ -64,7 +64,7 @@ ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 
 -- View: cadastreapp_qgis.parcelle
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.parcelledetails AS 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS 
 	SELECT 
 		parcelledetails.parcelle,
 		parcelledetails.cgocommune,

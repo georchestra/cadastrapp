@@ -1,8 +1,7 @@
 -- Create view proprietaire based on Qgis Models
 
-CREATE OR REPLACE VIEW #schema_cadastrapp.proprietaire AS 
-	SELECT 
-		proprietaire.id_proprietaire, 
+CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS 
+	SELECT proprietaire.id_proprietaire, 
 		proprietaire.dnupro, 
 		proprietaire.lot, 
 		proprietaire.dnulp, 
