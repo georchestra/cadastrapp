@@ -145,7 +145,7 @@ public final class ReleveProprieteHelper extends CadController{
 						List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
 
 						StringBuilder queryBuilderProprietaire = new StringBuilder();
-						queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, prop.ccodem_lib, prop.dldnss, prop.jdatnss,  prop.ccodro_lib, app_nom_usage as nom, COALESCE(prop.dlign3, '')||' '||COALESCE(prop.dlign4,'')||' '||COALESCE(prop.dlign5,'')||' '||COALESCE(prop.dlign6,'') as adresse ");
+						queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, prop.ccodem_lib, prop.dldnss, prop.jdatnss,  prop.ccodro_lib, app_nom_usage as nom, app_nom_naissance as nom_naissance, COALESCE(prop.dlign3, '')||' '||COALESCE(prop.dlign4,'')||' '||COALESCE(prop.dlign5,'')||' '||COALESCE(prop.dlign6,'') as adresse ");
 						queryBuilderProprietaire.append("from ");
 						queryBuilderProprietaire.append(databaseSchema);
 						queryBuilderProprietaire.append(".proprietaire prop ");
@@ -164,6 +164,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 							Proprietaire proprietaire = new Proprietaire();
 							proprietaire.setNom((String) prop.get("nom"));
+							proprietaire.setNomNaissance((String) prop.get("nom_naissance"));
 							proprietaire.setAdresse((String) prop.get("adresse"));
 							proprietaire.setCodeDeDemenbrement((String) prop.get("ccodem_lib"));
 							proprietaire.setDateNaissance((String) prop.get("jdatnss"));

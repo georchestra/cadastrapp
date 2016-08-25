@@ -7,6 +7,8 @@ public class Proprietaire {
 	private String compteCommunal;
 	
 	private String nom;
+	
+	private String nomNaissance;
 		
 	private String adresse;
 	
@@ -32,6 +34,21 @@ public class Proprietaire {
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	
+	/**
+	 * @return the nom
+	 */
+	public String getNomNaissance() {
+		return nomNaissance;
+	}
+
+	@XmlAttribute
+	/**
+	 * @param nom the nom to set
+	 */
+	public void setNomNaissance(String nomNaissance) {
+		this.nomNaissance = nomNaissance;
 	}
 
 	
