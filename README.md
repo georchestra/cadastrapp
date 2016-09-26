@@ -12,7 +12,12 @@ This repository is made of 3 mains parts :
 - addons folder contains client side of application
 - cadastrapp folder contains webapplication distributing webservice
 
+Additional tool is needed to build from source ( jsbuild from pythonvirtualenv)
 
+```
+	sudo apt-get install python-virtualenv
+	sudo pip install jsbuild
+```
 
 This project has been funded by : 
 
