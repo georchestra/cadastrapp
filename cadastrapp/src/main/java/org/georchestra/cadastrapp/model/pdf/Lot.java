@@ -55,8 +55,16 @@ public class Lot {
 	/**
 	 * @param denomianteur the denomianteur to set
 	 */
-	public void setDenominateur(String denomianteur) {
-		this.denominateur = denomianteur;
+	public void setDenominateur(String denominateur) {
+		this.denominateur = denominateur;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Lot [lotId=" + lotId + ", repartition : " + numerateur + "/" + denominateur + "]";
 	}
 
 
