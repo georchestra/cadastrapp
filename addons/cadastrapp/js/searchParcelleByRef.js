@@ -77,7 +77,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
             },
             change : function(combo, newValue, oldValue) {
                 console.log("Update section information");
-                if( newValue.match(/([0-9]{6})/g).length == 1 ) {
+                if( newValue.match(/([0-9]{6})/g) != undefined && newValue.match(/([0-9]{6})/g).length == 1 ) {
                     var insee = newValue.match(/([0-9]{6})/g)[0];
                     // refaire le section store pour cette ville
                     parcelleGrid.reconfigure(GEOR.Addons.Cadastre.getVoidRefStore(), GEOR.Addons.Cadastre.getRefColModel(insee));
