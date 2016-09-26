@@ -22,6 +22,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.georchestra.cadastrapp.model.pdf.ExtFormResult;
@@ -271,16 +272,31 @@ public class ParcelleController extends CadController {
 		// directly search in view parcelle
 		if (comptecommunal != null && !comptecommunal.isEmpty()) {
 
+			queryBuilder.append("(");
 			queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
 			queryBuilder.append(", ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire_parcelle proparc ");
 			queryBuilder.append(createWhereInQuery(comptecommunal.size(), "proparc.comptecommunal"));
 			queryBuilder.append(" and proparc.parcelle = p.parcelle ");
+			queryBuilder.append(") UNION (");
+			queryBuilder.append(createSelectParcelleQuery(details, userCNILLevel));
+			queryBuilder.append(", ");
+			queryBuilder.append(databaseSchema);
+			queryBuilder.append(".co_propriete_parcelle coproparc ");
+			queryBuilder.append(createWhereInQuery(comptecommunal.size(), "coproparc.comptecommunal"));
+			queryBuilder.append(" and coproparc.parcelle = p.parcelle ");
+			queryBuilder.append(")");
 			queryBuilder.append(";");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), comptecommunal.toArray());
+			
+			// Because we use query params, we need to duplicate comptecommunal value in array because we have 2 where in query
+			Object[] ccArray = comptecommunal.toArray();
+			Object[] queryParam = ArrayUtils.addAll(ccArray, ccArray);
+
+			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), queryParam);
+
 		} else {
 			logger.info("Missing or empty input parameter");
 		}
