@@ -571,15 +571,30 @@ GEOR.Addons.Cadastre.zoomOnFeatures = function(features) {
  * 
  */
 GEOR.Addons.Cadastre.addWMSLayer = function(wmsSetting) {
+          
+    // Search layer with same wms URL if already add cadastrapp layer
 
-    // Search layer with same wms URL
-	var layers = GeoExt.MapPanel.guess().map.getLayersBy("url", wmsSetting.url);
-   
+    // encode special caracter in geoserver layer name param
+    var searchName = escape(wmsSetting.layerNameGeoserver);      
+    var urlFind = []; // if empty after loop, any layer has been already add 
+    
+    // for all url in layerPanel, search geoserver's layer param 
+    Ext.each(GeoExt.MapPanel.guess().map.layers,function(items, index){
+        if(items.grid){
+            // take URL of layer
+            var resultURL = items.grid[0][0].url;
+            // if URL contain cadastrapp layer name, add URL to array
+            if(resultURL.indexOf(searchName) !== -1 ){
+                urlFind.push(resultURL);
+            }
+        }        
+    });  
+
     // if layer not already present add cadastrapp addons layer
-    if(layers == null || layers.length == 0){
-
-        GEOR.Addons.Cadastre.isWMSLayerAdded = true;
-
+    if(urlFind.length == 0){
+		
+		GEOR.Addons.Cadastre.isWMSLayerAdded = true;
+		
         // Show layer in switcher only if it has a name set by administrator
         var isDisplayInLayerSwitcher = false;
         if (wmsSetting.layerNameInPanel.length > 0) {
