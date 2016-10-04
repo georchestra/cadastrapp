@@ -51,10 +51,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			nbati.GPARNF gpafpd,
 			suf.ccostn,
 			suf.ccosub,
-			suf.cgrnum,
-			suf.dsgrpf,
+			gnc.description,
+			sga.description,
 			suf.dclssf,
-			suf.cnatsp,
+			cncs.description,
 			CAST (suf.dcntsf AS INTEGER) as dcntsf,
 			CAST (suf.drcsuba AS INTEGER) as drcsuba,
 			nbati.DNUPDL as pdl,
@@ -70,7 +70,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			left join #DBSchema_arcopole.dgi_voie voie on voie.id_voie=invar.id_voie
 			left join #DBSchema_arcopole.dgi_suf suf on suf.codlot=local.codlot and suf.CODPARC=nbati.CODPARC
 			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=invar.codlot and pev.invar=invar.invar
-			left join #DBSchema_arcopole.dgi_taxsuf taxsuf on taxsuf.id_suf=suf.id_suf and taxsuf.CODPARC=suf.CODPARC'::text) 
+			left join #DBSchema_arcopole.dgi_taxsuf taxsuf on taxsuf.id_suf=suf.id_suf and taxsuf.CODPARC=suf.CODPARC
+			left join #DBSchema_arcopole.dom_cgrnum as gnc on gnc.code=suf.cgrnum
+			left join #DBSchema_arcopole.dom_dsgrpf as sga on sga.code=suf.dsgrpf
+			left join #DBSchema_arcopole.dom_cnatsp as cncs on cncs.code=suf.cnatsp'::text)
 	proprietenonbatie(
 		id_local character varying(16), 
 		parcelle character varying(19), 
@@ -89,10 +92,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		gpafpd character varying(1), 
 		ccostn character varying(1), 
 		ccosub character varying(2), 
-		cgrnum character varying(2), 
-		dsgrpf character varying(2), 
+		cgrnum character varying, 
+		dsgrpf character varying, 
 		dclssf character varying(2), 
-		cnatsp character varying(5), 
+		cnatsp character varying, 
 		dcntsf integer, 
 		drcsuba integer, 
 		pdl character varying(3), 
