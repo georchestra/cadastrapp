@@ -57,10 +57,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			p.gpafpd,
 			suf.ccostn,
 			suf.ccosub,
-			suf.cgrnum,
-			suf.dsgrpf,
+			gnc.cgrnum_lib,
+			sga.dsgrpf_lib,
 			suf.dclssf,
-			suf.cnatsp,
+			cncs.cnatsp_lib,
 			suf.dcntsf,
 			CAST (suf.drcsuba* 10 as integer) as drcsuba,
 			suf.pdl,
@@ -73,7 +73,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.voie v on v.voie=p.voie
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
-			left join #DBSchema_qgis.suftaxation as suftax on suftax.suf=suf.suf'::text)
+			left join #DBSchema_qgis.suftaxation as suftax on suftax.suf=suf.suf
+			left join #DBSchema_qgis.cgrnum as gnc on gnc.cgrnum = suf.cgrnum
+			left join #DBSchema_qgis.dsgrpf as sga on sga.dsgrpf = suf.dsgrpf
+			left join #DBSchema_qgis.cnatsp as cncs on cncs.cnatsp = suf.cnatsp'::text)
 	proprietenonbatie(
 		id_local character varying(21),  
 		jdatat character varying(10),  
@@ -95,10 +98,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
  		gpafpd character varying(1),
  		ccostn character varying(1), 
  		ccosub character varying(2), 
- 		cgrnum character varying(2),
- 		dsgrpf character varying(2), 
+ 		cgrnum character varying,
+ 		dsgrpf character varying, 
  		dclssf character varying(2), 
- 		cnatsp character varying(5),
+ 		cnatsp character varying,
  		dcntsf integer, 
  		drcsuba integer, 
  		pdl character varying(22), 
@@ -108,6 +111,4 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		bisufad integer,
 		bisufad_dep integer,
 		bisufad_reg integer);
-
-
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;
