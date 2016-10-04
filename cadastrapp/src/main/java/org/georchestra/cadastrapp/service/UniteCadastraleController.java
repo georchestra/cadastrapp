@@ -194,17 +194,44 @@ public class UniteCadastraleController extends CadController {
 		StringBuilder subDivisionqueryBuilder = new StringBuilder();
 		
 		// Select information from view proprietenonbatie
-		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, pnb.cgrnum, pnb.drcsuba as drcsub from ");	
+		subDivisionqueryBuilder.append("(");
+		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, gnc.cgrnum_lib||', '||sga.dsgrpf_lib||', '||cncs.cnatsp_lib as cgrnum, pnb.drcsuba as drcsub from ");	
 		subDivisionqueryBuilder.append(databaseSchema);
-		subDivisionqueryBuilder.append(".proprietenonbatie pnb ");
-		subDivisionqueryBuilder.append(" where pnb.parcelle = ? ");
+		subDivisionqueryBuilder.append(".proprietenonbatie pnb, ");
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".sf_cgrnum gnc, ");
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".sf_dsgrpf sga, ");
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".sf_cnatsp cncs ");
+		subDivisionqueryBuilder.append(" where pnb.parcelle = ? and gnc.cgrnum = pnb.cgrnum and sga.dsgrpf = pnb.dsgrpf and cncs.cnatsp = pnb.cnatsp");
 		subDivisionqueryBuilder.append(addAuthorizationFiltering(headers, "pnb."));
+		subDivisionqueryBuilder.append(") union (");
+		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, gnc.cgrnum_lib||', '||sga.dsgrpf_lib as cgrnum, pnb.drcsuba as drcsub from ");	
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".proprietenonbatie pnb, ");
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".sf_cgrnum gnc, ");
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".sf_dsgrpf sga ");
+		subDivisionqueryBuilder.append(" where pnb.parcelle = ? and gnc.cgrnum = pnb.cgrnum and sga.dsgrpf = pnb.dsgrpf and pnb.cnatsp IS NULL");
+		subDivisionqueryBuilder.append(addAuthorizationFiltering(headers, "pnb."));
+		subDivisionqueryBuilder.append(") union (");
+		subDivisionqueryBuilder.append("select pnb.ccosub, pnb.dcntsf, gnc.cgrnum_lib as cgrnum, pnb.drcsuba as drcsub from ");	
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".proprietenonbatie pnb, ");
+		subDivisionqueryBuilder.append(databaseSchema);
+		subDivisionqueryBuilder.append(".sf_cgrnum gnc ");
+		subDivisionqueryBuilder.append(" where pnb.parcelle = ? and gnc.cgrnum = pnb.cgrnum and pnb.dsgrpf IS NULL and pnb.cnatsp IS NULL");
+		subDivisionqueryBuilder.append(addAuthorizationFiltering(headers, "pnb."));
+		subDivisionqueryBuilder.append(")");
+		
 		
 		// init jdbc template
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		// return list to service 
-		return jdbcTemplate.queryForList(subDivisionqueryBuilder.toString(), parcelle);	
+		return jdbcTemplate.queryForList(subDivisionqueryBuilder.toString(), new String[] {parcelle,parcelle,parcelle});	
 	}
 	
 	/**
