@@ -66,8 +66,8 @@ GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeLi
 		    forceSelection : true,
 		    anchor : '95%',
 		    editable : true,
-		    displayField : 'displayname',
-		    valueField : 'ddenom',
+		    displayField : 'app_nom_usage',
+		    valueField : 'app_nom_usage',
 		    disabled : true,
 		    store : new Ext.data.JsonStore({
 		        proxy : new Ext.data.HttpProxy({
@@ -75,12 +75,7 @@ GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeLi
 		            method : 'GET',
 		            autoload : true
 		        }),
-		        fields : [ 'ddenom', {
-		            name : 'displayname',
-		            convert : function(v, rec) {
-		                return rec.ddenom.replace('/', ' ');
-		            }
-		        } ]
+		        fields : [ 'app_nom_usage' ]
 		    }),
 		    listeners : {
 		        beforequery : function(q) {
@@ -211,8 +206,8 @@ GEOR.Addons.Cadastre.Component.getComboProprioByInfoParcelle = function(id, comm
 		    forceSelection : true,
 		    anchor : '95%',
 		    editable : true,
-		    displayField : 'displayname',
-		    valueField : 'ddenom',
+		    displayField : 'app_nom_usage',
+		    valueField : 'app_nom_usage',
 		    disabled : true,
 		    store : new Ext.data.JsonStore({
 		        proxy : new Ext.data.HttpProxy({
@@ -220,12 +215,7 @@ GEOR.Addons.Cadastre.Component.getComboProprioByInfoParcelle = function(id, comm
 		            method : 'GET',
 		            autoload : true
 		        }),
-		        fields : [ 'ddenom', {
-		            name : 'displayname',
-		            convert : function(v, rec) {
-		                return rec.ddenom.replace('/', ' ');
-		            }
-		        } ]
+		        fields : [ 'app_nom_usage' ]
 		    }),
 		    listeners : {
 		        beforequery : function(q) {

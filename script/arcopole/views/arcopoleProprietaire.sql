@@ -44,10 +44,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 		proprietaire.epxnee,
 		proprietaire.dnomcp,
 		proprietaire.dprncp,
+		proprietaire.dnomus,
+		proprietaire.dprnus,
 		proprietaire.dformjur,
 		proprietaire.dsiren,
 		proprietaire.cgocommune,
 		proprietaire.comptecommunal,
+		proprietaire.app_nom_usage,
+		proprietaire.app_nom_naissance,
 		prop_ccodro.ccodro, 
 		prop_ccodro.ccodro_lib, 
 		prop_ccoqua.ccoqua, 
@@ -57,10 +61,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 		prop_ccodem.ccodem, 
 		prop_ccodem.ccodem_lib, 
 		prop_dnatpr.dnatpr, 
-		prop_dnatpr.dnatpr_lib 	
+		prop_dnatpr.dnatpr_lib 
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
-    		id_prop as id_proprietaire,
+			id_prop as id_proprietaire,
 			id_prop as dnupro,
 			codlot as lot,
 			dnulp,
@@ -75,7 +79,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 			ccogrm as ccogrm_c,
 			dsglpm,
 			dforme,
-			rtrim(ddenom) as ddenom,
+			REPLACE(rtrim(ddenom),''/'','' '') as ddenom,
 			gtyp3,
 			gtyp4,
 			gtyp5,
@@ -102,10 +106,19 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 			epxnee,
 			rtrim(dnomcp) as dnomcp,
 			rtrim(dprncp) as dprncp,
+			rtrim(dnomus) as dnomus,
+			rtrim(dprnus) as dprnus,
 			dformjur,
 			''dsiren'' as dsiren,
 			substr(id_prop,1,6) as cgocommune,
-			id_prop as  comptecommunal 
+			id_prop as  comptecommunal,
+			(CASE
+					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomus),'''')||'' ''||COALESCE(rtrim(dprnus),'''')
+					WHEN gtoper = ''2'' THEN rtrim(ddenom)
+				END) AS app_nom_usage,
+			(CASE
+					WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
+				END) AS app_nom_naissance
 		from #DBSchema_arcopole.dgi_prop'::text) 
 	proprietaire(
 		id_proprietaire character varying(20), 
@@ -150,10 +163,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 		epxnee character varying(3),
 		dnomcp character varying(30), 
 		dprncp character varying(15), 
+		dnomus character varying(60),
+		dprnus character varying(40),
 		dformjur character varying(4), 
 		dsiren character varying(10),
 		cgocommune character varying(6), 
-		comptecommunal character varying(15))
+		comptecommunal character varying(15),
+		app_nom_usage character varying(120),
+		app_nom_naissance character varying(70))
 			LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
 			LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
 			LEFT JOIN #schema_cadastrapp.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text

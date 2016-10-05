@@ -54,10 +54,10 @@ public class CoProprietaireController extends CadController {
 			StringBuilder queryCoProprietaireBuilder = new StringBuilder();
 			
 			if(details == 1){
-				queryCoProprietaireBuilder.append("select distinct proparc.comptecommunal, prop.ddenom ");   		    	   			    
+				queryCoProprietaireBuilder.append("select distinct proparc.comptecommunal, prop.app_nom_usage ");   		    	   			    
     		}
     		else{
-    			queryCoProprietaireBuilder.append("select prop.ddenom, prop.dnomlp, prop.dprnlp, prop.epxnee, prop.dnomcp, prop.dprncp, prop.dlign3, prop.dlign4, prop.dlign5, prop.dlign6, prop.dldnss, prop.jdatnss,prop.ccodro_lib, proparc.comptecommunal ");   			    
+    			queryCoProprietaireBuilder.append("select prop.app_nom_usage, prop.app_nom_naissance, prop.dlign3, prop.dlign4, prop.dlign5, prop.dlign6, prop.dldnss, prop.jdatnss,prop.ccodro_lib, proparc.comptecommunal ");   			    
     		}
 			
 			queryCoProprietaireBuilder.append(" from ");
@@ -73,7 +73,7 @@ public class CoProprietaireController extends CadController {
 				queryParams.add(parcelle);
 				isParamValid=true;
 			} else if (ddenom != null  && ddenom.length() >0) {
-				queryCoProprietaireBuilder.append(" and UPPER(rtrim(prop.ddenom)) LIKE UPPER(rtrim(?)) ");
+				queryCoProprietaireBuilder.append(" and UPPER(rtrim(prop.app_nom_usage)) LIKE UPPER(rtrim(?)) ");
 				queryParams.add("%" + ddenom + "%");
 				isParamValid=true;
 			} else if (comptecommunal != null  && comptecommunal.length() >0) {
@@ -115,7 +115,7 @@ public class CoProprietaireController extends CadController {
 			StringBuilder queryBuilder = new StringBuilder();
 
 			// CNIL Niveau 1 or 2
-			queryBuilder.append("select distinct p.comptecommunal, p.ddenom, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
+			queryBuilder.append("select distinct p.comptecommunal, p.app_nom_usage, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
 			queryBuilder.append(" from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".co_propriete_parcelle propar,");
@@ -123,7 +123,7 @@ public class CoProprietaireController extends CadController {
 			queryBuilder.append(".proprietaire p where propar.parcelle = ? ");
 			queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
 			queryBuilder.append(addAuthorizationFiltering(headers, "p."));
-			queryBuilder.append(" ORDER BY p.ddenom ;");
+			queryBuilder.append(" ORDER BY p.app_nom_usage ;");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			result = jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
