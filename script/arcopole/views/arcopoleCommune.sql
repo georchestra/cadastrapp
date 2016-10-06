@@ -11,9 +11,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.commune AS
   		'select 
   			id_comm as cgocommune,
 			annmaj as annee,
-			rtrim(nomcomm) as libcom ,
-			rtrim(nomcomm) as libcom_maj,
-			rtrim(initcap(lower(nomcomm))) as libcom_min
+			rtrim(upper(nomcomm)) as libcom,
+            rtrim(upper(nomcomm))as libcom_maj,
+            rtrim(nomcomm) as libcom_min
 		from #DBSchema_arcopole.dgi_comm'::text) 
 	commune(
 		cgocommune character varying(6), 
