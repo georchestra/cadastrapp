@@ -183,7 +183,7 @@
 			"cadastrapp.proprietaire.result.nodata": "No results",
 			"cadastrapp.proprietaire.result.dnomlp": "Last name",
 			"cadastrapp.proprietaire.result.dprnlp": "First name",
-			"cadastrapp.proprietaire.search.marital" : "Search by Martial name",
+			"cadastrapp.proprietaire.search.birth" : "Search by Birth name",
 			
 			"cadastrapp.search.copropriete.title": "Co-ownership search",
 			"cadastrapp.search.copropriete.parcelle.ident": "Plot id",
@@ -334,6 +334,8 @@
 			
 			"cadastrapp.duc.compte" : "Identifier",
 			"cadastrapp.duc.denomination": "Designation",
+			"cadastrapp.duc.nom_usage" : "Usage name",
+			"cadastrapp.duc.nom_naissance" : "Birth name",
 			"cadastrapp.duc.nom" : "Last name",
 			"cadastrapp.duc.prenom" : "First name",
 			"cadastrapp.duc.mentioncpl" : "Additional information",
@@ -534,7 +536,7 @@
 			"cadastrapp.proprietaire.file.explanation": "Ce fichier doit contenir un liste de comptecommunal, sur une ou plusieurs lignes, séparé par des espaces, virgules ou point virgule. Il ne s'agit pas d'une liste de dnupro mais bien de comptecommunal exemple : 201463092I00020 ",
 			"cadastrapp.proprietaire.proprietaires": "Propriétaire(s)",
 			"cadastrapp.proprietaire.proprietaires.col1": "Propriétaire",
-			"cadastrapp.proprietaire.search.marital" : "Rechercher par nom marital",
+			"cadastrapp.proprietaire.search.birth" : "Rechercher par nom de naissance",
 			
 			"cadastrapp.proprietaire.result.titidCompteComle": "Sélection de propriétaires",
 			"cadastrapp.proprietaire.result.nodata": "Aucune données",
@@ -688,6 +690,8 @@
 			
 			"cadastrapp.duc.compte" : "Compte",
 			"cadastrapp.duc.denomination": "Dénomination",
+			"cadastrapp.duc.nom_usage" : "Nom d'usage",
+			"cadastrapp.duc.nom_naissance" : "Nom de naissance",
 			"cadastrapp.duc.nom" : "Nom",
 			"cadastrapp.duc.prenom" : "Prénom",
 

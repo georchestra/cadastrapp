@@ -176,7 +176,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             autoLoad : true,
 
             // Champs constituant l'onglet propriétaire
-            fields : [ 'comptecommunal', 'ccodro', 'ddenom', {
+            fields : [ 'comptecommunal', 'ccodro', 'app_nom_usage', {
                 // Le champ adress est l'addition des champs dlign3,dlign4,dlign5, dlign6
                 name : 'adress',
                 convert : function(v, rec) {
@@ -221,7 +221,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     width : 110
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.nom'),
-                    dataIndex : 'ddenom',
+                    dataIndex : 'app_nom_usage',
                     width : 200
                 }, {
                     id : 'adresse',
@@ -295,7 +295,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             autoLoad : true,
 
             // Champs constituant l'onglet propriétaire
-            fields : [ 'comptecommunal', 'ccodro', 'ddenom', {
+            fields : [ 'comptecommunal', 'ccodro', 'app_nom_usage', {
                 // Le champ adress est l'addition des champs dlign3,dlign4,dlign5, dlign6
                 name : 'adress',
                 convert : function(v, rec) {
@@ -340,7 +340,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     width : 110
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.nom'),
-                    dataIndex : 'ddenom',
+                    dataIndex : 'app_nom_usage',
                     width : 200
                 }, {
                     id : 'adresse',
@@ -420,7 +420,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                 autoLoad : false,
                 method : 'GET'
             }),
-            fields : [ 'comptecommunal', 'dniv', 'dpor', 'ccoaff_lib', 'jannat', 'annee', 'ddenom', 'dnomlp', 'dprnlp', 'epxnee', 'dnomcp', 'dprncp', 'invar', 'revcad' ]
+            fields : [ 'comptecommunal', 'dniv', 'dpor', 'ccoaff_lib', 'jannat', 'annee', 'app_nom_usage', 'app_nom_naissance', 'invar', 'revcad' ]
         });
 
         // Récupère la liste des batiments de la parcelle
@@ -472,7 +472,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             stateful : true,
             name : 'Fiuc_Batiments',
             xtype : 'gridview',
-            autoExpandColumn : 'ddenom',
+            autoExpandColumn : 'app_nom_usage',
             height : 280,
             autoScroll : true,
             sm : new Ext.grid.RowSelectionModel({
@@ -507,30 +507,14 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     dataIndex : 'comptecommunal',
                     width : 110
                 }, {
-                    id : 'ddenom',
-                    header : OpenLayers.i18n('cadastrapp.duc.denomination'),
-                    dataIndex : 'ddenom',
+                    id : 'app_nom_usage',
+                    header : OpenLayers.i18n('cadastrapp.duc.nom_usage'),
+                    dataIndex : 'app_nom_usage',
                     width : 200
                 }, {
-                    header : OpenLayers.i18n('cadastrapp.duc.nom'),
-                    dataIndex : 'dnomlp',
-                    width : 200
-                }, {
-                    header : OpenLayers.i18n('cadastrapp.duc.prenom'),
-                    dataIndex : 'dprnlp',
-                    width : 150
-                }, {
-                    header : OpenLayers.i18n('cadastrapp.duc.mentioncpl'),
-                    dataIndex : 'epxnee',
+                    header : OpenLayers.i18n('cadastrapp.duc.nom_naissance'),
+                    dataIndex : 'app_nom_naissance',
                     width : 100
-                }, {
-                    header : OpenLayers.i18n('cadastrapp.duc.nomcpl'),
-                    dataIndex : 'dnomcp',
-                    width : 200
-                }, {
-                    header : OpenLayers.i18n('cadastrapp.duc.prenomcpl'),
-                    dataIndex : 'dprncp',
-                    width : 150
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.invar'),
                     dataIndex : 'invar',

@@ -145,7 +145,7 @@ public final class ReleveProprieteHelper extends CadController{
 						List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
 
 						StringBuilder queryBuilderProprietaire = new StringBuilder();
-						queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, prop.ccodem_lib, prop.dldnss, prop.jdatnss,  prop.ccodro_lib, COALESCE(prop.ccoqua_lib, '')||' '||prop.ddenom as nom, COALESCE(prop.dlign3, '')||' '||COALESCE(prop.dlign4,'')||' '||COALESCE(prop.dlign5,'')||' '||COALESCE(prop.dlign6,'') as adresse ");
+						queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, prop.ccodem_lib, prop.dldnss, prop.jdatnss,  prop.ccodro_lib, app_nom_usage as nom, app_nom_naissance as nom_naissance, COALESCE(prop.dlign3, '')||' '||COALESCE(prop.dlign4,'')||' '||COALESCE(prop.dlign5,'')||' '||COALESCE(prop.dlign6,'') as adresse ");
 						queryBuilderProprietaire.append("from ");
 						queryBuilderProprietaire.append(databaseSchema);
 						queryBuilderProprietaire.append(".proprietaire prop ");
@@ -164,6 +164,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 							Proprietaire proprietaire = new Proprietaire();
 							proprietaire.setNom((String) prop.get("nom"));
+							proprietaire.setNomNaissance((String) prop.get("nom_naissance"));
 							proprietaire.setAdresse((String) prop.get("adresse"));
 							proprietaire.setCodeDeDemenbrement((String) prop.get("ccodem_lib"));
 							proprietaire.setDateNaissance((String) prop.get("jdatnss"));
@@ -730,7 +731,7 @@ public final class ReleveProprieteHelper extends CadController{
 						List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
 
 						StringBuilder queryBuilderProprietaire = new StringBuilder();
-						queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, ccodem_lib, dldnss, jdatnss,  ccodro_lib, prop.ccoqua_lib||' '||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");
+						queryBuilderProprietaire.append("select prop.comptecommunal, prop.dnulp, ccodem_lib, dldnss, jdatnss,  ccodro_lib, app_nom_usage as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");
 						queryBuilderProprietaire.append("from ");
 						queryBuilderProprietaire.append(databaseSchema);
 						queryBuilderProprietaire.append(".proprietaire prop ");
@@ -1055,7 +1056,7 @@ public final class ReleveProprieteHelper extends CadController{
 			queryBuilder.append("from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire p");
-			queryBuilder.append(" where p.cgocommune = ? and p.ddenom = ? ");
+			queryBuilder.append(" where p.cgocommune = ? and p.app_nom_usage = ? ");
 			queryBuilder.append(";");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -1089,7 +1090,7 @@ public final class ReleveProprieteHelper extends CadController{
 			queryBuilder.append(".proprietaire pro ");
 			queryBuilder.append("where p.cgocommune = ? and p.ccosec = ? and p.dnupla = ? ");
 			queryBuilder.append("and p.parcelle = proparc.parcelle ");
-			queryBuilder.append("and pro.comptecommunal = proparc.comptecommunal and pro.ddenom = ? ");
+			queryBuilder.append("and pro.comptecommunal = proparc.comptecommunal and pro.app_nom_usage = ? ");
 			queryBuilder.append(";");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

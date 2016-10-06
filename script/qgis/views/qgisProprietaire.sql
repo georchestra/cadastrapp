@@ -43,10 +43,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 		proprietaire.epxnee, 
 		proprietaire.dnomcp, 
 		proprietaire.dprncp, 
+		proprietaire.dnomus,
+		proprietaire.dprnus,
 		proprietaire.dformjur, 
 		proprietaire.dsiren, 
 		proprietaire.cgocommune, 
 		proprietaire.comptecommunal, 
+		proprietaire.app_nom_usage,
+		proprietaire.app_nom_naissance,
 		prop_ccodro.ccodro, 
 		prop_ccodro.ccodro_lib, 
 		prop_ccoqua.ccoqua, 
@@ -59,7 +63,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 		prop_dnatpr.dnatpr_lib
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
-	        pqgis.proprietaire,
+			pqgis.proprietaire,
 			pqgis.dnupro,
 			pqgis.lot,
 			pqgis.dnulp,
@@ -74,7 +78,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.ccogrm as ccogrm_c,
 			pqgis.dsglpm,
 			pqgis.dforme,
-			rtrim(pqgis.ddenom) as ddenom,
+			REPLACE(rtrim(pqgis.ddenom),''/'','' '') as ddenom,
 			pqgis.gtyp3,
 			pqgis.gtyp4,
 			pqgis.gtyp5,
@@ -101,10 +105,19 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.epxnee,
 			rtrim(pqgis.dnomcp) as dnomcp,
 			rtrim(pqgis.dprncp) as dprncp,
+			rtrim(pqgis.dnomus) as dnomus,
+			rtrim(pqgis.dprnus) as dprnus,
 			pqgis.dformjur,
 			pqgis.dsiren,
 			pqgis.ccodep || pqgis.ccodir || pqgis.ccocom as cgocommune,
-			pqgis.comptecommunal 
+			pqgis.comptecommunal, 
+			CASE
+				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomus),'''')||'' ''||COALESCE(rtrim(dprnus),'''')
+				WHEN gtoper = ''2'' THEN rtrim(ddenom)
+			END AS app_nom_usage,
+			CASE
+				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
+			END AS app_nom_naissance
 		from #DBSchema_qgis.proprietaire pqgis'::text)
 	proprietaire(
 		id_proprietaire character varying(20), 
@@ -149,10 +162,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 		epxnee character varying(3), 
 		dnomcp character varying(30), 
 		dprncp character varying(15), 
+		dnomus character varying(60),
+		dprnus character varying(40),
 		dformjur character varying(4), 
 		dsiren character varying(10),
 		cgocommune character varying(6), 
-		comptecommunal character varying(15))
+		comptecommunal character varying(15),
+		app_nom_usage character varying(120),
+		app_nom_naissance character varying(70))
 	LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
 	LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
 	LEFT JOIN #schema_cadastrapp.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text

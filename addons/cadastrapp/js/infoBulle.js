@@ -60,7 +60,7 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
                                 if(currentIndex==8){
                                     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.proprietaire') + " : </td><td>...</td></tr>";
                                 }else{
-                                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.proprietaire') + " : </td><td>" + proprietaire.ddenom + "</td></tr>";
+                                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.proprietaire') + " : </td><td>" + proprietaire.app_nom_usage + "</td></tr>";
                                 }                   
                             });
                         }
