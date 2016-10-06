@@ -71,7 +71,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			pevtax.mvltieomx,
 			pevtax.bateom,
 			l.jannat,
-			pev.dvlpera/2 as revcad,
+			ROUND(CAST(pev.dvlpera AS FLOAT)/2) as revcad,
 			pevx.dvldif2a,
 			pevtax.tse_vlbaia as vlbaia,
 			pevtax.co_vlbaia as vlbaia_com,
