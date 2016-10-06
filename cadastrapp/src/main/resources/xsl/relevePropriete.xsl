@@ -604,7 +604,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block>
-							<xsl:value-of select="@dvltrt" />
+							<xsl:value-of select="@revcad" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
