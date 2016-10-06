@@ -234,8 +234,8 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                     forceSelection : false,
                     anchor : '95%',
                     editable : true,
-                    displayField : 'displayname',
-                    valueField : 'ddenom',
+                    displayField : 'app_nom_usage',
+                    valueField : 'app_nom_usage',
                     disabled : true,
                     store : new Ext.data.JsonStore({
                         proxy : new Ext.data.HttpProxy({
@@ -243,12 +243,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                             method : 'GET',
                             autoload : true
                         }),
-                        fields : [ 'ddenom', {
-                            name : 'displayname',
-                            convert : function(v, rec) {
-                                return rec.dnomlp + ' | ' + rec.ddenom.replace('/', ' ');                        
-                            }
-                        } ]
+                        fields : [ 'app_nom_usage' ]
                     }),
                     listeners : {
                         beforequery : function(q) {
@@ -256,17 +251,17 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                 var length = q.query.length;
                                 if (length >= GEOR.Addons.Cadastre.minCharToSearch) {
 
-                                    var maritalsearch = false;
-                                    // If check, change JSON store attribut to search in additional marital names
-                                    if(Ext.getCmp('checkBoxSearchByMaritalNames').getValue()){
-                                        maritalsearch = true
+                                    var birthsearch = false;
+                                    // If check, change JSON store attribut to search in additional birth names
+                                    if(Ext.getCmp('checkBoxSearchByBirthNames').getValue()){
+                                        birthsearch = true
                                     }
                                 
                                     q.combo.getStore().load({
                                         params : {
                                             cgocommune : GEOR.Addons.Cadastre.proprietaireWindow.items.items[0].getActiveTab().getForm().findField('cgocommune').value,
                                             ddenom : q.query,
-                                            maritalsearch : maritalsearch
+                                            birthsearch : birthsearch
                                         }
                                     });
                                 }
@@ -281,12 +276,12 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                         }
                     }
                 }, {
-                    id : 'checkBoxSearchByMaritalNames',
+                    id : 'checkBoxSearchByBirthNames',
                     xtype : 'checkbox',
-                    hiddenName : 'maritalName',
+                    hiddenName : 'birthName',
                     labelSeparator: '',
                     fieldLabel : '',
-                    boxLabel: OpenLayers.i18n('cadastrapp.proprietaire.search.marital'),               
+                    boxLabel: OpenLayers.i18n('cadastrapp.proprietaire.search.birth'),               
                 },
                 {
                     value : OpenLayers.i18n('cadastrapp.proprietaire.name.exemple'),
