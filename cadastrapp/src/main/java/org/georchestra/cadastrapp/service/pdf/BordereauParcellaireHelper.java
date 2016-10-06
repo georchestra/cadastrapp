@@ -122,7 +122,7 @@ public final class BordereauParcellaireHelper extends CadController{
 						String tableName = (isCoPro)?tableCoProprietaire:tableProprietaire;
 										
 						StringBuilder queryBuilderProprietaire = new StringBuilder();
-						queryBuilderProprietaire.append("select prop.comptecommunal, COALESCE(prop.ccoqua_lib||' ','')||prop.ddenom as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");   			    
+						queryBuilderProprietaire.append("select prop.comptecommunal, app_nom_usage as nom, prop.dlign3||' '||prop.dlign4||' '||prop.dlign5||' '||prop.dlign6 as adresse ");   			    
 						queryBuilderProprietaire.append("from ");
 						queryBuilderProprietaire.append(databaseSchema);
 						queryBuilderProprietaire.append(".proprietaire prop, ");
@@ -384,7 +384,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire_parcelle propar");
 			queryBuilder.append(" where p.comptecommunal = propar.comptecommunal ");
-			queryBuilder.append(" and p.cgocommune = ? and p.ddenom = ? ");
+			queryBuilder.append(" and p.cgocommune = ? and p.app_nom_usage = ? ");
 			queryBuilder.append(") UNION (");
 			queryBuilder.append("select distinct ");
 			queryBuilder.append("copropar.parcelle ");
@@ -394,7 +394,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".co_propriete_parcelle copropar");
 			queryBuilder.append(" where p.comptecommunal = copropar.comptecommunal ");
-			queryBuilder.append(" and p.cgocommune = ? and p.ddenom = ? ");
+			queryBuilder.append(" and p.cgocommune = ? and p.app_nom_usage = ? ");
 			queryBuilder.append(")");
 			queryBuilder.append(";");
 			
@@ -437,7 +437,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			queryBuilder.append("where p.parcelle = copropar.parcelle ");
 			queryBuilder.append("and copropar.comptecommunal = pro.comptecommunal ");
 			queryBuilder.append(" and p.cgocommune = ? and p.ccosec = ? and p.dnupla = ? ");
-			queryBuilder.append(" and p.cgocommune = pro.cgocommune and pro.ddenom = ? ");
+			queryBuilder.append(" and p.cgocommune = pro.cgocommune and pro.app_nom_usage = ? ");
 			queryBuilder.append(";");
 			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

@@ -10,10 +10,10 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
         store : new Ext.data.JsonStore({
             autoDestroy : true,
             storeId : "resultOwnerStore",
-            fields : [ 'comptecommunal', 'ddenom' ],
+            fields : [ 'comptecommunal', 'app_nom_usage' ],
             autoload : false
         }),
-        autoExpandColumn: 'ddenom',
+        autoExpandColumn: 'app_nom_usage',
         colModel : new Ext.grid.ColumnModel({
             defaults : {
                 sortable : true
@@ -24,9 +24,9 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
                 width : 110,
                 dataIndex : 'comptecommunal'
             }, {
-            	id : 'ddenom',
+            	id : 'app_nom_usage',
                 header : OpenLayers.i18n('cadastrapp.result.owner.ddenom'),
-                dataIndex : 'ddenom'
+                dataIndex : 'app_nom_usage'
             } ]
         }),
         sm : new Ext.grid.RowSelectionModel({
@@ -169,7 +169,7 @@ GEOR.Addons.Cadastre.exportOwnerSelectionAsCSV = function() {
             Ext.each(selection, function(item) {
                 var owner = [];
                 owner.push(item.data.comptecommunal);
-                owner.push(item.data.ddenom);
+                owner.push(item.data.app_nom_usage);
                 owners.push(owner);
             });
 

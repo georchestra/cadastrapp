@@ -174,12 +174,12 @@
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure-left">
-							<fo:block padding-top="5pt">
+							<fo:block>
 								<xsl:value-of select="@adresse" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure-left">
-							<fo:block padding-top="5pt">
+							<fo:block>
 								<xsl:if test="@dateNaissance or @lieuNaissance">
 									Né(e)
 								</xsl:if>
@@ -190,6 +190,10 @@
 								<xsl:if test="@lieuNaissance">
 									à
 									<xsl:value-of select="@lieuNaissance" />
+								</xsl:if>
+								<xsl:if test="@nomNaissance">
+									&#x2028;
+									<xsl:value-of select="@nomNaissance" />
 								</xsl:if>
 							</fo:block>
 						</fo:table-cell>
@@ -604,7 +608,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block>
-							<xsl:value-of select="@dvltrt" />
+							<xsl:value-of select="@revcad" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>

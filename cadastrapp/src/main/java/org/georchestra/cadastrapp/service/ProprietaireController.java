@@ -45,12 +45,12 @@ public class ProprietaireController extends CadController{
 	 * 					cgocommun should be on 6 char
 	 * @param dnupro id to be search, a same dnupro can be found in several commune
 	 * @param comptecommunal id specific for a owner
-	 * @param maritalsearch is a boolean to know when searching with ddenom you want to search as well in dnomlp, default value is false
+	 * @param birthsearch is a boolean to know when searching with ddenom you want to search as well in app_nom_naissance, default value is false
 	 * 
 	 * @param details -> change list of fields in result 0 by default or if not present
-	 * 					0 : dnomlp, dprnlp
-	 * 					1 : dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal will be return
-	 * 					2 : comptecommunal
+	 * 					0 : app_nom_naissance, app_nom_usage
+	 * 					1 : app_nom_usage, app_nom_naissance, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal will be return
+	 * 					2 : comptecommunal, app_nom_usage
 	 * 					 
 	 * 
 	 * @return list of information about proprietaire depending on details level asked
@@ -65,7 +65,7 @@ public class ProprietaireController extends CadController{
 			@QueryParam("comptecommunal") String compteCommunal,
 			@QueryParam("globalname") String globalName,
 			@QueryParam("ddenom") String ddenom,
-			@DefaultValue("false") @QueryParam("maritalsearch") boolean isMaritalSearch,
+			@DefaultValue("false") @QueryParam("birthsearch") boolean isBirthSearch,
 			@DefaultValue("0") @QueryParam("details") int details
 			) throws SQLException {
 
@@ -94,13 +94,13 @@ public class ProprietaireController extends CadController{
 				logger.info("details : " + details);
 
 				if(details == 2){
-					queryBuilder.append("select distinct comptecommunal, ddenom ");   		    	   			    
+					queryBuilder.append("select distinct comptecommunal, app_nom_usage ");   		    	   			    
 				}
 				else if(details == 1){
-					queryBuilder.append("select dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal ");   			    
+					queryBuilder.append("select app_nom_usage, app_nom_naissance, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib, comptecommunal ");   			    
 				}
 				else{
-					queryBuilder.append("select distinct dnomlp, dprnlp, dnomcp, dprncp, ddenom");				    		    		
+					queryBuilder.append("select distinct app_nom_usage, app_nom_naissance ");				    		    		
 				}
 				queryBuilder.append(" from ");
 				queryBuilder.append(databaseSchema);
@@ -110,33 +110,32 @@ public class ProprietaireController extends CadController{
 
 				// dnomlp can be null here
 				if(dnomlp!=null){
-					queryBuilder.append(" and UPPER(dnomlp) LIKE UPPER(?) ");
-					queryParams.add("%"+dnomlp+"%");
+					queryBuilder.append(" and UPPER(app_nom_usage) LIKE UPPER(?) ");
+					queryParams.add("%"+dnomlp.replace(' ', '%')+"%");
 				}
 
 				// globalName can be null here
 				if(globalName!=null){
 					// replace all space by %
 					globalName = globalName.replace(' ', '%');
-					queryBuilder.append(" and (UPPER(dnomlp||' '||dprnlp) LIKE UPPER(?) or UPPER(dnomcp||' '||dprncp) LIKE UPPER(?) or UPPER(ddenom) LIKE UPPER(?)) ");
-					queryParams.add(globalName+"%");
-					queryParams.add(globalName+"%");
-					queryParams.add(globalName+"%");		       
+					queryBuilder.append(" and (UPPER(app_nom_usage) LIKE UPPER(?) or UPPER(app_nom_naissance) LIKE UPPER(?)) ");
+					queryParams.add("%"+globalName+"%");
+					queryParams.add("%"+globalName+"%");
 				}
 
 				// search by ddenom
 				if(ddenom!=null){
 					// replace all space by %
 					ddenom = ddenom.replace(' ', '%');
-					if(isMaritalSearch){
-						logger.debug("Search owners with marital informations ");
-						queryBuilder.append("and (UPPER(dnomlp) LIKE UPPER(?) or UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?))) ");
-						queryParams.add(ddenom+"%");
-						queryParams.add(ddenom+"%");						
-					}else{
-						queryBuilder.append(" and UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?)) ");
+					if(isBirthSearch){
+						logger.debug("Search owners with birth informations ");
+						queryBuilder.append("and (UPPER(app_nom_naissance) LIKE UPPER(rtrim(?)) or UPPER(rtrim(app_nom_usage)) LIKE UPPER(rtrim(?))) ");
 						queryParams.add("%"+ddenom+"%");
-					}	
+						queryParams.add("%"+ddenom+"%");
+					}else{
+						queryBuilder.append(" and UPPER(rtrim(app_nom_usage)) LIKE UPPER(rtrim(?)) ");
+						queryParams.add("%"+ddenom+"%");
+					}
 				}
 
 				isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "dnupro", dnupro, queryParams);
@@ -145,7 +144,7 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append(addAuthorizationFiltering(headers));
 
 				if(details != 2){
-					queryBuilder.append("order by dnomlp, dprnlp, dnomcp,  dprncp limit 25 ");
+					queryBuilder.append("order by app_nom_usage, app_nom_naissance limit 25 ");
 				}
 
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -192,7 +191,7 @@ public class ProprietaireController extends CadController{
 			if(parcelleList != null && !parcelleList.isEmpty()){
 
 				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("select parcelle, comptecommunal, dnomlp, dprnlp, epxnee, dnomcp, dprncp, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib");   			    
+				queryBuilder.append("select parcelle, comptecommunal, app_nom_usage, app_nom_naissance, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib");
 				queryBuilder.append("from ");
 				queryBuilder.append(databaseSchema);
 				queryBuilder.append(".proprietaire prop, ");
@@ -252,7 +251,7 @@ public class ProprietaireController extends CadController{
 				StringBuilder queryBuilder = new StringBuilder();
 				List<String> queryParams = new ArrayList<String>();
 				queryBuilder.append("select distinct ");
-				queryBuilder.append("ddenom ");
+				queryBuilder.append("app_nom_usage ");
 				queryBuilder.append("from ");
 				queryBuilder.append(databaseSchema);
 				queryBuilder.append(".");
@@ -271,8 +270,8 @@ public class ProprietaireController extends CadController{
 				queryParams.add(section);
 				queryParams.add(numero);
 				if(ddenom!=null){
-					queryBuilder.append(" and UPPER(rtrim(ddenom)) LIKE UPPER(rtrim(?)) ");
-					queryParams.add("%"+ddenom+"%");
+					queryBuilder.append(" and UPPER(rtrim(app_nom_usage)) LIKE UPPER(rtrim(?)) ");
+					queryParams.add("%"+ddenom.replace(' ', '%')+"%");
 				}
 
 				queryBuilder.append(";");

@@ -37,7 +37,7 @@ public class ProprieteBatie extends Propriete{
 	private String dcapec;
 	
 	// Valeur locative
-	private String dvltrt;
+	private String revcad;
 	
 	// Montant TIEOM
 	private String mvltieomx;
@@ -181,18 +181,18 @@ public class ProprieteBatie extends Propriete{
 	}
 
 	/**
-	 * @return the dvltrt
+	 * @return the revcad
 	 */
-	public String getDvltrt() {
-		return dvltrt;
+	public String getRevcad() {
+		return revcad;
 	}
 
 	@XmlAttribute
 	/**
-	 * @param dvltrt the dvltrt to set
+	 * @param revcad the revcad to set
 	 */
-	public void setDvltrt(String dvltrt) {
-		this.dvltrt = dvltrt;
+	public void setRevcad(String revcad) {
+		this.revcad = revcad;
 	}
 
 	/**
