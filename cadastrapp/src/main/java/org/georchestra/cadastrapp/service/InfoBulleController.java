@@ -102,7 +102,7 @@ public class InfoBulleController extends CadController {
 				
 				// Create query
 				StringBuilder queryProprietaireBuilder = new StringBuilder();
-				queryProprietaireBuilder.append("select distinct prop.ddenom from ");
+				queryProprietaireBuilder.append("select distinct prop.app_nom_usage from ");
 				queryProprietaireBuilder.append(databaseSchema);
 				queryProprietaireBuilder.append(".proprietaire_parcelle proparc,");
 				queryProprietaireBuilder.append(databaseSchema);
@@ -157,7 +157,12 @@ public class InfoBulleController extends CadController {
 			queryBuilder.append(".proprietaire_parcelle proparc, ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".uf_parcelle uf ");
-			queryBuilder.append(" where proparc.parcelle = ? and proparc.comptecommunal = uf.comptecommunal and p.parcelle=uf.parcelle GROUP BY uf.comptecommunal;");
+			queryBuilder.append(" where proparc.parcelle = ? and proparc.comptecommunal = uf.comptecommunal and p.parcelle=uf.parcelle ");
+			// filter on geographical limitation only if search is filtered
+			if(isSearchFiltered){
+				queryBuilder.append(addAuthorizationFiltering(headers, "p."));
+			}
+			queryBuilder.append(" GROUP BY uf.comptecommunal ;");
 								
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
