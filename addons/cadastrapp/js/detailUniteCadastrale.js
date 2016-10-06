@@ -420,7 +420,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                 autoLoad : false,
                 method : 'GET'
             }),
-            fields : [ 'comptecommunal', 'dniv', 'dpor', 'ccoaff_lib', 'jannat', 'annee', 'app_nom_usage', 'app_nom_naissance', 'invar', 'dvltrt' ]
+            fields : [ 'comptecommunal', 'dniv', 'dpor', 'ccoaff_lib', 'jannat', 'annee', 'app_nom_usage', 'app_nom_naissance', 'invar', 'revcad' ]
         });
 
         // Récupère la liste des batiments de la parcelle
@@ -500,7 +500,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     width : 40
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.revenu'),
-                    dataIndex : 'dvltrt',
+                    dataIndex : 'revcad',
                     width : 60
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.compte'),
