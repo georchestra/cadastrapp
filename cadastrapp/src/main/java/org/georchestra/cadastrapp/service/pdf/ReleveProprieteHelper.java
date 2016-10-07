@@ -151,7 +151,7 @@ public final class ReleveProprieteHelper extends CadController{
 						queryBuilderProprietaire.append(".proprietaire prop ");
 						queryBuilderProprietaire.append("where prop.comptecommunal = ? ");
 						queryBuilderProprietaire.append(addAuthorizationFiltering(headers));
-						queryBuilderProprietaire.append("order by prop.dnulp DESC ");
+						queryBuilderProprietaire.append("order by prop.dnulp ASC ");
 
 						logger.debug("Get owners information " );
 						List<Map<String, Object>> proprietairesResult = jdbcTemplate.queryForList(queryBuilderProprietaire.toString(), idCompteCommunal);
