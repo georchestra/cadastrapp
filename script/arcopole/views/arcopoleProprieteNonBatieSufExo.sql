@@ -16,19 +16,19 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			nbati.codparc as parcelle,
-			suf.id_suf as id_local,
 			nbati.dnupro as comptecommunal, 
 			nbati.codcomm as cgocommune,
+			suf.id_suf as id_local,
 			exosuf.ccolloc,
 			exosuf.gnexts,
 			exosuf.jandeb,
 			exosuf.jfinex,
-			CAST (exosuf.rcexnba AS INTEGER) as rcexnba,
+			CAST (exosuf.rcexnba AS REAL)/100 as rcexnba,
 			exosuf.vecexn as fcexn,
-			CAST (exosuf.pexn AS INTEGER) as pexn
+			CAST (exosuf.pexn AS REAL)/100 as pexn
 		from #DBSchema_arcopole.dgi_nbati nbati
-			left join #DBSchema_arcopole.dgi_suf suf on suf.CODPARC=nbati.CODPARC
-			left join #DBSchema_arcopole.dgi_exosuf exosuf on exosuf.id_suf=suf.id_suf'::text) 
+			left join #DBSchema_arcopole.dgi_suf suf on nbati.codparc=suf.codparc
+			left join #DBSchema_arcopole.dgi_exosuf exosuf on suf.id_suf=exosuf.id_suf'::text) 
 	proprietenonbatiesufexo(
 		parcelle character varying(19), 
 		id_local character varying(17), 
