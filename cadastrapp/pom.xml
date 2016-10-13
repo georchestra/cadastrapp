@@ -561,6 +561,29 @@
 									</resources>
 								</configuration>
 							</execution>
+							<execution>
+								<id>copy-deb-resources-mfapp</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${basedir}/target/deb/etc/georchestra/mapfishapp/addons/cadastrapp</outputDirectory>
+									<resources>
+										<resource>
+											<directory>../addons/cadastrapp</directory>
+											<includes>
+												<include>**/js/**/*.js</include>
+												<include>**/css/**/*.css</include>
+												<include>**/img/**/*.png</include>
+												<include>**/manifest.json</include>
+												<include>**/config.json</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
 						</executions>
 					</plugin>
 					<plugin>
