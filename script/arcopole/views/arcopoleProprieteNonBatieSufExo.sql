@@ -16,9 +16,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			nbati.codparc as parcelle,
+			suf.id_suf as id_local,
 			nbati.dnupro as comptecommunal, 
 			nbati.codcomm as cgocommune,
-			suf.id_suf as id_local,
 			exosuf.ccolloc,
 			exosuf.gnexts,
 			exosuf.jandeb,
