@@ -32,9 +32,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.dnulot, 
 		proprietenonbatie.dreflf,
 		proprietenonbatie.majposa,
-		proprietenonbatie.bisufad,
+		proprietenonbatie.bisufad_com,
 		proprietenonbatie.bisufad_dep,
-		proprietenonbatie.bisufad_reg
+		proprietenonbatie.bisufad_gp
 	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			suf.suf as id_local,
@@ -62,14 +62,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			suf.dclssf,
 			cncs.cnatsp_lib,
 			suf.dcntsf,
-			CAST (suf.drcsuba* 10 as integer) as drcsuba,
+			suf.drcsuba,
 			suf.pdl,
 			suf.dnulot,
 			p.dreflf,
-			CAST (suftax.c1majposa * 10 as integer) as majposa,
-			CAST (suftax.c1bisufad * 10 as integer) as bisufad,
-			CAST (suftax.c2bisufad * 10 as integer) as bisufad_dep,
-			CAST (suftax.c3bisufad * 10 as integer) as bisufad_reg
+			suftax.c1majposa as majposa,
+			suftax.c1bisufad as bisufad_com,
+			suftax.c2bisufad as bisufad_dep,
+			suftax.c4bisufad as bisufad_gp
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.voie v on v.voie=p.voie
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
@@ -103,12 +103,12 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
  		dclssf character varying(2), 
  		cnatsp character varying,
  		dcntsf integer, 
- 		drcsuba integer, 
+ 		drcsuba numeric(10,2), 
  		pdl character varying(22), 
  		dnulot character varying(7), 
  		dreflf character varying(5),
- 		majposa integer,
-		bisufad integer,
-		bisufad_dep integer,
-		bisufad_reg integer);
+ 		majposa numeric(10,2),
+		bisufad_com numeric(10,2),
+		bisufad_dep numeric(10,2),
+		bisufad_gp numeric(10,2));
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;

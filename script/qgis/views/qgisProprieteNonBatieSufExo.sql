@@ -23,9 +23,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			sufex.gnexts,
 			sufex.jandeb,
 			sufex.jfinex,
-			CAST (sufex.rcexnba AS INTEGER) as rcexnba,
+			sufex.rcexnba as rcexnba,
 			sufex.fcexn,
-			sufex.pexn	
+			sufex.pexn/100
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
 			left join #DBSchema_qgis.sufexoneration as sufex on sufex.suf=suf.suf'::text)
@@ -38,7 +38,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
  		gnexts character varying(2), 
  		jandeb character varying(4),
  		jfinex character varying(4), 
- 		rcexnba integer, 
+ 		rcexnba numeric(10,2), 
  		fcexn character varying(10),
  		pexn integer);
 

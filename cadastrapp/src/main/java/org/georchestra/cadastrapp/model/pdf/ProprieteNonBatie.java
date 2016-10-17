@@ -30,7 +30,7 @@ public class ProprieteNonBatie extends Propriete{
 	private int dcntsf;
 	
 	// Revenu cadastral revalorisé en valeur deu 01-01 de l'année 
-	private int drcsuba;
+	private float drcsuba;
 	
 	// Référence pdl
 	private String pdl;
@@ -167,7 +167,7 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @return the drcsuba
 	 */
-	public int getDrcsuba() {
+	public float getDrcsuba() {
 		return drcsuba;
 	}
 
@@ -175,7 +175,7 @@ public class ProprieteNonBatie extends Propriete{
 	/**
 	 * @param drcsuba the drcsuba to set
 	 */
-	public void setDrcsuba(int drcsuba) {
+	public void setDrcsuba(float drcsuba) {
 		this.drcsuba = drcsuba;
 	}
 

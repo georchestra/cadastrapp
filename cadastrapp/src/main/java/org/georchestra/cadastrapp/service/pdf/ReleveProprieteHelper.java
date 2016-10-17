@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.math.BigDecimal;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.xml.bind.JAXBContext;
@@ -39,13 +40,13 @@ import org.georchestra.cadastrapp.model.pdf.Proprietaire;
 import org.georchestra.cadastrapp.model.pdf.ProprieteBatie;
 import org.georchestra.cadastrapp.model.pdf.ProprieteNonBatie;
 import org.georchestra.cadastrapp.model.pdf.RelevePropriete;
+import org.georchestra.cadastrapp.model.pdf.Exoneration;
 import org.georchestra.cadastrapp.service.CadController;
 import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
 
 @Component
 public final class ReleveProprieteHelper extends CadController{
@@ -178,19 +179,18 @@ public final class ReleveProprieteHelper extends CadController{
 
 						// Information sur les proprietés baties
 						List<ProprieteBatie> proprietesBaties = new ArrayList<ProprieteBatie>();
-						List<String> proprietesBIds = new ArrayList<String>();
-
-						int pbCommuneRevenuExonere = 0;
-						int pbCommuneRevenuImposable = 0;
-						int pbDepartementRevenuExonere = 0;
-						int pbDepartementRevenuImposable = 0;
-						int pbRegionRevenuExonere = 0;
-						int pbRegionRevenuImposable = 0;
-						int pbRevenuImposable = 0;
+						
+						float pbCommuneRevenuExonere = 0;
+						float pbCommuneRevenuImposable = 0;
+						float pbDepartementRevenuExonere = 0;
+						float pbDepartementRevenuImposable = 0;
+						float pbGroupementCommuneRevenuExonere = 0;
+						float pbGroupementCommuneRevenuImposable = 0;
+						float pbRevenuImposable = 0;
 
 						StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, revcad ");
+						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, mvltieomx, pexb, rcexba2, rcbaia_tse, rcbaia_com, rcbaia_dep, rcbaia_gp, revcad ");
 						queryBuilderProprieteBatie.append("from ");
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -242,7 +242,6 @@ public final class ReleveProprieteHelper extends CadController{
 							
 							proprieteBatie.setCcoaff((String) propBat.get(CadastrappConstants.PB_AFFECTATION_PEV)); 																	//AF
 							proprieteBatie.setCcoeva((String) propBat.get(CadastrappConstants.PB_CODE_EVAL)); 																			//M EVAL
-							proprieteBatie.setCcolloc((String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO));																		//COLL
 							proprieteBatie.setCconlc((String) propBat.get(CadastrappConstants.PB_NATURE_LOCAL)); 																		//NAT LOC
 							proprieteBatie.setCcopre((String) propBat.get(CadastrappConstants.PB_PREFIX_SECTION)); 																		//N°SETCION part1
 							proprieteBatie.setCcoriv((String) propBat.get(CadastrappConstants.PB_CODE_RIVOLI_VOIE)); 																	//code rivoli
@@ -255,35 +254,40 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteBatie.setDpor((String) propBat.get(CadastrappConstants.PB_NUM_PORTE_LOCAL));																		//N° porte
 							proprieteBatie.setRevcad(propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? "":propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL).toString());	//Revenu cadastral
 							proprieteBatie.setDvoilib((String) propBat.get(CadastrappConstants.PB_ADRESSE)); 																			//Adresse
-							proprieteBatie.setFcexn((String) propBat.get(CadastrappConstants.PB_FRACTION_EXO)); 																		//Fraction Exo
-							proprieteBatie.setGnextl((String) propBat.get(CadastrappConstants.PB_NATURE_EXO));																			//Nat Exo
-							proprieteBatie.setJandeb((String) propBat.get(CadastrappConstants.PB_ANNEE_DEB_EXO));																		//An Deb
-							proprieteBatie.setJanimp((String) propBat.get(CadastrappConstants.PB_ANNEE_RETOUR_IMPOSITION)); 															//An Ret
 							proprieteBatie.setMvltieomx(propBat.get(CadastrappConstants.PB_MONTANT_TIEOM) == null ? "":propBat.get(CadastrappConstants.PB_MONTANT_TIEOM).toString()); 	//tx OM
-							proprieteBatie.setPexb(propBat.get(CadastrappConstants.PB_TAUX_EXO_ACCORDEE) == null ? "":propBat.get(CadastrappConstants.PB_TAUX_EXO_ACCORDEE).toString());//Exo
+							
+							List<Exoneration> proprieteBatieExonerations = new ArrayList<Exoneration>();
+							Exoneration proprieteBatieExoneration = new Exoneration();
+							
+							proprieteBatieExoneration.setCcolloc((String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO));																		//COLL
+							proprieteBatieExoneration.setGnextl((String) propBat.get(CadastrappConstants.PB_NATURE_EXO));																			//Nat Exo
+							proprieteBatieExoneration.setJandeb((String) propBat.get(CadastrappConstants.PB_ANNEE_DEB_EXO));																		//An Deb
+							proprieteBatieExoneration.setJanimp((String) propBat.get(CadastrappConstants.PB_ANNEE_RETOUR_IMPOSITION)); 															//An Ret
+							proprieteBatieExoneration.setFcexn(propBat.get(CadastrappConstants.PB_FRACTION_EXO) == null ? "":propBat.get(CadastrappConstants.PB_FRACTION_EXO).toString());		//Fraction Exo
+							proprieteBatieExoneration.setPexb(propBat.get(CadastrappConstants.PB_TAUX_EXO_ACCORDEE) == null ? "":propBat.get(CadastrappConstants.PB_TAUX_EXO_ACCORDEE).toString());//Exo
+							
+							proprieteBatieExonerations.add(proprieteBatieExoneration);
+							proprieteBatie.setExonerations(proprieteBatieExonerations);
 
 							String exoneration = (String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO);
 							if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exoneration)) {
-								pbDepartementRevenuExonere = (Integer) propBat.get("dvldif2a");
-							} else if ( CadastrappConstants.CODE_COLL_EXO_R.equals(exoneration)) {
-								pbRegionRevenuExonere = (Integer) propBat.get("dvldif2a");
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+							} else if ( CadastrappConstants.CODE_COLL_EXO_C.equals(exoneration)) {
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+							} else if ( CadastrappConstants.CODE_COLL_EXO_GC.equals(exoneration)) {
+								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
 							} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exoneration)) {
-								pbDepartementRevenuExonere = 0;
-							} else if (CadastrappConstants.CODE_COLL_EXO_GC.equals(exoneration) || CadastrappConstants.CODE_COLL_EXO_C.equals(exoneration)) {
-								pbCommuneRevenuExonere = (Integer) propBat.get("dvldif2a");
-							} else {
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+							} else if (CadastrappConstants.CODE_COLL_EXO_A.equals(exoneration)) {
 								logger.debug("Exoneration on additional taxes");
 							}
 
-							if (!proprietesBIds.contains(proprieteId)) {
-
-								pbRevenuImposable = pbRevenuImposable + ((Integer) propBat.get("vlbaia") == null ? 0 : (Integer) propBat.get("vlbaia"));
-								pbCommuneRevenuImposable = pbCommuneRevenuImposable + ((Integer) propBat.get("vlbaia_com") == null ? 0 : (Integer) propBat.get("vlbaia_com"));
-								pbDepartementRevenuImposable = pbDepartementRevenuImposable + ((Integer) propBat.get("vlbaia_dep") == null ? 0 : (Integer) propBat.get("vlbaia_dep"));
-								pbRegionRevenuImposable = pbRegionRevenuImposable + ((Integer) propBat.get("vlbaia_reg") == null ? 0 : (Integer) propBat.get("vlbaia_reg"));
-
-								proprietesBIds.add(proprieteId);
-							}
+							pbRevenuImposable = pbRevenuImposable + ((BigDecimal)propBat.get("revcad")).floatValue();
+							pbCommuneRevenuImposable = pbCommuneRevenuImposable + ((BigDecimal)propBat.get("rcbaia_com")).floatValue();
+							pbDepartementRevenuImposable = pbDepartementRevenuImposable + ((BigDecimal)propBat.get("rcbaia_dep")).floatValue();
+							pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + ((BigDecimal)propBat.get("rcbaia_gp")).floatValue();
 
 							proprietesBaties.add(proprieteBatie);
 						}
@@ -294,11 +298,11 @@ public final class ReleveProprieteHelper extends CadController{
 							// Init imposition batie
 							Imposition impositionBatie = new Imposition();
 							impositionBatie.setCommuneRevenuExonere(pbCommuneRevenuExonere);
-							impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable);
+							impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable-pbCommuneRevenuExonere);
 							impositionBatie.setDepartementRevenuExonere(pbDepartementRevenuExonere);
-							impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable);
-							impositionBatie.setRegionRevenuExonere(pbRegionRevenuExonere);
-							impositionBatie.setRegionRevenuImposable(pbRegionRevenuImposable);
+							impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable-pbDepartementRevenuExonere);
+							impositionBatie.setGroupementCommuneRevenuExonere(pbGroupementCommuneRevenuExonere);
+							impositionBatie.setGroupementCommuneRevenuImposable(pbGroupementCommuneRevenuImposable-pbGroupementCommuneRevenuExonere);
 							impositionBatie.setRevenuImposable(pbRevenuImposable);
 
 							compteCommunal.setImpositionBatie(impositionBatie);
@@ -308,63 +312,81 @@ public final class ReleveProprieteHelper extends CadController{
 
 						// Information sur les proprietés non baties
 						List<ProprieteNonBatie> proprietesNonBaties = new ArrayList<ProprieteNonBatie>();
-						List<String> proprietesNbIds = new ArrayList<String>();
 
-						int pnbCommuneRevenuExonere = 0;
-						int pnbCommuneRevenuImposable = 0;
-						int pnbDepartementRevenuExonere = 0;
-						int pnbDepartementRevenuImposable = 0;
-						int pnbRegionRevenuExonere = 0;
-						int pnbRegionRevenuImposable = 0;
+						float pnbCommuneRevenuExonere = 0;
+						float pnbCommuneRevenuImposable = 0;
+						float pnbDepartementRevenuExonere = 0;
+						float pnbDepartementRevenuImposable = 0;
+						float pnbGroupementCommuneRevenuExonere = 0;
+						float pnbGroupementCommuneRevenuImposable = 0;
 						float pnbRevenuImposable = 0;
-						int pnbMajorationTerrain = 0;
+						float pnbMajorationTerrain = 0;
 						int pnbSurface = 0;
 
 						StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.pexn, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
+						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.cgocommune, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, dsgrpf, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnb.dreflf, pnb.majposa, pnb.bisufad_com, pnb.bisufad_dep, pnb.bisufad_gp ");
 						queryBuilderProprieteNonBatie.append("from ");
 						queryBuilderProprieteNonBatie.append(databaseSchema);
-						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
-						queryBuilderProprieteNonBatie.append(databaseSchema);
-						queryBuilderProprieteNonBatie.append(".proprietenonbatiesufexo pnbsufexo ");
-						queryBuilderProprieteNonBatie.append(" where pnb.cgocommune = pnbsufexo.cgocommune and pnb.id_local=pnbsufexo.id_local and pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
+						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
+						queryBuilderProprieteNonBatie.append(" where pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
 
 						logger.debug("Get undeveloped property information " );
 						List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal);
 
 						for (Map<String, Object> propNonBat : proprietesNonBatiesResult) {
-
 							String proprieteNbId = (String) propNonBat.get("id_local");
 
 							if(logger.isDebugEnabled()){
 								logger.debug("Get undeveloped property id : " + proprieteNbId );
 							}
-
-							// "TC";"toutes les collectivités"
-							// "R";"Région => l'exonération porte sur la seule part régionale"
-							// "GC";"Groupement de communes"
-							// "D";"Département => l'exonération porte sur la seule part départementale"
-							// "C";"Commune => l'exonération porte sur la seule part communale"
-							// "A";"l'exonération porte sur la taxe additionnelle"
-							String exonerationType = (String) propNonBat.get(CadastrappConstants.PNB_CODE_COLL_EXO);
-							int exonerationValue = (Integer) propNonBat.get("rcexnba") == null ? 0 : (Integer) propNonBat.get("rcexnba");
-
-							if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exonerationType)) {
-								pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
-							} else if (CadastrappConstants.CODE_COLL_EXO_R.equals(exonerationType)) {
-								pnbRegionRevenuExonere = pnbRegionRevenuExonere + exonerationValue;
-							} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exonerationType)) {
-								pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
-							} else if (CadastrappConstants.CODE_COLL_EXO_GC.equals(exonerationType)  || CadastrappConstants.CODE_COLL_EXO_C.equals(exonerationType)) {
-								pnbCommuneRevenuExonere = pnbCommuneRevenuExonere + exonerationValue;
-							} else {
-								logger.debug("Exoneration on additional taxes");
+							
+							// Get exonerations for this PNB
+							StringBuilder queryBuilderProprieteNonBatieExo = new StringBuilder();
+							queryBuilderProprieteNonBatieExo.append("SELECT pnbsufexo.id_local, pnbsufexo.ccolloc, pnbsufexo.gnexts, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.pexn ");
+							queryBuilderProprieteNonBatieExo.append("from ");
+							queryBuilderProprieteNonBatieExo.append(databaseSchema);
+							queryBuilderProprieteNonBatieExo.append(".proprietenonbatiesufexo pnbsufexo ");
+							queryBuilderProprieteNonBatieExo.append(" where pnbsufexo.cgocommune = ? and pnbsufexo.id_local = ? ORDER BY ccolloc");
+							List<Map<String, Object>> proprieteNonBatieExonerationsResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatieExo.toString(), (String) propNonBat.get("cgocommune"), proprieteNbId);
+							
+							List<Exoneration> proprieteNonBatieExonerations = new ArrayList<Exoneration>();
+							for (Map<String, Object> propNonBatExo : proprieteNonBatieExonerationsResult) {
+								Exoneration proprieteNonBatieExoneration = new Exoneration();
+								
+								proprieteNonBatieExoneration.setCcolloc((String) propNonBatExo.get(CadastrappConstants.PNB_CODE_COLL_EXO));
+								proprieteNonBatieExoneration.setGnextl((String) propNonBatExo.get(CadastrappConstants.PNB_NATURE_EXO));
+								proprieteNonBatieExoneration.setJanimp((String) propNonBatExo.get(CadastrappConstants.PNB_ANNEE_RETOUR_IMPOSITION));
+								proprieteNonBatieExoneration.setFcexn(propNonBatExo.get(CadastrappConstants.PNB_FRACTION_RC_EXO) == null ?"":propNonBatExo.get(CadastrappConstants.PNB_FRACTION_RC_EXO).toString());
+								proprieteNonBatieExoneration.setPexb(propNonBatExo.get(CadastrappConstants.PNB_POURCENTAGE_EXO) == null ?"":propNonBatExo.get(CadastrappConstants.PNB_POURCENTAGE_EXO).toString());//à voir si besoin de divider par 100
+								
+								proprieteNonBatieExonerations.add(proprieteNonBatieExoneration);
+								
+								// "TC";"toutes les collectivités"
+								// "R";"Région => l'exonération porte sur la seule part régionale"
+								// "GC";"Groupement de communes"
+								// "D";"Département => l'exonération porte sur la seule part départementale"
+								// "C";"Commune => l'exonération porte sur la seule part communale"
+								// "A";"l'exonération porte sur la taxe additionnelle"
+								String exonerationType = (String) propNonBatExo.get(CadastrappConstants.PNB_CODE_COLL_EXO);
+								float exonerationValue = ((BigDecimal)propNonBatExo.get("rcexnba")).floatValue();
+								if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exonerationType)) {
+									pnbCommuneRevenuExonere = pnbCommuneRevenuExonere + exonerationValue;
+									pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
+									pnbGroupementCommuneRevenuExonere = pnbGroupementCommuneRevenuExonere + exonerationValue;
+								} else if ( CadastrappConstants.CODE_COLL_EXO_C.equals(exonerationType)) {
+									pnbCommuneRevenuExonere = pnbCommuneRevenuExonere + exonerationValue;
+								} else if ( CadastrappConstants.CODE_COLL_EXO_GC.equals(exonerationType)) {
+									pnbGroupementCommuneRevenuExonere = pnbGroupementCommuneRevenuExonere + exonerationValue;
+								} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exonerationType)) {
+									pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
+								} else if (CadastrappConstants.CODE_COLL_EXO_A.equals(exonerationType)) {
+									logger.debug("Exoneration on additional taxes");
+								}
 							}
-
+							
 							ProprieteNonBatie proprieteNonBatie = new ProprieteNonBatie();
 
-							proprieteNonBatie.setCcolloc((String) propNonBat.get(CadastrappConstants.PNB_CODE_COLL_EXO));
 							proprieteNonBatie.setCcopre((String) propNonBat.get(CadastrappConstants.PNB_PREFIX_SECTION));
 							proprieteNonBatie.setCcoriv((String) propNonBat.get(CadastrappConstants.PNB_CODE_RIVOLI_VOIE));
 							proprieteNonBatie.setCcosec((String) propNonBat.get(CadastrappConstants.PNB_LETTRE_SECTION));
@@ -379,31 +401,23 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 							proprieteNonBatie.setDsgrpf((String) propNonBat.get(CadastrappConstants.PNB_SOUS_GROUP));
 							proprieteNonBatie.setDvoilib((String) propNonBat.get(CadastrappConstants.PNB_ADRESSE));
-							proprieteNonBatie.setFcexn((String) propNonBat.get(CadastrappConstants.PNB_FRACTION_RC_EXO));
-							proprieteNonBatie.setGnextl((String) propNonBat.get(CadastrappConstants.PNB_NATURE_EXO));
-							proprieteNonBatie.setJanimp((String) propNonBat.get(CadastrappConstants.PNB_ANNEE_RETOUR_IMPOSITION));
-							proprieteNonBatie.setPexb(propNonBat.get(CadastrappConstants.PNB_POURCENTAGE_EXO) == null ?"":propNonBat.get(CadastrappConstants.PNB_POURCENTAGE_EXO).toString());//à voir si besoin de divider par 100
-
+							proprieteNonBatie.setExonerations(proprieteNonBatieExonerations);
+							
 							int surface = (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA);
 							proprieteNonBatie.setDcntsf(surface);
 
-							int revenu = (Integer) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL);
+							float revenu = ((BigDecimal) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL)).floatValue();
 							proprieteNonBatie.setDrcsuba(revenu);
 
-							if (!proprietesNbIds.contains(proprieteNbId)){
+							pnbRevenuImposable = pnbRevenuImposable + revenu;
 
-								pnbRevenuImposable = pnbRevenuImposable + revenu;
+							pnbCommuneRevenuImposable = pnbCommuneRevenuImposable + ((BigDecimal)propNonBat.get("bisufad_com")).floatValue();
+							pnbDepartementRevenuImposable = pnbDepartementRevenuImposable +  ((BigDecimal)propNonBat.get("bisufad_dep")).floatValue();
+							pnbGroupementCommuneRevenuImposable = pnbGroupementCommuneRevenuImposable + ((BigDecimal)propNonBat.get("bisufad_gp")).floatValue();
 
-								pnbCommuneRevenuImposable = pnbCommuneRevenuImposable + ((Integer) propNonBat.get("bisufad") == null ? 0 : (Integer) propNonBat.get("bisufad"));
-								pnbDepartementRevenuImposable = pnbDepartementRevenuImposable +  ((Integer) propNonBat.get("bisufad_dep") == null ? 0 : (Integer) propNonBat.get("bisufad_dep"));
-								pnbRegionRevenuImposable = pnbRegionRevenuImposable + ((Integer) propNonBat.get("bisufad_reg") == null ? 0 : (Integer) propNonBat.get("bisufad_reg"));
+							pnbMajorationTerrain = pnbMajorationTerrain + ((BigDecimal)propNonBat.get("majposa")).floatValue();
 
-								pnbMajorationTerrain = pnbMajorationTerrain + ((Integer) propNonBat.get("majposa") == null ? 0 : (Integer) propNonBat.get("majposa"));
-
-								pnbSurface = pnbSurface + surface; 
-
-								proprietesNbIds.add(proprieteNbId);
-							}
+							pnbSurface = pnbSurface + surface; 
 
 							proprietesNonBaties.add(proprieteNonBatie);
 
@@ -419,8 +433,8 @@ public final class ReleveProprieteHelper extends CadController{
 							impositionNonBatie.setCommuneRevenuImposable(pnbCommuneRevenuImposable);
 							impositionNonBatie.setDepartementRevenuExonere(pnbDepartementRevenuExonere);
 							impositionNonBatie.setDepartementRevenuImposable(pnbDepartementRevenuImposable);
-							impositionNonBatie.setRegionRevenuExonere(pnbRegionRevenuExonere);
-							impositionNonBatie.setRegionRevenuImposable(pnbRegionRevenuImposable);
+							impositionNonBatie.setGroupementCommuneRevenuExonere(pnbGroupementCommuneRevenuExonere);
+							impositionNonBatie.setGroupementCommuneRevenuImposable(pnbGroupementCommuneRevenuImposable);
 							impositionNonBatie.setRevenuImposable(pnbRevenuImposable);
 							impositionNonBatie.setMajorationTerraion(pnbMajorationTerrain);
 							impositionNonBatie.setSurface(pnbSurface);
@@ -763,19 +777,18 @@ public final class ReleveProprieteHelper extends CadController{
 
 						// Information sur les proprietés baties
 						List<ProprieteBatie> proprietesBaties = new ArrayList<ProprieteBatie>();
-						List<String> proprietesBIds = new ArrayList<String>();
 
-						int pbCommuneRevenuExonere = 0;
-						int pbCommuneRevenuImposable = 0;
-						int pbDepartementRevenuExonere = 0;
-						int pbDepartementRevenuImposable = 0;
-						int pbRegionRevenuExonere = 0;
-						int pbRegionRevenuImposable = 0;
-						int pbRevenuImposable = 0;
+						float pbCommuneRevenuExonere = 0;
+						float pbCommuneRevenuImposable = 0;
+						float pbDepartementRevenuExonere = 0;
+						float pbDepartementRevenuImposable = 0;
+						float pbGroupementCommuneRevenuExonere = 0;
+						float pbGroupementCommuneRevenuImposable = 0;
+						float pbRevenuImposable = 0;
 
 						StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-						queryBuilderProprieteBatie.append("select distinct ccopre, ccosec, dnupla, natvoi||' '||dvoilib as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, revcad ");
+						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, mvltieomx, pexb, rcexba2, rcbaia_tse, rcbaia_com, rcbaia_dep, rcbaia_gp, revcad ");
 						queryBuilderProprieteBatie.append("from ");
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -793,10 +806,40 @@ public final class ReleveProprieteHelper extends CadController{
 
 							String proprieteId = (String) propBat.get(CadastrappConstants.PB_NUM_INVARIANT);//N° invar
 							proprieteBatie.setInvar(proprieteId);
+							
+							// TODO try changing this, 
+							// making a request on each loop might not the best solution, but it can have more than one lot for one invar
+							// Make sure an index exist on id_local
+							String idLocal = (String) propBat.get(CadastrappConstants.PB_ID_LOCAL); 
+							
+							StringBuilder queryBuilderLots = new StringBuilder();
+							queryBuilderLots.append("select dnulot, dnumql, ddenql ");
+							queryBuilderLots.append("from ");
+							queryBuilderLots.append(databaseSchema);
+							queryBuilderLots.append(".lot l ");
+							queryBuilderLots.append(" where l.id_local = ? ");
+							List<Map<String, Object>> proprietesBatiesLots = jdbcTemplate.queryForList(queryBuilderLots.toString(), idLocal);
+							
+							List<Lot> proprieteBatieLot = new ArrayList<Lot>();
+							for (Map<String, Object> propBatLot : proprietesBatiesLots) {
+								// Create lot and add information
+								Lot lot = new Lot();
+								lot.setLotId((String) propBatLot.get(CadastrappConstants.PB_LOT_ID));
+								lot.setDenominateur((String) propBatLot.get(CadastrappConstants.PB_LOT_DENOMINATEUR)); 
+								lot.setNumerateur((String) propBatLot.get(CadastrappConstants.PB_LOT_NUMERATEUR));
+								
+								if(logger.isDebugEnabled()){
+									logger.debug("Lot : " + lot );
+								}
+								
+								// add lot to list
+								proprieteBatieLot.add(lot);
+							}
+							// Add lot to list
+							proprieteBatie.setLots(proprieteBatieLot);
 
 							proprieteBatie.setCcoaff((String) propBat.get(CadastrappConstants.PB_AFFECTATION_PEV)); 																	//AF
 							proprieteBatie.setCcoeva((String) propBat.get(CadastrappConstants.PB_CODE_EVAL)); 																			//M EVAL
-							proprieteBatie.setCcolloc((String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO));																		//COLL
 							proprieteBatie.setCconlc((String) propBat.get(CadastrappConstants.PB_NATURE_LOCAL)); 																		//NAT LOC
 							proprieteBatie.setCcopre((String) propBat.get(CadastrappConstants.PB_PREFIX_SECTION)); 																		//N°SETCION part1
 							proprieteBatie.setCcoriv((String) propBat.get(CadastrappConstants.PB_CODE_RIVOLI_VOIE)); 																	//code rivoli
@@ -809,116 +852,137 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteBatie.setDpor((String) propBat.get(CadastrappConstants.PB_NUM_PORTE_LOCAL));																		//N° porte
 							proprieteBatie.setRevcad(propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? "":propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL).toString());	//Revenu cadastral
 							proprieteBatie.setDvoilib((String) propBat.get(CadastrappConstants.PB_ADRESSE)); 																			//Adresse
-							proprieteBatie.setFcexn((String) propBat.get(CadastrappConstants.PB_FRACTION_EXO)); 																		//Fraction Exo
-							proprieteBatie.setGnextl((String) propBat.get(CadastrappConstants.PB_NATURE_EXO));																			//Nat Exo
-							proprieteBatie.setJandeb((String) propBat.get(CadastrappConstants.PB_ANNEE_DEB_EXO));																		//An Deb
-							proprieteBatie.setJanimp((String) propBat.get(CadastrappConstants.PB_ANNEE_RETOUR_IMPOSITION)); 															//An Ret
 							proprieteBatie.setMvltieomx(propBat.get(CadastrappConstants.PB_MONTANT_TIEOM) == null ? "":propBat.get(CadastrappConstants.PB_MONTANT_TIEOM).toString()); 	//tx OM
-							proprieteBatie.setPexb(propBat.get(CadastrappConstants.PB_TAUX_EXO_ACCORDEE) == null ? "":propBat.get(CadastrappConstants.PB_TAUX_EXO_ACCORDEE).toString());//Exo
+							
+							List<Exoneration> proprieteBatieExonerations = new ArrayList<Exoneration>();
+							Exoneration proprieteBatieExoneration = new Exoneration();
+							
+							proprieteBatieExoneration.setCcolloc((String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO));																		//COLL
+							proprieteBatieExoneration.setGnextl((String) propBat.get(CadastrappConstants.PB_NATURE_EXO));																			//Nat Exo
+							proprieteBatieExoneration.setJandeb((String) propBat.get(CadastrappConstants.PB_ANNEE_DEB_EXO));																		//An Deb
+							proprieteBatieExoneration.setJanimp((String) propBat.get(CadastrappConstants.PB_ANNEE_RETOUR_IMPOSITION)); 																//An Ret
+							proprieteBatieExoneration.setFcexn(propBat.get(CadastrappConstants.PB_FRACTION_EXO) == null ? "":propBat.get(CadastrappConstants.PB_FRACTION_EXO).toString()); 			//Fraction Exo
+							proprieteBatieExoneration.setPexb(propBat.get(CadastrappConstants.PB_TAUX_EXO_ACCORDEE) == null ? "":propBat.get(CadastrappConstants.PB_TAUX_EXO_ACCORDEE).toString());	//Exo
+							
+							proprieteBatieExonerations.add(proprieteBatieExoneration);
+							proprieteBatie.setExonerations(proprieteBatieExonerations);
 
 							String exoneration = (String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO);
 							if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exoneration)) {
-								pbDepartementRevenuExonere = (Integer) propBat.get("dvldif2a");
-							} else if ( CadastrappConstants.CODE_COLL_EXO_R.equals(exoneration)) {
-								pbRegionRevenuExonere = (Integer) propBat.get("dvldif2a");
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+							} else if ( CadastrappConstants.CODE_COLL_EXO_C.equals(exoneration)) {
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+							} else if ( CadastrappConstants.CODE_COLL_EXO_GC.equals(exoneration)) {
+								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
 							} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exoneration)) {
-								pbDepartementRevenuExonere = 0;
-							} else if (CadastrappConstants.CODE_COLL_EXO_GC.equals(exoneration) || CadastrappConstants.CODE_COLL_EXO_C.equals(exoneration)) {
-								pbCommuneRevenuExonere = (Integer) propBat.get("dvldif2a");
-							} else {
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+							} else if (CadastrappConstants.CODE_COLL_EXO_A.equals(exoneration)) {
 								logger.debug("Exoneration on additional taxes");
 							}
-
-							if (!proprietesBIds.contains(proprieteId)) {
-
-								pbRevenuImposable = pbRevenuImposable + ((Integer) propBat.get("vlbaia") == null ? 0 : (Integer) propBat.get("vlbaia"));
-								pbCommuneRevenuImposable = pbCommuneRevenuImposable + ((Integer) propBat.get("vlbaia_com") == null ? 0 : (Integer) propBat.get("vlbaia_com"));
-								pbDepartementRevenuImposable = pbDepartementRevenuImposable + ((Integer) propBat.get("vlbaia_dep") == null ? 0 : (Integer) propBat.get("vlbaia_dep"));
-								pbRegionRevenuImposable = pbRegionRevenuImposable + ((Integer) propBat.get("vlbaia_reg") == null ? 0 : (Integer) propBat.get("vlbaia_reg"));
-
-								proprietesBIds.add(proprieteId);
-							}
+							
+							pbRevenuImposable = pbRevenuImposable + ((BigDecimal)propBat.get("revcad")).floatValue();
+							pbCommuneRevenuImposable = pbCommuneRevenuImposable + ((BigDecimal)propBat.get("rcbaia_com")).floatValue();
+							pbDepartementRevenuImposable = pbDepartementRevenuImposable + ((BigDecimal)propBat.get("rcbaia_dep")).floatValue();
+							pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + ((BigDecimal)propBat.get("rcbaia_gp")).floatValue();
 
 							proprietesBaties.add(proprieteBatie);
 						}
 						// ajout la liste des propriete baties uniquement si il y en a
 						// au moins une
 						if (!proprietesBaties.isEmpty()) {
-
 							// Init imposition batie
 							Imposition impositionBatie = new Imposition();
 							impositionBatie.setCommuneRevenuExonere(pbCommuneRevenuExonere);
-							impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable);
+							impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable-pbCommuneRevenuExonere);
 							impositionBatie.setDepartementRevenuExonere(pbDepartementRevenuExonere);
-							impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable);
-							impositionBatie.setRegionRevenuExonere(pbRegionRevenuExonere);
-							impositionBatie.setRegionRevenuImposable(pbRegionRevenuImposable);
+							impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable-pbDepartementRevenuExonere);
+							impositionBatie.setGroupementCommuneRevenuExonere(pbGroupementCommuneRevenuExonere);
+							impositionBatie.setGroupementCommuneRevenuImposable(pbGroupementCommuneRevenuImposable-pbGroupementCommuneRevenuExonere);
 							impositionBatie.setRevenuImposable(pbRevenuImposable);
 
 							compteCommunal.setImpositionBatie(impositionBatie);
-
 							compteCommunal.setProprieteBaties(proprietesBaties);
 						}
 
 						// Information sur les proprietés non baties
 						List<ProprieteNonBatie> proprietesNonBaties = new ArrayList<ProprieteNonBatie>();
-						List<String> proprietesNbIds = new ArrayList<String>();
 
-						int pnbCommuneRevenuExonere = 0;
-						int pnbCommuneRevenuImposable = 0;
-						int pnbDepartementRevenuExonere = 0;
-						int pnbDepartementRevenuImposable = 0;
-						int pnbRegionRevenuExonere = 0;
-						int pnbRegionRevenuImposable = 0;
+						float pnbCommuneRevenuExonere = 0;
+						float pnbCommuneRevenuImposable = 0;
+						float pnbDepartementRevenuExonere = 0;
+						float pnbDepartementRevenuImposable = 0;
+						float pnbGroupementCommuneRevenuExonere = 0;
+						float pnbGroupementCommuneRevenuImposable = 0;
 						float pnbRevenuImposable = 0;
-						int pnbMajorationTerrain = 0;
+						float pnbMajorationTerrain = 0;
 						int pnbSurface = 0;
 
 						StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
-
-						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.natvoi||' '||pnb.dvoilib as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.pexn, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
+						
+						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.cgocommune, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnb.dreflf, pnb.majposa, pnb.bisufad_com, pnb.bisufad_dep, pnb.bisufad_gp ");
 						queryBuilderProprieteNonBatie.append("from ");
 						queryBuilderProprieteNonBatie.append(databaseSchema);
-						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
-						queryBuilderProprieteNonBatie.append(databaseSchema);
-						queryBuilderProprieteNonBatie.append(".proprietenonbatiesufexo pnbsufexo ");
-						queryBuilderProprieteNonBatie.append(" where pnb.cgocommune = pnbsufexo.cgocommune and pnb.id_local=pnbsufexo.id_local and pnb.comptecommunal = ? and pnb.parcelle = ? ORDER BY ccosec, dnupla");
+						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
+						queryBuilderProprieteNonBatie.append(" where pnb.comptecommunal = ? and pnb.parcelle = ? ORDER BY ccosec, dnupla");
 
 						logger.debug("Get undeveloped property information " );
 						List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal, parcelleId);
 
 						for (Map<String, Object> propNonBat : proprietesNonBatiesResult) {
-
 							String proprieteNbId = (String) propNonBat.get("id_local");
 
 							if(logger.isDebugEnabled()){
 								logger.debug("Get undeveloped property id : " + proprieteNbId );
 							}
-
-							// "TC";"toutes les collectivités"
-							// "R";"Région => l'exonération porte sur la seule part régionale"
-							// "GC";"Groupement de communes"
-							// "D";"Département => l'exonération porte sur la seule part départementale"
-							// "C";"Commune => l'exonération porte sur la seule part communale"
-							// "A";"l'exonération porte sur la taxe additionnelle"
-							String exonerationType = (String) propNonBat.get(CadastrappConstants.PNB_CODE_COLL_EXO);
-							int exonerationValue = (Integer) propNonBat.get("rcexnba") == null ? 0 : (Integer) propNonBat.get("rcexnba");
-
-							if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exonerationType)) {
-								pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
-							} else if (CadastrappConstants.CODE_COLL_EXO_R.equals(exonerationType)) {
-								pnbRegionRevenuExonere = pnbRegionRevenuExonere + exonerationValue;
-							} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exonerationType)) {
-								pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
-							} else if (CadastrappConstants.CODE_COLL_EXO_GC.equals(exonerationType)  || CadastrappConstants.CODE_COLL_EXO_C.equals(exonerationType)) {
-								pnbCommuneRevenuExonere = pnbCommuneRevenuExonere + exonerationValue;
-							} else {
-								logger.debug("Exoneration on additional taxes");
+							
+							// Get exonerations for this PNB
+							StringBuilder queryBuilderProprieteNonBatieExo = new StringBuilder();
+							queryBuilderProprieteNonBatieExo.append("SELECT pnbsufexo.id_local, pnbsufexo.ccolloc, pnbsufexo.gnexts, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.pexn ");
+							queryBuilderProprieteNonBatieExo.append("from ");
+							queryBuilderProprieteNonBatieExo.append(databaseSchema);
+							queryBuilderProprieteNonBatieExo.append(".proprietenonbatiesufexo pnbsufexo ");
+							queryBuilderProprieteNonBatieExo.append(" where pnbsufexo.cgocommune = ? and pnbsufexo.id_local = ? ORDER BY ccolloc");
+							List<Map<String, Object>> proprieteNonBatieExonerationsResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatieExo.toString(), (String) propNonBat.get("cgocommune"), proprieteNbId);
+							
+							List<Exoneration> proprieteNonBatieExonerations = new ArrayList<Exoneration>();
+							for (Map<String, Object> propNonBatExo : proprieteNonBatieExonerationsResult) {
+								Exoneration proprieteNonBatieExoneration = new Exoneration();
+								
+								proprieteNonBatieExoneration.setCcolloc((String) propNonBatExo.get(CadastrappConstants.PNB_CODE_COLL_EXO));
+								proprieteNonBatieExoneration.setGnextl((String) propNonBatExo.get(CadastrappConstants.PNB_NATURE_EXO));
+								proprieteNonBatieExoneration.setJanimp((String) propNonBatExo.get(CadastrappConstants.PNB_ANNEE_RETOUR_IMPOSITION));
+								proprieteNonBatieExoneration.setFcexn(propNonBatExo.get(CadastrappConstants.PNB_FRACTION_RC_EXO) == null ?"":propNonBatExo.get(CadastrappConstants.PNB_FRACTION_RC_EXO).toString());
+								proprieteNonBatieExoneration.setPexb(propNonBatExo.get(CadastrappConstants.PNB_POURCENTAGE_EXO) == null ?"":propNonBatExo.get(CadastrappConstants.PNB_POURCENTAGE_EXO).toString());//à voir si besoin de divider par 100
+								
+								proprieteNonBatieExonerations.add(proprieteNonBatieExoneration);
+								
+								// "TC";"toutes les collectivités"
+								// "R";"Région => l'exonération porte sur la seule part régionale"
+								// "GC";"Groupement de communes"
+								// "D";"Département => l'exonération porte sur la seule part départementale"
+								// "C";"Commune => l'exonération porte sur la seule part communale"
+								// "A";"l'exonération porte sur la taxe additionnelle"
+								String exonerationType = (String) propNonBatExo.get(CadastrappConstants.PNB_CODE_COLL_EXO);
+								float exonerationValue = ((BigDecimal)propNonBatExo.get("rcexnba")).floatValue();
+								if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exonerationType)) {
+									pnbCommuneRevenuExonere = pnbCommuneRevenuExonere + exonerationValue;
+									pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
+									pnbGroupementCommuneRevenuExonere = pnbGroupementCommuneRevenuExonere + exonerationValue;
+								} else if ( CadastrappConstants.CODE_COLL_EXO_C.equals(exonerationType)) {
+									pnbCommuneRevenuExonere = pnbCommuneRevenuExonere + exonerationValue;
+								} else if ( CadastrappConstants.CODE_COLL_EXO_GC.equals(exonerationType)) {
+									pnbGroupementCommuneRevenuExonere = pnbGroupementCommuneRevenuExonere + exonerationValue;
+								} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exonerationType)) {
+									pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
+								} else if (CadastrappConstants.CODE_COLL_EXO_A.equals(exonerationType)) {
+									logger.debug("Exoneration on additional taxes");
+								}
 							}
 
 							ProprieteNonBatie proprieteNonBatie = new ProprieteNonBatie();
 
-							proprieteNonBatie.setCcolloc((String) propNonBat.get(CadastrappConstants.PNB_CODE_COLL_EXO));
 							proprieteNonBatie.setCcopre((String) propNonBat.get(CadastrappConstants.PNB_PREFIX_SECTION));
 							proprieteNonBatie.setCcoriv((String) propNonBat.get(CadastrappConstants.PNB_CODE_RIVOLI_VOIE));
 							proprieteNonBatie.setCcosec((String) propNonBat.get(CadastrappConstants.PNB_LETTRE_SECTION));
@@ -933,31 +997,23 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 							proprieteNonBatie.setDsgrpf((String) propNonBat.get(CadastrappConstants.PNB_SOUS_GROUP));
 							proprieteNonBatie.setDvoilib((String) propNonBat.get(CadastrappConstants.PNB_ADRESSE));
-							proprieteNonBatie.setFcexn((String) propNonBat.get(CadastrappConstants.PNB_FRACTION_RC_EXO));
-							proprieteNonBatie.setGnextl((String) propNonBat.get(CadastrappConstants.PNB_NATURE_EXO));
-							proprieteNonBatie.setJanimp((String) propNonBat.get(CadastrappConstants.PNB_ANNEE_RETOUR_IMPOSITION));
-							proprieteNonBatie.setPexb(propNonBat.get(CadastrappConstants.PNB_POURCENTAGE_EXO) == null ?"":propNonBat.get(CadastrappConstants.PNB_POURCENTAGE_EXO).toString());//à voir si besoin de divider par 100
+							proprieteNonBatie.setExonerations(proprieteNonBatieExonerations);
 
 							int surface = (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA);
 							proprieteNonBatie.setDcntsf(surface);
 
-							int revenu = (Integer) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL);
+							float revenu = ((BigDecimal) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL)).floatValue();
 							proprieteNonBatie.setDrcsuba(revenu);
 
-							if (!proprietesNbIds.contains(proprieteNbId)){
+							pnbRevenuImposable = pnbRevenuImposable + revenu;
 
-								pnbRevenuImposable = pnbRevenuImposable + revenu;
+							pnbCommuneRevenuImposable = pnbCommuneRevenuImposable + ((BigDecimal)propNonBat.get("bisufad_com")).floatValue();
+							pnbDepartementRevenuImposable = pnbDepartementRevenuImposable +  ((BigDecimal)propNonBat.get("bisufad_dep")).floatValue();
+							pnbGroupementCommuneRevenuImposable = pnbGroupementCommuneRevenuImposable + ((BigDecimal)propNonBat.get("bisufad_gp")).floatValue();
 
-								pnbCommuneRevenuImposable = pnbCommuneRevenuImposable + ((Integer) propNonBat.get("bisufad") == null ? 0 : (Integer) propNonBat.get("bisufad"));
-								pnbDepartementRevenuImposable = pnbDepartementRevenuImposable +  ((Integer) propNonBat.get("bisufad_dep") == null ? 0 : (Integer) propNonBat.get("bisufad_dep"));
-								pnbRegionRevenuImposable = pnbRegionRevenuImposable + ((Integer) propNonBat.get("bisufad_reg") == null ? 0 : (Integer) propNonBat.get("bisufad_reg"));
+							pnbMajorationTerrain = pnbMajorationTerrain + ((BigDecimal)propNonBat.get("majposa")).floatValue();
 
-								pnbMajorationTerrain = pnbMajorationTerrain + ((Integer) propNonBat.get("majposa") == null ? 0 : (Integer) propNonBat.get("majposa"));
-
-								pnbSurface = pnbSurface + surface; 
-
-								proprietesNbIds.add(proprieteNbId);
-							}
+							pnbSurface = pnbSurface + surface; 
 
 							proprietesNonBaties.add(proprieteNonBatie);
 
@@ -966,21 +1022,19 @@ public final class ReleveProprieteHelper extends CadController{
 						// ajout la liste des propriete non baties uniquement si il y en
 						// a au moins une
 						if (!proprietesNonBaties.isEmpty()) {
-
 							// Init imposition no batie
 							ImpositionNonBatie impositionNonBatie = new ImpositionNonBatie();
 							impositionNonBatie.setCommuneRevenuExonere(pnbCommuneRevenuExonere);
 							impositionNonBatie.setCommuneRevenuImposable(pnbCommuneRevenuImposable);
 							impositionNonBatie.setDepartementRevenuExonere(pnbDepartementRevenuExonere);
 							impositionNonBatie.setDepartementRevenuImposable(pnbDepartementRevenuImposable);
-							impositionNonBatie.setRegionRevenuExonere(pnbRegionRevenuExonere);
-							impositionNonBatie.setRegionRevenuImposable(pnbRegionRevenuImposable);
+							impositionNonBatie.setGroupementCommuneRevenuExonere(pnbGroupementCommuneRevenuExonere);
+							impositionNonBatie.setGroupementCommuneRevenuImposable(pnbGroupementCommuneRevenuImposable);
 							impositionNonBatie.setRevenuImposable(pnbRevenuImposable);
 							impositionNonBatie.setMajorationTerraion(pnbMajorationTerrain);
 							impositionNonBatie.setSurface(pnbSurface);
 
 							compteCommunal.setImpositionNonBatie(impositionNonBatie);
-
 							compteCommunal.setProprieteNonBaties(proprietesNonBaties);
 						}
 
