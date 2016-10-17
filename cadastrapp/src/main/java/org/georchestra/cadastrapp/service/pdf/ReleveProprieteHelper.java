@@ -327,11 +327,12 @@ public final class ReleveProprieteHelper extends CadController{
 						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dsgrpf, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnbsufexo.ccolloc, pnbsufexo.jfinex, pnbsufexo.rcexnba, pnbsufexo.fcexn, pnbsufexo.pexn, pnb.dreflf, pnb.majposa, pnb.bisufad, pnb.bisufad_dep, pnb.bisufad_reg ");
 						queryBuilderProprieteNonBatie.append("from ");
 						queryBuilderProprieteNonBatie.append(databaseSchema);
-						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb, ");
+						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
+						queryBuilderProprieteNonBatie.append(" left join ");
 						queryBuilderProprieteNonBatie.append(databaseSchema);
-						queryBuilderProprieteNonBatie.append(".proprietenonbatiesufexo pnbsufexo ");
-						queryBuilderProprieteNonBatie.append(" where pnb.cgocommune = pnbsufexo.cgocommune and pnb.id_local=pnbsufexo.id_local and pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
-
+						queryBuilderProprieteNonBatie.append(".proprietenonbatiesufexo pnbsufexo on pnb.id_local=pnbsufexo.id_local ");
+						queryBuilderProprieteNonBatie.append(" where pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
+											
 						logger.debug("Get undeveloped property information " );
 						List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal);
 
