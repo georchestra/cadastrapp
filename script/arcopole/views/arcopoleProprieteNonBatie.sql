@@ -44,7 +44,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			local.jdatat,
 			ltrim(invar.dnvoiri, ''0'') as dnvoiri,
 			invar.dindic,
-			voie.nature as natvoi,
+			'''' as natvoi,
 			invar.dvoilib,
 			invar.ccoriv,
 			nbati.dparpi,
