@@ -190,7 +190,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 						StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, revcad ");
+						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, ccolloc, cconlc, dcapec, gnextl, jandeb, janimp, fcexb, mvltieomx, pexb, dvldif2a, vlbaia, vlbaia_com, vlbaia_dep, vlbaia_reg, revcad ");
 						queryBuilderProprieteBatie.append("from ");
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -255,7 +255,7 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteBatie.setDpor((String) propBat.get(CadastrappConstants.PB_NUM_PORTE_LOCAL));																		//N° porte
 							proprieteBatie.setRevcad(propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? "":propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL).toString());	//Revenu cadastral
 							proprieteBatie.setDvoilib((String) propBat.get(CadastrappConstants.PB_ADRESSE)); 																			//Adresse
-							proprieteBatie.setFcexn((String) propBat.get(CadastrappConstants.PB_FRACTION_EXO)); 																		//Fraction Exo
+							proprieteBatie.setFcexn((String) propBat.get(CadastrappConstants.PB_FRACTION_EXO) == null ? "":propBat.get(CadastrappConstants.PB_FRACTION_EXO).toString()); 		//Fraction Exo
 							proprieteBatie.setGnextl((String) propBat.get(CadastrappConstants.PB_NATURE_EXO));																			//Nat Exo
 							proprieteBatie.setJandeb((String) propBat.get(CadastrappConstants.PB_ANNEE_DEB_EXO));																		//An Deb
 							proprieteBatie.setJanimp((String) propBat.get(CadastrappConstants.PB_ANNEE_RETOUR_IMPOSITION)); 															//An Ret
@@ -264,13 +264,15 @@ public final class ReleveProprieteHelper extends CadController{
 
 							String exoneration = (String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO);
 							if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exoneration)) {
-								pbDepartementRevenuExonere = (Integer) propBat.get("dvldif2a");
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + (Integer) propBat.get(CadastrappConstants.PB_FRACTION_EXO);
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + (Integer) propBat.get(CadastrappConstants.PB_FRACTION_EXO);
+								pbRegionRevenuExonere = pbRegionRevenuExonere + (Integer) propBat.get(CadastrappConstants.PB_FRACTION_EXO);
 							} else if ( CadastrappConstants.CODE_COLL_EXO_R.equals(exoneration)) {
-								pbRegionRevenuExonere = (Integer) propBat.get("dvldif2a");
+								pbRegionRevenuExonere = pbRegionRevenuExonere + (Integer) propBat.get(CadastrappConstants.PB_FRACTION_EXO);
 							} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exoneration)) {
-								pbDepartementRevenuExonere = 0;
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + (Integer) propBat.get(CadastrappConstants.PB_FRACTION_EXO);
 							} else if (CadastrappConstants.CODE_COLL_EXO_GC.equals(exoneration) || CadastrappConstants.CODE_COLL_EXO_C.equals(exoneration)) {
-								pbCommuneRevenuExonere = (Integer) propBat.get("dvldif2a");
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + (Integer) propBat.get(CadastrappConstants.PB_FRACTION_EXO);
 							} else {
 								logger.debug("Exoneration on additional taxes");
 							}
