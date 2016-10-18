@@ -1,7 +1,11 @@
 package org.georchestra.cadastrapp.model.pdf;
 
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlTransient;
 
 
@@ -31,24 +35,9 @@ public abstract class Propriete {
 
 	// Code Rivoli de la voie (code fantoir)
 	private String ccoriv;
-
-	// Code de collectivité locale accordant l'éxonération
-	private String ccolloc;
-
-	// Nature d'éxonération
-	private String gnextl;
-
-	// Année de début éxonération
-	private String jandeb;
-
-	// Année de retour à imposition
-	private String janimp;
-
-	// Fraction EC exonérée
-	private String fcexn;
 	
-	// Taux d'éxonération accordée
-	private String pexb;
+	// Liste d'exonerations
+	private List<Exoneration> exonerations;
 
 	/**
 	 * @return the jdatat
@@ -170,94 +159,20 @@ public abstract class Propriete {
 	public void setCcoriv(String ccoriv) {
 		this.ccoriv = ccoriv;
 	}
-
+	
 	/**
-	 * @return the ccolloc
+	 * @return the exonerations
 	 */
-	public String getCcolloc() {
-		return ccolloc;
+	public List<Exoneration> getExonerations() {
+		return exonerations;
 	}
-
-	@XmlAttribute
+	
+	@XmlElementWrapper(name="exonerations")
+    @XmlElements({@XmlElement(name="exoneration",   type=Exoneration.class)})
 	/**
-	 * @param ccolloc the ccolloc to set
+	 * @param exonerations the exonerations to set
 	 */
-	public void setCcolloc(String ccolloc) {
-		this.ccolloc = ccolloc;
-	}
-
-	/**
-	 * @return the gnextl
-	 */
-	public String getGnextl() {
-		return gnextl;
-	}
-
-	@XmlAttribute
-	/**
-	 * @param gnextl the gnextl to set
-	 */
-	public void setGnextl(String gnextl) {
-		this.gnextl = gnextl;
-	}
-
-	/**
-	 * @return the jandeb
-	 */
-	public String getJandeb() {
-		return jandeb;
-	}
-
-	@XmlAttribute
-	/**
-	 * @param jandeb the jandeb to set
-	 */
-	public void setJandeb(String jandeb) {
-		this.jandeb = jandeb;
-	}
-
-	/**
-	 * @return the janimp
-	 */
-	public String getJanimp() {
-		return janimp;
-	}
-
-	@XmlAttribute
-	/**
-	 * @param janimp the janimp to set
-	 */
-	public void setJanimp(String janimp) {
-		this.janimp = janimp;
-	}
-
-	/**
-	 * @return the fcexb
-	 */
-	public String getFcexn() {
-		return fcexn;
-	}
-
-	@XmlAttribute
-	/**
-	 * @param fcexb the fcexb to set
-	 */
-	public void setFcexn(String fcexn) {
-		this.fcexn = fcexn;
-	}
-
-	/**
-	 * @return the pexb
-	 */
-	public String getPexb() {
-		return pexb;
-	}
-
-	@XmlAttribute
-	/**
-	 * @param pexb the pexb to set
-	 */
-	public void setPexb(String pexb) {
-		this.pexb = pexb;
+	public void setExonerations(List<Exoneration> exonerations) {
+		this.exonerations = exonerations;
 	}
 }

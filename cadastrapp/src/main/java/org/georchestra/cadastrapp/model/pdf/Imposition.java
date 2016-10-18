@@ -8,17 +8,17 @@ public class Imposition {
 	
 	private float revenuImposable;
 	
-	private int communeRevenuExonere;
+	private float communeRevenuExonere;
 	
-	private int departementRevenuExonere;
+	private float departementRevenuExonere;
 	
-	private int regionRevenuExonere;
+	private float groupementCommuneRevenuExonere;
 	
-	private int communeRevenuImposable;
+	private float communeRevenuImposable;
 	
-	private int departementRevenuImposable;
+	private float departementRevenuImposable;
 	
-	private int regionRevenuImposable;
+	private float groupementCommuneRevenuImposable;
 
 	/**
 	 * @return the revenuImposable
@@ -38,7 +38,7 @@ public class Imposition {
 	/**
 	 * @return the communeRevenuExonere
 	 */
-	public int getCommuneRevenuExonere() {
+	public float getCommuneRevenuExonere() {
 		return communeRevenuExonere;
 	}
 
@@ -46,14 +46,14 @@ public class Imposition {
 	/**
 	 * @param communeRevenuExonere the communeRevenuExonere to set
 	 */
-	public void setCommuneRevenuExonere(int communeRevenuExonere) {
+	public void setCommuneRevenuExonere(float communeRevenuExonere) {
 		this.communeRevenuExonere = communeRevenuExonere;
 	}
 
 	/**
 	 * @return the departementRevenuExonere
 	 */
-	public int getDepartementRevenuExonere() {
+	public float getDepartementRevenuExonere() {
 		return departementRevenuExonere;
 	}
 
@@ -61,29 +61,29 @@ public class Imposition {
 	/**
 	 * @param departementRevenuExonere the departementRevenuExonere to set
 	 */
-	public void setDepartementRevenuExonere(int departementRevenuExonere) {
+	public void setDepartementRevenuExonere(float departementRevenuExonere) {
 		this.departementRevenuExonere = departementRevenuExonere;
 	}
 
 	/**
-	 * @return the regionRevenuExonere
+	 * @return the groupementCommuneRevenuExonere
 	 */
-	public int getRegionRevenuExonere() {
-		return regionRevenuExonere;
+	public float getGroupementCommuneRevenuExonere() {
+		return groupementCommuneRevenuExonere;
 	}
 
 	@XmlAttribute
 	/**
-	 * @param regionRevenuExonere the regionRevenuExonere to set
+	 * @param groupementCommuneRevenuExonere the groupementCommuneRevenuExonere to set
 	 */
-	public void setRegionRevenuExonere(int regionRevenuExonere) {
-		this.regionRevenuExonere = regionRevenuExonere;
+	public void setGroupementCommuneRevenuExonere(float groupementCommuneRevenuExonere) {
+		this.groupementCommuneRevenuExonere = groupementCommuneRevenuExonere;
 	}
 
 	/**
 	 * @return the communeRevenuImposable
 	 */
-	public int getCommuneRevenuImposable() {
+	public float getCommuneRevenuImposable() {
 		return communeRevenuImposable;
 	}
 
@@ -91,14 +91,14 @@ public class Imposition {
 	/**
 	 * @param communeRevenuImposable the communeRevenuImposable to set
 	 */
-	public void setCommuneRevenuImposable(int communeRevenuImposable) {
+	public void setCommuneRevenuImposable(float communeRevenuImposable) {
 		this.communeRevenuImposable = communeRevenuImposable;
 	}
 
 	/**
 	 * @return the departementRevenuImposable
 	 */
-	public int getDepartementRevenuImposable() {
+	public float getDepartementRevenuImposable() {
 		return departementRevenuImposable;
 	}
 
@@ -106,23 +106,23 @@ public class Imposition {
 	/**
 	 * @param departementRevenuImposable the departementRevenuImposable to set
 	 */
-	public void setDepartementRevenuImposable(int departementRevenuImposable) {
+	public void setDepartementRevenuImposable(float departementRevenuImposable) {
 		this.departementRevenuImposable = departementRevenuImposable;
 	}
 
 	/**
-	 * @return the regionRevenuImposable
+	 * @return the groupementCommuneRevenuImposable
 	 */
-	public int getRegionRevenuImposable() {
-		return regionRevenuImposable;
+	public float getGroupementCommuneRevenuImposable() {
+		return groupementCommuneRevenuImposable;
 	}
 
 	@XmlAttribute
 	/**
-	 * @param regionRevenuImposable the regionRevenuImposable to set
+	 * @param groupementCommuneRevenuImposable the groupementCommuneRevenuImposable to set
 	 */
-	public void setRegionRevenuImposable(int regionRevenuImposable) {
-		this.regionRevenuImposable = regionRevenuImposable;
+	public void setGroupementCommuneRevenuImposable(float groupementCommuneRevenuImposable) {
+		this.groupementCommuneRevenuImposable = groupementCommuneRevenuImposable;
 	}
 	
 

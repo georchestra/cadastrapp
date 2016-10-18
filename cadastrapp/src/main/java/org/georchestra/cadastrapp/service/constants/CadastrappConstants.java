@@ -31,7 +31,7 @@ public final class CadastrappConstants {
 	public static final String PB_NATURE_EXO				= "gnextl";
 	public static final String PB_ANNEE_RETOUR_IMPOSITION	= "janimp";
 	public static final String PB_ANNEE_DEB_EXO				= "jandeb";
-	public static final String PB_FRACTION_EXO				= "dvldif2a";
+	public static final String PB_FRACTION_EXO				= "rcexba2";
 	public static final String PB_TAUX_EXO_ACCORDEE			= "pexb";
 	public static final String PB_MONTANT_TIEOM				= "mvltieomx";
 	
@@ -59,9 +59,9 @@ public final class CadastrappConstants {
 	public static final String PNB_CONTENANCE_CA			= "dcntsf";
 	public static final String PNB_REVENU_CADASTRAL			= "drcsuba";
 	public static final String PNB_CODE_COLL_EXO			= "ccolloc";
-	public static final String PNB_NATURE_EXO				= "gnextl";
+	public static final String PNB_NATURE_EXO				= "gnexts";
 	public static final String PNB_ANNEE_RETOUR_IMPOSITION	= "jfinex";
-	public static final String PNB_FRACTION_RC_EXO			= "fcexn";
+	public static final String PNB_FRACTION_RC_EXO			= "rcexnba";
 	public static final String PNB_POURCENTAGE_EXO			= "pexn";
 	
 	

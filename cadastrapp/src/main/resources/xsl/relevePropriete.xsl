@@ -576,12 +576,7 @@
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
 			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
-			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="10%" />
-			<fo:table-column column-width="5%" />
+			<fo:table-column column-width="50%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-column column-width="5%" />
 			<fo:table-body>
@@ -613,32 +608,9 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block>
-							<xsl:value-of select="@ccolloc" />
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block>
-							<xsl:value-of select="@gnextl" />
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block>
-							<xsl:value-of select="@janimp" />
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block>
-							<xsl:value-of select="@jandeb" />
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block>
-							<xsl:value-of select="@fcexn" />
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block>
-							<xsl:value-of select="@pexb" />
+							<xsl:if test="exonerations/exoneration">
+								<xsl:call-template name="pbExonerationsDetail" />
+							</xsl:if>
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -652,6 +624,53 @@
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+	</xsl:template>
+	
+	<xsl:template name="pbExonerationsDetail">
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="10%" />
+			<fo:table-column column-width="20%" />
+			<fo:table-column column-width="20%" />
+			<fo:table-column column-width="20%" />
+			<fo:table-column column-width="20%" />
+			<fo:table-column column-width="10%" />
+			<fo:table-body>
+				<xsl:for-each select="exonerations/exoneration">
+					<fo:table-row height="10pt">
+						<fo:table-cell>
+							<fo:block>
+								<xsl:value-of select="@ccolloc" />
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>
+								<xsl:value-of select="@gnextl" />
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>
+								<xsl:value-of select="@janimp" />
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>
+								<xsl:value-of select="@jandeb" />
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>
+								<xsl:value-of select="@fcexn" />
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>
+								<xsl:value-of select="@pexb" />
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</xsl:for-each>
 			</fo:table-body>
 		</fo:table>
 	</xsl:template>
@@ -727,7 +746,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
-							Région -
+							Grp. Com. -
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
@@ -740,10 +759,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							<xsl:value-of select="impositionBatie/@regionRevenuExonere" />
+							<xsl:value-of select="impositionBatie/@groupementCommuneRevenuExonere" />
 						</fo:block>
 						<fo:block>
-							<xsl:value-of select="impositionBatie/@regionRevenuExonere" />
+							<xsl:value-of select="impositionBatie/@groupementCommuneRevenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -974,29 +993,52 @@
 								<xsl:value-of select="@drcsuba" />
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
+						<fo:table-cell number-columns-spanned="5" xsl:use-attribute-sets="bordure">
+							<fo:block>
+								<xsl:if test="exonerations/exoneration">
+									<xsl:call-template name="pnbExonerationsDetail" />
+								</xsl:if>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</xsl:for-each>
+			</fo:table-body>
+		</fo:table>
+	</xsl:template>
+	
+	<xsl:template name="pnbExonerationsDetail">
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="17%" />
+			<fo:table-column column-width="17%" />
+			<fo:table-column column-width="17%" />
+			<fo:table-column column-width="17%" />
+			<fo:table-column column-width="32%" />
+			<fo:table-body>
+				<xsl:for-each select="exonerations/exoneration">
+					<fo:table-row height="10pt">
+						<fo:table-cell>
 							<fo:block>
 								<xsl:value-of select="@ccolloc" />
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
+						<fo:table-cell>
 							<fo:block>
-								<xsl:value-of select="@gnextl" />
+								<xsl:value-of select="@gnexts" />
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
+						<fo:table-cell>
 							<fo:block>
 								<xsl:value-of select="@janimp" />
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
+						<fo:table-cell>
 							<fo:block>
 								<xsl:value-of select="@fcexn" />
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
+						<fo:table-cell>
 							<fo:block>
-									<xsl:value-of select="@pexb" />
+								<xsl:value-of select="@pexb" />
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -1115,7 +1157,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							Région -
+							Grp. Com -
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell text-align="end">
@@ -1128,10 +1170,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							<xsl:value-of select="impositionNonBatie/@regionRevenuExonere" />
+							<xsl:value-of select="impositionNonBatie/@groupementCommuneRevenuExonere" />
 						</fo:block>
 						<fo:block>
-							<xsl:value-of select="impositionNonBatie/@regionRevenuImposable" />
+							<xsl:value-of select="impositionNonBatie/@groupementCommuneRevenuImposable" />
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
