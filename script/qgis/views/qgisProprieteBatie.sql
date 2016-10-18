@@ -32,8 +32,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.mvltieomx,
 		proprietebatie.bateom,
 		proprietebatie.jannat,
-		proprietebatie.cconlc,
-		proprietebatie.dcapec,
 		proprietebatie.revcad,
 		proprietebatie.rcexba2,
 		proprietebatie.rcbaia_tse,
