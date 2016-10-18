@@ -234,8 +234,8 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                     forceSelection : false,
                     anchor : '95%',
                     editable : true,
-                    displayField : 'app_nom_usage',
-                    valueField : 'app_nom_usage',
+                    displayField : 'nom',
+                    valueField : 'nom',
                     disabled : true,
                     store : new Ext.data.JsonStore({
                         proxy : new Ext.data.HttpProxy({
@@ -243,7 +243,16 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                             method : 'GET',
                             autoload : true
                         }),
-                        fields : [ 'app_nom_usage' ]
+                        fields : [ { name : 'nom',
+                            convert : function(v, rec) {
+                                if(Ext.getCmp('checkBoxSearchByBirthNames').getValue()){
+                                    return rec.app_nom_naissance 
+                                }
+                                else{
+                                    return rec.app_nom_usage 
+                                } 
+                            }
+                        }]
                     }),
                     listeners : {
                         beforequery : function(q) {
@@ -351,6 +360,11 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                             // PARAMS
                             var params = currentForm.getForm().getValues();
                             params.details = 2;
+                            
+                            // search by birthname
+                            if(Ext.getCmp('checkBoxSearchByBirthNames').getValue()){
+                                params.birthsearch = true;
+                            }
 
                             // envoi des données d'une form
                             Ext.Ajax.request({

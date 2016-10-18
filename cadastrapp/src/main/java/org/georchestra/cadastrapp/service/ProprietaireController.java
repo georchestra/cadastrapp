@@ -129,8 +129,7 @@ public class ProprietaireController extends CadController{
 					ddenom = ddenom.replace(' ', '%');
 					if(isBirthSearch){
 						logger.debug("Search owners with birth informations ");
-						queryBuilder.append("and (UPPER(app_nom_naissance) LIKE UPPER(rtrim(?)) or UPPER(rtrim(app_nom_usage)) LIKE UPPER(rtrim(?))) ");
-						queryParams.add("%"+ddenom+"%");
+						queryBuilder.append("and UPPER(rtrim(app_nom_naissance)) LIKE UPPER(rtrim(?)) ");
 						queryParams.add("%"+ddenom+"%");
 					}else{
 						queryBuilder.append(" and UPPER(rtrim(app_nom_usage)) LIKE UPPER(rtrim(?)) ");
