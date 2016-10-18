@@ -25,7 +25,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			exosuf.jfinex,
 			CAST (exosuf.rcexnba AS NUMERIC) as rcexnba,
 			exosuf.vecexn as fcexn,
-			CAST (exosuf.pexn AS INTEGER) as pexn
+			CAST (exosuf.pexn AS INTEGER)/100 as pexn
 		from #DBSchema_arcopole.dgi_nbati nbati
 			left join #DBSchema_arcopole.dgi_suf suf on nbati.codparc=suf.codparc
 			left join #DBSchema_arcopole.dgi_exosuf exosuf on suf.id_suf=exosuf.id_suf'::text) 
