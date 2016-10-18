@@ -34,12 +34,12 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.pexb,
 		proprietebatie.mvltieomx,
 		proprietebatie.bateom,
-		proprietebatie.dvldif2a,
-		proprietebatie.vlbaia,
-		proprietebatie.vlbaia_com,
-		proprietebatie.vlbaia_dep,
-		proprietebatie.vlbaia_reg,
-		proprietebatie.jannat 
+		proprietebatie.rcexba2,
+		-- proprietebatie.rcbaia_tse,  n'existe pas dans arcopole
+		proprietebatie.rcbaia_com,
+		proprietebatie.rcbaia_dep,
+		proprietebatie.rcbaia_gp,
+		proprietebatie.jannat
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
 		'select 
 			local.id_local,
@@ -65,7 +65,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			local.ccoeva,
 			local.cconlc,
 			pev.dcapec,
-			ROUND(CAST(dvlpera AS FLOAT)/2) as revcad,
+			ROUND(CAST(dvlpera AS NUMERIC)/2,2) as revcad,
 			exopev.ccolloc,
 			exopev.gnextl,
 			exopev.jandeb,
@@ -74,12 +74,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			exopev.pexb,
 			taxpev.BAOMEC  as mvltieomx,
 			taxpev.bateom,
-			CAST (exopev.dvldif2a AS INTEGER) as dvldif2a,
-			CAST (taxpev.vlbaia AS INTEGER) as vlbaia,
-			CAST (taxpev.vlbaia AS INTEGER) as  vlbaia_com,
-			CAST (taxpev.vlbaia_dep AS INTEGER) as vlbaia_dep,
-			CAST (taxpev.vlbaia_reg AS INTEGER) as vlbaia_reg,
-			local.jannat   
+			ROUND(CAST(exopev.rcexba2 AS NUMERIC),2) as rcexba2,
+			ROUND(CAST(taxpev.bipevla AS NUMERIC),2) as rcbaia_com,
+			ROUND(CAST(taxpev.bipevla_dep AS NUMERIC),2) as rcbaia_dep,
+			ROUND(CAST(taxpev.vlbaia_reg AS NUMERIC),2) as rcbaia_gp,
+			local.jannat
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
 			left join #DBSchema_arcopole.dgi_voie voie on voie.id_voie=invar.id_voie
@@ -110,7 +109,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		ccoeva character varying(1),
 		cconlc character varying(2),
 		dcapec character varying(2),
-		revcad integer,
+		revcad numeric(10,2),
 		ccolloc character varying(2),
 		gnextl character varying(2),
 		jandeb character varying(4),
@@ -119,13 +118,12 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		pexb character varying(5),
 		mvltieomx character varying(9),
 		bateom  character varying(9),
-		dvldif2a integer,
-		vlbaia integer,
-		vlbaia_com integer,
-		vlbaia_dep integer,
-		vlbaia_reg integer,
+		rcexba2 numeric(10,2),
+		-- rcbaia_tse numeric(10,2), n'existe pas dans arcopole
+		rcbaia_com numeric(10,2),
+		rcbaia_dep numeric(10,2),
+		rcbaia_gp numeric(10,2),
 		jannat character varying(10));
-
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;
 
