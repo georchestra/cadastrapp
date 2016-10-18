@@ -73,12 +73,12 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			pevtax.mvltieomx,
 			pevtax.bateom,
 			l.jannat,
-			ROUND(CAST(pev.dvlpera AS numeric)/2,2) as revcad,
+			ROUND(CEIL(CAST(pev.dvlpera AS numeric)/2),2) as revcad,
 			ROUND(CAST(pevx.rcexba2 AS numeric),2) as rcexba2,
-			ROUND(CAST(pevtax.tse_vlbaia AS numeric)/2,2) as rcbaia_tse,
-			ROUND(CAST(pevtax.co_vlbaia AS numeric)/2,2) as rcbaia_com,
-			ROUND(CAST(pevtax.de_vlbaia AS numeric)/2,2) as rcbaia_dep,
-			ROUND(CAST(pevtax.gp_vlbaia AS numeric)/2,2) as rcbaia_gp,
+			ROUND(CAST(pevtax.tse_bipevla AS numeric),2) as rcbaia_tse,
+			ROUND(CAST(pevtax.co_bipevla AS numeric),2) as rcbaia_com,
+			ROUND(CAST(pevtax.de_bipevla AS numeric),2) as rcbaia_dep,
+			ROUND(CAST(pevtax.gp_bipevla AS numeric),2) as rcbaia_gp,
 			pevx.pexb,
 			l.parcelle
 		from #DBSchema_qgis.comptecommunal c
