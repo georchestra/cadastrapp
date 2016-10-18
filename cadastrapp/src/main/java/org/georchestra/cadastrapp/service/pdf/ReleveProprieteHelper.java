@@ -284,10 +284,10 @@ public final class ReleveProprieteHelper extends CadController{
 								logger.debug("Exoneration on additional taxes");
 							}
 
-							pbRevenuImposable = pbRevenuImposable + ((BigDecimal)propBat.get("revcad")).floatValue();
-							pbCommuneRevenuImposable = pbCommuneRevenuImposable + ((BigDecimal)propBat.get("rcbaia_com")).floatValue();
-							pbDepartementRevenuImposable = pbDepartementRevenuImposable + ((BigDecimal)propBat.get("rcbaia_dep")).floatValue();
-							pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + ((BigDecimal)propBat.get("rcbaia_gp")).floatValue();
+							pbRevenuImposable = pbRevenuImposable + (propBat.get("revcad") == null ? 0 :((BigDecimal)propBat.get("revcad")).floatValue());
+							pbCommuneRevenuImposable = pbCommuneRevenuImposable + (propBat.get("rcbaia_com") == null ? 0 :((BigDecimal)propBat.get("rcbaia_com")).floatValue());
+							pbDepartementRevenuImposable = pbDepartementRevenuImposable + (propBat.get("rcbaia_dep") == null ? 0 :((BigDecimal)propBat.get("rcbaia_dep")).floatValue());
+							pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + (propBat.get("rcbaia_gp") == null ? 0 :((BigDecimal)propBat.get("rcbaia_gp")).floatValue());
 
 							proprietesBaties.add(proprieteBatie);
 						}
@@ -882,10 +882,10 @@ public final class ReleveProprieteHelper extends CadController{
 								logger.debug("Exoneration on additional taxes");
 							}
 							
-							pbRevenuImposable = pbRevenuImposable + ((BigDecimal)propBat.get("revcad")).floatValue();
-							pbCommuneRevenuImposable = pbCommuneRevenuImposable + ((BigDecimal)propBat.get("rcbaia_com")).floatValue();
-							pbDepartementRevenuImposable = pbDepartementRevenuImposable + ((BigDecimal)propBat.get("rcbaia_dep")).floatValue();
-							pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + ((BigDecimal)propBat.get("rcbaia_gp")).floatValue();
+							pbRevenuImposable = pbRevenuImposable + (propBat.get("revcad") == null ? 0 :((BigDecimal)propBat.get("revcad")).floatValue());
+							pbCommuneRevenuImposable = pbCommuneRevenuImposable + (propBat.get("rcbaia_com") == null ? 0 :((BigDecimal)propBat.get("rcbaia_com")).floatValue());
+							pbDepartementRevenuImposable = pbDepartementRevenuImposable + (propBat.get("rcbaia_dep") == null ? 0 :((BigDecimal)propBat.get("rcbaia_dep")).floatValue());
+							pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + (propBat.get("rcbaia_gp") == null ? 0 :((BigDecimal)propBat.get("rcbaia_gp")).floatValue());
 
 							proprietesBaties.add(proprieteBatie);
 						}
