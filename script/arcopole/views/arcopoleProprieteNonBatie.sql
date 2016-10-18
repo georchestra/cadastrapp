@@ -61,9 +61,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			suf.dnulot,
 			nbati.dreflf,
 			CAST (taxsuf.majposa AS NUMERIC) as majposa,
-			CAST (taxsuf.bisufad AS NUMERIC) as bisufad_com,
-			CAST (taxsuf.bisufad_dep AS NUMERIC) as bisufad_dep,
-			CAST (taxsuf.bisufad_gcom AS NUMERIC) as bisufad_gp
+			CAST (taxsuf.bisufad AS NUMERIC)/100 as bisufad_com,
+			CAST (taxsuf.bisufad_dep AS NUMERIC)/100 as bisufad_dep,
+			CAST (taxsuf.bisufad_gcom AS NUMERIC)/100 as bisufad_gp
 		FROM #DBSchema_arcopole.dgi_nbati nbati
 			left join #DBSchema_arcopole.dgi_suf suf on nbati.codparc=suf.codparc
 			left join #DBSchema_arcopole.dgi_taxsuf taxsuf on taxsuf.id_suf=suf.id_suf
