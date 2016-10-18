@@ -369,7 +369,7 @@ public final class ReleveProprieteHelper extends CadController{
 								// "C";"Commune => l'exonération porte sur la seule part communale"
 								// "A";"l'exonération porte sur la taxe additionnelle"
 								String exonerationType = (String) propNonBatExo.get(CadastrappConstants.PNB_CODE_COLL_EXO);
-								float exonerationValue = ((BigDecimal)propNonBatExo.get("rcexnba")).floatValue();
+								float exonerationValue = (propNonBatExo.get("rcexnba") == null ? 0 :((BigDecimal)propNonBatExo.get("rcexnba")).floatValue());
 								if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exonerationType)) {
 									pnbCommuneRevenuExonere = pnbCommuneRevenuExonere + exonerationValue;
 									pnbDepartementRevenuExonere = pnbDepartementRevenuExonere + exonerationValue;
@@ -406,16 +406,16 @@ public final class ReleveProprieteHelper extends CadController{
 							int surface = (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA);
 							proprieteNonBatie.setDcntsf(surface);
 
-							float revenu = ((BigDecimal) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL)).floatValue();
+							float revenu = (propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL) == null ? 0 :((BigDecimal) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL)).floatValue());
 							proprieteNonBatie.setDrcsuba(revenu);
 
 							pnbRevenuImposable = pnbRevenuImposable + revenu;
 
-							pnbCommuneRevenuImposable = pnbCommuneRevenuImposable + ((BigDecimal)propNonBat.get("bisufad_com")).floatValue();
-							pnbDepartementRevenuImposable = pnbDepartementRevenuImposable +  ((BigDecimal)propNonBat.get("bisufad_dep")).floatValue();
-							pnbGroupementCommuneRevenuImposable = pnbGroupementCommuneRevenuImposable + ((BigDecimal)propNonBat.get("bisufad_gp")).floatValue();
+							pnbCommuneRevenuImposable = pnbCommuneRevenuImposable + (propNonBat.get("bisufad_com") == null ? 0 :((BigDecimal)propNonBat.get("bisufad_com")).floatValue());
+							pnbDepartementRevenuImposable = pnbDepartementRevenuImposable +  (propNonBat.get("bisufad_dep") == null ? 0 :((BigDecimal)propNonBat.get("bisufad_dep")).floatValue());
+							pnbGroupementCommuneRevenuImposable = pnbGroupementCommuneRevenuImposable + (propNonBat.get("bisufad_gp") == null ? 0 :((BigDecimal)propNonBat.get("bisufad_gp")).floatValue());
 
-							pnbMajorationTerrain = pnbMajorationTerrain + ((BigDecimal)propNonBat.get("majposa")).floatValue();
+							pnbMajorationTerrain = pnbMajorationTerrain + (propNonBat.get("majposa") == null ? 0 :((BigDecimal)propNonBat.get("majposa")).floatValue());
 
 							pnbSurface = pnbSurface + surface; 
 
@@ -869,15 +869,15 @@ public final class ReleveProprieteHelper extends CadController{
 
 							String exoneration = (String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO);
 							if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exoneration)) {
-								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
-								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
-								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + (propBat.get("rcexba2") == null ? 0 :((BigDecimal)propBat.get("rcexba2")).floatValue());
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + (propBat.get("rcexba2") == null ? 0 :((BigDecimal)propBat.get("rcexba2")).floatValue());
+								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + (propBat.get("rcexba2") == null ? 0 :((BigDecimal)propBat.get("rcexba2")).floatValue());
 							} else if ( CadastrappConstants.CODE_COLL_EXO_C.equals(exoneration)) {
-								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + (propBat.get("rcexba2") == null ? 0 :((BigDecimal)propBat.get("rcexba2")).floatValue());
 							} else if ( CadastrappConstants.CODE_COLL_EXO_GC.equals(exoneration)) {
-								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + (propBat.get("rcexba2") == null ? 0 :((BigDecimal)propBat.get("rcexba2")).floatValue());
 							} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exoneration)) {
-								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + (propBat.get("rcexba2") == null ? 0 :((BigDecimal)propBat.get("rcexba2")).floatValue());
 							} else if (CadastrappConstants.CODE_COLL_EXO_A.equals(exoneration)) {
 								logger.debug("Exoneration on additional taxes");
 							}
