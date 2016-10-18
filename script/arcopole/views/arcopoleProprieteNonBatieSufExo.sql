@@ -23,7 +23,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			exosuf.gnexts,
 			exosuf.jandeb,
 			exosuf.jfinex,
-			CAST (exosuf.rcexnba AS NUMERIC) as rcexnba,
+			CAST (exosuf.rcexnba AS NUMERIC)/100 as rcexnba,
 			exosuf.vecexn as fcexn,
 			CAST (exosuf.pexn AS INTEGER)/100 as pexn
 		from #DBSchema_arcopole.dgi_nbati nbati
