@@ -56,7 +56,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			suf.dclssf,
 			cncs.description,
 			CAST (suf.dcntsf AS INTEGER) as dcntsf,
-			CAST (suf.drcsuba AS NUMERIC) as drcsuba,
+			CAST (suf.drcsuba AS NUMERIC)/100 as drcsuba,
 			nbati.dnupdl as pdl,
 			suf.dnulot,
 			nbati.dreflf,
