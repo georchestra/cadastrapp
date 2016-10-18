@@ -298,11 +298,11 @@ public final class ReleveProprieteHelper extends CadController{
 							// Init imposition batie
 							Imposition impositionBatie = new Imposition();
 							impositionBatie.setCommuneRevenuExonere(pbCommuneRevenuExonere);
-							impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable-pbCommuneRevenuExonere);
+							impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable);
 							impositionBatie.setDepartementRevenuExonere(pbDepartementRevenuExonere);
-							impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable-pbDepartementRevenuExonere);
+							impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable);
 							impositionBatie.setGroupementCommuneRevenuExonere(pbGroupementCommuneRevenuExonere);
-							impositionBatie.setGroupementCommuneRevenuImposable(pbGroupementCommuneRevenuImposable-pbGroupementCommuneRevenuExonere);
+							impositionBatie.setGroupementCommuneRevenuImposable(pbGroupementCommuneRevenuImposable);
 							impositionBatie.setRevenuImposable(pbRevenuImposable);
 
 							compteCommunal.setImpositionBatie(impositionBatie);
@@ -895,11 +895,11 @@ public final class ReleveProprieteHelper extends CadController{
 							// Init imposition batie
 							Imposition impositionBatie = new Imposition();
 							impositionBatie.setCommuneRevenuExonere(pbCommuneRevenuExonere);
-							impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable-pbCommuneRevenuExonere);
+							impositionBatie.setCommuneRevenuImposable(pbCommuneRevenuImposable);
 							impositionBatie.setDepartementRevenuExonere(pbDepartementRevenuExonere);
-							impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable-pbDepartementRevenuExonere);
+							impositionBatie.setDepartementRevenuImposable(pbDepartementRevenuImposable);
 							impositionBatie.setGroupementCommuneRevenuExonere(pbGroupementCommuneRevenuExonere);
-							impositionBatie.setGroupementCommuneRevenuImposable(pbGroupementCommuneRevenuImposable-pbGroupementCommuneRevenuExonere);
+							impositionBatie.setGroupementCommuneRevenuImposable(pbGroupementCommuneRevenuImposable);
 							impositionBatie.setRevenuImposable(pbRevenuImposable);
 
 							compteCommunal.setImpositionBatie(impositionBatie);
