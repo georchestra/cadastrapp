@@ -29,9 +29,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.dnulot, 
 		proprietenonbatie.dreflf,
 		proprietenonbatie.majposa,
-		proprietenonbatie.bisufad,
+		proprietenonbatie.bisufad_com,
 		proprietenonbatie.bisufad_dep,
-		proprietenonbatie.bisufad_reg
+		proprietenonbatie.bisufad_gp
 	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			suf.id_suf as id_local,
@@ -56,14 +56,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			suf.dclssf,
 			cncs.description,
 			CAST (suf.dcntsf AS INTEGER) as dcntsf,
-			CAST (suf.drcsuba AS INTEGER) as drcsuba,
+			CAST (suf.drcsuba AS NUMERIC) as drcsuba,
 			nbati.dnupdl as pdl,
 			suf.dnulot,
 			nbati.dreflf,
-			CAST (taxsuf.majposa AS INTEGER) as majposa,
-			CAST (taxsuf.bisufad AS INTEGER) as bisufad,
-			CAST (taxsuf.bisufad_dep AS INTEGER) as bisufad_dep,
-			CAST (taxsuf.bisufad_reg AS INTEGER) as bisufad_reg
+			CAST (taxsuf.majposa AS NUMERIC) as majposa,
+			CAST (taxsuf.bisufad AS NUMERIC) as bisufad_com,
+			CAST (taxsuf.bisufad_dep AS NUMERIC) as bisufad_dep,
+			CAST (taxsuf.bisufad_gcom AS NUMERIC) as bisufad_gp
 		FROM #DBSchema_arcopole.dgi_nbati nbati
 			left join #DBSchema_arcopole.dgi_suf suf on nbati.codparc=suf.codparc
 			left join #DBSchema_arcopole.dgi_taxsuf taxsuf on taxsuf.id_suf=suf.id_suf
@@ -94,14 +94,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		dclssf character varying(2), 
 		cnatsp character varying, 
 		dcntsf integer, 
-		drcsuba integer, 
+		drcsuba numeric(10,2),
 		pdl character varying(3), 
 		dnulot character varying(7), 
 		dreflf character varying(9),
-		majposa integer,
-		bisufad integer,
-		bisufad_dep integer,
-		bisufad_reg integer);
+ 		majposa numeric(10,2),
+		bisufad_com numeric(10,2),
+		bisufad_dep numeric(10,2),
+		bisufad_gp numeric(10,2));
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatie OWNER TO #user_cadastrapp;
 
