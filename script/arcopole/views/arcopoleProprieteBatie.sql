@@ -77,7 +77,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			ROUND(CAST(exopev.rcexba2 AS NUMERIC),2) as rcexba2,
 			ROUND(CAST(taxpev.bipevla AS NUMERIC),2) as rcbaia_com,
 			ROUND(CAST(taxpev.bipevla_dep AS NUMERIC),2) as rcbaia_dep,
-			ROUND(CAST(taxpev.vlbaia_reg AS NUMERIC),2) as rcbaia_gp,
+			ROUND(CAST(taxpev.bipevla_gcom AS NUMERIC),2) as rcbaia_gp,
 			local.jannat
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
