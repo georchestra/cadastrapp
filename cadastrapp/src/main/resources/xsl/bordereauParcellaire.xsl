@@ -95,7 +95,7 @@
 							</fo:block>
 
 							<fo:block xsl:use-attribute-sets="text" padding-top="10pt">
-								Données fonçières valides au
+								Données foncières valides au
 								<xsl:value-of select="$dateDeValiditeMajic" />
 							</fo:block>
 							<fo:block xsl:use-attribute-sets="text">
