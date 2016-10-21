@@ -3,7 +3,7 @@
 	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:java="http://xml.apache.org/xslt/java" xmlns:date="http://exslt.org/dates-and-times"
 	exclude-result-prefixes="java">
-	<xsl:decimal-format name="euro" decimal-separator="," grouping-separator=" "/>
+	<xsl:decimal-format name="euro" decimal-separator="," grouping-separator=" " NaN=" "/>
 	
 	<!-- Page layout information -->
 	<xsl:template match="/">
