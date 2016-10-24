@@ -2,6 +2,7 @@ package org.georchestra.cadastrapp.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -104,13 +105,32 @@ public class CoProprietaireController extends CadController {
 	 * @param parcelle
 	 * @return
 	 */
-	public List<Map<String, Object>> getCoProprietaire(@QueryParam("parcelle") String parcelle, @Context HttpHeaders headers) {
+	public Map<String, Object> getCoProprietaire(@QueryParam("parcelle") String parcelle, @QueryParam("start") int start,@QueryParam("limit") int limit, @Context HttpHeaders headers) {
 
 		logger.debug("get Co Proprietaire - parcelle : " + parcelle);
 
+		Map<String, Object> finalResult = new HashMap<String, Object>();
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 
 		if (getUserCNILLevel(headers) > 0) {
+			
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			
+			StringBuilder queryCount = new StringBuilder();
+			
+			queryCount.append("SELECT COUNT(*) FROM (select distinct p.comptecommunal, p.app_nom_usage from ");
+			queryCount.append(databaseSchema);
+			queryCount.append(".co_propriete_parcelle propar, ");
+			queryCount.append(databaseSchema);
+			queryCount.append(".proprietaire p where propar.parcelle = ?  and p.comptecommunal = propar.comptecommunal ");
+			queryCount.append(addAuthorizationFiltering(headers, "p."));
+			queryCount.append(" ) as temp;");
+			
+			int resultCount = jdbcTemplate.queryForInt(queryCount.toString(), parcelle);
+			
+			logger.debug("get Co Proprietaire - number of co-proprietaire : " + resultCount);
+			
+			finalResult.put("results", resultCount);
 
 			StringBuilder queryBuilder = new StringBuilder();
 
@@ -123,15 +143,19 @@ public class CoProprietaireController extends CadController {
 			queryBuilder.append(".proprietaire p where propar.parcelle = ? ");
 			queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
 			queryBuilder.append(addAuthorizationFiltering(headers, "p."));
-			queryBuilder.append(" ORDER BY p.app_nom_usage ;");
-
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			queryBuilder.append(" ORDER BY p.app_nom_usage ");
+			queryBuilder.append(" LIMIT ").append(limit);
+			queryBuilder.append(" OFFSET ").append(start);
+			
 			result = jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
+			
+			finalResult.put("rows", result);
+
 		} else {
 			logger.info("User does not have enough right to see information about proprietaire");
 		}
 
-		return result;
+		return finalResult;
 
 	}
 }

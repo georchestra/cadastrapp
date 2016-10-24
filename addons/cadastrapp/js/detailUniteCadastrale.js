@@ -185,15 +185,6 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             }, 'jdatnss', 'dldnss', 'ccodro_lib' ],
         });
 
-        // Déclaration de la bottom bar (25 propiétaires par page)
-        var bbar = new Ext.PagingToolbar({
-            pageSize : 25,
-            store : fiucProprietaireStore,
-            displayInfo : true,
-            displayMsg : 'Affichage {0} - {1} of {2}',
-            emptyMsg : "Pas de propriétaire a afficher",
-        });
-
         var fiucProprietairesSM = new Ext.grid.CheckboxSelectionModel();
 
         // Déclaration du tableau de propriétaires
@@ -202,7 +193,6 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             stateful : true,
             name : 'Fiuc_Proprietaire',
             xtype : 'editorgrid',
-            bbar : bbar,
             autoExpandColumn : 'adresse',
             height : 300,
             sm : fiucProprietairesSM,
@@ -285,28 +275,43 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
  // ---------- ONGLET Co-Propriétaire ------------------------------
     //Seulement pour Cnil1 et Cnil2 
     if (GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()) {
+        
+        var nbElementByPage = 25;
+        var parcelle= parcelleId;
 
         // Déclaration du modèle de données pour l'onglet Propriétaire.
         // réalise l'appel à la webapp
+      
         var fiucCoProprietaireStore = new Ext.data.JsonStore({
-
             // Appel à la webapp
-            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getCoProprietaire?parcelle=' + parcelleId,
-            autoLoad : true,
-
-            // Champs constituant l'onglet propriétaire
-            fields : [ 'comptecommunal', 'ccodro', 'app_nom_usage', {
+            proxy: new Ext.data.HttpProxy({
+                url: GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getCoProprietaire',
+                method: 'GET'
+            }),
+            storeId: 'fiucCoProprietaireStore',
+            totalProperty: 'results',
+            root: 'rows',
+            fields: [ 'comptecommunal', 'ccodro', 'app_nom_usage', {
                 // Le champ adress est l'addition des champs dlign3,dlign4,dlign5, dlign6
-                name : 'adress',
-                convert : function(v, rec) {
+                name: 'adress',
+                convert: function(v, rec) {
                     return rec.dlign3 + rec.dlign4 + rec.dlign5 + rec.dlign6
                 }
             }, 'jdatnss', 'dldnss', 'ccodro_lib' ],
+            baseParams: {
+                parcelle: parcelle
+            },
+            autoLoad: {
+                params: {
+                    start: 0,
+                    limit: nbElementByPage
+                }
+            }
         });
 
         // Déclaration de la bottom bar (25 propiétaires par page)
         var bbar = new Ext.PagingToolbar({
-            pageSize : 25,
+            pageSize : nbElementByPage,
             store : fiucCoProprietaireStore,
             displayInfo : true,
             displayMsg : 'Affichage {0} - {1} of {2}',
@@ -495,7 +500,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     dataIndex : 'ccoaff_lib',
                     width : 70
                 }, {
-                    hidden : OpenLayers.i18n('cadastrapp.duc.annee_construction'),
+                    header : OpenLayers.i18n('cadastrapp.duc.annee_construction'),
                     dataIndex : 'jannat',
                     width : 40
                 }, {
