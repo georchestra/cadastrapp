@@ -33,6 +33,19 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
             
             html = "";
             if (typeof(result) != "undefined"){
+                
+                    var NBCHARPARCELLEARCOPOLE = 15;
+                    var departement, codir, inseecom;
+                                       
+                    if( idParcelle.length > NBCHARPARCELLEARCOPOLE ){
+                        departement = idParcelle.substr(4,2);
+                        codir = idParcelle.substr(6,1);
+                        inseecom = idParcelle.substr(7,3)
+                    }else{
+                        departement = idParcelle.substr(0,2);
+                        codir = idParcelle.substr(2,1);
+                        inseecom = idParcelle.substr(3,3);
+                    }
             
                     html = "<div class=\"cadastrapp-infobulle-parcelle\">";
                     
@@ -41,15 +54,17 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
                     html += "<tbody>";
 					html += "<tr><td colspan=\"2\" style=\"text-align:center; font-style: italic;\">" + idParcelle + "</td></tr>";
                     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.commune') + " : </td><td>" + result.libcom + "</td></tr>";
-                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.annee') + " : </td><td>" + idParcelle.substr(0,4) + "</td></tr>";
-                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.departement') + " : </td><td>" + idParcelle.substr(4,2) + "</td></tr>";
-                    if( idParcelle.substr(6,1) != "0" )
-                        html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.direction') + " : </td><td>" + idParcelle.substr(6,1) + "</td></tr>";
-                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.inseecom') + " : </td><td>" + idParcelle.substr(7,3) + "</td></tr>";
-                    if( idParcelle.substr(10,3) != "000" )
-                        html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.prefix') + " : </td><td>" + idParcelle.substr(10,3) + "</td></tr>";
-                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.section') + " : </td><td>" + idParcelle.substr(13,2) + "</td></tr>";
-                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.nplan') + " : </td><td>" + idParcelle.substr(15,4) + "</td></tr>";
+                    if( idParcelle.length > NBCHARPARCELLEARCOPOLE ){
+                        html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.annee') + " : </td><td>" + idParcelle.substr(0,4) + "</td></tr>";
+                    }
+                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.departement') + " : </td><td>" + departement + "</td></tr>";
+                    if( codir != "0" ){
+                        html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.direction') + " : </td><td>" + codir + "</td></tr>";
+                    }
+                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.inseecom') + " : </td><td>" + inseecom + "</td></tr>";
+                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.prefix') + " : </td><td>" + result.ccopre + "</td></tr>";
+                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.section') + " : </td><td>" + result.ccosec + "</td></tr>";
+                    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.nplan') + " : </td><td>" + result.dnupla + "</td></tr>";
                     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.adresse') + " : </td><td>" + result.dnvoiri + " " + result.dindic + " " + result.cconvo + " " + result.dvoilib + "</td></tr>";
                     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.contenancedgfip') + " : </td><td>" + result.dcntpa.toLocaleString() + " m²</td></tr>";
                     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.sig') + " : </td><td>" + result.surfc.toLocaleString() + " m²</td></tr>";
