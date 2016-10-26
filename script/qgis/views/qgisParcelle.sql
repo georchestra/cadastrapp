@@ -22,42 +22,104 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc AS
 
 ALTER TABLE #schema_cadastrapp.v_parcelle_surfc OWNER TO #user_cadastrapp;
 
+-- view parcelle_union
+-- this view consists in showing all parcels : from the matrix data and from the geographic data
+CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle_union AS
+  SELECT
+    parcelle_union.cgocommune,
+    parcelle_union.parcelle,
+    parcelle_union.ccopre,
+    parcelle_union.ccosec,
+    parcelle_union.dnupla,
+    parcelle_union.dcntpa
+  FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, '
+    (
+      -- LEFT JOIN
+      SELECT
+        ccodep||ccodir||ccocom as cgocommune,
+        parcelle,
+        ltrim(ccopre)  AS ccopre,
+        ltrim(ccosec) AS ccosec,
+        ltrim(dnupla, ''0'') as dnupla,
+		dcntpa
+      FROM #DBSchema_qgis.parcelle as p
+        LEFT JOIN #DBSchema_qgis.geo_parcelle AS gp ON p.parcelle = gp.geo_parcelle 
+      )
+      UNION
+      (
+      -- RIGHT JOIN
+      SELECT
+        ltrim(substr(gp.geo_parcelle,5,6),''0'') AS cgocommune,
+        gp.geo_parcelle AS parcelle,
+        ltrim(substr(gp.geo_parcelle,11,3),''0'')  AS ccopre,
+        ltrim(substr(gp.geo_parcelle,14,2),''0'')  AS ccosec,
+        gp.tex AS dnupla,
+        CAST(supf AS integer) AS dcntpa
+      FROM #DBSchema_qgis.parcelle AS p
+        RIGHT JOIN #DBSchema_qgis.geo_parcelle AS gp ON p.parcelle = gp.geo_parcelle 
+    )'::text)
+  parcelle_union(
+  cgocommune character varying(6),
+  parcelle character varying(19),
+  ccopre character varying(3),
+  ccosec character varying(2),
+  dnupla character varying(4),
+  dcntpa integer);
+
+-- rights
+ALTER TABLE #schema_cadastrapp.parcelle_union OWNER TO #user_cadastrapp;
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS 
-	SELECT parcelle.parcelle, 
-		parcelle.cgocommune, 
-		parcelle.dnupla, 
-		parcelle.dnvoiri, 
-		parcelle.dindic, 
-		parcelle.cconvo, 
-		parcelle.dvoilib, 
-		parcelle.ccopre, 
-		parcelle.ccosec, 
-		parcelle.dcntpa
- 	 FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
- 		'select 
-			parcelle,
-			ccodep||ccodir||ccocom as cgocommune,
-			ltrim(dnupla, ''0'') as dnupla,
-			ltrim(dnvoiri, ''0'') as dnvoiri,
-			dindic,
-			cconvo,
-			rtrim(dvoilib),
-			ltrim(ccopre),
-			ltrim(ccosec),
-			dcntpa
-		from #DBSchema_qgis.parcelle'::text)
-	parcelle(
-		parcelle character varying(19), 
-		cgocommune character varying(6), 
-		dnupla character varying(4),
-		dnvoiri character varying(4),
-		dindic character varying(1), 
-		cconvo character varying(4), 
-		dvoilib character varying(26), 
-		ccopre character varying(3), 
-		ccosec character varying(2),
-		dcntpa integer);
+	SELECT u.parcelle, 
+		u.cgocommune, 
+		u.dnupla, 
+		p.dnvoiri, 
+		p.dindic, 
+		p.cconvo, 
+		p.dvoilib, 
+		u.ccopre, 
+		u.ccosec, 
+		u.dcntpa
+	FROM (
+		#schema_cadastrapp.parcelle_union AS u
+		LEFT JOIN (
+			SELECT parcelle.parcelle,
+				parcelle.cgocommune,
+				parcelle.dnupla,
+				parcelle.dnvoiri,
+				parcelle.dindic,
+				parcelle.cconvo,
+				parcelle.dvoilib,
+				parcelle.ccopre,
+				parcelle.ccosec,
+				parcelle.dcntpa
+			FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+				'select
+					parcelle,
+					ccodep||ccodir||ccocom as cgocommune,
+					ltrim(dnupla, ''0'') as dnupla,
+					ltrim(dnvoiri, ''0'') as dnvoiri,
+					dindic,
+					cconvo,
+					rtrim(dvoilib),
+					ltrim(ccopre),
+					ltrim(ccosec),
+					dcntpa
+				from #DBSchema_qgis.parcelle'::text)
+			parcelle(
+				parcelle character varying(19), 
+				cgocommune character varying(6),
+				dnupla character varying(4), 
+				dnvoiri character varying(4),
+				dindic character varying(1), 
+				cconvo character varying(4), 
+				dvoilib character varying(26),  
+				ccopre character varying(3), 
+				ccosec character varying(2),
+				dcntpa integer)
+		) AS p
+		ON u.parcelle = p.parcelle
+	);
 
 ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 
