@@ -71,7 +71,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			exopev.jandeb,
 			exopev.janimp,
 			exopev.FCEXBA2 as fcexb,
-			CAST(exopev.pexb AS NUMERIC)/100 as exopev.pexb,
+			CAST(exopev.pexb AS NUMERIC)/100 as pexb,
 			taxpev.BAOMEC  as mvltieomx,
 			taxpev.bateom,
 			ROUND(CAST(exopev.rcexba2 AS NUMERIC),2) as rcexba2,
