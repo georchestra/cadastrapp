@@ -273,6 +273,7 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteBatieExonerations.add(proprieteBatieExoneration);
 							proprieteBatie.setExonerations(proprieteBatieExonerations);
 
+							// Add exoneration depending on type
 							String exoneration = (String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO);
 							if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exoneration)) {
 								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get(CadastrappConstants.PB_FRACTION_EXO)).floatValue();
@@ -292,12 +293,11 @@ public final class ReleveProprieteHelper extends CadController{
 							if (!invarTICount.contains(proprieteId)){
 								invarTICount.add(proprieteId);
 								pbRevenuImposable = pbRevenuImposable + (propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? 0 :((BigDecimal)propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL)).floatValue());			
+								pbCommuneRevenuImposable = pbCommuneRevenuImposable + (propBat.get("rcbaia_com") == null ? 0 :((BigDecimal)propBat.get("rcbaia_com")).floatValue());
+								pbDepartementRevenuImposable = pbDepartementRevenuImposable + (propBat.get("rcbaia_dep") == null ? 0 :((BigDecimal)propBat.get("rcbaia_dep")).floatValue());
+								pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + (propBat.get("rcbaia_gp") == null ? 0 :((BigDecimal)propBat.get("rcbaia_gp")).floatValue());
 							}
-							
-							pbCommuneRevenuImposable = pbCommuneRevenuImposable + (propBat.get("rcbaia_com") == null ? 0 :((BigDecimal)propBat.get("rcbaia_com")).floatValue());
-							pbDepartementRevenuImposable = pbDepartementRevenuImposable + (propBat.get("rcbaia_dep") == null ? 0 :((BigDecimal)propBat.get("rcbaia_dep")).floatValue());
-							pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + (propBat.get("rcbaia_gp") == null ? 0 :((BigDecimal)propBat.get("rcbaia_gp")).floatValue());
-
+														
 							proprietesBaties.add(proprieteBatie);
 						}
 						// ajout la liste des propriete baties uniquement si il y en a
