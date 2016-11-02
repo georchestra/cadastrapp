@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.math.BigDecimal;
@@ -195,6 +196,9 @@ public final class ReleveProprieteHelper extends CadController{
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
 						queryBuilderProprieteBatie.append(" where pb.comptecommunal = ? ORDER BY ccosec, dnupla");
+						
+						// Add map of invar to maker sure not to add two times taxable income
+						List<String> invarTICount = new ArrayList<String>();
 
 						logger.debug("Get developed property information " );
 						List<Map<String, Object>> proprietesBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteBatie.toString(), idCompteCommunal);
@@ -271,20 +275,25 @@ public final class ReleveProprieteHelper extends CadController{
 
 							String exoneration = (String) propBat.get(CadastrappConstants.PB_CODE_COLL_EXO);
 							if (CadastrappConstants.CODE_COLL_EXO_TC.equals(exoneration)) {
-								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
-								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
-								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get(CadastrappConstants.PB_FRACTION_EXO)).floatValue();
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get(CadastrappConstants.PB_FRACTION_EXO)).floatValue();
+								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get(CadastrappConstants.PB_FRACTION_EXO)).floatValue();
 							} else if ( CadastrappConstants.CODE_COLL_EXO_C.equals(exoneration)) {
-								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbCommuneRevenuExonere = pbCommuneRevenuExonere + ((BigDecimal)propBat.get(CadastrappConstants.PB_FRACTION_EXO)).floatValue();
 							} else if ( CadastrappConstants.CODE_COLL_EXO_GC.equals(exoneration)) {
-								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbGroupementCommuneRevenuExonere = pbGroupementCommuneRevenuExonere + ((BigDecimal)propBat.get(CadastrappConstants.PB_FRACTION_EXO)).floatValue();
 							} else if (CadastrappConstants.CODE_COLL_EXO_D.equals(exoneration)) {
-								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get("rcexba2")).floatValue();
+								pbDepartementRevenuExonere = pbDepartementRevenuExonere + ((BigDecimal)propBat.get(CadastrappConstants.PB_FRACTION_EXO)).floatValue();
 							} else if (CadastrappConstants.CODE_COLL_EXO_A.equals(exoneration)) {
 								logger.debug("Exoneration on additional taxes");
 							}
 
-							pbRevenuImposable = pbRevenuImposable + (propBat.get("revcad") == null ? 0 :((BigDecimal)propBat.get("revcad")).floatValue());
+							// Count only one taxable income for one invar
+							if (!invarTICount.contains(proprieteId)){
+								invarTICount.add(proprieteId);
+								pbRevenuImposable = pbRevenuImposable + (propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? 0 :((BigDecimal)propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL)).floatValue());			
+							}
+							
 							pbCommuneRevenuImposable = pbCommuneRevenuImposable + (propBat.get("rcbaia_com") == null ? 0 :((BigDecimal)propBat.get("rcbaia_com")).floatValue());
 							pbDepartementRevenuImposable = pbDepartementRevenuImposable + (propBat.get("rcbaia_dep") == null ? 0 :((BigDecimal)propBat.get("rcbaia_dep")).floatValue());
 							pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + (propBat.get("rcbaia_gp") == null ? 0 :((BigDecimal)propBat.get("rcbaia_gp")).floatValue());
