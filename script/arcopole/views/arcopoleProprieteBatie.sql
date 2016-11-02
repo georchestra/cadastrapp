@@ -115,7 +115,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		jandeb character varying(4),
 		janimp character varying(4),
 		fcexb character varying(9),
-		pexb numeric,
+		pexb numeric(3),
 		mvltieomx character varying(9),
 		bateom  character varying(9),
 		rcexba2 numeric(10,2),
