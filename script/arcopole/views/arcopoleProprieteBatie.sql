@@ -66,7 +66,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			local.cconlc,
 			pev.dcapec,
 			ROUND(CEIL(CAST(dvlpera AS NUMERIC)/2),2) as revcad,
-			exopev.ccolloc,
+			ltrim(exopev.ccolloc) as ccolloc,
 			exopev.gnextl,
 			exopev.jandeb,
 			exopev.janimp,

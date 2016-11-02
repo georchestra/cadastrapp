@@ -19,7 +19,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			suf.id_suf as id_local,
 			nbati.dnupro as comptecommunal, 
 			nbati.codcomm as cgocommune,
-			exosuf.ccolloc,
+			ltrim(exosuf.ccolloc) as ccolloc,
 			exosuf.gnexts,
 			exosuf.jandeb,
 			exosuf.jfinex,
