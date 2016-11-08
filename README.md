@@ -58,3 +58,7 @@ This project has been funded by :
     </tbody>
 </table>
 
+
+## Support
+
+Please send an email to georchestra@googlegroups.com for questions to the users community.
