@@ -8,7 +8,7 @@
 	<modules>
 		<module>cadastrapp</module>
 	</modules>
-	<url>https://github.com/GFI-Informatique/cadastrapp</url>
+	<url>https://github.com/georchestra/cadastrapp</url>
 	<name>Addons Cadastre pour georchestra</name>
 	<description>Ce projet est la partie serveur de l'addon cadastrapp pour la suite georchestra</description>
 	<organization>
@@ -16,13 +16,13 @@
 		<url>https://github.com/GFI-Informatique</url>
 	</organization>
 	<scm>
-		<connection>scm:git:https://github.com/GFI-Informatique/cadastrapp.git</connection>
-		<developerConnection>scm:git:https://github.com/GFI-Informatique/cadastrapp.git</developerConnection>
-		<url>https://github.com/GFI-Informatique/cadastrapp.git</url>
+		<connection>scm:git:https://github.com/georchestra/cadastrapp.git</connection>
+		<developerConnection>scm:git:https://github.com/georchestra/cadastrapp.git</developerConnection>
+		<url>https://github.com/georchestra/cadastrapp.git</url>
 	</scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/GFI-Informatique/cadastrapp/issues</url>
+		<url>https://github.com/georchestra/cadastrapp/issues</url>
 	</issueManagement>
 	<build>
 		<plugins>
