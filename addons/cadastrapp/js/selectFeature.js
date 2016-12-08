@@ -583,11 +583,13 @@ GEOR.Addons.Cadastre.addWMSLayer = function(wmsSetting) {
         if(items.grid){
             if(items.grid.length>0){
                 // take URL of layer
-                var resultURL = items.grid[0][0].url;
-                // if URL contain cadastrapp layer name, add URL to array
-                if(resultURL.indexOf(searchName) !== -1 ){
-                    urlFind.push(resultURL);
-                }
+		if( items.grid[0][0].url ) {
+		    var resultURL = items.grid[0][0].url;
+		    // if URL contain cadastrapp layer name, add URL to array
+		    if(resultURL.indexOf(searchName) !== -1 ){
+		        urlFind.push(resultURL);
+		    }
+		}
             }
         }        
     });   
