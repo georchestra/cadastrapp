@@ -159,7 +159,8 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         title : OpenLayers.i18n('cadastrapp.duc.parcelle'),
         xtype : 'form',
         items : [ fiucParcelleGrid ],
-        layout : 'fit'
+        layout : 'fit',
+	autoHeight: true
     });
     // ---------- FIN ONGLET Parcelle ------------------------------
 
@@ -266,7 +267,8 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             title : OpenLayers.i18n('cadastrapp.duc.propietaire'),
             xtype : 'form',
             items : [ fiucProprietairesGrid ],
-            layout : 'fit'
+            layout : 'fit',
+	    autoHeight: true
         });
 
         // ---------- FIN ONGLET Propriétaire ------------------------------
@@ -400,7 +402,8 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             title : OpenLayers.i18n('cadastrapp.duc.copropietaire'),
             xtype : 'form',
             items : [ fiucCoProprietairesGrid ],
-            layout : 'fit'
+            layout : 'fit',
+	    autoHeight: true
         });
 
         // ---------- FIN ONGLET Propriétaire ------------------------------
@@ -571,7 +574,8 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             // ONGLET 3: Batiment
             title : OpenLayers.i18n('cadastrapp.duc.batiment'),
             xtype : 'form',
-            items : [ buttonToolBar, fiucBatimentsGrid ]
+            items : [ buttonToolBar, fiucBatimentsGrid ],
+	    autoHeight: true
         });
 
         // ---------- FIN ONGLET Batiment ------------------------------
@@ -627,7 +631,8 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             title : OpenLayers.i18n('cadastrapp.duc.subdiv'),
             xtype : 'form',
             items : [ fiucSubdivfiscGrid ],
-            layout : 'fit'
+            layout : 'fit',
+	    autoHeight: true
         });
 
         // ---------- FIN ONGLET Subdivision fiscale ------------------------------
@@ -703,7 +708,8 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             title : OpenLayers.i18n('cadastrapp.duc.histomut'),
             xtype : 'form',
             items : [ fiucHistomutGrid ],
-            layout : 'fit'
+            layout : 'fit',
+	    autoHeight: true
         });
     }
 
