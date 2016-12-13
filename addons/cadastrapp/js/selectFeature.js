@@ -581,13 +581,13 @@ GEOR.Addons.Cadastre.addWMSLayer = function(wmsSetting) {
     // for all url in layerPanel, search geoserver's layer param 
     Ext.each(GeoExt.MapPanel.guess().map.layers,function(items, index){
         if(items.grid){
-            if(items.grid.length>0){
+            if(items.grid.length>0 && items.grid[0][0].url){
                 // take URL of layer
-                var resultURL = items.grid[0][0].url;
-                // if URL contain cadastrapp layer name, add URL to array
-                if(resultURL.indexOf(searchName) !== -1 ){
-                    urlFind.push(resultURL);
-                }
+		var resultURL = items.grid[0][0].url;
+		// if URL contain cadastrapp layer name, add URL to array
+		if(resultURL.indexOf(searchName) !== -1 ){
+		    urlFind.push(resultURL);
+		}
             }
         }        
     });   
