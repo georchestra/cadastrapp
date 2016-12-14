@@ -1,4 +1,4 @@
-Cadastrapp - Style Basic
+Cadastrapp - Basic style
 ======================
 
 This is an basic example workspace configuration for GeoServer, provided by CRAIG.
