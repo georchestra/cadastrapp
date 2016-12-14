@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_tronfluv_2016</name>
+  <id>LayerInfoImpl--3a0ee06f:1581a1f4963:5a61</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6548</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--3a0ee06f:1581a1f4963:5a60</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

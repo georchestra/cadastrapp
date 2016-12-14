@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_subdfisc_2016</name>
+  <id>LayerInfoImpl--3a0ee06f:1581ae27601:-1afe</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6530</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--3a0ee06f:1581ae27601:-1aff</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

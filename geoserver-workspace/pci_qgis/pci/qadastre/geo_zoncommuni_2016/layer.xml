@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_zoncommuni_2016</name>
+  <id>LayerInfoImpl--3a0ee06f:1581ae99e56:-5262</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--3a0ee06f:1580631f8b7:654a</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--3a0ee06f:1581ae99e56:-5263</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

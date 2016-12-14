@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_tronroute_2016</name>
+  <id>LayerInfoImpl--3a0ee06f:1581b409852:-4b7f</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--3a0ee06f:1581b4c8324:49c8</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--3a0ee06f:1581b409852:-4b80</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>
