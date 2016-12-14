@@ -1,4 +1,4 @@
-Cadastrapp - Style QGIS
+Cadastrapp - QGIS style
 ======================
 
 This is another datadir example provided by CIGAL trying to reproduct QGIS cadastre plugin styling.
