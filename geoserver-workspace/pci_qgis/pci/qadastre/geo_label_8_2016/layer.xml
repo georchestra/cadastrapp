@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_label_8_2016</name>
+  <id>LayerInfoImpl--3a0ee06f:158068aada2:-7fec</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--3a0ee06f:158068460bc:-2188</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--3a0ee06f:158068aada2:-7fed</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

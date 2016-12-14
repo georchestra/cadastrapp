@@ -1,0 +1,38 @@
+<dataStore>
+  <id>DataStoreInfoImpl-56f0350:150666c28a1:-7f6a</id>
+  <name>qadastre</name>
+  <description>PCI Vecteur et MAJICIII - Modele QGIS</description>
+  <type>PostGIS</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl-56f0350:150666c28a1:-7f6c</id>
+  </workspace>
+  <connectionParameters>
+    <entry key="port">5432</entry>
+    <entry key="Connection timeout">20</entry>
+    <entry key="passwd">crypt1:z/+WPw3tNjAQP7EoZsm3wAb2Hqe9+A66</entry>
+    <entry key="dbtype">postgis</entry>
+    <entry key="encode functions">false</entry>
+    <entry key="namespace">http://www.cigalsace.org/pci</entry>
+    <entry key="Evictor run periodicity">300</entry>
+    <entry key="schema">cadastreqgis</entry>
+    <entry key="create database">false</entry>
+    <entry key="fetch size">1000</entry>
+    <entry key="preparedStatements">false</entry>
+    <entry key="min connections">1</entry>
+    <entry key="host">cadastrapp-db.georchestra-cadastrapp</entry>
+    <entry key="Evictor tests per run">3</entry>
+    <entry key="validate connections">true</entry>
+    <entry key="max connections">10</entry>
+    <entry key="Support on the fly geometry simplification">true</entry>
+    <entry key="database">cadqgis</entry>
+    <entry key="Max connection idle time">300</entry>
+    <entry key="Test while idle">true</entry>
+    <entry key="Loose bbox">true</entry>
+    <entry key="Expose primary keys">false</entry>
+    <entry key="Max open prepared statements">50</entry>
+    <entry key="Estimated extends">true</entry>
+    <entry key="user">cadastrapp</entry>
+  </connectionParameters>
+  <__default>false</__default>
+</dataStore>

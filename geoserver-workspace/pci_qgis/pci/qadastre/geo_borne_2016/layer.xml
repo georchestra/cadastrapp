@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_borne_2016</name>
+  <id>LayerInfoImpl--45d312bf:157e11dc7e5:6340</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--3a0ee06f:158063111ad:6c87</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--45d312bf:157e11dc7e5:633f</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

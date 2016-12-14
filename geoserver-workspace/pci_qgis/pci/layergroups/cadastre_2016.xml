@@ -1,0 +1,178 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl-56f0350:150666c28a1:-7ef8</id>
+  <name>cadastre_2016</name>
+  <mode>SINGLE</mode>
+  <queryDisabled>true</queryDisabled>
+  <title>Assemblage des couches du PCI vecteur 2016</title>
+  <abstractTxt>Les plans cadastraux sont gérés par la Direction Régionale des Finances Publiques (DRFiP). Initialement scannés par les services du cadastre avec une résolution de 300 Dpi, ces plans ont été digitalisés dans le cadre de conventions entre les collectivités et la DRFiP.&#xd;</abstractTxt>
+  <workspace>
+    <id>WorkspaceInfoImpl-56f0350:150666c28a1:-7f6c</id>
+  </workspace>
+  <publishables>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581b409852:-4b7f</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581a1f4963:5a61</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581a3199de:-48ad</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:15824894cab:3298</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581ae99e56:-5262</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581a403f56:378e</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581ae27601:-1afe</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:158248de118:ab7</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:158248c1367:16c3</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581a59e176:4d85</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581a496797:-166f</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581a43e8e3:13d9</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581addb7d7:25f7</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581a4c2779:-2b3b</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1581ae50b56:-2fd6</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--45d312bf:157e11dc7e5:6340</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:15806874411:-6b06</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1580686fe49:-5c71</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:158068aada2:-7fec</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:1580688f25f:7fb6</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:158064c85dd:5df3</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:158068460bc:-7087</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:15806880749:-721d</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:158067fc995:1f87</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:158068aada2:78fb</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--3a0ee06f:158248ecb35:3f7</id>
+    </published>
+  </publishables>
+  <styles>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1581b4c8324:49c8</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6548</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6549</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:652d</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:654a</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6532</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6530</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:652f</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158063111ad:6c86</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158063111ad:6c9c</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:652c</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:652e</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6545</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6546</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6547</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158063111ad:6c87</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158067c20dc:3bd0</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158067c20dc:3bcd</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158068460bc:-2188</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158068460bc:-218a</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158063111ad:6ca2</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158068460bc:-2187</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158067c20dc:3bce</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158067c20dc:3bd1</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158067c20dc:3bcf</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--3a0ee06f:158063111ad:6c9b</id>
+    </style>
+  </styles>
+  <bounds>
+    <minx>1982828.2037287522</minx>
+    <maxx>2090591.7842958116</maxx>
+    <miny>7217391.547215163</miny>
+    <maxy>7335604.862245215</maxy>
+    <crs class="projected">EPSG:3948</crs>
+  </bounds>
+</layerGroup>
