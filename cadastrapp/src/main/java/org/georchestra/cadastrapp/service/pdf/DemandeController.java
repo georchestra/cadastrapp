@@ -183,7 +183,7 @@ public class DemandeController extends CadController {
 		List<String> compteCommIds = new ArrayList<String>();
 		compteCommIds.add(compteCommunal);
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommIds, headers);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommIds, headers, new String());
 
 		File pdf = null;
 		//generate PDF
@@ -213,7 +213,7 @@ public class DemandeController extends CadController {
 		}
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers, parcelle);
 
 
 		File pdf = null;
@@ -391,14 +391,15 @@ public class DemandeController extends CadController {
 		List<String> compteCommunauxList = new ArrayList<String>();
 		//get compte communal by parcelle 
 		List<Map<String, Object>> compteCommunaux = releveProprieteHelper.getProprietaireByInfoParcelle(commune,section,numero);
+		String idParcelle = null;
 
 		for (Map<?, ?> row : compteCommunaux) {
 			compteCommunauxList.add((String) row.get("comptecommunal"));
-
+			if( idParcelle == null ) idParcelle = (String) row.get("parcelle");
 		}
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers, idParcelle);
 
 		//generate PDF
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
@@ -451,7 +452,7 @@ public class DemandeController extends CadController {
 		}
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers, new String());
 
 		//generate PDF
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);

@@ -6,6 +6,8 @@ public final class CadastrappConstants {
 	private CadastrappConstants() {
 
 	}
+	
+	public static final String PARC_ID					= "parcelle";
 
 	//Relevé proprietaire partie batie
 	public static final String PB_ID_LOCAL					= "id_local";
