@@ -1,20 +1,29 @@
 package org.georchestra.cadastrapp.service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,6 +31,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class CoProprietaireController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(CoProprietaireController.class);
+	
+	final static char DELIMITER = '\n';
+	final static char SEPARATOR = ';';
 
 	@Path("/getCoProprietaireList")
 	@GET
@@ -157,5 +169,106 @@ public class CoProprietaireController extends CadController {
 
 		return finalResult;
 
+	}
+	
+	@POST
+	@Path("/exportCoProprietaireByParcelles")
+	@Produces("text/csv")
+	public Response exportProprietaireByParcelles(
+			@Context HttpHeaders headers,
+			@FormParam("parcelles") List<String> parcelleList) throws SQLException {
+		
+		// Create empty content
+		ResponseBuilder response = Response.noContent();
+		
+		// User need to be at least CNIL1 level
+		if (getUserCNILLevel(headers)>0){
+		
+			final String  entete = "Compte communal;Civilité;Nom;Prénom;Nom d'usage;Prénom d'usage;Dénominiation;Nom d'usage;Adresse ligne 3;Adresse ligne 4;Adresse ligne 5;Adresse ligne 6;Identitifiants de parcelles;ccodro_lib";
+			
+			if(parcelleList != null && !parcelleList.isEmpty()){
+				
+				logger.debug("Nb of parcelles to search in : " + parcelleList.size());
+
+				// Get value from database
+				List<Map<String,Object>> coproprietaires = new ArrayList<Map<String,Object>>();
+										
+				StringBuilder queryBuilder = new StringBuilder();
+				queryBuilder.append("select prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ");
+				queryBuilder.append("string_agg(parcelle, '|'), ccodro_lib ");
+				queryBuilder.append("from ");
+				queryBuilder.append(databaseSchema);
+				queryBuilder.append(".proprietaire prop, ");
+				queryBuilder.append(databaseSchema);
+				queryBuilder.append(".co_propriete_parcelle proparc ");
+				queryBuilder.append(createWhereInQuery(parcelleList.size(), "proparc.parcelle"));
+				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
+				queryBuilder.append("GROUP BY prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ccodro_lib ");
+				queryBuilder.append(addAuthorizationFiltering(headers));
+				queryBuilder.append(" ORDER BY prop.comptecommunal");
+				
+				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+				coproprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList.toArray());
+				
+				// Parse value to have only once a comptecommunal, but with several parcelle
+				// at this time there is one comptecommunal for each parcelle
+				String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
+				
+				// File with current time
+				final String csvFileName = tempFolder + File.separator + "export-" + new Date().getTime() + ".csv";
+				File file = null;
+
+				try {
+					// Create file
+					file = new File(csvFileName);
+					FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
+				
+					fileWriter.append(entete);
+					fileWriter.append(DELIMITER);
+					
+					logger.debug("Nb of entries : "+ coproprietaires.size());
+					// For each line
+					for (Map<String,Object> proprietaire : coproprietaires) {
+
+						StringBuffer lineBuffer = new StringBuffer();
+						for (Map.Entry<String, Object> entry : proprietaire.entrySet())
+						{
+							lineBuffer.append(entry.getValue());
+							lineBuffer.append(SEPARATOR);
+						}
+
+						// Debug information
+						if (logger.isDebugEnabled()) {
+							logger.debug("Export CSV - value : " + lineBuffer.toString());
+						}
+	
+						fileWriter.append(lineBuffer.toString());
+						fileWriter.append(DELIMITER);
+					}
+
+					// release file
+					fileWriter.flush();
+					fileWriter.close();
+				
+					// build csv response
+					response = Response.ok((Object) file);
+					response.header("Content-Disposition", "attachment; filename=" + file.getName());
+				}catch (IOException e) {
+					logger.error("Error while creating CSV files : " + e.getMessage());
+				} finally {
+					if (file != null) {
+						file.deleteOnExit();
+					}
+				}
+			}
+			else{
+				//log empty request
+				logger.info("Parcelle Id List is empty nothing to search");
+			}
+		}else{
+			logger.info("User does not have rights to see thoses informations");
+		}
+	
+		return response.build();
 	}
 }
