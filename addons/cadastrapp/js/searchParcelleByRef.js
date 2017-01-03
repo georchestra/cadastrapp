@@ -150,7 +150,9 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                 GEOR.ls.set("default_cadastrapp_city",combo.getValue());
             },
             afterrender: function(combo) {
-                if( GEOR.ls.get("default_cadastrapp_city") != undefined && GEOR.ls.get("default_cadastrapp_city").match(/([0-9]{6})/g).length == 1 ) {
+                if( GEOR.ls.get("default_cadastrapp_city") != undefined 
+                        && GEOR.ls.get("default_cadastrapp_city").match(/([0-9]{6})/g) != undefined 
+                        && GEOR.ls.get("default_cadastrapp_city").match(/([0-9]{6})/g).length == 1 ) {
                     var insee = GEOR.ls.get("default_cadastrapp_city").match(/([0-9]{6})/g)[0];
                     combo.store.on('load', function() {
                         combo.setValue(insee);
