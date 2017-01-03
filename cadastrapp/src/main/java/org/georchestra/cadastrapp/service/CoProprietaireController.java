@@ -23,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ public class CoProprietaireController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(CoProprietaireController.class);
 	
+	// Used to create CSV
 	final static char DELIMITER = '\n';
 	final static char SEPARATOR = ';';
 
@@ -171,12 +173,23 @@ public class CoProprietaireController extends CadController {
 
 	}
 	
+	
 	@POST
 	@Path("/exportCoProprietaireByParcelles")
 	@Produces("text/csv")
+	/**
+	 * Create a csv file from given parcelles id
+	 * 
+	 * @param headers used to filter displayed information
+	 * @param parcelles list of parcelle separated by a coma
+	 * 
+	 * @return csv containing list of co-owners of given parcelle list
+	 * 
+	 * @throws SQLException
+	 */
 	public Response exportProprietaireByParcelles(
 			@Context HttpHeaders headers,
-			@FormParam("parcelles") List<String> parcelleList) throws SQLException {
+			@FormParam("parcelles") String parcelles) throws SQLException {
 		
 		// Create empty content
 		ResponseBuilder response = Response.noContent();
@@ -186,9 +199,11 @@ public class CoProprietaireController extends CadController {
 		
 			final String  entete = "Compte communal;Civilité;Nom;Prénom;Nom d'usage;Prénom d'usage;Dénominiation;Nom d'usage;Adresse ligne 3;Adresse ligne 4;Adresse ligne 5;Adresse ligne 6;Identitifiants de parcelles;ccodro_lib";
 			
-			if(parcelleList != null && !parcelleList.isEmpty()){
+			String[] parcelleList = StringUtils.split(parcelles, ',');
+			
+			if(parcelleList != null && parcelleList.length > 0){
 				
-				logger.debug("Nb of parcelles to search in : " + parcelleList.size());
+				logger.debug("Nb of parcelles to search in : " + parcelleList.length);
 
 				// Get value from database
 				List<Map<String,Object>> coproprietaires = new ArrayList<Map<String,Object>>();
@@ -201,14 +216,14 @@ public class CoProprietaireController extends CadController {
 				queryBuilder.append(".proprietaire prop, ");
 				queryBuilder.append(databaseSchema);
 				queryBuilder.append(".co_propriete_parcelle proparc ");
-				queryBuilder.append(createWhereInQuery(parcelleList.size(), "proparc.parcelle"));
+				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
 				queryBuilder.append("GROUP BY prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ccodro_lib ");
 				queryBuilder.append(addAuthorizationFiltering(headers));
 				queryBuilder.append(" ORDER BY prop.comptecommunal");
 				
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-				coproprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList.toArray());
+				coproprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList);
 				
 				// Parse value to have only once a comptecommunal, but with several parcelle
 				// at this time there is one comptecommunal for each parcelle

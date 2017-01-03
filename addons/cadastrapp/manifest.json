@@ -143,7 +143,10 @@
 			"cadastrapp.result.parcelle.zoom.selection": "Zoom on selection",
 			"cadastrapp.result.parcelle.delete": "Delete entry",
 			"cadastrapp.result.parcelle.fiche": "Information form",
-			"cadastrapp.result.parcelle.export": "Export selection",
+			"cadastrapp.result.csv.export": "Export selection",
+			"cadastrapp.result.csv.button.parcelles" : "Plots",
+			"cadastrapp.result.csv.button.owner" : "Owners",
+			"cadastrapp.result.csv.button.coowner" : "Co-owners",
 			"cadastrapp.result.no.search": "You need to search for a plot before",
 			"cadastrapp.result.no.selection": "You need to select plots before",
 			
@@ -423,6 +426,7 @@
 			
 			"cadastrapp.no_feature" : "Unable to locate the geometry, please select at least one.\nIf this is already the case, this may be due to the incompleteness of EDIGEO file.",
 			"cadastrapp.no_edigeo" : "No corresponding EDIGEO"
+			
         },
         "fr": {
        		"cadastrapp.no": "non",
@@ -500,7 +504,10 @@
 			"cadastrapp.result.parcelle.zoom.selection": "Zoom sélection",
 			"cadastrapp.result.parcelle.delete": "Enlever parcelle(s)",
 			"cadastrapp.result.parcelle.fiche": "Fiche d'info parcelle(s)",
-			"cadastrapp.result.parcelle.export": "Exporter sélection",
+			"cadastrapp.result.csv.export": "Exporter sélection",				
+			"cadastrapp.result.csv.button.parcelles" : "Parcelle",
+			"cadastrapp.result.csv.button.owner" : "Propriétaires",
+			"cadastrapp.result.csv.button.coowner" : "Co-propriétaires",
 			"cadastrapp.result.no.search": "Veuillez sélectioner une parcelle",
 			"cadastrapp.result.no.selection": "Veuillez sélectioner une parcelle",
 			
@@ -660,8 +667,8 @@
              "cadastrapp.demandeinformation.transmission.mail" : "par courriel",
              "cadastrapp.demandeinformation.realise" : "Demande réalisée",
          	 "cadastrapp.demandeinformation.realise.guichet" : "au guichet",
-          	"cadastrapp.demandeinformation.realise.courrier" : "par courrier",
-          	"cadastrapp.demandeinformation.realise.mail" : "par courriel ",
+			 "cadastrapp.demandeinformation.realise.courrier" : "par courrier",
+          	 "cadastrapp.demandeinformation.realise.mail" : "par courriel ",
              "cadastrapp.demandeinformation.titre2": "Objet de la demande",
              "cadastrapp.demandeinformation.parcelles": "Parcelle(s)",
            	 "cadastrapp.demandeinformation.comptecommunal": "Compte communal",

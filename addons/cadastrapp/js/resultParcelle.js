@@ -1,5 +1,59 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
+GEOR.Addons.Cadastre.exportAsCsvButton = function() {
+    if(GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()){
+        var exportCsvItems = [];
+               
+        // create parcelles button and get parcelles list as CSV
+        exportCsvItems.push({
+            text:OpenLayers.i18n("cadastrapp.result.csv.button.parcelles"),
+            showSeparator:false,
+            handler(){
+                return GEOR.Addons.Cadastre.exportPlotSelectionAsCSV();
+            },scope:this
+        });
+        
+        // create parcelles button and get owners list as CSV
+        exportCsvItems.push({
+            text:OpenLayers.i18n("cadastrapp.result.csv.button.owner"),
+            handler(){
+                return GEOR.Addons.Cadastre.exportOwnersAsCSV();
+            },scope:this
+        });
+        
+        // create parcelles button and get co-owners list as CSV
+        exportCsvItems.push({
+            text:OpenLayers.i18n("cadastrapp.result.csv.button.coowner"),
+            handler(){
+                return GEOR.Addons.Cadastre.exportCoOwnersAsCSV();
+            },scope:this
+        });
+        
+        // create menu to set properties at this menu
+        var menuCsv = new Ext.menu.Menu({
+            items: exportCsvItems,
+            showSeparator:false
+        });
+        
+        // create menu with items
+        return new Ext.Button({
+            text:OpenLayers.i18n("cadastrapp.result.csv.export"),      
+            menu: menuCsv
+        });
+        
+    } else {
+        return new Ext.Button({
+            text: OpenLayers.i18n("cadastrapp.result.csv.export"),
+            listeners : {
+                click : function(b, e) {                
+                    //Export selected plots as csv
+                    GEOR.Addons.Cadastre.exportPlotSelectionAsCSV();
+                }
+            }      
+        });
+    }
+};
+
 /**
  * Init Global windows containing all tabs
  */
@@ -141,16 +195,10 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                     });
                 }
             }
-        }, {
-            text : OpenLayers.i18n('cadastrapp.result.parcelle.export'),
-            listeners : {
-                click : function(b, e) {
-
-                    // Export selected plots as csv
-                    GEOR.Addons.Cadastre.exportPlotSelectionAsCSV();
-                }
-            }
-        }, {
+        },
+        // display simple button or button with menu if cnil1 or cnil2
+        GEOR.Addons.Cadastre.exportAsCsvButton(), 
+        {
             text : OpenLayers.i18n('cadastrapp.close'),
             listeners : {
                 click : function(b, e) {
@@ -560,6 +608,96 @@ GEOR.Addons.Cadastre.closeAllWindowFIUF = function() {
         }
     });
 }
+
+
+/**
+ * get CSV from co-owners
+ */
+GEOR.Addons.Cadastre.exportCoOwnersAsCSV = function() {
+    if (GEOR.Addons.Cadastre.result.tabs && GEOR.Addons.Cadastre.result.tabs.getActiveTab()) {
+        var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
+        
+        // verify selected information
+        if (selection && selection.length > 0) {
+
+            // Create array to store parcelles id 
+            var parcellesId = [];
+            
+            // Add each parcelle ID in one array
+            Ext.each(selection, function(item) {
+                parcellesId.push(item.data.parcelle);
+            });
+            
+            // create POST request
+            var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + "exportCoProprietaireByParcelles";
+            var params = parcellesId.join();
+            GEOR.Addons.Cadastre.getCsvByPost(url, params); 
+        }
+    }   
+};
+
+/**
+ * get CSV from owners
+ */
+
+GEOR.Addons.Cadastre.exportOwnersAsCSV = function (){
+    if (GEOR.Addons.Cadastre.result.tabs && GEOR.Addons.Cadastre.result.tabs.getActiveTab()) {
+        var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
+        
+        // verify selected information
+        if (selection && selection.length > 0) {
+
+            // Create array to store parcelles id 
+            var parcellesId = [];
+            
+            // Add each parcelle ID in one array
+            Ext.each(selection, function(item) {
+                parcellesId.push(item.data.parcelle);
+            });
+            
+            // create POST request
+            var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + "exportProprietaireByParcelles";
+            var params = parcellesId.join();
+            GEOR.Addons.Cadastre.getCsvByPost(url, params); 
+        }
+    }   
+};
+
+
+
+/**
+ * Create new request to get and download CSV file
+ */
+GEOR.Addons.Cadastre.getCsvByPost = function(url, params){
+    // create Iframe            
+    var iframe = document.createElement("iframe");            
+    iframe.setAttribute("style", "display:none;");
+    
+    // create form with attributes and request informations
+    var form = document.createElement("form");            
+    form.setAttribute("method", "post");
+    form.setAttribute("action", url);
+    
+    // create input with 
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "parcelles");
+    
+    // insert values to input to set POST params
+    hiddenField.value = params;
+    
+    // insert input to form
+    form.appendChild(hiddenField);
+    
+    // insert form to iframe to only refresh hidden iframe    
+    iframe.appendChild(form);
+    
+    // insert iframe to document body
+    document.body.appendChild(iframe);
+    
+    // submit form to launch request and get CSV
+    form.submit();
+};
 
 /**
  * Export selection of currentTab as CSV using webapp service
