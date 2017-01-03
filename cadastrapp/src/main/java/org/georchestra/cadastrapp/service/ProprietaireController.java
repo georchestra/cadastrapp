@@ -342,7 +342,7 @@ public class ProprietaireController extends CadController{
 										
 				StringBuilder queryBuilder = new StringBuilder();
 				queryBuilder.append("select prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ");
-				queryBuilder.append("string_agg(parcelle, '|'), ccodro_lib ");
+				queryBuilder.append("string_agg(parcelle, ','), ccodro_lib ");
 				queryBuilder.append("from ");
 				queryBuilder.append(databaseSchema);
 				queryBuilder.append(".proprietaire prop, ");
