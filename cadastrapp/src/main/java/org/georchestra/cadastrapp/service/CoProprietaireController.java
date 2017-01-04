@@ -197,7 +197,11 @@ public class CoProprietaireController extends CadController {
 		// User need to be at least CNIL1 level
 		if (getUserCNILLevel(headers)>0){
 		
-			final String  entete = "Compte communal;Civilité;Nom;Prénom;Nom d'usage;Prénom d'usage;Dénominiation;Nom d'usage;Adresse ligne 3;Adresse ligne 4;Adresse ligne 5;Adresse ligne 6;Identitifiants de parcelles;ccodro_lib";
+			//TODO externalize entete
+			String  entete = "Compte communal;Civilité;Nom;Prénom;Nom d'usage;Prénom d'usage;Dénominiation;Nom d'usage;Adresse ligne 3;Adresse ligne 4;Adresse ligne 5;Adresse ligne 6;Identitifiants de parcelles;ccodro_lib";
+			if(getUserCNILLevel(headers)>1){
+				entete = entete + ";Lieu de naissance; Date de naissance";
+			}
 			
 			String[] parcelleList = StringUtils.split(parcelles, ',');
 			
@@ -211,6 +215,11 @@ public class CoProprietaireController extends CadController {
 				StringBuilder queryBuilder = new StringBuilder();
 				queryBuilder.append("select prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ");
 				queryBuilder.append("string_agg(parcelle, ','), ccodro_lib ");
+				
+				// If user is CNIL2 add birth information
+				if(getUserCNILLevel(headers)>1){
+					queryBuilder.append(", dldnss, jdatnss ");
+				}
 				queryBuilder.append("from ");
 				queryBuilder.append(databaseSchema);
 				queryBuilder.append(".proprietaire prop, ");
@@ -219,6 +228,10 @@ public class CoProprietaireController extends CadController {
 				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
 				queryBuilder.append("GROUP BY prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ccodro_lib ");
+				// If user is CNIL2 add birth information
+				if(getUserCNILLevel(headers)>1){
+					queryBuilder.append(", dldnss, jdatnss ");
+				}
 				queryBuilder.append(addAuthorizationFiltering(headers));
 				queryBuilder.append(" ORDER BY prop.comptecommunal");
 				
