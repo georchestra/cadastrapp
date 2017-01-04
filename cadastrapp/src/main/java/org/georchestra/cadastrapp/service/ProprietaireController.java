@@ -2,11 +2,9 @@ package org.georchestra.cadastrapp.service;
 
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,17 +23,18 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
+import org.georchestra.cadastrapp.service.export.ExportHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ProprietaireController extends CadController{
 
 	final static Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
 	
-	// Used to create CSV
-	final static char DELIMITER = '\n';
-	final static char SEPARATOR = ';';
+	@Autowired
+	ExportHelper exportHelper;
 
 	@GET
 	@Path("/getProprietaire")
@@ -368,46 +367,10 @@ public class ProprietaireController extends CadController{
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 				proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList);
 				
-				// Parse value to have only once a comptecommunal, but with several parcelle
-				// at this time there is one comptecommunal for each parcelle
-				String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
-				
-				// File with current time
-				final String csvFileName = tempFolder + File.separator + "export-" + new Date().getTime() + ".csv";
 				File file = null;
-
-				try {
-					// Create file
-					file = new File(csvFileName);
-					FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
-				
-					fileWriter.append(entete);
-					fileWriter.append(DELIMITER);
+				try{
+					file = exportHelper.createCSV(proprietaires, entete);
 					
-					logger.debug("Nb of entries : "+ proprietaires.size());
-					// For each line
-					for (Map<String,Object> proprietaire : proprietaires) {
-
-						StringBuffer lineBuffer = new StringBuffer();
-						for (Map.Entry<String, Object> entry : proprietaire.entrySet())
-						{
-							lineBuffer.append(entry.getValue());
-							lineBuffer.append(SEPARATOR);
-						}
-
-						// Debug information
-						if (logger.isDebugEnabled()) {
-							logger.debug("Export CSV - value : " + lineBuffer.toString());
-						}
-	
-						fileWriter.append(lineBuffer.toString());
-						fileWriter.append(DELIMITER);
-					}
-
-					// release file
-					fileWriter.flush();
-					fileWriter.close();
-				
 					// build csv response
 					response = Response.ok((Object) file);
 					response.header("Content-Disposition", "attachment; filename=" + file.getName());

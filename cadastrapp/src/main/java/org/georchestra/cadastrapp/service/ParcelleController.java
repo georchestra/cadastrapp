@@ -1,6 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
@@ -21,18 +22,26 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.georchestra.cadastrapp.model.pdf.ExtFormResult;
+import org.georchestra.cadastrapp.service.export.ExportHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ParcelleController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(ParcelleController.class);
+	
+	@Autowired
+	ExportHelper exportHelper;
 
 	@GET
 	@Path("/getParcelle")
@@ -321,7 +330,7 @@ public class ParcelleController extends CadController {
 
 		StringBuilder selectQueryBuilder = new StringBuilder();
 		selectQueryBuilder.append("select distinct ");
-		selectQueryBuilder.append("p.parcelle, p.cgocommune, p.dnvoiri, p.dindic, p.cconvo, p.dnupla, p.dvoilib, p.ccopre, p.ccosec, p.dcntpa");
+		selectQueryBuilder.append("p.parcelle, p.cgocommune, p.dnvoiri, p.dindic, p.cconvo, p.dvoilib, p.ccopre, p.ccosec, p.dnupla, p.dcntpa");
 
 		if (details == 1) {
 			selectQueryBuilder.append(" ,p.surfc");
@@ -507,6 +516,68 @@ public class ParcelleController extends CadController {
 		dnuplaList = jdbcTemplate.queryForList(dnuplaQueryBuilder.toString(), queryParams.toArray());
 
 		return dnuplaList;
+	}
+	
+	@POST
+	@Path("/exportParcellesAsCSV")
+	@Produces("text/csv")
+	/**
+	 * Create a csv file from given parcelles id
+	 * 
+	 * @param headers Used to filter displayed information
+	 * @param parcelles list of parcelle separated by a coma
+	 * 
+	 * @return csv containing list of owners
+	 * 
+	 * @throws SQLException
+	 */
+	public Response exportParcellesAsSCV(
+			@Context HttpHeaders headers,
+			@FormParam("parcelles") String parcelles) throws SQLException {
+		
+		// Create empty content
+		ResponseBuilder response = Response.noContent();
+		
+		// User need to be at least CNIL1 level
+		if (getUserCNILLevel(headers)>0){
+				
+			String entete = "Identifiant de parcelle;Commune;dnvoiri;dindic;cconvo;N° de plan;dvoilib;ccopre;ccosec;Contenance DGFiP en m²";
+			
+			String[] parcelleArray = StringUtils.split(parcelles, ',');
+			List<String> parcelleList = new ArrayList<String>();
+			CollectionUtils.addAll(parcelleList, parcelleArray);
+			
+			if(parcelleList != null && !parcelleList.isEmpty()){
+				
+				logger.debug("Nb of parcelles to search in : " + parcelleList.size());
+
+				// Get value from database
+				List<Map<String,Object>> parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel(headers));
+				
+				File file = null;
+				try{
+					file = exportHelper.createCSV(parcellesResult, entete);
+					
+					// build csv response
+					response = Response.ok((Object) file);
+					response.header("Content-Disposition", "attachment; filename=" + file.getName());
+				}catch (IOException e) {
+					logger.error("Error while creating CSV files : " + e.getMessage());
+				} finally {
+					if (file != null) {
+						file.deleteOnExit();
+					}
+				}
+			}
+			else{
+				//log empty request
+				logger.info("Parcelle Id List is empty nothing to search");
+			}
+		}else{
+			logger.info("User does not have rights to see thoses informations");
+		}
+	
+		return response.build();
 	}
 
 }
