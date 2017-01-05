@@ -192,6 +192,9 @@
 			"cadastrapp.search.copropriete.parcelle.ident": "Plot id",
 			"cadastrapp.search.copropriete.comptecommunal.ident": "Owner id",
 			"cadastrapp.search.copropriete.comptecommunal.exemple": "ex. 350001+00160",
+            
+            "cadastrapp.search.copropriete.alert.title":"Error",
+            "cadastrapp.search.copropriete.alert.message": "You need to select a city value and at least one other field",
 			
 			"cadastrapp.result.title.fichier":"By file",
 			"cadastrapp.result.title.ids":"By id(s)",
@@ -555,6 +558,8 @@
 			"cadastrapp.search.copropriete.comptecommunal.ident": "Compte communal",
 			"cadastrapp.search.copropriete.comptecommunal.exemple": "ex. 350001+00160",
 			"cadastrapp.search.copropriete.comptecommunal.control": "Le compte communal est composé d'au moins 12 caractères",
+            "cadastrapp.search.copropriete.alert.title":"Erreur",
+            "cadastrapp.search.copropriete.alert.message": "Le choix d'une commune est obligatoire en complément d'un autre champ",
 			
 			"cadastrapp.copropriete": "Lots de copropriété",
 			"cadastrapp.selection": "Traitement sélection",
