@@ -1,5 +1,8 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
+/**
+ * Create menu list of button to export plots, owner and co-owners
+ */
 GEOR.Addons.Cadastre.exportAsCsvButton = function() {
     if(GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()){
         var exportCsvItems = [];
@@ -577,10 +580,12 @@ GEOR.Addons.Cadastre.closeWindowFIUF = function(idParcelle, grid) {
 GEOR.Addons.Cadastre.closeAllWindowFIUC = function() {
     // for each tabs
     Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
-        // for each fiche
         if (tab) {
-            Ext.each(tab.fichesCOuvertes, function(ficheCadastreOuverte, currentIndex) {
-                ficheCadastreOuverte.close();
+            // create a temp array
+            var parcellesList = tab.idParcellesCOuvertes.slice(0);          
+            // for each fiche
+            Ext.each(parcellesList, function(idParcellesCOuverte, currentIndex) {
+                GEOR.Addons.Cadastre.closeWindowFIUC(idParcellesCOuverte, tab);
             });
             tab.fichesCOuvertes = [];
             tab.idParcellesCOuvertes = [];
@@ -599,9 +604,11 @@ GEOR.Addons.Cadastre.closeAllWindowFIUF = function() {
     // for each tabs
     Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
         if (tab) {
+            // create a temp array
+            var parcellesList = tab.idParcellesFOuvertes.slice(0);
             // for each fiche
-            Ext.each(tab.fichesFOuvertes, function(fichesFOuverte, currentIndex) {
-                fichesFOuverte.close();
+            Ext.each(parcellesList, function(idParcellesFOuverte, currentIndex) {
+                GEOR.Addons.Cadastre.closeWindowFIUF(idParcellesFOuverte, tab);
             });
             tab.fichesFOuvertes = [];
             tab.idParcellesFOuvertes = [];
