@@ -33,7 +33,7 @@ public final class CadastrappConstants {
 	public static final String PB_ANNEE_DEB_EXO				= "jandeb";
 	public static final String PB_FRACTION_EXO				= "rcexba2";
 	public static final String PB_TAUX_EXO_ACCORDEE			= "pexb";
-	public static final String PB_MONTANT_TIEOM				= "mvltieomx";
+	public static final String PB_MONTANT_TIEOM				= "gtauom";
 	
 	//Relevé proprietaire partie lot
 	public static final String PB_LOT_ID					= "dnulot";

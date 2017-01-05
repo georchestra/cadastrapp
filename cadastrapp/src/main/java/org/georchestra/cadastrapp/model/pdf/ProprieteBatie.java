@@ -39,8 +39,8 @@ public class ProprieteBatie extends Propriete{
 	// Valeur locative
 	private String revcad;
 	
-	// Montant TIEOM
-	private String mvltieomx;
+	// Zone de ramassage
+	private String gtauom;
 	
 	// Liste de lots
 	private List<Lot> lots;
@@ -196,18 +196,18 @@ public class ProprieteBatie extends Propriete{
 	}
 
 	/**
-	 * @return the mvltieomx
+	 * @return the gtauom
 	 */
-	public String getMvltieomx() {
-		return mvltieomx;
+	public String getGtauom() {
+		return gtauom;
 	}
 
 	@XmlAttribute
 	/**
-	 * @param mvltieomx the mvltieomx to set
+	 * @param gtauom the gtauom to set
 	 */
-	public void setMvltieomx(String mvltieomx) {
-		this.mvltieomx = mvltieomx;
+	public void setGtauom(String gtauom) {
+		this.gtauom = gtauom;
 	}
 
 	/**

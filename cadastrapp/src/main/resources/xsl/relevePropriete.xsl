@@ -514,7 +514,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@mvltieomx" />
+								<xsl:value-of select="@gtauom" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
