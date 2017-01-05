@@ -24,7 +24,7 @@ Ext.namespace("GEOR.Addons.Cadastre");
  */
 GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
 
-    // TabPanel to be include in main windwos panel
+    // TabPanel to be include in main windows panel
     var cadastreTabPanel = new Ext.TabPanel({
         items : [],
     });
@@ -55,7 +55,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     GEOR.Addons.Cadastre.changeStateFeature(feature, -1, GEOR.Addons.Cadastre.selection.state.list);
                 }
 
-                // on ferme la fenêtre foncière si ouverte
+                // on ferme aussi la fenêtre foncière si ouverte
                 GEOR.Addons.Cadastre.closeWindowFIUF(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
                 windowFIUC = null;
             }
