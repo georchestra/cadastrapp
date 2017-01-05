@@ -580,7 +580,7 @@ GEOR.Addons.Cadastre.closeWindowFIUF = function(idParcelle, grid) {
 GEOR.Addons.Cadastre.closeAllWindowFIUC = function() {
     // for each tabs
     Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
-        if (tab) {
+        if (tab && tab.idParcellesCOuvertes) {
             // create a temp array
             var parcellesList = tab.idParcellesCOuvertes.slice(0);          
             // for each fiche
@@ -603,7 +603,7 @@ GEOR.Addons.Cadastre.closeAllWindowFIUC = function() {
 GEOR.Addons.Cadastre.closeAllWindowFIUF = function() {
     // for each tabs
     Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
-        if (tab) {
+        if (tab && tab.idParcellesFOuvertes) {
             // create a temp array
             var parcellesList = tab.idParcellesFOuvertes.slice(0);
             // for each fiche
