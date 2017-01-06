@@ -342,8 +342,20 @@ GEOR.Addons.Cadastre.indexRowParcelle = function(idParcelle) {
  * @param: idParcelle
  */
 GEOR.Addons.Cadastre.getFeaturesWFSAttribute = function(idParcelle) {
+   
+    var filter = "";
+    var idField = GEOR.Addons.Cadastre.WFSLayerSetting.nameFieldIdParcelle;
+    if(Array.isArray(idParcelle)){
+        var lastValue = idParcelle[idParcelle.length-1];
+        Ext.each(idParcelle, function(id, currentIndex){
+            var filterArg = " "+ idField +" LIKE " + "'" + "%" + id + "%" + "'";
+            var operator = (id == lastValue) ? "" : " or ";
+            filter = filter + filterArg + operator ;
+        });
+    } else {
+        filter = "" + idField + "='" + idParcelle + "'";
+    }
 
-    var filter = "" + GEOR.Addons.Cadastre.WFSLayerSetting.nameFieldIdParcelle + "='" + idParcelle + "'";
     var featureJson = "";
 
     Ext.Ajax.request({
@@ -364,14 +376,24 @@ GEOR.Addons.Cadastre.getFeaturesWFSAttribute = function(idParcelle) {
             featureJson = response.responseText;
             var geojson_format = new OpenLayers.Format.GeoJSON();
             var resultSelection = geojson_format.read(featureJson);
-            var feature = geojson_format.read(featureJson)[0];
-            if (feature) {
-                if (GEOR.Addons.Cadastre.indexFeatureSelected(feature) == -1) {
-                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
-                    GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList.push(feature);
-                    GEOR.Addons.Cadastre.changeStateFeature(feature, null, GEOR.Addons.Cadastre.selection.state.list);
-                }
+            if(resultSelection && resultSelection.length > 0){                
+                Ext.each(resultSelection, function(item, currentIndex){
+                    var feature = item;
+                    if (feature) {
+                        if (GEOR.Addons.Cadastre.indexFeatureSelected(feature) == -1) {
+                            GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
+                            GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList.push(feature);
+                            GEOR.Addons.Cadastre.changeStateFeature(feature, null, GEOR.Addons.Cadastre.selection.state.list);
+                        }
+                    }
+                });
+                
+                var enableBtn = Ext.getCmp('selectParcelleButton') ? Ext.getCmp('selectParcelleButton') : false;
+                if(enableBtn){
+                    enableBtn.enable();
+                }                
             }
+            
         },
         failure : function(response) {
             console.log("Error ", response.responseText);
