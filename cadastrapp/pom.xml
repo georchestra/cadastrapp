@@ -644,6 +644,7 @@
 							<maintainerName>Pierre Jego</maintainerName>
 							<maintainerEmail>pierre.jego@gfi.fr</maintainerEmail>
 							<excludeAllArtifacts>true</excludeAllArtifacts>
+                                                        <snapshotRevisionFile>${project.build.directory}</snapshotRevisionFile>
 						</configuration>
 					</plugin>
 				</plugins>
