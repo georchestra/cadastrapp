@@ -239,14 +239,16 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 			disabled : true,
 			listeners : {
 				click : function(b, e) {
-					var features = [];
+				    var listId = [];
 
-					fiufParcelleListStore.each(function(record) {
-						features.push(GEOR.Addons.Cadastre.getFeatureById(record.data.parcelle));
-					});
-					if (features.length > 0) {
-						GEOR.Addons.Cadastre.zoomOnFeatures(features);
-					}
+                    fiufParcelleListStore.each(function(record) {
+                        listId.push(record.data.parcelle);
+                    });
+                   
+                    if(listId.length > 0 ){
+                        GEOR.Addons.Cadastre.addNewResultParcelle ("UF Sélection", null);
+                        GEOR.Addons.Cadastre.showTabSelection(listId);
+                    }                                  
 				}
 			}
 		} ]
