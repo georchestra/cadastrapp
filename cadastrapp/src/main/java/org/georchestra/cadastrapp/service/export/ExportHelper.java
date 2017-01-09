@@ -55,7 +55,7 @@ public class ExportHelper {
 
 			StringBuffer lineBuffer = new StringBuffer();
 			for (Map.Entry<String, Object> entry : proprietaire.entrySet()) {
-				lineBuffer.append(entry.getValue());
+				lineBuffer.append((entry.getValue() == null) ? "" : entry.getValue());
 				lineBuffer.append(SEPARATOR);
 			}
 
