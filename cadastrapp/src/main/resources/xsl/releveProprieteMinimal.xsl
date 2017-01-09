@@ -332,7 +332,7 @@
 			<xsl:choose>
 				<xsl:when
 					test="starts-with(@codeDepartement, '57') or starts-with(@codeDepartement, '67') or starts-with(@codeDepartement, '68')">
-					<fo:table-column column-width="2%" />
+					<fo:table-column column-width="3%" />
 					<fo:table-column column-width="4%" />
 					<fo:table-column column-width="3%" />
 					<fo:table-column column-width="11%" />
@@ -341,13 +341,13 @@
 					<fo:table-column column-width="4%" />
 					<fo:table-column column-width="12%" />
 					<fo:table-column column-width="10%" />
-					<fo:table-column column-width="12%" />
+					<fo:table-column column-width="11%" />
 					<fo:table-column column-width="9%" />
 					<fo:table-column column-width="8%" />
 					<fo:table-column column-width="15%" />
 				</xsl:when>
 				<xsl:otherwise>
-					<fo:table-column column-width="2%" />
+					<fo:table-column column-width="3%" />
 					<fo:table-column column-width="4%" />
 					<fo:table-column column-width="3%" />
 					<fo:table-column column-width="11%" />
@@ -356,7 +356,7 @@
 					<fo:table-column column-width="4%" />
 					<fo:table-column column-width="16%" />
 					<fo:table-column column-width="16%" />
-					<fo:table-column column-width="16%" />
+					<fo:table-column column-width="15%" />
 					<fo:table-column column-width="10%" />
 					<fo:table-column column-width="8%" />
 				</xsl:otherwise>
@@ -464,7 +464,7 @@
 			<fo:table-row>
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">
 					<fo:block>
-						<!--  TODO M -->
+						<xsl:value-of select="@jdatat" />
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">
@@ -548,7 +548,7 @@
 			<fo:table-row height="20pt">
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">
 					<fo:block>
-						<xsl:value-of select="@ccopre" />
+						<xsl:value-of select="@jdatat" />
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">

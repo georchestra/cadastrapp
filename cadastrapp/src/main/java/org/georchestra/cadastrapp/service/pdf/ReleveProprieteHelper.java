@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.math.BigDecimal;
@@ -191,7 +190,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 						StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, gtauom, pexb, rcexba2, rcbaia_com, rcbaia_dep, rcbaia_gp, revcad ");
+						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, gtauom, pexb, rcexba2, rcbaia_com, rcbaia_dep, rcbaia_gp, revcad, jdatat ");
 						queryBuilderProprieteBatie.append("from ");
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -247,18 +246,26 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteBatie.setCcoaff((String) propBat.get(CadastrappConstants.PB_AFFECTATION_PEV)); 																	//AF
 							proprieteBatie.setCcoeva((String) propBat.get(CadastrappConstants.PB_CODE_EVAL)); 																			//M EVAL
 							proprieteBatie.setCconlc((String) propBat.get(CadastrappConstants.PB_NATURE_LOCAL)); 																		//NAT LOC
-							proprieteBatie.setCcopre((String) propBat.get(CadastrappConstants.PB_PREFIX_SECTION)); 																		//N°SETCION part1
-							proprieteBatie.setCcoriv((String) propBat.get(CadastrappConstants.PB_CODE_RIVOLI_VOIE)); 																	//code rivoli
-							proprieteBatie.setCcosec((String) propBat.get(CadastrappConstants.PB_LETTRE_SECTION)); 																		//N°SETCION part2
+							proprieteBatie.setCcopre((String) propBat.get(CadastrappConstants.PREFIX_SECTION)); 																		//N°SETCION part1
+							proprieteBatie.setCcoriv((String) propBat.get(CadastrappConstants.CODE_RIVOLI_VOIE)); 																	//code rivoli
+							proprieteBatie.setCcosec((String) propBat.get(CadastrappConstants.LETTRE_SECTION)); 																		//N°SETCION part2
 							proprieteBatie.setDcapec((String) propBat.get(CadastrappConstants.PB_CATEGORIE));																			//Cat (PAS DANS LE REQUETTE)
 							proprieteBatie.setDescr((String) propBat.get(CadastrappConstants.PB_NUM_ENTREE)); 																			//Ent
 							proprieteBatie.setDniv((String) propBat.get(CadastrappConstants.PB_NIV_ETAGE)); 																			//Niv
 							proprieteBatie.setDnubat((String) propBat.get(CadastrappConstants.PB_LETTRE_BAT));																			//Bat
-							proprieteBatie.setDnupla((String) propBat.get(CadastrappConstants.PB_NUM_PLAN));																			//N° plan
+							proprieteBatie.setDnupla((String) propBat.get(CadastrappConstants.NUM_PLAN));																			//N° plan
 							proprieteBatie.setDpor((String) propBat.get(CadastrappConstants.PB_NUM_PORTE_LOCAL));																		//N° porte
 							proprieteBatie.setRevcad(propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? "":propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL).toString());	//Revenu cadastral
-							proprieteBatie.setDvoilib((String) propBat.get(CadastrappConstants.PB_ADRESSE)); 																			//Adresse
+							proprieteBatie.setDvoilib((String) propBat.get(CadastrappConstants.ADRESSE)); 																			//Adresse
 							proprieteBatie.setGtauom(propBat.get(CadastrappConstants.PB_MONTANT_TIEOM) == null ? "":propBat.get(CadastrappConstants.PB_MONTANT_TIEOM).toString()); 	//tx OM
+							
+							if(CadastrappConstants.MUTATION  != null){
+								// Date is store in database like jj/mm/yyyy
+								String[] parts = propBat.get(CadastrappConstants.MUTATION).toString().split("/");
+								if(parts != null && parts.length>1){
+									proprieteBatie.setJdatat(parts[2]);
+								}
+							}
 							
 							List<Exoneration> proprieteBatieExonerations = new ArrayList<Exoneration>();
 							Exoneration proprieteBatieExoneration = new Exoneration();
@@ -334,7 +341,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 						StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.cgocommune, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dsgrpf, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnb.dreflf, pnb.majposa, pnb.bisufad_com, pnb.bisufad_dep, pnb.bisufad_gp, pnb.gparnf ");
+						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.cgocommune, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dsgrpf, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnb.dreflf, pnb.majposa, pnb.bisufad_com, pnb.bisufad_dep, pnb.bisufad_gp, pnb.gparnf, pnb.jdatat ");
 						queryBuilderProprieteNonBatie.append("from ");
 						queryBuilderProprieteNonBatie.append(databaseSchema);
 						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
@@ -396,22 +403,30 @@ public final class ReleveProprieteHelper extends CadController{
 							
 							ProprieteNonBatie proprieteNonBatie = new ProprieteNonBatie();
 
-							proprieteNonBatie.setCcopre((String) propNonBat.get(CadastrappConstants.PNB_PREFIX_SECTION));
-							proprieteNonBatie.setCcoriv((String) propNonBat.get(CadastrappConstants.PNB_CODE_RIVOLI_VOIE));
-							proprieteNonBatie.setCcosec((String) propNonBat.get(CadastrappConstants.PNB_LETTRE_SECTION));
+							proprieteNonBatie.setCcopre((String) propNonBat.get(CadastrappConstants.PREFIX_SECTION));
+							proprieteNonBatie.setCcoriv((String) propNonBat.get(CadastrappConstants.CODE_RIVOLI_VOIE));
+							proprieteNonBatie.setCcosec((String) propNonBat.get(CadastrappConstants.LETTRE_SECTION));
 							proprieteNonBatie.setCcostn((String) propNonBat.get(CadastrappConstants.PNB_SERIE_TARIF));
 							proprieteNonBatie.setCcosub((String) propNonBat.get(CadastrappConstants.PNB_LETTRE_SUF));
 							proprieteNonBatie.setCgrnum((String) propNonBat.get(CadastrappConstants.PNB_GROUP_NATURE_CULTURE));
 							proprieteNonBatie.setCnatsp((String) propNonBat.get(CadastrappConstants.PNB_CODE_NAT_CULT));
 							proprieteNonBatie.setDclssf((String) propNonBat.get(CadastrappConstants.PNB_CLASSE));		
 							proprieteNonBatie.setDnulot((String) propNonBat.get(CadastrappConstants.PNB_REF_LOT));
-							proprieteNonBatie.setDnupla((String) propNonBat.get(CadastrappConstants.PNB_NUM_PLAN));
+							proprieteNonBatie.setDnupla((String) propNonBat.get(CadastrappConstants.NUM_PLAN));
 							proprieteNonBatie.setDparpi((String) propNonBat.get(CadastrappConstants.PNB_NUM_PARC_PRIM));
 							proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 							proprieteNonBatie.setDsgrpf((String) propNonBat.get(CadastrappConstants.PNB_SOUS_GROUP));
-							proprieteNonBatie.setDvoilib((String) propNonBat.get(CadastrappConstants.PNB_ADRESSE));
+							proprieteNonBatie.setDvoilib((String) propNonBat.get(CadastrappConstants.ADRESSE));
 							proprieteNonBatie.setGparnf((String) propNonBat.get(CadastrappConstants.PNB_FPDP)); 
 							proprieteNonBatie.setExonerations(proprieteNonBatieExonerations);
+							
+							if(CadastrappConstants.MUTATION  != null){
+								// Date is store in database like jj/mm/yyyy
+								String[] parts = propNonBat.get(CadastrappConstants.MUTATION).toString().split("/");
+								if(parts != null && parts.length>1){
+									proprieteNonBatie.setJdatat(parts[2]);
+								}
+							}
 							
 							int surface = (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA);
 							proprieteNonBatie.setDcntsf(surface);
@@ -851,17 +866,17 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteBatie.setCcoaff((String) propBat.get(CadastrappConstants.PB_AFFECTATION_PEV)); 																	//AF
 							proprieteBatie.setCcoeva((String) propBat.get(CadastrappConstants.PB_CODE_EVAL)); 																			//M EVAL
 							proprieteBatie.setCconlc((String) propBat.get(CadastrappConstants.PB_NATURE_LOCAL)); 																		//NAT LOC
-							proprieteBatie.setCcopre((String) propBat.get(CadastrappConstants.PB_PREFIX_SECTION)); 																		//N°SETCION part1
-							proprieteBatie.setCcoriv((String) propBat.get(CadastrappConstants.PB_CODE_RIVOLI_VOIE)); 																	//code rivoli
-							proprieteBatie.setCcosec((String) propBat.get(CadastrappConstants.PB_LETTRE_SECTION)); 																		//N°SETCION part2
+							proprieteBatie.setCcopre((String) propBat.get(CadastrappConstants.PREFIX_SECTION)); 																		//N°SETCION part1
+							proprieteBatie.setCcoriv((String) propBat.get(CadastrappConstants.CODE_RIVOLI_VOIE)); 																	//code rivoli
+							proprieteBatie.setCcosec((String) propBat.get(CadastrappConstants.LETTRE_SECTION)); 																		//N°SETCION part2
 							proprieteBatie.setDcapec((String) propBat.get(CadastrappConstants.PB_CATEGORIE));																			//Cat (PAS DANS LE REQUETTE)
 							proprieteBatie.setDescr((String) propBat.get(CadastrappConstants.PB_NUM_ENTREE)); 																			//Ent
 							proprieteBatie.setDniv((String) propBat.get(CadastrappConstants.PB_NIV_ETAGE)); 																			//Niv
 							proprieteBatie.setDnubat((String) propBat.get(CadastrappConstants.PB_LETTRE_BAT));																			//Bat
-							proprieteBatie.setDnupla((String) propBat.get(CadastrappConstants.PB_NUM_PLAN));																			//N° plan
+							proprieteBatie.setDnupla((String) propBat.get(CadastrappConstants.NUM_PLAN));																			//N° plan
 							proprieteBatie.setDpor((String) propBat.get(CadastrappConstants.PB_NUM_PORTE_LOCAL));																		//N° porte
 							proprieteBatie.setRevcad(propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? "":propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL).toString());	//Revenu cadastral
-							proprieteBatie.setDvoilib((String) propBat.get(CadastrappConstants.PB_ADRESSE)); 																			//Adresse
+							proprieteBatie.setDvoilib((String) propBat.get(CadastrappConstants.ADRESSE)); 																			//Adresse
 							proprieteBatie.setGtauom(propBat.get(CadastrappConstants.PB_MONTANT_TIEOM) == null ? "":propBat.get(CadastrappConstants.PB_MONTANT_TIEOM).toString()); 	//tx OM
 							
 							List<Exoneration> proprieteBatieExonerations = new ArrayList<Exoneration>();
@@ -993,20 +1008,20 @@ public final class ReleveProprieteHelper extends CadController{
 
 							ProprieteNonBatie proprieteNonBatie = new ProprieteNonBatie();
 
-							proprieteNonBatie.setCcopre((String) propNonBat.get(CadastrappConstants.PNB_PREFIX_SECTION));
-							proprieteNonBatie.setCcoriv((String) propNonBat.get(CadastrappConstants.PNB_CODE_RIVOLI_VOIE));
-							proprieteNonBatie.setCcosec((String) propNonBat.get(CadastrappConstants.PNB_LETTRE_SECTION));
+							proprieteNonBatie.setCcopre((String) propNonBat.get(CadastrappConstants.PREFIX_SECTION));
+							proprieteNonBatie.setCcoriv((String) propNonBat.get(CadastrappConstants.CODE_RIVOLI_VOIE));
+							proprieteNonBatie.setCcosec((String) propNonBat.get(CadastrappConstants.LETTRE_SECTION));
 							proprieteNonBatie.setCcostn((String) propNonBat.get(CadastrappConstants.PNB_SERIE_TARIF));
 							proprieteNonBatie.setCcosub((String) propNonBat.get(CadastrappConstants.PNB_LETTRE_SUF));
 							proprieteNonBatie.setCgrnum((String) propNonBat.get(CadastrappConstants.PNB_GROUP_NATURE_CULTURE));
 							proprieteNonBatie.setCnatsp((String) propNonBat.get(CadastrappConstants.PNB_CODE_NAT_CULT));
 							proprieteNonBatie.setDclssf((String) propNonBat.get(CadastrappConstants.PNB_CLASSE));		
 							proprieteNonBatie.setDnulot((String) propNonBat.get(CadastrappConstants.PNB_REF_LOT));
-							proprieteNonBatie.setDnupla((String) propNonBat.get(CadastrappConstants.PNB_NUM_PLAN));
+							proprieteNonBatie.setDnupla((String) propNonBat.get(CadastrappConstants.NUM_PLAN));
 							proprieteNonBatie.setDparpi((String) propNonBat.get(CadastrappConstants.PNB_NUM_PARC_PRIM));
 							proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 							proprieteNonBatie.setDsgrpf((String) propNonBat.get(CadastrappConstants.PNB_SOUS_GROUP));
-							proprieteNonBatie.setDvoilib((String) propNonBat.get(CadastrappConstants.PNB_ADRESSE));
+							proprieteNonBatie.setDvoilib((String) propNonBat.get(CadastrappConstants.ADRESSE));
 							proprieteNonBatie.setExonerations(proprieteNonBatieExonerations);
 
 							int surface = (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA);
