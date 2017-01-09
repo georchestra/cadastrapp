@@ -39,7 +39,7 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
         });
         
         // create menu with items
-        return new Ext.Button({
+        return new Ext.Button({            
             text:OpenLayers.i18n("cadastrapp.result.csv.export"),      
             menu: menuCsv
         });
@@ -47,6 +47,7 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
     } else {
         return new Ext.Button({
             text: OpenLayers.i18n("cadastrapp.result.csv.export"),
+            disabled:true,
             listeners : {
                 click : function(b, e) {                
                     // Export selected plots as csv
@@ -127,6 +128,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
             }
         }, {
             text : OpenLayers.i18n('cadastrapp.result.parcelle.zoom.selection'),
+            disabled:true,
             listeners : {
                 click : function(b, e) {
                     // zoom on selected plots from the active tab
@@ -145,6 +147,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
             }
         }, {
             text : OpenLayers.i18n('cadastrapp.result.parcelle.delete'),
+            disabled:true,
             listeners : {
                 click : function(b, e) {
                     // remove selected plots from the active tab
@@ -172,6 +175,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
             }
         }, {
             text : OpenLayers.i18n('cadastrapp.result.parcelle.fiche'),
+            disabled:true,
             listeners : {
                 click : function(b, e) {
 
@@ -260,7 +264,12 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
             }
 
             if (newTab) {
+                                                              
                 if (newTab.store) {
+                    // enable or disable button according to row selection
+                    var selTab = newTab.getSelectionModel();
+                    selTab.fireEvent("selectionchange",selTab);
+                    
                     store = newTab.store.data.items;
                     newTab.featureList
 
@@ -329,6 +338,30 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                         GEOR.Addons.Cadastre.changeStateFeature(feature, 0, GEOR.Addons.Cadastre.selection.state.list);
 
                     }
+                },
+                selectionchange : function(grid, rowIndx, record){
+                    Ext.each(GEOR.Addons.Cadastre.result.plot.window.buttons, function(btn, idx){
+                        
+                        if(grid.selections.length == 0){ // no selection, we deactive some buttons
+                            switch (btn.text){
+                            case OpenLayers.i18n('cadastrapp.result.parcelle.zoom.selection'):
+                                btn.disable();
+                                break;
+                            case OpenLayers.i18n('cadastrapp.result.parcelle.delete'):
+                                btn.disable();
+                                break;
+                            case OpenLayers.i18n('cadastrapp.result.parcelle.fiche'):
+                                btn.disable();
+                                break;
+                            default:
+                                if(!btn.menu && btn.text == OpenLayers.i18n("cadastrapp.result.csv.export")){
+                                    btn.disable();
+                                }
+                            }                                   
+                        } else {
+                            btn.enable();
+                        }
+                    });
                 }
             }
         }),
