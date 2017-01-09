@@ -574,7 +574,7 @@
 				</fo:table-cell>
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">
 					<fo:block>
-						<!--  TODO FP / DP -->
+						<xsl:value-of select="@gparnf" />
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">

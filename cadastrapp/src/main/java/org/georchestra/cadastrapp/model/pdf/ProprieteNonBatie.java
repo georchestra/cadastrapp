@@ -9,7 +9,7 @@ public class ProprieteNonBatie extends Propriete{
 	private String dparpi;
 	
 	// Domanialité, représentation du plan
-	private String gpafpd;
+	private String gparnf;
 	
 	// Lettres indicatives de su
 	private String ccosub;
@@ -60,18 +60,18 @@ public class ProprieteNonBatie extends Propriete{
 	}
 
 	/**
-	 * @return the gpafpd
+	 * @return the gparnf
 	 */
-	public String getGpafpd() {
-		return gpafpd;
+	public String getGparnf() {
+		return gparnf;
 	}
 
 	@XmlAttribute
 	/**
-	 * @param gpafpd the gpafpd to set
+	 * @param gparnf the gparnf to set
 	 */
-	public void setGpafpd(String gpafpd) {
-		this.gpafpd = gpafpd;
+	public void setGparnf(String gparnf) {
+		this.gparnf = gparnf;
 	}
 
 	/**

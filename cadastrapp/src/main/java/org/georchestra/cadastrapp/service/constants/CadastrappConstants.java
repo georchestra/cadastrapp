@@ -63,6 +63,7 @@ public final class CadastrappConstants {
 	public static final String PNB_ANNEE_RETOUR_IMPOSITION	= "jfinex";
 	public static final String PNB_FRACTION_RC_EXO			= "rcexnba";
 	public static final String PNB_POURCENTAGE_EXO			= "pexn";
+	public static final Object PNB_FPDP 					= "gparnf";
 	
 	
 	//code collectivité accordant l'exonération
@@ -86,7 +87,6 @@ public final class CadastrappConstants {
 	
 	
 	//message erreur
-	public static final String GENERATING_PICTURE_ERROR = "Problème lors de la création de l'image du bordereau.";
-	
+	public static final String GENERATING_PICTURE_ERROR = "Problème lors de la création de l'image du bordereau.";	
 
 }

@@ -334,7 +334,7 @@ public final class ReleveProprieteHelper extends CadController{
 
 						StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
-						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.cgocommune, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, dsgrpf, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnb.dreflf, pnb.majposa, pnb.bisufad_com, pnb.bisufad_dep, pnb.bisufad_gp ");
+						queryBuilderProprieteNonBatie.append("select distinct pnb.id_local, pnb.cgocommune, pnb.ccopre, pnb.ccosec, pnb.dnupla, COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, pnb.ccostn, pnb.ccosub, pnb.cgrnum, pnb.dsgrpf, pnb.dclssf, pnb.cnatsp, pnb.dcntsf, pnb.drcsuba, pnb.dnulot, pnb.dreflf, pnb.majposa, pnb.bisufad_com, pnb.bisufad_dep, pnb.bisufad_gp, pnb.gparnf ");
 						queryBuilderProprieteNonBatie.append("from ");
 						queryBuilderProprieteNonBatie.append(databaseSchema);
 						queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
@@ -410,6 +410,7 @@ public final class ReleveProprieteHelper extends CadController{
 							proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 							proprieteNonBatie.setDsgrpf((String) propNonBat.get(CadastrappConstants.PNB_SOUS_GROUP));
 							proprieteNonBatie.setDvoilib((String) propNonBat.get(CadastrappConstants.PNB_ADRESSE));
+							proprieteNonBatie.setGparnf((String) propNonBat.get(CadastrappConstants.PNB_FPDP)); 
 							proprieteNonBatie.setExonerations(proprieteNonBatieExonerations);
 							
 							int surface = (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA);
