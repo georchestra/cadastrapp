@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_commune_2016</name>
+  <id>LayerInfoImpl--3a0ee06f:158248ecb35:3f7</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--3a0ee06f:158063111ad:6c9b</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--3a0ee06f:158248ecb35:3f6</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

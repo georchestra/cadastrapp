@@ -18,6 +18,7 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
         frame : true,
         autoScroll : true,
         layout:'accordion',
+        autoHeight:true,
         defaults: {
             // applied to each contained panel
             bodyStyle: 'padding:15px'
@@ -28,6 +29,9 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
         },
         items: [],
         listeners : {
+            resize: function(){
+                habitationDetailsWindows.syncShadow();
+            },
             close : function(window) {
                 habitationDetailsWindows = null;
             }

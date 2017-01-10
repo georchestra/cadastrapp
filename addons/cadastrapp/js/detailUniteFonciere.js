@@ -48,9 +48,16 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 			}
 		} ],
 		listeners : {
-			'beforeload' : function() {
-				Ext.getCmp('selectParcelleButton').enable();
-			}
+		    'datachanged' : function (){
+                // if data are load in the store
+                if(this.data.length > 0){
+                    var featuresId = [];
+                    Ext.each(this.data.items, function(item, currentIndex){
+                        featuresId.push(item.data.parcelle);
+                    });
+                    GEOR.Addons.Cadastre.getFeaturesWFSAttribute(featuresId);
+                }
+            }
 		}
 
 	});
@@ -153,6 +160,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 		name : 'Fiuf_ParcelleList',
 		xtype : 'editorgrid',
 		autoExpandColumn : 'adresse',
+		disableSelection: true,
 		anchor : '100%',
 		colModel : new Ext.grid.ColumnModel({
 			defaults : {
@@ -231,15 +239,16 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 			disabled : true,
 			listeners : {
 				click : function(b, e) {
-					var features = [];
+				    var listId = [];
 
-					fiufParcelleListStore.each(function(record) {
-						GEOR.Addons.Cadastre.getFeaturesWFSAttribute(record.data.parcelle);
-						features.push(GEOR.Addons.Cadastre.getFeatureById(record.data.parcelle));
-					});
-					if (features.length > 0) {
-						GEOR.Addons.Cadastre.zoomOnFeatures(features);
-					}
+                    fiufParcelleListStore.each(function(record) {
+                        listId.push(record.data.parcelle);
+                    });
+                   
+                    if(listId.length > 0 ){
+                        GEOR.Addons.Cadastre.addNewResultParcelle ("UF Sélection", null);
+                        GEOR.Addons.Cadastre.showTabSelection(listId);
+                    }                                  
 				}
 			}
 		} ]

@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_symblim_2016</name>
+  <id>LayerInfoImpl--3a0ee06f:1581addb7d7:25f7</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--3a0ee06f:1580631f8b7:6545</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--3a0ee06f:1581addb7d7:25f6</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

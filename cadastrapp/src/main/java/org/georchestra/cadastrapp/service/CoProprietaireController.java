@@ -1,5 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,21 +9,31 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.commons.lang3.StringUtils;
+import org.georchestra.cadastrapp.service.export.ExportHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class CoProprietaireController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(CoProprietaireController.class);
+	
+	@Autowired
+	ExportHelper exportHelper;
 
 	@Path("/getCoProprietaireList")
 	@GET
@@ -157,5 +169,98 @@ public class CoProprietaireController extends CadController {
 
 		return finalResult;
 
+	}
+	
+	
+	@POST
+	@Path("/exportCoProprietaireByParcelles")
+	@Produces("text/csv")
+	/**
+	 * Create a csv file from given parcelles id
+	 * 
+	 * @param headers used to filter displayed information
+	 * @param parcelles list of parcelle separated by a coma
+	 * 
+	 * @return csv containing list of co-owners of given parcelle list
+	 * 
+	 * @throws SQLException
+	 */
+	public Response exportProprietaireByParcelles(
+			@Context HttpHeaders headers,
+			@FormParam("parcelles") String parcelles) throws SQLException {
+		
+		// Create empty content
+		ResponseBuilder response = Response.noContent();
+		
+		// User need to be at least CNIL1 level
+		if (getUserCNILLevel(headers)>0){
+		
+			//TODO externalize entete
+			String  entete = "Compte communal;Civilité;Nom;Prénom;Nom d'usage;Prénom d'usage;Dénominiation;Nom d'usage;Adresse ligne 3;Adresse ligne 4;Adresse ligne 5;Adresse ligne 6;Identitifiants de parcelles;ccodro_lib";
+			if(getUserCNILLevel(headers)>1){
+				entete = entete + ";Lieu de naissance; Date de naissance";
+			}
+			
+			String[] parcelleList = StringUtils.split(parcelles, ',');
+			
+			if(parcelleList != null && parcelleList.length > 0){
+				
+				logger.debug("Nb of parcelles to search in : " + parcelleList.length);
+
+				// Get value from database
+				List<Map<String,Object>> coproprietaires = new ArrayList<Map<String,Object>>();
+										
+				StringBuilder queryBuilder = new StringBuilder();
+				queryBuilder.append("select prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ");
+				queryBuilder.append("string_agg(parcelle, ','), ccodro_lib ");
+				
+				// If user is CNIL2 add birth information
+				if(getUserCNILLevel(headers)>1){
+					queryBuilder.append(", dldnss, jdatnss ");
+				}
+				queryBuilder.append("from ");
+				queryBuilder.append(databaseSchema);
+				queryBuilder.append(".proprietaire prop, ");
+				queryBuilder.append(databaseSchema);
+				queryBuilder.append(".co_propriete_parcelle proparc ");
+				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
+				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
+				queryBuilder.append("GROUP BY prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ccodro_lib ");
+				// If user is CNIL2 add birth information
+				if(getUserCNILLevel(headers)>1){
+					queryBuilder.append(", dldnss, jdatnss ");
+				}
+				queryBuilder.append(addAuthorizationFiltering(headers));
+				queryBuilder.append(" ORDER BY prop.comptecommunal");
+				
+				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+				coproprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList);
+				
+				File file = null;
+
+				try {
+					// Create file
+					file = exportHelper.createCSV(coproprietaires, entete);
+									
+					// build csv response
+					response = Response.ok((Object) file);
+					response.header("Content-Disposition", "attachment; filename=" + file.getName());
+				}catch (IOException e) {
+					logger.error("Error while creating CSV files : " + e.getMessage());
+				} finally {
+					if (file != null) {
+						file.deleteOnExit();
+					}
+				}
+			}
+			else{
+				//log empty request
+				logger.info("Parcelle Id List is empty nothing to search");
+			}
+		}else{
+			logger.info("User does not have rights to see thoses informations");
+		}
+	
+		return response.build();
 	}
 }

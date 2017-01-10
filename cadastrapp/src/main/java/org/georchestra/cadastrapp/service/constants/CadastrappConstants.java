@@ -35,7 +35,7 @@ public final class CadastrappConstants {
 	public static final String PB_ANNEE_DEB_EXO				= "jandeb";
 	public static final String PB_FRACTION_EXO				= "rcexba2";
 	public static final String PB_TAUX_EXO_ACCORDEE			= "pexb";
-	public static final String PB_MONTANT_TIEOM				= "mvltieomx";
+	public static final String PB_MONTANT_TIEOM				= "gtauom";
 	
 	//Relevé proprietaire partie lot
 	public static final String PB_LOT_ID					= "dnulot";
@@ -65,6 +65,7 @@ public final class CadastrappConstants {
 	public static final String PNB_ANNEE_RETOUR_IMPOSITION	= "jfinex";
 	public static final String PNB_FRACTION_RC_EXO			= "rcexnba";
 	public static final String PNB_POURCENTAGE_EXO			= "pexn";
+	public static final Object PNB_FPDP 					= "gparnf";
 	
 	
 	//code collectivité accordant l'exonération
@@ -88,7 +89,6 @@ public final class CadastrappConstants {
 	
 	
 	//message erreur
-	public static final String GENERATING_PICTURE_ERROR = "Problème lors de la création de l'image du bordereau.";
-	
+	public static final String GENERATING_PICTURE_ERROR = "Problème lors de la création de l'image du bordereau.";	
 
 }

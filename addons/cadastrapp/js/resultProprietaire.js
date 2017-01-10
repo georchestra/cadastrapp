@@ -194,6 +194,8 @@ GEOR.Addons.Cadastre.exportOwnerSelectionAsCSV = function() {
         } else {
             Ext.Msg.alert('Status', OpenLayers.i18n('cadastrapp.result.owner.no.selection'));
         }
+    } else if (GEOR.Addons.Cadastre.result.tabs){
+        GEOR.Addons.Cadastre.exportOwnersAsCSV();
     } else {
         Ext.Msg.alert('Status', OpenLayers.i18n('cadastrapp.result.owner.no.search'));
     }

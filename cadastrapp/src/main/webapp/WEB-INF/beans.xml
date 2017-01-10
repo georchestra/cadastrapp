@@ -135,4 +135,48 @@
 		factory-method="getSessionFactory" />
 
 
+	<!-- ============================= -->
+	<!--  QUARTZ INFORMATION  -->
+	<!-- ============================= -->
+	
+	<!-- Set configuration for purge -->
+	 <bean id="purgeBean" class="org.georchestra.cadastrapp.purge.PurgeJob">
+        <property name="hours" value="${purge.hours}" />
+    </bean>
+	
+	<!-- Define quart job to purge file, class and method to call -->
+    <bean id="purgeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="purgeBean" />
+        <property name="targetMethod" value="purge" />
+    </bean>
+ 
+ 	<!-- Run the job every 5 seconds only on Weekends -->
+	<bean id="cronTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	    <property name="jobDetail" ref="purgeJobDetail" />
+	    <property name="cronExpression" value="${purge.cronExpression}" />
+	</bean>
+ 
+    <!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->
+    <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    
+    	<!--  Skip attempt to connected to Internet for update -->
+    	<property name="quartzProperties">
+             <props>
+            	<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+            </props>
+        </property>
+        
+        <property name="jobDetails">
+            <list>
+                <ref bean="purgeJobDetail" />
+            </list>
+        </property>
+ 
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+    </bean>
+
 </beans>

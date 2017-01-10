@@ -1,0 +1,71 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--3a0ee06f:1581a1f4963:5a60</id>
+  <name>geo_tronfluv_2016</name>
+  <nativeName>geo_tronfluv</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-56f0350:150666c28a1:-7f6b</id>
+  </namespace>
+  <title>Cours d&apos;eau du PCI Vecteur 2016</title>
+  <abstract>Élément surfacique (fermé) utilisé pour tous les cours d&apos;&apos;eau et les rivages de mers. Un libellé y est associé.</abstract>
+  <keywords>
+    <string>features</string>
+    <string>geo_tronfluv</string>
+  </keywords>
+  <nativeCRS class="projected">PROJCS[&quot;RGF93 / CC48&quot;, 
+  GEOGCS[&quot;RGF93&quot;, 
+    DATUM[&quot;Reseau Geodesique Francais 1993&quot;, 
+      SPHEROID[&quot;GRS 1980&quot;, 6378137.0, 298.257222101, AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]], 
+      TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY[&quot;EPSG&quot;,&quot;6171&quot;]], 
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], 
+    UNIT[&quot;degree&quot;, 0.017453292519943295], 
+    AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], 
+    AUTHORITY[&quot;EPSG&quot;,&quot;4171&quot;]], 
+  PROJECTION[&quot;Lambert_Conformal_Conic_2SP&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9802&quot;]], 
+  PARAMETER[&quot;central_meridian&quot;, 3.0], 
+  PARAMETER[&quot;latitude_of_origin&quot;, 48.0], 
+  PARAMETER[&quot;standard_parallel_1&quot;, 48.75], 
+  PARAMETER[&quot;false_easting&quot;, 1700000.0], 
+  PARAMETER[&quot;false_northing&quot;, 7200000.0], 
+  PARAMETER[&quot;scale_factor&quot;, 1.0], 
+  PARAMETER[&quot;standard_parallel_2&quot;, 47.25], 
+  UNIT[&quot;m&quot;, 1.0], 
+  AXIS[&quot;Easting&quot;, EAST], 
+  AXIS[&quot;Northing&quot;, NORTH], 
+  AUTHORITY[&quot;EPSG&quot;,&quot;3948&quot;]]</nativeCRS>
+  <srs>EPSG:3948</srs>
+  <nativeBoundingBox>
+    <minx>1988298.375</minx>
+    <maxx>2083330.375</maxx>
+    <miny>7222953.5</miny>
+    <maxy>7329108.5</maxy>
+    <crs class="projected">EPSG:3948</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>6.875815318332571</minx>
+    <maxx>8.246991015663562</maxx>
+    <miny>48.09125138095748</miny>
+    <maxy>49.09465491558486</maxy>
+    <crs>GEOGCS[&quot;WGS84(DD)&quot;, 
+  DATUM[&quot;WGS84&quot;, 
+    SPHEROID[&quot;WGS84&quot;, 6378137.0, 298.257223563]], 
+  PRIMEM[&quot;Greenwich&quot;, 0.0], 
+  UNIT[&quot;degree&quot;, 0.017453292519943295], 
+  AXIS[&quot;Geodetic longitude&quot;, EAST], 
+  AXIS[&quot;Geodetic latitude&quot;, NORTH]]</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="cachingEnabled">false</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-56f0350:150666c28a1:-7f6a</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

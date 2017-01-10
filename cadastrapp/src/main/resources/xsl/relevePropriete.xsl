@@ -198,7 +198,7 @@
 			<fo:table-column column-width="2%" />
 			<fo:table-column column-width="3%" />
 			<fo:table-column column-width="3%" />
-			<fo:table-column column-width="8%" />
+			<fo:table-column column-width="12%" />
 			<fo:table-column column-width="4%" />
 			<fo:table-column column-width="2%" />
 			<fo:table-column column-width="2%" />
@@ -217,7 +217,6 @@
 			<fo:table-column column-width="6%" />
 			<fo:table-column column-width="4%" />
 			<fo:table-column column-width="6%" />
-			<fo:table-column column-width="4%" />
 			<fo:table-header background-color="yellow" font-weight="bold">
 				<fo:table-row>
 					<fo:table-cell xsl:use-attribute-sets="bordure" number-columns-spanned="5">
@@ -230,7 +229,7 @@
 							Identification du local
 						</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure" number-columns-spanned="13">
+					<fo:table-cell xsl:use-attribute-sets="bordure" number-columns-spanned="12">
 						<fo:block>
 							Evaluation du local
 						</fo:block>
@@ -348,11 +347,6 @@
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
 							Tx Om
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="bordure">
-						<fo:block>
-							Coef
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -514,12 +508,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@mvltieomx" />
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<!--  TODO Coef -->
+								<xsl:value-of select="@gtauom" />
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -798,7 +787,7 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<!--  TODO FP / DP -->
+								<xsl:value-of select="@gparnf" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">

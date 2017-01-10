@@ -22,10 +22,10 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
     var propCityCombo1 = new Ext.form.ComboBox({
         fieldLabel : OpenLayers.i18n('cadastrapp.proprietaire.city'),
         hiddenName : 'cgocommune',
-        allowBlank : false,
         width : 300,
         mode : 'local',
-        value : '',
+        allowBlank: false,
+        value:"",
         forceSelection : true,
         editable : true,
         displayField : 'displayname',
@@ -115,6 +115,8 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                 editable : true,
                 displayField : 'app_nom_usage',
                 valueField : 'app_nom_usage',
+                minLength : 12,
+                minLengthText : OpenLayers.i18n('cadastrapp.search.copropriete.ddenom.control'),
                 disabled : true,
                 store : new Ext.data.JsonStore({
                     proxy : new Ext.data.HttpProxy({
@@ -124,16 +126,6 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                     }),
                     fields : [ 'app_nom_usage' ]
                 }),
-                validator : function(value) {
-                    // if other field are empty, check value size
-                    if (Ext.getCmp('cadastrappCoProprieteSearchTexfieldParcelle').isValid() || Ext.getCmp('cadastrappCoProprieteSearchTexfieldComptecommunal').isValid()) {
-                        return true;
-                    } else if (!value || value.length < 14) {
-                        return OpenLayers.i18n('cadastrapp.search.copropriete.ddenom.control');
-                    } else {
-                        return true;
-                    }
-                },
                 listeners : {
                     beforequery : function(q) {
                         if (q.query) {
@@ -151,9 +143,6 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                         }
                         q.query = new RegExp(Ext.escapeRe(q.query), 'i');
                         q.query.length = length;
-                    },
-                    valid : function(element) {
-                        GEOR.Addons.Cadastre.coProprieteWindow.buttons[0].enable();
                     }
                 }
             }, {
@@ -165,21 +154,8 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                 fieldLabel : OpenLayers.i18n('cadastrapp.search.copropriete.parcelle.ident'),
                 name : 'parcelle',
                 width : 300,
-                validator : function(value) {
-                    // if other field are empty, check value size                    
-                    if (Ext.getCmp('cadastrappCoProprieteSearchDdenomcombo').isValid() || Ext.getCmp('cadastrappCoProprieteSearchTexfieldComptecommunal').isValid()) {
-                        return true;
-                    } else if (!value || value.length < 14) {
-                        return OpenLayers.i18n('cadastrapp.parcelle.ident.control');
-                    } else {
-                        return true;
-                    }
-                },
-                listeners : {
-                    valid : function(element) {
-                        GEOR.Addons.Cadastre.coProprieteWindow.buttons[0].enable();
-                    }
-                }
+                minLength : 12,
+                minLengthText : OpenLayers.i18n('cadastrapp.parcelle.ident.control'),
             }, {
                 value : OpenLayers.i18n('cadastrapp.parcelle.ident.exemple'),
                 fieldClass : 'displayfieldGray'
@@ -188,23 +164,10 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                 id : 'cadastrappCoProprieteSearchTexfieldComptecommunal',
                 fieldLabel : OpenLayers.i18n('cadastrapp.search.copropriete.comptecommunal.ident'),
                 name : 'comptecommunal',
+                disabled: true,
                 width : 300,
-                validator : function(value) {
-
-                    // if other field are empty, check value size                    
-                    if (Ext.getCmp('cadastrappCoProprieteSearchDdenomcombo').isValid() || Ext.getCmp('cadastrappCoProprieteSearchTexfieldParcelle').isValid()) {
-                        return true;
-                    } else if (!value || value.length < 12) {
-                        return OpenLayers.i18n('cadastrapp.search.copropriete.comptecommunal.control');
-                    } else {
-                        return true;
-                    }
-                },
-                listeners : {
-                    valid : function(element) {
-                        GEOR.Addons.Cadastre.coProprieteWindow.buttons[0].enable();
-                    }
-                }
+                minLength : 12,
+                minLengthText : OpenLayers.i18n('cadastrapp.search.copropriete.comptecommunal.control')
             }, {
                 value : OpenLayers.i18n('cadastrapp.search.copropriete.comptecommunal.exemple'),
                 fieldClass : 'displayfieldGray'
@@ -212,16 +175,18 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
         } ],
         buttons : [ {
             text : OpenLayers.i18n('cadastrapp.search'),
-            disabled : true,
+            disabled : false,
             listeners : {
                 click : function(b, e) {
+                    
+                    
 
                     var currentForm = GEOR.Addons.Cadastre.coProprieteWindow.items.items[0];
 
                     // Form value to check which service to call
                     var values = currentForm.getForm().getValues();
-
-                    if (values.parcelle && values.parcelle.length > 0) {
+                    
+                    if (values.parcelle && values.parcelle.length > 0 && Ext.getCmp("cadastrappCoProprieteSearchTexfieldParcelle").isValid()) {
 
                         var resultTitle = values.parcelle;
                         var requestparam = {};
@@ -237,8 +202,9 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                                 console.log('Error when getting parcelle information, check server side');
                             }
                         });
-                    } else if (values.cgocommune && values.cgocommune.length > 0 && 
-                                (values.comptecommunal && values.comptecommunal.length > 0 || values.ddenom && values.ddenom.length >0)) {
+                    } else if (values.cgocommune && values.cgocommune.length > 0 &&
+                               ((values.comptecommunal && values.comptecommunal.length > 0 && Ext.getCmp('cadastrappCoProprieteSearchTexfieldComptecommunal').isValid())
+                                 || (values.ddenom && values.ddenom.length >0 && Ext.getCmp('cadastrappCoProprieteSearchDdenomcombo').isValid()))) {
                         
                         var resultTitle = currentForm.getForm().findField('cgocommune').lastSelectionText;
                         if(resultTitle.length == 0){
@@ -288,7 +254,9 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                         });
                     } else{
                         // no require parameter to make a call
-                        Ext.Msg.alert("Le choix d'une commune est obligatoire en complément d'un autre champ");
+                        //Ext.MessageBox.alert("Erreur", "Le choix d'une commune est obligatoire en complément d'un autre champ");
+                        Ext.MessageBox.alert(OpenLayers.i18n('cadastrapp.search.copropriete.alert.title'), OpenLayers.i18n('cadastrapp.search.copropriete.alert.message'));
+                        
                     }
 
                 }
@@ -297,7 +265,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
             text : OpenLayers.i18n('cadastrapp.close'),
             listeners : {
                 click : function(b, e) {
-                    GEOR.Addons.Cadastre.initRechercheCoPropriete.close();
+                    GEOR.Addons.Cadastre.coProprieteWindow.close();
                 }
             }
         } ]

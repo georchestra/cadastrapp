@@ -361,9 +361,10 @@ public class ImageParcelleController extends CadController {
 							logger.debug("No basemapurl given, non basemap will be add ");
 						}
 
-						drawPlot(g2, bufferGeometry, targetGeometry, (int) pdfImageHeight, (int) pdfImageWidth);
+						
 						logger.debug("Add Image to final picture");
 						g2.drawImage(parcelleImage, 0, 0, null);
+						drawPlot(g2, bufferGeometry, targetGeometry, (int) pdfImageHeight, (int) pdfImageWidth);
 						drawCompass(g2, (int) pdfImageHeight, (int) pdfImageWidth);
 
 						try {
@@ -503,7 +504,7 @@ public class ImageParcelleController extends CadController {
 	 */
 	private void drawPlot(Graphics2D g2d, Geometry bufferGeometry, Geometry originalGeometry, int imageHeight, int imageWidth) {
 		
-		logger.debug("Add selected feature ");
+		logger.debug("Draw selected feature ");
 		if (bufferGeometry != null) {
 
 			if (logger.isDebugEnabled()) {
