@@ -541,7 +541,7 @@ public class ParcelleController extends CadController {
 		// User need to be at least CNIL1 level
 		if (getUserCNILLevel(headers)>0){
 				
-			String entete = "Identifiant de parcelle;Commune;dnvoiri;dindic;cconvo;N° de plan;dvoilib;ccopre;ccosec;Contenance DGFiP en m²";
+			String entete = "Identifiant de parcelle;Commune;dnvoiri;dindic;cconvo;dvoilib;ccopre;ccosec;N° de plan;Contenance DGFiP en m²";
 			
 			String[] parcelleArray = StringUtils.split(parcelles, ',');
 			List<String> parcelleList = new ArrayList<String>();
