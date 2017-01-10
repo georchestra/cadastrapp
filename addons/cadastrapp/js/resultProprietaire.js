@@ -52,6 +52,10 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
         listeners : {
             close : function(window) {
                 GEOR.Addons.Cadastre.result.owner.window = null;
+            },
+            show : function(){
+                // set left position window to left at show event
+                GEOR.Addons.Cadastre.setObjectLocation(this, "bottom", "left");
             }
         },
         items : [ ownerGrid ],

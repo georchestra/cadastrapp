@@ -38,7 +38,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         resizable : true,
         draggable : true,
         constrainHeader : true,
-        width : 825,
+        width : 600,
         items : cadastreTabPanel,
         listeners : {
             close : function(window) {
@@ -58,8 +58,11 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                 // on ferme aussi la fenêtre foncière si ouverte
                 GEOR.Addons.Cadastre.closeWindowFIUF(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
                 windowFIUC = null;
+            },
+            show: function(){
+                GEOR.Addons.Cadastre.setObjectLocation(this,  "top", "right");
             }
-        },
+        }
 
     });
 

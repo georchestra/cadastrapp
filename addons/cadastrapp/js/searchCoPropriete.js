@@ -92,6 +92,9 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
         listeners : {
             close : function(window) {
                 GEOR.Addons.Cadastre.coProprieteWindow = null;
+            },
+            show: function(){
+                GEOR.Addons.Cadastre.setObjectLocation(this,  "middle", "right");
             }
         },
         items : [ {

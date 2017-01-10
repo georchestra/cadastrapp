@@ -233,6 +233,9 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
         listeners : {
             close : function(window) {
                 GEOR.Addons.Cadastre.rechercheParcelleWindow = null;
+            },
+            show: function(){
+                GEOR.Addons.Cadastre.setObjectLocation(this,  "middle", "right");
             }
         },
         items : [ {

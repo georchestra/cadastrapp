@@ -74,7 +74,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
         draggable : true,
         constrainHeader : true,
         border : false,
-        width : 630,
+        width : 500,
         height : 200,
         boxMaxHeight : Ext.getBody().getViewSize().height - 200,
         listeners : {
@@ -98,6 +98,9 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
             show : function(window) {
                 // lors du changement entre onglets : deselection de toutes les
                 // parcelles et selection de celles du nouvel onglet
+                
+                // set left position window to left at show event
+                GEOR.Addons.Cadastre.setObjectLocation(this, "bottom", "left");
             }
         },
         items : [ {
