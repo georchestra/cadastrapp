@@ -41,7 +41,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS
       dindic,
       cconvo,
       rtrim(dvoilib) as dvoilib,
-      ltrim(substr(codparc,7,3),''0'')  as ccopre,
+      substr(codparc,7,3)  as ccopre,
       ltrim(substr(codparc,10,2),''0'')  ccosec ,
       CAST(dcntpa AS integer)
     from #DBSchema_arcopole.dgi_nbati'::text) 
@@ -130,7 +130,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
       dnuplam,
       type as type_filiation,
       substr(codlot,1,4) as annee ,
-      ltrim(substr(codparc,7,3),''0'')  as ccopre,
+      substr(codparc,7,3)  as ccopre,
       ltrim(substr(codparc,10,2),''0'')  ccosec ,
       ''pdl'' as pdl, ''FR''||codparc as inspireId
     from #DBSchema_arcopole.dgi_nbati'::text) 

@@ -89,7 +89,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			// Create query
 			StringBuilder queryBuilder = new StringBuilder();
 
-			queryBuilder.append("select p.parcelle, c.libcom, p.dcntpa, p.ccosec, p.dnupla, p.dnvoiri||' '||p.dindic||' '||p.cconvo||' '||dvoilib as adresse, p.ccoriv from ");
+			queryBuilder.append("select p.parcelle, c.libcom, p.dcntpa, p.ccopre || p.ccosec as ccosec, p.dnupla, p.dnvoiri||' '||p.dindic||' '||p.cconvo||' '||dvoilib as adresse, p.ccoriv from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelleDetails p, ");
 			queryBuilder.append(databaseSchema);

@@ -357,7 +357,7 @@
 						<!-- Adresses des propriétés -->
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<!--  TODO M -->
+								<xsl:value-of select="@jdatat" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -756,7 +756,7 @@
 					<fo:table-row>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
-								<xsl:value-of select="@ccopre" />
+								<xsl:value-of select="@jdatat" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
