@@ -833,10 +833,7 @@ public final class ReleveProprieteHelper extends CadController{
 	 * @param headers
 	 * @return
 	 */
-	public RelevePropriete 
-    
-    
-    (List<String> comptesCommunaux, HttpHeaders headers) {
+	public RelevePropriete getReleveProprieteInformation(List<String> comptesCommunaux, HttpHeaders headers) {
 
 		return getReleveProprieteInformation(comptesCommunaux,headers,null);
 	}
