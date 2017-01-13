@@ -402,6 +402,11 @@
 			"cadastrapp.bordereauparcellaire.data.without" : "Without owner information",
 			"cadastrapp.bordereauparcellaire.data.with" : "With owner information",
 			
+			"cadastrapp.relevepropriete.title" : "Properties list",
+			"cadastrapp.relevepropriete.data" : "Data to extract",
+			"cadastrapp.relevepropriete.full" : "All properties",
+			"cadastrapp.relevepropriete.partial" : "Only this plot",
+			
 			"cadastrapp.ObjectRequest.idParcelle" : "id...",
 			"cadastrapp.ObjectRequest.comptecommunal" : "id...",
 			"cadastrapp.ObjectRequest.coPro" : "id...",
@@ -570,6 +575,11 @@
 			"cadastrapp.selection.proprietaires.export": "Export Liste .csv",
 			"cadastrapp.selection.proprietaires.edition": "Edition Liste .pdf",
 			"cadastrapp.selection.import": "Import Liste Parcelle .csv ",
+			
+			"cadastrapp.relevepropriete.title" : "Relevé de propriété PDF",
+			"cadastrapp.relevepropriete.data" : "Données à extraire",
+			"cadastrapp.relevepropriete.full" : "Toutes les propriétés",
+			"cadastrapp.relevepropriete.partial" : "Uniquement cette parcelle",
 			
 			"cadastrapp.result.title.fichier":"Par fichier",
 			"cadastrapp.result.title.ids":"Par id(s)",

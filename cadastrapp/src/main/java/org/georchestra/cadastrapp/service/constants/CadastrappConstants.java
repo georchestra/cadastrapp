@@ -6,6 +6,8 @@ public final class CadastrappConstants {
 	private CadastrappConstants() {
 
 	}
+	
+	public static final String PARC_ID					= "parcelle";
 
 	//Relevé proprietaire partie commue
 	

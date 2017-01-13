@@ -251,7 +251,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                                 comptecommunaux.push(selection.data.comptecommunal);
                             }
                         })
-                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(comptecommunaux);
+                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(comptecommunaux, parcelleId);
                     } else if (selectedRecordsArray.length >= GEOR.Addons.Cadastre.relevePropriete.maxProprietaire) {
                         Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous ne pouvez pas sélectionner plus de ' + GEOR.Addons.Cadastre.relevePropriete.maxProprietaire + ' proprietaires'});
                         // TODO see if we remove selection
@@ -386,7 +386,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                                 comptecommunaux.push(selection.data.comptecommunal);
                             }
                         })
-                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(comptecommunaux);
+                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(comptecommunaux, parcelleId);
                     } else if (selectedRecordsArray.length >= GEOR.Addons.Cadastre.relevePropriete.maxProprietaire) {
                         Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous ne pouvez pas sélectionner plus de ' + GEOR.Addons.Cadastre.relevePropriete.maxProprietaire + ' proprietaires'});
                         // TODO see if we remove selection
@@ -542,7 +542,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     var selectedRecordsArray = fiucBatimentsGrid.getSelectionModel().getSelected();
 
                     if (selectedRecordsArray) {
-                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(selectedRecordsArray.data.comptecommunal);
+                        GEOR.Addons.Cadastre.onClickPrintRelevePropriete(selectedRecordsArray.data.comptecommunal, parcelleId);
                     } else {
                         Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous devez d\'abord sélectionner un propriétaire'});
                     }

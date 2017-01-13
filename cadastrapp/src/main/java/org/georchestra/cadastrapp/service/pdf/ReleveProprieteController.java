@@ -39,16 +39,17 @@ public class ReleveProprieteController extends CadController {
 	@GET
 	@Path("/createRelevePropriete")
 	@Produces("application/pdf")
-	public Response createRelevePDFPropriete(@Context HttpHeaders headers, @QueryParam("compteCommunal") final List<String> comptesCommunaux) {
+	public Response createRelevePDFPropriete(@Context HttpHeaders headers, @QueryParam("compteCommunal") List<String> comptesCommunaux, @QueryParam("parcelleId") String idParcelle) {
 
 		ResponseBuilder response = Response.noContent();
 		
+		logger.debug("Controller Parcelle ID (param) : "+idParcelle);
+		
 		// Check if parcelle list is not empty
 		if (comptesCommunaux != null && !comptesCommunaux.isEmpty()) {
-			
 			// Get information about releve de propriete
 			//RelevePropriete relevePropriete = getReleveProprieteInformation(comptesCommunaux, headers);
-			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, headers);
+			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, headers, idParcelle);
 
 			File pdfResult = releveProprieteHelper.generatePDF(relevePropriete, false, false);
 			
