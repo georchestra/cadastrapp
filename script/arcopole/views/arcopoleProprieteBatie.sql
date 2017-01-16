@@ -46,7 +46,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			local.dnupro as comptecommunal , 
 			local.dnupro,
 			invar.codcomm as cgocommune,
-			substr(invar.codparc,7,3) as ccopre,
+			regexp_replace(substr(invar.codparc,7,3), ''0{3}'', '''') as ccopre,
 			ltrim(substr(invar.codparc,10,2), ''0'') ccosec ,
 			substr(invar.codparc,12,4) as dnupla,
 			concat(substr(local.jdatat,1,2),''/'',substr(local.jdatat,3,2),''/'',substr(local.jdatat,5,4)) as jdatat,
