@@ -101,7 +101,7 @@ public final class ReleveProprieteHelper extends CadController{
 				queryBuilder.append(".proprietaire_parcelle proparc ");
 				queryBuilder.append("where proparc.comptecommunal = ? ");
 				if(idParcelle != null && !idParcelle.isEmpty()){
-					queryBuilder.append("and proparc.parcelle = ? ");
+					queryBuilder.append("and p.parcelle = ? ");
 					queryParams.add(idParcelle);
 				}else{
 					queryBuilder.append("and p.parcelle = proparc.parcelle ");
@@ -129,7 +129,7 @@ public final class ReleveProprieteHelper extends CadController{
 					queryBuilder.append(".co_propriete_parcelle proparc ");
 					queryBuilder.append("where proparc.comptecommunal = ? ");
 					if(idParcelle != null && !idParcelle.isEmpty()){
-						queryBuilder.append("and proparc.parcelle = ? ");
+						queryBuilder.append("and p.parcelle = ? ");
 					}else{
 						queryBuilder.append("and p.parcelle = proparc.parcelle ");
 					}
