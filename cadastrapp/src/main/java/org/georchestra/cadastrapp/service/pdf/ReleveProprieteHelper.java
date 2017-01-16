@@ -720,7 +720,7 @@ public final class ReleveProprieteHelper extends CadController{
 	 * get proprietaire by info parcelle
 	 * 
 	 * @param commune
-	 * @param section TODO missing ccopre
+	 * @param section Section is ccopre+ccosec
 	 * @param numero
 	 * @return list of compte communal
 	 */
@@ -738,7 +738,7 @@ public final class ReleveProprieteHelper extends CadController{
 			queryBuilder.append(", ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelle p ");
-			queryBuilder.append("where p.cgocommune = ? and p.ccosec = ? and p.dnupla = ? ");
+			queryBuilder.append("where p.cgocommune = ? and p.ccopre||p.ccosec = ? and p.dnupla = ? ");
 			queryBuilder.append("and p.parcelle = proparc.parcelle");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

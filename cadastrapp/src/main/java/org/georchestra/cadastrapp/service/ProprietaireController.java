@@ -230,16 +230,16 @@ public class ProprietaireController extends CadController{
 	@Path("/getProprietairesByInfoParcelles")
 	@Produces("application/json")
 	/**
-	 * This will return information about owners in JSON format
+	 * This will return information about co-owners in JSON format
 	 *
 	 * 
 	 * @param headers headers from request used to filter search using LDAP Roles
 	 * @param commune
-	 * @param section
+	 * @param section containing ccopre+ccosec
 	 * @param numero
 	 * 					 
 	 * 
-	 * @return list of information about all proprietaire of given parcelles 
+	 * @return list of information about owners (co-owners id not co-owners list) of given plot 
 	 * 
 	 * @throws SQLException
 	 */
@@ -276,7 +276,7 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append("proprietaire pro ");
 				queryBuilder.append(" where p.parcelle = copropar.parcelle ");
 				queryBuilder.append(" and pro.comptecommunal = copropar.comptecommunal ");
-				queryBuilder.append(" and p.cgocommune = ? and p.ccosec = ? and p.dnupla = ? ");
+				queryBuilder.append(" and p.cgocommune = ? and p.ccopre||p.ccosec = ? and p.dnupla = ? ");
 
 				queryParams.add(commune);
 				queryParams.add(section);
@@ -285,8 +285,6 @@ public class ProprietaireController extends CadController{
 					queryBuilder.append(" and UPPER(rtrim(app_nom_usage)) LIKE UPPER(rtrim(?)) ");
 					queryParams.add("%"+ddenom.replace(' ', '%')+"%");
 				}
-
-				queryBuilder.append(";");
 
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 				proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
