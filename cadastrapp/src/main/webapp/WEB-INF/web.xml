@@ -13,7 +13,13 @@
     </listener>
     <listener>
         <listener-class>
-                       org.springframework.web.context.ContextLoaderListener
+             org.springframework.web.context.ContextLoaderListener
+       </listener-class>
+    </listener>
+    <!--  Test temporary folder before starting application -->
+     <listener>
+        <listener-class>
+            org.georchestra.cadastrapp.context.CadastrappContextListener
        </listener-class>
     </listener>
     
@@ -27,17 +33,6 @@
    <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
    </welcome-file-list>
-   
-   <!-- Test folder on startup -->
-    <servlet>
-        <servlet-name>InitFolderServlet</servlet-name>
-        <servlet-class>org.georchestra.cadastrapp.servlet.InitFolderServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>        
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>InitFolderServlet</servlet-name>
-        <url-pattern>/init/*</url-pattern>
-    </servlet-mapping>
         
     <!-- Define service endpoint -->
     <servlet>
