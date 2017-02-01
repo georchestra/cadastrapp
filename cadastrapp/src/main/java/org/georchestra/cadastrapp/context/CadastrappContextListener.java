@@ -49,7 +49,7 @@ public class CadastrappContextListener implements ServletContextListener{
 					throw new RuntimeException("Could not write in temp folder"); 
 				}
 			} catch (IOException e) {
-				logger.error("Init config - folder  " + tempFolder + " exist but is not writable", e.getMessage());
+				logger.error("Init config - folder  " + tempFolder + " exist but is not writable", e);
 				throw new RuntimeException("Could not write in temp folder"); 
 			}
 			
