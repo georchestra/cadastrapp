@@ -42,7 +42,6 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
         this.items = [];
 
         this.initMap();
-        var info;
         // if set, automatically creates a "cadastrapp" layer
         var style = this.style || OpenLayers.Util.applyDefaults(this.defaultStyle, OpenLayers.Feature.Vector.style["default"]);
 
@@ -62,19 +61,19 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
             styleMap : styleMap,
             displayInLayerSwitcher : false
         });
-        layer = new OpenLayers.Layer.Vector("__georchestra_cadastrapps", layerOptions);
+        var layer = new OpenLayers.Layer.Vector("__georchestra_cadastrapps", layerOptions);
         this.layer = layer;
         this.map.addLayer(layer);
 
-        this.initZoomControls(layer);
+        this.initZoomControls();
         this.items.push('-');
         this.initSelectionControls(layer);
         this.items.push('-');
-        this.initCadastrappControls(layer);
+        this.initCadastrappControls();
         this.items.push('-');
-        this.initRechercheControls(layer);
+        this.initRechercheControls();
         this.items.push('-');
-        this.initDemandeControl(layer);
+        this.initDemandeControl();
         this.items.push('-');
         this.initHelpControl();
 
@@ -104,13 +103,11 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
     /**
      * private: method[initZoomControls]
      * 
-     * @param layer:
-     *            ``OpenLayers.Layer.Vector``
      * 
      * init action on zoom button
      */
-    initZoomControls : function(layer) {
-        var control, action, iconCls, actionOptions, tooltip;
+    initZoomControls : function() {
+        var action, iconCls, actionOptions, tooltip, handler;
 
         handler = OpenLayers.Handler.Path;
         iconCls = "gx-featureediting-zoom";
@@ -128,7 +125,7 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
                 // Zoom on all element from all parcelle from each tab of
                 // resultParcellet tabpanel
                 if (GEOR.Addons.Cadastre.result.tabs && GEOR.Addons.Cadastre.result.tabs.items) {
-                    var allfeatures = new Array();
+                    var allfeatures = [];
                     Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
                         if (tab.featuresList) {
                             Ext.each(tab.featuresList, function(feature) {
@@ -168,21 +165,21 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
             var isButtonPressed = false;
 
             switch (geometryType) {
-            case "LineString":
-                handler = OpenLayers.Handler.Path;
-                iconCls = "gx-featureediting-cadastrapp-line";
-                tooltip = OpenLayers.i18n("cadastrapp.create_line");
-                break;
-            case "Point":
-                handler = OpenLayers.Handler.Point;
-                iconCls = "gx-featureediting-cadastrapp-point";
-                tooltip = OpenLayers.i18n("cadastrapp.create_point");
-                break;
-            case "Polygon":
-                handler = OpenLayers.Handler.Polygon;
-                iconCls = "gx-featureediting-cadastrapp-polygon";
-                tooltip = OpenLayers.i18n("cadastrapp.create_polygon");
-                break;
+                case "LineString":
+                    handler = OpenLayers.Handler.Path;
+                    iconCls = "gx-featureediting-cadastrapp-line";
+                    tooltip = OpenLayers.i18n("cadastrapp.create_line");
+                    break;
+                case "Point":
+                    handler = OpenLayers.Handler.Point;
+                    iconCls = "gx-featureediting-cadastrapp-point";
+                    tooltip = OpenLayers.i18n("cadastrapp.create_point");
+                    break;
+                case "Polygon":
+                    handler = OpenLayers.Handler.Polygon;
+                    iconCls = "gx-featureediting-cadastrapp-polygon";
+                    tooltip = OpenLayers.i18n("cadastrapp.create_polygon");
+                    break;
             }
 
             control = new OpenLayers.Control.DrawFeature(layer, handler, options);
@@ -218,12 +215,11 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
     },
 
     /**
-     * private: method[initCadastrappControls] :param layer:
-     * ``OpenLayers.Layer.Vector``
+     * private: method[initCadastrappControls] 
      * 
      * Init action on checkBox Foncier
      */
-    initCadastrappControls : function(layer) {
+    initCadastrappControls : function() {
 
         // menu : checkbox foncier
         var foncierPanel = new Ext.Panel({
@@ -255,11 +251,10 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
     },
 
     /**
-     * private: method[initRechercheControls] :param layer:
-     * ``OpenLayers.Layer.Vector`` Init action on search parcelle menu and
-     * button
+     * private: method[initRechercheControls] 
+     *  Init action on search parcelle menu and button
      */
-    initRechercheControls : function(layer) {
+    initRechercheControls : function() {
         // menu : recherche parcelle
         var configRechercheParcelle = {
             tooltip : OpenLayers.i18n("cadastrapp.parcelle"),
@@ -438,10 +433,9 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
     },
 
     /**
-     * private: method[initDemandeControl] :param layer:
-     * ``OpenLayers.Layer.Vector`` Create ...TODO
+     * private: method[initDemandeControl]
      */
-    initDemandeControl : function(layer) {
+    initDemandeControl : function() {
 
         // menu : recherche parcelle
         var configDemande = {

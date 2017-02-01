@@ -77,7 +77,7 @@ GEOR.Addons.Cadastre.createSelectionControl = function(style, selectedStyle) {
     GEOR.Addons.Cadastre.WFSLayer.styleMap = styleFeatures;
 
     // ajout de la couche à la carte
-    layer.map.addLayer(GEOR.Addons.Cadastre.WFSLayer);
+    GeoExt.MapPanel.guess().map.addLayer(GEOR.Addons.Cadastre.WFSLayer);
     GEOR.Addons.Cadastre.WFSLayer.setZIndex(1001);
 
     // création de la classe de l'écouteur clique
@@ -113,7 +113,7 @@ GEOR.Addons.Cadastre.createSelectionControl = function(style, selectedStyle) {
  * 
  */
 GEOR.Addons.Cadastre.addPopupOnhover = function(popupConfig) {
-    var map = layer.map;
+    var map = GeoExt.MapPanel.guess().map;
 
     // comme pour le clique , on crée la classe du controleur hover
     OpenLayers.Control.Hover = OpenLayers.Class(OpenLayers.Control, {
