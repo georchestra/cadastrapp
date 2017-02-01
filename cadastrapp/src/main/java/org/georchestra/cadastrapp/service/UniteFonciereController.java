@@ -20,7 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class UniteFonciereController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(UniteFonciereController.class);
+	static final Logger logger = LoggerFactory.getLogger(UniteFonciereController.class);
 
 	@Path("/getInfoUniteFonciere")
 	@GET
@@ -60,7 +60,7 @@ public class UniteFonciereController extends CadController {
 			try{
 				informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);	
 			}catch (EmptyResultDataAccessException e){
-				logger.info("No result, user might not have right to get those informations");
+				logger.info("No result, user might not have right to get those informations", e);
 			}		
 		}
 		else{

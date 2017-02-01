@@ -38,7 +38,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ParcelleController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(ParcelleController.class);
+	static final Logger logger = LoggerFactory.getLogger(ParcelleController.class);
 	
 	@Autowired
 	ExportHelper exportHelper;
@@ -83,8 +83,7 @@ public class ParcelleController extends CadController {
 			@QueryParam("dnvoiri") String dnvoiri, @QueryParam("dlindic") String dindic, @QueryParam("cconvo") String cconvo, @QueryParam("dvoilib") String dvoilib, @QueryParam("comptecommunal") final List<String> comptecommunalList, @DefaultValue("0") @QueryParam("unitefonciere") int uf) throws SQLException {
 
 		List<Map<String, Object>> parcellesResult = new ArrayList<Map<String, Object>>();
-		;
-
+	
 		// Search by Id Parcelle
 		if (parcelleList != null && !parcelleList.isEmpty()) {
 
@@ -409,11 +408,11 @@ public class ParcelleController extends CadController {
 			return Response.ok(json, MediaType.TEXT_HTML).build();
 
 		} catch (IOException e) {
-			logger.error("Error while trying to read input data ", e.getMessage());
+			logger.error("Error while trying to read input data ", e);
 			return Response.serverError().build();
 
 		} catch (SQLException e) {
-			logger.error("Error while trying to get information from database ", e.getMessage());
+			logger.error("Error while trying to get information from database ", e);
 			return Response.serverError().build();
 		}
 	}
@@ -477,7 +476,7 @@ public class ParcelleController extends CadController {
 			return Response.ok(json, MediaType.TEXT_HTML).build();
 
 		} catch (IOException e) {
-			logger.error("Error while trying to read input data ", e.getMessage());
+			logger.error("Error while trying to read input data ", e);
 			return Response.serverError().build();
 		}
 	}
@@ -562,7 +561,7 @@ public class ParcelleController extends CadController {
 					response = Response.ok((Object) file);
 					response.header("Content-Disposition", "attachment; filename=" + file.getName());
 				}catch (IOException e) {
-					logger.error("Error while creating CSV files : " + e.getMessage());
+					logger.error("Error while creating CSV files ", e);
 				} finally {
 					if (file != null) {
 						file.deleteOnExit();

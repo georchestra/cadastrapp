@@ -31,7 +31,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ProprietaireController extends CadController{
 
-	final static Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
+	static final Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
+	
+	private final String ACCES_ERROR_LOG = "User does not have rights to see thoses informations";
+	private final String EMPTY_REQUEST_LOG = "Parcelle Id List is empty nothing to search";
 	
 	@Autowired
 	ExportHelper exportHelper;
@@ -166,7 +169,7 @@ public class ProprietaireController extends CadController{
 				logger.info("Missing cgocommune and dnupro or less than 3 characters for dnomlp in request");
 			}
 		}else{
-			logger.info("User does not have rights to see thoses informations");
+			logger.info(ACCES_ERROR_LOG);
 		}
 
 		return proprietaires;
@@ -217,10 +220,10 @@ public class ProprietaireController extends CadController{
 			}
 			else{
 				//log empty request
-				logger.info("Parcelle Id List is empty nothing to search");
+				logger.info(EMPTY_REQUEST_LOG);
 			}
 		}else{
-			logger.info("User does not have rights to see thoses informations");
+			logger.info(ACCES_ERROR_LOG);
 		}
 
 		return proprietaires;
@@ -291,10 +294,10 @@ public class ProprietaireController extends CadController{
 			}
 			else{
 				//log empty request
-				logger.info("Parcelle Id List is empty nothing to search");
+				logger.info(EMPTY_REQUEST_LOG);
 			}
 		}else{
-			logger.info("User does not have rights to see thoses informations");
+			logger.info(ACCES_ERROR_LOG);
 		}
 
 		return proprietaires;
@@ -373,7 +376,7 @@ public class ProprietaireController extends CadController{
 					response = Response.ok((Object) file);
 					response.header("Content-Disposition", "attachment; filename=" + file.getName());
 				}catch (IOException e) {
-					logger.error("Error while creating CSV files : " + e.getMessage());
+					logger.error("Error while creating CSV files ", e);
 				} finally {
 					if (file != null) {
 						file.deleteOnExit();
@@ -382,10 +385,10 @@ public class ProprietaireController extends CadController{
 			}
 			else{
 				//log empty request
-				logger.info("Parcelle Id List is empty nothing to search");
+				logger.info(EMPTY_REQUEST_LOG);
 			}
 		}else{
-			logger.info("User does not have rights to see thoses informations");
+			logger.info(ACCES_ERROR_LOG);
 		}
 	
 		return response.build();

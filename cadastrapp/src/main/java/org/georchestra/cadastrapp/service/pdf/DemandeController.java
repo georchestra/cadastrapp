@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class DemandeController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(DemandeController.class);
+	static final Logger logger = LoggerFactory.getLogger(DemandeController.class);
 
-	final String xslTemplate = "xsl/relevePropriete.xsl";
-	final String xslTemplateMinimal = "xsl/releveProprieteMinimal.xsl";
+	static final String xslTemplate = "xsl/relevePropriete.xsl";
+	static final String xslTemplateMinimal = "xsl/releveProprieteMinimal.xsl";
 
 	@Autowired
 	RequestRepository requestRepository;
@@ -283,6 +283,7 @@ public class DemandeController extends CadController {
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {
+				logger.error("Error", e1);
 			}
 		}
 
@@ -343,6 +344,7 @@ public class DemandeController extends CadController {
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {
+				logger.error("Error", e1);
 			}
 		}
 
@@ -418,6 +420,7 @@ public class DemandeController extends CadController {
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {
+				logger.error("Error", e1);
 			}
 		}
 
@@ -490,6 +493,7 @@ public class DemandeController extends CadController {
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 			} catch (CadastrappServiceException e1) {
+				logger.error("Error", e1);
 			}
 		}
 

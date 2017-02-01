@@ -43,9 +43,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class RequestPDFController{
 
-	final static Logger logger = LoggerFactory.getLogger(RequestPDFController.class);
+	static final Logger logger = LoggerFactory.getLogger(RequestPDFController.class);
 
-	final String xslTemplate = "xsl/request.xsl";
+	static final String xslTemplate = "xsl/request.xsl";
 
 	@Autowired
 	RequestRepository requestRepository;
@@ -145,11 +145,11 @@ public class RequestPDFController{
 						response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
 
 					} catch (JAXBException jaxbException) {
-						logger.warn("Error during converting object to xml : " + jaxbException);
+						logger.warn("Error during converting object to xml", jaxbException);
 					} catch (TransformerException transformerException) {
-
+						logger.warn("Error during transforming xml", transformerException);
 					} catch (FileNotFoundException fileNotFoundException) {
-						logger.warn("Error when using temporary files : " + fileNotFoundException);
+						logger.warn("Error when using temporary files", fileNotFoundException);
 					} finally {
 						if (out != null) {
 							// Clean-up
@@ -164,13 +164,13 @@ public class RequestPDFController{
 					}
 
 				} catch (TransformerConfigurationException e) {
-					logger.warn("Error when initialize transformers : " + e);
+					logger.warn("Error when initialize transformers", e);
 				} catch (IOException ioException) {
-					logger.warn("Error when creating output file : " + ioException);
+					logger.warn("Error when creating output file", ioException);
 				} catch (FOPException fopException) {
-					logger.warn("Error when creationg FOP file type : " + fopException);
+					logger.warn("Error when creationg FOP file type", fopException);
 				} catch (JAXBException jaxbException) {
-					logger.warn("Error creating Marsharller : " + jaxbException);
+					logger.warn("Error creating Marsharller", jaxbException);
 				}
 			}
 		} else {

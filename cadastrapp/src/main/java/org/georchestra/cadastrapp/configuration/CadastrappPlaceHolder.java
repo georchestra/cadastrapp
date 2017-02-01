@@ -40,7 +40,7 @@ public class CadastrappPlaceHolder extends PropertyPlaceholderConfigurer {
 	 * @return String value of given key in properties files
 	 */
 	public static String getProperty(String name) {
-		return propertiesMap.get(name).toString();
+		return propertiesMap.get(name);
 	}
 
 }

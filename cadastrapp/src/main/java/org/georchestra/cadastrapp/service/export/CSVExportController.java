@@ -20,10 +20,10 @@ import org.slf4j.LoggerFactory;
 
 public class CSVExportController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(CSVExportController.class);
+	static final Logger logger = LoggerFactory.getLogger(CSVExportController.class);
 
-	final static char DELIMITER = '\n';
-	final static char SEPARATOR = ';';
+	static final char DELIMITER = '\n';
+	static final char SEPARATOR = ';';
 
 	/**
 
@@ -48,10 +48,7 @@ public class CSVExportController extends CadController {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Export CSV,  given values: " + values);
 			}
-			
-			// Split values into single line element
-			//String[] arrayLines = values.split(URL_SEPARATOR);
-			
+				
 			String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 			
 			// File with current time
@@ -84,7 +81,7 @@ public class CSVExportController extends CadController {
 				response.header("Content-Disposition", "attachment; filename=" + file.getName());
 
 			} catch (IOException e) {
-				logger.error("Error while creating CSV files : " + e.getMessage());
+				logger.error("Error while creating CSV files ",  e);
 			} finally {
 				if (file != null) {
 					file.deleteOnExit();
