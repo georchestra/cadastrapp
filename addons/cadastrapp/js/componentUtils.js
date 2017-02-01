@@ -121,7 +121,6 @@ GEOR.Addons.Cadastre.Component.getComboSectionByCommune = function(id, communeLi
 		    mode : 'local',
 		    value : '',
 		    emptyText:OpenLayers.i18n('cadastrapp.ObjectRequest.parcelle.section'),
-		    forceSelection : false,
 		    anchor : '95%',
 		    editable : true,
 		    forceSelection : true,
