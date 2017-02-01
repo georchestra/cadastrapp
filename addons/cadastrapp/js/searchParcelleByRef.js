@@ -476,7 +476,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
 
                                     //envoi la liste de resultat
                                     Ext.Ajax.request({
-                                        method : 'GET',
+                                        method : 'POST',
                                         url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                                         params : params,
                                         success : function(result) {
@@ -500,7 +500,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
 
                             //envoi des données d'une form
                             Ext.Ajax.request({
-                                method : 'GET',
+                                method : 'POST',
                                 url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                                 params : params,
                                 success : function(result) {
@@ -517,7 +517,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
 
                             //envoi des données d'une form
                             Ext.Ajax.request({
-                                method : 'GET',
+                                method : 'POST',
                                 url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                                 params : currentForm.getForm().getValues(),
                                 success : function(result) {
@@ -550,7 +550,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
 
                                 //envoi des données d'une form
                                 Ext.Ajax.request({
-                                    method : 'GET',
+                                    method : 'POST',
                                     url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                                     params : currentForm.getForm().getValues(),
                                     success : function(result) {

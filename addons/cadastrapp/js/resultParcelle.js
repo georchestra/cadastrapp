@@ -488,7 +488,7 @@ GEOR.Addons.Cadastre.showTabSelection = function(parcelsIds) {
 
             // envoi la liste de resultat
             Ext.Ajax.request({
-                method : 'GET',
+                method : 'POST',
                 url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                 params : params,
                 success : function(response) {

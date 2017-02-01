@@ -39,7 +39,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 		proxy : new Ext.data.HttpProxy({
 			url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
 			autoLoad : false,
-			method : 'GET'
+			method : 'POST'
 		}),
 		fields : [ 'parcelle', 'dcntpa', 'surfc', {
 			name : 'adresse',

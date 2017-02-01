@@ -21,7 +21,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class CadController {
 	
 	
-	final static Logger logger = LoggerFactory.getLogger(CadController.class);
+	static final Logger logger = LoggerFactory.getLogger(CadController.class);
 	
 	@Resource(name = "dbDataSource")
 	protected DataSource dataSource;
@@ -36,6 +36,8 @@ public class CadController {
 	
 	protected int minNbCharForSearch;
 	
+	protected int parcelleLength;
+	
 	protected boolean isSearchFiltered;
 	
 	
@@ -49,7 +51,8 @@ public class CadController {
 		this.cnil2RoleName = CadastrappPlaceHolder.getProperty("cnil2RoleName");
 		this.roleSeparator = CadastrappPlaceHolder.getProperty("roleSeparator");
 		this.minNbCharForSearch = Integer.parseInt(CadastrappPlaceHolder.getProperty("minNbCharForSearch"));
-		this.isSearchFiltered =  (CadastrappPlaceHolder.getProperty("user.search.are.filtered").equals("1") ? true : false);
+		this.isSearchFiltered =  "1".equals(CadastrappPlaceHolder.getProperty("user.search.are.filtered")) ? true : false;
+		this.parcelleLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("parcelleId.length"));
 	}
 	
 	/**
@@ -167,7 +170,7 @@ public class CadController {
 			queryBuilder.append(".groupe_autorisation ");
 			queryBuilder.append(createWhereInQuery(roleList.length, "idgroup"));
 			queryBuilder.append(";");
-	
+			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);	
 			limitations = jdbcTemplate.queryForList(queryBuilder.toString(), roleList);
 					
