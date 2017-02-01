@@ -94,9 +94,6 @@ GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeLi
 		            }
 		            q.query = new RegExp(Ext.escapeRe(q.query), 'i');
 		            q.query.length = length;
-		        },
-		        valid : function(element) {
-		            //GEOR.Addons.Cadastre.proprietaireWindow.buttons[0].enable();
 		        }
 		    }
 		});
@@ -235,9 +232,6 @@ GEOR.Addons.Cadastre.Component.getComboProprioByInfoParcelle = function(id, comm
 		            }
 		            q.query = new RegExp(Ext.escapeRe(q.query), 'i');
 		            q.query.length = length;
-		        },
-		        valid : function(element) {
-		            //GEOR.Addons.Cadastre.proprietaireWindow.buttons[0].enable();
 		        }
 		    }
 		});
