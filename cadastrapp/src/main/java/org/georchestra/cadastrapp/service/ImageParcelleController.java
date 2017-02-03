@@ -72,8 +72,9 @@ public class ImageParcelleController extends CadController {
 	private final String USERNAME_PARAM = "WFSDataStoreFactory:USERNAME";
 	private final String PASSWORD_PARAM = "WFSDataStoreFactory:PASSWORD";
 	
-	// buffer distance in CRS unit
-	final private double BUFFER_DISTANCE = 10.0;
+	// buffer ratio
+	final private double MAX_PERIMETER = 2000;
+	final private double MIN_PERIMETER = 100;
 
 	/**
 	 * Using a given parcelle id, this service will get feature from WFS
@@ -134,7 +135,7 @@ public class ImageParcelleController extends CadController {
 
 				String cadastreWFSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
 				
-				// TODO remove this if not using gt-wfs-ng anymore
+				// remove this if not using gt-wfs-ng anymore
 				// using ng extension : need to be changed by_
 				cadastreWFSLayerName = cadastreWFSLayerName.replaceFirst(":", "_");
 				final String cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("cadastre.layer.idParcelle");
@@ -194,8 +195,21 @@ public class ImageParcelleController extends CadController {
 							if(logger.isDebugEnabled()){
 								logger.debug("CRS : " + crs);
 								logger.debug("Create buffer");
+								logger.debug("Perimeter  :" + targetGeometry.getLength());				
 							}
-							bufferGeometry = targetGeometry.buffer(BUFFER_DISTANCE);
+							
+							// Calculate optimal buffer distance using AREA
+							// see #320
+							double perimeterRatio;
+							if(targetGeometry.getLength() < MIN_PERIMETER){
+								perimeterRatio = 0.4;
+							}else if(targetGeometry.getLength() < MAX_PERIMETER){
+								perimeterRatio = 0.2;
+							}else{
+								perimeterRatio = 0.1;
+							}
+							
+							bufferGeometry = targetGeometry.buffer(perimeterRatio * targetGeometry.getLength());
 
 							// transform JTS enveloppe to geotools enveloppe
 							Envelope envelope = bufferGeometry.getEnvelopeInternal();
