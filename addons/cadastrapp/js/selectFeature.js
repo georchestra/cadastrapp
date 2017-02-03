@@ -553,23 +553,44 @@ GEOR.Addons.Cadastre.getLayerByName = function(layerName) {
  */
 GEOR.Addons.Cadastre.zoomOnFeatures = function(features) {
 
-    // zoom sur les entités selectionnées etat 2
+    // zoom sur les entités données en paramètre
     if (features.length > 0 && features[0] != null) {
-        // récupération des bordure de l'enveloppe des entités selectionnées
+       
+        // récupération de l'emprise de la première entité
         var minLeft = features[0].geometry.bounds.left;
         var maxRight = features[0].geometry.bounds.right;
         var minBottom = features[0].geometry.bounds.bottom;
         var maxTop = features[0].geometry.bounds.top;
-        // on calcule l'enveloppe maximale des entités de la couche slection
+        
+        // On compare aux autres entités pour avoir l'emprise maximale
         Ext.each(features, function(selectedFeature, currentIndex) {
             minLeft = Math.min(minLeft, selectedFeature.geometry.bounds.left)
             maxRight = Math.max(maxRight, selectedFeature.geometry.bounds.right)
             minBottom = Math.min(minBottom, selectedFeature.geometry.bounds.bottom)
             maxTop = Math.max(maxTop, selectedFeature.geometry.bounds.top)
         });
+        
+        // récupération de la map et zoom sur l'emprise maximal
         var map = GeoExt.MapPanel.guess().map;
-        map.zoomToExtent([ minLeft, minBottom, maxRight, maxTop ]); // zoom sur
-        // l'emprise
+        map.zoomToExtent([ minLeft, minBottom, maxRight, maxTop ]); 
+        
+        // Récupération du Scale après zoom sur l'extent
+        // attention map.getScale peut arrondir le scale qui ne correspondra plus à une valeur de GEOR.config.MAP_SCALES[]
+        // Il faut bien utiliser >= et non === pour le scale et arroundir à l'unité pour la comparaison
+        var currentScale = Math.round(map.getScale());
+        
+        // Modification du niveau de zoom pour permettre de voir la parcelle dans son environnement 
+        // On recule d'un niveau de zoom pour obtenir un aperçu des parcelles alentours
+        // Si le zoom résultant est plus important que GEOR.config.MAP_SCALES[2] , alors on met GEOR.config.MAP_SCALES[2] comme zoom
+        Ext.each(GEOR.config.MAP_SCALES, function(scale, index){
+            // Si la valeur correspond au scale actuelle
+            // et qu'il y a un niveau de zoom inferieur de définit
+            if(Math.round(scale) >= currentScale && GEOR.config.MAP_SCALES[index + 1]){
+                map.zoomToScale(Math.max(GEOR.config.MAP_SCALES[index + 1], GEOR.config.MAP_SCALES[2]) , true)
+                return false;
+            }
+        });
+        
     } else {
 		alert(OpenLayers.i18n('cadastrapp.no_feature'));
         console.log("No feature in input, could not zoom on it");
