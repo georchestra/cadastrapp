@@ -423,6 +423,7 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 		resizable : true,
 		draggable : true,
 		constrainHeader : true,
+		collapsible: true,
 		fieldDefaults : {
 			labelAlign : 'right'
 		},

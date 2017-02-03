@@ -84,6 +84,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
         constrainHeader : true,
         border : false,
         width : 480,
+        collapsible: true,
         defaults : {
             autoHeight : true,
             bodyStyle : 'padding:10px',

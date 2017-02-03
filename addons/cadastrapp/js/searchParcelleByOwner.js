@@ -197,6 +197,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
         layout : 'fit',
         labelWidth : 100,
         width : 450,
+        collapsible: true,
         defaults : {
             bodyStyle : 'padding:10px',
         },

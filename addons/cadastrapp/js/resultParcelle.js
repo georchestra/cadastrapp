@@ -76,6 +76,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
         border : false,
         width : 630,
         height : 200,
+        collapsible: true,
         boxMaxHeight : Ext.getBody().getViewSize().height - 200,
         listeners : {
             // Adding because autoheight and boxMaxHeight to not work together

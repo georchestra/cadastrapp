@@ -214,6 +214,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 		draggable : true,
 		autoScroll : true,
 		constrainHeader : true,
+		collapsible: true,
 		items : [ upCompositeField, fiufParcelleListGrid ],
 		listeners : {
 			close : function(window) {

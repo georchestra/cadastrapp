@@ -49,6 +49,7 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
         border : false,
         width : 500,
         height : 200,
+        collapsible: true,
         listeners : {
             close : function(window) {
                 GEOR.Addons.Cadastre.result.owner.window = null;

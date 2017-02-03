@@ -40,6 +40,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         constrainHeader : true,
         width : 825,
         items : cadastreTabPanel,
+        collapsible: true,
         listeners : {
             close : function(window) {
                 // deselection de la ligne
