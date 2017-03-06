@@ -84,6 +84,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
         constrainHeader : true,
         border : false,
         width : 480,
+        collapsible: true,
         defaults : {
             autoHeight : true,
             bodyStyle : 'padding:10px',
@@ -179,8 +180,6 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
             listeners : {
                 click : function(b, e) {
                     
-                    
-
                     var currentForm = GEOR.Addons.Cadastre.coProprieteWindow.items.items[0];
 
                     // Form value to check which service to call
@@ -192,7 +191,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                         var requestparam = {};
                         requestparam.parcelle = values.parcelle;
                         Ext.Ajax.request({
-                            method : 'GET',
+                            method : 'POST',
                             url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                             params : requestparam,
                             success : function(result) {
@@ -236,7 +235,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                                     paramsGetParcelle.comptecommunal = comptecommunalArray;
                                     // envoi des données d'une form
                                     Ext.Ajax.request({
-                                        method : 'GET',
+                                        method : 'POST',
                                         url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                                         params : paramsGetParcelle,
                                         success : function(result) {
@@ -254,11 +253,8 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                         });
                     } else{
                         // no require parameter to make a call
-                        //Ext.MessageBox.alert("Erreur", "Le choix d'une commune est obligatoire en complément d'un autre champ");
-                        Ext.MessageBox.alert(OpenLayers.i18n('cadastrapp.search.copropriete.alert.title'), OpenLayers.i18n('cadastrapp.search.copropriete.alert.message'));
-                        
+                        Ext.MessageBox.alert(OpenLayers.i18n('cadastrapp.search.copropriete.alert.title'), OpenLayers.i18n('cadastrapp.search.copropriete.alert.message'));        
                     }
-
                 }
             }
         }, {

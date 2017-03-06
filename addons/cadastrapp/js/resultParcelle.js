@@ -76,6 +76,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
         border : false,
         width : 630,
         height : 200,
+        collapsible: true,
         boxMaxHeight : Ext.getBody().getViewSize().height - 200,
         listeners : {
             // Adding because autoheight and boxMaxHeight to not work together
@@ -488,7 +489,7 @@ GEOR.Addons.Cadastre.showTabSelection = function(parcelsIds) {
 
             // envoi la liste de resultat
             Ext.Ajax.request({
-                method : 'GET',
+                method : 'POST',
                 url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                 params : params,
                 success : function(response) {

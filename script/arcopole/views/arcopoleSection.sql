@@ -9,7 +9,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.section AS
    		'select 
 	   		codcomm as cgocommune,
 	   		ltrim(substr(id_sect,10,2),''0'') as ccosec ,
-	   		ltrim(substr(id_sect,7,3),''0'')  as ccopre
+	   		regexp_replace(substr(id_sect,7,3), ''0{3}'', '''') as ccopre
 		from #DBSchema_arcopole.edi_sectio '::text) 
 	section(
 		cgocommune character varying(6), 

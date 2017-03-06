@@ -89,6 +89,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
             constrainHeader: true,
             boxMaxWidth: 650,
             cls: 'cadastrapp',
+            collapsible: true,
             items: [ {
                 xtype: 'toolbar',
                 border: false,
@@ -122,7 +123,6 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                         // this.map.removeLayer(GEOR.Addons.Cadastre.WMSLayer);
                         GEOR.Addons.Cadastre.WMSLayer.destroy();
                         GEOR.Addons.Cadastre.WMSLayer = null;
-                        GEOR.Addons.Cadastre.addPopupOnhover = null ; //
                     }
 
                     // Remove all windows

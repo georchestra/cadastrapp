@@ -283,12 +283,17 @@ GEOR.Addons.Cadastre.getProprietaireColModel = function() {
  */	
 GEOR.Addons.Cadastre.getResultParcelleStore = function (result, fromForm) {
 		return new Ext.data.JsonStore({
-			fields: ['parcelle', 'cgocommune', 'ccopre', 'ccosec', 'dnupla', 'dnvoiri', 'dindic', 'cconvo', 'dvoilib', 'dcntpa',
+			fields: ['parcelle', 'cgocommune', 'ccopre', 'dnupla', 'dnvoiri', 'dindic', 'cconvo', 'dvoilib', 'dcntpa',
 			         { 
 			       		name: 'adresse', 
 			       		convert: function(v, rec) {
 			       			return rec.dnvoiri + rec.dindic +' '+rec.cconvo  +' ' + rec.dvoilib;
 			       		}
+			         },{
+			             name: 'ccosec',
+			             convert: function(v,rec){
+			                 return rec.ccopre + rec.ccosec;
+			             }
 			         }],
 			data: (fromForm) ? Ext.util.JSON.decode(result).data : Ext.util.JSON.decode(result)
 		});		

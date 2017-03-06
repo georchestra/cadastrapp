@@ -26,7 +26,7 @@ public class PurgeJob {
         
         // Set before time to purge
         final long purgeTime = System.currentTimeMillis() - (hours * 60 * 60 * 1000);
-        
+        int nbFilesDeleted = 0;
         
         File tempFolder = new File(tempFolderName);
 
@@ -38,9 +38,12 @@ public class PurgeJob {
 	        	if(f.isFile() && f.lastModified() <  purgeTime ){
 	        		logger.debug("Purge file : " + f.getName());
 	        		f.delete();
+	        		nbFilesDeleted++;
 	        	}
 	        }
-        }     
+        }  
+        
+        logger.info(nbFilesDeleted + "where deleted");
     }
 
 	/**

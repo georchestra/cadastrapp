@@ -197,6 +197,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
         layout : 'fit',
         labelWidth : 100,
         width : 450,
+        collapsible: true,
         defaults : {
             bodyStyle : 'padding:10px',
         },
@@ -385,7 +386,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                         paramsGetParcelle.comptecommunal = comptecommunalArray;
                                         // envoi des données d'une form
                                         Ext.Ajax.request({
-                                            method : 'GET',
+                                            method : 'POST',
                                             url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                                             params : paramsGetParcelle,
                                             success : function(result) {
@@ -461,7 +462,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                             paramsGetParcelle.comptecommunal = comptecommunalArray;
                                             // envoi des données d'une form
                                             Ext.Ajax.request({
-                                                method : 'GET',
+                                                method : 'POST',
                                                 url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                                                 params : paramsGetParcelle,
                                                 success : function(result) {

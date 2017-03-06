@@ -49,6 +49,7 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
         border : false,
         width : 500,
         height : 200,
+        collapsible: true,
         listeners : {
             close : function(window) {
                 GEOR.Addons.Cadastre.result.owner.window = null;
@@ -73,7 +74,7 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
                         
                         // envoi des données d'une form
                         Ext.Ajax.request({
-                            method : 'GET',
+                            method : 'POST',
                             url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                             params : paramsGetParcelle,
                             success : function(result) {

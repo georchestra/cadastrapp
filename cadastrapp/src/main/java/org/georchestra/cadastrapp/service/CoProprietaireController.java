@@ -28,9 +28,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+/**
+ * Service to get co owners information
+ * 
+ * @author pierre jego
+ *
+ */
 public class CoProprietaireController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(CoProprietaireController.class);
+	static final Logger logger = LoggerFactory.getLogger(CoProprietaireController.class);
 	
 	@Autowired
 	ExportHelper exportHelper;
@@ -46,7 +52,8 @@ public class CoProprietaireController extends CadController {
 	 * @param headers headers from request used to filter search using LDAP Roles
 	 * @param parcelle
 	 * 
-	 * @return 
+	 * @return List<Map<String, Object>> Co owners information in key:value List
+	 * 
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getCoProprietairesList(@Context HttpHeaders headers, 
@@ -246,7 +253,7 @@ public class CoProprietaireController extends CadController {
 					response = Response.ok((Object) file);
 					response.header("Content-Disposition", "attachment; filename=" + file.getName());
 				}catch (IOException e) {
-					logger.error("Error while creating CSV files : " + e.getMessage());
+					logger.error("Error while creating CSV files ", e);
 				} finally {
 					if (file != null) {
 						file.deleteOnExit();

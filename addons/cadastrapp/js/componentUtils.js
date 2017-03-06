@@ -94,9 +94,6 @@ GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeLi
 		            }
 		            q.query = new RegExp(Ext.escapeRe(q.query), 'i');
 		            q.query.length = length;
-		        },
-		        valid : function(element) {
-		            //GEOR.Addons.Cadastre.proprietaireWindow.buttons[0].enable();
 		        }
 		    }
 		});
@@ -121,7 +118,6 @@ GEOR.Addons.Cadastre.Component.getComboSectionByCommune = function(id, communeLi
 		    mode : 'local',
 		    value : '',
 		    emptyText:OpenLayers.i18n('cadastrapp.ObjectRequest.parcelle.section'),
-		    forceSelection : false,
 		    anchor : '95%',
 		    editable : true,
 		    forceSelection : true,
@@ -236,9 +232,6 @@ GEOR.Addons.Cadastre.Component.getComboProprioByInfoParcelle = function(id, comm
 		            }
 		            q.query = new RegExp(Ext.escapeRe(q.query), 'i');
 		            q.query.length = length;
-		        },
-		        valid : function(element) {
-		            //GEOR.Addons.Cadastre.proprietaireWindow.buttons[0].enable();
 		        }
 		    }
 		});

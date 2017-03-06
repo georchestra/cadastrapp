@@ -62,18 +62,19 @@ import com.vividsolutions.jts.geom.Geometry;
  */
 public class ImageParcelleController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(ImageParcelleController.class);
+	static final Logger logger = LoggerFactory.getLogger(ImageParcelleController.class);
 
-	final private String URL_GET_CAPABILITIES = "?REQUEST=GetCapabilities&version=1.0.0";
+	private final String URL_GET_CAPABILITIES = "?REQUEST=GetCapabilities&version=1.0.0";
 
-	final private String URL_GET_CAPABILITIES_WMS = "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
+	private final String URL_GET_CAPABILITIES_WMS = "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
 
-	final private String GET_CAPABILITIES_URL_PARAM = "WFSDataStoreFactory:WFS_GET_CAPABILITIES_URL";
-	final private String USERNAME_PARAM = "WFSDataStoreFactory:USERNAME";
-	final private String PASSWORD_PARAM = "WFSDataStoreFactory:PASSWORD";
+	private final String GET_CAPABILITIES_URL_PARAM = "WFSDataStoreFactory:WFS_GET_CAPABILITIES_URL";
+	private final String USERNAME_PARAM = "WFSDataStoreFactory:USERNAME";
+	private final String PASSWORD_PARAM = "WFSDataStoreFactory:PASSWORD";
 	
-	// buffer distance in CRS unit
-	final private double BUFFER_DISTANCE = 10.0;
+	// buffer ratio
+	final private double MAX_PERIMETER = 2000;
+	final private double MIN_PERIMETER = 100;
 
 	/**
 	 * Using a given parcelle id, this service will get feature from WFS
@@ -100,7 +101,6 @@ public class ImageParcelleController extends CadController {
 		if (parcelle != null && parcelle.length() > parcelleIdLength) {
 
 			int visibleLength = 0;
-			int visibleHeight = 0;
 			BufferedImage baseMapImage;
 			BufferedImage parcelleImage;
 			BoundingBox bounds;
@@ -119,8 +119,7 @@ public class ImageParcelleController extends CadController {
 			// Add basic authent parameter if not empty
 			final String cadastreWFSUsername = CadastrappPlaceHolder.getProperty("cadastre.wfs.username");
 			final String cadastreWFSPassword = CadastrappPlaceHolder.getProperty("cadastre.wfs.password");
-			if (cadastreWFSUsername != null && !cadastreWFSUsername.isEmpty()
-					&& cadastreWFSUsername != null && !cadastreWFSUsername.isEmpty()){
+			if (cadastreWFSUsername != null && !cadastreWFSUsername.isEmpty()){
 				connectionParameters.put(USERNAME_PARAM, cadastreWFSUsername);
 				connectionParameters.put(PASSWORD_PARAM, cadastreWFSPassword);
 			}
@@ -136,7 +135,7 @@ public class ImageParcelleController extends CadController {
 
 				String cadastreWFSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
 				
-				// TODO remove this if not using gt-wfs-ng anymore
+				// remove this if not using gt-wfs-ng anymore
 				// using ng extension : need to be changed by_
 				cadastreWFSLayerName = cadastreWFSLayerName.replaceFirst(":", "_");
 				final String cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("cadastre.layer.idParcelle");
@@ -196,8 +195,21 @@ public class ImageParcelleController extends CadController {
 							if(logger.isDebugEnabled()){
 								logger.debug("CRS : " + crs);
 								logger.debug("Create buffer");
+								logger.debug("Perimeter  :" + targetGeometry.getLength());				
 							}
-							bufferGeometry = targetGeometry.buffer(BUFFER_DISTANCE);
+							
+							// Calculate optimal buffer distance using AREA
+							// see #320
+							double perimeterRatio;
+							if(targetGeometry.getLength() < MIN_PERIMETER){
+								perimeterRatio = 0.4;
+							}else if(targetGeometry.getLength() < MAX_PERIMETER){
+								perimeterRatio = 0.2;
+							}else{
+								perimeterRatio = 0.1;
+							}
+							
+							bufferGeometry = targetGeometry.buffer(perimeterRatio * targetGeometry.getLength());
 
 							// transform JTS enveloppe to geotools enveloppe
 							Envelope envelope = bufferGeometry.getEnvelopeInternal();
@@ -214,7 +226,7 @@ public class ImageParcelleController extends CadController {
 								logger.debug("Bounding box length : " + visibleLength + " meters");
 								
 								double bbheight = JTS.orthodromicDistance(lowerLeftCorner, upperLeftCorner, crs);
-								visibleHeight = (int) bbheight;
+								int visibleHeight = (int) bbheight;
 								logger.debug("Bounding box height : " + visibleHeight + " meters");
 								
 								// calculate current ratio
@@ -365,7 +377,7 @@ public class ImageParcelleController extends CadController {
 						logger.debug("Add Image to final picture");
 						g2.drawImage(parcelleImage, 0, 0, null);
 						drawPlot(g2, bufferGeometry, targetGeometry, (int) pdfImageHeight, (int) pdfImageWidth);
-						drawCompass(g2, (int) pdfImageHeight, (int) pdfImageWidth);
+						drawCompass(g2, (int) pdfImageWidth);
 
 						try {
 							drawScale(g2, (int) pdfImageHeight, (int) pdfImageWidth, visibleLength);
@@ -379,7 +391,7 @@ public class ImageParcelleController extends CadController {
 						final String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 
 						File file = new File(tempFolder + File.separator + "BP-" + parcelle + ".png");
-						//file.deleteOnExit();
+						file.deleteOnExit();
 						ImageIO.write(finalImage, "png", file);
 
 						response = Response.ok((Object) file);
@@ -404,13 +416,12 @@ public class ImageParcelleController extends CadController {
 	}
 
 	/**
-	 * Add North panel in the Upper Righ
+	 * Add North panel in the upper right
 	 * 
 	 * @param g2
-	 * @param imageHeight
 	 * @param imageWidth
 	 */
-	private void drawCompass(Graphics2D g2, int imageHeight, int imageWidth) {
+	private void drawCompass(Graphics2D g2, int imageWidth) {
 
 		logger.debug("Add compass ");
 

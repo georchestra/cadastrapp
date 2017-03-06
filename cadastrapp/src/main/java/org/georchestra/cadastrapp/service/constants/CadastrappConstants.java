@@ -6,15 +6,20 @@ public final class CadastrappConstants {
 	private CadastrappConstants() {
 
 	}
+	
+	public static final String PARC_ID					= "parcelle";
 
+	//Relevé proprietaire partie commue
+	
+	public static final String PREFIX_SECTION			= "ccopre";
+	public static final String LETTRE_SECTION			= "ccosec";
+	public static final String NUM_PLAN					= "dnupla";
+	public static final String ADRESSE 					= "voie";
+	public static final String CODE_RIVOLI_VOIE			= "ccoriv";
+	public static final String MUTATION					= "jdatat";
+	
 	//Relevé proprietaire partie batie
 	public static final String PB_ID_LOCAL					= "id_local";
-	public static final String PB_PREFIX_SECTION			= "ccopre";
-	public static final String PB_LETTRE_SECTION			= "ccosec";
-	public static final String PB_NUM_PLAN					= "dnupla";
-	public static final String PB_ADRESSE 					= "voie";
-	public static final String PB_CODE_RIVOLI_VOIE			= "ccoriv";
-	
 	public static final String PB_LETTRE_BAT				= "dnubat";
 	public static final String PB_NUM_ENTREE				= "descr";
 	public static final String PB_NIV_ETAGE					= "dniv";
@@ -41,13 +46,6 @@ public final class CadastrappConstants {
 	public static final String PB_LOT_DENOMINATEUR			= "ddenql";
 	
 	//Relevé proprietaire partie non batie
-	
-	public static final String PNB_PREFIX_SECTION			= "ccopre";
-	public static final String PNB_LETTRE_SECTION			= "ccosec";
-	public static final String PNB_NUM_PLAN					= "dnupla";
-	public static final String PNB_ADRESSE 					= "voie";
-	public static final String PNB_CODE_RIVOLI_VOIE			= "ccoriv";
-	
 	public static final String PNB_NUM_PARC_PRIM			= "dparpi";
 	public static final String PNB_SERIE_TARIF				= "ccostn";
 	public static final String PNB_LETTRE_SUF				= "ccosub";

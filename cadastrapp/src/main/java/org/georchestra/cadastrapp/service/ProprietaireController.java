@@ -31,7 +31,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ProprietaireController extends CadController{
 
-	final static Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
+	static final Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
+	
+	private final String ACCES_ERROR_LOG = "User does not have rights to see thoses informations";
+	private final String EMPTY_REQUEST_LOG = "Parcelle Id List is empty nothing to search";
 	
 	@Autowired
 	ExportHelper exportHelper;
@@ -166,7 +169,7 @@ public class ProprietaireController extends CadController{
 				logger.info("Missing cgocommune and dnupro or less than 3 characters for dnomlp in request");
 			}
 		}else{
-			logger.info("User does not have rights to see thoses informations");
+			logger.info(ACCES_ERROR_LOG);
 		}
 
 		return proprietaires;
@@ -217,10 +220,10 @@ public class ProprietaireController extends CadController{
 			}
 			else{
 				//log empty request
-				logger.info("Parcelle Id List is empty nothing to search");
+				logger.info(EMPTY_REQUEST_LOG);
 			}
 		}else{
-			logger.info("User does not have rights to see thoses informations");
+			logger.info(ACCES_ERROR_LOG);
 		}
 
 		return proprietaires;
@@ -230,16 +233,16 @@ public class ProprietaireController extends CadController{
 	@Path("/getProprietairesByInfoParcelles")
 	@Produces("application/json")
 	/**
-	 * This will return information about owners in JSON format
+	 * This will return information about co-owners in JSON format
 	 *
 	 * 
 	 * @param headers headers from request used to filter search using LDAP Roles
 	 * @param commune
-	 * @param section
+	 * @param section containing ccopre+ccosec
 	 * @param numero
 	 * 					 
 	 * 
-	 * @return list of information about all proprietaire of given parcelles 
+	 * @return list of information about owners (co-owners id not co-owners list) of given plot 
 	 * 
 	 * @throws SQLException
 	 */
@@ -276,7 +279,7 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append("proprietaire pro ");
 				queryBuilder.append(" where p.parcelle = copropar.parcelle ");
 				queryBuilder.append(" and pro.comptecommunal = copropar.comptecommunal ");
-				queryBuilder.append(" and p.cgocommune = ? and p.ccosec = ? and p.dnupla = ? ");
+				queryBuilder.append(" and p.cgocommune = ? and p.ccopre||p.ccosec = ? and p.dnupla = ? ");
 
 				queryParams.add(commune);
 				queryParams.add(section);
@@ -286,17 +289,15 @@ public class ProprietaireController extends CadController{
 					queryParams.add("%"+ddenom.replace(' ', '%')+"%");
 				}
 
-				queryBuilder.append(";");
-
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 				proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
 			}
 			else{
 				//log empty request
-				logger.info("Parcelle Id List is empty nothing to search");
+				logger.info(EMPTY_REQUEST_LOG);
 			}
 		}else{
-			logger.info("User does not have rights to see thoses informations");
+			logger.info(ACCES_ERROR_LOG);
 		}
 
 		return proprietaires;
@@ -375,7 +376,7 @@ public class ProprietaireController extends CadController{
 					response = Response.ok((Object) file);
 					response.header("Content-Disposition", "attachment; filename=" + file.getName());
 				}catch (IOException e) {
-					logger.error("Error while creating CSV files : " + e.getMessage());
+					logger.error("Error while creating CSV files ", e);
 				} finally {
 					if (file != null) {
 						file.deleteOnExit();
@@ -384,10 +385,10 @@ public class ProprietaireController extends CadController{
 			}
 			else{
 				//log empty request
-				logger.info("Parcelle Id List is empty nothing to search");
+				logger.info(EMPTY_REQUEST_LOG);
 			}
 		}else{
-			logger.info("User does not have rights to see thoses informations");
+			logger.info(ACCES_ERROR_LOG);
 		}
 	
 		return response.build();

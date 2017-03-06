@@ -39,7 +39,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 		proxy : new Ext.data.HttpProxy({
 			url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
 			autoLoad : false,
-			method : 'GET'
+			method : 'POST'
 		}),
 		fields : [ 'parcelle', 'dcntpa', 'surfc', {
 			name : 'adresse',
@@ -159,6 +159,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 		store : fiufParcelleListStore,
 		name : 'Fiuf_ParcelleList',
 		xtype : 'editorgrid',
+		height: 300,
 		autoExpandColumn : 'adresse',
 		disableSelection: true,
 		anchor : '100%',
@@ -189,8 +190,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 				header : OpenLayers.i18n('cadastrapp.parcelle.adresse.postale'),
 				dataIndex : 'adresse'
 			} ],
-		}),
-		autoHeight : true,
+		})
 	});
 
 	var upCompositeField = new Ext.Container({
@@ -214,6 +214,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 		draggable : true,
 		autoScroll : true,
 		constrainHeader : true,
+		collapsible: true,
 		items : [ upCompositeField, fiufParcelleListGrid ],
 		listeners : {
 			close : function(window) {

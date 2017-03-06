@@ -1,7 +1,6 @@
 package org.georchestra.cadastrapp.service;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -126,40 +125,10 @@ public class RequestInformationController {
 	}
 
 	@GET
-	@Path("/checkRequestValidity")
-	@Produces(MediaType.APPLICATION_JSON)
-	/**
-	 *  /checkRequestValidity
-	 *  
-	 *  check if user can make this search (CNIL level and geographic constraints)
-	 *  
-	 * 
-	 * @param cni
-	 * @param comptecommunal
-	 * @param parcelleids
-	 * 
-	 * @return JSON 
-	 * 
-	 * @throws SQLException
-	 */
-	public List<Map<String, Object>> checkRequestValidity(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("coproprietes") List<String> coproprietes, @QueryParam("parcelles") List<String> parcelleIds, @Context HttpHeaders headers) throws SQLException {
-
-		// Check information in database
-		// final UserRequest existingUser = userRepository.findByCniAndType(cni,
-		// type);
-
-		// TODO Check if parcelle, comptecommunaux and lot coproprietes exist and if
-		// user have rights
-
-		List<Map<String, Object>> request = new ArrayList<Map<String, Object>>();
-
-		return request;
-	}
-
-	@GET
 	@Path("/saveInformationRequest")
 	@Produces(MediaType.APPLICATION_JSON)
 	/**
+	 * /**
 	 *  /saveInformationRequest
 	 *  
 	 *  save information request in database
@@ -168,16 +137,31 @@ public class RequestInformationController {
 	 * @param cni
 	 * @param type Can be A, P1, P2 or P3
 	 * @param adress
-	 * @param codepostal
-	 * @param cgocommune
+	 * @param commune
+	 * @param codePostal
 	 * @param firstname
 	 * @param lastname
 	 * @param mail
-	 * @param askby 
+	 * @param compteCommunaux - liste de comptes communaux et des documents souhaités pour chaque comptecommunal 0 non, 1 oui
+	 * 							exemple pour un compte communal : 2015xxxxxA00300|0|1 <-> comptecommunal|borderauParcellaire|releveDePropriete
+	 * 								Le format du compte communal est différent selon le type de base (Arcopole ou Qgis)
+	 * 
+	 * 							
+	 * @param parcelleIds - liste d'information de parcelle et des documents souhaités pour chaque parcelle 0 non, 1 oui
+	 * 							exemple pour une parcelle : 350047|000ZK|226|0|1 <-> cgocommune|ccopre+ccosec|borderauParcellaire|releveDePropriete
+	 * 
+	 * @param proprietaires - liste de couple nom proprétaire et commune et des documents souhaités 0 non, 1 oui
+	 * 							exemple pour un proprietaire : 350047|MR JEGO PIERRE|0|1 <-> cgocommune|DDENOM|borderauParcellaire|releveDePropriete
+	 * 
+	 * @param parcelles- liste d'identifiant de parcelles et des documents souhaités pour chaque parcelle 0 non, 1 oui
+	 * 							exemple pour un identifiant de parcelle : 2015xxxxxx000ZK0026|0|1 <-> parcelleid|borderauParcellaire|releveDePropriete
+	 * 
+	 * @param coProprietes  - liste de lot de coproprietés et des documents souhaités pour chaque parcelle 0 non, 1 oui
+	 * 							exemple pour une copropriete : 2015xxxxA00300|2015xxxxxx000ZK0026|0|1 <-> comptecommunal|parcelleid|borderauParcellaire|releveDePropriete
+	 * @param lotCoproprietes
+	 * @param askby
 	 * @param responseby
-	 * @param comptecommunaux - liste de comptes communaux
-	 * @param parcelleids - liste de parcelles
-	 * @param coproprietes - liste de lot de coproprietés
+	 * @param headers
 	 * 
 	 * @return JSON 
 	 * 
