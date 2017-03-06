@@ -92,8 +92,8 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
         },
         listeners : {
             show: function(window){
-                window.alignTo(GeoExt.MapPanel.guess().map.div,"tl",[0,40],false);
-            }
+                window.alignTo(GeoExt.MapPanel.guess().map.div,"tl",[0,90],false);
+            },
             close : function(window) {
                 GEOR.Addons.Cadastre.coProprieteWindow = null;
             }

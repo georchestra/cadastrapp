@@ -218,7 +218,7 @@ GEOR.Addons.Cadastre.onClickDisplayFIUF = function(parcelleId) {
 		items : [ upCompositeField, fiufParcelleListGrid ],
 		listeners : {
 		    show:function(window){
-		        window.alignTo(GeoExt.MapPanel.guess().map.div,"t",[0,100],false);
+		        window.alignTo(GeoExt.MapPanel.guess().map.div,"tl",[0,100],false);
 		    },
 			close : function(window) {
 				// deselection de la ligne
