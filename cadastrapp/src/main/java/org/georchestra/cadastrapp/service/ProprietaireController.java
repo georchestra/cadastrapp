@@ -357,12 +357,12 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append(".proprietaire_parcelle proparc ");
 				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
+				queryBuilder.append(addAuthorizationFiltering(headers));
 				queryBuilder.append("GROUP BY prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ccodro_lib ");
 				// If user is CNIL2 add birth information
 				if(getUserCNILLevel(headers)>1){
 					queryBuilder.append(", dldnss, jdatnss ");
 				}
-				queryBuilder.append(addAuthorizationFiltering(headers));
 				queryBuilder.append(" ORDER BY prop.comptecommunal");
 				
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
