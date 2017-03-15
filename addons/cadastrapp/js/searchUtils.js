@@ -1,5 +1,39 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
+/**
+ * Méthode pour Définir la place des fenêtres 
+ */
+
+GEOR.Addons.Cadastre.setObjectLocation = function(object, topMidBottom , leftMidRight){
+    var x = 200;
+    var y = 200;
+    var maxX =  window.innerWidth;
+    var maxY =  window.innerHeight;
+    switch(topMidBottom){
+        case "top" : 
+            y = maxY - (maxY - 15);
+            break;
+        case "bottom" :
+            y = maxY * 0.7;
+            break;
+        default : 
+            y = maxY / 2;
+    }
+    
+    switch(leftMidRight){
+        case "left" : 
+            x = maxX - (maxX - 15);
+            break;
+        case "Right" :
+            x = maxX * 0.7 ;
+            break;
+        default : 
+            x = maxX / 2 ;
+    }    
+    
+    object.setPagePosition(x, y);
+    object.syncShadow(); 
+}
 
 /**
  * liste des compléments de numéro de rue : BIS, TER (à compléter ?)
