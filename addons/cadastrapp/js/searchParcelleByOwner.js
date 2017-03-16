@@ -21,6 +21,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
     // comboboxe "villes" de l'onglet "Nom usage ou Naissance"
     var propCityCombo1 = new Ext.form.ComboBox({
         fieldLabel : OpenLayers.i18n('cadastrapp.proprietaire.city'),
+        boxMaxWidth: 400,
         hiddenName : 'cgocommune',
         allowBlank : false,
         mode : 'local',
@@ -83,6 +84,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
     // Combobox "Villes" de l'onglet "Compte propriétaire"
     var propCityCombo2 = new Ext.form.ComboBox({
         fieldLabel : OpenLayers.i18n('cadastrapp.proprietaire.city'),
+        boxMaxWidth: 400,
         hiddenName : 'cgocommune',
         allowBlank : false,
         mode : 'local',
@@ -195,6 +197,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
         constrainHeader : true,
         border : false,
         layout : 'fit',
+        autoHeight: true,
         labelWidth : 100,
         width : 450,
         collapsible: true,
@@ -299,18 +302,25 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                 }, {
                     value : OpenLayers.i18n('cadastrapp.proprietaire.name.tooltip'),
                     fieldClass : 'displayfieldGray'
-                } ]
+                } ],
+                layout : 'fit',
+                autoHeight: true
             }, {
                 // ONGLET "Compte proprietaire"
                 id : 'propSecondForm',
                 xtype : 'form',
                 title : OpenLayers.i18n('cadastrapp.proprietaire.title.tab2'),
                 defaultType : 'displayfield',
-                items : [ propCityCombo2, {
-                    value : OpenLayers.i18n('cadastrapp.proprietaire.city.exemple'),
-                    fieldClass : 'displayfieldGray'
-                }, proprietaireGrid, // grille "proprietaires"
-                ]
+                items : [ 
+                    propCityCombo2, 
+                    {
+                        value : OpenLayers.i18n('cadastrapp.proprietaire.city.exemple'),
+                        fieldClass : 'displayfieldGray'
+                    }, 
+                    proprietaireGrid, // grille "proprietaires"
+                ],
+                layout : 'fit',
+                autoHeight: true
             }, {
                 // ONGLET "par lot"
                 id : 'propThirdForm',
