@@ -684,7 +684,7 @@ GEOR.Addons.Cadastre.restoreLayersOnClear = function() {
     var layersList = [];
     layersList.push(GEOR.Addons.Cadastre.WFSLayer);
     if( GEOR.Addons.Cadastre.visible ) {
-        layersList.push(GEOR.Addons.Cadastre.WMSLayer);
+        GEOR.Addons.Cadastre.addWMSLayer(this.options.WMSLayer);
     }
     var reader = new GeoExt.data.LayerReader();
     var layerData = reader.readRecords(layersList);
