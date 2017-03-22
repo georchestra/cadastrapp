@@ -104,6 +104,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                     GEOR.Addons.Cadastre.visible = true;
                     GEOR.Addons.Cadastre.addWMSLayer(WMSSetting);
                     GEOR.Addons.Cadastre.addPopupOnhover(this.options.popup);
+                    var maxX =  window.innerWidth;
+                    this.window.setPagePosition(maxX * 0.3 ,0);
                 },
                 "hide": function() {
                     this.item.setChecked(false, true);
@@ -216,7 +218,6 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
     _onCheckchange: function(item, checked) {
         if (checked && !this.window.isVisible()) {
             this.window.show();
-            this.window.alignTo(Ext.get(this.map.div), "t-t", [ 0, 5 ], true);
         } else {
             this.window.hide();
         }

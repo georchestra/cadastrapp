@@ -207,6 +207,9 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
         listeners : {
             close : function(window) {
                 GEOR.Addons.Cadastre.proprietaireWindow = null;
+            },
+            show : function(window){
+                window.alignTo(GeoExt.MapPanel.guess().map.div,"tl",[0,150],false);
             }
         },
         items : [ {
