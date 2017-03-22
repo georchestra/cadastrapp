@@ -98,7 +98,7 @@ GEOR.Addons.Cadastre.createSelectionControl = function(style, selectedStyle) {
         },
         trigger : function(e) {
             // récupération de la longitude et latitude à partir du clique
-            lonlat = map.getLonLatFromPixel(e.xy);
+            lonlat = GeoExt.MapPanel.guess().map.getLonLatFromPixel(e.xy);
             GEOR.Addons.Cadastre.getFeaturesWFSSpatial("Point", lonlat.lon + "," + lonlat.lat, "clickSelector");
         }
     });
@@ -672,5 +672,23 @@ GEOR.Addons.Cadastre.addWMSLayer = function(wmsSetting) {
        GeoExt.MapPanel.guess().layers.add(layerData.records[0]);
 
     }
+}
 
+/**
+ * Method: restoreLayersOnClear
+ * 
+ * Add WFS/WMS layer to map and layerswitcher when the map layers/context are cleared
+ * 
+ */
+GEOR.Addons.Cadastre.restoreLayersOnClear = function() {
+    var layersList = [];
+    layersList.push(GEOR.Addons.Cadastre.WFSLayer);
+    if( GEOR.Addons.Cadastre.visible ) {
+        GEOR.Addons.Cadastre.addWMSLayer(this.options.WMSLayer);
+    }
+    var reader = new GeoExt.data.LayerReader();
+    var layerData = reader.readRecords(layersList);
+    layerData.records.forEach(function(value){
+        GeoExt.MapPanel.guess().layers.add(value);
+    });
 }
