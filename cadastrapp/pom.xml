@@ -32,7 +32,7 @@
         <checksumPolicy>ignore</checksumPolicy>
       </snapshots>
       <id>georchestra</id>
-      <url>http://build.georchestra.org/maven/repository</url>
+      <url>https://packages.georchestra.org/maven/repository</url>
     </repository>
     <!-- geotools -->
     <repository>
@@ -42,8 +42,8 @@
     </repository>
     <repository>
       <id>opengeo</id>
-      <name>OpenGeo Maven Repository</name>
-      <url>http://repo.opengeo.org</url>
+      <name>BoundlessGeo Maven Repository</name>
+      <url>https://repo.boundlessgeo.com/main/</url>
     </repository>
   </repositories>
   <dependencies>
