@@ -21,7 +21,6 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
     // comboboxe "villes" de l'onglet "Nom usage ou Naissance"
     var propCityCombo1 = new Ext.form.ComboBox({
         fieldLabel : OpenLayers.i18n('cadastrapp.proprietaire.city'),
-        boxMaxWidth: 400,
         hiddenName : 'cgocommune',
         allowBlank : false,
         mode : 'local',
@@ -84,7 +83,6 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
     // Combobox "Villes" de l'onglet "Compte propriétaire"
     var propCityCombo2 = new Ext.form.ComboBox({
         fieldLabel : OpenLayers.i18n('cadastrapp.proprietaire.city'),
-        boxMaxWidth: 400,
         hiddenName : 'cgocommune',
         allowBlank : false,
         mode : 'local',
@@ -306,7 +304,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                     value : OpenLayers.i18n('cadastrapp.proprietaire.name.tooltip'),
                     fieldClass : 'displayfieldGray'
                 } ],
-                layout : 'fit',
+                layout : 'form',
                 autoHeight: true
             }, {
                 // ONGLET "Compte proprietaire"
@@ -322,7 +320,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                     }, 
                     proprietaireGrid, // grille "proprietaires"
                 ],
-                layout : 'fit',
+                layout : 'form',
                 autoHeight: true
             }, {
                 // ONGLET "par lot"
