@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.georchestra</groupId>
     <artifactId>cadastrapp-parent</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.4</version>
   </parent>
   <artifactId>cadastrapp</artifactId>
   <packaging>war</packaging>
@@ -613,10 +613,10 @@
                   <target>
                     <chmod perm="ugo+x">
                       <fileset dir="${basedir}/target/deb">
-                        <include name="**/bin/**"/>
-                        <include name="**/sbin/**"/>
-                        <include name="DEBIAN/post*"/>
-                        <include name="DEBIAN/pre*"/>
+                        <include name="**/bin/**" />
+                        <include name="**/sbin/**" />
+                        <include name="DEBIAN/post*" />
+                        <include name="DEBIAN/pre*" />
                       </fileset>
                     </chmod>
                   </target>
