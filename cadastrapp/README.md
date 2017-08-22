@@ -97,13 +97,11 @@ sudo service tomcat-cadastrapp start
 
 ### Add proxy-cas information
 
-```
+Now configure proxy-cas to point to cadastrapp , add the following in ```/var/lib/tomcat-proxycas/webapps/ROOT/WEB-INF/proxy-servlet.xml```
 
-Now configure proxy-cas to point to cadastrapp , add the following in ``` /var/lib/tomcat-proxycas/webapps/ROOT/WEB-INF/proxy-servlet.xml```
 
 ```
  <entry key="cadastrapp"    value="http://localhost:8480/cadastrapp/" />
-
 ```
 
 Then restart proxy-cas instance
@@ -150,7 +148,7 @@ This will produce a .deb file under ```cadastrapp/target/```
 Copy war build previously in tomcat-cadastrapp webapps folder
 
 ```
- sudo cp  ./target/cadastrapp-0.0.1-SNAPSHOT.war  /var/lib/tomcat-cadastre/webapps/cadastrapp.war
+sudo cp  ./target/cadastrapp-0.0.1-SNAPSHOT.war  /var/lib/tomcat-cadastre/webapps/cadastrapp.war
 ```
 
 ### Restart the instance
@@ -158,3 +156,4 @@ Copy war build previously in tomcat-cadastrapp webapps folder
 ```
 sudo service tomcat-cadastrapp restart
 ```
+
