@@ -24,7 +24,7 @@ L'utilisation des vues matérialisées permet de gagner du temps lors de la mise
 
 ## Création de la base de données de Cadastrapp
 
-En tant que postgres, créerla base de données :
+En tant que postgres, créer la base de données :
 
 ```
 CREATE DATABASE cadastrapp WITH OWNER = postgres ENCODING = 'UTF8'
