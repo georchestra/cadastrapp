@@ -75,7 +75,8 @@ In the same file (server.xml) add a new Resource at the end of ```<GlobalNamingR
           validationQuery="select 1" />
 ```
 
-In ```/var/lib/tomcat-cadastrapp/conf/context.xml```, add a new ResourceLink at the end of ```<Context>``` part:
+In ```/var/lib/tomcat-cadastrapp/conf/context.xml```, add a new ResourceLink at the end of ```<Context>``` part :
+
 ```
 <ResourceLink name="jdbc/cadastrapp"
    global="jdbc/cadastrapp"
@@ -106,6 +107,7 @@ Now configure proxy-cas to point to cadastrapp , add the following in ``` /var/l
 ```
 
 Then restart proxy-cas instance
+
 ```
 sudo service tomcat-proxycas restart
 ```
@@ -115,9 +117,11 @@ sudo service tomcat-proxycas restart
 Only two files can be configure :
 
 The spring configuration file
+
 ```src/main/webapp/WEB-INF/beans.xml``` 
 
 The application database configuration file :
+
 ```src/main/resources/cadastrapp.properties```
 In this file replace schema.name depending on server script installation option
 for exemple : ```schema.name=cadastreapp```
@@ -133,7 +137,8 @@ mvn clean install
 
 ##  Build a debian package :
 
-To ease deployment and use the georchestra datadir, you can also build and deploy a debian package:
+To ease deployment and use the georchestra datadir, you can also build and deploy a debian package :
+
 ```
 mvn clean package deb:package -pl cadastrapp -PdebianPackage
 ```
