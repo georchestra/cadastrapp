@@ -4,7 +4,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc AS
 	SELECT  v_parcelle_surfc.parcelle,
 			v_parcelle_surfc.surfc, 
 			v_parcelle_surfc.surfb 
-		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
+		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 			'select distinct 
 				gp.geo_parcelle as parcelle,
 				round(st_area(gp.geom)) as surfc, 
@@ -34,7 +34,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS
 		parcelle.ccopre, 
 		parcelle.ccosec, 
 		parcelle.dcntpa
- 	 FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+ 	 FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
  		'select 
 			parcelle,
 			ccodep||ccodir||ccocom as cgocommune,
@@ -102,7 +102,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 		parcelledetails.inspireid ,
 		surfc,
 		surfb
-   	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+   	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
    		'select 
 			parcelle,
 			ccodep||ccodir||ccocom as cgocommune,

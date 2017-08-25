@@ -39,7 +39,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.rcbaia_gp,
 		proprietebatie.pexb,
 		proprietebatie.parcelle
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
+	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
 		'select 
 			l.local00 as id_local,
 			c.comptecommunal,

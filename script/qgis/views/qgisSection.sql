@@ -5,7 +5,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.section AS
 		cgocommune,
 		ccosec,
 		ccopre
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis', 
+	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis', 
 		'select 
 	   		distinct ccodep||ccodir||ccocom as cgocommune,
 			ltrim(ccosec) as ccosec,
