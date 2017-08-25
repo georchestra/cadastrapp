@@ -53,7 +53,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation as SELECT *
 			left join #DBSchema_qgis.cconad cconad4 on pevp.dep4_cconad=cconad4.cconad
 			order by annee,invar'::text) 
 	deschabitation (
-		pev character varying(17),
+		pev character varying(20),
 		annee character varying(4),
 		invar character varying(10),
 		dnupev character varying(3),
@@ -115,7 +115,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 				vsurzt 
 			from #DBSchema_qgis.pevprofessionnelle order by annee,invar'::text)
 	descproffessionnel (
-		pev character varying(17),
+		pev character varying(20),
 		invar character varying(10),
 		annee character varying(4),
 		dnudes character varying(3),
@@ -164,7 +164,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 				left join #DBSchema_qgis.cconad on pevdependances.cconad=cconad.cconad
 				order by annee,invar'::text)
 	descdependance (
-		pev character varying(17),
+		pev character varying(20),
 		invar character varying(10),
 		annee character varying(4),
 		dnudes character varying(3),
