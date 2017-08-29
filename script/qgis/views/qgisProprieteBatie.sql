@@ -71,7 +71,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			pevx.janimp,
 			l.gtauom,
 			l.jannat,
-			ROUND(CEIL(CAST(pev.dvlpera AS numeric)/2),2) as revcad,
+			( CASE WHEN pev.dvlpera::text <> '''' THEN ROUND(CEIL(CAST(pev.dvlpera AS NUMERIC)/2),2) END ) AS revcad,
 			ROUND(CAST(pevx.rcexba2 AS numeric),2) as rcexba2,
 			ROUND(CAST(pevtax.tse_bipevla AS numeric),2) as rcbaia_tse,
 			ROUND(CAST(pevtax.co_bipevla AS numeric),2) as rcbaia_com,
