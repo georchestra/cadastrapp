@@ -51,6 +51,9 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
         height : 200,
         collapsible: true,
         listeners : {
+            show: function(window){
+                window.alignTo(GeoExt.MapPanel.guess().map.div,"t",[0,150],false);
+            },
             close : function(window) {
                 GEOR.Addons.Cadastre.result.owner.window = null;
             }

@@ -195,6 +195,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
         constrainHeader : true,
         border : false,
         layout : 'fit',
+        autoHeight: true,
         labelWidth : 100,
         width : 450,
         collapsible: true,
@@ -204,6 +205,9 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
         listeners : {
             close : function(window) {
                 GEOR.Addons.Cadastre.proprietaireWindow = null;
+            },
+            show : function(window){
+                window.alignTo(GeoExt.MapPanel.guess().map.div,"tl",[0,150],false);
             }
         },
         items : [ {
@@ -299,18 +303,25 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                 }, {
                     value : OpenLayers.i18n('cadastrapp.proprietaire.name.tooltip'),
                     fieldClass : 'displayfieldGray'
-                } ]
+                } ],
+                layout : 'form',
+                autoHeight: true
             }, {
                 // ONGLET "Compte proprietaire"
                 id : 'propSecondForm',
                 xtype : 'form',
                 title : OpenLayers.i18n('cadastrapp.proprietaire.title.tab2'),
                 defaultType : 'displayfield',
-                items : [ propCityCombo2, {
-                    value : OpenLayers.i18n('cadastrapp.proprietaire.city.exemple'),
-                    fieldClass : 'displayfieldGray'
-                }, proprietaireGrid, // grille "proprietaires"
-                ]
+                items : [ 
+                    propCityCombo2, 
+                    {
+                        value : OpenLayers.i18n('cadastrapp.proprietaire.city.exemple'),
+                        fieldClass : 'displayfieldGray'
+                    }, 
+                    proprietaireGrid, // grille "proprietaires"
+                ],
+                layout : 'form',
+                autoHeight: true
             }, {
                 // ONGLET "par lot"
                 id : 'propThirdForm',

@@ -97,8 +97,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                 GEOR.Addons.Cadastre.result.plot.window = null;
             },
             show : function(window) {
-                // lors du changement entre onglets : deselection de toutes les
-                // parcelles et selection de celles du nouvel onglet
+                window.alignTo(GeoExt.MapPanel.guess().map.div,"t",[0,5],false);
             }
         },
         items : [ {

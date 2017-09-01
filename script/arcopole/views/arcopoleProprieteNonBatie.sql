@@ -40,7 +40,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			nbati.codcomm as cgocommune,
 			regexp_replace(substr(nbati.codparc,7,3), ''0{3}'', '''') as ccopre,
 			ltrim(substr(nbati.codparc,10,2), ''0'') as ccosec ,
-			COALESCE(ltrim(to_char(nbati.dnupla,''999'')),'''') as dnupla,
+			COALESCE(ltrim(to_char(nbati.dnupla,''9999'')),'''') as dnupla,
 			nbati.jdatat,
 			ltrim(nbati.dnvoirie, ''0'') as dnvoiri,
 			nbati.dindic,

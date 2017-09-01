@@ -75,7 +75,8 @@ In the same file (server.xml) add a new Resource at the end of ```<GlobalNamingR
           validationQuery="select 1" />
 ```
 
-In ```/var/lib/tomcat-cadastrapp/conf/context.xml```, add a new ResourceLink at the end of ```<Context>``` part:
+In ```/var/lib/tomcat-cadastrapp/conf/context.xml```, add a new ResourceLink at the end of ```<Context>``` part :
+
 ```
 <ResourceLink name="jdbc/cadastrapp"
    global="jdbc/cadastrapp"
@@ -96,16 +97,15 @@ sudo service tomcat-cadastrapp start
 
 ### Add proxy-cas information
 
-```
+Now configure proxy-cas to point to cadastrapp , add the following in ```/var/lib/tomcat-proxycas/webapps/ROOT/WEB-INF/proxy-servlet.xml```
 
-Now configure proxy-cas to point to cadastrapp , add the following in ``` /var/lib/tomcat-proxycas/webapps/ROOT/WEB-INF/proxy-servlet.xml```
 
 ```
  <entry key="cadastrapp"    value="http://localhost:8480/cadastrapp/" />
-
 ```
 
 Then restart proxy-cas instance
+
 ```
 sudo service tomcat-proxycas restart
 ```
@@ -115,9 +115,11 @@ sudo service tomcat-proxycas restart
 Only two files can be configure :
 
 The spring configuration file
+
 ```src/main/webapp/WEB-INF/beans.xml``` 
 
 The application database configuration file :
+
 ```src/main/resources/cadastrapp.properties```
 In this file replace schema.name depending on server script installation option
 for exemple : ```schema.name=cadastreapp```
@@ -133,7 +135,8 @@ mvn clean install
 
 ##  Build a debian package :
 
-To ease deployment and use the georchestra datadir, you can also build and deploy a debian package:
+To ease deployment and use the georchestra datadir, you can also build and deploy a debian package :
+
 ```
 mvn clean package deb:package -pl cadastrapp -PdebianPackage
 ```
@@ -145,7 +148,7 @@ This will produce a .deb file under ```cadastrapp/target/```
 Copy war build previously in tomcat-cadastrapp webapps folder
 
 ```
- sudo cp  ./target/cadastrapp-0.0.1-SNAPSHOT.war  /var/lib/tomcat-cadastre/webapps/cadastrapp.war
+sudo cp  ./target/cadastrapp-0.0.1-SNAPSHOT.war  /var/lib/tomcat-cadastre/webapps/cadastrapp.war
 ```
 
 ### Restart the instance
@@ -153,3 +156,4 @@ Copy war build previously in tomcat-cadastrapp webapps folder
 ```
 sudo service tomcat-cadastrapp restart
 ```
+

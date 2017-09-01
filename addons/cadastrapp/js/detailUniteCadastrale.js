@@ -42,6 +42,9 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         items : cadastreTabPanel,
         collapsible: true,
         listeners : {
+            show: function(window){
+                window.alignTo(GeoExt.MapPanel.guess().map.div,"t",[0,40],false);
+            },
             close : function(window) {
                 // deselection de la ligne
                 var rowIndex = GEOR.Addons.Cadastre.indexRowParcelle(parcelleId);

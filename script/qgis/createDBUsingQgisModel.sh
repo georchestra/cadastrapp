@@ -51,7 +51,7 @@ if [ "$#" -ne 12 ]; then
     username="cadastrapp_user"
     userpwd="cadastrapp_pwd"
 
-    # REMOTE Arcopole Database information (the database to read)
+    # REMOTE QGIS Database information (the database to read)
     qgisDBHost=postgis-bdu
     qgisDBName=bdu
     qgisDBSchema=cadastre

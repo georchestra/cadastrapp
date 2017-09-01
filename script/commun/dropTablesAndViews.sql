@@ -34,10 +34,11 @@ DROP TABLE #schema_cadastrapp.prop_dnatpr;
 DROP TABLE #schema_cadastrapp.prop_dmatto;
 DROP TABLE #schema_cadastrapp.prop_dmatgm;
 
-DROP TABLE #schema_cadastrapp.request_information CASCADE;
-DROP TABLE #schema_cadastrapp.request_user_information CASCADE;
-DROP TABLE #schema_cadastrapp.request_information_object_request CASCADE;
-DROP TABLE #schema_cadastrapp.object_request CASCADE;
+-- This tables should not be dropped on production. Uncomment for test ou for a fresh install
+-- DROP TABLE #schema_cadastrapp.request_information CASCADE;
+-- DROP TABLE #schema_cadastrapp.request_user_information CASCADE;
+-- DROP TABLE #schema_cadastrapp.request_information_object_request CASCADE;
+-- DROP TABLE #schema_cadastrapp.object_request CASCADE;
 
 
 

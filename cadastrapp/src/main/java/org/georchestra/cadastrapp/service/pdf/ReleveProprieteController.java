@@ -1,6 +1,7 @@
 package org.georchestra.cadastrapp.service.pdf;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -47,6 +48,11 @@ public class ReleveProprieteController extends CadController {
 		
 		// Check if parcelle list is not empty
 		if (comptesCommunaux != null && !comptesCommunaux.isEmpty()) {
+			
+			// Fixe #329 in some case Extjs return one string with data separated with , instead of a list of data.
+			if(comptesCommunaux.size() ==1) {	
+				comptesCommunaux = Arrays.asList(comptesCommunaux.get(0).split(","));
+			}
 			// Get information about releve de propriete
 			//RelevePropriete relevePropriete = getReleveProprieteInformation(comptesCommunaux, headers);
 			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, headers, idParcelle);

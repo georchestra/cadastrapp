@@ -234,6 +234,9 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
         listeners : {
             close : function(window) {
                 GEOR.Addons.Cadastre.rechercheParcelleWindow = null;
+            },
+            show: function(window){
+                window.alignTo(GeoExt.MapPanel.guess().map.div,"tl",[0,5],false);
             }
         },
         items : [ {

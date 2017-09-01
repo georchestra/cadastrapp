@@ -79,6 +79,9 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.result.owner.window;
 
         GEOR.Addons.Cadastre.createSelectionControl(this.options.defautStyleParcelle , this.options.selectedStyle);
+        
+        GEOR.wmc.events.on("aftercontextrestore", GEOR.Addons.Cadastre.restoreLayersOnClear, this);
+        GEOR.managelayers.events.on("aftercontextcleared", GEOR.Addons.Cadastre.restoreLayersOnClear, this);
 
         this.window = new Ext.Window({
             title: OpenLayers.i18n('cadastrapp.cadastre_tools'),
@@ -98,12 +101,15 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
             listeners: {
                 "show": function() {
                     this.item.setChecked(true, true);
+                    GEOR.Addons.Cadastre.visible = true;
                     GEOR.Addons.Cadastre.addWMSLayer(WMSSetting);
                     GEOR.Addons.Cadastre.addPopupOnhover(this.options.popup);
+                    var maxX =  window.innerWidth;
+                    this.window.setPagePosition(maxX * 0.3 ,0);
                 },
                 "hide": function() {
-
                     this.item.setChecked(false, true);
+                    GEOR.Addons.Cadastre.visible = false;
                     // deactivate all controls create by cadastrapp addons
                     // All controls used by cadastrapp are store in the field GEOR.Addons.Cadastre.menu.cadastrappControls
                     Ext.each(GEOR.Addons.Cadastre.menu.cadastrappControls, function(control, index) {
@@ -212,7 +218,6 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
     _onCheckchange: function(item, checked) {
         if (checked && !this.window.isVisible()) {
             this.window.show();
-            this.window.alignTo(Ext.get(this.map.div), "t-t", [ 0, 5 ], true);
         } else {
             this.window.hide();
         }
