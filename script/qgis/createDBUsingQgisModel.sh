@@ -71,7 +71,7 @@ else
   userpwd=$8
 
     qgisDBHost=$9
-    qgisDBHost=$10
+    qgisDBPort=$10
     qgisDBName=$11
     qgisDBSchema=$12
     qgisDBUser=$13
