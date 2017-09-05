@@ -61,7 +61,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 		prop_ccodem.ccodem_lib, 
 		prop_dnatpr.dnatpr, 
 		prop_dnatpr.dnatpr_lib
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
+	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			pqgis.proprietaire,
 			pqgis.dnupro,

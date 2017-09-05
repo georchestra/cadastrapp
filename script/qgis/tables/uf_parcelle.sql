@@ -4,7 +4,7 @@ CREATE TABLE #schema_cadastrapp.uf_parcelle AS
 	SELECT uf_parcelle.parcelle,
 		uf_parcelle.uf,
 		uf_parcelle.comptecommunal
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
   		'select 
   			distinct p.geo_parcelle as parcelle,
   			z.id as uf,
