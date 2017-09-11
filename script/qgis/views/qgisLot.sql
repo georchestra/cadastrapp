@@ -5,7 +5,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.lot AS
 			lot.dnulot, 
 			lot.dnumql, 
 			lot.ddenql
-		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
+		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
  	 		'select distinct
 				l.local10 as id_local,
 				ltrim(l.dnulot, ''0'') as dnulot,

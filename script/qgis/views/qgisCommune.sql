@@ -9,7 +9,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.commune AS
 			commune.libcom_maj, 
 			commune.libcom_min, 
 			commune.typcom
-		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 			'select 
 				communeqgis.ccodep|| communeqgis.ccodir|| communeqgis.ccocom as cgocommune,
 				communeqgis.annee,

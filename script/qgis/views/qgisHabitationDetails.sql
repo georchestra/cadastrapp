@@ -1,7 +1,7 @@
 -- Create views deschabitation, descproffessionnel, descdependance based on Qgis Models
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation as SELECT *
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 		'select 
 			pev.pev,
 			pev.annee,
@@ -106,7 +106,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 			descproffessionnel.annee,
 			descproffessionnel.dnudes,
 			descproffessionnel.vsurzt 
-		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 			'select 
 				pev,
 				invar,
@@ -143,7 +143,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 			descdependance.gchclc,
 			descdependance.dmatgm,
 			descdependance.dmatto
-		FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
+		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 			'select 
 				pev,
 				invar,
