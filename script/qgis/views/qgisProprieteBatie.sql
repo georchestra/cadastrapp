@@ -89,7 +89,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			left join #DBSchema_qgis.cconlc on cconlc.cconlc = l.cconlc
 		order by c.ccodep,c.ccodir,c.ccocom,dnupla,v.voie,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
 	proprietebatie(
-		id_local character varying(14), 
+		id_local character varying(17), 
 		comptecommunal character varying(15), 
 		dnupro character varying(6), 
 		cgocommune character varying(6), 
