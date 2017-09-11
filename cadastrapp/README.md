@@ -135,7 +135,8 @@ mvn clean install
 
 ##  Build a debian package :
 
-To ease deployment and use the georchestra datadir, you can also build and deploy a debian package :
+You'll need ```fakeroot``` installed for this task. To ease deployment and use the georchestra datadir,
+you can also build and deploy a debian package :
 
 ```
 mvn clean package deb:package -pl cadastrapp -PdebianPackage
