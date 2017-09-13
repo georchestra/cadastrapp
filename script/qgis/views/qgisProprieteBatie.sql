@@ -71,7 +71,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			pevx.janimp,
 			l.gtauom,
 			l.jannat,
-			ROUND(CEIL(CAST(pev.dvlpera AS numeric)/2),2) as revcad,
+			( CASE WHEN pev.dvlpera::text <> '''' THEN ROUND(CEIL(CAST(pev.dvlpera AS NUMERIC)/2),2) END ) AS revcad,
 			ROUND(CAST(pevx.rcexba2 AS numeric),2) as rcexba2,
 			ROUND(CAST(pevtax.tse_bipevla AS numeric),2) as rcbaia_tse,
 			ROUND(CAST(pevtax.co_bipevla AS numeric),2) as rcbaia_com,
@@ -89,7 +89,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			left join #DBSchema_qgis.cconlc on cconlc.cconlc = l.cconlc
 		order by c.ccodep,c.ccodir,c.ccocom,dnupla,v.voie,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
 	proprietebatie(
-		id_local character varying(14), 
+		id_local character varying(17),
 		comptecommunal character varying(15), 
 		dnupro character varying(6), 
 		cgocommune character varying(6), 
