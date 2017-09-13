@@ -13,7 +13,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 		proprietenonbatiesufexo.rcexnba, 
 		proprietenonbatiesufexo.fcexn, 
 		proprietenonbatiesufexo.pexn
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
+	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			p.parcelle,
 			sufex.suf as id_local,

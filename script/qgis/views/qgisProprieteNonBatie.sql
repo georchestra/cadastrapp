@@ -35,7 +35,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.bisufad_com,
 		proprietenonbatie.bisufad_dep,
 		proprietenonbatie.bisufad_gp
-	FROM dblink('host=#DBHost_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
+	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			suf.suf as id_local,
 			COALESCE(to_char(p.jdatat, ''DD/MM/YYYY''), '''') as jdatat,
