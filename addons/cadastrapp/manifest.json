@@ -589,7 +589,7 @@
             "cadastrapp.multipoint": "MultiPoint",
             "cadastrapp.polygon": "Polygone",
             "cadastrapp.multipolygon": "MultiPolygone",
-            "cadastrapp.create_point": "SélectiidCompteComonne / Active / Désélectionne une parcelle par un simple clic",
+            "cadastrapp.create_point": "Sélectionne / Active / Désélectionne une parcelle par un simple clic",
             "cadastrapp.create_line": "Sélectionne / Active / Désélectionne une ou plusieurs parcelles par une ligne brisée",
             "cadastrapp.create_polygon": "Sélectionne / Active / Désélectionne une ou plusieurs parcelles à l’intérieur d’un polygone",
             "cadastrapp.delete_all_features": "Supprimer tous les objets",
