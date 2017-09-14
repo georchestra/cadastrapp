@@ -43,7 +43,7 @@ public class PurgeJob {
 	        }
         }  
         
-        logger.info(nbFilesDeleted + "where deleted");
+        logger.info(nbFilesDeleted + " were deleted");
     }
 
 	/**
