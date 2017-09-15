@@ -203,9 +203,9 @@ public class CoProprietaireController extends CadController {
 		if (getUserCNILLevel(headers)>0){
 		
 			//TODO externalize entete
-			String  entete = "Compte communal;Civilité;Nom;Prénom;Nom d'usage;Prénom d'usage;Dénominiation;Nom d'usage;Adresse ligne 3;Adresse ligne 4;Adresse ligne 5;Adresse ligne 6;Identitifiants de parcelles;ccodro_lib";
+			String  entete = "Compte communal;Civilité;Nom;Prénom;Nom d'usage;Prénom d'usage;Dénomination;Nom d'usage;Adresse ligne 3;Adresse ligne 4;Adresse ligne 5;Adresse ligne 6;Identifiants de parcelles;Code du droit réel";
 			if(getUserCNILLevel(headers)>1){
-				entete = entete + ";Lieu de naissance; Date de naissance";
+				entete = entete + ";Lieu de naissance;Date de naissance";
 			}
 			
 			String[] parcelleList = StringUtils.split(parcelles, ',');
