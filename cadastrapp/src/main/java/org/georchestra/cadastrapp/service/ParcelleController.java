@@ -563,9 +563,6 @@ public class ParcelleController extends CadController {
 		// Create empty content
 		ResponseBuilder response = Response.noContent();
 		
-		// User need to be at least CNIL1 level
-		if (getUserCNILLevel(headers)>0){
-				
 			String entete = "Identifiant de parcelle;Commune;dnvoiri;dindic;cconvo;dvoilib;ccopre;ccosec;N° de plan;Contenance DGFiP en m²";
 			
 			String[] parcelleArray = StringUtils.split(parcelles, ',');
@@ -598,9 +595,6 @@ public class ParcelleController extends CadController {
 				//log empty request
 				logger.info("Parcelle Id List is empty nothing to search");
 			}
-		}else{
-			logger.info("User does not have rights to see thoses informations");
-		}
 	
 		return response.build();
 	}
