@@ -44,8 +44,10 @@ public class HabitationController extends CadController {
 		List<String> queryParams = new ArrayList<String>();
 		queryParams.add(annee);
 		queryParams.add(invar);
-		
-		if(annee != null && invar != null && getUserCNILLevel(headers) > 1) 
+		if (getUserCNILLevel(headers) == 0) {
+			logger.info("User needs does not have enough rights to see habitation details");
+		}
+		else if(annee != null && invar != null)
 		{		
 			habitationDesc.put("article40", getArticle40Details(queryParams));
 			habitationDesc.put("article50", getArticle50Details(queryParams));
