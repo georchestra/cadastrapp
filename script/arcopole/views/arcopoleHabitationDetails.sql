@@ -3,8 +3,8 @@
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS 
 	SELECT *
-		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
-		'select 
+	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+		'SELECT 
 			pev.id_pev as pev,
 			substr(pev.codlot,1,4) as annee,pev.invar,
  			dnupev,pev.ccoaff,
@@ -38,21 +38,21 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			cconad2.description as cconad_cv,
 			cconad3.description as cconad_gr,
 			cconad4.description as cconav_tr,
-			dsueic_ga,
-			dsueic_cv,
-			dsueic_gr,
-			dsueic_tr,
+			CAST(dsueic_ga AS integer),
+			CAST(dsueic_cv AS integer),
+			CAST(dsueic_gr AS integer),
+			CAST(dsueic_tr AS integer),
 			dmatgm,
 			dmatto
 		from #DBSchema_arcopole.DGI_PEV  as pev 
-  			left join #DBSchema_arcopole.dgi_phab pevp on pev.id_pev=pevp.id_pev
+  		left join #DBSchema_arcopole.dgi_phab pevp on pev.id_pev=pevp.id_pev
 			left join #DBSchema_arcopole.dom_ccoaff as ccoaff on pev.ccoaff=ccoaff.code  
 			left join #DBSchema_arcopole.dom_cconad cconad1 on pevp.cconad_ga=cconad1.code 
 			left join #DBSchema_arcopole.dom_cconad cconad2 on pevp.cconad_cv=cconad2.code 
 			left join #DBSchema_arcopole.dom_cconad cconad3 on pevp.cconad_gr=cconad3.code 
-			left join #DBSchema_arcopole.dom_cconad cconad4 on pevp.cconad_tr=cconad4.code '::text) 
+			left join #DBSchema_arcopole.dom_cconad cconad4 on pevp.cconad_tr=cconad4.code'::text)
 	deschabitation(
-			pev character varying(19), 
+			pev character varying(20), 
 			annee character varying(4), 
 			invar character varying(16), 
 			dnupev character varying(3), 
@@ -87,14 +87,15 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			cconav_cv character varying(150),
 			cconad_gr character varying(150), 
 			cconav_tr character varying(150), 
-			dsueic_ga numeric, 
-			dsueic_cv numeric, 
-			dsueic_gr numeric, 
-			dsueic_tr numeric,
+			dsueic_ga integer, 
+			dsueic_cv integer, 
+			dsueic_gr integer, 
+			dsueic_tr integer,
 			dmatgm character varying(2), 
-			dmatto character varying(2));
-
+			dmatto character varying(2)
+      );
 ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
+
 
 
 
@@ -114,7 +115,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 			descproffessionnel.dnudes,
 			descproffessionnel.vsurzt
 		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
-			'select
+			'SELECT
 				id_pev as pev,
 				invar,
 				substr(codlot,1,4) as annee,
@@ -128,7 +129,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 				''0'' as surzt
 			from #DBSchema_arcopole.dgi_pprof'::text) 
 	descproffessionnel(
-			pev character varying(19),
+			pev character varying(20),
 			invar character varying(16),
 			annee character varying(4),
 			dsupot integer,
@@ -146,9 +147,24 @@ ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS 
-	select *
-		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
-		'select 
+	SELECT
+			descdependance.pev,
+			descdependance.invar,
+			descdependance.annee,
+			descdependance.dnudes,
+			descdependance.cconad_lib,
+			descdependance.dsudep,
+			descdependance.dnbbai,
+			descdependance.dnbdou,
+			descdependance.dnblav,
+			descdependance.dnbwc,
+			descdependance.geaulc,
+			descdependance.gelelc,
+			descdependance.gchclc,
+			descdependance.dmatgm,
+			descdependance.dmatto
+		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
+		'SELECT 
 			id_pev as pev,
 			invar,
 			substr(codlot,1,4) as annee,
@@ -167,7 +183,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 		from #DBSchema_arcopole.dgi_dep as pevdependances
 			left join #DBSchema_arcopole.dom_cconad as cconad on pevdependances.cconad=cconad.code'::text) 
 	descdependance(
-		pev character varying(19), 
+		pev character varying(20), 
 		invar character varying(16), 
 		annee character varying(4), 
 		dnudes character varying(6), 
@@ -181,7 +197,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 		gelelc character varying(1), 
 		gchclc character varying(1),
 		dmatgm character varying(2), 
-		dmatto character varying(2));
+		dmatto character varying(2)
+  );
 
 ALTER TABLE #schema_cadastrapp.descdependance OWNER TO #user_cadastrapp;
 

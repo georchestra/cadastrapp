@@ -1,9 +1,10 @@
 -- Create views deschabitation, descproffessionnel, descdependance based on Qgis Models
 
 
-CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation as SELECT *
+CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
+	SELECT *
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
-		'select 
+		'SELECT 
 			pev.pev,
 			pev.annee,
 			pev.invar,
@@ -51,8 +52,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation as SELECT *
 			left join #DBSchema_qgis.cconad cconad1 on pevp.dep1_cconad=cconad1.cconad
 			left join #DBSchema_qgis.cconad cconad2 on pevp.dep2_cconad=cconad2.cconad
 			left join #DBSchema_qgis.cconad cconad3 on pevp.dep3_cconad=cconad3.cconad
-			left join #DBSchema_qgis.cconad cconad4 on pevp.dep4_cconad=cconad4.cconad
-			order by annee,invar'::text) 
+			left join #DBSchema_qgis.cconad cconad4 on pevp.dep4_cconad=cconad4.cconad'::text)
 	deschabitation (
 		pev character varying(20),
 		annee character varying(4),
@@ -91,8 +91,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation as SELECT *
 		cconav_tr character varying(150),
 		dsueic_ga integer,
 		dsueic_cv integer,
-		dsueic_gr  integer,
-		dsueic_tr  integer,
+		dsueic_gr integer,
+		dsueic_tr integer,
 		dmatgm character varying(2),
 		dmatto character varying(2)
 		);
@@ -114,7 +114,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 			descproffessionnel.dnudes,
 			descproffessionnel.vsurzt
 		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
-			'select
+			'SELECT
 				pev,
 				invar,
 				annee,
@@ -128,7 +128,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 				''0'' as surzt
 			from #DBSchema_qgis.pevprofessionnelle'::text)
 	descproffessionnel (
-			pev character varying(19),
+			pev character varying(20),
 			invar character varying(16),
 			annee character varying(4),
 			dsupot integer,
@@ -146,7 +146,8 @@ ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
-	SELECT descdependance.pev,
+	SELECT
+			descdependance.pev,
 			descdependance.invar,
 			descdependance.annee,
 			descdependance.dnudes,
@@ -162,7 +163,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 			descdependance.dmatgm,
 			descdependance.dmatto
 		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
-			'select 
+			'SELECT 
 				pev,
 				invar,
 				annee,
@@ -179,8 +180,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 				dmatgm,
 				dmatto
 			from #DBSchema_qgis.pevdependances
-				left join #DBSchema_qgis.cconad on pevdependances.cconad=cconad.cconad
-				order by annee,invar'::text)
+				left join #DBSchema_qgis.cconad on pevdependances.cconad=cconad.cconad'::text)
 	descdependance (
 		pev character varying(20),
 		invar character varying(10),
@@ -200,5 +200,4 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 	);
 
 ALTER TABLE #schema_cadastrapp.descdependance OWNER TO #user_cadastrapp;
-
 
