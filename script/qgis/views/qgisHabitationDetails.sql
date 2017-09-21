@@ -1,5 +1,6 @@
 -- Create views deschabitation, descproffessionnel, descdependance based on Qgis Models
 
+
 CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation as SELECT *
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 		'select 
@@ -98,7 +99,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation as SELECT *
 
 ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
--- View: cadastrapp_qgis.descproffessionnel
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 	SELECT 	descproffessionnel.pev,
@@ -125,7 +125,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 
--- View: cadastrapp_qgis.descdependance
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 	SELECT descdependance.pev,

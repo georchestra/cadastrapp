@@ -1,24 +1,4 @@
--- HabitationDetails
 -- Create views deschabitation, descproffessionnel, descdependance based on Arcopole Models
-
-
-CREATE MATERIALIZED VIEW  #schema_cadastrapp.descproffessionnel AS 
-	SELECT *
-		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
-			'select 
-				id_pev as pev,invar,
-				substr(codlot,1,4) as annee,
-				dnudes,
-				vsurzt 
-			from #DBSchema_arcopole.dgi_PPROF  '::text) 
-	descproffessionnel(
-			pev character varying(19),
-			invar character varying(16), 
-			annee character varying(4), 
-			dnudes character varying(3), 
-			vsurzt character varying(9));
-			
-ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS 
@@ -115,6 +95,36 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			dmatto character varying(2));
 
 ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
+
+
+
+
+
+CREATE MATERIALIZED VIEW  #schema_cadastrapp.descproffessionnel AS 
+	SELECT *
+		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+			'select 
+				id_pev as pev,invar,
+				substr(codlot,1,4) as annee,
+				dnudes,
+				vsurzt 
+			from #DBSchema_arcopole.dgi_PPROF  '::text) 
+	descproffessionnel(
+			pev character varying(19),
+			invar character varying(16), 
+			annee character varying(4), 
+			dnudes character varying(3), 
+			vsurzt character varying(9));
+			
+ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
+
+
+
+
+
+
+
+
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS 
 	select *
