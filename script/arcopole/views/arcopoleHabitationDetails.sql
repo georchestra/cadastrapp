@@ -7,7 +7,8 @@ CREATE MATERIALIZED VIEW  #schema_cadastrapp.descproffessionnel AS
 		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 			'select 
 				id_pev as pev,invar,
-				substr(codlot,1,4) as annee,dnudes,
+				substr(codlot,1,4) as annee,
+				dnudes,
 				vsurzt 
 			from #DBSchema_arcopole.dgi_PPROF  '::text) 
 	descproffessionnel(
