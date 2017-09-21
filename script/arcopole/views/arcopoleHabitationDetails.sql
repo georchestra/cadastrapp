@@ -106,8 +106,8 @@ CREATE MATERIALIZED VIEW  #schema_cadastrapp.descproffessionnel AS
 			'select 
 				id_pev as pev,invar,
 				substr(codlot,1,4) as annee,
-				dnudes,
-				vsurzt 
+				'''' as dnudes,
+				'''' as surzt
 			from #DBSchema_arcopole.dgi_PPROF  '::text) 
 	descproffessionnel(
 			pev character varying(19),

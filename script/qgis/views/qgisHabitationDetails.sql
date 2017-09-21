@@ -111,8 +111,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 				pev,
 				invar,
 				annee,
-				dnudes,
-				vsurzt 
+				'''' as dnudes,
+				'''' as surzt
 			from #DBSchema_qgis.pevprofessionnelle order by annee,invar'::text)
 	descproffessionnel (
 		pev character varying(20),
