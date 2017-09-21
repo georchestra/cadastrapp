@@ -100,29 +100,48 @@ ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
 
 
-CREATE MATERIALIZED VIEW  #schema_cadastrapp.descproffessionnel AS 
-	SELECT *
+CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS 
+	SELECT
+			descproffessionnel.pev,
+			descproffessionnel.invar,
+			descproffessionnel.annee,
+			descproffessionnel.dsupot,
+			descproffessionnel.dsup1,
+			descproffessionnel.dsup2,
+			descproffessionnel.dsup3,
+			descproffessionnel.dsupk1,
+			descproffessionnel.dsupk2,
+			descproffessionnel.dnudes,
+			descproffessionnel.vsurzt
 		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
-			'select 
-				id_pev as pev,invar,
+			'select
+				id_pev as pev,
+				invar,
 				substr(codlot,1,4) as annee,
+				CAST(dsupot AS integer),
+				CAST(dsup1 AS integer),
+				CAST(dsup2 AS integer),
+				CAST(dsup3 AS integer),
+				CAST(dsupk1 AS integer),
+				CAST(dsupk2 AS integer),
 				'''' as dnudes,
-				'''' as surzt
-			from #DBSchema_arcopole.dgi_PPROF  '::text) 
+				''0'' as surzt
+			from #DBSchema_arcopole.dgi_pprof'::text) 
 	descproffessionnel(
 			pev character varying(19),
-			invar character varying(16), 
-			annee character varying(4), 
-			dnudes character varying(3), 
-			vsurzt character varying(9));
-			
+			invar character varying(16),
+			annee character varying(4),
+			dsupot integer,
+			dsup1 integer,
+			dsup2 integer,
+			dsup3 integer,
+			dsupk1 integer,
+			dsupk2 integer,
+			dnudes character varying(3),
+			vsurzt integer
+	);
+
 ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
-
-
-
-
-
-
 
 
 

@@ -101,25 +101,44 @@ ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
-	SELECT 	descproffessionnel.pev,
+	SELECT
+			descproffessionnel.pev,
 			descproffessionnel.invar,
 			descproffessionnel.annee,
+			descproffessionnel.dsupot,
+			descproffessionnel.dsup1,
+			descproffessionnel.dsup2,
+			descproffessionnel.dsup3,
+			descproffessionnel.dsupk1,
+			descproffessionnel.dsupk2,
 			descproffessionnel.dnudes,
-			descproffessionnel.vsurzt 
+			descproffessionnel.vsurzt
 		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
-			'select 
+			'select
 				pev,
 				invar,
 				annee,
+				CAST(dsupot AS integer),
+				CAST(dsup1 AS integer),
+				CAST(dsup2 AS integer),
+				CAST(dsup3 AS integer),
+				CAST(dsupk1 AS integer),
+				CAST(dsupk2 AS integer),
 				'''' as dnudes,
-				'''' as surzt
-			from #DBSchema_qgis.pevprofessionnelle order by annee,invar'::text)
+				''0'' as surzt
+			from #DBSchema_qgis.pevprofessionnelle'::text)
 	descproffessionnel (
-		pev character varying(20),
-		invar character varying(10),
-		annee character varying(4),
-		dnudes character varying(3),
-		vsurzt integer
+			pev character varying(19),
+			invar character varying(16),
+			annee character varying(4),
+			dsupot integer,
+			dsup1 integer,
+			dsup2 integer,
+			dsup3 integer,
+			dsupk1 integer,
+			dsupk2 integer,
+			dnudes character varying(3),
+			vsurzt integer
 	);
 
 ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
