@@ -7,7 +7,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.lot AS
 		lot.dnulot, 
 		lot.dnumql, 
 		lot.ddenql
-  	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+  	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
   		'select distinct
   				l.codlot,
 				l.invloc as id_local,

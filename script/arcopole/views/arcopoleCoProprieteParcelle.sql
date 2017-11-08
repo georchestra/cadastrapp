@@ -6,7 +6,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.co_propriete_parcelle AS
 		co_propriete_parcelle.parcelle, 
 		co_propriete_parcelle.comptecommunal, 
 		co_propriete_parcelle.dnulot
-	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select  
 			d.codlot as lots,
 			d.codparc as parcelle,

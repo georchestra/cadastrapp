@@ -5,7 +5,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.section AS
 		section.cgocommune, 
 		section.ccosec, 
 		section.ccopre
-   FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+   FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
    		'select 
 	   		codcomm as cgocommune,
 	   		ltrim(substr(id_sect,10,2),''0'') as ccosec ,

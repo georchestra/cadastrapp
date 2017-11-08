@@ -16,8 +16,8 @@
 # @author Jégo Pierre
 # @since
 # @brief
-# @date   20/06/2016
-# Version : 1.5
+# @date   08/11/2017
+# Version : 1.7
 #
 # Change version | Author         |    Date    | Comments
 #   1.0          | Pierre JEGO    | 15/06/2015 | Init
@@ -27,13 +27,14 @@
 #   1.4          | Maël REBOUX    | 07/06/2016 | Add capability to use non local postgresql database
 #   1.5          | Pierre JEGO    | 20/06/2016 | Use script in batch mode
 #   1.6          | Pierre JEGO    | 22/06/2016 | Add lot view
+#   1.7          | Pierre JEGO    | 08/11/2017 | Add port as done in Qgis Model
 #////////////////////////////////////////////////////////////////////
 
 
 # Set parameters
-if [ "$#" -ne 12 ]; then
+if [ "$#" -ne 14 ]; then
   echo "No parameters given or not the good number of params" >&2
-  echo "Usage could be : $0 Batchmode(0/1) DatabaseHost DatabaseAdminUser DatabaseName DatabaseSchema DatabaseUser DatabasePasswd ArcopoleHost ArcopoleDataBaseName ArcopoleDataBaseSchema ArcopoleDataBaseUser ArcopoleDataBasePasswd" >&2
+  echo "Usage could be : $0 Batchmode(0/1) DatabaseHost DatabasePort DatabaseAdminUser DatabaseName DatabaseSchema DatabaseUser DatabasePasswd ArcopoleHost ArcopolePort ArcopoleDataBaseName ArcopoleDataBaseSchema ArcopoleDataBaseUser ArcopoleDataBasePasswd" >&2
   echo "Use constant in script" >&2
 
   ## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
@@ -47,6 +48,7 @@ if [ "$#" -ne 12 ]; then
 
   # Postgresql information (the database to load)
   dbhost="localhost"
+  dbport="5432"
   # Postgres user which have role creation and schema creation rights
   dbadminuser="admindbuser"
   dbname="cadastrapp_arcopole"
@@ -56,6 +58,7 @@ if [ "$#" -ne 12 ]; then
 
   # REMOTE Arcopole Database information (the database to read)
   arcopoleDBHost="xxx"
+  arcopolePort="5432"
   arcopoleDBName="xxx"
   arcopoleDBSchema="xxx"
   arcopoleDBUser="xxx"
@@ -64,22 +67,25 @@ else
   echo "Launch Script using parameters" >&2
   batchmode=$1
   dbhost=$2
-  dbadminuser=$3
-  dbname=$4
-  schema=$5
-  username=$6
-  userpwd=$7
+  dbport=$3
+  dbadminuser=$4
+  dbname=$5
+  schema=$6
+  username=$7
+  userpwd=$8
 
-  arcopoleDBHost=$8
-  arcopoleDBName=$9
-  arcopoleDBSchema=$10
-  arcopoleDBUser=$11
-  arcopoleDBPassword=$12
+  arcopoleDBHost=$9
+  arcopoleDBPort=$10
+  arcopoleDBName=$11
+  arcopoleDBSchema=$12
+  arcopoleDBUser=$13
+  arcopoleDBPassword=$14
 fi
 
 echo "--------------------------------";
 echo "Batch mode : $batchmode"
 echo "Database host : $dbhost"
+echo "Database port : $dbport"
 echo "Database admin user : $dbadminuser"
 echo "Database name : $dbname"
 echo "Schema name : $schema"
@@ -88,6 +94,7 @@ echo "Password : $userpwd"
 echo "If using batch mode, make sure username and password had been set in pgpass.conf in order to use batch mode"
 
 echo "Arcopole Database host : $arcopoleDBHost"
+echo "Arcopole Database port : $arcopoleDBPort"
 echo "Arcopole Database name : $arcopoleDBName"
 echo "Arcopole Schema : $arcopoleDBSchema"
 echo "Arcopole UserName : $arcopoleDBUser"
@@ -105,6 +112,7 @@ fi
 # #schema_cadastrapp replace with $schema
 # #pwd_cadastrapp replace with $userpwd
 # #DBHost_arcopole replace with $arcopoleDBHost
+# #DBPort_arcopole replace wiht $arcopoleDBPort
 # #DBSchema_arcopole replace with $arcopoleDBSchema
 # #DBName_arcopole replace with $arcopoleDBName
 # #DBUser_arcopole replace with $arcopoleDBUser
@@ -122,11 +130,12 @@ replaceAndLaunch (){
   cat $1 | sed "{ s/#user_cadastrapp/$username/g
           s/#schema_cadastrapp/$schema/g
           s/#DBHost_arcopole/$arcopoleDBHost/g
+          s/#DBPort_arcopole/$arcopoleDBPort/g
           s/#DBName_arcopole/$arcopoleDBName/g
           s/#DBUser_arcopole/$arcopoleDBUser/g
           s/#DBpasswd_arcopole/$arcopoleDBPassword/g
           s/#DBSchema_arcopole/$arcopoleDBSchema/g }" |\
-       psql -h $dbhost -U $username -d $dbname $connectionOption
+       psql -h $dbhost -p $dbport -U $username -d $dbname $connectionOption
 }
 
 # Init database
@@ -137,7 +146,7 @@ cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
                   s/#pwd_cadastrapp/$userpwd/g
                   s/#dbname_arcopole/$dbname/g
                   s/#schema_cadastrapp/$schema/g }" |\
-                  psql -h $dbhost -U $dbadminuser -d postgres $connectionOption
+                  psql -h $dbhost -p $dbport -U $dbadminuser -d postgres $connectionOption
 
 echo "--------------------------------";
 echo " Drop View and Tables except groupeAutorisation ";
