@@ -62,7 +62,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire as
 		prop_ccodem.ccodem_lib, 
 		prop_dnatpr.dnatpr, 
 		prop_dnatpr.dnatpr_lib 
-	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			id_prop as id_proprietaire,
 			id_prop as dnupro,

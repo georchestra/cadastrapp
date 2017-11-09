@@ -39,7 +39,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.rcbaia_dep,
 		proprietebatie.rcbaia_gp,
 		proprietebatie.jannat
-	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
+	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
 		'select 
 			local.id_local,
 			invar.codparc as parcelle,

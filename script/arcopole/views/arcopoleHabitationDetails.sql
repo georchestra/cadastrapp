@@ -3,7 +3,7 @@
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS 
 	SELECT *
-	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'SELECT 
 			pev.id_pev as pev,
 			substr(pev.codlot,1,4) as annee,pev.invar,
@@ -114,7 +114,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 			descproffessionnel.dsupk2,
 			descproffessionnel.dnudes,
 			descproffessionnel.vsurzt
-		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+		FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 			'SELECT
 				id_pev as pev,
 				invar,
@@ -163,7 +163,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 			descdependance.gchclc,
 			descdependance.dmatgm,
 			descdependance.dmatto
-		FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
+		FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
 		'SELECT 
 			id_pev as pev,
 			invar,

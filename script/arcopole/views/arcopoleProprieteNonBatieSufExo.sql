@@ -13,7 +13,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 		proprietenonbatiesufexo.rcexnba,
 		proprietenonbatiesufexo.fcexn,
 		proprietenonbatiesufexo.pexn
-	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			nbati.codparc as parcelle,
 			suf.id_suf as id_local,

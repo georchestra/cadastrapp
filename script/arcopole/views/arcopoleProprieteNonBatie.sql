@@ -32,7 +32,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 		proprietenonbatie.bisufad_com,
 		proprietenonbatie.bisufad_dep,
 		proprietenonbatie.bisufad_gp
-	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'select 
 			suf.id_suf as id_local,
 			nbati.codparc as parcelle,

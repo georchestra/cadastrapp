@@ -7,7 +7,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.commune AS
 		commune.libcom, 
 		commune.libcom_maj, 
 		commune.libcom_min
-  	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+  	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
   		'select 
   			id_comm as cgocommune,
 			annmaj as annee,
