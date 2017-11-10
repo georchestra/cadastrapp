@@ -41,7 +41,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			cconad3.cconad_lib as cconad_gr,
 			cconad4.cconad_lib as cconav_tr,
 			dep1_dsueic  as dsueic_ga,
-			dep2_dsueic  as dsueic_cv,dep3_dsueic  
+			dep2_dsueic  as dsueic_cv,
+			dep3_dsueic  
 			as dsueic_gr,
 			dep4_dsueic  as dsueic_tr,
 			dmatgm,
@@ -142,7 +143,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 	);
 
 ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
-
 
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS

@@ -6,8 +6,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 		'SELECT 
 			pev.id_pev as pev,
-			substr(pev.codlot,1,4) as annee,pev.invar,
- 			dnupev,pev.ccoaff,
+			substr(pev.codlot,1,4) as annee,
+			pev.invar,
+ 			dnupev,
+ 			pev.ccoaff,
  			''Partie principale d''''habitation'' as dnupev_lib,
 			ccoaff.description as ccoaff_lib, 
  			pevp.dnudes,
@@ -97,10 +99,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 ALTER TABLE #schema_cadastrapp.deschabitation OWNER TO #user_cadastrapp;
 
 
-
-
-
-
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS 
 	SELECT
 			descproffessionnel.pev,
@@ -145,7 +143,6 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;
 
 
-
 CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS 
 	SELECT
 			descdependance.pev,
@@ -170,13 +167,13 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 			substr(codlot,1,4) as annee,
 			dnudes,
 			description as cconad_lib,
-			dsudep,
+			CAST(dsudep AS integer),
 			dnbbai,
 			dnbdou,
 			dnblav,
 			dnbwc,
 			geaulc,
-			GELECL as gelelc,
+			gelelc,
 			gchclc,
 			dmatgm,
 			dmatto
@@ -188,7 +185,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descdependance AS
 		annee character varying(4), 
 		dnudes character varying(6), 
 		cconad_lib character varying(150),
-		dsudep character varying(6), 
+		dsudep integer, 
 		dnbbai character varying(2), 
 		dnbdou character varying(2), 
 		dnblav character varying(2), 
