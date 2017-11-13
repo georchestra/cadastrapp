@@ -526,6 +526,7 @@
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">
 					<fo:block>
 						<xsl:value-of select="@dcapec" />
+						<xsl:value-of select="@ccocac" />
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">

@@ -202,7 +202,7 @@ public final class ReleveProprieteHelper extends CadController {
 
 						StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, gtauom, pexb, rcexba2, rcbaia_com, rcbaia_dep, rcbaia_gp, revcad, jdatat, parcelle ");
+						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, gtauom, pexb, rcexba2, rcbaia_com, rcbaia_dep, rcbaia_gp, rcbaia_tse, revcad, jdatat, parcelle, ccocac ");
 						queryBuilderProprieteBatie.append("from ");
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -259,10 +259,11 @@ public final class ReleveProprieteHelper extends CadController {
 								proprieteBatie.setCcoaff((String) propBat.get(CadastrappConstants.PB_AFFECTATION_PEV)); //AF
 								proprieteBatie.setCcoeva((String) propBat.get(CadastrappConstants.PB_CODE_EVAL)); //M EVAL
 								proprieteBatie.setCconlc((String) propBat.get(CadastrappConstants.PB_NATURE_LOCAL)); //NAT LOC
+								proprieteBatie.setCcocac((String) propBat.get(CadastrappConstants.PB_NATURE_LOCAL_PRO)); //NAT LOC PRO
 								proprieteBatie.setCcopre((String) propBat.get(CadastrappConstants.PREFIX_SECTION)); //N°SETCION part1
 								proprieteBatie.setCcoriv((String) propBat.get(CadastrappConstants.CODE_RIVOLI_VOIE)); //code rivoli
 								proprieteBatie.setCcosec((String) propBat.get(CadastrappConstants.LETTRE_SECTION)); //N°SETCION part2
-								proprieteBatie.setDcapec((String) propBat.get(CadastrappConstants.PB_CATEGORIE)); //Cat (PAS DANS LE REQUETTE)
+								proprieteBatie.setDcapec((String) propBat.get(CadastrappConstants.PB_CATEGORIE)); //Cat
 								proprieteBatie.setDescr((String) propBat.get(CadastrappConstants.PB_NUM_ENTREE)); //Ent
 								proprieteBatie.setDniv((String) propBat.get(CadastrappConstants.PB_NIV_ETAGE)); //Niv
 								proprieteBatie.setDnubat((String) propBat.get(CadastrappConstants.PB_LETTRE_BAT)); //Bat

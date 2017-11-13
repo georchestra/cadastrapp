@@ -38,7 +38,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.rcbaia_dep,
 		proprietebatie.rcbaia_gp,
 		proprietebatie.pexb,
-		proprietebatie.parcelle
+		proprietebatie.parcelle,
+		proprietebatie.ccocac
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
 		'select 
 			l.local00 as id_local,
@@ -78,7 +79,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			ROUND(CAST(pevtax.de_bipevla AS numeric),2) as rcbaia_dep,
 			ROUND(CAST(pevtax.gp_bipevla AS numeric),2) as rcbaia_gp,
 			pevx.pexb,
-			l.parcelle
+			l.parcelle,
+			pev.ccocac
 		from #DBSchema_qgis.comptecommunal c
 			left join #DBSchema_qgis.local10 as l on c.comptecommunal=l.comptecommunal
 			left join #DBSchema_qgis.local00 as l00 on l00.local00=l.local00
@@ -126,6 +128,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		rcbaia_dep numeric(10,2),
 		rcbaia_gp numeric(10,2),
 		pexb numeric,
-		parcelle  character varying(19));
+		parcelle  character varying(19),
+		ccocac character varying(4));
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;

@@ -33,6 +33,9 @@ public class ProprieteBatie extends Propriete{
 	// Nature du local
 	private String cconlc;
 	
+	// Nature du local professionel
+	private String ccocac;
+	
 	// Catégorie
 	private String dcapec;
 	
@@ -163,6 +166,21 @@ public class ProprieteBatie extends Propriete{
 	 */
 	public void setCconlc(String cconlc) {
 		this.cconlc = cconlc;
+	}
+	
+	/**
+	 * @return the cconlc
+	 */
+	public String getCcocac() {
+		return ccocac;
+	}
+
+	@XmlAttribute
+	/**
+	 * @param cconlc the cconlc to set
+	 */
+	public void setCcocac(String ccocac) {
+		this.ccocac = ccocac;
 	}
 
 	/**

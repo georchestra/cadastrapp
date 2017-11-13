@@ -34,11 +34,12 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.pexb,
 		proprietebatie.gtauom,
 		proprietebatie.rcexba2,
-		-- proprietebatie.rcbaia_tse,  n'existe pas dans arcopole
+		proprietebatie.rcbaia_tse,
 		proprietebatie.rcbaia_com,
 		proprietebatie.rcbaia_dep,
 		proprietebatie.rcbaia_gp,
-		proprietebatie.jannat
+		proprietebatie.jannat,
+		proprietebatie.ccocac
 	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text,
 		'select 
 			local.id_local,
@@ -73,10 +74,12 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			CAST(exopev.pexb AS NUMERIC)/100 as pexb,
 			local.gtauom,
 			ROUND(CAST(exopev.rcexba2 AS NUMERIC),2) as rcexba2,
+			ROUND(CAST(taxpev.bipevla_reg AS NUMERIC),2) as rcbaia_tse,
 			ROUND(CAST(taxpev.bipevla AS NUMERIC),2) as rcbaia_com,
 			ROUND(CAST(taxpev.bipevla_dep AS NUMERIC),2) as rcbaia_dep,
 			ROUND(CAST(taxpev.bipevla_gcom AS NUMERIC),2) as rcbaia_gp,
-			local.jannat
+			local.jannat,
+			pev.ccocac
 		from #DBSchema_arcopole.dgi_local local
 			left join #DBSchema_arcopole.dgi_invar invar on local.id_local=invar.invar
 			left join #DBSchema_arcopole.dgi_voie voie on voie.id_voie=invar.id_voie
@@ -116,11 +119,12 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		pexb numeric(3),
 		gtauom  character varying(2),
 		rcexba2 numeric(10,2),
-		-- rcbaia_tse numeric(10,2), n'existe pas dans arcopole
+		rcbaia_tse numeric(10,2), 
 		rcbaia_com numeric(10,2),
 		rcbaia_dep numeric(10,2),
 		rcbaia_gp numeric(10,2),
-		jannat character varying(10));
+		jannat character varying(10),
+		ccocac character varying(4));
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;
 
