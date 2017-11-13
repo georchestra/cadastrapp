@@ -113,21 +113,36 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 			descproffessionnel.dsupk1,
 			descproffessionnel.dsupk2,
 			descproffessionnel.dnudes,
-			descproffessionnel.vsurzt
+			descproffessionnel.vsurzt,
+			descproffessionnel.ccocac,
+			descproffessionnel.dnutrf,
+			descproffessionnel.dcfloc,
+			descproffessionnel.ccortar,
+			descproffessionnel.ccorvl,
+			descproffessionnel.dtaurv,
+			descproffessionnel.dcmloc
 		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 			'SELECT
-				pev,
-				invar,
-				annee,
-				CAST(dsupot AS integer),
-				CAST(dsup1 AS integer),
-				CAST(dsup2 AS integer),
-				CAST(dsup3 AS integer),
-				CAST(dsupk1 AS integer),
-				CAST(dsupk2 AS integer),
+				pvep.pev,
+				pvep.invar,
+				pvep.annee,
+				CAST(pvep.dsupot AS integer),
+				CAST(pvep.dsup1 AS integer),
+				CAST(pvep.dsup2 AS integer),
+				CAST(pvep.dsup3 AS integer),
+				CAST(pvep.dsupk1 AS integer),
+				CAST(pvep.dsupk2 AS integer),
 				'''' as dnudes,
-				''0'' as surzt
-			from #DBSchema_qgis.pevprofessionnelle'::text)
+				''0'' as vsurzt,
+				gpev.ccocac,
+				gpev.dnutrf,
+				gpev.dcfloc,
+				gpev.ccortar,
+				gpev.ccorvl,
+				gpev.dtaurv,
+				gpev.dcmloc
+			from #DBSchema_qgis.pevprofessionnelle as pvep
+				left join #DBSchema_qgis.pev as gpev on pvep.pev=gpev.pev'::text)
 	descproffessionnel (
 			pev character varying(20),
 			invar character varying(16),
@@ -139,7 +154,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 			dsupk1 integer,
 			dsupk2 integer,
 			dnudes character varying(3),
-			vsurzt integer
+			vsurzt integer,
+			ccocac character varying(4),
+  			dnutrf character varying(2),
+  			dcfloc integer,
+  			ccortar integer,
+  			ccorvl character varying(2),
+  			dtaurv integer,
+  			dcmloc integer
 	);
 
 ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;

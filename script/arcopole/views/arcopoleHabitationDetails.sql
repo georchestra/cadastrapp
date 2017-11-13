@@ -111,21 +111,36 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 			descproffessionnel.dsupk1,
 			descproffessionnel.dsupk2,
 			descproffessionnel.dnudes,
-			descproffessionnel.vsurzt
+			descproffessionnel.vsurzt,
+			descproffessionnel.ccocac,
+			descproffessionnel.dnutrf,
+			descproffessionnel.dcfloc,
+			descproffessionnel.ccortar,
+			descproffessionnel.ccorvl,
+			descproffessionnel.dtaurv,
+			descproffessionnel.dcmloc
 		FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
 			'SELECT
-				id_pev as pev,
-				invar,
-				substr(codlot,1,4) as annee,
-				CAST(dsupot AS integer),
-				CAST(dsup1 AS integer),
-				CAST(dsup2 AS integer),
-				CAST(dsup3 AS integer),
-				CAST(dsupk1 AS integer),
-				CAST(dsupk2 AS integer),
+				prof.id_pev as pev,
+				prof.invar,
+				substr(prof.codlot,1,4) as annee,
+				CAST(prof.dsupot AS integer),
+				CAST(prof.dsup1 AS integer),
+				CAST(prof.dsup2 AS integer),
+				CAST(prof.dsup3 AS integer),
+				CAST(prof.dsupk1 AS integer),
+				CAST(prof.dsupk2 AS integer),
 				'''' as dnudes,
-				''0'' as surzt
-			from #DBSchema_arcopole.dgi_pprof'::text) 
+				''0'' as vsurzt,
+				gpev.ccocac,
+				gpev.dnutrf,
+				(0 || gpev.dcfloc)::integer,
+				(0 || gpev.ccortar)::integer,
+				gpev.ccorvl,
+				(0 || gpev.dtaurv)::integer,
+				(0 || gpev.dcmloc)::integer
+			from #DBSchema_arcopole.dgi_pprof prof 
+  				left join #DBSchema_arcopole.dgi_pev as gpev on prof.id_pev=gpev.id_pev'::text) 
 	descproffessionnel(
 			pev character varying(20),
 			invar character varying(16),
@@ -137,7 +152,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.descproffessionnel AS
 			dsupk1 integer,
 			dsupk2 integer,
 			dnudes character varying(3),
-			vsurzt integer
+			vsurzt integer,
+			ccocac character varying(4),
+  			dnutrf character varying(2),
+  			dcfloc integer,
+  			ccortar integer,
+  			ccorvl character varying(2),
+  			dtaurv integer,
+  			dcmloc integer
 	);
 
 ALTER TABLE #schema_cadastrapp.descproffessionnel OWNER TO #user_cadastrapp;

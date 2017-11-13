@@ -109,11 +109,13 @@ public class HabitationController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 2
-		queryBuilder.append("select pro.dnudes, pro.vsurzt, pro.dsupot, pro.dsup1, pro.dsup2, pro.dsup3, pro.dsupk1, pro.dsupk2");
+		queryBuilder.append("select pro.dnudes, pro.vsurzt, pro.dsupot, pro.dsup1, pro.dsup2, pro.dsup3, pro.dsupk1, pro.dsupk2, pro.ccocac, cco.ccocac_lib");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".descproffessionnel pro ");
-		queryBuilder.append(" where pro.annee = ? and pro.invar = ? ;");
+		queryBuilder.append(".descproffessionnel pro , ");
+		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".prop_ccocac cco");
+		queryBuilder.append(" where pro.annee = ? and pro.invar = ? and pro.ccocac=cco.ccocac;");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		

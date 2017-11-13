@@ -81,6 +81,11 @@
 	padding-right: 15px;
 }
 
+.profCategorie{
+	width: 25em;
+	padding-bottom: 5px;
+}
+
 .add-button {
     background-image: url(../img/famfamfam/add.png)
 }
