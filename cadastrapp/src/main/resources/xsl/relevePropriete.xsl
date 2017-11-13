@@ -311,7 +311,7 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Revenu cadastral
+							Base d'imposition
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -566,27 +566,6 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
-							Département -
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="end">
-						<fo:block>
-							Revenu exonéré :
-						</fo:block>
-						<fo:block>
-							Revenu imposable :
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="center">
-						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
-						</fo:block>
-						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block padding-top="5pt" text-align="end">
 							Grp. Com. -
 						</fo:block>
 					</fo:table-cell>
@@ -604,6 +583,27 @@
 						</fo:block>
 						<fo:block>
 							<xsl:value-of select="format-number(impositionBatie/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block padding-top="5pt" text-align="end">
+							Département -
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="end">
+						<fo:block>
+							Revenu exonéré :
+						</fo:block>
+						<fo:block>
+							Revenu imposable :
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="center">
+						<fo:block>
+							<xsl:value-of select="format-number(impositionBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
+						</fo:block>
+						<fo:block>
+							<xsl:value-of select="format-number(impositionBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -721,7 +721,7 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Revenu cadastral
+							Base d'imposition
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -950,27 +950,6 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							Département -
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="end">
-						<fo:block>
-							Revenu exonéré :
-						</fo:block>
-						<fo:block>
-							Revenu imposable :
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="center">
-						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
-						</fo:block>
-						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block padding-top="5pt">
 							Grp. Com -
 						</fo:block>
 					</fo:table-cell>
@@ -988,6 +967,27 @@
 						</fo:block>
 						<fo:block>
 							<xsl:value-of select="format-number(impositionNonBatie/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block padding-top="5pt">
+							Département -
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="end">
+						<fo:block>
+							Revenu exonéré :
+						</fo:block>
+						<fo:block>
+							Revenu imposable :
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="center">
+						<fo:block>
+							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
+						</fo:block>
+						<fo:block>
+							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
