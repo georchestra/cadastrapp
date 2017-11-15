@@ -207,9 +207,9 @@
 			<fo:table-column column-width="8%" />
 			<fo:table-column column-width="2%" />
 			<fo:table-column column-width="2%" />
-			<fo:table-column column-width="8%" />
-			<fo:table-column column-width="4%" />
 			<fo:table-column column-width="6%" />
+			<fo:table-column column-width="4%" />
+			<fo:table-column column-width="8%" />
 			<fo:table-column column-width="2%" />
 			<fo:table-column column-width="4%" />
 			<fo:table-column column-width="6%" />
@@ -453,11 +453,76 @@
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:if test="number(@revcad) = @revcad">
-									<xsl:value-of select="format-number(@revcad, '### ##0,00', 'euro')" /> €
-								</xsl:if>
-							</fo:block>
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="20%" />
+								<fo:table-column column-width="80%" />
+								<fo:table-body>
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block>
+												<xsl:if test="number(imposition/@communeRevenuImposable) = imposition/@communeRevenuImposable">
+													C 
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block>
+												<xsl:if test="number(imposition/@communeRevenuImposable) = imposition/@communeRevenuImposable">
+													<xsl:value-of select="format-number(imposition/@communeRevenuImposable, '### ##0,00', 'euro')" /> €
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>	
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block>
+												<xsl:if test="number(imposition/@groupementCommuneRevenuImposable) = imposition/@groupementCommuneRevenuImposable">
+													GC 
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block>
+												<xsl:if test="number(imposition/@groupementCommuneRevenuImposable) = imposition/@groupementCommuneRevenuImposable">
+													<xsl:value-of select="format-number(imposition/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>	
+									<fo:table-row>
+										<fo:table-cell>	
+											<fo:block>
+												<xsl:if test="number(imposition/@departementRevenuImposable) = imposition/@departementRevenuImposable">
+													D 
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>	
+											<fo:block>
+												<xsl:if test="number(imposition/@departementRevenuImposable) = imposition/@departementRevenuImposable">
+													<xsl:value-of select="format-number(imposition/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
+												</xsl:if>
+											</fo:block>
+									</fo:table-cell>
+									</fo:table-row>	
+									<fo:table-row>
+										<fo:table-cell>	
+											<fo:block>
+												<xsl:if test="number(imposition/@tseRevenuImposable) = imposition/@tseRevenuImposable">
+													TSE 
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>	
+											<fo:block>
+												<xsl:if test="number(imposition/@tseRevenuImposable) = imposition/@tseRevenuImposable">
+													<xsl:value-of select="format-number(imposition/@tseRevenuImposable, '### ##0,00', 'euro')" /> €
+												</xsl:if>
+											</fo:block>
+									</fo:table-cell>
+									</fo:table-row>	
+								</fo:table-body>
+							</fo:table>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure" number-columns-spanned="6">
 							<fo:table table-layout="fixed">

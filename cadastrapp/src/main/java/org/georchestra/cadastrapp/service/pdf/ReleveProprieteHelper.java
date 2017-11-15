@@ -313,10 +313,25 @@ public final class ReleveProprieteHelper extends CadController {
 								// Count only one taxable income for one invar
 								if (!invarTICount.contains(proprieteId)) {
 									invarTICount.add(proprieteId);
+									
+									float communeRevenuImposable = (propBat.get("rcbaia_com") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_com")).floatValue());
+									float groupementCommuneRevenuImposable = (propBat.get("rcbaia_gp") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_gp")).floatValue());
+									float departementRevenuImposable=(propBat.get("rcbaia_dep") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_dep")).floatValue());
+									float tseRevenuImposable=(propBat.get("rcbaia_tse") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_tse")).floatValue());
+									
+									Imposition pbImposition = new Imposition();
+									
+									pbImposition.setCommuneRevenuImposable(communeRevenuImposable);
+									pbImposition.setGroupementCommuneRevenuImposable(groupementCommuneRevenuImposable);
+									pbImposition.setDepartementRevenuImposable(departementRevenuImposable);
+									pbImposition.setTseRevenuImposable(tseRevenuImposable);
+									
+									proprieteBatie.setImposition(pbImposition);
+									
 									pbRevenuImposable = pbRevenuImposable + (propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? 0 : ((BigDecimal) propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL)).floatValue());
-									pbCommuneRevenuImposable = pbCommuneRevenuImposable + (propBat.get("rcbaia_com") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_com")).floatValue());
-									pbDepartementRevenuImposable = pbDepartementRevenuImposable + (propBat.get("rcbaia_dep") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_dep")).floatValue());
-									pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + (propBat.get("rcbaia_gp") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_gp")).floatValue());
+									pbCommuneRevenuImposable = pbCommuneRevenuImposable + communeRevenuImposable;
+									pbDepartementRevenuImposable = pbDepartementRevenuImposable + departementRevenuImposable;
+									pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + groupementCommuneRevenuImposable;
 								}
 
 								proprietesBaties.add(proprieteBatie);
