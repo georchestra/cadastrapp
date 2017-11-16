@@ -53,15 +53,18 @@ public final class ReleveProprieteHelper extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(ReleveProprieteHelper.class);
 
-	static final String xslTemplate = "xsl/relevePropriete.xsl";
-	static final String xslTemplateMinimal = "xsl/releveProprieteMinimal.xsl";
-	static final String xslTemplateError = "xsl/releveProprieteError.xsl";
+	static final String XSL_TEMPLATE = "xsl/relevePropriete.xsl";
+	static final String XSL_TEMPLATE_MINIMAL = "xsl/releveProprieteMinimal.xsl";
+	static final String XSL_TEMPLATE_ERROR = "xsl/releveProprieteError.xsl";
 
 	/**
+	 * Get propertie information using given imput from database
 	 * 
-	 * @param idComptesCommunaux
-	 * @param headers
-	 * @return
+	 * @param idComptesCommunaux List<String> composed with comptecommunalid
+	 * @param headers HttpHeaders used to verify user privilege
+	 * @param idParcelle String plot id
+	 * 
+	 * @return RelevePropriete fill with database information
 	 */
 	public RelevePropriete getReleveProprieteInformation(List<String> idComptesCommunaux, HttpHeaders headers, String idParcelle) {
 
@@ -314,10 +317,10 @@ public final class ReleveProprieteHelper extends CadController {
 								if (!invarTICount.contains(proprieteId)) {
 									invarTICount.add(proprieteId);
 									
-									float communeRevenuImposable = (propBat.get("rcbaia_com") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_com")).floatValue());
-									float groupementCommuneRevenuImposable = (propBat.get("rcbaia_gp") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_gp")).floatValue());
-									float departementRevenuImposable=(propBat.get("rcbaia_dep") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_dep")).floatValue());
-									float tseRevenuImposable=(propBat.get("rcbaia_tse") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_tse")).floatValue());
+									float communeRevenuImposable = propBat.get("rcbaia_com") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_com")).floatValue();
+									float groupementCommuneRevenuImposable = propBat.get("rcbaia_gp") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_gp")).floatValue();
+									float departementRevenuImposable = propBat.get("rcbaia_dep") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_dep")).floatValue();
+									float tseRevenuImposable = propBat.get("rcbaia_tse") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_tse")).floatValue();
 									
 									Imposition pbImposition = new Imposition();
 									
@@ -463,7 +466,7 @@ public final class ReleveProprieteHelper extends CadController {
 								int surface = (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA);
 								proprieteNonBatie.setDcntsf(surface);
 
-								float revenu = (propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL) == null ? 0 : ((BigDecimal) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL)).floatValue());
+								float revenu = propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL) == null ? 0 : ((BigDecimal) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL)).floatValue();
 								proprieteNonBatie.setDrcsuba(revenu);
 
 								pnbRevenuImposable = pnbRevenuImposable + revenu;
@@ -533,9 +536,9 @@ public final class ReleveProprieteHelper extends CadController {
 		String template = null;
 
 		if (isNoData) {
-			template = xslTemplateError;
+			template = XSL_TEMPLATE_ERROR;
 		} else {
-			template = (isMinimal) ? xslTemplateMinimal : xslTemplate;
+			template = isMinimal ? XSL_TEMPLATE_MINIMAL : XSL_TEMPLATE;
 		}
 
 		// Pdf temporary filename using tmp folder and timestamp
