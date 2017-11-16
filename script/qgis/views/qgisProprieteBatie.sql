@@ -89,7 +89,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			left join #DBSchema_qgis.pevexoneration as pevx on pevx.pev=pev.pev
 			left join #DBSchema_qgis.pevtaxation as pevtax on pevtax.pev=pev.pev
 			left join #DBSchema_qgis.cconlc on cconlc.cconlc = l.cconlc
-		order by c.ccodep,c.ccodir,c.ccocom,dnupla,v.voie,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
+		order by l.parcelle,l00.ccoriv,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
 	proprietebatie(
 		id_local character varying(17),
 		comptecommunal character varying(15), 
@@ -113,7 +113,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		invar character varying(10),
   		ccoaff character varying(1), 
   		ccoeva character varying(1), 
-  		cconlc character varying, 
+  		cconlc character varying(255), 
   		dcapec character varying(2), 
   		ccolloc character varying(2), 
 		gnextl character varying(2), 

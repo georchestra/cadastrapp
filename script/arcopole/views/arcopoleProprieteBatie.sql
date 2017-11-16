@@ -57,13 +57,13 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			invar.dvoilib,
 			invar.ccoriv,
 			invar.dnubat,
-			invar.NDESC as descr,
+			invar.ndesc as descr,
 			invar.dniv,
 			invar.dpor,
 			invar.invar,
 			pev.ccoaff,
 			local.ccoeva,
-			local.cconlc,
+			cconlc.description as cconlc,
 			pev.dcapec,
 			( CASE WHEN pev.dvlpera::text <> '''' THEN ROUND(CEIL(CAST(pev.dvlpera AS NUMERIC)/2),2) END ) AS revcad,
 			ltrim(exopev.ccolloc) as ccolloc,
@@ -85,7 +85,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			left join #DBSchema_arcopole.dgi_voie voie on voie.id_voie=invar.id_voie
 			left join #DBSchema_arcopole.dgi_pev pev on pev.codlot=invar.codlot and pev.invar=invar.invar
 			left join #DBSchema_arcopole.dgi_exopev exopev on exopev.id_pev=pev.id_pev
-			left join #DBSchema_arcopole.dgi_taxpev as taxpev on taxpev.id_pev=pev.id_pev'::text) 
+			left join #DBSchema_arcopole.dgi_taxpev as taxpev on taxpev.id_pev=pev.id_pev
+			left join #DBSchema_arcopole.dom_cconlc cconlc on cconlc.code = local.cconlc
+			order by invar.codparc,invar.dnvoiri,invar.dvoilib,invar.dnubat,invar.ndesc,invar.dniv,invar.dpor'::text) 
 	proprietebatie(
 		id_local character varying(16),
 		parcelle character varying(19),
@@ -108,7 +110,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		invar character varying(16),
 		ccoaff character varying(1),
 		ccoeva character varying(1),
-		cconlc character varying(2),
+		cconlc character varying(255),
 		dcapec character varying(2),
 		revcad numeric(10,2),
 		ccolloc character varying(2),
