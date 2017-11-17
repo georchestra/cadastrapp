@@ -95,12 +95,17 @@ GEOR.Addons.Cadastre.initParcelleStore = function() {
  */
 GEOR.Addons.Cadastre.loadParcelleStore = function(parcelleStore, cgocommune, sectionId) {
         
-    console.log("loadParcelleStore : " + parcelleStore + ""+ cgocommune + ""+ sectionId);
+    console.log("loadParcelleStore : " + parcelleStore + " commune="+ cgocommune + " sectionId="+ sectionId);
     
     if (parcelleStore!=null && cgocommune!=null && sectionId!=null) {
         // parse sectionID to set params for request
-        var prefix = sectionId.substring(0, sectionId.length-2);
-        var section = sectionId.substring(sectionId.length-2, sectionId.length);
+        var prefix = '';
+        var section = sectionId;
+        // sectionId has 3 digits as prefix
+        if (sectionId.length > 2) {
+            prefix = sectionId.substring(0, 3);
+            section = sectionId.substring(3);
+        }
 			        
         parcelleStore.load({params: {
             cgocommune: cgocommune,
