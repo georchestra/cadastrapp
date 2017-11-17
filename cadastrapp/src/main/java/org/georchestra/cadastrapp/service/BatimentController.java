@@ -39,10 +39,11 @@ public class BatimentController extends CadController {
 			@QueryParam("dnubat") String dnubat){
 		
 		List<Map<String, Object>> batiments = new ArrayList<Map<String, Object>>();
-		
-		if(parcelle != null && !parcelle.isEmpty()
-				&& dnubat != null && !dnubat.isEmpty()
-				&& getUserCNILLevel(headers) > 1) 
+		if (getUserCNILLevel(headers) == 0) {
+			logger.info("User does not have enough rights to see information about batiment");
+		}
+		else if(parcelle != null && !parcelle.isEmpty()
+				&& dnubat != null && !dnubat.isEmpty())
 		{
 			logger.debug("infoOngletBatiment - parcelle : " + parcelle + " for dnubat : " + dnubat);
 			

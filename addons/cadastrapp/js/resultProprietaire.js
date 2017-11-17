@@ -112,7 +112,7 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
             }
         },
         {
-            text : OpenLayers.i18n('cadastrapp.result.parcelle.export'),
+            text : OpenLayers.i18n('cadastrapp.selection.proprietaires.export'),
             listeners : {
                 click : function(b, e) {
                     // Export selected plots as csv

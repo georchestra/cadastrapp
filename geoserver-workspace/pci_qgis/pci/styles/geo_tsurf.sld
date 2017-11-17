@@ -38,7 +38,6 @@
               <sld:GraphicFill>
                 <sld:Graphic>
                   <sld:Mark>
-                    <sld:WellKnownName>brush://dense7</sld:WellKnownName>
                      <sld:Fill>
                       <sld:CssParameter name="fill">#c1c1c1</sld:CssParameter>
                     </sld:Fill>

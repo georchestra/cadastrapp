@@ -4,7 +4,7 @@ CREATE TABLE #schema_cadastrapp.uf_parcelle AS
 	SELECT uf_parcelle.parcelle,
 		uf_parcelle.uf,
 		uf_parcelle.comptecommunal
-	FROM dblink('host=#DBHost_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
+	FROM dblink('host=#DBHost_arcopole port=#DBPort_arcopole dbname=#DBName_arcopole user=#DBUser_arcopole password=#DBpasswd_arcopole'::text, 
   		'select 
   			distinct p.id_parc as parcelle,
   			z.id_uf as uf,

@@ -50,13 +50,14 @@ public class HabitationController extends CadController {
 		
 		Map<String, Object> habitationDesc = new HashMap<String, Object>();
 		
-		// Check information are valid and that user have priviledge to see it
-		if(annee != null && invar != null && getUserCNILLevel(headers) > 1) 
-		{					
-			List<String> queryParams = new ArrayList<String>();
-			queryParams.add(annee);
-			queryParams.add(invar);
-			
+		List<String> queryParams = new ArrayList<String>();
+		queryParams.add(annee);
+		queryParams.add(invar);
+		if (getUserCNILLevel(headers) == 0) {
+			logger.info("User needs does not have enough rights to see habitation details");
+		}
+		else if(annee != null && invar != null)
+		{		
 			habitationDesc.put("article40", getArticle40Details(queryParams));
 			habitationDesc.put("article50", getArticle50Details(queryParams));
 			habitationDesc.put("article60", getArticle60Details(queryParams));	
