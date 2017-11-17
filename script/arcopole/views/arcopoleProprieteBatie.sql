@@ -49,7 +49,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			invar.codcomm as cgocommune,
 			regexp_replace(substr(invar.codparc,7,3), ''0{3}'', '''') as ccopre,
 			ltrim(substr(invar.codparc,10,2), ''0'') ccosec ,
-			substr(invar.codparc,12,4) as dnupla,
+			ltrim(substr(invar.codparc,12,4), ''0'') as dnupla,
 			concat(substr(local.jdatat,1,2),''/'',substr(local.jdatat,3,2),''/'',substr(local.jdatat,5,4)) as jdatat,
 			ltrim(invar.dnvoiri, ''0'') as dnvoiri,
 			invar.dindic,
