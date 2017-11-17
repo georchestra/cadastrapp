@@ -58,7 +58,7 @@ if [ "$#" -ne 14 ]; then
 
   # REMOTE Arcopole Database information (the database to read)
   arcopoleDBHost="xxx"
-  arcopolePort="5432"
+  arcopoleDBPort="5432"
   arcopoleDBName="xxx"
   arcopoleDBSchema="xxx"
   arcopoleDBUser="xxx"
