@@ -207,9 +207,9 @@
 			<fo:table-column column-width="8%" />
 			<fo:table-column column-width="2%" />
 			<fo:table-column column-width="2%" />
-			<fo:table-column column-width="8%" />
-			<fo:table-column column-width="4%" />
 			<fo:table-column column-width="6%" />
+			<fo:table-column column-width="4%" />
+			<fo:table-column column-width="8%" />
 			<fo:table-column column-width="2%" />
 			<fo:table-column column-width="4%" />
 			<fo:table-column column-width="6%" />
@@ -311,7 +311,7 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Revenu cadastral
+							Base d'imposition
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -449,14 +449,80 @@
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
 								<xsl:value-of select="@dcapec" />
+								<xsl:value-of select="@ccocac" />
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
-							<fo:block>
-								<xsl:if test="number(@revcad) = @revcad">
-									<xsl:value-of select="format-number(@revcad, '### ##0,00', 'euro')" /> €
-								</xsl:if>
-							</fo:block>
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="20%" />
+								<fo:table-column column-width="80%" />
+								<fo:table-body>
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block>
+												<xsl:if test="number(imposition/@communeRevenuImposable) = imposition/@communeRevenuImposable">
+													C 
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block>
+												<xsl:if test="number(imposition/@communeRevenuImposable) = imposition/@communeRevenuImposable">
+													<xsl:value-of select="format-number(imposition/@communeRevenuImposable, '### ##0,00', 'euro')" /> €
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>	
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block>
+												<xsl:if test="number(imposition/@groupementCommuneRevenuImposable) = imposition/@groupementCommuneRevenuImposable">
+													GC 
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block>
+												<xsl:if test="number(imposition/@groupementCommuneRevenuImposable) = imposition/@groupementCommuneRevenuImposable">
+													<xsl:value-of select="format-number(imposition/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>	
+									<fo:table-row>
+										<fo:table-cell>	
+											<fo:block>
+												<xsl:if test="number(imposition/@departementRevenuImposable) = imposition/@departementRevenuImposable">
+													D 
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>	
+											<fo:block>
+												<xsl:if test="number(imposition/@departementRevenuImposable) = imposition/@departementRevenuImposable">
+													<xsl:value-of select="format-number(imposition/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
+												</xsl:if>
+											</fo:block>
+									</fo:table-cell>
+									</fo:table-row>	
+									<fo:table-row>
+										<fo:table-cell>	
+											<fo:block>
+												<xsl:if test="number(imposition/@tseRevenuImposable) = imposition/@tseRevenuImposable">
+													TSE 
+												</xsl:if>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>	
+											<fo:block>
+												<xsl:if test="number(imposition/@tseRevenuImposable) = imposition/@tseRevenuImposable">
+													<xsl:value-of select="format-number(imposition/@tseRevenuImposable, '### ##0,00', 'euro')" /> €
+												</xsl:if>
+											</fo:block>
+									</fo:table-cell>
+									</fo:table-row>	
+								</fo:table-body>
+							</fo:table>
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure" number-columns-spanned="6">
 							<fo:table table-layout="fixed">
@@ -566,27 +632,6 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="end">
-							Département -
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="end">
-						<fo:block>
-							Revenu exonéré :
-						</fo:block>
-						<fo:block>
-							Revenu imposable :
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="center">
-						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
-						</fo:block>
-						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block padding-top="5pt" text-align="end">
 							Grp. Com. -
 						</fo:block>
 					</fo:table-cell>
@@ -604,6 +649,27 @@
 						</fo:block>
 						<fo:block>
 							<xsl:value-of select="format-number(impositionBatie/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block padding-top="5pt" text-align="end">
+							Département -
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="end">
+						<fo:block>
+							Revenu exonéré :
+						</fo:block>
+						<fo:block>
+							Revenu imposable :
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="center">
+						<fo:block>
+							<xsl:value-of select="format-number(impositionBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
+						</fo:block>
+						<fo:block>
+							<xsl:value-of select="format-number(impositionBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -721,7 +787,7 @@
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
 						<fo:block>
-							Revenu cadastral
+							Base d'imposition
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -950,27 +1016,6 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							Département -
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="end">
-						<fo:block>
-							Revenu exonéré :
-						</fo:block>
-						<fo:block>
-							Revenu imposable :
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell text-align="center">
-						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
-						</fo:block>
-						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
-						</fo:block>
-					</fo:table-cell>
-					<fo:table-cell>
-						<fo:block padding-top="5pt">
 							Grp. Com -
 						</fo:block>
 					</fo:table-cell>
@@ -988,6 +1033,27 @@
 						</fo:block>
 						<fo:block>
 							<xsl:value-of select="format-number(impositionNonBatie/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block padding-top="5pt">
+							Département -
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="end">
+						<fo:block>
+							Revenu exonéré :
+						</fo:block>
+						<fo:block>
+							Revenu imposable :
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell text-align="center">
+						<fo:block>
+							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
+						</fo:block>
+						<fo:block>
+							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>

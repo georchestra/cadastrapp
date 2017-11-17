@@ -17,10 +17,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-
+/**
+ * HabitationController
+ * 
+ * Used to get article 40, 50 and 60 informations from cadastrapp database
+ * 
+ * @author pierre
+ *
+ */
 public class HabitationController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(HabitationController.class);
+	static final Logger logger = LoggerFactory.getLogger(HabitationController.class);
 	
 	
 	@GET
@@ -29,11 +36,13 @@ public class HabitationController extends CadController {
 	/**
 	 *  Returns information about habitation
 	 *  
-	 * @param headers http headers used 
-	 * @param annee 
-	 * @param invar id habitation 
+	 * @param headers HttpHeaders http headers used 
+	 *         information will only be return if user is CNIL2
+	 * @param annee String corresponding to year of wanted information (normally only current year available)
+	 * @param invar String id habitation 
 	 * 
-	 * @return JSON list 
+	 * @return Map<String, Object> containing informations from article 40 50 and 60,
+	 * 			empty list if missing input parameter or if user doesn't have privilege
 	 */
 	public Map<String, Object> getHabitationDetails(@Context HttpHeaders headers, 
 			@QueryParam("annee") String annee,
@@ -60,9 +69,10 @@ public class HabitationController extends CadController {
 	}
 	
 	/**
+	 * getArticle40Details
 	 * 
-	 * @param queryParams
-	 * @return
+	 * @param queryParams List composed with year and invar information
+	 * @return List<Map<String, Object>>
 	 */
 	private List<Map<String, Object>> getArticle40Details(List<String> queryParams){
 			
@@ -88,9 +98,10 @@ public class HabitationController extends CadController {
 	}
 	
 	/**
+	 * getArticle50Details
 	 * 
-	 * @param queryParams
-	 * @return
+	 * @param ueryParams List composed with year and invar information
+	 * @return List<Map<String, Object>>
 	 */
 	private List<Map<String, Object>> getArticle50Details(List<String> queryParams){
 		
@@ -99,11 +110,13 @@ public class HabitationController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 2
-		queryBuilder.append("select pro.dnudes, pro.vsurzt");
+		queryBuilder.append("select pro.dnudes, pro.vsurzt, pro.dsupot, pro.dsup1, pro.dsup2, pro.dsup3, pro.dsupk1, pro.dsupk2, pro.ccocac, cco.ccocac_lib");
 		queryBuilder.append(" from ");
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".descproffessionnel pro ");
-		queryBuilder.append(" where pro.annee = ? and pro.invar = ? ;");
+		queryBuilder.append(".descproffessionnel pro , ");
+		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".prop_ccocac cco");
+		queryBuilder.append(" where pro.annee = ? and pro.invar = ? and pro.ccocac=cco.ccocac;");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
@@ -111,9 +124,10 @@ public class HabitationController extends CadController {
 	}
 	
 	/**
+	 * getArticle60Details
 	 * 
-	 * @param queryParams
-	 * @return
+	 * @param queryParams List composed with year and invar information
+	 * @return List<Map<String, Object>>
 	 */
 	private List<Map<String, Object>> getArticle60Details(List<String> queryParams){
 
@@ -133,7 +147,6 @@ public class HabitationController extends CadController {
 		queryBuilder.append(".prop_dmatgm mur");
 		queryBuilder.append(" where dep.annee = ? and dep.invar = ? ");
 		queryBuilder.append(" and dep.dmatgm = mur.code and dep.dmatto = toit.code ;");
-
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		

@@ -72,6 +72,20 @@
 	margin:5px 2px;
 }
 
+.profDetails{
+	text-align: right;
+}
+
+.profDetailsLabel{
+	float: left;
+	padding-right: 15px;
+}
+
+.profCategorie{
+	width: 25em;
+	padding-bottom: 5px;
+}
+
 .add-button {
     background-image: url(../img/famfamfam/add.png)
 }
@@ -103,4 +117,5 @@
 	width : 60px;
 	overflow: auto;
 }
+
 

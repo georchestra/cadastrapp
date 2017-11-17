@@ -127,9 +127,18 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
   GEOR.Addons.Cadastre.createArcticle50Panel = function(article50Details) {
         
         if(article50Details){
+        
+         var details50 = '<div class=\'profCategorie\'>' +article50Details.ccocac_lib + '</div>';
+         details50 = details50 + '<div class=\'profDetails\'><span class=\'profDetailsLabel\'>Surface pondérée </span>' + article50Details.dsupot + ' m²</div>';
+         details50 = details50 + '<div class=\'profDetails\'><span class=\'profDetailsLabel\'>Surface des parties principales </span>' + article50Details.dsup1 + ' m²</div>';
+         details50 = details50 + '<div class=\'profDetails\'><span class=\'profDetailsLabel\'>Surface des parties secondaires couvertes </span>' + article50Details.dsup2 + ' m²</div>';
+         details50 = details50 + '<div class=\'profDetails\'><span class=\'profDetailsLabel\'>Surface des parties secondaires non couvertes </span>' + article50Details.dsup3 + ' m²</div>';
+         details50 = details50 + '<div class=\'profDetails\'><span class=\'profDetailsLabel\'>Surface des stationnements couverts </span>' + article50Details.dsupk1 + ' m²</div>';
+         details50 = details50 + '<div class=\'profDetails\'><span class=\'profDetailsLabel\'>Surface des stationnements non couverts </span>' + article50Details.dsupk2 + ' m²</div>';
+          
             return  new Ext.Panel({
-                title: 'Partie professionelle   ' + article50Details.dnudes,
-                html:'<div>Surface réelle ' + article50Details.vsurzt + ' m²</div>',
+                title: 'Partie professionelle - ' + article50Details.ccocac,
+                html: details50,
                 layout: 'fit'
             });
         }

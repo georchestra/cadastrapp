@@ -38,7 +38,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		proprietebatie.rcbaia_dep,
 		proprietebatie.rcbaia_gp,
 		proprietebatie.pexb,
-		proprietebatie.parcelle
+		proprietebatie.parcelle,
+		proprietebatie.ccocac
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
 		'select 
 			l.local00 as id_local,
@@ -78,7 +79,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			ROUND(CAST(pevtax.de_bipevla AS numeric),2) as rcbaia_dep,
 			ROUND(CAST(pevtax.gp_bipevla AS numeric),2) as rcbaia_gp,
 			pevx.pexb,
-			l.parcelle
+			l.parcelle,
+			pev.ccocac
 		from #DBSchema_qgis.comptecommunal c
 			left join #DBSchema_qgis.local10 as l on c.comptecommunal=l.comptecommunal
 			left join #DBSchema_qgis.local00 as l00 on l00.local00=l.local00
@@ -87,7 +89,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			left join #DBSchema_qgis.pevexoneration as pevx on pevx.pev=pev.pev
 			left join #DBSchema_qgis.pevtaxation as pevtax on pevtax.pev=pev.pev
 			left join #DBSchema_qgis.cconlc on cconlc.cconlc = l.cconlc
-		order by c.ccodep,c.ccodir,c.ccocom,dnupla,v.voie,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
+		order by l.parcelle,l00.ccoriv,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
 	proprietebatie(
 		id_local character varying(17),
 		comptecommunal character varying(15), 
@@ -111,7 +113,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		invar character varying(10),
   		ccoaff character varying(1), 
   		ccoeva character varying(1), 
-  		cconlc character varying, 
+  		cconlc character varying(255), 
   		dcapec character varying(2), 
   		ccolloc character varying(2), 
 		gnextl character varying(2), 
@@ -126,6 +128,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		rcbaia_dep numeric(10,2),
 		rcbaia_gp numeric(10,2),
 		pexb numeric,
-		parcelle  character varying(19));
+		parcelle  character varying(19),
+		ccocac character varying(4));
 
 ALTER TABLE #schema_cadastrapp.proprietebatie OWNER TO #user_cadastrapp;
