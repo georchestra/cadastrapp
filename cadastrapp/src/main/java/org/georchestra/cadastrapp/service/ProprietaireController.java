@@ -327,11 +327,9 @@ public class ProprietaireController extends CadController{
 		// User need to be at least CNIL1 level
 		if (getUserCNILLevel(headers)>0){
 			
-			// TODO externalize
-			// final String  entete = "comptecommunal;ccoqua_lib;dnomus;dprnus;dnomlp;dprnlp;ddenom;app_nom_usage;app_nom_naissance;dlign3;dling4;dling5;dling6;identitifiantsparcelles;ccodro_lib";	
-			String  entete = "Compte communal;Civilité;Nom;Prénom;Nom d'usage;Prénom d'usage;Dénominiation;Nom d'usage;Adresse ligne 3;Adresse ligne 4;Adresse ligne 5;Adresse ligne 6;Identitifiants de parcelles;ccodro_lib";
+			String  entete = "proprio_id;droit_reel_libelle;denomination_usage;parcelles;civilite;nom_usage;prenom_usage;denomination_naissance;nom_naissance;prenom_naissance;adresse_ligne3;adresse_ligne4;adresse_ligne5;adresse_ligne6";
 			if(getUserCNILLevel(headers)>1){
-				entete = entete + ";Lieu de naissance; Date de naissance";
+				entete = entete + ";lieu_naissance; date_naissance";
 			}
 			
 			String[] parcelleList = StringUtils.split(parcelles, ',');
@@ -344,8 +342,8 @@ public class ProprietaireController extends CadController{
 				List<Map<String,Object>> proprietaires = new ArrayList<Map<String,Object>>();
 										
 				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("select prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ");
-				queryBuilder.append("string_agg(parcelle, ','), ccodro_lib ");
+				queryBuilder.append("select prop.comptecommunal, ccodro_lib, app_nom_usage, string_agg(parcelle, ','), ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6 ");
+				
 				// If user is CNIL2 add birth information
 				if(getUserCNILLevel(headers)>1){
 					queryBuilder.append(", dldnss, jdatnss ");
@@ -358,7 +356,7 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
 				queryBuilder.append(addAuthorizationFiltering(headers));
-				queryBuilder.append("GROUP BY prop.comptecommunal, ccoqua_lib, dnomus, dprnus, dnomlp, dprnlp, ddenom, app_nom_usage, dlign3, dlign4, dlign5, dlign6, ccodro_lib ");
+				queryBuilder.append("GROUP BY prop.comptecommunal, ccodro_lib, app_nom_usage, ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6");
 				// If user is CNIL2 add birth information
 				if(getUserCNILLevel(headers)>1){
 					queryBuilder.append(", dldnss, jdatnss ");

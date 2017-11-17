@@ -563,7 +563,7 @@ public class ParcelleController extends CadController {
 		// Create empty content
 		ResponseBuilder response = Response.noContent();
 		
-			String entete = "Identifiant de parcelle;Commune;dnvoiri;dindic;cconvo;dvoilib;ccopre;ccosec;N° de plan;Contenance DGFiP en m²";
+			String entete = "parcelle; commune;voie_adr;voie_adr_cplmt;voie_type;voie_nom;section_prefixe;section;parcelle_num;contenance";
 			
 			String[] parcelleArray = StringUtils.split(parcelles, ',');
 			List<String> parcelleList = new ArrayList<String>();
