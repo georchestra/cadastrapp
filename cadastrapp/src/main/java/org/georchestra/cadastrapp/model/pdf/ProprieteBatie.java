@@ -33,6 +33,9 @@ public class ProprieteBatie extends Propriete{
 	// Nature du local
 	private String cconlc;
 	
+	// Nature du local professionel
+	private String ccocac;
+	
 	// Catégorie
 	private String dcapec;
 	
@@ -44,6 +47,9 @@ public class ProprieteBatie extends Propriete{
 	
 	// Liste de lots
 	private List<Lot> lots;
+	
+	// Imposition
+	private Imposition imposition;
 
 	/**
 	 * @return the dnubat
@@ -164,6 +170,21 @@ public class ProprieteBatie extends Propriete{
 	public void setCconlc(String cconlc) {
 		this.cconlc = cconlc;
 	}
+	
+	/**
+	 * @return the cconlc
+	 */
+	public String getCcocac() {
+		return ccocac;
+	}
+
+	@XmlAttribute
+	/**
+	 * @param cconlc the cconlc to set
+	 */
+	public void setCcocac(String ccocac) {
+		this.ccocac = ccocac;
+	}
 
 	/**
 	 * @return the dcapec
@@ -208,6 +229,21 @@ public class ProprieteBatie extends Propriete{
 	 */
 	public void setGtauom(String gtauom) {
 		this.gtauom = gtauom;
+	}
+	
+	/**
+	 * @return the imposition
+	 */
+	public Imposition getImposition() {
+		return imposition;
+	}
+
+	@XmlElement(name = "imposition")
+	/**
+	 * @param imposition the imposition to set
+	 */
+	public void setImposition(Imposition imposition) {
+		this.imposition = imposition;
 	}
 
 	/**

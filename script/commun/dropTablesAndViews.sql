@@ -26,6 +26,8 @@ DROP MATERIALIZED VIEW #schema_cadastrapp.section;
 -- Drop all tables (not user autorisation tables)
 DROP TABLE #schema_cadastrapp.uf_parcelle;
 
+DROP TABLE #schema_cadastrapp.prop_ccocac;
+DROP TABLE #schema_cadastrapp.prop_ccocac_simple;
 DROP TABLE #schema_cadastrapp.prop_ccodem;
 DROP TABLE #schema_cadastrapp.prop_ccodro;
 DROP TABLE #schema_cadastrapp.prop_ccogrm;

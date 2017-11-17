@@ -19,6 +19,8 @@ public class Imposition {
 	private float departementRevenuImposable;
 	
 	private float groupementCommuneRevenuImposable;
+	
+	private float tseRevenuImposable;
 
 	/**
 	 * @return the revenuImposable
@@ -125,5 +127,19 @@ public class Imposition {
 		this.groupementCommuneRevenuImposable = groupementCommuneRevenuImposable;
 	}
 	
+	/**
+	 * @return the revenuImposable
+	 */
+	public float getTseRevenuImposable() {
+		return tseRevenuImposable;
+	}
+
+	@XmlAttribute
+	/**
+	 * @param revenuImposable the revenuImposable to set
+	 */
+	public void setTseRevenuImposable(float tseRevenuImposable) {
+		this.tseRevenuImposable = tseRevenuImposable;
+	}
 
 }

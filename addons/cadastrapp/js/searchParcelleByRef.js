@@ -475,8 +475,13 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                                 if (record.data.parcelle != undefined && record.data.parcelle > 0 && record.data.section != undefined && record.data.section.length > 0) {
 
                                     params.dnupla = record.data.parcelle;
-                                    params.ccopre = record.data.section.substring(0, record.data.section.length - 2);
-                                    params.ccosec = record.data.section.substring(record.data.section.length - 2, record.data.section.length);
+                                    params.ccopre = '';
+                                    params.ccosec = record.data.section;
+                                    // section has a 3-digit prefix
+                                    if (record.data.section.length > 2) {
+                                        params.ccopre = record.data.section.substring(0, 3);
+                                        params.ccosec = record.data.section.substring(3);
+                                    }
 
                                     //envoi la liste de resultat
                                     Ext.Ajax.request({

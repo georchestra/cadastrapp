@@ -22,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ReleveProprieteController extends CadController {
 
-	final static Logger logger = LoggerFactory.getLogger(ReleveProprieteController.class);
-
-	final String xslTemplate = "xsl/relevePropriete.xsl";
-	final String xslTemplateMinimal = "xsl/releveProprieteMinimal.xsl";
+	static final Logger logger = LoggerFactory.getLogger(ReleveProprieteController.class);
 	
 	@Autowired
 	ReleveProprieteHelper releveProprieteHelper;
@@ -54,7 +51,6 @@ public class ReleveProprieteController extends CadController {
 				comptesCommunaux = Arrays.asList(comptesCommunaux.get(0).split(","));
 			}
 			// Get information about releve de propriete
-			//RelevePropriete relevePropriete = getReleveProprieteInformation(comptesCommunaux, headers);
 			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, headers, idParcelle);
 
 			File pdfResult = releveProprieteHelper.generatePDF(relevePropriete, false, false);

@@ -53,15 +53,18 @@ public final class ReleveProprieteHelper extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(ReleveProprieteHelper.class);
 
-	static final String xslTemplate = "xsl/relevePropriete.xsl";
-	static final String xslTemplateMinimal = "xsl/releveProprieteMinimal.xsl";
-	static final String xslTemplateError = "xsl/releveProprieteError.xsl";
+	static final String XSL_TEMPLATE = "xsl/relevePropriete.xsl";
+	static final String XSL_TEMPLATE_MINIMAL = "xsl/releveProprieteMinimal.xsl";
+	static final String XSL_TEMPLATE_ERROR = "xsl/releveProprieteError.xsl";
 
 	/**
+	 * Get propertie information using given imput from database
 	 * 
-	 * @param idComptesCommunaux
-	 * @param headers
-	 * @return
+	 * @param idComptesCommunaux List<String> composed with comptecommunalid
+	 * @param headers HttpHeaders used to verify user privilege
+	 * @param idParcelle String plot id
+	 * 
+	 * @return RelevePropriete fill with database information
 	 */
 	public RelevePropriete getReleveProprieteInformation(List<String> idComptesCommunaux, HttpHeaders headers, String idParcelle) {
 
@@ -202,7 +205,7 @@ public final class ReleveProprieteHelper extends CadController {
 
 						StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
-						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, gtauom, pexb, rcexba2, rcbaia_com, rcbaia_dep, rcbaia_gp, revcad, jdatat, parcelle ");
+						queryBuilderProprieteBatie.append("select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, gtauom, pexb, rcexba2, rcbaia_com, rcbaia_dep, rcbaia_gp, rcbaia_tse, revcad, jdatat, parcelle, ccocac ");
 						queryBuilderProprieteBatie.append("from ");
 						queryBuilderProprieteBatie.append(databaseSchema);
 						queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -259,10 +262,11 @@ public final class ReleveProprieteHelper extends CadController {
 								proprieteBatie.setCcoaff((String) propBat.get(CadastrappConstants.PB_AFFECTATION_PEV)); //AF
 								proprieteBatie.setCcoeva((String) propBat.get(CadastrappConstants.PB_CODE_EVAL)); //M EVAL
 								proprieteBatie.setCconlc((String) propBat.get(CadastrappConstants.PB_NATURE_LOCAL)); //NAT LOC
+								proprieteBatie.setCcocac((String) propBat.get(CadastrappConstants.PB_NATURE_LOCAL_PRO)); //NAT LOC PRO
 								proprieteBatie.setCcopre((String) propBat.get(CadastrappConstants.PREFIX_SECTION)); //N°SETCION part1
 								proprieteBatie.setCcoriv((String) propBat.get(CadastrappConstants.CODE_RIVOLI_VOIE)); //code rivoli
 								proprieteBatie.setCcosec((String) propBat.get(CadastrappConstants.LETTRE_SECTION)); //N°SETCION part2
-								proprieteBatie.setDcapec((String) propBat.get(CadastrappConstants.PB_CATEGORIE)); //Cat (PAS DANS LE REQUETTE)
+								proprieteBatie.setDcapec((String) propBat.get(CadastrappConstants.PB_CATEGORIE)); //Cat
 								proprieteBatie.setDescr((String) propBat.get(CadastrappConstants.PB_NUM_ENTREE)); //Ent
 								proprieteBatie.setDniv((String) propBat.get(CadastrappConstants.PB_NIV_ETAGE)); //Niv
 								proprieteBatie.setDnubat((String) propBat.get(CadastrappConstants.PB_LETTRE_BAT)); //Bat
@@ -312,10 +316,25 @@ public final class ReleveProprieteHelper extends CadController {
 								// Count only one taxable income for one invar
 								if (!invarTICount.contains(proprieteId)) {
 									invarTICount.add(proprieteId);
+									
+									float communeRevenuImposable = propBat.get("rcbaia_com") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_com")).floatValue();
+									float groupementCommuneRevenuImposable = propBat.get("rcbaia_gp") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_gp")).floatValue();
+									float departementRevenuImposable = propBat.get("rcbaia_dep") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_dep")).floatValue();
+									float tseRevenuImposable = propBat.get("rcbaia_tse") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_tse")).floatValue();
+									
+									Imposition pbImposition = new Imposition();
+									
+									pbImposition.setCommuneRevenuImposable(communeRevenuImposable);
+									pbImposition.setGroupementCommuneRevenuImposable(groupementCommuneRevenuImposable);
+									pbImposition.setDepartementRevenuImposable(departementRevenuImposable);
+									pbImposition.setTseRevenuImposable(tseRevenuImposable);
+									
+									proprieteBatie.setImposition(pbImposition);
+									
 									pbRevenuImposable = pbRevenuImposable + (propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null ? 0 : ((BigDecimal) propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL)).floatValue());
-									pbCommuneRevenuImposable = pbCommuneRevenuImposable + (propBat.get("rcbaia_com") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_com")).floatValue());
-									pbDepartementRevenuImposable = pbDepartementRevenuImposable + (propBat.get("rcbaia_dep") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_dep")).floatValue());
-									pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + (propBat.get("rcbaia_gp") == null ? 0 : ((BigDecimal) propBat.get("rcbaia_gp")).floatValue());
+									pbCommuneRevenuImposable = pbCommuneRevenuImposable + communeRevenuImposable;
+									pbDepartementRevenuImposable = pbDepartementRevenuImposable + departementRevenuImposable;
+									pbGroupementCommuneRevenuImposable = pbGroupementCommuneRevenuImposable + groupementCommuneRevenuImposable;
 								}
 
 								proprietesBaties.add(proprieteBatie);
@@ -447,7 +466,7 @@ public final class ReleveProprieteHelper extends CadController {
 								int surface = (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA) == null ? 0 : (Integer) propNonBat.get(CadastrappConstants.PNB_CONTENANCE_CA);
 								proprieteNonBatie.setDcntsf(surface);
 
-								float revenu = (propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL) == null ? 0 : ((BigDecimal) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL)).floatValue());
+								float revenu = propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL) == null ? 0 : ((BigDecimal) propNonBat.get(CadastrappConstants.PNB_REVENU_CADASTRAL)).floatValue();
 								proprieteNonBatie.setDrcsuba(revenu);
 
 								pnbRevenuImposable = pnbRevenuImposable + revenu;
@@ -517,9 +536,9 @@ public final class ReleveProprieteHelper extends CadController {
 		String template = null;
 
 		if (isNoData) {
-			template = xslTemplateError;
+			template = XSL_TEMPLATE_ERROR;
 		} else {
-			template = (isMinimal) ? xslTemplateMinimal : xslTemplate;
+			template = isMinimal ? XSL_TEMPLATE_MINIMAL : XSL_TEMPLATE;
 		}
 
 		// Pdf temporary filename using tmp folder and timestamp

@@ -29,6 +29,7 @@ public final class CadastrappConstants {
 	public static final String PB_CODE_EVAL					= "ccoeva";
 	public static final String PB_AFFECTATION_PEV			= "ccoaff";
 	public static final String PB_NATURE_LOCAL				= "cconlc";
+	public static final String PB_NATURE_LOCAL_PRO			= "ccocac";
 	public static final String PB_CATEGORIE					= "dcapec";
 	public static final String PB_VAL_LOCAT_TOTAL			= "revcad";
 	public static final String PB_CODE_COLL_EXO				= "ccolloc";
