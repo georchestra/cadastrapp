@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.georchestra</groupId>
   <artifactId>cadastrapp-parent</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <packaging>pom</packaging>
   <modules>
     <module>cadastrapp</module>
@@ -19,7 +19,7 @@
     <connection>scm:git:https://github.com/georchestra/cadastrapp.git</connection>
     <developerConnection>scm:git:https://github.com/georchestra/cadastrapp.git</developerConnection>
     <url>https://github.com/georchestra/cadastrapp.git</url>
-    <tag>cadastrapp-parent-1.4</tag>
+    <tag>cadastrapp-parent-1.5</tag>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
