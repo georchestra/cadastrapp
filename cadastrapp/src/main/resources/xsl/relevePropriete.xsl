@@ -76,20 +76,20 @@
 			</xsl:if>
 			
 			<!-- liste des proprietes baties d'un compte communal -->
-			<xsl:if test="proprietesBaties/proprieteBatie">
+			<xsl:if test="proprietesBaties/proprietes">
 				<xsl:call-template name="proprietesBaties" />
 				
-				<xsl:if test="impositionBatie">
+				<xsl:if test="proprietesBaties/imposition">
 					<fo:block>&#160;</fo:block>
 					<xsl:call-template name="revenuImposable" />
 				</xsl:if>
 			</xsl:if>
 			
 			<!-- liste des proprietes non baties d'un compte communal -->
-			<xsl:if test="proprietesNonBaties/proprieteNonBatie">
+			<xsl:if test="proprietesNonBaties/proprietes">
 				<xsl:call-template name="proprietesNonBaties" />
 				
-				<xsl:if test="impositionNonBatie">
+				<xsl:if test="proprietesNonBaties/imposition">
 					<fo:block>&#160;</fo:block>
 					<xsl:call-template name="revenuImposableNonBaties" />
 				</xsl:if>
@@ -352,7 +352,7 @@
 				</fo:table-row>
 			</fo:table-header>
 			<fo:table-body>
-				<xsl:for-each select="proprietesBaties/proprieteBatie">
+				<xsl:for-each select="proprietesBaties/proprietes/propriete">
 					<fo:table-row>
 						<!-- Adresses des propriétés -->
 						<fo:table-cell xsl:use-attribute-sets="bordure">
@@ -606,7 +606,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt" text-align="center">
-							<xsl:value-of select="format-number(impositionBatie/@revenuImposable, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesBaties/imposition/@revenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -624,10 +624,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@communeRevenuExonere, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesBaties/imposition/@communeRevenuExonere, '### ##0,00', 'euro')" /> €
 						</fo:block>
 						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@communeRevenuImposable, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesBaties/imposition/@communeRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -645,10 +645,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@groupementCommuneRevenuExonere, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesBaties/imposition/@groupementCommuneRevenuExonere, '### ##0,00', 'euro')" /> €
 						</fo:block>
 						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesBaties/imposition/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -666,10 +666,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesBaties/imposition/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
 						</fo:block>
 						<fo:block>
-							<xsl:value-of select="format-number(impositionBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesBaties/imposition/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -818,7 +818,7 @@
 				</fo:table-row>
 			</fo:table-header>
 			<fo:table-body>
-				<xsl:for-each select="proprietesNonBaties/proprieteNonBatie">
+				<xsl:for-each select="proprietesNonBaties/proprietes/propriete">
 					<fo:table-row>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block>
@@ -980,7 +980,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							<xsl:value-of select="impositionNonBatie/@surface" /> CA
+							<xsl:value-of select="proprietesNonBaties/imposition/@surface" /> CA
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -990,7 +990,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							<xsl:value-of select="format-number(impositionNonBatie/@revenuImposable, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesNonBaties/imposition/@revenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1008,10 +1008,10 @@
 					</fo:table-cell>
 					<fo:table-cell  text-align="center">
 						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@communeRevenuExonere, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesNonBaties/imposition/@communeRevenuExonere, '### ##0,00', 'euro')" /> €
 						</fo:block>
 						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@communeRevenuImposable, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesNonBaties/imposition/@communeRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1029,10 +1029,10 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@groupementCommuneRevenuExonere, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesNonBaties/imposition/@groupementCommuneRevenuExonere, '### ##0,00', 'euro')" /> €
 						</fo:block>
 						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesNonBaties/imposition/@groupementCommuneRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
@@ -1050,15 +1050,15 @@
 					</fo:table-cell>
 					<fo:table-cell text-align="center">
 						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesNonBaties/imposition/@departementRevenuExonere, '### ##0,00', 'euro')" /> €
 						</fo:block>
 						<fo:block>
-							<xsl:value-of select="format-number(impositionNonBatie/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
+							<xsl:value-of select="format-number(proprietesNonBaties/imposition/@departementRevenuImposable, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							MAJ POS : <xsl:value-of select="format-number(impositionNonBatie/@majorationTerraion, '### ##0,00', 'euro')" /> €
+							MAJ POS : <xsl:value-of select="format-number(proprietesNonBaties/imposition/@majorationTerraion, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
