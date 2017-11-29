@@ -25,8 +25,18 @@ public final class ProprieteHelper extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(ProprieteHelper.class);
 
+	/**
+	 * getProprieteBatieInformation
+	 * 
+	 * @param idCompteCommunal  String owner id
+	 * @param idParcelle String plots id
+	 * @return ProprietesBaties object with information coming from database
+	 * 			
+	 */
 	public ProprietesBaties getProprieteBatieInformation(String idCompteCommunal, String idParcelle) {
 
+		logger.debug("Get developed property information ");
+		
 		ProprietesBaties pbs = new ProprietesBaties();
 
 		// Information sur les proprietés baties
@@ -51,7 +61,6 @@ public final class ProprieteHelper extends CadController {
 		// Add map of invar to maker sure not to add two times taxable income
 		List<String> invarTICount = new ArrayList<String>();
 
-		logger.debug("Get developed property information ");
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<Map<String, Object>> proprietesBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteBatie.toString(), idCompteCommunal);
 
@@ -169,8 +178,18 @@ public final class ProprieteHelper extends CadController {
 		return pbs;
 	}
 
+	/**
+	 * getProprieteNonBatieInformation
+	 * 
+	 * @param idCompteCommunal  String owner id
+	 * @param idParcelle String plots id
+	 * @return ProprietesBaties object with information coming from database
+	 * 			
+	 */
 	public ProprietesNonBaties getProprieteNonBatieInformation(String idCompteCommunal, String idParcelle) {
 
+		logger.debug("Get undeveloped property information ");
+		
 		ProprietesNonBaties pnbs = new ProprietesNonBaties();
 
 		// Information sur les proprietés non baties
@@ -198,7 +217,6 @@ public final class ProprieteHelper extends CadController {
 		queryBuilderProprieteNonBatie.append(".proprietenonbatie pnb ");
 		queryBuilderProprieteNonBatie.append(" where pnb.comptecommunal = ? ORDER BY ccosec, dnupla");
 
-		logger.debug("Get undeveloped property information ");
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<Map<String, Object>> proprietesNonBatiesResult = jdbcTemplate.queryForList(queryBuilderProprieteNonBatie.toString(), idCompteCommunal);
 
@@ -324,10 +342,12 @@ public final class ProprieteHelper extends CadController {
 		return pnbs;
 	}
 
-	// TODO try changing this,
-	// making a request on each loop might not the best solution,
-	// but it can have more than one lot for one invar
-	// Make sure an index exist on id_local
+
+	/**
+	 *  getLotInformation 
+	 * @param idLocal String local id from invar
+	 * @return List<Lot> bundle number and distribution in this bundle
+	 */
 	public List<Lot> getLotInformation(String idLocal) {
 
 		StringBuilder queryBuilderLots = new StringBuilder();
@@ -342,7 +362,7 @@ public final class ProprieteHelper extends CadController {
 
 		List<Lot> proprieteBatieLot = new ArrayList<Lot>();
 		for (Map<String, Object> propBatLot : proprietesBatiesLots) {
-			// Create lot and add information
+			// Create bundle and add information
 			Lot lot = new Lot();
 			lot.setLotId((String) propBatLot.get(CadastrappConstants.PB_LOT_ID));
 			lot.setDenominateur((String) propBatLot.get(CadastrappConstants.PB_LOT_DENOMINATEUR));
@@ -352,7 +372,7 @@ public final class ProprieteHelper extends CadController {
 				logger.debug("Lot : " + lot);
 			}
 
-			// add lot to list
+			// add bundle to list
 			proprieteBatieLot.add(lot);
 		}
 		return proprieteBatieLot;
