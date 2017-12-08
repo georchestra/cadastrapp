@@ -12,14 +12,19 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
+import org.georchestra.cadastrapp.helper.BatimentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
 public class UniteCadastraleController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(UniteCadastraleController.class);
+	
+	@Autowired
+	BatimentHelper batimentHelper;
 
 	@Path("/getFIC")
 	@GET
@@ -34,7 +39,7 @@ public class UniteCadastraleController extends CadController {
 	 * @param part (for 0 to 5)
 	 * 			0 -> Parcelle Information
 	 * 			1 -> Proprietaire information
-	 * 			2 -> Dnubat batiments lists
+	 * 			2 -> Dnubat batiments lists (deprecated since 1.6 version)
 	 * 			3 - > Subdivision information
 	 * 			4 - > Historical information
 	 * @return Json object corresponding on wanted part
@@ -61,7 +66,7 @@ public class UniteCadastraleController extends CadController {
 				break;
 			case 2:
 				if (getUserCNILLevel(headers)>1){
-					information = infoOngletBatimentList(parcelle, headers);
+					information = batimentHelper.getBuildings(parcelle, headers);
 				}
 				else{
 					logger.info("User does not have enough right to see information about batiment");
@@ -148,32 +153,7 @@ public class UniteCadastraleController extends CadController {
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
 	}
 	
-	/**
-	 * 
-	 * infoOngletBatimentList
-	 * 
-	 * @param String parcelle / Id Parcelle exemple : 2014630103000AP0025
-	 * @param HttpHeaders headers
-	 * 
-	 * @return List<Map<String, Object>> 
-	 */
-	private List<Map<String, Object>> infoOngletBatimentList(String parcelle, HttpHeaders headers ){
-		
-		logger.debug("infoOngletBatiment - parcelle : " + parcelle);
-		
-		StringBuilder queryBuilder = new StringBuilder();
-		
-		// CNIL Niveau 2
-		queryBuilder.append("select distinct pb.dnubat from ");
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietebatie pb ");
-		queryBuilder.append(" where pb.parcelle = ? ");
-		queryBuilder.append(addAuthorizationFiltering(headers, "pb."));
-		queryBuilder.append(" ORDER BY pb.dnubat");
-		
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);		
-	}
+	
 		
 	/**
 	 *  infoOngletSubdivision get information about subdivision

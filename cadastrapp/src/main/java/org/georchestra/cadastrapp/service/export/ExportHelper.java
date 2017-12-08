@@ -33,9 +33,6 @@ public class ExportHelper {
 	 */
 	public File createCSV(List<Map<String, Object>> data, String entete) throws IOException {
 
-		// Parse value to have only once a comptecommunal, but with several
-		// parcelle
-		// at this time there is one comptecommunal for each parcelle
 		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 
 		// File with current time

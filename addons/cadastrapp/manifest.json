@@ -3,6 +3,7 @@
 	"debugjs": [
     	"js/printBordereauParcellaire.js",
     	"js/printRelevePropriete.js",
+    	"js/printLots.js",
 		"js/selectFeature.js",
 		"js/resultParcelle.js",
 		"js/resultProprietaire.js",
@@ -147,6 +148,7 @@
 			"cadastrapp.result.csv.button.parcelles" : "Plots",
 			"cadastrapp.result.csv.button.owner" : "Owners",
 			"cadastrapp.result.csv.button.coowner" : "Co-owners",
+			"cadastrapp.result.csv.button.bundle" : "Bundle",
 			"cadastrapp.result.no.search": "You need to search for a plot before",
 			"cadastrapp.result.no.selection": "You need to select plots before",
 			
@@ -336,8 +338,7 @@
 			"cadastrapp.duc.parcelle" : "Plot",
 			"cadastrapp.duc.propietaire" : "Owners",
 			"cadastrapp.duc.copropietaire" : "Co-Owners",
-			
-			
+									
 			"cadastrapp.duc.compte" : "Identifier",
 			"cadastrapp.duc.denomination": "Designation",
 			"cadastrapp.duc.nom_usage" : "Usage name",
@@ -358,6 +359,7 @@
 			"cadastrapp.duc.batiment_date" : "Date",
 			"cadastrapp.duc.batiment_revenu" : "Rent",
 			"cadastrapp.duc.batiment_descriptif" : "Description",
+			"cadastrapp.duc.batiment_bundle" : "Bundle",
 
 			"cadastrapp.duc.lettreindic" : "Index",
 			"cadastrapp.duc.contenance" : "Capacity",
@@ -406,6 +408,13 @@
 			"cadastrapp.relevepropriete.data" : "Data to extract",
 			"cadastrapp.relevepropriete.full" : "All properties",
 			"cadastrapp.relevepropriete.partial" : "Only this plot",
+			
+			"cadastrapp.lots.title" : "Bundle information",
+			"cadastrapp.lots.batiments" : "Please select one building",
+			"cadastrapp.lots.type" : "Choose output format",
+			"cadastrapp.lots.type.pdf" : "Export as PDF",
+			"cadastrapp.lots.type.csv" : "Export as CSV",
+			"cadastrapp.lots.no.building" : "No building on this plot",
 			
 			"cadastrapp.ObjectRequest.idParcelle" : "id...",
 			"cadastrapp.ObjectRequest.comptecommunal" : "id...",
@@ -516,6 +525,7 @@
 			"cadastrapp.result.csv.button.parcelles" : "Parcelle",
 			"cadastrapp.result.csv.button.owner" : "Propriétaires",
 			"cadastrapp.result.csv.button.coowner" : "Co-propriétaires",
+			"cadastrapp.result.csv.button.bundle" : "Lots",
 			"cadastrapp.result.no.search": "Veuillez sélectioner une parcelle",
 			"cadastrapp.result.no.selection": "Veuillez sélectioner une parcelle",
 			
@@ -730,6 +740,7 @@
 			"cadastrapp.duc.batiment_date" : "Date",
 			"cadastrapp.duc.batiment_revenu" : "Revenu",
 			"cadastrapp.duc.batiment_descriptif" : "Descriptif",
+			"cadastrapp.duc.batiment_bundle" : "Lots",
 			"cadastrapp.duc.lettreindic" : "Lettre indicative",
 			"cadastrapp.duc.contenance" : "Contenance",
 			"cadastrapp.duc.terrain" : "Nature de culture",
@@ -778,6 +789,13 @@
 			"cadastrapp.bordereauparcellaire.data" : "Données propriétaires",
 			"cadastrapp.bordereauparcellaire.data.without" : "Sans données nominatives",
 			"cadastrapp.bordereauparcellaire.data.with" : "Avec données nominatives",
+			
+			"cadastrapp.lots.title" : "Lots",
+			"cadastrapp.lots.batiments" : "Choisissez un batiment",
+			"cadastrapp.lots.type" : "Choissiez un format de fichier",
+			"cadastrapp.lots.type.pdf" : "PDF",
+			"cadastrapp.lots.type.csv" : "CSV",
+			"cadastrapp.lots.no.building" : "Pas de lots sur cette parcelle",
 			
 			"cadastrapp.ObjectRequest.idParcelle" : "id...",
 			"cadastrapp.ObjectRequest.comptecommunal" : "id...",

@@ -146,7 +146,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                         GEOR.Addons.Cadastre.result.owner.window=null;
                     }
 
-                    if ( GEOR.Addons.Cadastre.proprietaireWindow){
+                    if (GEOR.Addons.Cadastre.proprietaireWindow){
                         GEOR.Addons.Cadastre.proprietaireWindow.close();
                         GEOR.Addons.Cadastre.proprietaireWindow = null;
                     }
@@ -156,12 +156,12 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                         GEOR.Addons.Cadastre.rechercheParcelleWindow = null;
                     }
 
-                    if( GEOR.Addons.Cadastre.printBordereauParcellaireWindow){
+                    if(GEOR.Addons.Cadastre.printBordereauParcellaireWindow){
                         GEOR.Addons.Cadastre.printBordereauParcellaireWindow.close();
                         GEOR.Addons.Cadastre.printBordereauParcellaireWindow=null;
                     }
 
-                    if( GEOR.Addons.Cadastre.request.informationsWindow){
+                    if(GEOR.Addons.Cadastre.request.informationsWindow){
                         GEOR.Addons.Cadastre.request.informationsWindow.close();
                         GEOR.Addons.Cadastre.request.informationsWindow=null;
                     }
@@ -170,7 +170,16 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                         GEOR.Addons.Cadastre.coProprieteWindow.close();
                         GEOR.Addons.Cadastre.coProprieteWindow=null;
                     }
-
+                    
+                    if(GEOR.Addons.Cadastre.printReleveProprieteWindow){
+                    	GEOR.Addons.Cadastre.printReleveProprieteWindow.close();
+                    	GEOR.Addons.Cadastre.printReleveProprieteWindow=null;
+                    }
+                    
+                    if(GEOR.Addons.Cadastre.printLotsWindow){
+                    	GEOR.Addons.Cadastre.printLotsWindow.close();
+                    	GEOR.Addons.Cadastre.printLotsWindow=null;
+                    }
                 },
                 scope: this
             }
