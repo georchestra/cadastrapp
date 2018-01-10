@@ -70,8 +70,8 @@
 			<xsl:call-template name="entete" />
 		</xsl:if>
 			
-		<!-- liste des proprietaires d'un compte communal -->
-		<xsl:if test="lots">
+		<!-- liste des Lot si  au moins un lot -->
+		<xsl:if test="lots/Lot">
 			<xsl:call-template name="lot" />
 		</xsl:if>
 					
