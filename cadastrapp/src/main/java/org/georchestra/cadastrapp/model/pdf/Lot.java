@@ -1,6 +1,11 @@
 package org.georchestra.cadastrapp.model.pdf;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 
 
 public class Lot {
@@ -13,6 +18,28 @@ public class Lot {
 	
 	// Dénominateur ddenql
 	private String denominateur;
+	
+	private ProprieteBatie proprieteDescription;
+	
+	// Optional
+	private List<Proprietaire> proprietaires;
+
+
+	@XmlElementWrapper(name = "proprietaires")
+	@XmlElements({ @XmlElement(name = "Proprietaire", type = Proprietaire.class) })
+	/**
+	 * @param proprietaires
+	 */
+	public void setProprietaires(List<Proprietaire> proprietaires) {
+		this.proprietaires = proprietaires;
+	}
+
+	/**
+	 * @return the proprietaires
+	 */
+	public List<Proprietaire> getProprietaires() {
+		return proprietaires;
+	}
 
 	/**
 	 * @return the lotId
@@ -59,6 +86,21 @@ public class Lot {
 		this.denominateur = denominateur;
 	}
 
+	/**
+	 * @return the proprieteDescription
+	 */
+	public ProprieteBatie getProprieteDescription() {
+		return proprieteDescription;
+	}
+
+	@XmlElements({ @XmlElement(name = "Propriete", type = ProprieteBatie.class) })
+	/**
+	 * @param proprieteDescription the proprieteDescription to set
+	 */
+	public void setProprieteDescription(ProprieteBatie proprieteDescription) {
+		this.proprieteDescription = proprieteDescription;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -66,6 +108,7 @@ public class Lot {
 	public String toString() {
 		return "Lot [lotId=" + lotId + ", repartition : " + numerateur + "/" + denominateur + "]";
 	}
+
 
 
 }

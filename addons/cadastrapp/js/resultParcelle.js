@@ -32,6 +32,14 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
             },scope:this
         });
         
+        // create button to get bundle export as CSV
+        exportCsvItems.push({
+            text:OpenLayers.i18n("cadastrapp.result.csv.button.bundle"),
+            handler(){
+                return GEOR.Addons.Cadastre.exportBundle();
+            },scope:this
+        });
+        
         // create menu to set properties at this menu
         var menuCsv = new Ext.menu.Menu({
             items: exportCsvItems,
@@ -673,6 +681,49 @@ GEOR.Addons.Cadastre.exportCoOwnersAsCSV = function() {
             var params = parcellesId.join();
             GEOR.Addons.Cadastre.getCsvByPost(url, params); 
         }else {
+            Ext.Msg.alert('Status', OpenLayers.i18n('cadastrapp.result.no.selection'));
+        }
+    } else {
+        Ext.Msg.alert('Status', OpenLayers.i18n('cadastrapp.result.no.search'));
+    }  
+};
+
+/**
+ * get building list from selected plot
+ */
+GEOR.Addons.Cadastre.exportBundle = function() {
+    if (GEOR.Addons.Cadastre.result.tabs && GEOR.Addons.Cadastre.result.tabs.getActiveTab()) {
+        var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
+        
+        // Only one plot
+        if (selection && selection.length == 1) {
+                       
+        	var parcelleId = selection[0].data.parcelle;
+            // Get Batiment information
+            Ext.Ajax.request({
+                method : 'GET',
+                params : {parcelle: parcelleId},
+                url : GEOR.Addons.Cadastre.cadastrappWebappUrl + "getBatimentsByParcelle",        
+                success : function(response) {
+                	
+                	var result = Ext.decode(response.responseText);          	
+                	var batiments = [];              	
+                	Ext.each(result, function(element, index) {
+                		batiments.push(element.dnubat);
+                    });
+                	if(batiments.length > 0){
+                		GEOR.Addons.Cadastre.onClickPrintLotsWindow(parcelleId, batiments);
+                	}
+                	else{
+                		Ext.Msg.alert('Status', OpenLayers.i18n('cadastrapp.lots.no.building'));
+                	}
+                },
+                failure : function(result) {
+                    alert('ERROR-');
+                }
+            });
+        }else {
+        	// Change message
             Ext.Msg.alert('Status', OpenLayers.i18n('cadastrapp.result.no.selection'));
         }
     } else {

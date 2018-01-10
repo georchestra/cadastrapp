@@ -640,7 +640,7 @@
               <projectUrl>http://www.georchestra.org/</projectUrl>
               <projectOrganization>geOrchestra</projectOrganization>
               <maintainerName>Pierre Jego</maintainerName>
-              <maintainerEmail>pierre.jego@gfi.fr</maintainerEmail>
+              <maintainerEmail>pierre.jego@jdev.fr</maintainerEmail>
               <excludeAllArtifacts>true</excludeAllArtifacts>
               <snapshotRevisionFile>${project.build.directory}</snapshotRevisionFile>
             </configuration>

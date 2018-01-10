@@ -36,6 +36,9 @@ public class ProprieteBatie extends Propriete{
 	// Nature du local professionel
 	private String ccocac;
 	
+	// Nature de la dépendance
+	private String cconad;
+	
 	// Catégorie
 	private String dcapec;
 	
@@ -45,7 +48,7 @@ public class ProprieteBatie extends Propriete{
 	// Zone de ramassage
 	private String gtauom;
 	
-	// Liste de lots
+	// Liste de lots optional
 	private List<Lot> lots;
 	
 	// Imposition
@@ -260,6 +263,21 @@ public class ProprieteBatie extends Propriete{
 	 */
 	public void setLots(List<Lot> lots) {
 		this.lots = lots;
+	}
+
+	/**
+	 * @return the cconad
+	 */
+	public String getCconad() {
+		return cconad;
+	}
+
+	@XmlAttribute
+	/**
+	 * @param cconad the cconad to set
+	 */
+	public void setCconad(String cconad) {
+		this.cconad = cconad;
 	}
 }
 
