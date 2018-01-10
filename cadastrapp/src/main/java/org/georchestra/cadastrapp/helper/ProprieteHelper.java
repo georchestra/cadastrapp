@@ -550,8 +550,7 @@ public final class ProprieteHelper extends CadController {
 		queryBuilderPLot.append(" where p.parcelle = ? ");
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		List<Map<String, Object>> parcelleInformations = jdbcTemplate.queryForList(queryBuilderPLot.toString(),
-				parcelle);
+		List<Map<String, Object>> parcelleInformations = jdbcTemplate.queryForList(queryBuilderPLot.toString(), parcelle);
 
 		// Use loop because queryForObject will throw an exception if adress is empty.
 		// Even if no adresse export should be done.
@@ -569,7 +568,9 @@ public final class ProprieteHelper extends CadController {
 
 			lot.setLotId((String) lotInformation.get("dnulot"));
 			lot.setNumerateur((String) lotInformation.get("dnumql"));
-			nbParts = nbParts + Integer.parseInt(lot.getNumerateur());
+			if(lot.getNumerateur().length() >0){
+				nbParts = nbParts + Integer.parseInt(lot.getNumerateur());
+			}
 			lot.setDenominateur((String) lotInformation.get("ddenql"));
 
 			ProprieteBatie pb = new ProprieteBatie();
