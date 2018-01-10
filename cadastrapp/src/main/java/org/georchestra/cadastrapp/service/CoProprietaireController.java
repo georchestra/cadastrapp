@@ -473,10 +473,10 @@ public class CoProprietaireController extends CadController {
 							out.close();
 						}
 						if(xmlfile != null){
-					//	xmlfile.delete();
+							xmlfile.delete();
 						}
 						if(foFile != null){
-					//		foFile.delete();
+							foFile.delete();
 						}
 						if (foOutPutStream != null){
 							foOutPutStream.close();
