@@ -21,13 +21,9 @@ public class CompteCommunal {
 	
 	private List<Proprietaire> proprietaires;
 	
-	private List<ProprieteBatie> proprieteBaties;
+	private ProprietesBaties proprieteBaties;
 	
-	private Imposition impositionBatie;
-	
-	private List<ProprieteNonBatie> proprieteNonBaties;
-	
-	private ImpositionNonBatie impositionNonBatie;
+	private ProprietesNonBaties proprieteNonBaties;
 
 
 	/**
@@ -64,32 +60,30 @@ public class CompteCommunal {
 	/**
 	 * @return the proprieteBaties
 	 */
-	public List<ProprieteBatie> getProprieteBaties() {
+	public ProprietesBaties getProprietesBaties() {
 		return proprieteBaties;
 	}
 
-	@XmlElementWrapper(name="proprietesBaties", nillable=true)
-    @XmlElements({@XmlElement(name="proprieteBatie", type=ProprieteBatie.class, nillable = true)})
+    @XmlElements({@XmlElement(name="proprietesBaties", type=ProprietesBaties.class, nillable = true)})
 	/**
 	 * @param proprieteBaties the proprieteBaties to set
 	 */
-	public void setProprieteBaties(List<ProprieteBatie> proprieteBaties) {
+	public void setProprietesBaties(ProprietesBaties proprieteBaties) {
 		this.proprieteBaties = proprieteBaties;
 	}
 
 	/**
 	 * @return the proprieteNonBaties
 	 */
-	public List<ProprieteNonBatie> getProprieteNonBaties() {
+	public ProprietesNonBaties getProprietesNonBaties() {
 		return proprieteNonBaties;
 	}
 
-	@XmlElementWrapper(name="proprietesNonBaties", nillable=true)
-    @XmlElements({@XmlElement(name="proprieteNonBatie",     type=ProprieteNonBatie.class, nillable = true)})
+    @XmlElements({@XmlElement(name="proprietesNonBaties",     type=ProprietesNonBaties.class, nillable = true)})
 	/**
 	 * @param proprieteNonBaties the proprieteNonBaties to set
 	 */
-	public void setProprieteNonBaties(List<ProprieteNonBatie> proprieteNonBaties) {
+	public void setProprietesNonBaties(ProprietesNonBaties proprieteNonBaties) {
 		this.proprieteNonBaties = proprieteNonBaties;
 	}
 
@@ -152,36 +146,5 @@ public class CompteCommunal {
 	public void setNumeroCommunal(String numeroCommunal) {
 		this.numeroCommunal = numeroCommunal;
 	}
-
-	/**
-	 * @return the impositionBatie
-	 */
-	public Imposition getImpositionBatie() {
-		return impositionBatie;
-	}
-
-	@XmlElement(name="impositionBatie",     type=Imposition.class, nillable = true)
-	/**
-	 * @param impositionBatie the impositionBatie to set
-	 */
-	public void setImpositionBatie(Imposition impositionBatie) {
-		this.impositionBatie = impositionBatie;
-	}
-
-	/**
-	 * @return the impositionNonBatie
-	 */
-	public ImpositionNonBatie getImpositionNonBatie() {
-		return impositionNonBatie;
-	}
-
-	@XmlElement(name="impositionNonBatie",     type=ImpositionNonBatie.class, nillable = true)
-	/**
-	 * @param impositionNonBatie the impositionNonBatie to set
-	 */
-	public void setImpositionNonBatie(ImpositionNonBatie impositionNonBatie) {
-		this.impositionNonBatie = impositionNonBatie;
-	}
-
 
 }

@@ -435,9 +435,11 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             fields : [ 'comptecommunal', 'dniv', 'dpor', 'ccoaff_lib', 'jannat', 'annee', 'app_nom_usage', 'app_nom_naissance', 'invar', 'revcad' ]
         });
 
+        var selectedBatiment;
+        
         // Récupère la liste des batiments de la parcelle
         Ext.Ajax.request({
-            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getFIC?parcelle=' + parcelleId + "&onglet=2",
+            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getBatimentsByParcelle?parcelle=' + parcelleId,
             method : 'GET',
             success : function(response) {
                 var result = Ext.decode(response.responseText);
@@ -454,6 +456,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                             enableToggle : true,
                             toggleHandler : function(btn, pressed) {
                                 if (pressed) {
+                                	selectedBatiment = btn.text;
                                     fiucBatimentsStore.load({
                                         params : {
                                             'dnubat' : btn.text,
@@ -560,16 +563,30 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                     selectedRecordsArray = fiucBatimentsGrid.getSelectionModel().getSelected();
 
                     if (selectedRecordsArray) {
-                        GEOR.Addons.Cadastre.showHabitationDetails('A', selectedRecordsArray.data.dniv, selectedRecordsArray.data.dpor, selectedRecordsArray.data.annee, selectedRecordsArray.data.invar);
+                        GEOR.Addons.Cadastre.showHabitationDetails(selectedBatiment, selectedRecordsArray.data.dniv, selectedRecordsArray.data.dpor, selectedRecordsArray.data.annee, selectedRecordsArray.data.invar);
                     } else {
                         Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous devez d\'abord sélectionner un batiment'});
                     }
                 }
-            } ],
+            } , {
+                iconCls : 'pdf-button',
+                scale: 'medium',
+                cls : 'x-btn-text-icon',
+                text : OpenLayers.i18n('cadastrapp.duc.batiment_bundle'),
+                handler : function() {
+                    if (selectedBatiment) {
+                    	var batiments = [];
+                    	batiments.push(selectedBatiment);
+                    	GEOR.Addons.Cadastre.onClickPrintLotsWindow(parcelleId, batiments);
+                    } else {
+                        Ext.Msg.show({title: 'Cadastrapp', icon: Ext.MessageBox.WARNING, msg:'Vous devez d\'abord sélectionner un batiment'});
+                    }
+                }
+            }],
             listeners: {
                 rowdblclick: function ( grid, rowIndex, e ) {
                     var row = grid.store.getAt(rowIndex);
-                    GEOR.Addons.Cadastre.showHabitationDetails('A', row.data.dniv, row.data.dpor, row.data.annee, row.data.invar);
+                    GEOR.Addons.Cadastre.showHabitationDetails(selectedBatiment, row.data.dniv, row.data.dpor, row.data.annee, row.data.invar);
                 }
             }
         });

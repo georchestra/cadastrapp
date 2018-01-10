@@ -12,8 +12,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
+import org.georchestra.cadastrapp.helper.BatimentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
@@ -21,11 +23,14 @@ public class BatimentController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(BatimentController.class);
 	
+	@Autowired
+	BatimentHelper batimentHelper;
 	
 	@GET
 	@Path("/getBatiments")
 	@Produces(MediaType.APPLICATION_JSON)
 	/**
+	 * getBuildingsDetails
 	 *  Returns information about batiment dnubat on given parcell 
 	 *  
 	 * @param headers http headers used 
@@ -34,7 +39,7 @@ public class BatimentController extends CadController {
 	 * 
 	 * @return JSON list 
 	 */
-	public List<Map<String, Object>> infoOngletBatiment(@Context HttpHeaders headers, 
+	public List<Map<String, Object>> getBuildingsDetails(@Context HttpHeaders headers, 
 			@QueryParam("parcelle") String parcelle,
 			@QueryParam("dnubat") String dnubat){
 		
@@ -66,11 +71,38 @@ public class BatimentController extends CadController {
 			queryBuilder.append(" where pb.parcelle = ? ");
 			queryBuilder.append(" and pb.comptecommunal = prop.comptecommunal ");
 			queryBuilder.append(" and pb.dnubat = ? and hab.invar = pb.invar ;");
-			
-			//TODO order by numlot
-			
+
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			batiments = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());	
+		}
+		else{
+			logger.info(" Missing input parameter ");
+		}
+		return batiments;
+	}
+
+	
+	@GET
+	@Path("/getBatimentsByParcelle")
+	@Produces(MediaType.APPLICATION_JSON)
+	/**
+	 *  Returns all building from given plot 
+	 *  
+	 * @param headers http headers used only available for CNIL 2
+	 * @param parcelle on unique plot id
+	 * 
+	 * @return JSON list compose with all dnubat from this plot, list is empy if no data, or if user doesn't have rights
+	 */
+	public List<Map<String, Object>> getBuildingsByParcelle(@Context HttpHeaders headers, 
+			@QueryParam("parcelle") String parcelle){
+		
+		List<Map<String, Object>> batiments = new ArrayList<Map<String, Object>>();
+		if (getUserCNILLevel(headers) == 0) {
+			logger.info("User does not have enough rights to see information about buildings");
+		}
+		else if(parcelle != null && !parcelle.isEmpty())
+		{
+			batiments = batimentHelper.getBuildings(parcelle, headers);
 		}
 		else{
 			logger.info(" Missing input parameter ");

@@ -19,6 +19,11 @@ CREATE INDEX idxproprietairenomnaissance ON #schema_cadastrapp.proprietaire (UPP
 CREATE INDEX idxproprietaireparcellecomptecommunal ON #schema_cadastrapp.proprietaire_parcelle (comptecommunal);
 CREATE INDEX idxproprietaireparcelleparcelle ON #schema_cadastrapp.proprietaire_parcelle (parcelle);
 
+-- CO_Proprietaire_parcelle
+CREATE INDEX idxcoproprietaireparcellecomptecommunal ON #schema_cadastrapp.co_propriete_parcelle (comptecommunal);
+CREATE INDEX idxcoproprietaireparcelleparcelle ON #schema_cadastrapp.co_propriete_parcelle (parcelle);
+CREATE INDEX idxcoproprietaireparcelleparcellecomptecommunal ON #schema_cadastrapp.co_propriete_parcelle (parcelle, comptecommunal);
+
 -- Parcelle
 CREATE INDEX idxparcellecgocommune ON #schema_cadastrapp.parcelle (cgocommune);
 CREATE INDEX idxparcelleparcelle ON #schema_cadastrapp.parcelle (parcelle);
@@ -39,7 +44,8 @@ CREATE INDEX idxparcelledetailscgocommuneparcelle ON #schema_cadastrapp.parcelle
 -- ProprieteBatie
 CREATE INDEX idxproprietebatiecomptecommunal ON #schema_cadastrapp.proprietebatie (comptecommunal);
 CREATE INDEX idxproprietebatiecgocommune ON #schema_cadastrapp.proprietebatie (cgocommune);
-CREATE INDEX idxproprietebatiednubat ON #schema_cadastrapp.proprietebatie (dnubat);
+CREATE INDEX idxproprietebatieparcellednubat ON #schema_cadastrapp.proprietebatie (parcelle, dnubat);
+CREATE INDEX idxproprietebatieparcelle ON #schema_cadastrapp.proprietebatie (parcelle);
 
 -- ProprieteNonbatie
 CREATE INDEX idxproprietenonbatieparcelle ON #schema_cadastrapp.proprietenonbatie (parcelle);
@@ -47,10 +53,15 @@ CREATE INDEX idxproprietenonbatiecgocommune ON #schema_cadastrapp.proprietenonba
 
 -- ProprieteNonbatieSufExo
 CREATE INDEX idxproprietenonbatiesufexoparcelle ON #schema_cadastrapp.proprietenonbatiesufexo (parcelle);
-CREATE INDEX idxproprietenonbatiesufexocgocommune ON #schema_cadastrapp.proprietenonbatiesufexo (cgocommune);
+CREATE INDEX idxproprietenonbatiesufexocgocommune ON #schema_cadastrapp.proprietenonbatiesufexo (cgocommune, id_local);
 
 -- Section
 CREATE INDEX idxsectioncgocommune ON #schema_cadastrapp.section (cgocommune);
 CREATE INDEX idxsectioncgocommuneccosec ON #schema_cadastrapp.section (cgocommune, ccosec);
 
+-- Lot
+CREATE INDEX idxlotlots ON #schema_cadastrapp.lot (id_local);
+
+-- Dependance
+CREATE INDEX idxdescdependanceinvar ON #schema_cadastrapp.descdependance (invar);
 

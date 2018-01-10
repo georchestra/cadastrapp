@@ -118,16 +118,16 @@
 			</xsl:if>
 			
 			<!-- liste des proprietes baties d'un compte communal -->
-			<xsl:if test="proprietesBaties/proprieteBatie">
+			<xsl:if test="proprietesBaties/proprietes/propriete">
 				<xsl:call-template name="proprietesBaties" />
 			</xsl:if>
 			
 			<!-- liste des proprietes non baties d'un compte communal -->
-			<xsl:if test="proprietesNonBaties/proprieteNonBatie">
+			<xsl:if test="proprietesNonBaties/proprietes/propriete">
 				<xsl:call-template name="proprietesNonBaties" />			
 			</xsl:if>
 			
-			<xsl:if test="impositionNonBatie">
+			<xsl:if test="proprietesNonBaties/imposition">
 				<xsl:call-template name="revenuImposableNonBaties" />
 			</xsl:if>
 		</xsl:for-each>
@@ -460,7 +460,7 @@
 
 	<!-- Designation des proprietes -->
 	<xsl:template name="proprietesBatiesValue">
-		<xsl:for-each select="proprietesBaties/proprieteBatie">
+		<xsl:for-each select="proprietesBaties/proprietes/propriete">
 			<fo:table-row>
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">
 					<fo:block>
@@ -545,7 +545,7 @@
 
 
 	<xsl:template name="proprietesNonBatiesValues">
-		<xsl:for-each select="proprietesNonBaties/proprieteNonBatie">
+		<xsl:for-each select="proprietesNonBaties/proprietes/propriete">
 			<fo:table-row height="20pt">
 				<fo:table-cell xsl:use-attribute-sets="bordure-values">
 					<fo:block>
@@ -636,12 +636,12 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							<xsl:value-of select="impositionNonBatie/@surface" /> CA
+							<xsl:value-of select="proprietesNonBaties/imposition/@surface" /> CA
 						</fo:block>
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							MAJ POS : <xsl:value-of select="impositionNonBatie/@majorationTerraion" />
+							MAJ POS : <xsl:value-of select="proprietesNonBaties/imposition/@majorationTerraion" />
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
