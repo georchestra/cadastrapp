@@ -113,7 +113,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.comptecommunal, 
 			CASE
 				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomus),'''')||'' ''||COALESCE(rtrim(dprnus),'''')
-				WHEN gtoper = ''2'' THEN rtrim(ddenom)
+				WHEN gtoper = ''2'' THEN rtrim(ddenom)||'' (''||rtrim(pqgis.dformjur)||'')''
 			END AS app_nom_usage,
 			CASE
 				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
