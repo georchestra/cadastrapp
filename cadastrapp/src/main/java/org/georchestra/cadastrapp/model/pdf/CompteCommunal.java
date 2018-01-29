@@ -17,14 +17,11 @@ public class CompteCommunal {
 	
 	private String libelleCommune;
 	
-	private String numeroCommunal;
-	
 	private List<Proprietaire> proprietaires;
 	
 	private ProprietesBaties proprieteBaties;
 	
 	private ProprietesNonBaties proprieteNonBaties;
-
 
 	/**
 	 * @return the compteCommunal
@@ -130,21 +127,6 @@ public class CompteCommunal {
 	 */
 	public void setLibelleCommune(String libelleCommune) {
 		this.libelleCommune = libelleCommune;
-	}
-
-	/**
-	 * @return the numeroCommunal
-	 */
-	public String getNumeroCommunal() {
-		return numeroCommunal;
-	}
-
-	@XmlAttribute
-	/**
-	 * @param numeroCommunal the numeroCommunal to set
-	 */
-	public void setNumeroCommunal(String numeroCommunal) {
-		this.numeroCommunal = numeroCommunal;
 	}
 
 }
