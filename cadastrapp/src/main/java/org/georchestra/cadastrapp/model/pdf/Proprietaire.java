@@ -18,7 +18,7 @@ public class Proprietaire {
 	
 	private String droitReel;
 	
-	private String codeDeDemenbrement;
+	private String codeDeDemembrement;
 
 
 	/**
@@ -130,15 +130,15 @@ public class Proprietaire {
 	/**
 	 * @return the codeDeDemenbrement
 	 */
-	public String getCodeDeDemenbrement() {
-		return codeDeDemenbrement;
+	public String getCodeDeDemembrement() {
+		return codeDeDemembrement;
 	}
 
 	@XmlAttribute
 	/**
 	 * @param codeDeDemenbrement the codeDeDemenbrement to set
 	 */
-	public void setCodeDeDemenbrement(String codeDeDemenbrement) {
-		this.codeDeDemenbrement = codeDeDemenbrement;
+	public void setCodeDeDemembrement(String codeDeDemembrement) {
+		this.codeDeDemembrement = codeDeDemembrement;
 	}
 }

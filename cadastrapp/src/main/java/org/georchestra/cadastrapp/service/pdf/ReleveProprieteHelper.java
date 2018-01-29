@@ -178,8 +178,9 @@ public final class ReleveProprieteHelper extends CadController {
 							Proprietaire proprietaire = new Proprietaire();
 							proprietaire.setNom((String) prop.get("nom"));
 							proprietaire.setNomNaissance((String) prop.get("nom_naissance"));
+							proprietaire.setCompteCommunal((String) prop.get("comptecommunal"));
 							proprietaire.setAdresse((String) prop.get("adresse"));
-							proprietaire.setCodeDeDemenbrement((String) prop.get("ccodem_lib"));
+							proprietaire.setCodeDeDemembrement((String) prop.get("ccodem_lib"));
 							proprietaire.setDateNaissance((String) prop.get("jdatnss"));
 							proprietaire.setLieuNaissance((String) prop.get("dldnss"));
 							proprietaire.setDroitReel((String) prop.get("ccodro_lib"));
