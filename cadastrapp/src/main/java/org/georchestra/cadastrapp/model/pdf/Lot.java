@@ -106,9 +106,7 @@ public class Lot {
 	 */
 	@Override
 	public String toString() {
-		return "Lot [lotId=" + lotId + ", repartition : " + numerateur + "/" + denominateur + "]";
+		return "lotId";
 	}
-
-
 
 }
