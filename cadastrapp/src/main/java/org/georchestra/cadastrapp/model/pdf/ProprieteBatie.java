@@ -51,9 +51,6 @@ public class ProprieteBatie extends Propriete{
 	// Liste de lots optional
 	private List<Lot> lots;
 	
-	// Imposition
-	private Imposition imposition;
-
 	/**
 	 * @return the dnubat
 	 */
@@ -234,20 +231,6 @@ public class ProprieteBatie extends Propriete{
 		this.gtauom = gtauom;
 	}
 	
-	/**
-	 * @return the imposition
-	 */
-	public Imposition getImposition() {
-		return imposition;
-	}
-
-	@XmlElement(name = "imposition")
-	/**
-	 * @param imposition the imposition to set
-	 */
-	public void setImposition(Imposition imposition) {
-		this.imposition = imposition;
-	}
 
 	/**
 	 * @return the lots

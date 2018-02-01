@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 
 @XmlTransient
-public abstract class Propriete {
+public abstract class Propriete extends Imposition{
 
 	// Date d'acte de mutation du local
 	private String jdatat;
