@@ -505,15 +505,14 @@ public final class ProprieteHelper extends CadController {
 			queryBuilderLots.append(".proprietaire prop, ");
 		}
 		queryBuilderLots.append(databaseSchema);
-		queryBuilderLots.append(".proprietebatie pb, ");
+		queryBuilderLots.append(".proprietebatie pb LEFT OUTER JOIN ");
 		queryBuilderLots.append(databaseSchema);
-		queryBuilderLots.append(".descdependance dep ");
+		queryBuilderLots.append(".descdependance dep ON (pb.invar=dep.invar) ");
 		queryBuilderLots.append(" where pb.parcelle = ? and pb.dnubat = ? ");
-		queryBuilderLots.append(" and pb.id_local =  l.id_local ");
+		queryBuilderLots.append(" and pb.id_local =  l.id_local");
 		if (withOwner) {
 			queryBuilderLots.append(" and pb.comptecommunal =  prop.comptecommunal ");
 		}
-		queryBuilderLots.append(" and pb.invar =  dep.invar ");
 		queryBuilderLots.append(" order by l.dnulot ");
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
