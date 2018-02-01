@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -25,16 +24,20 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.CompteCommunal;
+import org.georchestra.cadastrapp.model.pdf.Proprietaire;
+import org.georchestra.cadastrapp.model.pdf.ProprieteBatie;
+import org.georchestra.cadastrapp.model.pdf.ProprieteNonBatie;
 import org.georchestra.cadastrapp.model.pdf.RelevePropriete;
 import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import org.supercsv.cellprocessor.Optional;
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 
 public class ReleveProprieteController extends CadController {
@@ -97,7 +100,7 @@ public class ReleveProprieteController extends CadController {
 	@GET
 	@Path("/createReleveProprieteAsCSV")
 	@Produces("application/zip")
-	public Response createReleveCSVPropriete(@Context HttpHeaders headers, @QueryParam("compteCommunal") List<String> comptesCommunaux, @QueryParam("parcelleId") String idParcelle) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+	public Response createReleveCSVPropriete(@Context HttpHeaders headers, @QueryParam("compteCommunal") List<String> comptesCommunaux, @QueryParam("parcelleId") String idParcelle) throws IOException {
 
 		ResponseBuilder response = Response.noContent();
 		
@@ -133,15 +136,37 @@ public class ReleveProprieteController extends CadController {
 			StreamZip = new FileOutputStream(finalZip);	
 			ZipOutputStream out = new ZipOutputStream(StreamZip);
 					  	   
+	        
 			// Create csv with CompteCommunal information
 			logger.debug("Create global information csv ");
 			final String csvCCFileName = "RP-Comptecommunal-" + dateString + ".csv";
 			final String csvCCPath = tempFolder + File.separator + csvCCFileName;
-			
-			Writer writer = new FileWriter(csvCCPath);
-			StatefulBeanToCsv CCToCsv = new StatefulBeanToCsvBuilder(writer).build();
-			CCToCsv.write(relevePropriete.getComptesCommunaux());
-			writer.close();
+			ICsvBeanWriter beanWriter = null;
+			try {
+				beanWriter = new CsvBeanWriter(new FileWriter(csvCCPath), CsvPreference.STANDARD_PREFERENCE);
+				
+				// the header elements are used to map the bean values to each column (names must match)
+				final String[] header = new String[] { "compteCommunal", "codeDepartement", "codeCommune", "libelleCommune" };
+				final CellProcessor[] processors = new CellProcessor[] { 
+		                new NotNull(), // compteCommunal 
+		                new NotNull(), // codeDepartement
+		                new NotNull(), // codeCommune
+		                new NotNull()  // libelleCommune
+		        };
+		                
+				// write the header
+				beanWriter.writeHeader(header);
+		                
+				// write the beans
+				for( final CompteCommunal cc : relevePropriete.getComptesCommunaux() ) {
+					beanWriter.write(cc, header, processors);
+				}	                
+			}
+			finally {
+				if( beanWriter != null ) {
+					beanWriter.close();
+				}
+			}
 			
 			FileInputStream in = new FileInputStream(csvCCPath);
 			out.putNextEntry(new ZipEntry(csvCCFileName)); 
@@ -156,15 +181,65 @@ public class ReleveProprieteController extends CadController {
 			logger.debug("Loop on " + relevePropriete.getComptesCommunaux().size() + " comptes communaux");
 			for(CompteCommunal cc : relevePropriete.getComptesCommunaux()){
 				
-				if(cc.getProprietesBaties() != null){
+				if(cc.getProprietesBaties() != null && cc.getProprietesBaties().getProprietes()!= null){
 					// Buildings
 					logger.debug("Create Batie csv for cc ! " + cc.getCompteCommunal());
 					final String csvPBFileName = "RP-Batie-"+cc.getCompteCommunal() + "-" + dateString + ".csv";
 					final String csvPBPath = tempFolder + File.separator + csvPBFileName;
-					Writer writer1 = new FileWriter(csvPBPath);
-					StatefulBeanToCsv PBToCsv = new StatefulBeanToCsvBuilder(writer1).build();
-					PBToCsv.write(cc.getProprietesBaties().getProprietes());
-					writer1.close();
+					
+					ICsvBeanWriter pbBeanWriter = null;
+					try {
+						pbBeanWriter = new CsvBeanWriter(new FileWriter(csvPBPath), CsvPreference.STANDARD_PREFERENCE);
+						
+						// the header elements are used to map the bean values to each column (names must match)
+						final String[] header = new String[] { "ccopre","ccosec","dnupla","dnvoiri","dindic","dvoilib","ccoaff","ccocac","ccoeva","cconad","cconlc","ccoriv",
+								"dcapec","descr","dniv","dnubat","dpor","exonerations","gtauom","invar","jdatat","lots","revenuImposable","communeRevenuImposable","communeRevenuExonere","groupementCommuneRevenuImposable","groupementCommuneRevenuExonere","departementRevenuImposable","departementRevenuExonere","tseRevenuImposable"};
+						final CellProcessor[] processors = new CellProcessor[] { 
+				                new Optional(), // ccopre
+				                new Optional(), // ccosec
+				                new Optional(), // dnupla 
+				                new Optional(), // dnvoiri
+				                new Optional(), // dindic
+				                new Optional(), // dvoilib
+				                new Optional(), // ccoaff
+				                new Optional(), // ccocac
+				                new Optional(), // ccoeva
+				                new Optional(), // cconad
+				                new Optional(), // cconlc
+				                new Optional(), // ccoriv
+				                new Optional(), // dcapec
+				                new Optional(), // descr
+				                new Optional(), // dniv
+				                new Optional(), // dnubat
+				                new Optional(), // dpor
+				                new Optional(), // exonerations
+				                new Optional(), // gtauom
+				                new Optional(), // invar
+				                new Optional(), // jdatat
+				                new Optional(), // lots
+				                new Optional(), // revenuImposable
+				                new Optional(), // communeRevenuImposable
+				                new Optional(), // communeRevenuExonere
+				                new Optional(), // groupementCommuneRevenuImposable
+				                new Optional(), // groupementCommuneRevenuExonere
+				                new Optional(), // departementRevenuImposable
+				                new Optional(), // departementRevenuExonere
+				                new Optional() // tseRevenuImposable
+				        };
+				                
+						// write the header
+						pbBeanWriter.writeHeader(header);
+				                
+						// write the beans
+						for( final ProprieteBatie pb : cc.getProprietesBaties().getProprietes()){
+							pbBeanWriter.write(pb, header, processors);
+						}	                
+					}
+					finally {
+						if( pbBeanWriter != null ) {
+							pbBeanWriter.close();
+						}
+					}
 					
 					FileInputStream in1 = new FileInputStream(csvPBPath);
 					out.putNextEntry(new ZipEntry(csvPBFileName)); 
@@ -182,10 +257,36 @@ public class ReleveProprieteController extends CadController {
 					logger.debug("Create owner csv for cc ! " + cc.getCompteCommunal());
 					final String csvPropFileName = "RP-Proprietaire-"+cc.getCompteCommunal() + "-" + dateString + ".csv";
 					final String csvPropPath = tempFolder + File.separator + csvPropFileName;
-					Writer writer2 = new FileWriter(csvPropPath);
-					StatefulBeanToCsv PropToCsv = new StatefulBeanToCsvBuilder(writer2).build();
-					PropToCsv.write(cc.getProprietaires());
-					writer2.close();
+					
+					ICsvBeanWriter ownerBeanWriter = null;
+					try {
+						ownerBeanWriter = new CsvBeanWriter(new FileWriter(csvPropPath), CsvPreference.STANDARD_PREFERENCE);
+						
+						// the header elements are used to map the bean values to each column (names must match)
+						final String[] header = new String[] { "compteCommunal", "droitReel", "codeDeDemembrement", "nom", "adresse", "nomNaissance", "dateNaissance" };
+						final CellProcessor[] processors = new CellProcessor[] { 
+				                new NotNull(), // compteCommunal 
+				                new Optional(), // droitReel
+				                new Optional(), // codeDeDemembrement
+				                new Optional(), // nom
+				                new Optional(), // adresse
+				                new Optional(), // nomNaissance
+				                new Optional() // dateNaissance
+				        };
+				                
+						// write the header
+						ownerBeanWriter.writeHeader(header);
+				                
+						// write the beans
+						for( final Proprietaire prop : cc.getProprietaires()){
+							ownerBeanWriter.write(prop, header, processors);
+						}	                
+					}
+					finally {
+						if( ownerBeanWriter != null ) {
+							ownerBeanWriter.close();
+						}
+					}
 					
 					FileInputStream in2 = new FileInputStream(csvPropPath);
 					out.putNextEntry(new ZipEntry(csvPropFileName)); 
@@ -197,15 +298,54 @@ public class ReleveProprieteController extends CadController {
 					in2.close();
 				}
 					
-				if(cc.getProprietesNonBaties() != null){
+				if(cc.getProprietesNonBaties() != null && cc.getProprietesNonBaties().getProprietes()!= null){
 					//PNB
 					logger.debug("Create NonBatie csv for cc ! " + cc.getCompteCommunal());
 					final String csvPNBFileName = "RP-NonBatie-"+cc.getCompteCommunal() + "-" + dateString + ".csv";
 					final String csvPNBPath = tempFolder + File.separator + csvPNBFileName;
-					Writer writer3 = new FileWriter(csvPNBPath);
-					StatefulBeanToCsv PNBToCsv = new StatefulBeanToCsvBuilder(writer).build();
-					PNBToCsv.write(cc.getProprietesNonBaties().getProprietes());				
-					writer3.close();
+					
+					ICsvBeanWriter pnbBeanWriter = null;
+					try {
+						pnbBeanWriter = new CsvBeanWriter(new FileWriter(csvPNBPath), CsvPreference.STANDARD_PREFERENCE);
+						
+						// the header elements are used to map the bean values to each column (names must match)
+						final String[] header = new String[] { "ccopre","ccosec","dnupla","dnvoiri","dindic","dvoilib","ccosub","ccostn","cgrnum","cnatsp","dparpi","dclssf","dcntsf","dnulot","drcsuba","dreflf","dsgrpf","gparnf","pdl" };
+						final CellProcessor[] processors = new CellProcessor[] { 
+								new Optional(), // ccopre
+				                new Optional(), // ccosec
+				                new Optional(), // dnupla 
+				                new Optional(), // dnvoiri
+				                new Optional(), // dindic
+				                new Optional(), // dvoilib
+				                new Optional(), // ccosub
+				                new Optional(), // ccostn
+				                new Optional(), // cgrnum
+				                new Optional(), // cnatsp
+								new Optional(), // dparpi 
+				                new Optional(), // dclssf
+				                new Optional(), // dcntsf
+				                new Optional(), // dnulot
+				                new Optional(), // drcsuba
+				                new Optional(), // dreflf
+				                new Optional(), // dsgrpf 
+				                new Optional(), // gparnf
+				                new Optional() // pdl          
+				        };
+				                
+						// write the header
+						pnbBeanWriter.writeHeader(header);
+				                
+						// write the beans
+						for( final ProprieteNonBatie pnb : cc.getProprietesNonBaties().getProprietes()){
+							pnbBeanWriter.write(pnb, header, processors);
+						}	                
+					}
+					finally {
+						if( pnbBeanWriter != null ) {
+							pnbBeanWriter.close();
+						}
+					}
+					
 						
 					FileInputStream in3 = new FileInputStream(csvPNBPath);
 					out.putNextEntry(new ZipEntry(csvPNBFileName)); 
