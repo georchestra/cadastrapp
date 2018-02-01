@@ -408,6 +408,9 @@
 			"cadastrapp.relevepropriete.data" : "Data to extract",
 			"cadastrapp.relevepropriete.full" : "All properties",
 			"cadastrapp.relevepropriete.partial" : "Only this plot",
+			"cadastrapp.relevepropriete.type" : "Choose output format",
+			"cadastrapp.relevepropriete.type.pdf" :"Export as PDF",
+			"cadastrapp.relevepropriete.type.csv" :"Export as CSV",
 			
 			"cadastrapp.lots.title" : "Bundle information",
 			"cadastrapp.lots.batiments" : "Please select one building",
@@ -585,12 +588,7 @@
 			"cadastrapp.selection.proprietaires.export": "Export Liste .csv",
 			"cadastrapp.selection.proprietaires.edition": "Edition Liste .pdf",
 			"cadastrapp.selection.import": "Import Liste Parcelle .csv ",
-			
-			"cadastrapp.relevepropriete.title" : "Relevé de propriété PDF",
-			"cadastrapp.relevepropriete.data" : "Données à extraire",
-			"cadastrapp.relevepropriete.full" : "Toutes les propriétés",
-			"cadastrapp.relevepropriete.partial" : "Uniquement cette parcelle",
-			
+						
 			"cadastrapp.result.title.fichier":"Par fichier",
 			"cadastrapp.result.title.ids":"Par id(s)",
 			
@@ -789,6 +787,14 @@
 			"cadastrapp.bordereauparcellaire.data" : "Données propriétaires",
 			"cadastrapp.bordereauparcellaire.data.without" : "Sans données nominatives",
 			"cadastrapp.bordereauparcellaire.data.with" : "Avec données nominatives",
+			
+			"cadastrapp.relevepropriete.title" : "Relevé de propriété PDF",
+			"cadastrapp.relevepropriete.data" : "Données à extraire",
+			"cadastrapp.relevepropriete.full" : "Toutes les propriétés",
+			"cadastrapp.relevepropriete.partial" : "Uniquement cette parcelle",
+			"cadastrapp.relevepropriete.type" : "Choissiez un format de fichier",
+			"cadastrapp.relevepropriete.type.pdf" :"PDF",
+			"cadastrapp.relevepropriete.type.csv" :"CSV",
 			
 			"cadastrapp.lots.title" : "Lots",
 			"cadastrapp.lots.batiments" : "Choisissez un batiment",

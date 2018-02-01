@@ -73,7 +73,24 @@ GEOR.Addons.Cadastre.initPrintReleveProprieteWindow = function(compteCommunal, p
                     name : 'parcelleId',
                     inputValue : ''
                 } ]
-            } ]
+            }, {
+                xtype : 'fieldset',
+                title : OpenLayers.i18n('cadastrapp.relevepropriete.type'),
+                autoHeight : true,
+
+                items : [  {
+                    xtype : 'radio',
+                    boxLabel : OpenLayers.i18n('cadastrapp.relevepropriete.type.pdf'),
+                    checked : true,
+                    name : 'exportType',
+                    id : 'radioRPpdf'
+                },{
+                    xtype : 'radio',
+                    boxLabel : OpenLayers.i18n('cadastrapp.relevepropriete.type.csv'),                 
+                    name : 'exportType',
+                    id : 'radioRPcsv'
+                }]
+            }  ]
         } ],
 
         buttons : [ {
@@ -83,7 +100,15 @@ GEOR.Addons.Cadastre.initPrintReleveProprieteWindow = function(compteCommunal, p
 
                     // PARAMS
                     var params = GEOR.Addons.Cadastre.printReleveProprieteWindow.items.items[0].getForm().getValues();
-                    var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'createRelevePropriete?' + Ext.urlEncode(params);
+                    
+                    // pdf by default
+                    var url = GEOR.Addons.Cadastre.cadastrappWebappUrl+ 'createRelevePropriete?';
+                    // check csv radio button value
+                    if (Ext.getCmp('radioRPcsv').getValue()) {
+                        url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'createReleveProprieteAsCSV?';
+                    }
+
+                    var url = url + Ext.urlEncode(params);
 
 					Ext.DomHelper.useDom = true;
 					

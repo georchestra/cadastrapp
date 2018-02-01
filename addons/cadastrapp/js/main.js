@@ -272,6 +272,11 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
             GEOR.Addons.Cadastre.printBordereauParcellaireWindow.close();
             GEOR.Addons.Cadastre.printBordereauParcellaireWindow=null;
         }
+        
+        if( GEOR.Addons.Cadastre.printReleveProprieteWindow){
+            GEOR.Addons.Cadastre.printReleveProprieteWindow.close();
+            GEOR.Addons.Cadastre.printReleveProprieteWindow=null;
+        }
 
         if( GEOR.Addons.Cadastre.request.informationsWindow){
             GEOR.Addons.Cadastre.request.informationsWindow.close();
