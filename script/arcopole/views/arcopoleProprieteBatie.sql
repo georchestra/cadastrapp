@@ -54,7 +54,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			ltrim(invar.dnvoiri, ''0'') as dnvoiri,
 			invar.dindic,
 			'''' as natvoi,
-			invar.dvoilib,
+			rtrim(invar.dvoilib),
 			invar.ccoriv,
 			invar.dnubat,
 			invar.ndesc as descr,
