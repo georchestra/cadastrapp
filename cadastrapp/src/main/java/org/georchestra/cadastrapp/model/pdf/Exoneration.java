@@ -112,4 +112,16 @@ public class Exoneration {
 	public void setPexb(String pexb) {
 		this.pexb = pexb;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String exoneration = "";
+		if(ccolloc != null){
+			exoneration=ccolloc+"|"+gnextl+"|"+jandeb+"|"+janimp+"|"+fcexn+"|"+pexb;
+		}
+		return exoneration;
+	}
 }

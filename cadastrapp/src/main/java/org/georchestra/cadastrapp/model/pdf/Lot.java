@@ -106,7 +106,7 @@ public class Lot {
 	 */
 	@Override
 	public String toString() {
-		return "lotId";
+		return lotId;
 	}
 
 }
