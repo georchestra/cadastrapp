@@ -181,14 +181,10 @@ public final class ProprieteHelper extends CadController {
 					float tseRevenuImposable = propBat.get("rcbaia_tse") == null ? 0
 							: ((BigDecimal) propBat.get("rcbaia_tse")).floatValue();
 
-					Imposition pbImposition = new Imposition();
-
-					pbImposition.setCommuneRevenuImposable(communeRevenuImposable);
-					pbImposition.setGroupementCommuneRevenuImposable(groupementCommuneRevenuImposable);
-					pbImposition.setDepartementRevenuImposable(departementRevenuImposable);
-					pbImposition.setTseRevenuImposable(tseRevenuImposable);
-
-					proprieteBatie.setImposition(pbImposition);
+					proprieteBatie.setCommuneRevenuImposable(communeRevenuImposable);
+					proprieteBatie.setGroupementCommuneRevenuImposable(groupementCommuneRevenuImposable);
+					proprieteBatie.setDepartementRevenuImposable(departementRevenuImposable);
+					proprieteBatie.setTseRevenuImposable(tseRevenuImposable);
 
 					pbRevenuImposable = pbRevenuImposable + (propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL) == null
 							? 0 : ((BigDecimal) propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL)).floatValue());
