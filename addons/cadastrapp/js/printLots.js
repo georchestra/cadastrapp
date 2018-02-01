@@ -141,7 +141,7 @@ GEOR.Addons.Cadastre.initPrintLotsWindow = function(parcelleId, batiments) {
 
                     // insert values to input to set POST params
                     dnubatField.value = comboDnubat.getRawValue();
-                    console.log("Dnubat = " + comboDnubat.getRawValue());
+                   
                     // insert input to form
                     form.appendChild(dnubatField);
 
