@@ -6,14 +6,14 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +24,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.xml.transform.TransformerException;
 
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.geotools.data.ows.HTTPClient;
@@ -37,11 +38,22 @@ import org.geotools.data.wfs.impl.WFSDataStoreFactory;
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.data.wms.request.GetMapRequest;
 import org.geotools.data.wms.response.GetMapResponse;
+import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.filter.text.cql2.CQL;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.ows.ServiceException;
+import org.geotools.styling.FeatureTypeStyle;
+import org.geotools.styling.Fill;
+import org.geotools.styling.NamedLayer;
+import org.geotools.styling.PolygonSymbolizer;
+import org.geotools.styling.Rule;
+import org.geotools.styling.SLDTransformer;
+import org.geotools.styling.Stroke;
+import org.geotools.styling.Style;
+import org.geotools.styling.StyledLayerDescriptor;
 import org.opengis.filter.Filter;
+import org.opengis.filter.FilterFactory2;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.geometry.BoundingBox;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -49,10 +61,10 @@ import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vividsolutions.jts.awt.ShapeWriter;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
 
 /**
  * Image Parcelle Controller
@@ -65,16 +77,13 @@ public class ImageParcelleController extends CadController {
 	static final Logger logger = LoggerFactory.getLogger(ImageParcelleController.class);
 
 	private final String URL_GET_CAPABILITIES = "?REQUEST=GetCapabilities&version=1.0.0";
-
 	private final String URL_GET_CAPABILITIES_WMS = "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
-
 	private final String GET_CAPABILITIES_URL_PARAM = "WFSDataStoreFactory:WFS_GET_CAPABILITIES_URL";
 	private final String USERNAME_PARAM = "WFSDataStoreFactory:USERNAME";
 	private final String PASSWORD_PARAM = "WFSDataStoreFactory:PASSWORD";
 	
 	// buffer ratio
 	final private double MAX_PERIMETER = 2000;
-	final private double MIN_PERIMETER = 100;
 
 	/**
 	 * Using a given parcelle id, this service will get feature from WFS
@@ -85,7 +94,6 @@ public class ImageParcelleController extends CadController {
 	 *            parcelle ID
 	 * 
 	 * @return Response with noContent in case of error, png otherwise
-	 * 
 	 */
 	@GET
 	@Path("/getImageBordereau")
@@ -103,10 +111,10 @@ public class ImageParcelleController extends CadController {
 			int visibleLength = 0;
 			BufferedImage baseMapImage;
 			BufferedImage parcelleImage;
+			BufferedImage backGroundParcelleImage;
 			BoundingBox bounds;
 
-			// Get parcelle geo information
-			// get featureById
+			// Prepare WFS call
 			final String wfsUrl = CadastrappPlaceHolder.getProperty("cadastre.wfs.url");
 
 			String getCapabilities = wfsUrl + URL_GET_CAPABILITIES;
@@ -125,7 +133,6 @@ public class ImageParcelleController extends CadController {
 			}
 			
 			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
-
 			WFSContentDataStore dataStore;
 
 			try {
@@ -133,11 +140,11 @@ public class ImageParcelleController extends CadController {
 
 				SimpleFeatureSource source;
 
-				String cadastreWFSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
+				String cadastreWFSLayerNameOri = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
 				
 				// remove this if not using gt-wfs-ng anymore
 				// using ng extension : need to be changed by_
-				cadastreWFSLayerName = cadastreWFSLayerName.replaceFirst(":", "_");
+				String cadastreWFSLayerName = cadastreWFSLayerNameOri.replaceFirst(":", "_");
 				final String cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("cadastre.layer.idParcelle");
 
 				source = dataStore.getFeatureSource(cadastreWFSLayerName);
@@ -175,6 +182,11 @@ public class ImageParcelleController extends CadController {
 					if (it != null && it.hasNext()) {
 
 						logger.debug("Get feature");
+
+						// In our case we want a square
+						float pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageWidth"));
+						float pdfImageHeight = pdfImageWidth;
+						
 						// Get only the first plot
 						SimpleFeature parcelleFeature = it.next();
 						
@@ -182,10 +194,8 @@ public class ImageParcelleController extends CadController {
 						CoordinateReferenceSystem crs = bounds.getCoordinateReferenceSystem();
 				
 						Geometry targetGeometry = (Geometry) parcelleFeature.getDefaultGeometry();
+						// In case of buffering Error, set default value
 						Geometry bufferGeometry = targetGeometry;
-						
-						float pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageWidth"));
-						float pdfImageHeight = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageHeight"));
 						
 						// If CRS null
 						if (crs == null || targetGeometry == null) {
@@ -195,22 +205,36 @@ public class ImageParcelleController extends CadController {
 							if(logger.isDebugEnabled()){
 								logger.debug("CRS : " + crs);
 								logger.debug("Create buffer");
-								logger.debug("Perimeter  :" + targetGeometry.getLength());				
+								logger.debug("Perimeter : " + targetGeometry.getLength());
+								logger.debug("Visible distance in meter before buffer : " + getMinDistanceVisible(bounds));								
 							}
+								
+							// Use the centroid enable us to have a square bbbox, so no deformation
+							Point pt = targetGeometry.getCentroid();
 							
 							// Calculate optimal buffer distance using AREA
-							// see #320
+							// see #320 and add  1/2000 as minimum
 							double perimeterRatio;
-							if(targetGeometry.getLength() < MIN_PERIMETER){
-								perimeterRatio = 0.4;
+							// If for 1 centimeter it's less than 2000
+							// We need meters here and not centimeters
+							final int minScale = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.min.scale"));					
+							final int distanceVisible = getMinDistanceVisible(bounds);
+							// pixelSize in centimeters
+							final double pixelSize = (distanceVisible) / pdfImageWidth;
+							// If 72 DPI -> 1 cm = 28 px
+							// TODO See how to change if changing DPI
+							if((28*pixelSize)<minScale){
+								logger.debug("Current Scale : " + 28*pixelSize);
+								logger.debug("Min Scale : " + minScale);
+								bufferGeometry = pt.buffer((distanceVisible * (minScale / (28*pixelSize)))/2);
 							}else if(targetGeometry.getLength() < MAX_PERIMETER){
 								perimeterRatio = 0.2;
+								bufferGeometry = pt.buffer(distanceVisible + perimeterRatio * targetGeometry.getLength());
 							}else{
 								perimeterRatio = 0.1;
+								bufferGeometry = pt.buffer(distanceVisible + perimeterRatio * targetGeometry.getLength());
 							}
-							
-							bufferGeometry = targetGeometry.buffer(perimeterRatio * targetGeometry.getLength());
-
+			
 							// transform JTS enveloppe to geotools enveloppe
 							Envelope envelope = bufferGeometry.getEnvelopeInternal();
 							bounds = JTS.getEnvelope2D(envelope, crs);
@@ -218,32 +242,11 @@ public class ImageParcelleController extends CadController {
 							// Get distance beetween two point here bounds is used
 							Coordinate lowerLeftCorner = new Coordinate(bounds.getMinX(), bounds.getMinY());
 							Coordinate lowerRightCorner = new Coordinate(bounds.getMaxX(), bounds.getMinY());
-							Coordinate upperLeftCorner = new Coordinate(bounds.getMinX(), bounds.getMaxY());
 
 							try {
 								double bblength = JTS.orthodromicDistance(lowerLeftCorner, lowerRightCorner, crs);
 								visibleLength = (int) bblength;						
-								logger.debug("Bounding box length : " + visibleLength + " meters");
-								
-								double bbheight = JTS.orthodromicDistance(lowerLeftCorner, upperLeftCorner, crs);
-								int visibleHeight = (int) bbheight;
-								logger.debug("Bounding box height : " + visibleHeight + " meters");
-								
-								// calculate current ratio
-								float ratio =  (float) visibleLength / visibleHeight;
-								logger.debug("Ratio L/W : " + ratio );
-								
-								// Wider than it is tall
-								if(ratio < 1){
-									pdfImageWidth = pdfImageWidth * ratio;
-								}
-								// Taller than it is wide
-								else{
-									pdfImageHeight = pdfImageWidth / ratio;	
-								}
-								
-								logger.debug("Image size  : " + pdfImageHeight + " : " + pdfImageWidth);
-								
+								logger.debug("Bounding box length : " + visibleLength + " meters");							
 							} catch (TransformException e) {
 								logger.error("Could not calculate distance, no scale bar will be displayed on image", e);
 							}
@@ -257,9 +260,7 @@ public class ImageParcelleController extends CadController {
 
 						URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
 						WebMapServer wmsParcelle = null;
-
-						logger.debug("WMS URL : " + parcelleWMSUrl);
-						
+						logger.debug("WMS URL : " + parcelleWMSUrl);				
 						
 						// Add basic authent parameter if not empty
 						final String cadastreWMSUsername = CadastrappPlaceHolder.getProperty("cadastre.wms.username");
@@ -282,7 +283,7 @@ public class ImageParcelleController extends CadController {
 						
 						GetMapRequest requestParcelle = wmsParcelle.createGetMapRequest();
 						requestParcelle.setFormat(cadastreFormat);
-
+						
 						// Add layer see to set this in configuration parameters
 						// Or use getCapatibilities
 						Layer layerParcelle = new Layer("Parcelle cadastrapp");
@@ -297,10 +298,53 @@ public class ImageParcelleController extends CadController {
 						
 						// setBBox from Feature information
 						requestParcelle.setBBox(bounds);
-
-						logger.debug("Create feature picture");
+						
+						logger.debug("Create background plots image");
 						GetMapResponse parcelleResponse = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);			
-						parcelleImage = ImageIO.read(parcelleResponse.getInputStream());
+						backGroundParcelleImage = ImageIO.read(parcelleResponse.getInputStream());
+						
+						logger.debug("Create feature image from WMS");
+						
+						// generate SLD with parcelle id, fill and stroke properties
+						org.geotools.styling.StyleFactory sf = CommonFactoryFinder.getStyleFactory();
+						FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
+						StyledLayerDescriptor sld = sf.createStyledLayerDescriptor();				
+						NamedLayer namedLayer = sf.createNamedLayer();
+						namedLayer.setName(cadastreWFSLayerNameOri);
+
+					    /// create a "user defined" style
+						// TO get Value from configuration file
+						Stroke stroke = sf.stroke(ff.literal("#10259E"), ff.literal(1), ff.literal(2), null, null, null, null);
+					    Fill fill = sf.fill(null, ff.literal("#1446DE"), ff.literal(0.50));
+						PolygonSymbolizer sym = sf.createPolygonSymbolizer(stroke, fill, null);
+				        
+					    Rule rule1 = sf.createRule();
+					    rule1.setName("BP");
+					    rule1.getDescription().setTitle("Borderau Parcellaire rule");
+					    // To fit SLD generated by mapfishapp change default value for like
+					    rule1.setFilter(ff.like(ff.property(cadastreLayerIdParcelle), "*"+parcelle+"*", "*", ".", "!"));
+					    rule1.symbolizers().add(sym);
+					    
+					    FeatureTypeStyle fts = sf.createFeatureTypeStyle(new Rule[]{rule1});
+				        Style style = sf.createStyle();
+				        style.featureTypeStyles().add(fts);		    
+					    namedLayer.addStyle(style);					    
+					    sld.layers().add(namedLayer);
+
+					    SLDTransformer styleTransform = new SLDTransformer();
+				        styleTransform.setEncoding(Charset.forName("UTF-8"));
+				        styleTransform.setIndentation(4);
+
+						try {
+							String gxml = styleTransform.transform(sld);
+							logger.debug("Generated SLD : " + gxml);
+							requestParcelle.setProperty(GetMapRequest.SLD_BODY, URLEncoder.encode(gxml, "UTF-8"));
+						} catch (TransformerException e1) {
+							logger.error("Error while generate SLD, No selection will be displayed on plot", e1);
+						}	
+					   
+						GetMapResponse parcelleResponse2 = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);			
+						parcelleImage = ImageIO.read(parcelleResponse2.getInputStream());
 
 						logger.debug("Create final picture");
 						// createFinal buffer with pdf image size and not with result from parcellResponse
@@ -375,8 +419,8 @@ public class ImageParcelleController extends CadController {
 
 						
 						logger.debug("Add Image to final picture");
+						g2.drawImage(backGroundParcelleImage, 0, 0, null);
 						g2.drawImage(parcelleImage, 0, 0, null);
-						drawPlot(g2, bufferGeometry, targetGeometry, (int) pdfImageHeight, (int) pdfImageWidth);
 						drawCompass(g2, (int) pdfImageWidth);
 
 						try {
@@ -414,6 +458,34 @@ public class ImageParcelleController extends CadController {
 
 		return response.build();
 	}
+
+
+	/**
+	 * Get the lowest visible size on the given boundingbox in meter.
+	 * 
+	 * @param bounds the geometry bounding
+	 * @return int size in meter
+	 */
+	private int getMinDistanceVisible(BoundingBox bounds){
+		
+		CoordinateReferenceSystem crs = bounds.getCoordinateReferenceSystem();
+		Coordinate lowerLeftCorner = new Coordinate(bounds.getMinX(), bounds.getMinY());
+		Coordinate lowerRightCorner = new Coordinate(bounds.getMaxX(), bounds.getMinY());
+		Coordinate upperLeftCorner = new Coordinate(bounds.getMinX(), bounds.getMaxY());
+
+		double bblength, bbheight;
+		int minVisibleSize = 0;
+		try {
+			bblength = JTS.orthodromicDistance(lowerLeftCorner, lowerRightCorner, crs);
+			bbheight = JTS.orthodromicDistance(lowerLeftCorner, upperLeftCorner, crs);
+			minVisibleSize = Math.min((int) bblength, (int)bbheight);	
+				
+		} catch (TransformException e) {
+			logger.error("Error during plots size measurement", e);
+		}
+		return minVisibleSize;
+	};
+
 
 	/**
 	 * Add North panel in the upper right
@@ -507,86 +579,4 @@ public class ImageParcelleController extends CadController {
 		}
 	}
 
-	/**
-	 * Draw selected plot in blue
-	 * 
-	 * @param g2
-	 * @param geometry
-	 */
-	private void drawPlot(Graphics2D g2d, Geometry bufferGeometry, Geometry originalGeometry, int imageHeight, int imageWidth) {
-		
-		logger.debug("Draw selected feature ");
-		if (bufferGeometry != null) {
-
-			if (logger.isDebugEnabled()) {
-				logger.debug("Geometry Type " + bufferGeometry.getGeometryType());
-			}
-
-			Envelope envelope = (Envelope) bufferGeometry.getEnvelopeInternal();
-			
-			AffineTransform translate= AffineTransform.getTranslateInstance(-envelope.getMinX(), -envelope.getMaxY());
-			logger.debug("Translate to origin 0,0 :" + translate.toString());	
-			
-			AffineTransform scale= AffineTransform.getScaleInstance(imageWidth/(envelope.getMaxX()-envelope.getMinX()), imageHeight/ (envelope.getMinY()-envelope.getMaxY()));
-			logger.debug("Scale to image size : " + scale.toString());	
-			
-		
-			ShapeWriter sw = new ShapeWriter();
-			
-			// Geometry is can be a multipolygon and Java 1.7 awt does not display
-			// GeometryCollectionShape, so we have to loop on each polygon
-			for (int i = 0; i < originalGeometry.getNumGeometries(); i++) {
-				Geometry g = (Geometry) originalGeometry.getGeometryN(i);
-				
-				if (logger.isDebugEnabled()) {
-					logger.debug("Geometry n°: " + i + " of type " + g.getGeometryType());
-				}
-
-				Shape plot = sw.toShape(g);
-
-				if (logger.isDebugEnabled()) {
-					logger.debug("Before transalation");
-					logger.debug("Shape width : " + plot.getBounds2D().getWidth());
-					logger.debug("Shape heigh : " + plot.getBounds2D().getHeight());
-					logger.debug("Shape MinX : " + plot.getBounds2D().getMinX());
-					logger.debug("Shape MinY : " + plot.getBounds2D().getMinY());
-					logger.debug("Shape MaxY : " + plot.getBounds2D().getMaxY());
-					logger.debug("Shape MaxX : " + plot.getBounds2D().getMaxX());
-				}
-				plot = translate.createTransformedShape(plot);
-		
-
-				if (logger.isDebugEnabled()) {
-					logger.debug("After transalation");
-					logger.debug("Shape width : " + plot.getBounds2D().getWidth());
-					logger.debug("Shape heigh : " + plot.getBounds2D().getHeight());
-					logger.debug("Shape MinX : " + plot.getBounds2D().getMinX());
-					logger.debug("Shape MinY : " + plot.getBounds2D().getMinY());
-					logger.debug("Shape MaxY : " + plot.getBounds2D().getMaxY());
-					logger.debug("Shape MaxX : " + plot.getBounds2D().getMaxX());
-				}
-				plot =scale.createTransformedShape(plot);
-				
-				if (logger.isDebugEnabled()) {
-					logger.debug("After scale");
-					logger.debug("Shape width : " + plot.getBounds2D().getWidth());
-					logger.debug("Shape heigh : " + plot.getBounds2D().getHeight());
-					logger.debug("Shape MinX : " + plot.getBounds2D().getMinX());
-					logger.debug("Shape MinY : " + plot.getBounds2D().getMinY());
-					logger.debug("Shape MaxY : " + plot.getBounds2D().getMaxY());
-					logger.debug("Shape MaxX : " + plot.getBounds2D().getMaxX());
-				}
-				
-				// draw in blue with transparence
-				g2d.setColor(new Color(20, 255, 255, 128));
-				g2d.draw(plot);
-				g2d.setColor(new Color(20, 20, 255, 128));
-				g2d.fill(plot);
-			}
-
-		} else {
-			logger.error("No plot were given, cannot draw it on image");
-		}
-
-	}
 }
