@@ -309,7 +309,7 @@ public class ReleveProprieteController extends CadController {
 						pnbBeanWriter = new CsvBeanWriter(new FileWriter(csvPNBPath), CsvPreference.STANDARD_PREFERENCE);
 						
 						// the header elements are used to map the bean values to each column (names must match)
-						final String[] header = new String[] { "ccopre","ccosec","dnupla","dnvoiri","dindic","dvoilib","ccosub","ccostn","cgrnum","cnatsp","dparpi","dclssf","dcntsf","dnulot","drcsuba","dreflf","dsgrpf","gparnf","pdl" };
+						final String[] header = new String[] { "ccopre","ccosec","dnupla","dnvoiri","dindic","dvoilib","ccosub","ccostn","cgrnum","cnatsp","dparpi","dclssf","dcntsf","dnulot","drcsuba","dreflf","dsgrpf","gparnf","pdl","exonerations","revenuImposable","communeRevenuImposable","communeRevenuExonere","groupementCommuneRevenuImposable","groupementCommuneRevenuExonere","departementRevenuImposable","departementRevenuExonere","tseRevenuImposable" };
 						final CellProcessor[] processors = new CellProcessor[] { 
 								new Optional(), // ccopre
 				                new Optional(), // ccosec
@@ -329,7 +329,16 @@ public class ReleveProprieteController extends CadController {
 				                new Optional(), // dreflf
 				                new Optional(), // dsgrpf 
 				                new Optional(), // gparnf
-				                new Optional() // pdl          
+				                new Optional(), // pdl   
+				                new Optional(), // exonerations
+				                new Optional(), // revenuImposable
+				                new Optional(), // communeRevenuImposable
+				                new Optional(), // communeRevenuExonere
+				                new Optional(), // groupementCommuneRevenuImposable
+				                new Optional(), // groupementCommuneRevenuExonere
+				                new Optional(), // departementRevenuImposable
+				                new Optional(), // departementRevenuExonere
+				                new Optional() // tseRevenuImposable
 				        };
 				                
 						// write the header
