@@ -81,7 +81,7 @@ public class UniteCadastraleController extends CadController {
 				}				
 				break;
 			case 4:
-				if (getUserCNILLevel(headers)>1){
+				if (getUserCNILLevel(headers)>0){
 				information = infoOngletHistorique(parcelle, headers);
 				}
 				else{
