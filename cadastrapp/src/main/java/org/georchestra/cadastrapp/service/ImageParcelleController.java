@@ -184,8 +184,11 @@ public class ImageParcelleController extends CadController {
 						logger.debug("Get feature");
 
 						// In our case we want a square
-						float pdfImageWidth = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageWidth"));
-						float pdfImageHeight = pdfImageWidth;
+						int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
+						// Wanted image size in mm
+						int pdfImageMMSize = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.imageSize"));				
+						double pdfImagePixelSize = (pdfImageMMSize*dpi)/25.4;
+						double nbPixelFor1Cm=(10*dpi)/25.4;
 						
 						// Get only the first plot
 						SimpleFeature parcelleFeature = it.next();
@@ -215,26 +218,21 @@ public class ImageParcelleController extends CadController {
 							// Calculate optimal buffer distance using AREA
 							// see #320 and add  1/2000 as minimum
 							double perimeterRatio;
-							// If for 1 centimeter it's less than 2000
-							// We need meters here and not centimeters
 							final int minScale = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.min.scale"));											
 							final int maxDistanceVisible = getMaxDistanceVisible(bounds);
-							// pixelSize in meters
-							final double pixelSize = (maxDistanceVisible) / pdfImageWidth;
+							final double meterByPixel = (maxDistanceVisible) / pdfImagePixelSize;
 							
-							// This is only used for buffer, no impact on real scale
-							// If 72 DPI -> 1 cm = 28 px
-							// if 90 DPI -> 1 cm = 35 px
-							// TODO See how to change if changing DPI default OGC is 90 DPI, but defaut geoserver is 72
-							if((28*pixelSize)<minScale){
-								logger.debug("Current Scale : " + 28*pixelSize);
+							// check current scale information
+							// If for 1 centimeter it's less than given scale in property file
+							if((nbPixelFor1Cm*meterByPixel)<minScale){
+								logger.debug("Current Scale : " + nbPixelFor1Cm*meterByPixel);
 								logger.debug("Min Scale : " + minScale);
-								bufferGeometry = pt.buffer(maxDistanceVisible + (maxDistanceVisible * (minScale / (28*pixelSize))/2));
+								bufferGeometry = pt.buffer(maxDistanceVisible + (maxDistanceVisible * (minScale / (nbPixelFor1Cm*meterByPixel))/2));
 							}else if(targetGeometry.getLength() < MAX_PERIMETER){
-								perimeterRatio = 0.2;
+								perimeterRatio = Double.parseDouble(CadastrappPlaceHolder.getProperty("pdf.ratio.mediumScale"));
 								bufferGeometry = pt.buffer(maxDistanceVisible + perimeterRatio * targetGeometry.getLength());
 							}else{
-								perimeterRatio = 0.1;
+								perimeterRatio = Double.parseDouble(CadastrappPlaceHolder.getProperty("pdf.ratio.bigScale"));;
 								bufferGeometry = pt.buffer(maxDistanceVisible + perimeterRatio * targetGeometry.getLength());
 							}
 			
@@ -294,7 +292,7 @@ public class ImageParcelleController extends CadController {
 						requestParcelle.addLayer(layerParcelle);
 
 						// sets the dimensions check with PDF size available
-						requestParcelle.setDimensions((int) pdfImageWidth, (int)pdfImageHeight);
+						requestParcelle.setDimensions((int) pdfImagePixelSize, (int)pdfImagePixelSize);
 						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
 						requestParcelle.setSRS(cadastreSRS);
 						requestParcelle.setTransparent(true);
@@ -352,7 +350,7 @@ public class ImageParcelleController extends CadController {
 
 						logger.debug("Create final picture");
 						// createFinal buffer with pdf image size and not with result from parcellResponse
-						BufferedImage finalImage = new BufferedImage((int)pdfImageWidth, (int)pdfImageHeight, BufferedImage.TYPE_INT_ARGB);
+						BufferedImage finalImage = new BufferedImage((int)pdfImagePixelSize, (int)pdfImagePixelSize, BufferedImage.TYPE_INT_ARGB);
 
 						Graphics2D g2 = finalImage.createGraphics();
 
@@ -398,7 +396,7 @@ public class ImageParcelleController extends CadController {
 
 								// sets the dimensions check with PDF size
 								// available
-								request.setDimensions((int) pdfImageWidth, (int) pdfImageHeight);
+								request.setDimensions((int) pdfImagePixelSize, (int) pdfImagePixelSize);
 								final String baseMapSRS = CadastrappPlaceHolder.getProperty("baseMap.SRS");
 
 								request.setSRS(baseMapSRS);
@@ -425,10 +423,10 @@ public class ImageParcelleController extends CadController {
 						logger.debug("Add Image to final picture");
 						g2.drawImage(backGroundParcelleImage, 0, 0, null);
 						g2.drawImage(parcelleImage, 0, 0, null);
-						drawCompass(g2, (int) pdfImageWidth);
+						drawCompass(g2, (int) pdfImagePixelSize);
 
 						try {
-							drawScale(g2, (int) pdfImageHeight, (int) pdfImageWidth, visibleLength);
+							drawScale(g2, (int) pdfImagePixelSize, (int) pdfImagePixelSize, visibleLength);
 						} catch (TransformException e) {
 							logger.warn("Error while creating scale bar, no scale bar will be displayed on image", e);
 						}
