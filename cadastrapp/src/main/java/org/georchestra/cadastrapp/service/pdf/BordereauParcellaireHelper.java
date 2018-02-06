@@ -215,6 +215,12 @@ public final class BordereauParcellaireHelper extends CadController{
 		// Construct a FopFactory (reuse if you plan to render multiple documents!)
 		FopFactory fopFactory = FopFactory.newInstance();
 		
+		// get DPI from comfig file
+		int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
+		// Same DPI in input and ouput to avoid scale translation and keep quality
+		fopFactory.setSourceResolution(dpi);
+		fopFactory.setTargetResolution(dpi);
+		
 		InputStream xsl = null;
 		if(noData){
 			xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplateError);
