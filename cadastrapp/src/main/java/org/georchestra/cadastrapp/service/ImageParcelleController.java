@@ -206,7 +206,7 @@ public class ImageParcelleController extends CadController {
 								logger.debug("CRS : " + crs);
 								logger.debug("Create buffer");
 								logger.debug("Perimeter : " + targetGeometry.getLength());
-								logger.debug("Visible distance in meter before buffer : " + getMinDistanceVisible(bounds));								
+								logger.debug("Max visible distance in meter before buffer : " + getMaxDistanceVisible(bounds));								
 							}
 								
 							// Use the centroid enable us to have a square bbbox, so no deformation
@@ -217,22 +217,25 @@ public class ImageParcelleController extends CadController {
 							double perimeterRatio;
 							// If for 1 centimeter it's less than 2000
 							// We need meters here and not centimeters
-							final int minScale = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.min.scale"));					
-							final int distanceVisible = getMinDistanceVisible(bounds);
-							// pixelSize in centimeters
-							final double pixelSize = (distanceVisible) / pdfImageWidth;
+							final int minScale = Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.min.scale"));											
+							final int maxDistanceVisible = getMaxDistanceVisible(bounds);
+							// pixelSize in meters
+							final double pixelSize = (maxDistanceVisible) / pdfImageWidth;
+							
+							// This is only used for buffer, no impact on real scale
 							// If 72 DPI -> 1 cm = 28 px
-							// TODO See how to change if changing DPI
+							// if 90 DPI -> 1 cm = 35 px
+							// TODO See how to change if changing DPI default OGC is 90 DPI, but defaut geoserver is 72
 							if((28*pixelSize)<minScale){
 								logger.debug("Current Scale : " + 28*pixelSize);
 								logger.debug("Min Scale : " + minScale);
-								bufferGeometry = pt.buffer((distanceVisible * (minScale / (28*pixelSize)))/2);
+								bufferGeometry = pt.buffer(maxDistanceVisible + (maxDistanceVisible * (minScale / (28*pixelSize))/2));
 							}else if(targetGeometry.getLength() < MAX_PERIMETER){
 								perimeterRatio = 0.2;
-								bufferGeometry = pt.buffer(distanceVisible + perimeterRatio * targetGeometry.getLength());
+								bufferGeometry = pt.buffer(maxDistanceVisible + perimeterRatio * targetGeometry.getLength());
 							}else{
 								perimeterRatio = 0.1;
-								bufferGeometry = pt.buffer(distanceVisible + perimeterRatio * targetGeometry.getLength());
+								bufferGeometry = pt.buffer(maxDistanceVisible + perimeterRatio * targetGeometry.getLength());
 							}
 			
 							// transform JTS enveloppe to geotools enveloppe
@@ -298,7 +301,7 @@ public class ImageParcelleController extends CadController {
 						
 						// setBBox from Feature information
 						requestParcelle.setBBox(bounds);
-						
+												
 						logger.debug("Create background plots image");
 						GetMapResponse parcelleResponse = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);			
 						backGroundParcelleImage = ImageIO.read(parcelleResponse.getInputStream());
@@ -339,6 +342,7 @@ public class ImageParcelleController extends CadController {
 							String gxml = styleTransform.transform(sld);
 							logger.debug("Generated SLD : " + gxml);
 							requestParcelle.setProperty(GetMapRequest.SLD_BODY, URLEncoder.encode(gxml, "UTF-8"));
+							
 						} catch (TransformerException e1) {
 							logger.error("Error while generate SLD, No selection will be displayed on plot", e1);
 						}	
@@ -401,7 +405,7 @@ public class ImageParcelleController extends CadController {
 
 								// setBBox from Feature information
 								request.setBBox(bounds);
-
+								
 								GetMapResponse baseMapResponse;
 
 								baseMapResponse = (GetMapResponse) wms.issueRequest(request);
@@ -461,12 +465,13 @@ public class ImageParcelleController extends CadController {
 
 
 	/**
-	 * Get the lowest visible size on the given boundingbox in meter.
+	 * Get the longest visible size on the given boundingbox in meter.
 	 * 
-	 * @param bounds the geometry bounding
-	 * @return int size in meter
+	 * @param bounds BoundingBox the geometry bounding
+	 * 
+	 * @return int the  max size in meter depending bb
 	 */
-	private int getMinDistanceVisible(BoundingBox bounds){
+	private int getMaxDistanceVisible(BoundingBox bounds){
 		
 		CoordinateReferenceSystem crs = bounds.getCoordinateReferenceSystem();
 		Coordinate lowerLeftCorner = new Coordinate(bounds.getMinX(), bounds.getMinY());
@@ -474,16 +479,17 @@ public class ImageParcelleController extends CadController {
 		Coordinate upperLeftCorner = new Coordinate(bounds.getMinX(), bounds.getMaxY());
 
 		double bblength, bbheight;
-		int minVisibleSize = 0;
+		int maxVisibleSize = 0;
 		try {
 			bblength = JTS.orthodromicDistance(lowerLeftCorner, lowerRightCorner, crs);
 			bbheight = JTS.orthodromicDistance(lowerLeftCorner, upperLeftCorner, crs);
-			minVisibleSize = Math.min((int) bblength, (int)bbheight);	
-				
+
+			maxVisibleSize = Math.max((int) bblength, (int)bbheight);	
+						
 		} catch (TransformException e) {
 			logger.error("Error during plots size measurement", e);
 		}
-		return minVisibleSize;
+		return maxVisibleSize;
 	};
 
 
