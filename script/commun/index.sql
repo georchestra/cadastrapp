@@ -10,6 +10,7 @@ CREATE INDEX idxdeschabitationinvar ON #schema_cadastrapp.deschabitation (invar,
 
 -- Proprietaire
 CREATE INDEX idxproprietairecgocommune ON #schema_cadastrapp.proprietaire (cgocommune);
+CREATE INDEX idxproprietairecomptecommunal ON #schema_cadastrapp.proprietaire (comptecommunal);
 CREATE INDEX idxproprietaireddenom ON #schema_cadastrapp.proprietaire (UPPER(rtrim(ddenom)));
 CREATE INDEX idxproprietaireupperdnomlp ON #schema_cadastrapp.proprietaire (UPPER(dnomlp));
 CREATE INDEX idxproprietairenomusage ON #schema_cadastrapp.proprietaire (UPPER(app_nom_usage));
