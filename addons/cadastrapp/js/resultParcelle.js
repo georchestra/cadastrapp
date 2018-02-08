@@ -575,9 +575,6 @@ GEOR.Addons.Cadastre.closeFoncierAndCadastre = function(idParcelle, grid) {
     if (cadastreExiste) {
         GEOR.Addons.Cadastre.closeWindowFIUC(idParcelle, grid);
     }
-    if (foncierExiste) {
-        GEOR.Addons.Cadastre.closeWindowFIUF(idParcelle, grid);
-    }
 }
 
 /**
@@ -591,22 +588,6 @@ GEOR.Addons.Cadastre.closeFoncierAndCadastre = function(idParcelle, grid) {
 GEOR.Addons.Cadastre.closeWindowFIUC = function(idParcelle, grid) {
     var index = grid.idParcellesCOuvertes.indexOf(idParcelle);
     var ficheCourante = grid.fichesCOuvertes[index];
-    if (ficheCourante) {
-        ficheCourante.close();
-    }
-}
-
-/**
- * Method: closeWindowFIUF
- * 
- * Ferme la fenetre de fiche foncière
- * 
- * @param: idParcelle
- * @param: grid
- */
-GEOR.Addons.Cadastre.closeWindowFIUF = function(idParcelle, grid) {
-    var index = grid.idParcellesFOuvertes.indexOf(idParcelle);
-    var ficheCourante = grid.fichesFOuvertes[index];
     if (ficheCourante) {
         ficheCourante.close();
     }
@@ -634,29 +615,6 @@ GEOR.Addons.Cadastre.closeAllWindowFIUC = function() {
     });
 
 }
-
-/**
- * Method: closeAllWindowFIUF
- * 
- * Ferme toutes les fenêtres de fiches foncière
- * 
- */
-GEOR.Addons.Cadastre.closeAllWindowFIUF = function() {
-    // for each tabs
-    Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
-        if (tab && tab.idParcellesFOuvertes) {
-            // create a temp array
-            var parcellesList = tab.idParcellesFOuvertes.slice(0);
-            // for each fiche
-            Ext.each(parcellesList, function(idParcellesFOuverte, currentIndex) {
-                GEOR.Addons.Cadastre.closeWindowFIUF(idParcellesFOuverte, tab);
-            });
-            tab.fichesFOuvertes = [];
-            tab.idParcellesFOuvertes = [];
-        }
-    });
-}
-
 
 /**
  * get CSV from co-owners
