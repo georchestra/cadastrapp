@@ -86,8 +86,6 @@ function init() {
         }
     }
     widgetize($('#titre'), true, 0, 0);
-    widgetize($('#parcelles'), true, 0, 0); 
-    widgetize($('#proprietaires'), true, 0, 0); 
     
     //activate JQuery UI actions for this element     
     $('#printmap').draggable().resizable();    
@@ -98,6 +96,7 @@ function init() {
         // get original map and layers from mapfishapp viewer
         openerMap = window.opener.GeoExt.MapPanel.guess().map; 
         openerLayers = openerMap.layers;
+        
         // clones layer and get informations to call legend
         clones = [];
         baseLayerPosition = "";        
@@ -133,6 +132,10 @@ function init() {
         }
         // zoom to original extend
         printMap.setCenter(new OpenLayers.LonLat(openerMap.center.lon, openerMap.center.lat), openerMap.getZoom());
+        
+        var parcelleId = window.opener.GEOR.Addons.Cadastre.UF.parcelleId;
+        getUFInformation(parcelleId);
+        getProprietaireInformation(parcelleId);
     }
 }
 
@@ -208,3 +211,85 @@ function getCanvas(e) {
     // fire download
     saveAsFile();
 }
+
+/**
+ * 
+ * @param parcelleId
+ * @returns
+ */
+function getUFInformation(parcelleId){
+    
+    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getInfoUniteFonciere?parcelle=" + parcelleId, function( data ) {
+        var ufId;
+        var items = [];
+        $.each( data, function( key, val ) {
+            if(key=="uf"){
+                ufId=val;
+            }else{
+                items.push( "<li>"+key + " : " + val + "</li>" );
+            }
+        });
+        $('#parcelles').append(
+        $( "<ul/>", {
+          "class": "my-new-list",
+          html: items.join( "" )
+        }));
+        getParcellesInformation(ufId);
+      }); 
+   
+}
+
+/**
+ * 
+ * @param ufId
+ * @returns
+ */
+function getParcellesInformation(ufId){
+    
+    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getParcelle?unitefonciere=" + ufId, function( data ) {
+        var items = [];
+        $.each( data, function( key, val ) {
+            $.each( val, function( key2, val2 ) {
+                items.push( "<li>"+key2 + " : " + val2 + "</li>" );
+            });
+        });
+        $('#parcelles').append(
+        $( "<ul/>", {
+          "class": "my-new-list",
+          html: items.join( "" )
+        }));
+      }); 
+}
+
+/**
+ * 
+ * @param parcelleId
+ * @returns
+ */
+function getProprietaireInformation(parcelleId){
+    
+    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getProprietairesByParcelles?parcelles=" + parcelleId, function( data ) {
+        var items = [];
+        $.each( data, function( key, val ) {
+            $.each( val, function( key2, val2 ) {
+                items.push( "<li>"+key2 + " : " + val2 + "</li>" );
+            });
+        });
+        $('#proprietaires').append(
+        $( "<ul/>", {
+          "class": "my-new-list",
+          html: items.join( "" )
+        }));
+      }); 
+}
+// Get all plots for this UF and select them on map
+//GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle'
+//parcelle', 'dcntpa', 'surfc', 'adresse'{rec.dnvoiri + rec.dindic + rec.cconvo + rec.dvoilib}
+
+//GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getInfoUniteFonciere?parcelle=' + parcelleId,
+//Surface DGFiP', result.dcntpa_sum ], [ 'Surface SIG', result.sigcal_sum ], [ 'Surface Batie', result.sigcalb_sum 
+
+// Get all other needed information and store them in a global field
+// TODO Remove global filed when close cadastrapp
+//GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietaire' 'comptecommunal' : result.comptecommunal,  'details' : 2
+//'comptecommunal', 'app_nom_usage' 
