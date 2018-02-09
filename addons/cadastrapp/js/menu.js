@@ -1,13 +1,5 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
-// ***************
-var _isFoncier = false;
-
-GEOR.Addons.Cadastre.isFoncier = function() {
-    return _isFoncier;
-}
-// **********************************
-
 /**
  * 
  * Create a menu main controler for cadastrapp
@@ -69,8 +61,12 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
         this.items.push('-');
         this.initSelectionControls(layer);
         this.items.push('-');
-        this.initCadastrappControls();
-        this.items.push('-');
+        
+        //init UF button only if option foncier is true in manifest
+        if (GEOR.Addons.Cadastre.UF.isfoncier){
+            this.initUFControls();
+            this.items.push('-');
+        }
         this.initRechercheControls();
         this.items.push('-');
         this.initDemandeControl();
@@ -215,39 +211,24 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
     },
 
     /**
-     * private: method[initCadastrappControls] 
+     * private: method[initUFControls] 
      * 
-     * Init action on checkBox Foncier
+     * Init action for UF controls
      */
-    initCadastrappControls : function() {
+    initUFControls : function() {
 
-        // menu : checkbox foncier
-        var foncierPanel = new Ext.Panel({
-            frame : false,
-            border : false,
-            bodyStyle : 'background:transparent;',
-            style : 'margin-left:5px;margin-right:5px',
-            items : [ {
-                xtype : 'checkbox',
-                checked : _isFoncier,
-                style : 'margin-top:2px;margin-left:10px',
-                listeners : {
-                    check : function(cb, checked) {
-                        _isFoncier = checked;
-                    },
-                    render : function(c) {
-                        Ext.QuickTips.register({
-                            target : c,
-                            text : OpenLayers.i18n("cadastrapp.menu.tooltips.foncier"),
-                        });
-                    }
-                }
-            }, {
-                xtype : 'displayfield',
-                value : OpenLayers.i18n("cadastrapp.foncier"),
-            } ]
-        });
-        this.items.push(foncierPanel);
+        // menu : unite fonciere
+        var configFoncier ={
+            tooltip : OpenLayers.i18n("cadastrapp.menu.tooltips.foncier"),
+            iconCls : "gx-featureediting-cadastrapp-parcelle",
+            iconAlign : 'top',
+            text : OpenLayers.i18n("cadastrapp.foncier"),
+            handler : function() {
+                window.open("ws/addons/cadastrapp/html/ficheUniteFonciere.html");
+            }
+        };
+            
+        this.items.push(configFoncier);
     },
 
     /**

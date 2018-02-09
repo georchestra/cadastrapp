@@ -16,7 +16,7 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
     // Build url depending on check button Foncier
     urlInfoBulleService =  GEOR.Addons.Cadastre.cadastrappWebappUrl+ 'getInfoBulle?parcelle=' + idParcelle
     
-    if (!GEOR.Addons.Cadastre.isFoncier()){
+    if (!GEOR.Addons.Cadastre.UF.isfoncier){
         urlInfoBulleService += "&infouf=0";
     }
     // webapp request using parcelleid
@@ -85,7 +85,7 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
                     
                     html += "</div>";
 				
-                if (GEOR.Addons.Cadastre.isFoncier()){
+                if (GEOR.Addons.Cadastre.UF.isfoncier){
 					html += "<br/>";
                     html += "<div class=\"cadastrapp-infobulle-unite-fonciere\">";
 					

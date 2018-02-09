@@ -43,7 +43,7 @@
 			"version" : "1.0.0",
 			"service" : "wfs",
 			"outputFormat" : "application/json",
-			"geometryField":"geom"
+			"geometryField":"shape"
 		},
 		"defautStyleParcelle" :{
 			"strokeColor": "#000000",
@@ -63,15 +63,15 @@
 		"popup" : {
 			"timeToShow": 5000,
 			"minZoom":14
-		}
+		},
+		"foncier" : true
 	},
     "i18n": {
         "en": {
         	"cadastrapp.no": "no",
         	"cadastrapp.yes": "yes",
         	"cadastrapp.connection.error":"Error, add-on could not be loaded, no connection to service available",
-         	"cadastrapp.menu.tooltips.cadastre": "If check, this will activate additonnal information about cadastral data on tips and details windows",
-            "cadastrapp.menu.tooltips.foncier": "If check, this will activate additonnal information about landed property on tips and details windows",
+            "cadastrapp.menu.tooltips.foncier": "Landed property information",
            
             "cadastrapp.cadastre_tools": "Cadastre tools",
             "cadastrapp.delete_feature": "Delete feature",
@@ -140,9 +140,11 @@
 			"cadastrapp.parcelle.result.adresse": "Cadastral address",
 			"cadastrapp.parcelle.result.surface": "Surface DGFiP in m²",
 			
+			"cadastrapp.result.parcelle.zoom": "Zoom",
 			"cadastrapp.result.parcelle.zoom.list": "Zoom on list",
 			"cadastrapp.result.parcelle.zoom.selection": "Zoom on selection",
 			"cadastrapp.result.parcelle.delete": "Delete entry",
+			"cadastrapp.result.parcelle.uf": "Landry property",
 			"cadastrapp.result.parcelle.fiche": "Information form",
 			"cadastrapp.result.csv.export": "Export selection",
 			"cadastrapp.result.csv.button.parcelles" : "Plots",
@@ -231,9 +233,6 @@
             "cadastrapp.outlinecolor": "Outline color",
             "cadastrapp.name": "Name",
             "cadastrapp.no_title": "no title", 
-            
-            "cadastrapp.uniteFonciere": "Property unit",   
-            "cadastrapp.uniteFonciere.select.all": "Select all plots",  
             
             "cadastrapp.parcelle.libcom": "Town in uppercase",
             "cadastrapp.parcelle.ccodep": "Department code",
@@ -452,8 +451,7 @@
        		"cadastrapp.no": "non",
         	"cadastrapp.yes": "oui",
         	"cadastrapp.connection.error":"Erreur lors du chargement de la configuration du module cadastre, webservice indisponible",
-        	"cadastrapp.menu.tooltips.cadastre": "Si coché active les informations sur les unités cadastrales, infobulle et fenêtre de détails",
-            "cadastrapp.menu.tooltips.foncier": "Si coché active les informations sur les unités foncière, infobulle et fenêtre de détails",
+            "cadastrapp.menu.tooltips.foncier": "Outil d'information foncière, une fois activée cliquez sur une parcelle pour voir l'unité foncière correspondante",
            
             "cadastrapp.cadastre_tools": "Outils Cadastre",
             "cadastrapp.delete_feature": "Supprimer l'objet",
@@ -520,10 +518,12 @@
 			"cadastrapp.parcelle.result.adresse": "Adresse cadastrale",
 			"cadastrapp.parcelle.result.surface": "Contenance DGFiP en m²",
 			
+			"cadastrapp.result.parcelle.zoom": "Zoom",
 			"cadastrapp.result.parcelle.zoom.list": "Zoom liste",
 			"cadastrapp.result.parcelle.zoom.selection": "Zoom sélection",
 			"cadastrapp.result.parcelle.delete": "Enlever parcelle(s)",
 			"cadastrapp.result.parcelle.fiche": "Fiche d'info parcelle(s)",
+			"cadastrapp.result.parcelle.uf": "Fiche unité foncière",
 			"cadastrapp.result.csv.export": "Exporter sélection",				
 			"cadastrapp.result.csv.button.parcelles" : "Parcelle",
 			"cadastrapp.result.csv.button.owner" : "Propriétaires",

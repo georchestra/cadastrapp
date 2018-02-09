@@ -17,6 +17,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.WFSLayerSetting = this.options.WFSLayerSetting;
         // those are only used here to initialize other components
         var WMSSetting = this.options.WMSLayer;
+        GEOR.Addons.Cadastre.UF=[]
+        GEOR.Addons.Cadastre.UF.isfoncier = this.options.foncier;
 
         // Call the webapp configuration services
         Ext.Ajax.request({
