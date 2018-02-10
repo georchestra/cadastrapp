@@ -17,7 +17,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.WFSLayerSetting = this.options.WFSLayerSetting;
         // those are only used here to initialize other components
         var WMSSetting = this.options.WMSLayer;
-        GEOR.Addons.Cadastre.UF=[]
+        GEOR.Addons.Cadastre.UF=[];
+        GEOR.Addons.Cadastre.UF.WFSLayerSetting=this.options.UFWFSLayerSetting
         GEOR.Addons.Cadastre.UF.isfoncier = this.options.foncier;
 
         // Call the webapp configuration services
@@ -35,6 +36,11 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 GEOR.Addons.Cadastre.WFSLayerSetting.nameFieldIdParcelle = configuration.cadastreLayerIdParcelle;
                 GEOR.Addons.Cadastre.WFSLayerSetting.wfsUrl = configuration.cadastreWFSURL;
                 GEOR.Addons.Cadastre.WFSLayerSetting.typename = configuration.cadastreWFSLayerName;
+                
+                if(GEOR.Addons.Cadastre.UF.isfoncier){
+                    GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl = configuration.uFWFSURL;
+                    GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename = configuration.uFWFSLayerName;
+                }
 
                 WMSSetting.layerNameGeoserver = configuration.cadastreWMSLayerName;
                 WMSSetting.url =  configuration.cadastreWMSURL;

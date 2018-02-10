@@ -64,6 +64,13 @@
 			"timeToShow": 5000,
 			"minZoom":14
 		},
+		"UFWFSLayerSetting": {
+			"request" : "getfeature",
+			"version" : "1.0.0",
+			"service" : "wfs",
+			"outputFormat" : "application/json",
+			"geometryField":"shape"
+		},
 		"foncier" : true
 	},
     "i18n": {
