@@ -43,7 +43,7 @@
 			"version" : "1.0.0",
 			"service" : "wfs",
 			"outputFormat" : "application/json",
-			"geometryField":"shape"
+			"geometryField":"geom"
 		},
 		"defautStyleParcelle" :{
 			"strokeColor": "#000000",
