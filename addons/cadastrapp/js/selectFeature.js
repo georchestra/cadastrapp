@@ -169,14 +169,11 @@ GEOR.Addons.Cadastre.addPopupOnhover = function(popupConfig) {
  * @param: typeGeom
  * @param: coords
  * @param: typeSelector
- * 
- * 
  */
 GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSelector) {
 
     var filter;
-    var selectRows = false; // ligne dans le resultat de recherche doit être
-    // sélectionnée si etat =2
+    var selectRows = false; // ligne dans le resultat de recherche doit être sélectionnée si etat =2
     var polygoneElements = "";
     var endPolygoneElements = "";
 
@@ -221,16 +218,15 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
 
             var geojson_format = new OpenLayers.Format.GeoJSON();
 
-            // dans cette variable on peut avoir plusieurs résultat pour la même
-            // parcelle
+            // dans cette variable on peut avoir plusieurs résultat pour la même parcelle
             var result = geojson_format.read(response.responseText);
 
             // !! récupère de façon unique les parcelles résultat
             resultSelection = result.filter(function(itm, i, result) {
                 return i == getIndex(result, itm.attributes[idField]);
             });
-
-            if (typeSelector != "infoBulle") {
+            
+            if (typeSelector != "infoBulle" && typeSelector != "uniteFonciere") {
 
                 // If result windows is not opened, create it
                 if (!GEOR.Addons.Cadastre.result.plot.window) {
@@ -240,7 +236,7 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
                 var feature, state;
                 var parcelsIds = [], codComm = null;
 
-                // Create parcelsList
+                // Create plotsList
                 Ext.each(resultSelection, function(feature, currentIndexI) {
                     if (feature) {
                         var exist = false;
@@ -252,8 +248,7 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
                                 exist = true;
                                 feature = selectedFeature;
                                 index = currentIndexJ;
-                                return false; // this breaks out of the 'each'
-                                // loop
+                                return false; // this breaks out of the 'each' loop
                             }
                         });
 
@@ -280,16 +275,55 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
                     }
                 });
 
-                GEOR.Addons.Cadastre.showTabSelection(parcelsIds);
-                // si la méthode est appelée pour afficher l'infobulle
-            } else {
-                // si on survole la couche et pas le fond de carte pour avoir
-                // l'infobulle
+                GEOR.Addons.Cadastre.showTabSelection(parcelsIds);             
+            } else if(typeSelector == "infoBulle") { // si la méthode est appelée pour afficher l'infobulle
+                // si on survole la couche et pas le fond de carte pour avoir l'infobulle
                 if (resultSelection.length > 0) {
                     var map = GeoExt.MapPanel.guess().map;
                     var idParcelle = resultSelection[0].attributes[idField];
                     var lonlat = new OpenLayers.LonLat(coords.split(",")[0], coords.split(",")[1])
                     GEOR.Addons.Cadastre.displayInfoBulle(map, idParcelle, lonlat);
+                }
+            }else{ // unitefonciere
+                if (resultSelection.length > 0) {
+                    // Draw UF          
+                    //get Parcelle Id
+                    var idParcelle = resultSelection[0].attributes[idField];
+                    // TODO Change this for Ol.format.filter
+                    var filter = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.WFSLayerSetting.geometryField + '</PropertyName><gml:Point><gml:coordinates>' + coords + '</gml:coordinates></gml:Point></Intersects></Filter>';
+
+                    Ext.Ajax.request({
+                        async : false,
+                        url : GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl,
+                        method : 'GET',
+                        headers : {
+                            'Content-Type' : 'application/json'
+                        },
+                        params : {
+                            "request" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.request,
+                            "version" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.version,
+                            "service" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.service,
+                            "typename" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename,
+                            "outputFormat" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.outputFormat,
+                            "filter" : filter
+                        },
+                        success : function(response) {
+                            var geojson_format = new OpenLayers.Format.GeoJSON();
+                            var result = geojson_format.read(response.responseText);
+                            
+                            // If no result display message erreur, no UF at this point
+                            
+                            // Else display UF and launch new windows
+                            Ext.each(result, function(feature, index) {
+                                if (feature) {
+                                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
+                                    GEOR.Addons.Cadastre.changeStateFeature(feature,index,GEOR.Addons.Cadastre.selection.state.selected);
+                                }
+                            });
+
+                            GEOR.Addons.Cadastre.onClickDisplayFIUF(idParcelle);
+                        }
+                    });
                 }
             }
         },
