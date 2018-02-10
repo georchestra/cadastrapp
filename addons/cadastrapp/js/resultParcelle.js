@@ -223,11 +223,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                     Ext.each(selection, function(item) {
                         var parcelleId = item.data.parcelle;
                         var feature = GEOR.Addons.Cadastre.getFeatureById(parcelleId);
-                       
-                        GEOR.Addons.Cadastre.UF.parcelleId=parcelleId;
-                        
-                        // Open new window
-                        window.open("ws/addons/cadastrapp/html/ficheUniteFonciere.html");
+
                         var state = GEOR.Addons.Cadastre.selection.state.list;
 
                         // Si la fenêtre details cadastre est déjà ouverte
@@ -423,8 +419,7 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
 
                 // on ferme la fenetre si c'est le dernier onglet
                 if (GEOR.Addons.Cadastre.result.tabs.items.length == 2) {
-                    // si il ne reste que cet onglet et l'onglet '+', fermer la
-                    // fenetre
+                    // si il ne reste que cet onglet et l'onglet '+', fermer la fenetre
                     GEOR.Addons.Cadastre.result.plot.window.close();
                 } else {
                     // on selectionne manuellement le nouvel onglet à
@@ -434,8 +429,7 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                     var index = GEOR.Addons.Cadastre.result.tabs.items.findIndex('id', grid.id);
                
                     // *************
-                    // quand on ferme l'onglet on vire toutes les
-                    // parcelles dependantes
+                    // quand on ferme l'onglet on vire toutes les parcelles dependantes
                     store = grid.store.data.items;
                     GEOR.Addons.Cadastre.changeStateParcelleOfTab(store, "reset");
                     // *************
@@ -592,7 +586,7 @@ GEOR.Addons.Cadastre.openFiche = function(id, grid) {
 }
 
 /**
- * fermeture d'une fenêtre cadastre et foncière donnée par un id
+ * fermeture d'une fenêtre cadastre donnée par un id
  * 
  * @param: idParcelle
  * @param: grid
