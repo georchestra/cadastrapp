@@ -293,41 +293,40 @@ public class RequestInformationController {
 			}
 		}
 		// Add proprietaire to request information
-				if (proprietaires != null && !proprietaires.isEmpty()) {
+		if (proprietaires != null && !proprietaires.isEmpty()) {
 
-					Set<String> proprietairesSet = new HashSet<String>(proprietaires);
-					for (String proprio : proprietairesSet) {
-						if (proprio != null && proprio.length() > 0) {
-							ObjectRequest objectRequest = new ObjectRequest();
-							objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_PROPRIETAIRE);
-							objectRequest.setCommune(proprio.split("\\|")[0]);
-							objectRequest.setProprietaire(proprio.split("\\|")[1]);
-							objectRequest.setBp(proprio.split("\\|")[2]);
-							objectRequest.setRp(proprio.split("\\|")[3]);			
-							objectRequestSet.add(objectRequest);
-						}
-					}
+			Set<String> proprietairesSet = new HashSet<String>(proprietaires);
+			for (String proprio : proprietairesSet) {
+				if (proprio != null && proprio.length() > 0) {
+					ObjectRequest objectRequest = new ObjectRequest();
+					objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_PROPRIETAIRE);
+					objectRequest.setCommune(proprio.split("\\|")[0]);
+					objectRequest.setProprietaire(proprio.split("\\|")[1]);
+					objectRequest.setBp(proprio.split("\\|")[2]);
+					objectRequest.setRp(proprio.split("\\|")[3]);			
+					objectRequestSet.add(objectRequest);
 				}
+			}
+		}
 				
-				// Add proprietaire to request information
-				if (lotCoproprietes != null && !lotCoproprietes.isEmpty()) {
-
-					Set<String> lotCoproprietesSet = new HashSet<String>(lotCoproprietes);
-					for (String lotProprio : lotCoproprietesSet) {
-						if (lotProprio != null && lotProprio.length() > 0) {
-							ObjectRequest objectRequest = new ObjectRequest();
-							objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_LOT_COPROPRIETE);
-							objectRequest.setCommune(lotProprio.split("\\|")[0]);
-							objectRequest.setSection(lotProprio.split("\\|")[1]);
-							objectRequest.setNumero(lotProprio.split("\\|")[2]);
-							objectRequest.setProprietaire(lotProprio.split("\\|")[3]);
-							objectRequest.setBp(lotProprio.split("\\|")[4]);
-							objectRequest.setRp(lotProprio.split("\\|")[5]);
-							objectRequestSet.add(objectRequest);
-						}
-					}
+		// Add proprietaire to request information
+		if (lotCoproprietes != null && !lotCoproprietes.isEmpty()) {
+			
+			Set<String> lotCoproprietesSet = new HashSet<String>(lotCoproprietes);
+			for (String lotProprio : lotCoproprietesSet) {
+				if (lotProprio != null && lotProprio.length() > 0) {
+					ObjectRequest objectRequest = new ObjectRequest();
+					objectRequest.setType(CadastrappConstants.CODE_DEMANDEUR_LOT_COPROPRIETE);
+					objectRequest.setCommune(lotProprio.split("\\|")[0]);
+					objectRequest.setSection(lotProprio.split("\\|")[1]);
+					objectRequest.setNumero(lotProprio.split("\\|")[2]);
+					objectRequest.setProprietaire(lotProprio.split("\\|")[3]);
+					objectRequest.setBp(lotProprio.split("\\|")[4]);
+					objectRequest.setRp(lotProprio.split("\\|")[5]);
+					objectRequestSet.add(objectRequest);
 				}
-		
+			}
+		}
 
 		informationRequest.setObjectNumber(objectRequestSet.size());
 		informationRequest.setObjectsRequest(objectRequestSet);
