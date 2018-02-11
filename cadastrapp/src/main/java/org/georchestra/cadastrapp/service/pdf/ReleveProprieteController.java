@@ -119,7 +119,7 @@ public class ReleveProprieteController extends CadController {
 			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, headers, idParcelle);
 
 			// Define Date for all file name
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH_mm_ss_SSS");
 			Date date = new Date();
 			final String dateString = dateFormat.format(date);
 			
