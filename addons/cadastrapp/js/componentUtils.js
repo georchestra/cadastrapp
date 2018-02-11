@@ -54,7 +54,7 @@ GEOR.Addons.Cadastre.Component.getComboCommune = function(id) {
 /**
  * liste des propriétaire de la communes en paramètre
  */
-GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeListId) {
+GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeListId, isBirthName) {
 		return new Ext.form.ComboBox({
 		    id : 'proprioList' + id,
 		    hiddenName : 'ddenom',
@@ -66,7 +66,7 @@ GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeLi
 		    forceSelection : true,
 		    anchor : '95%',
 		    editable : true,
-		    displayField : 'app_nom_usage',
+		    displayField : 'nom',
 		    valueField : 'app_nom_usage',
 		    disabled : true,
 		    store : new Ext.data.JsonStore({
@@ -75,7 +75,16 @@ GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeLi
 		            method : 'GET',
 		            autoload : true
 		        }),
-		        fields : [ 'app_nom_usage' ]
+		        fields : [ 'app_nom_usage', { name : 'nom',
+		            convert : function(v, rec) {
+		                if(isBirthName){
+		                    return rec.app_nom_naissance 
+		                }
+		                else{
+		                    return rec.app_nom_usage 
+		                } 
+		            }
+		        }]
 		    }),
 		    listeners : {
 		        beforequery : function(q) {
@@ -86,6 +95,7 @@ GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeLi
 		                        params : {
 		                            cgocommune : Ext.getCmp(communeListId+id).value,
 		                            ddenom : q.query,
+		                            birthsearch : isBirthName,
 		                        }
 		                    });
 		                }

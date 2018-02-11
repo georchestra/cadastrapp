@@ -711,6 +711,7 @@
              "cadastrapp.demandeinformation.object.type.4":"Propriétaire",
              "cadastrapp.demandeinformation.object.type.5":"Identifiant parcellaire",
              "cadastrapp.demandeinformation.object.type.6":"Lot de copropriété",
+             "cadastrapp.demandeinformation.object.type.7":"Proprio nom de naissance",
              
             "cadastrapp.uniteFonciere": "Unite foncière",
             "cadastrapp.uniteFonciere.select.all": "Sélectionner toutes les parcelles",  
