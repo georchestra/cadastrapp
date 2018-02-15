@@ -13,7 +13,7 @@ body {
 .page {
     width: 210mm;
     min-height: 297mm;
-    max-height: 297mm;
+    /* max-height: 297mm; */
     padding: 20mm;
     margin: 10mm auto;
     border: 1px #D3D3D3 solid;
@@ -22,10 +22,7 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-div.olMap{
-    padding: 0 !important;
-    margin: 0 !important;
-}
+/* resize and drag */
 .ui-draggable-disabled{
     opacity: inherit;
 }
@@ -33,22 +30,130 @@ div.olMap{
     bottom: -15px !important;
     right: -15px !important;
 }
-
 .ui-resizable-helper {
     border: 1px dotted #999;
-}        
+}
+  
+/* map */
+div.olMap{
+    padding: 0 !important;
+    margin: 0 !important;
+}           
+.map {
+    padding: 1cm;
+    border-color: rgba(0,0,0,0.5) ;
+    border-style: solid;            
+    height: 40%;
+    width: 100%;
+    outline: 2cm #white solid;
+    margin: 0 auto !important;
+    z-index: 0;
+}    
 
+/* MENU */
+ul.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #007ec3;
+    top:0;
+    left: 0;
+    z-index: 10;
+}
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: #99BBE8;
+    cursor: pointer;
+}
+li.dropdown {
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 4;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Unite fonciere details */
+#titre, #parcelles,#composition,#informationgenerale{
+    z-index: 1;
+    text-align: center;
+    margin: auto;
+}
+#informationgenerale{
+	border-style: groove;
+}
+#composition{
+	padding-top:10px
+}
+
+.datauf{
+	width: 70%;
+    outline: 2cm #white solid;
+    margin: 0 auto !important;
+	text-align: right;
+}
+.dataufLabel{
+	float: left;
+}
+
+#parcelles{
+	width: 100%;
+	margin: 0 auto !important;
+    outline: 2cm #white solid;
+    padding-top: 10px;
+	text-align: center;
+	-moz-column-count: 2;
+	-moz-column-gap: 50px; /* Firefox */
+  	-webkit-column-count: 2;
+  	-webkit-column-gap: 50px; /* Chrome, Safari, Opera */
+  	column-count: 2;
+    column-gap: 50px;
+}
+.data{
+	width: 100%;
+	text-align: right;
+}
+.dataLabel{
+	float: left;
+	padding-right: 15px;
+}
+
+/* Print information */
 @page {
     size: A4 portrait;
     margin: 0;
 }
+/* avoid to print the menu and resizable element */
 @media print {
     html, body {
         width: 100%;
         height: 100%;        
     }
-
-    ul, .ui-resizable-se, .ui-resizable-handle, .ui-icon, .ui-icon-gripsmall-diagonal-se {
+    ul, .ui-resizable-se, .ui-resizable-handle {
         display: none;
     }
     .page {
@@ -60,97 +165,4 @@ div.olMap{
         box-shadow: initial;
         background: initial;
     }
-}          
-
-.parcelles{
-
-}      
-
-.proprietaires{
-
-}
-
-.map {
-    padding: 1cm;
-    border-color: rgba(0,0,0,0.5) ;
-    border-style: solid;            
-    height: 50%;
-    width: 100%;
-    outline: 2cm #white solid;
-    margin: 0 auto !important;
-    z-index: 0;
-}    
-
-#titre, #parcelles, #proprietaires{
-    z-index: 1;
-}
- 
-.title p {
-    width: auto;
-}
-
-.printable{
-    display:block;
-}
-
-/*CREATE MENU */
-.icon{
-    float:right; 
-    padding:3 10 2 2;
-    margin : 0 1%;
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #007ec3;
-    top:0;
-    left: 0;
-    z-index: 10;
-}
-
-li {
-    float: left;
-}
-
-li a, .dropbtn {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover, .dropdown:hover .dropbtn {
-    background-color: #99BBE8;
-    cursor: pointer;
-}
-
-li.dropdown {
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 4;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+}  

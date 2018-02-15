@@ -28,64 +28,6 @@ function init() {
         baseLayerPosition,
         openerLayers = [],
         openerMap = new Object();
-   
-    /**
-     * Active JQuery UI action when user click everywhere on the window     
-     */
-    $(window).click(function() { 
-        $('#titre').draggable({
-            disabled: false,
-            cursorAt: {
-                left: 0,
-                top: 0
-            }
-        });
-        $('#parcelles').draggable({
-            disabled: false,
-            cursorAt: {
-                left: 0,
-                top: 0
-            }
-        });
-        $('#proprietaires').draggable({
-            disabled: false,
-            cursorAt: {
-                left: 0,
-                top: 0
-            }
-        });
-    });
-
-    /**
-     * Apply jquery action on element
-     * @param {Object} $id - Element call by JQuery
-     * @param {String} bool - Element call by JQuery
-     * @param {number} l - Number of pixels to the left
-     * @param {number} r - Number of pixels to the right
-     */
-    function widgetize($id, bool, l, r) {
-        $id.draggable()
-            .blur(function() {
-                $(this).draggable({
-                    cursorAt: {
-                        left: l,
-                        top: r
-                    }
-                });
-            }).dblclick(function() {
-                $(this).draggable({
-                    disabled: true
-                });
-            });
-
-        if (bool) {
-            $id.resizable({
-                helper: "ui-resizable-helper",
-                grid: [10, 10]
-            });
-        }
-    }
-    widgetize($('#titre'), true, 0, 0);
     
     //activate JQuery UI actions for this element     
     $('#printmap').draggable().resizable();    
@@ -133,9 +75,9 @@ function init() {
         // zoom to original extend
         printMap.setCenter(new OpenLayers.LonLat(openerMap.center.lon, openerMap.center.lat), openerMap.getZoom());
         
+        // add information
         var parcelleId = window.opener.GEOR.Addons.Cadastre.UF.parcelleId;
         getUFInformation(parcelleId);
-        getProprietaireInformation(parcelleId);
     }
 }
 
@@ -219,24 +161,23 @@ function getCanvas(e) {
  */
 function getUFInformation(parcelleId){
     
-    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getInfoUniteFonciere?parcelle=" + parcelleId, function( data ) {
-        var ufId;
-        var items = [];
-        $.each( data, function( key, val ) {
-            if(key=="uf"){
-                ufId=val;
-            }else{
-                items.push( "<li>"+key + " : " + val + "</li>" );
-            }
+    // get global information
+    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getInfoUniteFonciere?parcelle=" +  encodeURIComponent(parcelleId), function(data) {
+        
+        // get owner name
+        $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getProprietaire?details=2&comptecommunal=" +  encodeURIComponent(data.comptecommunal), function(prop) {
+            var propName = propName=prop[0].app_nom_usage;
+           
+            document.getElementById('informationgenerale').innerHTML =
+            "<div class=\"datauf\"><span class=\"dataufLabel\">Propriétaire : </span>"+propName+"</div>"+
+            "<div class=\"datauf\"><span class=\"dataufLabel\"></span>"+data.comptecommunal+"</div>"+
+            "<div class=\"datauf\"><span class=\"dataufLabel\">Surface DGFIP de l'UF : </span>"+data.dcntpa_sum.toLocaleString()+" m²</div>"+
+            "<div class=\"datauf\"><span class=\"dataufLabel\">Surface calculée : </span>"+data.sigcal_sum.toLocaleString()+" m²</div>"+
+            "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+data.sigcalb_sum.toLocaleString()+" m²</div>";
         });
-        $('#parcelles').append(
-        $( "<ul/>", {
-          "class": "my-new-list",
-          html: items.join( "" )
-        }));
-        getParcellesInformation(ufId);
+
+        getParcellesInformation(data.uf);
       }); 
-   
 }
 
 /**
@@ -246,50 +187,22 @@ function getUFInformation(parcelleId){
  */
 function getParcellesInformation(ufId){
     
-    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getParcelle?unitefonciere=" + ufId, function( data ) {
-        var items = [];
-        $.each( data, function( key, val ) {
-            $.each( val, function( key2, val2 ) {
-                items.push( "<li>"+key2 + " : " + val2 + "</li>" );
-            });
+    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getParcelle?unitefonciere=" + encodeURIComponent(ufId), function( data ) {
+        
+        var parcelles="";
+        var sommeSurf=0;
+        
+        data.forEach(function(element){
+            parcelles=parcelles+ "<div class=\"data\"><span class=\"dataLabel\">"+element.parcelle+"</span>"+element.surfc.toLocaleString()+" m²</div>";
+            sommeSurf=sommeSurf+element.surfc;
         });
-        $('#parcelles').append(
-        $( "<ul/>", {
-          "class": "my-new-list",
-          html: items.join( "" )
-        }));
-      }); 
-}
-
-/**
- * 
- * @param parcelleId
- * @returns
- */
-function getProprietaireInformation(parcelleId){
+         
+        var content = "<div class=\"info\"><b>Cette unité foncière est composée de "+data.length+" parcelles.</b></div>"+
+        "<div class=\"info\">La somme des surfaces DGFiP est égale à "+ sommeSurf.toLocaleString() +" m².</div>";
+        
+        document.getElementById('composition').innerHTML=content;
+        document.getElementById('parcelles').innerHTML=parcelles;
     
-    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getProprietairesByParcelles?parcelles=" + parcelleId, function( data ) {
-        var items = [];
-        $.each( data, function( key, val ) {
-            $.each( val, function( key2, val2 ) {
-                items.push( "<li>"+key2 + " : " + val2 + "</li>" );
-            });
-        });
-        $('#proprietaires').append(
-        $( "<ul/>", {
-          "class": "my-new-list",
-          html: items.join( "" )
-        }));
       }); 
 }
-// Get all plots for this UF and select them on map
-//GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle'
-//parcelle', 'dcntpa', 'surfc', 'adresse'{rec.dnvoiri + rec.dindic + rec.cconvo + rec.dvoilib}
 
-//GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getInfoUniteFonciere?parcelle=' + parcelleId,
-//Surface DGFiP', result.dcntpa_sum ], [ 'Surface SIG', result.sigcal_sum ], [ 'Surface Batie', result.sigcalb_sum 
-
-// Get all other needed information and store them in a global field
-// TODO Remove global filed when close cadastrapp
-//GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietaire' 'comptecommunal' : result.comptecommunal,  'details' : 2
-//'comptecommunal', 'app_nom_usage' 

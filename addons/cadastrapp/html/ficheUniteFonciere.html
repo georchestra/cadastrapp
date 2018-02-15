@@ -17,7 +17,7 @@
     <script type="text/javascript" src="../js/ficheUniteFonciere.js"></script> 
     <!-- END LIBS -->       
 </head>
-    <ul>          
+    <ul class="menu">          
         <li class="dropdown">
             <a class="dropbtn">Export</a>
             <div class="dropdown-content">
@@ -26,21 +26,18 @@
             </div>      
     </ul>       
     <body onload="init()">                                
-        <div id="bookZone" class="book">                        
-            <div id="mainPage" class="page">                       
-                <!-- PAGE PRINTABLE-->
-                <div id="titre">
-                    <p>Information sur une unité foncière</p>
-                </div>                              
-                <div id= "printmap" class ="map"></div>   
-                <br/>
-                <div id="parcelles">
-                    <p>Parcelle</p>
-                </div>
-                 <div id="proprietaires">
-                    <p>Proprietaire</p>
-                </div>                                   
-            </div>                
-        </div>        
+		<div id="mainPage" class="page">                       
+        	<div id="titre">
+            	<p><b>Information sur une unité foncière</b></p>
+           	</div>                              
+            <div id= "printmap" class ="map"></div>   
+            <br/>
+            <div id="informationgenerale">
+            </div>  
+            <div id="composition">
+            </div>       
+            <div id="parcelles">
+            </div>            
+     	</div>                            
     </body>
 </html>
