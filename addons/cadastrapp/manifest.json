@@ -69,7 +69,7 @@
 			"version" : "1.0.0",
 			"service" : "wfs",
 			"outputFormat" : "application/json",
-			"geometryField":"shape"
+			"geometryField":"geom"
 		},
 		"foncier" : true
 	},
