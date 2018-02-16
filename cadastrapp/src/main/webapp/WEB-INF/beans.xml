@@ -37,7 +37,6 @@
 	<jaxrs:server id="services" address="/">
 		<jaxrs:serviceBeans>
 			<bean class="org.georchestra.cadastrapp.service.BatimentController" />
-			<bean class="org.georchestra.cadastrapp.service.CanvaProxyController" />
 			<bean class="org.georchestra.cadastrapp.service.CommuneController" />
 			<bean class="org.georchestra.cadastrapp.service.ConfigurationController" />
 			<bean class="org.georchestra.cadastrapp.service.CoProprietaireController" />
