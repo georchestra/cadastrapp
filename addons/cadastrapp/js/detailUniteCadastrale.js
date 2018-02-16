@@ -657,82 +657,81 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         });
 
         // ---------- FIN ONGLET Subdivision fiscale ------------------------------
-
-        // ---------- ONGLET historique de mutation ------------------------------
-
-        // Modèle de données de l'onglet historique de mutation
-        var fiucHistomutStore = new Ext.data.ArrayStore({
-            autoLoad : true,
-            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getFIC?parcelle=' + parcelleId + "&onglet=4",
-            method : 'GET',
-            fields : [ {
-                name : 'date',
-                convert : function(v, rec) {
-                    return rec.jdatat
-                }
-            }, {
-                name : 'referenceparcelle',
-                convert : function(v, rec) {
-                    reference = '';
-                    if (rec.ccocomm != undefined) {
-                        reference = reference + ' ' + rec.ccocomm;
-                    }
-                    if (rec.ccoprem != undefined) {
-                        reference = reference + ' ' + rec.ccoprem;
-                    }
-                    if (rec.ccosecm != undefined) {
-                        reference = reference + ' ' + rec.ccosecm;
-                    }
-                    if (rec.dnuplam != undefined) {
-                        reference = reference + ' ' + rec.dnuplam;
-                    }
-                    return reference;
-                }
-            }, {
-                name : 'filiation',
-                convert : function(v, rec) {
-                    return rec.type_filiation
-                }
-            } ]
-        });
-
-        // Tableau des données de l'historique de mutation
-        var fiucHistomutGrid = new Ext.grid.GridPanel({
-            store : fiucHistomutStore,
-            stateful : true,
-            name : 'Fiuc_Historique_Mutation',
-            xtype : 'editorgrid',
-            autoHeight : true,
-            colModel : new Ext.grid.ColumnModel({
-                defaults : {
-                    sortable : true,
-                },
-                columns : [ {
-                    header : OpenLayers.i18n('cadastrapp.duc.dateacte'),
-                    dataIndex : 'date',
-                    width : 75
-                }, {
-                    header : "Référence de la parcelle mère",
-                    dataIndex : 'referenceparcelle',
-                    width : 170
-                }, {
-                    header : "Type de mutation",
-                    dataIndex : 'filiation',
-                    width : 100
-                } ]
-            }),
-
-        });
-
-        cadastreTabPanel.add({
-            // ONGLET 5: Historique de mutation
-            title : OpenLayers.i18n('cadastrapp.duc.histomut'),
-            xtype : 'form',
-            items : [ fiucHistomutGrid ],
-            layout : 'fit',
-	    autoHeight: true
-        });
     }
+    // ---------- ONGLET historique de mutation ------------------------------
+    
+    // Modèle de données de l'onglet historique de mutation
+    var fiucHistomutStore = new Ext.data.ArrayStore({
+        autoLoad : true,
+        url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getFIC?parcelle=' + parcelleId + "&onglet=4",
+        method : 'GET',
+        fields : [ {
+            name : 'date',
+            convert : function(v, rec) {
+                return rec.jdatat
+            }
+        }, {
+            name : 'referenceparcelle',
+            convert : function(v, rec) {
+                reference = '';
+                if (rec.ccocomm != undefined) {
+                    reference = reference + ' ' + rec.ccocomm;
+                }
+                if (rec.ccoprem != undefined) {
+                    reference = reference + ' ' + rec.ccoprem;
+                }
+                if (rec.ccosecm != undefined) {
+                    reference = reference + ' ' + rec.ccosecm;
+                }
+                if (rec.dnuplam != undefined) {
+                    reference = reference + ' ' + rec.dnuplam;
+                }
+                return reference;
+            }
+        }, {
+            name : 'filiation',
+            convert : function(v, rec) {
+                return rec.type_filiation
+            }
+        } ]
+    });
+        
+    // Tableau des données de l'historique de mutation
+    var fiucHistomutGrid = new Ext.grid.GridPanel({
+        store : fiucHistomutStore,
+        stateful : true,
+        name : 'Fiuc_Historique_Mutation',
+        xtype : 'editorgrid',
+        autoHeight : true,
+        colModel : new Ext.grid.ColumnModel({
+            defaults : {
+                sortable : true,
+            },
+            columns : [ {
+                header : OpenLayers.i18n('cadastrapp.duc.dateacte'),
+                dataIndex : 'date',
+                width : 75
+            }, {
+                header : "Référence de la parcelle mère",
+                dataIndex : 'referenceparcelle',
+                width : 170
+            }, {
+                header : "Type de mutation",
+                dataIndex : 'filiation',
+                width : 100
+            } ]
+        }),
+        
+    });
+    
+    cadastreTabPanel.add({
+        // ONGLET 5: Historique de mutation
+        title : OpenLayers.i18n('cadastrapp.duc.histomut'),
+        xtype : 'form',
+        items : [ fiucHistomutGrid ],
+        layout : 'fit',
+        autoHeight: true
+    });
 
     // add windows in manager and show it
     GEOR.Addons.Cadastre.result.tabs.getActiveTab().fichesCOuvertes.push(windowFIUC);

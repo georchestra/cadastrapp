@@ -81,12 +81,7 @@ public class UniteCadastraleController extends CadController {
 				}				
 				break;
 			case 4:
-				if (getUserCNILLevel(headers)>0){
-				information = infoOngletHistorique(parcelle, headers);
-				}
-				else{
-					logger.info("User does not have enough right to see information about filiation");
-				}		
+				information = infoOngletHistorique(parcelle, headers);	
 				break;
 			default:
 				logger.error(" No values to return for onglet : " + onglet);
