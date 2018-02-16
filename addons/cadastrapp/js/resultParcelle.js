@@ -624,19 +624,22 @@ GEOR.Addons.Cadastre.closeWindowFIUC = function(idParcelle, grid) {
  * 
  */
 GEOR.Addons.Cadastre.closeAllWindowFIUC = function() {
-    // for each tabs
-    Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
-        if (tab && tab.idParcellesCOuvertes) {
-            // create a temp array
-            var parcellesList = tab.idParcellesCOuvertes.slice(0);          
-            // for each fiche
-            Ext.each(parcellesList, function(idParcellesCOuverte, currentIndex) {
-                GEOR.Addons.Cadastre.closeWindowFIUC(idParcellesCOuverte, tab);
-            });
-            tab.fichesCOuvertes = [];
-            tab.idParcellesCOuvertes = [];
-        }
-    });
+    
+    if (GEOR.Addons.Cadastre.result.tabs && GEOR.Addons.Cadastre.result.tabs.items) {
+        // for each tabs
+        Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
+            if (tab && tab.idParcellesCOuvertes) {
+                // create a temp array
+                var parcellesList = tab.idParcellesCOuvertes.slice(0);          
+                // for each fiche
+                Ext.each(parcellesList, function(idParcellesCOuverte, currentIndex) {
+                    GEOR.Addons.Cadastre.closeWindowFIUC(idParcellesCOuverte, tab);
+                });
+                tab.fichesCOuvertes = [];
+                tab.idParcellesCOuvertes = [];
+            }
+        });
+    }
 
 }
 
