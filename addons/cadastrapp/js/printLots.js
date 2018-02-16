@@ -75,30 +75,28 @@ GEOR.Addons.Cadastre.initPrintLotsWindow = function(parcelleId, batiments) {
             height : 200,
             labelWidth : 1,
             autoHeight : true,
-
             items : [ {
                 xtype : 'fieldset',
                 title : OpenLayers.i18n('cadastrapp.lots.batiments'),
                 autoHeight : true,
-
+                hidden : (batiments.length==1),
                 items : [ comboDnubat ]
             }, {
                 xtype : 'fieldset',
                 title : OpenLayers.i18n('cadastrapp.lots.type'),
                 autoHeight : true,
-
                 items : [ {
                     xtype : 'radio',
-                    boxLabel : OpenLayers.i18n('cadastrapp.lots.type.csv'),
+                    boxLabel : OpenLayers.i18n('cadastrapp.lots.type.pdf'),
                     checked : true,
                     name : 'exportType',
-                    id : 'radiolotscsv'
+                    id : 'radiolotspdf'
                 }, {
                     xtype : 'radio',
-                    boxLabel : OpenLayers.i18n('cadastrapp.lots.type.pdf'),
+                    boxLabel : OpenLayers.i18n('cadastrapp.lots.type.csv'),
                     name : 'exportType',
-                    id : 'radiolotspdf'
-                } ]
+                    id : 'radiolotscsv'
+                }]
             } ]
         } ],
 
@@ -113,7 +111,6 @@ GEOR.Addons.Cadastre.initPrintLotsWindow = function(parcelleId, batiments) {
                     if (Ext.getCmp('radiolotscsv').getValue()) {
                         url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'exportLotsAsCSV';
                     }
-
                     // create Iframe
                     var iframe = document.createElement("iframe");
                     iframe.setAttribute("style", "display:none;");
