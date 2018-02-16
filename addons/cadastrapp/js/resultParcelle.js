@@ -43,13 +43,14 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
         // create menu to set properties at this menu
         var menuCsv = new Ext.menu.Menu({
             items: exportCsvItems,
-            showSeparator:false
+            showSeparator:false,
         });
         
         // create menu with items
         return new Ext.Button({            
             text:OpenLayers.i18n("cadastrapp.result.csv.export"),      
-            menu: menuCsv
+            menu: menuCsv,
+            disabled:true,
         });
         
     } else {
@@ -138,6 +139,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                     }
                 }, {
                     text : OpenLayers.i18n('cadastrapp.result.parcelle.zoom.selection'),
+                    id : "cadastrappRPZS",
                     disabled:true,
                     listeners : {
                         click : function(b, e) {
@@ -372,7 +374,7 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                         
                         if(grid.selections.length == 0){ // no selection, we deactive some buttons
                             switch (btn.text){
-                            case OpenLayers.i18n('cadastrapp.result.parcelle.zoom.selection'):
+                            case OpenLayers.i18n('cadastrapp.result.parcelle.uf'):
                                 btn.disable();
                                 break;
                             case OpenLayers.i18n('cadastrapp.result.parcelle.delete'):
@@ -381,13 +383,23 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                             case OpenLayers.i18n('cadastrapp.result.parcelle.fiche'):
                                 btn.disable();
                                 break;
-                            default:
-                                if(!btn.menu && btn.text == OpenLayers.i18n("cadastrapp.result.csv.export")){
-                                    btn.disable();
+                            case OpenLayers.i18n("cadastrapp.result.csv.export"):
+                                btn.disable();
+                                break;
+                            case OpenLayers.i18n("cadastrapp.result.parcelle.zoom"):
+                                // Zoom keep zoom list enable
+                                if(btn.menu && btn.menu.items.get('cadastrappRPZS')){
+                                    btn.menu.items.get('cadastrappRPZS').setDisabled(true);
                                 }
+                                break;
+                            default:
                             }                                   
                         } else {
-                            btn.enable();
+                            if(btn.menu && btn.menu.items.get('cadastrappRPZS')){
+                                btn.menu.items.get('cadastrappRPZS').setDisabled(false);
+                            }else{
+                                btn.enable();
+                            }
                         }
                     });
                 }
