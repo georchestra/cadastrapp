@@ -11,7 +11,6 @@
     <!-- LIBS -->                    
     <!--  OpenLayers2 lib need to be load because we are not in mapfishapp context -->
     <script src="../js/external/openlayers2/openlayers/lib/OpenLayers.js"></script>
-    <script src="../js/external/html2canvas/html2canvas.js"></script>
     <script src="../js/external/jquery/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
     <script src="../js/external/jquery/jquery-ui-1.12.1/jquery-ui.js"></script>    
     <script type="text/javascript" src="../js/ficheUniteFonciere.js"></script> 
@@ -19,11 +18,8 @@
 </head>
     <ul class="menu">          
         <li class="dropdown">
-            <a class="dropbtn">Export</a>
-            <div class="dropdown-content">
-                <a onClick="window.print();" href="#export">Imprimer</a>
-                <a id="download" onClick = "getCanvas(this)">Télécharger</a>                    
-            </div>      
+            <a onClick="window.print();" href="#export">Imprimer</a>    
+        </li>
     </ul>       
     <body onload="init()">                                
 		<div id="mainPage" class="page">                       

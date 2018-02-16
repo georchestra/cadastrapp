@@ -13,8 +13,10 @@ body {
 .page {
     width: 210mm;
     min-height: 297mm;
-    /* max-height: 297mm; */
-    padding: 20mm;
+    padding-top: 5mm;
+    padding-right: 10mm;
+    padding-bottom: 10mm;
+    padding-left: 10mm;
     margin: 10mm auto;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
@@ -105,13 +107,19 @@ li.dropdown {
 }
 #informationgenerale{
 	border-style: groove;
+	padding-top:10px;
+	padding-bottom:10px;
 }
 #composition{
 	padding-top:10px
 }
-
+.proprieteaire{
+	margin: 0 auto !important;
+	text-align: center;
+	padding-bottom: 10px;
+}
 .datauf{
-	width: 70%;
+	width: 50%;
     outline: 2cm #white solid;
     margin: 0 auto !important;
 	text-align: right;
@@ -121,7 +129,7 @@ li.dropdown {
 }
 
 #parcelles{
-	width: 100%;
+	width: 90%;
 	margin: 0 auto !important;
     outline: 2cm #white solid;
     padding-top: 10px;
@@ -145,7 +153,8 @@ li.dropdown {
 /* Print information */
 @page {
     size: A4 portrait;
-    margin: 0;
+    margin-top: 10mm;
+    margin-bottom: 6mm;
 }
 /* avoid to print the menu and resizable element */
 @media print {
