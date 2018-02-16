@@ -73,8 +73,8 @@
 
 		<xsl:for-each select="parcelles/parcelle">
 			<fo:table table-layout="fixed" page-break-before="always">
-				<fo:table-column column-width="70%" />
-				<fo:table-column column-width="30%" />
+				<fo:table-column column-width="72%" />
+				<fo:table-column column-width="28%" />
 				<fo:table-body>
 					<fo:table-row>
 						<!-- Empreinte -->
