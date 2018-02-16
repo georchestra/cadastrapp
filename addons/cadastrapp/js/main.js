@@ -77,6 +77,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
 
         // Init gobal variables
         GEOR.Addons.Cadastre.WFSLayer;
+        // Init uf feature list
+        GEOR.Addons.Cadastre.UF.features=[];
         GEOR.Addons.Cadastre.result=[];
         GEOR.Addons.Cadastre.result.tabs;
 

@@ -195,19 +195,8 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                     var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
 
                     Ext.each(selection, function(item) {
-                       
-                        GEOR.Addons.Cadastre.UF.parcelleId=item.data.parcelle;
-                        var feature = GEOR.Addons.Cadastre.getFeatureById(item.data.parcelle);
-                        var state = GEOR.Addons.Cadastre.selection.state.list;
-                        // change selection color on map depending on state
-                        if (feature) {
-                            GEOR.Addons.Cadastre.changeStateFeature(feature, 0, state);
-                        }
-                        
-                        // Open new window
-                        window.open("ws/addons/cadastrapp/html/ficheUniteFonciere.html");
-                        
-                      
+                        var feature = GEOR.Addons.Cadastre.getFeatureById(item.data.parcelle);                 
+                        GEOR.Addons.Cadastre.selectFeatureIntersection(feature, "uniteFonciere");                               
                     });
                 }
             }

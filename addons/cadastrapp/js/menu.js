@@ -247,7 +247,8 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
                     if (pressed) {
                         
                         // Close all windows and clean existing feature
-                        
+                        GEOR.Addons.Cadastre.WFSLayer.removeAllFeatures();
+                        GEOR.Addons.Cadastre.UF.features=[];
                         if(GEOR.Addons.Cadastre.result.plot.window){
                             GEOR.Addons.Cadastre.result.plot.window.close();
                         }
@@ -260,12 +261,12 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
                         if(GEOR.Addons.Cadastre.coProprieteWindow){
                             GEOR.Addons.Cadastre.coProprieteWindow.close();
                         }
- 
-                        //GEOR.Addons.Cadastre.closeAllWindowFIUC();
+                        GEOR.Addons.Cadastre.closeAllWindowFIUC();
                         }
                     else{
                         // Clean existing feature
-                        Ext.Msg.alert('Click', 'unPressed');
+                        GEOR.Addons.Cadastre.WFSLayer.removeAllFeatures();
+                        GEOR.Addons.Cadastre.UF.features=[];
                     }
                 }
         };

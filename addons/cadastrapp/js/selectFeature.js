@@ -316,8 +316,16 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
                             // Else display UF and launch new windows
                             Ext.each(result, function(feature, index) {
                                 if (feature) {
-                                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
+                                    // For each existing uf feature remove it
+                                    Ext.each(GEOR.Addons.Cadastre.UF.features, function(feature) {
+                                        GEOR.Addons.Cadastre.WFSLayer.removeFeatures(feature);
+                                    });
+                                    GEOR.Addons.Cadastre.UF.features=[];
+                                    GEOR.Addons.Cadastre.UF.features.push(feature);
+                                    // Add new feature
+                                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);                        
                                     GEOR.Addons.Cadastre.changeStateFeature(feature,index,GEOR.Addons.Cadastre.selection.state.selected);
+                                    GEOR.Addons.Cadastre.zoomOnFeatures(GEOR.Addons.Cadastre.UF.features);
                                 }
                             });
 
@@ -544,11 +552,14 @@ GEOR.Addons.Cadastre.clearLayerSelection = function() {
  * 
  * @param: feature
  */
-GEOR.Addons.Cadastre.selectFeatureIntersection = function(feature) {
+GEOR.Addons.Cadastre.selectFeatureIntersection = function(feature, origin) {
 
     // get geometry type
     var typeGeom = feature.geometry.id.split('_')[2];
     var coords = "";
+    if(!origin){
+        origin="clickSelector";
+    }
 
     if (typeGeom == "Point") {
         coords = feature.geometry.x + "," + feature.geometry.y;
@@ -561,7 +572,7 @@ GEOR.Addons.Cadastre.selectFeatureIntersection = function(feature) {
             coords += " " + component.x + "," + component.y;
         });
     }
-    GEOR.Addons.Cadastre.getFeaturesWFSSpatial(typeGeom, coords, "clickSelector");
+    GEOR.Addons.Cadastre.getFeaturesWFSSpatial(typeGeom, coords, origin);
 }
 
 /**
