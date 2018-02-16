@@ -502,7 +502,7 @@ public class ImageParcelleController extends CadController {
 		logger.debug("Add compass ");
 
 		// Draw N in the Upper Right
-		g2.setColor(Color.white);
+		g2.setColor(Color.black);
 		g2.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		g2.drawString("N", imageWidth - 32, 22);
 
