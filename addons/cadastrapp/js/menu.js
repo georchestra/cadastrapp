@@ -261,8 +261,7 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
                         if(GEOR.Addons.Cadastre.coProprieteWindow){
                             GEOR.Addons.Cadastre.coProprieteWindow.close();
                         }
-                        GEOR.Addons.Cadastre.closeAllWindowFIUC();
-                        }
+                    }
                     else{
                         // Clean existing feature
                         GEOR.Addons.Cadastre.WFSLayer.removeAllFeatures();
