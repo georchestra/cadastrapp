@@ -143,7 +143,7 @@ public class ReleveProprieteController extends CadController {
 			final String csvCCPath = tempFolder + File.separator + csvCCFileName;
 			ICsvBeanWriter beanWriter = null;
 			try {
-				beanWriter = new CsvBeanWriter(new FileWriter(csvCCPath), CsvPreference.STANDARD_PREFERENCE);
+				beanWriter = new CsvBeanWriter(new FileWriter(csvCCPath), CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 				
 				// the header elements are used to map the bean values to each column (names must match)
 				final String[] header = new String[] { "compteCommunal", "codeDepartement", "codeCommune", "libelleCommune" };
@@ -189,7 +189,7 @@ public class ReleveProprieteController extends CadController {
 					
 					ICsvBeanWriter pbBeanWriter = null;
 					try {
-						pbBeanWriter = new CsvBeanWriter(new FileWriter(csvPBPath), CsvPreference.STANDARD_PREFERENCE);
+						pbBeanWriter = new CsvBeanWriter(new FileWriter(csvPBPath), CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 						
 						// the header elements are used to map the bean values to each column (names must match)
 						final String[] header = new String[] { "ccopre","ccosec","dnupla","dnvoiri","dindic","dvoilib","ccoaff","ccocac","ccoeva","cconad","cconlc","ccoriv",
@@ -260,7 +260,7 @@ public class ReleveProprieteController extends CadController {
 					
 					ICsvBeanWriter ownerBeanWriter = null;
 					try {
-						ownerBeanWriter = new CsvBeanWriter(new FileWriter(csvPropPath), CsvPreference.STANDARD_PREFERENCE);
+						ownerBeanWriter = new CsvBeanWriter(new FileWriter(csvPropPath), CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 						
 						// the header elements are used to map the bean values to each column (names must match)
 						final String[] header = new String[] { "compteCommunal", "droitReel", "codeDeDemembrement", "nom", "adresse", "nomNaissance", "dateNaissance" };
@@ -306,7 +306,7 @@ public class ReleveProprieteController extends CadController {
 					
 					ICsvBeanWriter pnbBeanWriter = null;
 					try {
-						pnbBeanWriter = new CsvBeanWriter(new FileWriter(csvPNBPath), CsvPreference.STANDARD_PREFERENCE);
+						pnbBeanWriter = new CsvBeanWriter(new FileWriter(csvPNBPath), CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 						
 						// the header elements are used to map the bean values to each column (names must match)
 						final String[] header = new String[] { "ccopre","ccosec","dnupla","dnvoiri","dindic","dvoilib","ccosub","ccostn","cgrnum","cnatsp","dparpi","dclssf","dcntsf","dnulot","drcsuba","dreflf","dsgrpf","gparnf","pdl","exonerations","revenuImposable","communeRevenuImposable","communeRevenuExonere","groupementCommuneRevenuImposable","groupementCommuneRevenuExonere","departementRevenuImposable","departementRevenuExonere","tseRevenuImposable" };
