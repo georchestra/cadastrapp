@@ -594,7 +594,7 @@ GEOR.Addons.Cadastre.getFeatureCoord = function(geometry){
         // geo_parcelle and unite fonciere are multipolygon in qgis model
         if (typeGeom == "Polygon"){
             components = components[0].components;
-        }else if(typeGeom == "MultiPoygon"){
+        }else if(typeGeom == "MultiPolygon"){
             //get only first Polygon as coords
             components = components[0].components[0].components
         }
