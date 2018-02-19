@@ -66,3 +66,8 @@ CREATE INDEX idxlotlots ON #schema_cadastrapp.lot (id_local);
 -- Dependance
 CREATE INDEX idxdescdependanceinvar ON #schema_cadastrapp.descdependance (invar);
 
+-- UF
+CREATE INDEX idxcadastrappufparcell ON #schema_cadastrapp.uf_parcelle (parcelle);
+CREATE INDEX idxcadastrappufuf ON #schema_cadastrapp.uf_parcelle (uf);
+-- no search are made en comptecommunal, next index will not be used for the moment
+CREATE INDEX idxcadastrappufcc ON #schema_cadastrapp.uf_parcelle (comptecommunal);
