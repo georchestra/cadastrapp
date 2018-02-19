@@ -1,0 +1,177 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+    font: 12pt "Tahoma";
+}
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.page {
+    width: 210mm;
+    min-height: 297mm;
+    padding-top: 5mm;
+    padding-right: 10mm;
+    padding-bottom: 10mm;
+    padding-left: 10mm;
+    margin: 10mm auto;
+    border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* resize and drag */
+.ui-draggable-disabled{
+    opacity: inherit;
+}
+.ui-resizable-se {
+    bottom: -15px !important;
+    right: -15px !important;
+}
+.ui-resizable-helper {
+    border: 1px dotted #999;
+}
+  
+/* map */
+div.olMap{
+    padding: 0 !important;
+    margin: 0 !important;
+}           
+.map {
+    padding: 1cm;
+    border-color: rgba(0,0,0,0.5) ;
+    border-style: solid;            
+    height: 40%;
+    width: 100%;
+    outline: 2cm #white solid;
+    margin: 0 auto !important;
+    z-index: 0;
+}    
+
+/* MENU */
+ul.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #007ec3;
+    top:0;
+    left: 0;
+    z-index: 10;
+}
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: #99BBE8;
+    cursor: pointer;
+}
+li.dropdown {
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 4;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Unite fonciere details */
+#titre, #parcelles,#composition,#informationgenerale{
+    z-index: 1;
+    text-align: center;
+    margin: auto;
+}
+#informationgenerale{
+	border-style: groove;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+#composition{
+	padding-top:10px
+}
+.proprieteaire{
+	margin: 0 auto !important;
+	text-align: center;
+	padding-bottom: 10px;
+}
+.datauf{
+	width: 50%;
+    outline: 2cm #white solid;
+    margin: 0 auto !important;
+	text-align: right;
+}
+.dataufLabel{
+	float: left;
+}
+
+#parcelles{
+	width: 90%;
+	margin: 0 auto !important;
+    outline: 2cm #white solid;
+    padding-top: 10px;
+	text-align: center;
+	-moz-column-count: 2;
+	-moz-column-gap: 50px; /* Firefox */
+  	-webkit-column-count: 2;
+  	-webkit-column-gap: 50px; /* Chrome, Safari, Opera */
+  	column-count: 2;
+    column-gap: 50px;
+}
+.data{
+	width: 100%;
+	text-align: right;
+}
+.dataLabel{
+	float: left;
+	padding-right: 15px;
+}
+
+/* Print information */
+@page {
+    size: A4 portrait;
+    margin-top: 10mm;
+    margin-bottom: 6mm;
+}
+/* avoid to print the menu and resizable element */
+@media print {
+    html, body {
+        width: 100%;
+        height: 100%;        
+    }
+    ul, .ui-resizable-se, .ui-resizable-handle {
+        display: none;
+    }
+    .page {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+    }
+}  

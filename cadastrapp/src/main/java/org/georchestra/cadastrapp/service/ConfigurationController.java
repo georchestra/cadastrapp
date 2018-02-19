@@ -45,6 +45,10 @@ public class ConfigurationController {
 		
 		configuration.put("maxRequest", CadastrappPlaceHolder.getProperty("maxRequest"));
 		
+		// Configuration for unite foncier
+		configuration.put("uFWFSURL", CadastrappPlaceHolder.getProperty("uf.wfs.url"));
+		configuration.put("uFWFSLayerName", CadastrappPlaceHolder.getProperty("uf.wfs.layer.name"));
+		
 		return configuration;
 	}
 

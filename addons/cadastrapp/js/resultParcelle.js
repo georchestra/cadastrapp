@@ -43,13 +43,14 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
         // create menu to set properties at this menu
         var menuCsv = new Ext.menu.Menu({
             items: exportCsvItems,
-            showSeparator:false
+            showSeparator:false,
         });
         
         // create menu with items
         return new Ext.Button({            
             text:OpenLayers.i18n("cadastrapp.result.csv.export"),      
-            menu: menuCsv
+            menu: menuCsv,
+            disabled:true,
         });
         
     } else {
@@ -98,9 +99,8 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                 // *********************
                 // supprime tous les entités de la couche selection
                 GEOR.Addons.Cadastre.clearLayerSelection();
-                // ferme les fenêtres cadastrales et foncières
+                // ferme les fenêtres cadastrales
                 GEOR.Addons.Cadastre.closeAllWindowFIUC();
-                GEOR.Addons.Cadastre.closeAllWindowFIUF();
                 // *********************
                 GEOR.Addons.Cadastre.result.plot.window = null;
             },
@@ -127,31 +127,37 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
         } ],
 
         buttons : [ {
-            text : OpenLayers.i18n('cadastrapp.result.parcelle.zoom.list'),
-            listeners : {
-                click : function(b, e) {
-                    // zoom on plots from the active tab
-                    GEOR.Addons.Cadastre.zoomOnFeatures(GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList);
-                }
-            }
-        }, {
-            text : OpenLayers.i18n('cadastrapp.result.parcelle.zoom.selection'),
-            disabled:true,
-            listeners : {
-                click : function(b, e) {
-                    // zoom on selected plots from the active tab
-                    var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
-
-                    var features = [];
-                    Ext.each(selection, function(item) {
-                        var parcelleId = item.data.parcelle;
-                        features.push(GEOR.Addons.Cadastre.getFeatureById(parcelleId));
-                    });
-                    if (features) {
-                        GEOR.Addons.Cadastre.zoomOnFeatures(features);
+            text:OpenLayers.i18n("cadastrapp.result.parcelle.zoom"),      
+            menu:{
+                items: [ {
+                    text : OpenLayers.i18n('cadastrapp.result.parcelle.zoom.list'),
+                    listeners : {
+                        click : function(b, e) {
+                            // zoom on plots from the active tab
+                            GEOR.Addons.Cadastre.zoomOnFeatures(GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList);
+                        }
                     }
+                }, {
+                    text : OpenLayers.i18n('cadastrapp.result.parcelle.zoom.selection'),
+                    id : "cadastrappRPZS",
+                    disabled:true,
+                    listeners : {
+                        click : function(b, e) {
+                            // zoom on selected plots from the active tab
+                            var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
 
-                }
+                            var features = [];
+                            Ext.each(selection, function(item) {
+                                var parcelleId = item.data.parcelle;
+                                features.push(GEOR.Addons.Cadastre.getFeatureById(parcelleId));
+                            });
+                            if (features) {
+                                GEOR.Addons.Cadastre.zoomOnFeatures(features);
+                            }
+                        }
+                    }
+                }],
+                showSeparator:false
             }
         }, {
             text : OpenLayers.i18n('cadastrapp.result.parcelle.delete'),
@@ -171,7 +177,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                         var feature = GEOR.Addons.Cadastre.getFeatureById(parcelleId);
 
                         // Close open windows
-                        GEOR.Addons.Cadastre.closeFoncierAndCadastre(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
+                        GEOR.Addons.Cadastre.closeFiche(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
 
                         // Remove feature
                         if (feature) {
@@ -182,6 +188,22 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                 }
             }
         }, {
+            text : OpenLayers.i18n('cadastrapp.result.parcelle.uf'),
+            disabled:true,
+            listeners : {
+                click : function(b, e) {
+                    
+                    // For each selected plots open a new windows
+                    var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
+
+                    Ext.each(selection, function(item) {
+                        var feature = GEOR.Addons.Cadastre.getFeatureById(item.data.parcelle);                 
+                        GEOR.Addons.Cadastre.selectFeatureIntersection(feature, "uniteFonciere");                               
+                    });
+                }
+            }
+        },
+        {
             text : OpenLayers.i18n('cadastrapp.result.parcelle.fiche'),
             disabled:true,
             listeners : {
@@ -192,14 +214,14 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                     Ext.each(selection, function(item) {
                         var parcelleId = item.data.parcelle;
                         var feature = GEOR.Addons.Cadastre.getFeatureById(parcelleId);
+
                         var state = GEOR.Addons.Cadastre.selection.state.list;
 
-                        // Si la fenêtre details cadastre ou foncier est déjà
-                        // ouverte
+                        // Si la fenêtre details cadastre est déjà ouverte
                         if (GEOR.Addons.Cadastre.result.tabs.getActiveTab().idParcellesCOuvertes.indexOf(parcelleId) != -1 || GEOR.Addons.Cadastre.result.tabs.getActiveTab().idParcellesFOuvertes.indexOf(parcelleId) != -1) {
-                            GEOR.Addons.Cadastre.closeFoncierAndCadastre(parcelleId, grid);
+                            GEOR.Addons.Cadastre.closeFiche(parcelleId, grid);
                         } else {
-                            GEOR.Addons.Cadastre.openFoncierOrCadastre(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
+                            GEOR.Addons.Cadastre.openFiche(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
                             state = GEOR.Addons.Cadastre.selection.state.details;
                         }
 
@@ -352,7 +374,7 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                         
                         if(grid.selections.length == 0){ // no selection, we deactive some buttons
                             switch (btn.text){
-                            case OpenLayers.i18n('cadastrapp.result.parcelle.zoom.selection'):
+                            case OpenLayers.i18n('cadastrapp.result.parcelle.uf'):
                                 btn.disable();
                                 break;
                             case OpenLayers.i18n('cadastrapp.result.parcelle.delete'):
@@ -361,13 +383,23 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                             case OpenLayers.i18n('cadastrapp.result.parcelle.fiche'):
                                 btn.disable();
                                 break;
-                            default:
-                                if(!btn.menu && btn.text == OpenLayers.i18n("cadastrapp.result.csv.export")){
-                                    btn.disable();
+                            case OpenLayers.i18n("cadastrapp.result.csv.export"):
+                                btn.disable();
+                                break;
+                            case OpenLayers.i18n("cadastrapp.result.parcelle.zoom"):
+                                // Zoom keep zoom list enable
+                                if(btn.menu && btn.menu.items.get('cadastrappRPZS')){
+                                    btn.menu.items.get('cadastrappRPZS').setDisabled(true);
                                 }
+                                break;
+                            default:
                             }                                   
                         } else {
-                            btn.enable();
+                            if(btn.menu && btn.menu.items.get('cadastrappRPZS')){
+                                btn.menu.items.get('cadastrappRPZS').setDisabled(false);
+                            }else{
+                                btn.enable();
+                            }
                         }
                     });
                 }
@@ -388,8 +420,7 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
 
                 // on ferme la fenetre si c'est le dernier onglet
                 if (GEOR.Addons.Cadastre.result.tabs.items.length == 2) {
-                    // si il ne reste que cet onglet et l'onglet '+', fermer la
-                    // fenetre
+                    // si il ne reste que cet onglet et l'onglet '+', fermer la fenetre
                     GEOR.Addons.Cadastre.result.plot.window.close();
                 } else {
                     // on selectionne manuellement le nouvel onglet à
@@ -399,8 +430,7 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                     var index = GEOR.Addons.Cadastre.result.tabs.items.findIndex('id', grid.id);
                
                     // *************
-                    // quand on ferme l'onglet on vire toutes les
-                    // parcelles dependantes
+                    // quand on ferme l'onglet on vire toutes les parcelles dependantes
                     store = grid.store.data.items;
                     GEOR.Addons.Cadastre.changeStateParcelleOfTab(store, "reset");
                     // *************
@@ -413,12 +443,11 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                 var feature = GEOR.Addons.Cadastre.getFeatureById(parcelleId);
                 var state = GEOR.Addons.Cadastre.selection.state.list;
 
-                // Si la fenêtre details cadastre ou foncier est déjà
-                // ouverte
+                // Si la fenêtre details cadastre est déjà ouverte
                 if (GEOR.Addons.Cadastre.result.tabs.getActiveTab().idParcellesCOuvertes.indexOf(parcelleId) != -1 || GEOR.Addons.Cadastre.result.tabs.getActiveTab().idParcellesFOuvertes.indexOf(parcelleId) != -1) {
-                    GEOR.Addons.Cadastre.closeFoncierAndCadastre(parcelleId, grid);
+                    GEOR.Addons.Cadastre.closeFiche(parcelleId, grid);
                 } else {
-                    GEOR.Addons.Cadastre.openFoncierOrCadastre(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
+                    GEOR.Addons.Cadastre.openFiche(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
                     state = GEOR.Addons.Cadastre.selection.state.details;
                 }
 
@@ -542,41 +571,33 @@ GEOR.Addons.Cadastre.changeStateParcelleOfTab = function(store, typeSelector) {
 }
 
 /**
- * en fonction des cases à cocher on ouvre la fenêtre cadastrale et/ou foncière
+ * en fonction des cases à cocher on ouvre la fenêtre cadastrale 
  * 
  * @param: id
  * @param: grid
  * 
  */
-GEOR.Addons.Cadastre.openFoncierOrCadastre = function(id, grid) {
+GEOR.Addons.Cadastre.openFiche = function(id, grid) {
 
     var cadastreExiste = (grid.idParcellesCOuvertes.indexOf(id) != -1)
-    var foncierExiste = (grid.idParcellesFOuvertes.indexOf(id) != -1)
 
-    if (!foncierExiste && GEOR.Addons.Cadastre.isFoncier()) {
-        grid.detailParcelles.push(GEOR.Addons.Cadastre.onClickDisplayFIUF(id));
-    }
     if (!cadastreExiste) {
         grid.detailParcelles.push(GEOR.Addons.Cadastre.displayFIUC(id));
     }
 }
 
 /**
- * fermeture d'une fenêtre cadastre et foncière donnée par un id
+ * fermeture d'une fenêtre cadastre donnée par un id
  * 
  * @param: idParcelle
  * @param: grid
  */
-GEOR.Addons.Cadastre.closeFoncierAndCadastre = function(idParcelle, grid) {
+GEOR.Addons.Cadastre.closeFiche = function(idParcelle, grid) {
 
     cadastreExiste = (grid.idParcellesCOuvertes.indexOf(idParcelle) != -1)
-    foncierExiste = (grid.idParcellesFOuvertes.indexOf(idParcelle) != -1)
 
     if (cadastreExiste) {
         GEOR.Addons.Cadastre.closeWindowFIUC(idParcelle, grid);
-    }
-    if (foncierExiste) {
-        GEOR.Addons.Cadastre.closeWindowFIUF(idParcelle, grid);
     }
 }
 
@@ -597,66 +618,30 @@ GEOR.Addons.Cadastre.closeWindowFIUC = function(idParcelle, grid) {
 }
 
 /**
- * Method: closeWindowFIUF
- * 
- * Ferme la fenetre de fiche foncière
- * 
- * @param: idParcelle
- * @param: grid
- */
-GEOR.Addons.Cadastre.closeWindowFIUF = function(idParcelle, grid) {
-    var index = grid.idParcellesFOuvertes.indexOf(idParcelle);
-    var ficheCourante = grid.fichesFOuvertes[index];
-    if (ficheCourante) {
-        ficheCourante.close();
-    }
-}
-
-/**
  * Method: closeAllWindowFIUC
  * 
  * Ferme toutes les fenêtres de fiches cadastrales
  * 
  */
 GEOR.Addons.Cadastre.closeAllWindowFIUC = function() {
-    // for each tabs
-    Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
-        if (tab && tab.idParcellesCOuvertes) {
-            // create a temp array
-            var parcellesList = tab.idParcellesCOuvertes.slice(0);          
-            // for each fiche
-            Ext.each(parcellesList, function(idParcellesCOuverte, currentIndex) {
-                GEOR.Addons.Cadastre.closeWindowFIUC(idParcellesCOuverte, tab);
-            });
-            tab.fichesCOuvertes = [];
-            tab.idParcellesCOuvertes = [];
-        }
-    });
+    
+    if (GEOR.Addons.Cadastre.result.tabs && GEOR.Addons.Cadastre.result.tabs.items) {
+        // for each tabs
+        Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
+            if (tab && tab.idParcellesCOuvertes) {
+                // create a temp array
+                var parcellesList = tab.idParcellesCOuvertes.slice(0);          
+                // for each fiche
+                Ext.each(parcellesList, function(idParcellesCOuverte, currentIndex) {
+                    GEOR.Addons.Cadastre.closeWindowFIUC(idParcellesCOuverte, tab);
+                });
+                tab.fichesCOuvertes = [];
+                tab.idParcellesCOuvertes = [];
+            }
+        });
+    }
 
 }
-
-/**
- * Method: closeAllWindowFIUF
- * 
- * Ferme toutes les fenêtres de fiches foncière
- * 
- */
-GEOR.Addons.Cadastre.closeAllWindowFIUF = function() {
-    // for each tabs
-    Ext.each(GEOR.Addons.Cadastre.result.tabs.items.items, function(tab, currentIndex) {
-        if (tab && tab.idParcellesFOuvertes) {
-            // create a temp array
-            var parcellesList = tab.idParcellesFOuvertes.slice(0);
-            // for each fiche
-            Ext.each(parcellesList, function(idParcellesFOuverte, currentIndex) {
-                GEOR.Addons.Cadastre.closeWindowFIUF(idParcellesFOuverte, tab);
-            });
-            tab.fichesFOuvertes = [];
-            tab.idParcellesFOuvertes = [];
-        }
-    });
-}
-
 
 /**
  * get CSV from co-owners

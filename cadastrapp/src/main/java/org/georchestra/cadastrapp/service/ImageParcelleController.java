@@ -314,7 +314,7 @@ public class ImageParcelleController extends CadController {
 						namedLayer.setName(cadastreWFSLayerNameOri);
 
 					    /// create a "user defined" style
-						// TO get Value from configuration file
+						// TODO get Value from configuration file
 						Stroke stroke = sf.stroke(ff.literal("#10259E"), ff.literal(1), ff.literal(2), null, null, null, null);
 					    Fill fill = sf.fill(null, ff.literal("#1446DE"), ff.literal(0.50));
 						PolygonSymbolizer sym = sf.createPolygonSymbolizer(stroke, fill, null);
