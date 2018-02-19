@@ -205,7 +205,7 @@ public class ProprietaireController extends CadController{
 			if(parcelleList != null && !parcelleList.isEmpty()){
 
 				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("select parcelle, comptecommunal, app_nom_usage, app_nom_naissance, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib ");
+				queryBuilder.append("select parcelle, prop.comptecommunal, app_nom_usage, app_nom_naissance, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib ");
 				queryBuilder.append(" from ");
 				queryBuilder.append(databaseSchema);
 				queryBuilder.append(".proprietaire prop, ");

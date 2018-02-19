@@ -1,13 +1,5 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
-// ***************
-var _isFoncier = false;
-
-GEOR.Addons.Cadastre.isFoncier = function() {
-    return _isFoncier;
-}
-// **********************************
-
 /**
  * 
  * Create a menu main controler for cadastrapp
@@ -61,16 +53,19 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
             styleMap : styleMap,
             displayInLayerSwitcher : false
         });
-        var layer = new OpenLayers.Layer.Vector("__georchestra_cadastrapps", layerOptions);
-        this.layer = layer;
-        this.map.addLayer(layer);
+        var cadastreLayer = new OpenLayers.Layer.Vector("__georchestra_cadastrapps", layerOptions);
+        this.map.addLayer(cadastreLayer);
 
         this.initZoomControls();
         this.items.push('-');
-        this.initSelectionControls(layer);
+        this.initSelectionControls(cadastreLayer);
         this.items.push('-');
-        this.initCadastrappControls();
-        this.items.push('-');
+        
+        //init UF button only if option foncier is true in manifest
+        if (GEOR.Addons.Cadastre.UF.isfoncier){
+            this.initUFControls(cadastreLayer);
+            this.items.push('-');
+        }
         this.initRechercheControls();
         this.items.push('-');
         this.initDemandeControl();
@@ -215,41 +210,68 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
     },
 
     /**
-     * private: method[initCadastrappControls] 
+     * private: method[initUFControls] 
      * 
-     * Init action on checkBox Foncier
+     * Init action for UF controls
      */
-    initCadastrappControls : function() {
+    initUFControls : function(layer) {
 
-        // menu : checkbox foncier
-        var foncierPanel = new Ext.Panel({
-            frame : false,
-            border : false,
-            bodyStyle : 'background:transparent;',
-            style : 'margin-left:5px;margin-right:5px',
-            items : [ {
-                xtype : 'checkbox',
-                checked : _isFoncier,
-                style : 'margin-top:2px;margin-left:10px',
-                listeners : {
-                    check : function(cb, checked) {
-                        _isFoncier = checked;
-                    },
-                    render : function(c) {
-                        Ext.QuickTips.register({
-                            target : c,
-                            text : OpenLayers.i18n("cadastrapp.menu.tooltips.foncier"),
-                        });
+        var control, handler,  options, action,actionOptions;
+
+        options = {
+                handlerOptions : {
+                stopDown : true,
+                stopUp : true
+                }
+        };
+
+        handler = OpenLayers.Handler.Point;
+        control = new OpenLayers.Control.DrawFeature(layer, handler, options);
+        this.cadastrappControls.push(control);
+        control.events.on({
+            "featureadded" : this.onUFClick,
+            scope : this
+        });
+
+        actionOptions = {
+                control : control,
+                map : this.map,
+                // button options
+                toggleGroup : 'map',
+                allowDepress : true,
+                tooltip : OpenLayers.i18n("cadastrapp.menu.tooltips.foncier"),
+                iconCls : "gx-featureediting-cadastrapp-parcelle",
+                text : OpenLayers.i18n("cadastrapp.foncier"),
+                iconAlign : 'top',
+                toggleHandler : function(btn, pressed) {
+                    if (pressed) {
+                        
+                        // Close all windows and clean existing feature
+                        GEOR.Addons.Cadastre.WFSLayer.removeAllFeatures();
+                        GEOR.Addons.Cadastre.UF.features=[];
+                        if(GEOR.Addons.Cadastre.result.plot.window){
+                            GEOR.Addons.Cadastre.result.plot.window.close();
+                        }
+                        if(GEOR.Addons.Cadastre.rechercheParcelleWindow){
+                            GEOR.Addons.Cadastre.rechercheParcelleWindow.close();
+                        }
+                        if(GEOR.Addons.Cadastre.proprietaireWindow){
+                            GEOR.Addons.Cadastre.proprietaireWindow.close();
+                        }
+                        if(GEOR.Addons.Cadastre.coProprieteWindow){
+                            GEOR.Addons.Cadastre.coProprieteWindow.close();
+                        }
+                    }
+                    else{
+                        // Clean existing feature
+                        GEOR.Addons.Cadastre.WFSLayer.removeAllFeatures();
+                        GEOR.Addons.Cadastre.UF.features=[];
                     }
                 }
-            }, {
-                xtype : 'displayfield',
-                value : OpenLayers.i18n("cadastrapp.foncier"),
-            } ]
-        });
-        this.items.push(foncierPanel);
+        };
+        action = new GeoExt.Action(actionOptions);
+        this.items.push(action);
     },
-
     /**
      * private: method[initRechercheControls] 
      *  Init action on search parcelle menu and button
@@ -483,12 +505,26 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
 
         feature = event.feature;
         feature.state = OpenLayers.State.INSERT;
-
+       
         GEOR.Addons.Cadastre.selectFeatureIntersection(feature);
         // erase point, line or polygones
         feature.layer.removeAllFeatures();
     },
 
+    /**
+     * private: method[onUFClick]
+     * 
+     * @param event:
+     *            ``event`` Called when a new feature is added to the layer using unite fonciere button
+     * 
+     */
+    onUFClick : function(event) {
+        // Select feature in point intersection
+        GEOR.Addons.Cadastre.selectFeatureIntersection(event.feature, "uniteFonciere");
+        // erase point
+        event.feature.layer.removeAllFeatures();
+    },
+    
     /**
      * 
      */
@@ -517,14 +553,7 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
         GEOR.Addons.Cadastre.WFSLayer.destroy();
         GEOR.Addons.Cadastre.WFSLayer = null;
 
-        this.layer.destroy();
-        this.layer = null;
-
         this.map = null;
-        
-        
-        
-
     },
 
     CLASS_NAME : "Cadastrapp"

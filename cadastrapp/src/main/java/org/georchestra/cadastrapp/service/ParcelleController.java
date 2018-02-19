@@ -190,7 +190,7 @@ public class ParcelleController extends CadController {
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".uf_parcelle uf where uf.uf = ? ");
 			queryBuilder.append(" and uf.parcelle = p.parcelle ");
-			queryBuilder.append(";");
+			queryBuilder.append(" order by p.parcelle;");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), uf);

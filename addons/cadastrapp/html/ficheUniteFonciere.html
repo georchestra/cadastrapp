@@ -1,0 +1,39 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Information sur une unité foncière</title>
+    
+    <link rel="stylesheet" type="text/css" href="../css/ficheUniteFonciere.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/external/jquery/jquery-ui-1.12.1/jquery-ui.theme.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/external/jquery/jquery-ui-1.12.1/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/external/jquery/jquery-ui-1.12.1/jquery-ui.structure.css"/>
+    
+    <!-- LIBS -->                    
+    <!--  OpenLayers2 lib need to be load because we are not in mapfishapp context -->
+    <script src="../js/external/openlayers2/openlayers/lib/OpenLayers.js"></script>
+    <script src="../js/external/jquery/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <script src="../js/external/jquery/jquery-ui-1.12.1/jquery-ui.js"></script>    
+    <script type="text/javascript" src="../js/ficheUniteFonciere.js"></script> 
+    <!-- END LIBS -->       
+</head>
+    <ul class="menu">          
+        <li class="dropdown">
+            <a onClick="window.print();" href="#export">Imprimer</a>    
+        </li>
+    </ul>       
+    <body onload="init()">                                
+		<div id="mainPage" class="page">                       
+        	<div id="titre">
+            	<p><b>Information sur une unité foncière</b></p>
+           	</div>                              
+            <div id= "printmap" class ="map"></div>   
+            <br/>
+            <div id="informationgenerale">
+            </div>  
+            <div id="composition">
+            </div>       
+            <div id="parcelles">
+            </div>            
+     	</div>                            
+    </body>
+</html>
