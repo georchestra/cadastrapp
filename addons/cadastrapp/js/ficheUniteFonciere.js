@@ -1,5 +1,31 @@
 var printMap;
 
+
+/**
+*  Get plots list from cadastrapp service and display then in special div
+* @param ufId the uf id that will be used to call services
+*/
+function getParcellesInformation(ufId){
+   
+   $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getParcelle?unitefonciere=" + encodeURIComponent(ufId), function( data ) {
+       
+       var parcelles="";
+       var sommeSurf=0;
+       
+       data.forEach(function(element){
+           parcelles=parcelles+ "<div class=\"data\"><span class=\"dataLabel\">"+element.parcelle+"</span>"+((element.surfc === null) ? 0 : element.surfc.toLocaleString())+" m²</div>";
+           sommeSurf=sommeSurf+element.surfc;
+       });
+        
+       var content = "<div class=\"info\"><b>Cette unité foncière est composée de "+data.length+" parcelles.</b></div>"+
+       "<div class=\"info\">La somme des surfaces DGFiP est égale à "+ sommeSurf.toLocaleString() +" m².</div>";
+       
+       document.getElementById('composition').innerHTML=content;
+       document.getElementById('parcelles').innerHTML=parcelles;
+   
+     }); 
+}
+
 /**
 *  Get unite fonciere information and owners information from cadastrapp service and display then in special div
 * @param parcelleId parcelleId that will be used to call services
@@ -30,31 +56,6 @@ function getUFInformation(parcelleId){
            getParcellesInformation(data.uf);
        }
        
-     }); 
-}
-
-/**
-*  Get plots list from cadastrapp service and display then in special div
-* @param ufId the uf id that will be used to call services
-*/
-function getParcellesInformation(ufId){
-   
-   $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getParcelle?unitefonciere=" + encodeURIComponent(ufId), function( data ) {
-       
-       var parcelles="";
-       var sommeSurf=0;
-       
-       data.forEach(function(element){
-           parcelles=parcelles+ "<div class=\"data\"><span class=\"dataLabel\">"+element.parcelle+"</span>"+((element.surfc === null) ? 0 : element.surfc.toLocaleString())+" m²</div>";
-           sommeSurf=sommeSurf+element.surfc;
-       });
-        
-       var content = "<div class=\"info\"><b>Cette unité foncière est composée de "+data.length+" parcelles.</b></div>"+
-       "<div class=\"info\">La somme des surfaces DGFiP est égale à "+ sommeSurf.toLocaleString() +" m².</div>";
-       
-       document.getElementById('composition').innerHTML=content;
-       document.getElementById('parcelles').innerHTML=parcelles;
-   
      }); 
 }
 
