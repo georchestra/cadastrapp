@@ -99,7 +99,8 @@ GEOR.Addons.Cadastre.createSelectionControl = function(style, selectedStyle) {
         trigger : function(e) {
             // récupération de la longitude et latitude à partir du clique
             lonlat = GeoExt.MapPanel.guess().map.getLonLatFromPixel(e.xy);
-            GEOR.Addons.Cadastre.getFeaturesWFSSpatial("Point", lonlat.lon + "," + lonlat.lat, "clickSelector");
+            var point = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+            GEOR.Addons.Cadastre.getFeaturesWFSSpatial(point, "clickSelector");
         }
     });
 }
@@ -135,8 +136,8 @@ GEOR.Addons.Cadastre.addPopupOnhover = function(popupConfig) {
             // affichage si niveau de zoom convenable
             if (zoom > popupConfig.minZoom) {
                 var lonlat = map.getLonLatFromPixel(evt.xy);
-                var coords = lonlat.lon + "," + lonlat.lat;
-                GEOR.Addons.Cadastre.getFeaturesWFSSpatial("Point", coords, "infoBulle");
+                var point = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+                GEOR.Addons.Cadastre.getFeaturesWFSSpatial(point, "infoBulle");
             }
         },
         onMove : function(evt) {
@@ -166,17 +167,19 @@ GEOR.Addons.Cadastre.addPopupOnhover = function(popupConfig) {
  * Envoie une requête au geoserveur pour faire une intersection de la couche wms
  * avec la géométrie donnée en paramètres
  * 
- * @param: typeGeom
- * @param: coords
+ * @param: geometry
  * @param: typeSelector
  */
-GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSelector) {
+GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
 
     var filter;
     var selectRows = false; // ligne dans le resultat de recherche doit être sélectionnée si etat =2
     var polygoneElements = "";
     var endPolygoneElements = "";
-
+    
+    var coords = GEOR.Addons.Cadastre.getFeatureCoord(geometry);
+    var typeGeom = geometry.id.split('_')[2];
+    
     if (typeGeom == "Polygon") {
         polygoneElements = "<gml:outerBoundaryIs><gml:LinearRing>";
         endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs>";
@@ -284,7 +287,7 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
                 if (resultSelection.length > 0) {
                     var map = GeoExt.MapPanel.guess().map;
                     var idParcelle = resultSelection[0].attributes[idField];
-                    var lonlat = new OpenLayers.LonLat(coords.split(",")[0], coords.split(",")[1])
+                    var lonlat = new OpenLayers.LonLat(geometry.lon, geometry.lat)
                     GEOR.Addons.Cadastre.displayInfoBulle(map, idParcelle, lonlat);
                 }
             }else{ // unitefonciere
@@ -292,18 +295,20 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
                     // Draw UF          
                     //get Parcelle Id
                     var idParcelle = resultSelection[0].attributes[idField];
-                    // TODO Change this for Ol.format.filter on feature
-                    var components = resultSelection[0].geometry.components[0].components; 
-                    var parcelleCoords = components[0].x + "," + components[0].y;
-                    Ext.each(components, function(component, currentIndex) {
-                        parcelleCoords += " " + component.x + "," + component.y;
-                    });
-                    var typeGeom = "Polygon";
-                    var polygoneElements = "<gml:outerBoundaryIs><gml:LinearRing>";
-                    var endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs>";
+                    // TODO Change this for Ol.format.filter on feature                  
+                    var coords = GEOR.Addons.Cadastre.getFeatureCoord(geometry);
+                    var typeGeom = geometry.id.split('_')[2];
+                    
+                    if (typeGeom == "Polygon") {
+                        polygoneElements = "<gml:outerBoundaryIs><gml:LinearRing>";
+                        endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs>";
+                    }else if (typeGeom == "MultiPolygon"){
+                        polygoneElements = "<gml:polygonMember><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing>";
+                        endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></gml:polygonMember>";
+                    }
 
-                    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + parcelleCoords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Intersects></Filter>';
-
+                    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Contains><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Contains></Filter>';
+      
                     Ext.Ajax.request({
                         async : false,
                         url : GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl,
@@ -566,17 +571,25 @@ GEOR.Addons.Cadastre.clearLayerSelection = function() {
  */
 GEOR.Addons.Cadastre.selectFeatureIntersection = function(feature, origin) {
 
-    // get geometry type
-    var typeGeom = feature.geometry.id.split('_')[2];
-    var coords = "";
     if(!origin){
         origin="clickSelector";
     }
+    
+    GEOR.Addons.Cadastre.getFeaturesWFSSpatial(feature.geometry, origin);
+}
+
+/**
+ * Calculate coordinates for given geometry
+ */
+GEOR.Addons.Cadastre.getFeatureCoord = function(geometry){
+    
+    var typeGeom = geometry.id.split('_')[2];
+    var coords = "";
 
     if (typeGeom == "Point") {
-        coords = feature.geometry.x + "," + feature.geometry.y;
+        coords = geometry.x + "," + geometry.y;
     } else {
-        var components = feature.geometry.components;
+        var components = geometry.components;
         // TODO change this way of getting feature.
         // geo_parcelle and unite fonciere are multipolygon in qgis model
         if (typeGeom == "Polygon"){
@@ -590,7 +603,7 @@ GEOR.Addons.Cadastre.selectFeatureIntersection = function(feature, origin) {
             coords += " " + component.x + "," + component.y;
         });
     }
-    GEOR.Addons.Cadastre.getFeaturesWFSSpatial(typeGeom, coords, origin);
+    return coords;
 }
 
 /**
