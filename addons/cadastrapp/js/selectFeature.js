@@ -180,6 +180,9 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
     if (typeGeom == "Polygon") {
         polygoneElements = "<gml:outerBoundaryIs><gml:LinearRing>";
         endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs>";
+    }else if (typeGeom == "MultiPolygon"){
+        polygoneElements = "<gml:polygonMember><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing>";
+        endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></gml:polygonMember>";
     }
 
     filter = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Intersects></Filter>';
@@ -289,8 +292,17 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
                     // Draw UF          
                     //get Parcelle Id
                     var idParcelle = resultSelection[0].attributes[idField];
-                    // TODO Change this for Ol.format.filter
-                    var filter = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.WFSLayerSetting.geometryField + '</PropertyName><gml:Point><gml:coordinates>' + coords + '</gml:coordinates></gml:Point></Intersects></Filter>';
+                    // TODO Change this for Ol.format.filter on feature
+                    var components = resultSelection[0].geometry.components[0].components; 
+                    var parcelleCoords = components[0].x + "," + components[0].y;
+                    Ext.each(components, function(component, currentIndex) {
+                        parcelleCoords += " " + component.x + "," + component.y;
+                    });
+                    var typeGeom = "Polygon";
+                    var polygoneElements = "<gml:outerBoundaryIs><gml:LinearRing>";
+                    var endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs>";
+
+                    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + parcelleCoords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Intersects></Filter>';
 
                     Ext.Ajax.request({
                         async : false,
@@ -305,7 +317,7 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(typeGeom, coords, typeSele
                             "service" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.service,
                             "typename" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename,
                             "outputFormat" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.outputFormat,
-                            "filter" : filter
+                            "filter" : filterUF
                         },
                         success : function(response) {
                             var geojson_format = new OpenLayers.Format.GeoJSON();
@@ -565,8 +577,14 @@ GEOR.Addons.Cadastre.selectFeatureIntersection = function(feature, origin) {
         coords = feature.geometry.x + "," + feature.geometry.y;
     } else {
         var components = feature.geometry.components;
-        if (typeGeom == "Polygon")
+        // TODO change this way of getting feature.
+        // geo_parcelle and unite fonciere are multipolygon in qgis model
+        if (typeGeom == "Polygon"){
             components = components[0].components;
+        }else if(typeGeom == "MultiPoygon"){
+            //get only first Polygon as coords
+            components = components[0].components[0].components
+        }
         coords = components[0].x + "," + components[0].y;
         Ext.each(components, function(component, currentIndex) {
             coords += " " + component.x + "," + component.y;
