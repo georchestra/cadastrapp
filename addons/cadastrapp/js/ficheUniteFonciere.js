@@ -1,6 +1,64 @@
 var printMap;
 
 /**
+*  Get unite fonciere information and owners information from cadastrapp service and display then in special div
+* @param parcelleId parcelleId that will be used to call services
+*/
+function getUFInformation(parcelleId){
+   
+   // get global information
+   $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getInfoUniteFonciere?parcelle=" +  encodeURIComponent(parcelleId), function(data) {
+       
+       // Only if we get a response
+       if(data){
+           // get owner name
+           $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getProprietaire?details=2&comptecommunal=" +  encodeURIComponent(data.comptecommunal), function(prop) {
+              
+               var propName = "";
+               prop.forEach(function(element){
+                   propName = propName +"<div>"+element.app_nom_usage+"</div>";
+               });
+                         
+               document.getElementById('informationgenerale').innerHTML =
+               "<div class=\"proprieteaire\"><div>Propriétaire(s) : </div>"+propName+
+               "<div>"+data.comptecommunal+"</div></div>"+
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>"+
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div>";
+           });
+   
+           getParcellesInformation(data.uf);
+       }
+       
+     }); 
+}
+
+/**
+*  Get plots list from cadastrapp service and display then in special div
+* @param ufId the uf id that will be used to call services
+*/
+function getParcellesInformation(ufId){
+   
+   $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getParcelle?unitefonciere=" + encodeURIComponent(ufId), function( data ) {
+       
+       var parcelles="";
+       var sommeSurf=0;
+       
+       data.forEach(function(element){
+           parcelles=parcelles+ "<div class=\"data\"><span class=\"dataLabel\">"+element.parcelle+"</span>"+((element.surfc === null) ? 0 : element.surfc.toLocaleString())+" m²</div>";
+           sommeSurf=sommeSurf+element.surfc;
+       });
+        
+       var content = "<div class=\"info\"><b>Cette unité foncière est composée de "+data.length+" parcelles.</b></div>"+
+       "<div class=\"info\">La somme des surfaces DGFiP est égale à "+ sommeSurf.toLocaleString() +" m².</div>";
+       
+       document.getElementById('composition').innerHTML=content;
+       document.getElementById('parcelles').innerHTML=parcelles;
+   
+     }); 
+}
+
+/**
  * Init code after body is loaded
  */
 function init() {
@@ -74,64 +132,3 @@ function handlerVisibility(el, bool) {
         });
     }
 }
-
-/**
- * 
- * @param parcelleId
- * @returns
- */
-function getUFInformation(parcelleId){
-    
-    // get global information
-    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getInfoUniteFonciere?parcelle=" +  encodeURIComponent(parcelleId), function(data) {
-        
-        // Only if we get a response
-        if(data){
-            // get owner name
-            $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getProprietaire?details=2&comptecommunal=" +  encodeURIComponent(data.comptecommunal), function(prop) {
-               
-                var propName = "";
-                prop.forEach(function(element){
-                    propName = propName +"<div>"+element.app_nom_usage+"</div>";
-                });
-                          
-                document.getElementById('informationgenerale').innerHTML =
-                "<div class=\"proprieteaire\"><div>Propriétaire(s) : </div>"+propName+
-                "<div>"+data.comptecommunal+"</div></div>"+
-                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>"+
-                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
-                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div>";
-            });
-    
-            getParcellesInformation(data.uf);
-        }
-        
-      }); 
-}
-
-/**
- * 
- * @param ufId
- * @returns
- */
-function getParcellesInformation(ufId){
-    
-    $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getParcelle?unitefonciere=" + encodeURIComponent(ufId), function( data ) {
-        
-        var parcelles="";
-        var sommeSurf=0;
-        
-        data.forEach(function(element){
-            parcelles=parcelles+ "<div class=\"data\"><span class=\"dataLabel\">"+element.parcelle+"</span>"+((element.surfc === null) ? 0 : element.surfc.toLocaleString())+" m²</div>";
-            sommeSurf=sommeSurf+element.surfc;
-        });
-         
-        var content = "<div class=\"info\"><b>Cette unité foncière est composée de "+data.length+" parcelles.</b></div>"+
-        "<div class=\"info\">La somme des surfaces DGFiP est égale à "+ sommeSurf.toLocaleString() +" m².</div>";
-        
-        document.getElementById('composition').innerHTML=content;
-        document.getElementById('parcelles').innerHTML=parcelles;
-    
-      }); 
-}
-
