@@ -13,12 +13,6 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
     items : null,
 
     /**
-     * api: config[layerOptions] ``Object`` Options to be passed to the
-     * OpenLayers.Layer.Vector constructor.
-     */
-    layerOptions : {},
-
-    /**
      * api: property[toggleGroup] ``String`` The name of the group used for the
      * buttons created. If none is provided, it's set to this.map.id.
      */
@@ -32,28 +26,11 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
 
         this.cadastrappControls = [];
         this.items = [];
-
         this.initMap();
-        // if set, automatically creates a "cadastrapp" layer
-        var style = this.style || OpenLayers.Util.applyDefaults(this.defaultStyle, OpenLayers.Feature.Vector.style["default"]);
 
-        var styleMap = new OpenLayers.StyleMap({
-            'default' : style,
-            'vertices' : new OpenLayers.Style({
-                pointRadius : 5,
-                graphicName : "square",
-                fillColor : "white",
-                fillOpacity : 0.6,
-                strokeWidth : 1,
-                strokeOpacity : 1,
-                strokeColor : "#333333"
-            })
-        });
-        var layerOptions = OpenLayers.Util.applyDefaults(this.layerOptions, {
-            styleMap : styleMap,
+        var cadastreLayer = new OpenLayers.Layer.Vector("__georchestra_cadastrapps", {
             displayInLayerSwitcher : false
         });
-        var cadastreLayer = new OpenLayers.Layer.Vector("__georchestra_cadastrapps", layerOptions);
         this.map.addLayer(cadastreLayer);
 
         this.initZoomControls();
