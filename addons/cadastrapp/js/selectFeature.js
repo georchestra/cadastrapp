@@ -285,10 +285,10 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
             } else if(typeSelector == "infoBulle") { // si la méthode est appelée pour afficher l'infobulle
                 // si on survole la couche et pas le fond de carte pour avoir l'infobulle
                 if (resultSelection.length > 0) {
-                    var map = GeoExt.MapPanel.guess().map;
                     var idParcelle = resultSelection[0].attributes[idField];
-                    var lonlat = new OpenLayers.LonLat(geometry.lon, geometry.lat)
-                    GEOR.Addons.Cadastre.displayInfoBulle(map, idParcelle, lonlat);
+                    // if infoBulle geometry is a point
+                    var lonlat = new OpenLayers.LonLat(geometry.x, geometry.y)
+                    GEOR.Addons.Cadastre.displayInfoBulle(idParcelle, lonlat);
                 }
             }else{ // unitefonciere
                 if (resultSelection.length > 0) {

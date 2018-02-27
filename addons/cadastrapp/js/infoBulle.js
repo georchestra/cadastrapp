@@ -3,11 +3,10 @@ Ext.namespace("GEOR.Addons.Cadastre");
 /**
  *  Display an infobulle when waiting on a parcelle
  *  
- * @param map OpenLayers map where popup should be displayed
  * @param idParcelle parameter will be use to call webapp and get additional information
- * @param lonlatt position where popup should be displayed
+ * @param lonlat position where popup should be displayed
  */    
-GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
+GEOR.Addons.Cadastre.displayInfoBulle = function(idParcelle, lonlat) {
     
     if(GEOR.Addons.Cadastre.popup){
         GEOR.Addons.Cadastre.popup.close();
@@ -104,7 +103,7 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(map, idParcelle, lonlat) {
                 }
     
                GEOR.Addons.Cadastre.popup = new GeoExt.Popup({
-                    map:map,
+                    map:GeoExt.MapPanel.guess().map,
                     location: lonlat,
                     width: 300,
                     html: html,
