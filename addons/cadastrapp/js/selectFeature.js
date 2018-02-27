@@ -11,10 +11,8 @@ Ext.namespace("GEOR.Addons.Cadastre");
  */
 GEOR.Addons.Cadastre.createSelectionControl = function(style, selectedStyle) {
 
-    var styleFeatures = new OpenLayers.StyleMap(new OpenLayers.Style({ // param
-        // config
-        fillColor : "${getFillColor}", // style des entités en fonction de
-        // l'état
+    var styleFeatures = new OpenLayers.StyleMap(new OpenLayers.Style({ // param config
+        fillColor : "${getFillColor}", // style des entités en fonction de l'état
         strokeColor : "${getStrokeColor}",
         strokeWidth : "${getstrokeWidth}",
         fillOpacity : "${getFillOpacity}",
@@ -71,7 +69,7 @@ GEOR.Addons.Cadastre.createSelectionControl = function(style, selectedStyle) {
     }));
 
     // création de la couche des entités selectionnées
-    GEOR.Addons.Cadastre.WFSLayer = new OpenLayers.Layer.Vector("selection", {
+    GEOR.Addons.Cadastre.WFSLayer = new OpenLayers.Layer.Vector("cadastrapp_selection", {
         displayInLayerSwitcher : false
     });
     GEOR.Addons.Cadastre.WFSLayer.styleMap = styleFeatures;
@@ -79,30 +77,6 @@ GEOR.Addons.Cadastre.createSelectionControl = function(style, selectedStyle) {
     // ajout de la couche à la carte
     GeoExt.MapPanel.guess().map.addLayer(GEOR.Addons.Cadastre.WFSLayer);
     GEOR.Addons.Cadastre.WFSLayer.setZIndex(1001);
-
-    // création de la classe de l'écouteur clique
-    OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
-        defaultHandlerOptions : {
-            'single' : true,
-            'double' : false,
-            'pixelTolerance' : 0,
-            'stopSingle' : false,
-            'stopDouble' : false
-        },
-        initialize : function(options) {
-            this.handlerOptions = OpenLayers.Util.extend({}, this.defaultHandlerOptions);
-            OpenLayers.Control.prototype.initialize.apply(this, arguments);
-            this.handler = new OpenLayers.Handler.Click(this, {
-                'click' : this.trigger
-            }, this.handlerOptions);
-        },
-        trigger : function(e) {
-            // récupération de la longitude et latitude à partir du clique
-            lonlat = GeoExt.MapPanel.guess().map.getLonLatFromPixel(e.xy);
-            var point = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
-            GEOR.Addons.Cadastre.getFeaturesWFSSpatial(point, "clickSelector");
-        }
-    });
 }
 
 /**
@@ -139,11 +113,6 @@ GEOR.Addons.Cadastre.addPopupOnhover = function(popupConfig) {
                 var point = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
                 GEOR.Addons.Cadastre.getFeaturesWFSSpatial(point, "infoBulle");
             }
-        },
-        onMove : function(evt) {
-            // if this control sent an Ajax request (e.g. GetFeatureInfo) when
-            // the mouse pauses the onMove callback could be used to abort that
-            // request.
         }
     });
     // création du controleur de survol
@@ -171,7 +140,11 @@ GEOR.Addons.Cadastre.addPopupOnhover = function(popupConfig) {
  * @param: typeSelector
  */
 GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
-
+    
+    if(!typeSelector){
+        typeSelector="clickSelector";
+    }
+    
     var filter;
     var selectRows = false; // ligne dans le resultat de recherche doit être sélectionnée si etat =2
     var polygoneElements = "";
@@ -559,23 +532,6 @@ GEOR.Addons.Cadastre.changeStateFeature = function(feature, index, typeSelector)
 GEOR.Addons.Cadastre.clearLayerSelection = function() {
     GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList = [];
     GEOR.Addons.Cadastre.WFSLayer.removeAllFeatures();
-}
-
-/**
- * Method: selectFeatureIntersection
- * 
- * Récupère les coordonnées et la géométrie de l'entité dessinée et envoie une
- * requête au serveur
- * 
- * @param: feature
- */
-GEOR.Addons.Cadastre.selectFeatureIntersection = function(feature, origin) {
-
-    if(!origin){
-        origin="clickSelector";
-    }
-    
-    GEOR.Addons.Cadastre.getFeaturesWFSSpatial(feature.geometry, origin);
 }
 
 /**

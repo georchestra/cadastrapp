@@ -501,14 +501,9 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
      * 
      */
     onFeatureAdded : function(event) {
-        var feature;
-
-        feature = event.feature;
-        feature.state = OpenLayers.State.INSERT;
-       
-        GEOR.Addons.Cadastre.selectFeatureIntersection(feature);
+        GEOR.Addons.Cadastre.getFeaturesWFSSpatial(event.feature.geometry);
         // erase point, line or polygones
-        feature.layer.removeAllFeatures();
+        event.feature.layer.removeAllFeatures();
     },
 
     /**
@@ -520,7 +515,7 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
      */
     onUFClick : function(event) {
         // Select feature in point intersection
-        GEOR.Addons.Cadastre.selectFeatureIntersection(event.feature, "uniteFonciere");
+        GEOR.Addons.Cadastre.getFeaturesWFSSpatial(event.feature.geometry, "uniteFonciere");
         // erase point
         event.feature.layer.removeAllFeatures();
     },
