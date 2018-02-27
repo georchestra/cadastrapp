@@ -68,9 +68,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
 
         GEOR.Addons.Cadastre.selection=[];
         GEOR.Addons.Cadastre.selection.state=[];
-        GEOR.Addons.Cadastre.selection.state.list = this.options.selectedStyle.colorState1;
-        GEOR.Addons.Cadastre.selection.state.selected = this.options.selectedStyle.colorState2;
-        GEOR.Addons.Cadastre.selection.state.details = this.options.selectedStyle.colorState3;
+        GEOR.Addons.Cadastre.selection.state.list = "listed";
+        GEOR.Addons.Cadastre.selection.state.selected = "selected";
 
         GEOR.Addons.Cadastre.relevePropriete=[];
         GEOR.Addons.Cadastre.relevePropriete.maxProprietaire = 25;
@@ -88,7 +87,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.result.owner=[];
         GEOR.Addons.Cadastre.result.owner.window;
 
-        GEOR.Addons.Cadastre.createSelectionControl(this.options.defautStyleParcelle , this.options.selectedStyle);
+        GEOR.Addons.Cadastre.createLayer(this.options.style);
         
         GEOR.wmc.events.on("aftercontextrestore", GEOR.Addons.Cadastre.restoreLayersOnClear, this);
         GEOR.managelayers.events.on("aftercontextcleared", GEOR.Addons.Cadastre.restoreLayersOnClear, this);

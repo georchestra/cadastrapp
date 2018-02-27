@@ -2,7 +2,7 @@
 	"js": [
 		"js/build/cadastrapp.js"
 	],
-	"debugjs":[  
+	"debugjs":[		
         "js/printBordereauParcellaire.js",
         "js/printRelevePropriete.js",
         "js/printLots.js",
@@ -47,20 +47,19 @@
             "outputFormat":"application/json",
             "geometryField":"geom"
         },
-        "defautStyleParcelle":{  
-            "strokeColor":"#000000",
-            "strokeWidth":"0.5",
-            "pointRadius":6,
-            "pointerEvents":"visiblePainted",
-            "fontSize":"10px"
-        },
-        "selectedStyle":{  
-            "defautColor":"#AAAAAA",
-            "colorState1":"#FFFF00",
-            "colorState2":"#81BEF7",
-            "colorState3":"#57D53B",
-            "opacity":"0.4",
-            "strokeWidth":"3"
+        "style":{
+        	"listed":{  
+            	"fillColor":"#FFFF00",
+            	"opacity":"0.4",
+            	"strokeColor":"#FFFF00",
+            	"strokeWidth":"2"
+            },
+            "selected":{
+            	"fillColor":"#81BEF7",
+            	"opacity":"0.6",
+            	"strokeColor":"#111111",      	
+            	"strokeWidth":"4"
+            }
         },
         "popup":{  
             "timeToShow":5000,

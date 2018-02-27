@@ -213,8 +213,6 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
 
                     Ext.each(selection, function(item) {
                         var parcelleId = item.data.parcelle;
-                        var feature = GEOR.Addons.Cadastre.getFeatureById(parcelleId);
-
                         var state = GEOR.Addons.Cadastre.selection.state.list;
 
                         // Si la fenêtre details cadastre est déjà ouverte
@@ -222,12 +220,6 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                             GEOR.Addons.Cadastre.closeFiche(parcelleId, grid);
                         } else {
                             GEOR.Addons.Cadastre.openFiche(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
-                            state = GEOR.Addons.Cadastre.selection.state.details;
-                        }
-
-                        // change selection color on map depending on state
-                        if (feature) {
-                            GEOR.Addons.Cadastre.changeStateFeature(feature, 0, state);
                         }
                     });
                 }
@@ -431,7 +423,7 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
                
                     // *************
                     // quand on ferme l'onglet on vire toutes les parcelles dependantes
-                    store = grid.store.data.items;
+                    var store = grid.store.data.items;
                     GEOR.Addons.Cadastre.changeStateParcelleOfTab(store, "reset");
                     // *************
                     GEOR.Addons.Cadastre.result.tabs.setActiveTab((index == 0) ? 1 : (index - 1));
@@ -440,20 +432,12 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
             rowdblclick: function ( grid, rowIndex, e ) {
                 var row = grid.store.getAt(rowIndex);
                 var parcelleId = row.data.parcelle;
-                var feature = GEOR.Addons.Cadastre.getFeatureById(parcelleId);
-                var state = GEOR.Addons.Cadastre.selection.state.list;
 
                 // Si la fenêtre details cadastre est déjà ouverte
                 if (GEOR.Addons.Cadastre.result.tabs.getActiveTab().idParcellesCOuvertes.indexOf(parcelleId) != -1 || GEOR.Addons.Cadastre.result.tabs.getActiveTab().idParcellesFOuvertes.indexOf(parcelleId) != -1) {
                     GEOR.Addons.Cadastre.closeFiche(parcelleId, grid);
                 } else {
                     GEOR.Addons.Cadastre.openFiche(parcelleId, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
-                    state = GEOR.Addons.Cadastre.selection.state.details;
-                }
-
-                // change selection color on map depending on state
-                if (feature) {
-                    GEOR.Addons.Cadastre.changeStateFeature(feature, 0, state);
                 }
             }
         }
