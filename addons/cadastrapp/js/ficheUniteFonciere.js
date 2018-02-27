@@ -17,7 +17,11 @@ function getParcellesInformation(ufId){
            sommeSurf=sommeSurf+element.surfc;
        });
         
-       var content = "<div class=\"info\"><b>Cette unité foncière est composée de "+data.length+" parcelles.</b></div>"+
+       var parcelleDisplay = " parcelle";
+       if(data.length>1){
+           parcelleDisplay = " parcelles";
+       }
+       var content = "<div class=\"info\"><b>Cette unité foncière est composée de "+data.length+parcelleDisplay+".</b></div>"+
        "<div class=\"info\">La somme des surfaces DGFiP est égale à "+ sommeSurf.toLocaleString() +" m².</div>";
        
        document.getElementById('composition').innerHTML=content;
@@ -44,9 +48,14 @@ function getUFInformation(parcelleId){
                prop.forEach(function(element){
                    propName = propName +"<div>"+element.app_nom_usage+"</div>";
                });
-                         
+                      
+               var propDisplay = "Propriétaire";
+               if(prop.length>1){
+                   propDisplay = "Propriétaires";
+               }
+               
                document.getElementById('informationgenerale').innerHTML =
-               "<div class=\"proprieteaire\"><div>Propriétaire(s) : </div>"+propName+
+               "<div class=\"proprieteaire\"><div>"+propDisplay+" : </div>"+propName+
                "<div>"+data.comptecommunal+"</div></div>"+
                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>"+
                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
