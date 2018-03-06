@@ -1,8 +1,5 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
-
-
-  
 /**
  * Method: createSelectionControl
  * 
