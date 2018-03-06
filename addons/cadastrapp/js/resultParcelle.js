@@ -190,6 +190,7 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
         }, {
             text : OpenLayers.i18n('cadastrapp.result.parcelle.uf'),
             disabled:true,
+            hidden:!GEOR.Addons.Cadastre.UF.isfoncier,
             listeners : {
                 click : function(b, e) {
                     
@@ -275,6 +276,11 @@ GEOR.Addons.Cadastre.addNewResult = function(title, result, message) {
     // Listener
     GEOR.Addons.Cadastre.result.tabs.addListener('beforetabchange', function(tab, newTab, currentTab) {
         var store;
+        // For each existing uf feature remove it
+        Ext.each(GEOR.Addons.Cadastre.UF.features, function(feature) {
+            GEOR.Addons.Cadastre.WFSLayer.removeFeatures(feature);
+        });
+        
         if (currentTab) { // cad la table de resultats est ouverte et on
             // navigue entre les
             // onglets, sinon toute selection en bleue sur la carte va redevenir
@@ -551,6 +557,11 @@ GEOR.Addons.Cadastre.changeStateParcelleOfTab = function(store, typeSelector) {
             var index = GEOR.Addons.Cadastre.indexFeatureSelected(feature);
             GEOR.Addons.Cadastre.changeStateFeature(feature, index, typeSelector);
         }
+    });
+    
+    // For each existing uf feature remove it
+    Ext.each(GEOR.Addons.Cadastre.UF.features, function(feature) {
+        GEOR.Addons.Cadastre.WFSLayer.removeFeatures(feature);
     });
 }
 
