@@ -1,5 +1,8 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
+
+
+  
 /**
  * Method: createSelectionControl
  * 
@@ -9,62 +12,41 @@ Ext.namespace("GEOR.Addons.Cadastre");
  * 
  */
 GEOR.Addons.Cadastre.createLayer = function(styleParams) {
+    
+    var defaultStyle = new OpenLayers.Style({
+        fillColor : styleParams.listed.fillColor, 
+        strokeColor : styleParams.listed.strokeColor,
+        strokeWidth : styleParams.listed.strokeWidth,
+        fillOpacity : styleParams.listed.opacity,
+        strokeOpacity : styleParams.listed.opacity,
+    });
 
-    var styleFeatures = new OpenLayers.StyleMap(new OpenLayers.Style({ 
-        fillColor : "${getFillColor}", // style des entités en fonction de l'état
-        strokeColor : "${getStrokeColor}",
-        strokeWidth : "${getstrokeWidth}",
-        fillOpacity : "${getOpacity}",
-        strokeOpacity : "${getOpacity}",
-        graphicZIndex : "${getZindex}"
-    }, {
-        context : {
-            getFillColor : function(feature) {
-                var fillColor = styleParams.listed.fillColor;
-                if (feature.state == GEOR.Addons.Cadastre.selection.state.selected) {
-                    fillColor = styleParams.selected.fillColor;
-                }
-                return fillColor;
-            },
-            getOpacity : function(feature) {
-                var opacity = styleParams.listed.opacity;
-                if (feature.state == GEOR.Addons.Cadastre.selection.state.selected) {
-                    opacity = styleParams.selected.opacity;
-                }
-                return opacity;
-            },
-            getStrokeColor : function(feature) {
-                var strokeColor  = styleParams.listed.strokeColor;
-                if (feature.state == GEOR.Addons.Cadastre.selection.state.selected) {
-                    strokeColor = styleParams.selected.strokeColor;
-                }
-                return strokeColor;
-            },
-            getstrokeWidth : function(feature) {
-                var strokeWidth = styleParams.listed.strokeWidth;
-                if (feature.state == GEOR.Addons.Cadastre.selection.state.selected) {
-                    strokeWidth = styleParams.selected.strokeWidth;
-                }
-                return strokeWidth;
-            },
-            graphicZIndex: function(feature) {
-                var graphicZIndex = 1000;
-                if (feature.state == GEOR.Addons.Cadastre.selection.state.selected) {
-                    graphicZIndex = 1001;
-                }
-                return graphicZIndex;
-            },
-        }
-    }));
+    var selectStyle = new OpenLayers.Style({
+        fillColor : styleParams.selected.fillColor, 
+        strokeColor : styleParams.selected.strokeColor,
+        strokeWidth : styleParams.selected.strokeWidth,
+        fillOpacity : styleParams.selected.opacity,
+        strokeOpacity : styleParams.selected.opacity,
+    });
+
+    var globalStyle = new OpenLayers.StyleMap({
+        'default': defaultStyle,
+        'select': selectStyle
+    });
 
     // création de la couche des entités selectionnées
     GEOR.Addons.Cadastre.WFSLayer = new OpenLayers.Layer.Vector("__georchestra_cadastrapps_plots", {
-        displayInLayerSwitcher : false
+        displayInLayerSwitcher : false,
+        styleMap:globalStyle
     });
-    GEOR.Addons.Cadastre.WFSLayer.styleMap = styleFeatures;
+
+    GEOR.Addons.Cadastre.WFSLayer.selectControl = new OpenLayers.Control.SelectFeature([GEOR.Addons.Cadastre.WFSLayer]);
 
     // ajout de la couche à la carte
     GeoExt.MapPanel.guess().map.addLayer(GEOR.Addons.Cadastre.WFSLayer);
+    GeoExt.MapPanel.guess().map.addControl(GEOR.Addons.Cadastre.WFSLayer.selectControl);
+       
+    //TODO check see ZIndex
     GEOR.Addons.Cadastre.WFSLayer.setZIndex(1001);
 }
 
@@ -269,7 +251,7 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
                         endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></gml:polygonMember>";
                     }
 
-                    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Contains><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Contains></Filter>';
+                    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Intersects></Filter>';
       
                     Ext.Ajax.request({
                         async : false,
@@ -301,6 +283,8 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
                                     });
                                     GEOR.Addons.Cadastre.UF.features=[];
                                     GEOR.Addons.Cadastre.UF.features.push(feature);
+                                    // set selected style on feature to keep style in new windows
+                                    feature.style=GEOR.Addons.Cadastre.WFSLayer.styleMap.styles.select.defaultStyle;
                                     // Add new feature
                                     GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);                        
                                     GEOR.Addons.Cadastre.changeStateFeature(feature,index,GEOR.Addons.Cadastre.selection.state.selected);
@@ -444,20 +428,6 @@ GEOR.Addons.Cadastre.getFeatureById = function(idParcelle) {
 }
 
 /**
- * Method: setState
- * 
- * Change l'etat sur la carte et mis à jour le dessin
- * 
- * @param: feature
- * @param: state
- * 
- */
-GEOR.Addons.Cadastre.setState = function(feature, state) {
-    feature.state = state;
-    GEOR.Addons.Cadastre.WFSLayer.drawFeature(feature);
-}
-
-/**
  * Method: changeStateFeature
  * 
  * Gestion du changement d'état lors du click sur l'entitée
@@ -479,15 +449,19 @@ GEOR.Addons.Cadastre.changeStateFeature = function(feature, index, typeSelector)
         case "clickSelector":
             if (feature.state == GEOR.Addons.Cadastre.selection.state.list) {
                 state = GEOR.Addons.Cadastre.selection.state.selected;
+                GEOR.Addons.Cadastre.WFSLayer.selectControl.select(feature);
             } else {
                 state = GEOR.Addons.Cadastre.selection.state.list;
+                GEOR.Addons.Cadastre.WFSLayer.selectControl.unselect(feature);
             }
             break;
         case GEOR.Addons.Cadastre.selection.state.selected:
             state = GEOR.Addons.Cadastre.selection.state.selected;
+            GEOR.Addons.Cadastre.WFSLayer.selectControl.select(feature);
             break;
         case GEOR.Addons.Cadastre.selection.state.list:
             state = GEOR.Addons.Cadastre.selection.state.list;
+            GEOR.Addons.Cadastre.WFSLayer.selectControl.unselect(feature);
             break;
         case "reset":
             GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList.splice(index, 1);
@@ -495,9 +469,10 @@ GEOR.Addons.Cadastre.changeStateFeature = function(feature, index, typeSelector)
             break;
         case "tmp":
             state = null;
+            GEOR.Addons.Cadastre.WFSLayer.eraseFeatures([feature]);
             break;
         }
-        GEOR.Addons.Cadastre.setState(feature, state);
+        feature.state = state;
     }
     return state;
 }
