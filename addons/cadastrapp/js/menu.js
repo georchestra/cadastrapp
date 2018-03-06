@@ -241,7 +241,10 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
                     }
                     else{
                         // Clean existing feature
-                        GEOR.Addons.Cadastre.WFSLayer.removeAllFeatures();
+                        // For each existing uf feature remove it
+                        Ext.each(GEOR.Addons.Cadastre.UF.features, function(feature) {
+                            GEOR.Addons.Cadastre.WFSLayer.removeFeatures(feature);
+                        });
                         GEOR.Addons.Cadastre.UF.features=[];
                     }
                 }
