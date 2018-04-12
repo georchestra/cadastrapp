@@ -41,6 +41,9 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 if(GEOR.Addons.Cadastre.UF.isfoncier){
                     GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl = configuration.uFWFSURL;
                     GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename = configuration.uFWFSLayerName;
+                    GEOR.Addons.Cadastre.UF.organisme = configuration.organisme;
+                    GEOR.Addons.Cadastre.UF.dateValiditeMajic = configuration.dateValiditeMajic;
+                    GEOR.Addons.Cadastre.UF.dateValiditeEDIGEO = configuration.dateValiditeEDIGEO;
                 }
 
                 WMSSetting.layerNameGeoserver = configuration.cadastreWMSLayerName;

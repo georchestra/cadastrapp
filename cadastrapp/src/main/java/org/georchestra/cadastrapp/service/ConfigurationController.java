@@ -50,6 +50,10 @@ public class ConfigurationController {
 		configuration.put("uFWFSURL", CadastrappPlaceHolder.getProperty("uf.wfs.url"));
 		configuration.put("uFWFSLayerName", CadastrappPlaceHolder.getProperty("uf.wfs.layer.name"));
 		
+		configuration.put("organisme", CadastrappPlaceHolder.getProperty("pdf.organisme"));
+		configuration.put("dateValiditeMajic", CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesMajic"));
+		configuration.put("dateValiditeEDIGEO", CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesEDIGEO"));
+		
 		return configuration;
 	}
 

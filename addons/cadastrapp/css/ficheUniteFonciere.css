@@ -141,6 +141,12 @@ li.dropdown {
   	column-count: 2;
     column-gap: 50px;
 }
+#services{
+	margin: 0 auto !important;
+	font-size: 12px;
+	text-align: center;
+	padding-top: 10px;
+}
 .data{
 	width: 100%;
 	text-align: right;

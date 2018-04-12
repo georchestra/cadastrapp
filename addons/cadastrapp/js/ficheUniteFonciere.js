@@ -26,9 +26,21 @@ function getParcellesInformation(ufId){
        
        document.getElementById('composition').innerHTML=content;
        document.getElementById('parcelles').innerHTML=parcelles;
+       
+       setGloblainformation();
    
      }); 
 }
+
+/**
+*  Get and set globla information in DOM
+*/
+function setGloblainformation(){
+    document.getElementById('services').innerHTML = "<div>Données foncières valides au "+window.opener.GEOR.Addons.Cadastre.UF.dateValiditeMajic+" - "+
+    "Données cartographiques valides au "+window.opener.GEOR.Addons.Cadastre.UF.dateValiditeEDIGEO+"</div>"+
+    "<div>"+window.opener.GEOR.Addons.Cadastre.UF.organisme+"</div>"
+}
+
 
 /**
 *  Get unite fonciere information and owners information from cadastrapp service and display then in special div
