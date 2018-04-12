@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +39,6 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
@@ -48,7 +46,6 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.helper.ProprieteHelper;
-import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
 import org.georchestra.cadastrapp.model.pdf.InformationLots;
 import org.georchestra.cadastrapp.service.export.ExportHelper;
 import org.slf4j.Logger;
@@ -324,7 +321,7 @@ public class CoProprietaireController extends CadController {
 		if(getUserCNILLevel(headers)>0){
 			logger.debug("Input parameters are : " + parcelle + " - " + dnubat);
 			
-			String entete = "parcelle_num;numero_invariant;batiment;numero_lot;part_lot;total_lot;logement;dependance;local_commerciale;type_proprietaire;compte_communal;nom_proprietaire;adresse";
+			String entete = "parcelle_num;numero_invariant;batiment;numero_lot;part_lot;total_lot;logement;dependance;local_commercial;type_proprietaire;compte_communal;nom_proprietaire;adresse";
 				
 			// Get value from database with owner values
 			List<Map<String,Object>> bundleResults = proprieteHelper.getLotsInformation(parcelle, dnubat, true);
