@@ -25,7 +25,7 @@
 	<logger name="com.vividsolutions.jts" level="WARN" />
 	
 	<!-- purge trace with quartz -->
-	<logger name="org.springframework.scheduling.quartz" level="INFO" />
+	<logger name="org.quartz.core.QuartzSchedulerThread" level="WARN" />
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>/tmp/cadastrapp.log</file>
