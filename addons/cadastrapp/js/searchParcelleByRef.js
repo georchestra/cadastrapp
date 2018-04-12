@@ -368,7 +368,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                     fieldLabel : OpenLayers.i18n('cadastrapp.parcelle.ident'),
                     name : 'parcelle',
                     validator : function(value) {
-                        if (!value || value.length < 14) {
+                        if (!value || value.length < GEOR.Addons.Cadastre.minParacelleIdLength) {
                             return OpenLayers.i18n('cadastrapp.parcelle.ident.control');
                         } else {
                             return true;
@@ -397,7 +397,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                     name : 'parcelle',
                     anchor : '95%',
                     validator : function(value) {
-                        if (Ext.getCmp('searchByLotPath').getValue().length < 2 && value.length < 14) {
+                        if (Ext.getCmp('searchByLotPath').getValue().length < 2 && value.length < GEOR.Addons.Cadastre.minParacelleIdLength) {
                             GEOR.Addons.Cadastre.rechercheParcelleWindow.buttons[0].disable();
                             return OpenLayers.i18n('cadastrapp.parcelle.lot.control');
                         } else {

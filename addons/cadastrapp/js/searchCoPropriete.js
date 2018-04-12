@@ -119,7 +119,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                 editable : true,
                 displayField : 'app_nom_usage',
                 valueField : 'app_nom_usage',
-                minLength : 12,
+                minLength : GEOR.Addons.Cadastre.minCharToSearch,
                 minLengthText : OpenLayers.i18n('cadastrapp.search.copropriete.ddenom.control'),
                 disabled : true,
                 store : new Ext.data.JsonStore({
@@ -158,7 +158,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                 fieldLabel : OpenLayers.i18n('cadastrapp.search.copropriete.parcelle.ident'),
                 name : 'parcelle',
                 width : 300,
-                minLength : 12,
+                minLength : GEOR.Addons.Cadastre.minParacelleIdLength,
                 minLengthText : OpenLayers.i18n('cadastrapp.parcelle.ident.control'),
             }, {
                 value : OpenLayers.i18n('cadastrapp.parcelle.ident.exemple'),

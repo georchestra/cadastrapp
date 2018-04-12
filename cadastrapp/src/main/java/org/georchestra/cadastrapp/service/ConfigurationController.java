@@ -31,6 +31,7 @@ public class ConfigurationController {
 		Map<String, Object> configuration = new HashMap<String, Object>();
 		
 		configuration.put("minNbCharForSearch", CadastrappPlaceHolder.getProperty("minNbCharForSearch"));
+		configuration.put("minParacelleIdLength", CadastrappPlaceHolder.getProperty("parcelleId.length"));
 		
 		configuration.put("cadastreWFSURL", CadastrappPlaceHolder.getProperty("cadastre.wfs.url"));
 		configuration.put("cadastreWMSURL", CadastrappPlaceHolder.getProperty("cadastre.wms.url"));

@@ -31,6 +31,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 GEOR.Addons.Cadastre.cnil1RoleName = configuration.cnil1RoleName;
                 GEOR.Addons.Cadastre.cnil2RoleName = configuration.cnil2RoleName;
                 GEOR.Addons.Cadastre.minCharToSearch = configuration.minNbCharForSearch;
+                GEOR.Addons.Cadastre.minParacelleIdLength = configuration.minParacelleIdLength;
                 GEOR.Addons.Cadastre.maxRequest = configuration.maxRequest;
 
                 GEOR.Addons.Cadastre.WFSLayerSetting.nameFieldIdParcelle = configuration.cadastreLayerIdParcelle;
