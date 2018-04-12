@@ -52,7 +52,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			p.dindic,
 			v.natvoi,
 			p.cconvo,
-			v.libvoi as dvoilib,
+			rtrim(v.libvoi) as dvoilib,
 			p.dparpi,
 			p.gparnf,
 			suf.ccostn,
