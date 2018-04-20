@@ -67,11 +67,13 @@ function getUFInformation(parcelleId){
                }
                
                document.getElementById('informationgenerale').innerHTML =
-               "<div class=\"proprieteaire\"><div>"+propDisplay+" : </div>"+propName+
-               "<div>"+data.comptecommunal+"</div></div>"+
+               "<div class=\"proprieteaire\"><div class=\"propTitle\">"+propDisplay+" ( "+data.comptecommunal+" ) : </div>"+
+               "<div class=\"propList\">"+propName+"</div>"+
+               "<div class=\"datauflist\">"+
                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>"+
                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div>";
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div+"+
+               "</div>";
            });
    
            getParcellesInformation(data.uf);

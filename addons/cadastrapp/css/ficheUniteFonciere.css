@@ -24,6 +24,10 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.h1{
+	font-size: 16px;
+}
+
 /* resize and drag */
 .ui-draggable-disabled{
     opacity: inherit;
@@ -115,8 +119,17 @@ li.dropdown {
 }
 .proprieteaire{
 	margin: 0 auto !important;
-	text-align: center;
+	text-align: left;
 	padding-bottom: 10px;
+}
+.propTitle{
+	padding-left: 20px;
+}
+.propList{
+	padding-left: 40px;
+}
+.datauflist{
+	padding-top: 10px;
 }
 .datauf{
 	width: 50%;
