@@ -41,6 +41,20 @@ function setGloblainformation(){
     "<div>"+window.opener.GEOR.Addons.Cadastre.UF.organisme+"</div>"
 }
 
+/**
+ * Calculate ratio of building surface area / plots surface area
+ * 
+ * @param surfaceTotal Contenance DGFIP
+ * @param surfaceBatie Surface Batie calculée
+ * @returns 0 if one of the value is empty or null
+ */
+function getSufBatCalcPourcentage(surfaceTotal, surfaceBatie){
+    var percent = 0;
+    if(surfaceTotal && surfaceBatie && surfaceTotal != 0 && surfaceBatie != 0){
+        percent = ((surfaceBatie/surfaceTotal)*100).toFixed(1);
+    }
+    return percent;  
+}
 
 /**
 *  Get unite fonciere information and owners information from cadastrapp service and display then in special div
@@ -70,9 +84,10 @@ function getUFInformation(parcelleId){
                "<div class=\"proprieteaire\"><div class=\"propTitle\">"+propDisplay+" ( "+data.comptecommunal+" ) : </div>"+
                "<div class=\"propList\">"+propName+"</div>"+
                "<div class=\"datauflist\">"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>"+
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Contenance DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>"+
                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div+"+
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div>"+
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Pourcentage surface bâtie calculée : </span>"+getSufBatCalcPourcentage(data.dcntpa_sum, data.sigcalb_sum)+" %</div>"+
                "</div>";
            });
    
@@ -81,6 +96,7 @@ function getUFInformation(parcelleId){
        
      }); 
 }
+
 
 /**
  * Init code after body is loaded
