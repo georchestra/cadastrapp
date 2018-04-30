@@ -15,6 +15,8 @@ public final class CadastrappConstants {
 	public static final String LETTRE_SECTION			= "ccosec";
 	public static final String NUM_PLAN					= "dnupla";
 	public static final String ADRESSE 					= "voie";
+	public static final String DINDIC 					= "dindic";
+	public static final String DNVOIRI					= "dnvoiri";	
 	public static final String CODE_RIVOLI_VOIE			= "ccoriv";
 	public static final String MUTATION					= "jdatat";
 	
@@ -86,6 +88,7 @@ public final class CadastrappConstants {
 	
 	
 	//message erreur
-	public static final String GENERATING_PICTURE_ERROR = "Problème lors de la création de l'image du bordereau.";	
+	public static final String GENERATING_PICTURE_ERROR = "Problème lors de la création de l'image du bordereau.";
+
 
 }

@@ -373,6 +373,8 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block font-size="6pt">
+								<xsl:value-of select="@dnvoiri" /><xsl:text> </xsl:text>
+								<xsl:value-of select="@dindic" /><xsl:text> </xsl:text>
 								<xsl:value-of select="@dvoilib" />
 							</fo:block>
 						</fo:table-cell>
@@ -838,6 +840,8 @@
 						</fo:table-cell>
 						<fo:table-cell xsl:use-attribute-sets="bordure">
 							<fo:block font-size="6pt">
+								<xsl:value-of select="@dnvoiri" /><xsl:text> </xsl:text>
+								<xsl:value-of select="@dindic" /><xsl:text> </xsl:text>
 								<xsl:value-of select="@dvoilib" />
 							</fo:block>
 						</fo:table-cell>

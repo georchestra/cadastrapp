@@ -58,7 +58,7 @@ public final class ProprieteHelper extends CadController {
 		StringBuilder queryBuilderProprieteBatie = new StringBuilder();
 
 		queryBuilderProprieteBatie.append(
-				"select distinct id_local, ccopre, ccosec, dnupla, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, gtauom, pexb, rcexba2, rcbaia_com, rcbaia_dep, rcbaia_gp, rcbaia_tse, revcad, jdatat, parcelle, ccocac ");
+				"select distinct id_local, ccopre, ccosec, dnupla, dnvoiri, dindic, COALESCE(natvoi,'')||' '||COALESCE(dvoilib,'') as voie, ccoriv, dnubat, descr, dniv, dpor, invar, ccoaff, ccoeva, cconlc, dcapec, ccolloc, gnextl, jandeb, janimp, gtauom, pexb, rcexba2, rcbaia_com, rcbaia_dep, rcbaia_gp, rcbaia_tse, revcad, jdatat, parcelle, ccocac ");
 		queryBuilderProprieteBatie.append("from ");
 		queryBuilderProprieteBatie.append(databaseSchema);
 		queryBuilderProprieteBatie.append(".proprietebatie pb ");
@@ -115,6 +115,9 @@ public final class ProprieteHelper extends CadController {
 						: propBat.get(CadastrappConstants.PB_VAL_LOCAT_TOTAL).toString()); // Revenu
 																							// cadastral
 				proprieteBatie.setDvoilib((String) propBat.get(CadastrappConstants.ADRESSE)); // Adresse
+				proprieteBatie.setDindic((String) propBat.get(CadastrappConstants.DINDIC)); // dindic
+				proprieteBatie.setDnvoiri((String) propBat.get(CadastrappConstants.DNVOIRI)); // dnvoiri
+				
 				proprieteBatie.setGtauom(propBat.get(CadastrappConstants.PB_MONTANT_TIEOM) == null ? ""
 						: propBat.get(CadastrappConstants.PB_MONTANT_TIEOM).toString()); // tx
 																							// OM
@@ -249,7 +252,7 @@ public final class ProprieteHelper extends CadController {
 		StringBuilder queryBuilderProprieteNonBatie = new StringBuilder();
 
 		queryBuilderProprieteNonBatie
-				.append("select distinct pnb.id_local, pnb.cgocommune, pnb.ccopre, pnb.ccosec, pnb.dnupla, ");
+				.append("select distinct pnb.id_local, pnb.cgocommune, pnb.ccopre, pnb.ccosec, pnb.dnupla, pnb.dindic, pnb.dnvoiri, ");
 		queryBuilderProprieteNonBatie
 				.append("COALESCE(pnb.natvoi,'')||' '||COALESCE(pnb.dvoilib,'') as voie, pnb.ccoriv, pnb.dparpi, ");
 		queryBuilderProprieteNonBatie.append(
@@ -351,6 +354,8 @@ public final class ProprieteHelper extends CadController {
 				proprieteNonBatie.setDreflf((String) propNonBat.get("dreflf"));
 				proprieteNonBatie.setDsgrpf((String) propNonBat.get(CadastrappConstants.PNB_SOUS_GROUP));
 				proprieteNonBatie.setDvoilib((String) propNonBat.get(CadastrappConstants.ADRESSE));
+				proprieteNonBatie.setDindic((String) propNonBat.get(CadastrappConstants.DINDIC));
+				proprieteNonBatie.setDnvoiri((String) propNonBat.get(CadastrappConstants.DNVOIRI));				
 				proprieteNonBatie.setGparnf((String) propNonBat.get(CadastrappConstants.PNB_FPDP));
 				proprieteNonBatie.setExonerations(proprieteNonBatieExonerations);
 
