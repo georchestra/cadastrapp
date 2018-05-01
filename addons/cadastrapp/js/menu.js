@@ -430,6 +430,15 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
         buttonTraitementSelectionProprietairesExport.on('click', function() {
             GEOR.Addons.Cadastre.exportOwnerSelectionAsCSV()
         });
+        
+        // sous-menu : préférence
+        var buttonMenuPreference = scrollMenu.add({
+            tooltip : OpenLayers.i18n("cadastrapp.menu.preference"),
+            text : OpenLayers.i18n("cadastrapp.menu.preference")
+        });
+        buttonMenuPreference.on('click', function() {
+            GEOR.Addons.Cadastre.onClickLoadPreferencePanel()
+        });
 
     },
 

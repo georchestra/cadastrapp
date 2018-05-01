@@ -2,7 +2,8 @@
 	"js": [
 		"js/build/cadastrapp.js"
 	],
-	"debugjs":[		
+	"debugjs":[	
+		"js/preferences.js",	
         "js/printBordereauParcellaire.js",
         "js/printRelevePropriete.js",
         "js/printLots.js",
@@ -45,13 +46,13 @@
             "version":"1.0.0",
             "service":"wfs",
             "outputFormat":"application/json",
-            "geometryField":"geom"
+            "geometryField":"shape"
         },
         "style":{
         	"listed":{  
-            	"fillColor":"#FFFF00",
+            	"fillColor":"#222111",
             	"opacity":"0.4",
-            	"strokeColor":"#FFFF00",
+            	"strokeColor":"#111222",
             	"strokeWidth":"2"
             },
             "selected":{
@@ -70,7 +71,7 @@
             "version":"1.0.0",
             "service":"wfs",
             "outputFormat":"application/json",
-            "geometryField":"geom"
+            "geometryField":"shape"
         },
         "foncier":true
     },
@@ -241,6 +242,7 @@
             "cadastrapp.menu.parcelle.identifiant":"By cadastral identifier",
             "cadastrapp.menu.parcelle.lot":"Par lot",
             "cadastrapp.menu.parcelle.refer":"By reference",
+            "cadastrapp.menu.preference":"Preference",
             "cadastrapp.menu.tooltips.foncier":"Landed property information",
             "cadastrapp.multilinestring":"MultiLineString",
             "cadastrapp.multipoint":"MultiPoint",
@@ -319,6 +321,13 @@
             "cadastrapp.parcelle.town.exemple":"ex. Henri Freville or La morinaie",
             "cadastrapp.point":"Point",
             "cadastrapp.polygon":"Polygon",
+            "cadastrapp.preferences.default":"Default",
+            "cadastrapp.preferences.fillColor" :"Fill color",
+            "cadastrapp.preferences.opacity" :"Opacity",
+            "cadastrapp.preferences.selected":"Selected",
+            "cadastrapp.preferences.strokeColor" :"Stroke",
+            "cadastrapp.preferences.strokeWidth" :"Stroke width", 
+            "cadastrapp.preferences.title":"Preferences",
             "cadastrapp.proprietaire":"Owner",
             "cadastrapp.proprietaire.city":"Town, municipality",
             "cadastrapp.proprietaire.city.exemple":"ex. Rennes, Cesson-Sévigné",
@@ -363,7 +372,7 @@
             "cadastrapp.proprietaires.dqualp":"Mr, Mrs, or Ms",
             "cadastrapp.proprietaires.expnee":"complement",
             "cadastrapp.proprietaires.jdatnss":"Birthdate",
-            "cadastrapp.recherches":"Advanced searches",
+            "cadastrapp.recherches":"Advanced",
             "cadastrapp.relevepropriete.data":"Data to extract",
             "cadastrapp.relevepropriete.full":"All properties",
             "cadastrapp.relevepropriete.partial":"Only this plot",
@@ -597,6 +606,7 @@
             "cadastrapp.menu.parcelle.identifiant":"Par identifiant cadastral",
             "cadastrapp.menu.parcelle.lot":"Par lot",
             "cadastrapp.menu.parcelle.refer":"Par référence",
+            "cadastrapp.menu.preference":"Préférences",
             "cadastrapp.menu.tooltips.foncier":"Outil d'information foncière, une fois activée cliquez sur une parcelle pour voir l'unité foncière correspondante",
             "cadastrapp.multilinestring":"MultidCompteComiLigne",
             "cadastrapp.multipoint":"MultiPoint",
@@ -673,6 +683,13 @@
             "cadastrapp.parcelle.town.exemple":"ex. Henri Fréville ou Mont-Romain",
             "cadastrapp.point":"Point",
             "cadastrapp.polygon":"Polygone",
+            "cadastrapp.preferences.default":"Défaut",
+            "cadastrapp.preferences.fillColor" :"Remplissage",
+            "cadastrapp.preferences.opacity" :"Opacity",
+            "cadastrapp.preferences.selected":"Sélectionné",
+            "cadastrapp.preferences.strokeColor" :"Contour",
+            "cadastrapp.preferences.strokeWidth" :"Epaisseur", 
+            "cadastrapp.preferences.title":"Préférences",
             "cadastrapp.proprietaire":"Propriétaire",
             "cadastrapp.proprietaire.city":"Ville, Commune",
             "cadastrapp.proprietaire.city.exemple":"ex. Rennes, Cesson-Sévigné",
@@ -717,7 +734,7 @@
             "cadastrapp.proprietaires.dqualp":"Qualité abrégée - M, MME ou MLE",
             "cadastrapp.proprietaires.expnee":"Mention du complément",
             "cadastrapp.proprietaires.jdatnss":"Date de naissance",
-            "cadastrapp.recherches":"Recherches avancées",
+            "cadastrapp.recherches":"Avancées..",
             "cadastrapp.relevepropriete.data":"Données à extraire",
             "cadastrapp.relevepropriete.full":"Toutes les propriétés",
             "cadastrapp.relevepropriete.partial":"Uniquement cette parcelle",

@@ -91,6 +91,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.result.owner=[];
         GEOR.Addons.Cadastre.result.owner.window;
 
+        GEOR.Addons.Cadastre.styles=this.options.style;
         GEOR.Addons.Cadastre.createLayer(this.options.style);
         
         GEOR.wmc.events.on("aftercontextrestore", GEOR.Addons.Cadastre.restoreLayersOnClear, this);
@@ -192,6 +193,11 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                     if(GEOR.Addons.Cadastre.printLotsWindow){
                     	GEOR.Addons.Cadastre.printLotsWindow.close();
                     	GEOR.Addons.Cadastre.printLotsWindow=null;
+                    }
+                    
+                    if(GEOR.Addons.Cadastre.preferencesWindow){
+                        GEOR.Addons.Cadastre.preferencesWindow.close();
+                        GEOR.Addons.Cadastre.preferencesWindow=null;
                     }
                 },
                 scope: this
