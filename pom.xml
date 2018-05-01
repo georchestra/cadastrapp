@@ -10,16 +10,10 @@
   </modules>
   <url>https://github.com/georchestra/cadastrapp</url>
   <name>Addons Cadastre pour georchestra</name>
-  <description>Ce projet est la partie serveur de l'addon cadastrapp pour la suite georchestra</description>
-  <organization>
-    <name>Gfi</name>
-    <url>https://github.com/GFI-Informatique</url>
-  </organization>
+  <description>Ce projet contient les scripts de création de vue, l'application web et l'addon cadastrapp pour la suite georchestra</description>
   <scm>
-    <connection>scm:git:https://github.com/georchestra/cadastrapp.git</connection>
-    <developerConnection>scm:git:https://github.com/georchestra/cadastrapp.git</developerConnection>
-    <url>https://github.com/georchestra/cadastrapp.git</url>
-    <tag>cadastrapp-parent-1.5</tag>
+    <connection>scm:git:https://github.com/georchestra/cadastrapp</connection>
+    <url>https://github.com/georchestra/cadastrapp</url>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
