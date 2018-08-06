@@ -116,6 +116,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                     this.item.setChecked(true, true);
                     GEOR.Addons.Cadastre.visible = true;
                     GEOR.Addons.Cadastre.addWMSLayer(WMSSetting);
+                    this.map.addLayer(GEOR.Addons.Cadastre.WFSLayer);
                     GEOR.Addons.Cadastre.addPopupOnhover(this.options.popup);
                     var maxX =  window.innerWidth;
                     this.window.setPagePosition(maxX * 0.3 ,0);
