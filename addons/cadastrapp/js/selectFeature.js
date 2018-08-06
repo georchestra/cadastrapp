@@ -39,8 +39,6 @@ GEOR.Addons.Cadastre.createLayer = function(styleParams) {
 
     GEOR.Addons.Cadastre.WFSLayer.selectControl = new OpenLayers.Control.SelectFeature([GEOR.Addons.Cadastre.WFSLayer]);
 
-    // ajout de la couche à la carte
-    GeoExt.MapPanel.guess().map.addLayer(GEOR.Addons.Cadastre.WFSLayer);
     GeoExt.MapPanel.guess().map.addControl(GEOR.Addons.Cadastre.WFSLayer.selectControl);
        
     //TODO check see ZIndex
