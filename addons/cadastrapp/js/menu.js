@@ -529,6 +529,9 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
         GEOR.Addons.Cadastre.WFSLayer.destroy();
         GEOR.Addons.Cadastre.WFSLayer = null;
 
+        // Remove internal layer
+        this.map.removeLayer(this.map.getLayersByName("__georchestra_cadastrapps")[0]);
+
         this.map = null;
     },
 
