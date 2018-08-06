@@ -144,6 +144,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                         GEOR.Addons.Cadastre.WMSLayer.destroy();
                         GEOR.Addons.Cadastre.WMSLayer = null;
                     }
+                    // Remove WFS layer
+                    this.map.removeLayer(GEOR.Addons.Cadastre.WFSLayer);
 
                     // Remove all windows
                     if(GEOR.Addons.Cadastre.popup){
