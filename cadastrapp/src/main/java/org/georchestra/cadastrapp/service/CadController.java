@@ -154,7 +154,7 @@ public class CadController {
 		// get org in header
 		String orgString = headers.getHeaderString("sec-org");
 		
-		logger.debug("Check user " + usernameString + " with org : "+ orgString + "geographical limitation ");
+		logger.debug("Check user '" + usernameString + "' with org '"+ orgString + "' geographical limitation ");
 		if(orgString!=null){
 			// get commune list in database corresponding to this org
 			StringBuilder queryBuilder = new StringBuilder();
@@ -215,7 +215,7 @@ public class CadController {
 			}			
 		}
 		else{
-			logger.error("Connected user but no sec-org header, something is wrong");
+			logger.error("User authenticated as '" + usernameString + "' but no sec-org header, something is wrong");
 		}
 
 		return queryFilter.toString();
