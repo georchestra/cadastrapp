@@ -253,65 +253,113 @@ public class ImageParcelleController extends CadController {
 							}
 						}
 
-						logger.debug("Call WMS for plot");
-						// Get parcelle image with good BBOX
-						final String wmsUrl = CadastrappPlaceHolder.getProperty("cadastre.wms.url");
-						final String cadastreFormat = CadastrappPlaceHolder.getProperty("cadastre.format");
-						final String cadastreWMSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
+						logger.debug("Call WMS for cadastral background");
+						// Get cadastral background image with good BBOX
+						final String cadastralLayerWmsUrl = CadastrappPlaceHolder.getProperty("cadastre.wms.url");
+						final String cadastralLayerFormat = CadastrappPlaceHolder.getProperty("cadastre.format");
+						final String cadastralLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
 
-						URL parcelleWMSUrl = new URL(wmsUrl + URL_GET_CAPABILITIES_WMS);
-						WebMapServer wmsParcelle = null;
-						logger.debug("WMS URL : " + parcelleWMSUrl);				
+						URL cadastralLayerWMSGetCapabilitiesUrl = new URL(cadastralLayerWmsUrl + URL_GET_CAPABILITIES_WMS);
+						WebMapServer wmsCadastralLayer = null;
+						logger.debug("Cadastral layer WMS URL : " + cadastralLayerWmsUrl);				
 						
 						// Add basic authent parameter if not empty
-						final String cadastreWMSUsername = CadastrappPlaceHolder.getProperty("cadastre.wms.username");
-						final String cadastreWMSPassword = CadastrappPlaceHolder.getProperty("cadastre.wms.password");
+						final String cadastralLayerWmsUsername = CadastrappPlaceHolder.getProperty("cadastre.wms.username");
+						final String cadastralLayerWmsPassword = CadastrappPlaceHolder.getProperty("cadastre.wms.password");
 						
 						// if authentification is not null
-						if (cadastreWMSUsername != null && !cadastreWMSUsername.isEmpty()
-								&& cadastreWMSPassword != null && !cadastreWMSPassword.isEmpty()){
+						if (cadastralLayerWmsUsername != null && !cadastralLayerWmsUsername.isEmpty()
+								&& cadastralLayerWmsPassword != null && !cadastralLayerWmsPassword.isEmpty()){
 							
-							HTTPClient httpClient = new SimpleHttpClient();
-							httpClient.setUser(cadastreWMSUsername);
-							httpClient.setPassword(cadastreWMSPassword);
+							HTTPClient cadastralLayerHttpClient = new SimpleHttpClient();
+							cadastralLayerHttpClient.setUser(cadastralLayerWmsUsername);
+							cadastralLayerHttpClient.setPassword(cadastralLayerWmsPassword);
 							
-							wmsParcelle = new WebMapServer(parcelleWMSUrl, httpClient);
+							wmsCadastralLayer = new WebMapServer(cadastralLayerWMSGetCapabilitiesUrl, cadastralLayerHttpClient);
 						}
 						// else without authentification
 						else{
-							wmsParcelle = new WebMapServer(parcelleWMSUrl);
+							wmsCadastralLayer = new WebMapServer(cadastralLayerWMSGetCapabilitiesUrl);
 						}
 						
-						GetMapRequest requestParcelle = wmsParcelle.createGetMapRequest();
-						requestParcelle.setFormat(cadastreFormat);
+						GetMapRequest requestCadastralLayer = wmsCadastralLayer.createGetMapRequest();
+						requestCadastralLayer.setFormat(cadastralLayerFormat);
 						
 						// Add layer see to set this in configuration parameters
 						// Or use getCapatibilities
-						Layer layerParcelle = new Layer("Parcelle cadastrapp");
-						layerParcelle.setName(cadastreWMSLayerName);
-						requestParcelle.addLayer(layerParcelle);
+						Layer cadastralLayer = new Layer("Layer cadastrapp");
+						cadastralLayer.setName(cadastralLayerName);
+						requestCadastralLayer.addLayer(cadastralLayer);
 
 						// sets the dimensions check with PDF size available
-						requestParcelle.setDimensions((int) pdfImagePixelSize, (int)pdfImagePixelSize);
+						requestCadastralLayer.setDimensions((int) pdfImagePixelSize, (int)pdfImagePixelSize);
 						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
-						requestParcelle.setSRS(cadastreSRS);
-						requestParcelle.setTransparent(true);
+						requestCadastralLayer.setSRS(cadastreSRS);
+						requestCadastralLayer.setTransparent(true);
 						
 						// setBBox from Feature information
-						requestParcelle.setBBox(bounds);
+						requestCadastralLayer.setBBox(bounds);
 												
-						logger.debug("Create background plots image");
-						GetMapResponse parcelleResponse = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);			
-						backGroundParcelleImage = ImageIO.read(parcelleResponse.getInputStream());
+						logger.debug("Create background cadastral image");
+						GetMapResponse cadastralLayerResponse = (GetMapResponse) wmsCadastralLayer.issueRequest(requestCadastralLayer);			
+						backGroundParcelleImage = ImageIO.read(cadastralLayerResponse.getInputStream());
+						
+						logger.debug("Call WMS for plot selection layer");
+						// Get cadastral background image with good BBOX
+						final String plotLayerWmsUrl = CadastrappPlaceHolder.getProperty("parcelle.wms.url");
+						final String plotLayerName = CadastrappPlaceHolder.getProperty("parcelle.wms.layer.name");
+
+						URL plotLayerWMSGetCapabilitiesUrl = new URL(plotLayerWmsUrl + URL_GET_CAPABILITIES_WMS);
+						WebMapServer wmsPlotLayer = null;
+						logger.debug("Plot layer WMS URL : " + plotLayerWmsUrl);				
+						
+						// Add basic authent parameter if not empty
+						final String plotLayerWmsUsername = CadastrappPlaceHolder.getProperty("parcelle.wms.username");
+						final String plotLayerWmsPassword = CadastrappPlaceHolder.getProperty("parcelle.wms.password");
+						
+						// if authentification is not null
+						if (plotLayerWmsUsername != null && !plotLayerWmsUsername.isEmpty()
+								&& plotLayerWmsPassword != null && !plotLayerWmsPassword.isEmpty()){
+							
+							HTTPClient plotLayerHttpClient = new SimpleHttpClient();
+							plotLayerHttpClient.setUser(plotLayerWmsUsername);
+							plotLayerHttpClient.setPassword(plotLayerWmsPassword);
+							
+							wmsPlotLayer = new WebMapServer(plotLayerWMSGetCapabilitiesUrl, plotLayerHttpClient);
+						}
+						// else without authentification
+						else{
+							wmsPlotLayer = new WebMapServer(plotLayerWMSGetCapabilitiesUrl);
+						}
+						
+						GetMapRequest requestPlotLayer = wmsPlotLayer.createGetMapRequest();
+						requestPlotLayer.setFormat("image/png");
+						
+						// Add layer see to set this in configuration parameters
+						// Or use getCapatibilities
+						Layer plotLayer = new Layer("Layer parcelle");
+						plotLayer.setName(plotLayerName);
+						requestPlotLayer.addLayer(plotLayer);
+
+						// sets the dimensions check with PDF size available
+						requestPlotLayer.setDimensions((int) pdfImagePixelSize, (int)pdfImagePixelSize);
+						final String plotSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
+						requestPlotLayer.setSRS(plotSRS);
+						requestPlotLayer.setTransparent(true);
+						
+						// setBBox from Feature information
+						requestPlotLayer.setBBox(bounds);
 						
 						logger.debug("Create feature image from WMS");
+						
+						final String plotLayerId = CadastrappPlaceHolder.getProperty("parcelle.id");
 						
 						// generate SLD with parcelle id, fill and stroke properties
 						org.geotools.styling.StyleFactory sf = CommonFactoryFinder.getStyleFactory();
 						FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
 						StyledLayerDescriptor sld = sf.createStyledLayerDescriptor();				
 						NamedLayer namedLayer = sf.createNamedLayer();
-						namedLayer.setName(cadastreWFSLayerNameOri);
+						namedLayer.setName(plotLayerName);
 
 					    /// create a "user defined" style
 						// TODO get Value from configuration file
@@ -323,7 +371,7 @@ public class ImageParcelleController extends CadController {
 					    rule1.setName("BP");
 					    rule1.getDescription().setTitle("Borderau Parcellaire rule");
 					    // To fit SLD generated by mapfishapp change default value for like
-					    rule1.setFilter(ff.like(ff.property(cadastreLayerIdParcelle), "*"+parcelle+"*", "*", ".", "!"));
+					    rule1.setFilter(ff.like(ff.property(plotLayerId), "*"+parcelle+"*", "*", ".", "!"));
 					    rule1.symbolizers().add(sym);
 					    
 					    FeatureTypeStyle fts = sf.createFeatureTypeStyle(new Rule[]{rule1});
@@ -339,14 +387,14 @@ public class ImageParcelleController extends CadController {
 						try {
 							String gxml = styleTransform.transform(sld);
 							logger.debug("Generated SLD : " + gxml);
-							requestParcelle.setProperty(GetMapRequest.SLD_BODY, URLEncoder.encode(gxml, "UTF-8"));
+							requestPlotLayer.setProperty(GetMapRequest.SLD_BODY, URLEncoder.encode(gxml, "UTF-8"));
 							
 						} catch (TransformerException e1) {
 							logger.error("Error while generate SLD, No selection will be displayed on plot", e1);
 						}	
 					   
-						GetMapResponse parcelleResponse2 = (GetMapResponse) wmsParcelle.issueRequest(requestParcelle);			
-						parcelleImage = ImageIO.read(parcelleResponse2.getInputStream());
+						GetMapResponse plotLayerResponse = (GetMapResponse) wmsPlotLayer.issueRequest(requestPlotLayer);			
+						parcelleImage = ImageIO.read(plotLayerResponse.getInputStream());
 
 						logger.debug("Create final picture");
 						// createFinal buffer with pdf image size and not with result from parcellResponse
