@@ -292,7 +292,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                         fields : [ 'dvoilib', {
                             name : 'libellevoie',
                             convert : function(v, rec) {
-                                return rec.cconvo + ' ' + rec.dvoilib
+                                return (rec.cconvo + ' ' + rec.dvoilib).trim()
                             }
                         } ]
                     }),
