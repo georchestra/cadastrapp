@@ -153,7 +153,9 @@ public class CoProprietaireController extends CadController {
 	 * @param parcelle
 	 * @return
 	 */
-	public Map<String, Object> getCoProprietaire(@QueryParam("parcelle") String parcelle, @QueryParam("start") int start,@QueryParam("limit") int limit, @Context HttpHeaders headers) {
+	public Map<String, Object> getCoProprietaire(@QueryParam("parcelle") String parcelle, 
+			@DefaultValue("0") @QueryParam("start") int start,
+			@DefaultValue("25") @QueryParam("limit") int limit, @Context HttpHeaders headers) {
 
 		logger.debug("get Co Proprietaire - parcelle : " + parcelle);
 
@@ -192,10 +194,10 @@ public class CoProprietaireController extends CadController {
 			queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
 			queryBuilder.append(addAuthorizationFiltering(headers, "p."));
 			queryBuilder.append(" ORDER BY p.app_nom_usage ");
-			queryBuilder.append(" LIMIT ").append(limit);
-			queryBuilder.append(" OFFSET ").append(start);
+			queryBuilder.append(" LIMIT ?");
+			queryBuilder.append(" OFFSET ?");
 			
-			result = jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
+			result = jdbcTemplate.queryForList(queryBuilder.toString(),  new Object[] {parcelle, limit, start});
 			
 			finalResult.put("rows", result);
 
