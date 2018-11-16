@@ -173,7 +173,7 @@ public class CoProprietaireController extends CadController {
 			queryCount.append(addAuthorizationFiltering(headers, "p."));
 			queryCount.append(" ) as temp;");
 			
-			int resultCount = jdbcTemplate.queryForInt(queryCount.toString(), parcelle);
+			int resultCount = jdbcTemplate.queryForObject(queryCount.toString(), new Object[] {parcelle}, Integer.class);
 			
 			logger.debug("get Co Proprietaire - number of co-proprietaire : " + resultCount);
 			
