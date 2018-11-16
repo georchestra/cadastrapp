@@ -1062,7 +1062,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							MAJ POS : <xsl:value-of select="format-number(proprietesNonBaties/imposition/@majorationTerraion, '### ##0,00', 'euro')" /> €
+							MAJ POS : <xsl:value-of select="format-number(proprietesNonBaties/imposition/@majorationTerrain, '### ##0,00', 'euro')" /> €
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>

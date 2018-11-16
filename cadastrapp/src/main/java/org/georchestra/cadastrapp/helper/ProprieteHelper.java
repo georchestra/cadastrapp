@@ -407,7 +407,7 @@ public final class ProprieteHelper extends CadController {
 			impositionNonBatie.setGroupementCommuneRevenuExonere(pnbGroupementCommuneRevenuExonere);
 			impositionNonBatie.setGroupementCommuneRevenuImposable(pnbGroupementCommuneRevenuImposable);
 			impositionNonBatie.setRevenuImposable(pnbRevenuImposable);
-			impositionNonBatie.setMajorationTerraion(pnbMajorationTerrain);
+			impositionNonBatie.setMajorationTerrain(pnbMajorationTerrain);
 			impositionNonBatie.setSurface(pnbSurface);
 
 			pnbs.setImposition(impositionNonBatie);

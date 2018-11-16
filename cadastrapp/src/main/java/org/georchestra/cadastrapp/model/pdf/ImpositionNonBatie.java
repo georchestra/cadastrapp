@@ -6,7 +6,7 @@ public class ImpositionNonBatie extends Imposition{
 	
 	private int surface;
 	
-	private float majorationTerraion;
+	private float majorationTerrain;
 
 	/**
 	 * @return the surface
@@ -24,18 +24,18 @@ public class ImpositionNonBatie extends Imposition{
 	}
 
 	/**
-	 * @return the majorationTerraion
+	 * @return the majorationTerrain
 	 */
-	public float getMajorationTerraion() {
-		return majorationTerraion;
+	public float getMajorationTerrain() {
+		return majorationTerrain;
 	}
 
 	@XmlAttribute
 	/**
-	 * @param majorationTerraion the majorationTerraion to set
+	 * @param majorationTerrain the majorationTerrain to set
 	 */
-	public void setMajorationTerraion(float majorationTerraion) {
-		this.majorationTerraion = majorationTerraion;
+	public void setMajorationTerrain(float majorationTerrain) {
+		this.majorationTerrain = majorationTerrain;
 	}
 
 }
