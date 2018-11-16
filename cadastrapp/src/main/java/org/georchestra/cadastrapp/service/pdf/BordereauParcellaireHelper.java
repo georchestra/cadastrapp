@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -269,7 +270,9 @@ public final class BordereauParcellaireHelper extends CadController{
 
 				// log on console marshaller only if debug log is one
 				if (logger.isDebugEnabled()) {
-					jaxbMarshaller.marshal(bp, System.out);
+					StringWriter stringWriter = new StringWriter();					
+					jaxbMarshaller.marshal(bp, stringWriter);
+					logger.debug(stringWriter.toString());
 				}
 
 				// FO file will be deleted on JVM exit

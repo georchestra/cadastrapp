@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.Date;
 
 import javax.ws.rs.GET;
@@ -113,7 +114,9 @@ public class RequestPDFController{
 
 						// log on console marshaller only if debug log is one
 						if (logger.isDebugEnabled()) {
-							jaxbMarshaller.marshal(requestInformation, System.out);
+							StringWriter stringWriter = new StringWriter();					
+							jaxbMarshaller.marshal(requestInformation, stringWriter);
+							logger.debug(stringWriter.toString());
 						}
 
 						// FO file will be deleted on JVM exit

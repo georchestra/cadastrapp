@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -427,7 +428,9 @@ public class CoProprietaireController extends CadController {
 
 						// log on console marshaller only if debug log is one
 						if (logger.isDebugEnabled()) {
-							jaxbMarshaller.marshal(informationLots, System.out);
+							StringWriter stringWriter = new StringWriter();					
+							jaxbMarshaller.marshal(informationLots, stringWriter);
+							logger.debug(stringWriter.toString());
 						}
 
 						// FO file will be deleted on JVM exit

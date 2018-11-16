@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -280,7 +281,9 @@ public final class ReleveProprieteHelper extends CadController {
 
 				// log on console marshaller only if debug log is one
 				if (logger.isDebugEnabled()) {
-					jaxbMarshaller.marshal(rp, System.out);
+					StringWriter stringWriter = new StringWriter();					
+					jaxbMarshaller.marshal(rp, stringWriter);
+					logger.debug(stringWriter.toString());
 				}
 
 				// FO file will be deleted on JVM exit
