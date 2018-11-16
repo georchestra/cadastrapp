@@ -173,11 +173,6 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
             
             if (typeSelector != "infoBulle" && typeSelector != "uniteFonciere") {
 
-                // If result windows is not opened, create it
-                if (!GEOR.Addons.Cadastre.result.plot.window) {
-                    GEOR.Addons.Cadastre.addNewResultParcelle("Sélection", null);
-                }
-
                 var feature, state;
                 var parcelsIds = [], codComm = null;
 
@@ -187,20 +182,22 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
                         var exist = false;
                         index = -1;
 
-                        // on teste si l'entité est déja selectionnée
-                        Ext.each(GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList, function(selectedFeature, currentIndexJ) {
-                            if (selectedFeature.fid == feature.fid) {
-                                exist = true;
-                                feature = selectedFeature;
-                                index = currentIndexJ;
-                                return false; // this breaks out of the 'each' loop
-                            }
-                        });
+                        // si il y a déja une fenêtre de parcelle
+                        if (GEOR.Addons.Cadastre.result.plot.window) {
+                            // on teste si l'entité est déja selectionnée
+                            Ext.each(GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList, function(selectedFeature, currentIndexJ) {
+                                if (selectedFeature.fid == feature.fid) {
+                                    exist = true;
+                                    feature = selectedFeature;
+                                    index = currentIndexJ;
+                                    return false; // this breaks out of the 'each' loop
+                                }
+                            });
+                        }
 
                         // on l'ajoute à la selection si elle n'est pas trouvée
                         if (!exist) {
                             GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
-                            GEOR.Addons.Cadastre.result.tabs.getActiveTab().featuresList.push(feature);
                         }
 
                         // on met à jour son état
@@ -212,8 +209,7 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
                         if (state == GEOR.Addons.Cadastre.selection.state.list || state == GEOR.Addons.Cadastre.selection.state.selected) {
                             parcelsIds.push(id);
                         } else {
-                            // sinon on la supprime du tableau et on ferme les
-                            // fenêtres de détail
+                            // sinon on la supprime du tableau et on ferme les fenêtres de détails
                             GEOR.Addons.Cadastre.result.tabs.getActiveTab().getStore().removeAt(GEOR.Addons.Cadastre.indexRowParcelle(id));
                             GEOR.Addons.Cadastre.closeWindowFIUC(id, GEOR.Addons.Cadastre.result.tabs.getActiveTab());
                         }
