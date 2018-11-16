@@ -524,8 +524,9 @@ GEOR.Addons.Cadastre.Menu = Ext.extend(Ext.util.Observable, {
 
         // Remove WFSLayer
         GEOR.Addons.Cadastre.WFSLayer.removeAllFeatures();
-        if (this.map.getLayer(GEOR.Addons.Cadastre.WFSLayer))
+        if (this.map.getLayer(GEOR.Addons.Cadastre.WFSLayer)){
             this.map.removeLayer(GEOR.Addons.Cadastre.WFSLayer);
+        }
         GEOR.Addons.Cadastre.WFSLayer.destroy();
         GEOR.Addons.Cadastre.WFSLayer = null;
 
