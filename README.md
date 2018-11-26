@@ -20,7 +20,7 @@ This repository is made of 3 mains parts :
 Additional tool is needed to build from source ( jsbuild from pythonvirtualenv)
 
 ```
-	sudo apt-get install python-virtualenv
+	sudo apt-get install python-virtualenv python-pip
 	sudo pip install jsbuild
 ```
 
