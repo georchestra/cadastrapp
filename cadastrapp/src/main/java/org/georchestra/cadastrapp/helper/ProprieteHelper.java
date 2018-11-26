@@ -478,7 +478,7 @@ public final class ProprieteHelper extends CadController {
 	 * @param dnubat String
 	 * @param withOwner boolean
 	 * 
-	 * @retun bundle information comming from database
+	 * @return bundle information comming from database
 	 */
 	public List<Map<String, Object>> getLotsInformation(String parcelle, String dnubat, boolean withOwner) {
 

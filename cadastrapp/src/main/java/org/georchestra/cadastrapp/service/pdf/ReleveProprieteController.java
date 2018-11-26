@@ -92,11 +92,9 @@ public class ReleveProprieteController extends CadController {
 	 * 
 	 * @param headers to verify CNIL level information
 	 * @param comptesCommunaux List of ids proprietaires
-	 * @param parcelleId plot id
+	 * @param idParcelle plot id
 	 * @return zip containing csv file
 	 * @throws IOException if an input or output exception occured
-	 * @throws CsvRequiredFieldEmptyException if a csv field exception occured 
-	 * @throws CsvDataTypeMismatchException if a csv data exception occured
 	 */
 	@GET
 	@Path("/createReleveProprieteAsCSV")

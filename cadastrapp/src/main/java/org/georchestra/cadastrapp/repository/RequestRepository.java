@@ -50,7 +50,7 @@ public interface RequestRepository
      *  
      * @param cni UserRequest cni ( User card number)
      * @param type UserRequest type (A, P1, P2 or P3)
-     * @param date
+     * @param date Date to check
      * @return number of Information request for this cni after a given date
      */
     @Query(value="select COALESCE(SUM(ir.objectNumber),0) from InformationRequest ir inner join ir.user u where u.cni= ?1 and u.type = ?2 and ir.requestDate >= ?3")

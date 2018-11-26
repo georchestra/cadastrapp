@@ -59,7 +59,7 @@ public class CadController {
 	 * Check if mandatory parameter are valid
 	 * 
 	 * @param	parameter	mandatoryList
-	 * return	true if parameter is not null or empty
+	 * @return	true if parameter is not null or empty
 	 */
 	protected boolean isMandatoryParameterValid(String parameter) {
 
@@ -79,7 +79,7 @@ public class CadController {
 	/**
 	 * 
 	 * @param	mandatoryList	list of string parameter
-	 * return	true if all parameter are valid
+	 * @return	true if all parameter are valid
 	 */
 	protected boolean checkAreMandatoryParametersValid(List<String> mandatoryList) {
 
@@ -126,7 +126,7 @@ public class CadController {
 	 * 
 	 * 
 	 * @param	headers	to search groups filtering
-	 * return	an SQL condition to add to initial query
+	 * @return	an SQL condition to add to initial query
 	 */
 	protected String addAuthorizationFiltering(HttpHeaders headers) {
 		return addAuthorizationFiltering(headers, "");

@@ -455,7 +455,6 @@ public class ParcelleController extends CadController {
 	 * @param city cgocommune information from form
 	 * @param fileContent file content
 	 * @return	form validation 
-	 * @throws IOException if an input or ouput exception occured
 	 */
 	@POST
 	@Path("/fromProprietairesFile")

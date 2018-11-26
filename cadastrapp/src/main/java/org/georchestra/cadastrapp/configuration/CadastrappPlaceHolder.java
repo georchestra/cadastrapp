@@ -36,7 +36,7 @@ public class CadastrappPlaceHolder extends PropertyPlaceholderConfigurer {
 	/**
 	 * Get String Value from property keys
 	 * 
-	 * @param name
+	 * @param name propertie key name
 	 * @return String value of given key in properties files
 	 */
 	public static String getProperty(String name) {
