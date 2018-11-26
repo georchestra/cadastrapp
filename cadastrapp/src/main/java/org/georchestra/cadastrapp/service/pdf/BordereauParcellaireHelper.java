@@ -58,6 +58,8 @@ public final class BordereauParcellaireHelper extends CadController{
 	/**
 	 * Get all information from database for all parcelle list
 	 * 
+	 * @param headers use for CNIL level limitation
+	 * @param isCoPro	get copro BP information if true
 	 * @param parcelleList
 	 *            List of parcelle id, like
 	 * @param personalData
@@ -163,9 +165,9 @@ public final class BordereauParcellaireHelper extends CadController{
 	
 	/**
 	 * get parcelles by owner
-	 * @param comptecommunal
-	 * @param isCoPro
-	 * @param idParcelle
+	 * @param comptecommunal owner id
+	 * @param isCoPro	boolean to get coowner information
+	 * @param idParcelle plot id
 	 * @return list of parcelle
 	 */
 	public List<Map<String, Object>> getParcellesByProprietaire(String comptecommunal, boolean isCoPro, String idParcelle){
@@ -202,9 +204,9 @@ public final class BordereauParcellaireHelper extends CadController{
 	/**
 	 * Generate pdf file using FOP 
 	 * @param bp object that contain all information about Plots 
-	 * @param noData  
+	 * @param noData  true if erros occures when getting data
 	 * @return pdf file by FOP
-	 * @throws CadastrappServiceException 
+	 * @throws CadastrappServiceException if an globalException occured
 	 */
 	public File generatePDF(BordereauParcellaire bp, boolean noData) throws CadastrappServiceException{
 		
@@ -341,9 +343,9 @@ public final class BordereauParcellaireHelper extends CadController{
 
 	/**
 	 * get parcelle by parcelle attribute
-	 * @param commune
-	 * @param section
-	 * @param numero
+	 * @param commune commune id
+	 * @param section	plot section id
+	 * @param numero plot number
 	 * @return list of parcelle
 	 */
 	public List<Map<String, Object>> getParcellesByInfoParcelle(String commune, String section, String numero) {
@@ -373,9 +375,9 @@ public final class BordereauParcellaireHelper extends CadController{
 
 	/**
 	 * get parcelle by info owner
-	 * @param commune
-	 * @param ownerName
-	 * @return list of parcelle
+	 * @param commune town id
+	 * @param ownerName owner name
+	 * @return plots list corresponding to params
 	 */
 	public List<Map<String, Object>> getParcellesByInfoOwner(String commune, String ownerName) {
 		List<Map<String, Object>> parcelles = null;
@@ -418,11 +420,11 @@ public final class BordereauParcellaireHelper extends CadController{
 
 	/**
 	 * get parcelle by co-propriete info
-	 * @param commune
-	 * @param section
-	 * @param numero
-	 * @param proprietaire
-	 * @return list of parcelle
+	 * @param commune town id
+	 * @param section	plot section
+	 * @param numero	plot number
+	 * @param proprietaire	owner id
+	 * @return plot list
 	 */
 	public List<Map<String, Object>> getParcellesByInfoLot(String commune, String section, String numero, String proprietaire) {
 		List<Map<String, Object>> parcelles = null;

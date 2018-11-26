@@ -56,8 +56,10 @@ public class CadController {
 	}
 	
 	/**
+	 * Check if mandatory parameter are valid
 	 * 
-	 * @param mandatoryList
+	 * @param	parameter	mandatoryList
+	 * return	true if parameter is not null or empty
 	 */
 	protected boolean isMandatoryParameterValid(String parameter) {
 
@@ -76,7 +78,8 @@ public class CadController {
 
 	/**
 	 * 
-	 * @param mandatoryList
+	 * @param	mandatoryList	list of string parameter
+	 * return	true if all parameter are valid
 	 */
 	protected boolean checkAreMandatoryParametersValid(List<String> mandatoryList) {
 
@@ -96,8 +99,8 @@ public class CadController {
 	 * Get Cnil level depending on CNIL groups in sec-roles
 	 * 
 	 * 
-	 * @param headers
-	 * @return
+	 * @param	headers	httpheader information, here we need sec-roles information
+	 * @return 0 if user doesnot have any specific right, 1 for CNILLEVEL 1 et 2 for CNILLEVEL 2
 	 */
 	protected int getUserCNILLevel(HttpHeaders headers) {
 
@@ -122,8 +125,8 @@ public class CadController {
 	 * Filter information depending on groups information
 	 * 
 	 * 
-	 * @param headers
-	 * @return
+	 * @param	headers	to search groups filtering
+	 * return	an SQL condition to add to initial query
 	 */
 	protected String addAuthorizationFiltering(HttpHeaders headers) {
 		return addAuthorizationFiltering(headers, "");
@@ -133,10 +136,10 @@ public class CadController {
 	 * Filter information depending on groups information
 	 * 
 	 * 
-	 * @param headers
-	 * @param tableAlias
+	 * @param headers	to search groups filtering
+	 * @param tableAlias	table alias for original request to add to the condition
 	 *  
-	 * @return string query to complet user right
+	 * @return query to complete user right
 	 */
 	protected String addAuthorizationFiltering(HttpHeaders headers, String tableAlias) {
 
@@ -232,9 +235,12 @@ public class CadController {
 	/**
 	 * Add a clause like in query
 	 * 
-	 * @param libelle
-	 * @param value
-	 * @return
+	 * @param	isWhereAdded	boolean to know if an where clause has already been added to the SQL query
+	 * @param	sb	SQL request to add where clause
+	 * @param	libelle	key parameter
+	 * @param	value	value of like parameter 
+	 * @param	paramList	final paramList used to execute request after completion
+	 * @return	true if where is added for the first time, and add SQL Clause Like to the given stringbuilder with %value%
 	 */
 	protected boolean createLikeClauseRequest(boolean isWhereAdded, StringBuilder sb, String libelle, String value, List<String> paramList) {
 
@@ -254,11 +260,14 @@ public class CadController {
 	}
 	
 	/**
-	 * Add a clause like in query
+	 * Add a clause like in query, with % only on right side of value
 	 * 
-	 * @param libelle
-	 * @param value
-	 * @return
+	 * @param	isWhereAdded	boolean to know if an where clause has already been added to the SQL query
+	 * @param	sb	SQL request to add where clause
+	 * @param	libelle	key parameter
+	 * @param	value	value of like parameter
+	 * @param	paramList	final paramList used to execute request after completion
+	 * @return	true if where is added for the first time, and add SQL Clause Like to the given stringbuilder with value%
 	 */
 	protected boolean createRightLikeClauseRequest(boolean isWhereAdded, StringBuilder sb, String libelle, String value, List<String> paramList) {
 
@@ -277,11 +286,14 @@ public class CadController {
 	}
 
 	/**
-	 * Add an equals clause to query
+	 * Add a clause equal in query
 	 * 
-	 * @param libelle
-	 * @param value
-	 * @return
+	 * @param	isWhereAdded	boolean to know if an where clause has already been added to the SQL query
+	 * @param	sb	SQL request to add where clause
+	 * @param	libelle	key parameter
+	 * @param	value	value of like parameter
+	 * @param	paramList	final paramList used to execute request after completion
+	 * @return	true if where is added for the first time, and add SQL Clause equal to the given stringbuilder with value
 	 */
 	protected boolean createEqualsClauseRequest(boolean isWhereAdded, StringBuilder sb, String libelle, String value, List<String> paramList) {
 
@@ -302,9 +314,9 @@ public class CadController {
 
 	/**
 	 * Create a string of value from a list
-	 * 	exemple : List (1,2,3,4) -> "'1','2','3'"
+	 * 	exemple : List (1,2,3,4) will be transform in "'1','2','3'"
 	 * 
-	 * @param values List<String> wanted to be parsed
+	 * @param values String list wanted to be parsed
 	 * 
 	 * @return String "'value1','value2'"
 	 */

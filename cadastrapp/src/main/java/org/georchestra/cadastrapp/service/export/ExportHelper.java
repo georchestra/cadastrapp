@@ -26,10 +26,10 @@ public class ExportHelper {
 	/**
 	 *  Create a csv file with given data and entete
 	 *  
-	 * @param data List<Map<String, Object>>
+	 * @param data list of map containing key value information to be written in csv
 	 * @param entete String, corresponding to the first line of the csv
-	 * @return File
-	 * @throws IOException
+	 * @return csv file
+	 * @throws IOException if on input or output exception occurred
 	 */
 	public File createCSV(List<Map<String, Object>> data, String entete) throws IOException {
 

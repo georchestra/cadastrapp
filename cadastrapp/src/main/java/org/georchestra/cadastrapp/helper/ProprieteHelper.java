@@ -422,7 +422,7 @@ public final class ProprieteHelper extends CadController {
 	 * 
 	 * @param idLocal
 	 *            String local id from invar
-	 * @return List<Lot> bundle number and distribution in this bundle
+	 * @return  lots list bundle number and distribution in this bundle
 	 */
 	public List<Lot> getLotInformation(String idLocal) {
 
@@ -452,7 +452,7 @@ public final class ProprieteHelper extends CadController {
 	 * 
 	 * @param idLocal
 	 *            String local id from invar
-	 * @return List<Map<String, Object>> bundle number and distribution in this bundle
+	 * @return bundle number and distribution in this bundle
 	 */
 	public List<Map<String, Object>> getLotInformationFromDatabase(String idLocal) {
 
@@ -478,7 +478,7 @@ public final class ProprieteHelper extends CadController {
 	 * @param dnubat String
 	 * @param withOwner boolean
 	 * 
-	 * @return List<Map<String, Object>>
+	 * @retun bundle information comming from database
 	 */
 	public List<Map<String, Object>> getLotsInformation(String parcelle, String dnubat, boolean withOwner) {
 

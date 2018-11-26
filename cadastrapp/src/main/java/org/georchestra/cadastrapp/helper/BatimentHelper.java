@@ -21,10 +21,10 @@ public final class BatimentHelper extends CadController {
 	 * 
 	 * getBuildings
 	 * 
-	 * @param String parcelle / Id Parcelle exemple : 2014630103000AP0025
-	 * @param HttpHeaders headers
+	 * @param	parcelle	plot id example : 2014630103000AP0025
+	 * @param	headers		httpheaders information to validate authorization
 	 * 
-	 * @return List<Map<String, Object>>  get all building from given plot
+	 * @return buildings information on this plot
 	 */
 	public List<Map<String, Object>> getBuildings(String parcelle, HttpHeaders headers ){
 		

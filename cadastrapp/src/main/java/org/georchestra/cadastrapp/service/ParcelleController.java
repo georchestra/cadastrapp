@@ -111,7 +111,7 @@ public class ParcelleController extends CadController {
 	 * @param dindic
 	 * @param cconvo
 	 * @param dvoilib
-	 * @param comptecommunal
+	 * @param comptecommunal id specific for a owner
 	 * @param unitefonciere
 	 * 
 	 * @return List of parcelle information in List
@@ -248,7 +248,7 @@ public class ParcelleController extends CadController {
 	 * 
 	 * @return List of parcelle information in List
 	 * 
-	 * @throws SQLException
+	 * @throws SQLException if an SQL exception occured
 	 */
 	public List<Map<String, Object>> getParcelleById(String parcelle, int details, int userCNILLevel) throws SQLException {
 
@@ -284,7 +284,7 @@ public class ParcelleController extends CadController {
 	 *            
 	 * @return List of parcelle information in List
 	 * 
-	 * @throws SQLException
+	 * @throws SQLException if an SQL exception occured
 	 */
 	public List<Map<String, Object>> getParcellesById(List<String> parcelleList, int details, int userCNILLevel) throws SQLException {
 
@@ -300,9 +300,9 @@ public class ParcelleController extends CadController {
 
 	/**
 	 * 
-	 * @param comptecommunal
-	 * @param details
-	 * @param userCNILLevel
+	 * @param comptecommunal id specific for a owner
+	 * @param details 1 to have detailed information
+	 * @param userCNILLevel 0,1 or 2
 	 * 
 	 * @return List of parcelle information in List
 	 */
@@ -380,7 +380,7 @@ public class ParcelleController extends CadController {
 	/**
 	 * Service witch use csv file as input
 	 * 
-	 * @param headers
+	 * @param headers http headers information
 	 * @param fileContent
 	 *            parcelleId separated by space, ',' or ';'
 	 * 
@@ -451,11 +451,11 @@ public class ParcelleController extends CadController {
 	 * 
 	 * @param headers
 	 *            make sure user have CNIL level
-	 * @param details
-	 * @param city
-	 * @param fileContent
-	 * @return
-	 * @throws Exception
+	 * @param details 1 to have detailed information
+	 * @param city cgocommune information from form
+	 * @param fileContent file content
+	 * @return	form validation 
+	 * @throws IOException if an input or ouput exception occured
 	 */
 	@POST
 	@Path("/fromProprietairesFile")

@@ -66,7 +66,7 @@ public class ObjectRequest implements Serializable {
 	}
 
 	/**
-	 * @param parcelle the comptecommunal to set
+	 * @param comptecommunal the comptecommunal to set
 	 */
 	@XmlAttribute
 	public void setComptecommunal(String comptecommunal) {
@@ -143,7 +143,7 @@ public class ObjectRequest implements Serializable {
 	}
 
 	/**
-	 * @param numero the proprietaire to set
+	 * @param proprietaire the proprietaire to set
 	 */
 	@XmlAttribute
 	public void setProprietaire(String proprietaire) {

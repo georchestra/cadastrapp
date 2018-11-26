@@ -58,7 +58,7 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * Get propertie information using given imput from database
 	 * 
-	 * @param idComptesCommunaux List<String> composed with comptecommunalid
+	 * @param idComptesCommunaux list composed with comptecommunalid
 	 * @param headers HttpHeaders used to verify user privilege
 	 * @param idParcelle String plot id
 	 * 
@@ -216,9 +216,9 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * Generate pdf file using FOP
 	 * 
-	 * @param isNoData
-	 * @param bp
-	 *            object that contain all information about Plots
+	 * @param isNoData if no data are present
+	 * @param rp	object that contain all information about Plots
+	 * @param isMinimal	to get minimal template
 	 * 
 	 * @return File pdfResult
 	 */
@@ -351,7 +351,7 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * get owners by id parcelle
 	 * 
-	 * @param parcelle
+	 * @param parcelle plot id
 	 * @return list of owners
 	 */
 	public List<Map<String, Object>> getProprietaireByParcelles(String parcelle) {
@@ -377,7 +377,7 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * get parcelle by compte communal
 	 * 
-	 * @param comptecommunal
+	 * @param comptecommunal owner id
 	 * 
 	 * @return list of parcelle
 	 */
@@ -405,11 +405,11 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * get lots by parcelle
 	 * 
-	 * @param compteCommunal
-	 * @param parcellaId
+	 * @param compteCommunal owner id
+	 * @param parcelleId plot id
 	 * @return list of lots
 	 */
-	public List<Map<String, Object>> getlotsByCcAndParcelle(String compteCommunal, String parcellaId) {
+	public List<Map<String, Object>> getlotsByCcAndParcelle(String compteCommunal, String parcelleId) {
 		List<Map<String, Object>> parcelles = null;
 		StringBuilder queryBuilder = new StringBuilder();
 
@@ -422,7 +422,7 @@ public final class ReleveProprieteHelper extends CadController {
 			queryBuilder.append("where proparc.comptecommunal = ? and proparc.parcelle = ?");
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), compteCommunal, parcellaId);
+			parcelles = jdbcTemplate.queryForList(queryBuilder.toString(), compteCommunal, parcelleId);
 		} else {
 			logger.info("Missing or empty input parameter");
 		}
@@ -432,10 +432,9 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * get proprietaire by info parcelle
 	 * 
-	 * @param commune
-	 * @param section
-	 *            Section is ccopre+ccosec
-	 * @param numero
+	 * @param commune cgocommune
+	 * @param section Section is ccopre+ccosec
+	 * @param numero plot number (dnupla)
 	 * @return list of compte communal
 	 */
 	public List<Map<String, Object>> getProprietaireByInfoParcelle(String commune, String section, String numero) {
@@ -467,8 +466,8 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * get owners by info owner
 	 * 
-	 * @param commune
-	 * @param ownerName
+	 * @param commune cgocommune
+	 * @param ownerName owner name
 	 * @return list of compte communal
 	 */
 	public List<Map<String, Object>> getProprietaireByInfoOwner(String commune, String ownerName) {
@@ -497,11 +496,11 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * get Owner and parcelle using input
 	 * 
-	 * @param commune
-	 * @param section
-	 * @param numero
-	 * @param proprietaire
-	 * @return
+	 * @param commune cgocommune
+	 * @param section plot section id
+	 * @param numero plot number (dnupla)
+	 * @param proprietaire	Owner usage name
+	 * @return owner information by lot
 	 */
 	public List<Map<String, Object>> getProprietaireByInfoLot(String commune, String section, String numero, String proprietaire) {
 		List<Map<String, Object>> cc = null;
@@ -537,9 +536,9 @@ public final class ReleveProprieteHelper extends CadController {
 	/**
 	 * Create RP without parcelle id.
 	 * 
-	 * @param comptesCommunaux
-	 * @param headers
-	 * @return
+	 * @param comptesCommunaux owner id list
+	 * @param headers http headers information to filter result
+	 * @return data for releve de propriete
 	 */
 	public RelevePropriete getReleveProprieteInformation(List<String> comptesCommunaux, HttpHeaders headers) {
 

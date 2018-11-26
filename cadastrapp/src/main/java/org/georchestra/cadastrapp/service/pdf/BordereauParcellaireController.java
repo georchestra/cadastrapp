@@ -60,11 +60,9 @@ public class BordereauParcellaireController extends CadController {
 	 * Once the fo file is create we then create the PDF file
 	 * 
 	 * @param headers, use for CNIL level limitation
-	 * 
 	 * @param parcelleList, list of parcelleId you want to export
-	 * 
-	 * @param personalData, 0 -> no owners information
-	 * 						1 -> owners information in page
+	 * @param personalData, 0  no owners information
+	 * 						1  owners information in page
 	 * 						0 is set by default if empty
 	 * 
 	 * @return PDF file, one page by parcelle. Each page contains one "Bordereau Parcellaire" with or without owners information

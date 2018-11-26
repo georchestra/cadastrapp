@@ -28,7 +28,7 @@ public class CSVExportController extends CadController {
 	/**
 
 	 * @param values
-	 *            List<String> contains all data to export, each list of elements are separated by |
+	 *             list containing all data to export, each list of elements are separated by |
 	 * 
 	 * @return Rest Response containing CSV file with name
 	 *         export-"currentDateTime".csv When header exist, if value have not
