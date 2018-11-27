@@ -28,6 +28,7 @@
 #   1.5          | Pierre JEGO    | 20/06/2016 | Use script in batch mode
 #   1.6          | Pierre JEGO    | 22/06/2016 | Add lot view
 #   1.7          | Pierre JEGO    | 08/11/2017 | Add port as done in Qgis Model
+#   1.8          | Pierre JEGO    | 27/11/2018 | Add correlation tables
 #////////////////////////////////////////////////////////////////////
 
 
@@ -169,6 +170,8 @@ replaceAndLaunch ../commun/tables/prop_ccogrm.sql
 replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 replaceAndLaunch ../commun/tables/prop_dmatto.sql
 replaceAndLaunch ../commun/tables/prop_dmatgm.sql
+replaceAndLaunch ../commun/tables/prop_type_filiation.sql
+replaceAndLaunch ../commun/tables/prop_bati_detent.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 echo "--------------------------------";

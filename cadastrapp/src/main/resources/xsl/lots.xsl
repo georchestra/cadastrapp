@@ -80,7 +80,8 @@
 			<xsl:value-of select="$service" />
 		</fo:block>
 		<fo:block xsl:use-attribute-sets="attributions">
-			Ce document est donné à titre indicatif - Il n'a pas de valeur légale
+			Ce document ne peut pas être diffusé à un administré et est destiné à l'usage exclusif des services de la collectivité (art L107 B du livre des procédures fiscales).
+Les informations contenues dans ce document sont les plus à jour dans la mesure des capacités des responsables du logiciel à les maintenir à jour.
 		</fo:block>
 	</xsl:template>
 	

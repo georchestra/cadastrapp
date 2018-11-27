@@ -117,6 +117,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                     this.item.setChecked(true, true);
                     GEOR.Addons.Cadastre.visible = true;
                     GEOR.Addons.Cadastre.addWMSLayer(WMSSetting);
+                    this.map.addLayer(GEOR.Addons.Cadastre.WFSLayer);
                     GEOR.Addons.Cadastre.addPopupOnhover(this.options.popup);
                     var maxX =  window.innerWidth;
                     this.window.setPagePosition(maxX * 0.3 ,0);
@@ -144,6 +145,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                         GEOR.Addons.Cadastre.WMSLayer.destroy();
                         GEOR.Addons.Cadastre.WMSLayer = null;
                     }
+                    // Remove WFS layer
+                    this.map.removeLayer(GEOR.Addons.Cadastre.WFSLayer);
 
                     // Remove all windows
                     if(GEOR.Addons.Cadastre.popup){

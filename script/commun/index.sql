@@ -42,6 +42,9 @@ CREATE INDEX idxparcelledetailsccopre ON #schema_cadastrapp.parcelledetails (cco
 CREATE INDEX idxparcelledetailsdvoilib ON #schema_cadastrapp.parcelledetails (dvoilib);
 CREATE INDEX idxparcelledetailscgocommuneparcelle ON #schema_cadastrapp.parcelledetails (cgocommune, parcelle);
 
+-- v_parcelle_surfc
+CREATE INDEX idxvparcellesurfcparcelle ON #schema_cadastrapp.v_parcelle_surfc (parcelle);
+
 -- ProprieteBatie
 CREATE INDEX idxproprietebatiecomptecommunal ON #schema_cadastrapp.proprietebatie (comptecommunal);
 CREATE INDEX idxproprietebatiecgocommune ON #schema_cadastrapp.proprietebatie (cgocommune);

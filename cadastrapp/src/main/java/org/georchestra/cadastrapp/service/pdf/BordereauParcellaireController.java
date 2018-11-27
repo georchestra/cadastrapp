@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.FopFactoryBuilder;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
@@ -59,11 +61,9 @@ public class BordereauParcellaireController extends CadController {
 	 * Once the fo file is create we then create the PDF file
 	 * 
 	 * @param headers, use for CNIL level limitation
-	 * 
 	 * @param parcelleList, list of parcelleId you want to export
-	 * 
-	 * @param personalData, 0 -> no owners information
-	 * 						1 -> owners information in page
+	 * @param personalData, 0  no owners information
+	 * 						1  owners information in page
 	 * 						0 is set by default if empty
 	 * 
 	 * @return PDF file, one page by parcelle. Each page contains one "Bordereau Parcellaire" with or without owners information
@@ -86,17 +86,7 @@ public class BordereauParcellaireController extends CadController {
 			String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 			
 			// Pdf temporary filename using tmp folder and timestamp
-			final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();
-
-			// Construct a FopFactory (reuse if you plan to render multiple documents!)
-			FopFactory fopFactory = FopFactory.newInstance();
-			
-			// get DPI from comfig file
-			int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
-			// Same DPI in input and ouput to avoid scale translation and keep quality
-			fopFactory.setSourceResolution(dpi);
-			fopFactory.setTargetResolution(dpi);
-			
+			final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();			
 			InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplate);
 
 			// Setup XSLT
@@ -119,6 +109,16 @@ public class BordereauParcellaireController extends CadController {
 				pdfResult.deleteOnExit();
 				
 				out = new BufferedOutputStream(new FileOutputStream(pdfResult));
+				
+				FopFactoryBuilder builder = new FopFactoryBuilder(pdfResult.toURI());
+				
+				// get DPI from comfig file
+				int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
+				
+				builder.setSourceResolution(dpi);
+				builder.setTargetResolution(dpi);
+				
+				FopFactory fopFactory = builder.build();
 
 				fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 	
@@ -143,7 +143,9 @@ public class BordereauParcellaireController extends CadController {
 
 					// log on console marshaller only if debug log is one
 					if (logger.isDebugEnabled()) {
-						jaxbMarshaller.marshal(bordereauParcellaire, System.out);
+						StringWriter stringWriter = new StringWriter();					
+						jaxbMarshaller.marshal(bordereauParcellaire, stringWriter);
+						logger.debug(stringWriter.toString());
 					}
 
 					// FO file will be deleted on JVM exit

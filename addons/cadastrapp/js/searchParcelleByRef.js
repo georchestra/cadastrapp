@@ -292,7 +292,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                         fields : [ 'dvoilib', {
                             name : 'libellevoie',
                             convert : function(v, rec) {
-                                return rec.cconvo + ' ' + rec.dvoilib
+                                return (rec.cconvo + ' ' + rec.dvoilib).trim()
                             }
                         } ]
                     }),
@@ -467,9 +467,6 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                             var params = {};
                             params.cgocommune = currentForm.getForm().findField('cgocommune').value;
 
-                            // Create new tab
-                            GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, null);
-
                             parcelleGrid.getStore().each(function(record) {
 
                                 if (record.data.parcelle != undefined && record.data.parcelle > 0 && record.data.section != undefined && record.data.section.length > 0) {
@@ -489,7 +486,13 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                                         url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
                                         params : params,
                                         success : function(result) {
-                                            GEOR.Addons.Cadastre.addResultToTab(result.responseText);
+                                            // si la fenetre de recherche n'est pas ouverte
+                                            if (!GEOR.Addons.Cadastre.result.plot.window || !GEOR.Addons.Cadastre.result.tabs || !GEOR.Addons.Cadastre.result.tabs.getActiveTab()) {
+                                                GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
+                                            // si la fenêtre est ouverte on ajoute les lignes
+                                            } else {
+                                                GEOR.Addons.Cadastre.addResultToTab(result.responseText);
+                                            }
                                         },
                                         failure : function(result) {
                                             alert('ERROR');

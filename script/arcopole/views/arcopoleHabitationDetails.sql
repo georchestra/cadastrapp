@@ -47,7 +47,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			dmatgm,
 			dmatto
 		from #DBSchema_arcopole.DGI_PEV  as pev 
-  		left join #DBSchema_arcopole.dgi_phab pevp on pev.id_pev=pevp.id_pev
+  		left join #DBSchema_arcopole.dgi_phab pevp on pevp.id_pev=pev.id_pev
 			left join #DBSchema_arcopole.dom_ccoaff as ccoaff on pev.ccoaff=ccoaff.code  
 			left join #DBSchema_arcopole.dom_cconad cconad1 on pevp.cconad_ga=cconad1.code 
 			left join #DBSchema_arcopole.dom_cconad cconad2 on pevp.cconad_cv=cconad2.code 

@@ -49,7 +49,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			ltrim(l.ccopre) as ccopre,
 			ltrim(l.ccosec) as ccosec,
 			ltrim(l.dnupla, ''0'') as dnupla,
-			COALESCE(to_char(l.jdatat, ''DD/MM/YYYY''), '''') as jdatat,
+			COALESCE(l.jdatat, '''') as jdatat,
 			v.voie,
 			ltrim(l.dnvoiri, ''0'') as dnvoiri,
 			l00.dindic,

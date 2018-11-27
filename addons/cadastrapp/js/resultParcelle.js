@@ -11,7 +11,7 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
         exportCsvItems.push({
             text:OpenLayers.i18n("cadastrapp.result.csv.button.parcelles"),
             showSeparator:false,
-            handler(){
+            handler:function(){
                 return GEOR.Addons.Cadastre.exportPlotSelectionAsCSV();
             },scope:this
         });
@@ -19,7 +19,7 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
         // create parcelles button and get owners list as CSV
         exportCsvItems.push({
             text:OpenLayers.i18n("cadastrapp.result.csv.button.owner"),
-            handler(){
+            handler:function(){
                 return GEOR.Addons.Cadastre.exportOwnersAsCSV();
             },scope:this
         });
@@ -27,7 +27,7 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
         // create parcelles button and get co-owners list as CSV
         exportCsvItems.push({
             text:OpenLayers.i18n("cadastrapp.result.csv.button.coowner"),
-            handler(){
+            handler:function(){
                 return GEOR.Addons.Cadastre.exportCoOwnersAsCSV();
             },scope:this
         });
@@ -35,7 +35,7 @@ GEOR.Addons.Cadastre.exportAsCsvButton = function() {
         // create button to get bundle export as CSV
         exportCsvItems.push({
             text:OpenLayers.i18n("cadastrapp.result.csv.button.bundle"),
-            handler(){
+            handler:function(){
                 return GEOR.Addons.Cadastre.exportBundle();
             },scope:this
         });
@@ -484,12 +484,11 @@ GEOR.Addons.Cadastre.showTabSelection = function(parcelsIds) {
     if (parcelsIds.length > 0) {
 
         // Vérifie si la parcelle n'est pas déjà dans le store
-        if (GEOR.Addons.Cadastre.result.tabs.getActiveTab() && GEOR.Addons.Cadastre.result.tabs.getActiveTab().getStore()) {
+        if (GEOR.Addons.Cadastre.result.tabs && GEOR.Addons.Cadastre.result.tabs.getActiveTab() && GEOR.Addons.Cadastre.result.tabs.getActiveTab().getStore()) {
 
             GEOR.Addons.Cadastre.result.tabs.getActiveTab().getStore().each(function(item) {
 
-                // Si la parcelle est déja dans le store on la supprime de la
-                // liste
+                // Si la parcelle est déja dans le store on la supprime de la liste
                 // et on la change l'état de selection
                 var index = parcelsIds.indexOf(item.data.parcelle);
                 if (index > -1) {
@@ -504,7 +503,7 @@ GEOR.Addons.Cadastre.showTabSelection = function(parcelsIds) {
             });
         }
 
-        // all parcels could have been removed
+        // Toutes les parcelles peuvent avoir été supprimées
         if (parcelsIds.length > 0) {
             // paramètres pour le getParcelle
             var params = {};

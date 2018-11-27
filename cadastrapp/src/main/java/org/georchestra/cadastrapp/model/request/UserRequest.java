@@ -81,7 +81,7 @@ public class UserRequest implements Serializable {
 		return commune;
 	}
 	/**
-	 * @param cgoCommune the cgoCommune to set
+	 * @param commune the cgoCommune to set
 	 */
 	@XmlAttribute
 	public void setCommune(String commune) {

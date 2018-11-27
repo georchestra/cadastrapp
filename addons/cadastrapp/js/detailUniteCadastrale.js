@@ -335,7 +335,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             colModel : new Ext.grid.ColumnModel({
                 defaults : {
                     border : true,
-                    sortable : true,
+                    sortable : false,
                 },
                 columns : [ fiucCoProprietairesSM, {
                     header : OpenLayers.i18n('cadastrapp.proprietaires.ccodro'),

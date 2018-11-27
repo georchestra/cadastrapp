@@ -73,14 +73,14 @@ public class InformationRequest implements Serializable{
 	}
 
 	/**
-	 * @return the userId
+	 * @return the user request
 	 */
 	public UserRequest getUser() {
 		return user;
 	}
 
 	/**
-	 * @param userId the userId to set
+	 * @param user the user request to set
 	 */
 	@XmlElement(name="userRequest",     type=UserRequest.class)
 	public void setUser(UserRequest user) {
@@ -110,7 +110,7 @@ public class InformationRequest implements Serializable{
 	}
 
 	/**
-	 * @param parcelleId the parcelleId to set
+	 * @param objectsRequest the set of object request
 	 */
 	@XmlElementWrapper(name="objects")
     @XmlElements({@XmlElement(name="object",     type=ObjectRequest.class)})

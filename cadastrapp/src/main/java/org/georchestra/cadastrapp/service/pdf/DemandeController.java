@@ -49,9 +49,9 @@ public class DemandeController extends CadController {
 	 * Create a PDF using a request id
 	 * 
 	 * @param headers to verify CNIL level information
-	 * @param compteCommunal List of ids proprietaires
-	 * @return pdf
-	 * @throws IOException 
+	 * @param requestId user request Id
+	 * @return pdf demande resume
+	 * @throws IOException if an input or output exception occured
 	 */
 	@GET
 	@Path("/createDemandeFromObj")

@@ -48,7 +48,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.deschabitation AS
 			dmatgm,
 			dmatto
 		from #DBSchema_qgis.pev
-			left join #DBSchema_qgis.pevprincipale pevp on pev.pev=pevp.pev
+			left join #DBSchema_qgis.pevprincipale pevp on pevp.pev=pev.pev
 			left join #DBSchema_qgis.ccoaff on pev.ccoaff=ccoaff.ccoaff
 			left join #DBSchema_qgis.cconad cconad1 on pevp.dep1_cconad=cconad1.cconad
 			left join #DBSchema_qgis.cconad cconad2 on pevp.dep2_cconad=cconad2.cconad

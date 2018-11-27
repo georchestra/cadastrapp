@@ -51,8 +51,9 @@ public class ReleveProprieteController extends CadController {
 	 * Create a PDF using a list of comptecommunal
 	 * 
 	 * @param headers to verify CNIL level information
-	 * @param compteCommunal List of ids proprietaires
-	 * @return pdf
+	 * @param comptesCommunaux List of ids proprietaires
+	 * @param idParcelle plot id
+	 * @return pdf generated RP with database information
 	 */
 	@GET
 	@Path("/createRelevePropriete")
@@ -90,12 +91,10 @@ public class ReleveProprieteController extends CadController {
 	 * Create a zip file, containint several csv using a list of comptecommunal
 	 * 
 	 * @param headers to verify CNIL level information
-	 * @param compteCommunal List of ids proprietaires
-	 * @param parcelleId
-	 * @return zip 
-	 * @throws IOException 
-	 * @throws CsvRequiredFieldEmptyException 
-	 * @throws CsvDataTypeMismatchException 
+	 * @param comptesCommunaux List of ids proprietaires
+	 * @param idParcelle plot id
+	 * @return zip containing csv file
+	 * @throws IOException if an input or output exception occured
 	 */
 	@GET
 	@Path("/createReleveProprieteAsCSV")

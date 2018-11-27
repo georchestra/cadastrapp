@@ -17,7 +17,7 @@ public interface UserRequestRepository
     /**
      *  Get userRequest from database using cni id
      *  
-     * @param cni
+     * @param cni UserRequest cni ( User card number)
      * @return UserRequest using given cni
      */
     UserRequest findByCni(String cni);
@@ -26,8 +26,8 @@ public interface UserRequestRepository
     /**
      *  Get userRequest from database using cni id
      *  
-     * @param cni
-     * @param type
+     * @param cni UserRequest cni ( User card number)
+     * @param type	type of user
      * @return UserRequest using given cni and type
      */
     UserRequest findByCniAndType(String cni, String type);

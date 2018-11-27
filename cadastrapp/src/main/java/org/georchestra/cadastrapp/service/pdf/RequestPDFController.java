@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.Date;
 
 import javax.ws.rs.GET;
@@ -70,9 +71,6 @@ public class RequestPDFController{
 				// Pdf temporary filename using tmp folder and timestamp
 				final String pdfTmpFileName = tempFolder + File.separator + "DemandeInformation" + new Date().getTime();
 
-				// Construct a FopFactory (reuse if you plan to render multiple
-				// documents!)
-				FopFactory fopFactory = FopFactory.newInstance();
 				InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplate);
 
 				// Setup XSLT
@@ -95,6 +93,7 @@ public class RequestPDFController{
 					pdfResult.deleteOnExit();
 					out = new BufferedOutputStream(new FileOutputStream(pdfResult));
 
+					FopFactory fopFactory = FopFactory.newInstance(pdfResult.toURI());
 					fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
 					jaxbContext = JAXBContext.newInstance(InformationRequest.class);
@@ -113,7 +112,9 @@ public class RequestPDFController{
 
 						// log on console marshaller only if debug log is one
 						if (logger.isDebugEnabled()) {
-							jaxbMarshaller.marshal(requestInformation, System.out);
+							StringWriter stringWriter = new StringWriter();					
+							jaxbMarshaller.marshal(requestInformation, stringWriter);
+							logger.debug(stringWriter.toString());
 						}
 
 						// FO file will be deleted on JVM exit

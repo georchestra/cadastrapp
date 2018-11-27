@@ -162,7 +162,7 @@ public class Parcelle {
 	}
 	
 	/**
-	 * @param proprietaires the proprietaires List to set
+	 * @return proprietaires the proprietaires List
 	 */
 	public List<Proprietaire> getProprietaires() {
 		return proprietaires;

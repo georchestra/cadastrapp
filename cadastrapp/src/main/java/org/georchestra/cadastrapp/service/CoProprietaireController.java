@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -152,7 +153,9 @@ public class CoProprietaireController extends CadController {
 	 * @param parcelle
 	 * @return
 	 */
-	public Map<String, Object> getCoProprietaire(@QueryParam("parcelle") String parcelle, @QueryParam("start") int start,@QueryParam("limit") int limit, @Context HttpHeaders headers) {
+	public Map<String, Object> getCoProprietaire(@QueryParam("parcelle") String parcelle, 
+			@DefaultValue("0") @QueryParam("start") int start,
+			@DefaultValue("25") @QueryParam("limit") int limit, @Context HttpHeaders headers) {
 
 		logger.debug("get Co Proprietaire - parcelle : " + parcelle);
 
@@ -173,7 +176,7 @@ public class CoProprietaireController extends CadController {
 			queryCount.append(addAuthorizationFiltering(headers, "p."));
 			queryCount.append(" ) as temp;");
 			
-			int resultCount = jdbcTemplate.queryForInt(queryCount.toString(), parcelle);
+			int resultCount = jdbcTemplate.queryForObject(queryCount.toString(), new Object[] {parcelle}, Integer.class);
 			
 			logger.debug("get Co Proprietaire - number of co-proprietaire : " + resultCount);
 			
@@ -191,10 +194,10 @@ public class CoProprietaireController extends CadController {
 			queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
 			queryBuilder.append(addAuthorizationFiltering(headers, "p."));
 			queryBuilder.append(" ORDER BY p.app_nom_usage ");
-			queryBuilder.append(" LIMIT ").append(limit);
-			queryBuilder.append(" OFFSET ").append(start);
+			queryBuilder.append(" LIMIT ?");
+			queryBuilder.append(" OFFSET ?");
 			
-			result = jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
+			result = jdbcTemplate.queryForList(queryBuilder.toString(),  new Object[] {parcelle, limit, start});
 			
 			finalResult.put("rows", result);
 
@@ -379,9 +382,6 @@ public class CoProprietaireController extends CadController {
 				
 				// Pdf temporary filename using tmp folder and timestamp
 				final String pdfTmpFileName = tempFolder+File.separator+"Lots"+new Date().getTime();
-
-				// Construct a FopFactory (reuse if you plan to render multiple documents!)
-				FopFactory fopFactory = FopFactory.newInstance();
 				InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplate);
 
 				// Setup XSLT
@@ -404,7 +404,8 @@ public class CoProprietaireController extends CadController {
 					pdfResult.deleteOnExit();
 					
 					out = new BufferedOutputStream(new FileOutputStream(pdfResult));
-
+					
+					FopFactory fopFactory = FopFactory.newInstance(pdfResult.toURI());
 					fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
 					jaxbContext = JAXBContext.newInstance(InformationLots.class);
@@ -427,7 +428,9 @@ public class CoProprietaireController extends CadController {
 
 						// log on console marshaller only if debug log is one
 						if (logger.isDebugEnabled()) {
-							jaxbMarshaller.marshal(informationLots, System.out);
+							StringWriter stringWriter = new StringWriter();					
+							jaxbMarshaller.marshal(informationLots, stringWriter);
+							logger.debug(stringWriter.toString());
 						}
 
 						// FO file will be deleted on JVM exit

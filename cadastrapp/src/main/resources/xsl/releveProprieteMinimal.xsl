@@ -645,7 +645,7 @@
 					</fo:table-cell>
 					<fo:table-cell>
 						<fo:block padding-top="5pt">
-							MAJ POS : <xsl:value-of select="proprietesNonBaties/imposition/@majorationTerraion" />
+							MAJ POS : <xsl:value-of select="proprietesNonBaties/imposition/@majorationTerrain" />
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>

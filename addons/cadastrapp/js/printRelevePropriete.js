@@ -18,7 +18,8 @@ GEOR.Addons.Cadastre.onClickPrintRelevePropriete = function(compteCommunal, parc
  * 
  * @param parcelleId
  */
-GEOR.Addons.Cadastre.initPrintReleveProprieteWindow = function(compteCommunal, parcelleId = null) {
+GEOR.Addons.Cadastre.initPrintReleveProprieteWindow = function(compteCommunal, parcelleId) {
+    parcelleId = (typeof parcelleId !== 'undefined') ? parcelleId : null;
 
     // fenêtre principale
     GEOR.Addons.Cadastre.printReleveProprieteWindow = new Ext.Window({

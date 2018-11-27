@@ -21,7 +21,7 @@ public class ProprietesNonBaties {
 		return imposition;
 	}
 
-	@XmlElement(name="imposition",     type=Imposition.class, nillable = true)
+	@XmlElement(name="imposition",     type=ImpositionNonBatie.class, nillable = true)
 	/**
 	 * @param impositionBatie the impositionBatie to set
 	 */

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.FopFactoryBuilder;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
@@ -57,6 +59,8 @@ public final class BordereauParcellaireHelper extends CadController{
 	/**
 	 * Get all information from database for all parcelle list
 	 * 
+	 * @param headers use for CNIL level limitation
+	 * @param isCoPro	get copro BP information if true
 	 * @param parcelleList
 	 *            List of parcelle id, like
 	 * @param personalData
@@ -162,9 +166,9 @@ public final class BordereauParcellaireHelper extends CadController{
 	
 	/**
 	 * get parcelles by owner
-	 * @param comptecommunal
-	 * @param isCoPro
-	 * @param idParcelle
+	 * @param comptecommunal owner id
+	 * @param isCoPro	boolean to get coowner information
+	 * @param idParcelle plot id
 	 * @return list of parcelle
 	 */
 	public List<Map<String, Object>> getParcellesByProprietaire(String comptecommunal, boolean isCoPro, String idParcelle){
@@ -201,9 +205,9 @@ public final class BordereauParcellaireHelper extends CadController{
 	/**
 	 * Generate pdf file using FOP 
 	 * @param bp object that contain all information about Plots 
-	 * @param noData  
+	 * @param noData  true if erros occures when getting data
 	 * @return pdf file by FOP
-	 * @throws CadastrappServiceException 
+	 * @throws CadastrappServiceException if an globalException occured
 	 */
 	public File generatePDF(BordereauParcellaire bp, boolean noData) throws CadastrappServiceException{
 		
@@ -211,16 +215,7 @@ public final class BordereauParcellaireHelper extends CadController{
 		
 		// Pdf temporary filename using tmp folder and timestamp
 		final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();
-		
-		// Construct a FopFactory (reuse if you plan to render multiple documents!)
-		FopFactory fopFactory = FopFactory.newInstance();
-		
-		// get DPI from comfig file
-		int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
-		// Same DPI in input and ouput to avoid scale translation and keep quality
-		fopFactory.setSourceResolution(dpi);
-		fopFactory.setTargetResolution(dpi);
-		
+
 		InputStream xsl = null;
 		if(noData){
 			xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplateError);
@@ -249,6 +244,15 @@ public final class BordereauParcellaireHelper extends CadController{
 			
 			out = new BufferedOutputStream(new FileOutputStream(pdfResult));
 
+			FopFactoryBuilder builder = new FopFactoryBuilder(pdfResult.toURI());
+			
+			// get DPI from comfig file
+			int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
+			
+			builder.setSourceResolution(dpi);
+			builder.setTargetResolution(dpi);
+			
+			FopFactory fopFactory = builder.build();
 			fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
 			jaxbContext = JAXBContext.newInstance(BordereauParcellaire.class);
@@ -269,7 +273,9 @@ public final class BordereauParcellaireHelper extends CadController{
 
 				// log on console marshaller only if debug log is one
 				if (logger.isDebugEnabled()) {
-					jaxbMarshaller.marshal(bp, System.out);
+					StringWriter stringWriter = new StringWriter();					
+					jaxbMarshaller.marshal(bp, stringWriter);
+					logger.debug(stringWriter.toString());
 				}
 
 				// FO file will be deleted on JVM exit
@@ -338,9 +344,9 @@ public final class BordereauParcellaireHelper extends CadController{
 
 	/**
 	 * get parcelle by parcelle attribute
-	 * @param commune
-	 * @param section
-	 * @param numero
+	 * @param commune commune id
+	 * @param section	plot section id
+	 * @param numero plot number
 	 * @return list of parcelle
 	 */
 	public List<Map<String, Object>> getParcellesByInfoParcelle(String commune, String section, String numero) {
@@ -370,9 +376,9 @@ public final class BordereauParcellaireHelper extends CadController{
 
 	/**
 	 * get parcelle by info owner
-	 * @param commune
-	 * @param ownerName
-	 * @return list of parcelle
+	 * @param commune town id
+	 * @param ownerName owner name
+	 * @return plots list corresponding to params
 	 */
 	public List<Map<String, Object>> getParcellesByInfoOwner(String commune, String ownerName) {
 		List<Map<String, Object>> parcelles = null;
@@ -415,11 +421,11 @@ public final class BordereauParcellaireHelper extends CadController{
 
 	/**
 	 * get parcelle by co-propriete info
-	 * @param commune
-	 * @param section
-	 * @param numero
-	 * @param proprietaire
-	 * @return list of parcelle
+	 * @param commune town id
+	 * @param section	plot section
+	 * @param numero	plot number
+	 * @param proprietaire	owner id
+	 * @return plot list
 	 */
 	public List<Map<String, Object>> getParcellesByInfoLot(String commune, String section, String numero, String proprietaire) {
 		List<Map<String, Object>> parcelles = null;
