@@ -38,7 +38,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			suf.suf as id_local,
-			COALESCE(to_char(p.jdatat, ''DD/MM/YYYY''), '''') as jdatat,
+			COALESCE(p.jdatat, '''') as jdatat,
 			p.comptecommunal,
 			p.ccodep || p.ccodir ||	p.ccocom as cgocommune,
 			ltrim(p.ccopre) as ccopre,
