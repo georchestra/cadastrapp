@@ -19,12 +19,13 @@
 # @date   20/06/2016
 # Version : 1.4
 #
-# Change version | Author |    Date    | Comments
-#   1.0          | Pje    | 07/02/2015 | Init
-#   1.1          | Pje    | 08/07/2015 | Change user creation and management
-#   1.2          | Pje    | 23/12/2015 | Add properties tables
-#   1.3          | Jsa    | 09/06/2016 | Add capability to use non local postgresql database
-#   1.4          | Pje    | 20/06/2016 | Use script in batch mode
+# Change version | Author         |    Date    | Comments
+#   1.0          | Pierre JEGO    | 07/02/2015 | Init
+#   1.1          | Pierre JEGO    | 08/07/2015 | Change user creation and management
+#   1.2          | Pierre JEGO    | 23/12/2015 | Add properties tables
+#   1.3          | Julien Sabatier| 09/06/2016 | Add capability to use non local postgresql database
+#   1.4          | Pierre JEGO    | 20/06/2016 | Use script in batch mode
+#   1.5          | Pierre JEGO    | 27/11/2018 | Add correlation tables
 #////////////////////////////////////////////////////////////////////
 
 # Set parameters
@@ -167,6 +168,8 @@ replaceAndLaunch ../commun/tables/prop_ccogrm.sql
 replaceAndLaunch ../commun/tables/prop_dnatpr.sql
 replaceAndLaunch ../commun/tables/prop_dmatto.sql
 replaceAndLaunch ../commun/tables/prop_dmatgm.sql
+replaceAndLaunch ../commun/tables/prop_type_filiation.sql
+replaceAndLaunch ../commun/tables/prop_bati_detent.sql
 
 # Launch views creation (views will use DBLINK extension, make sure it is enable on your database)
 echo "--------------------------------";
