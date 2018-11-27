@@ -30,6 +30,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.FopFactoryBuilder;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
@@ -214,16 +215,7 @@ public final class BordereauParcellaireHelper extends CadController{
 		
 		// Pdf temporary filename using tmp folder and timestamp
 		final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();
-		
-		// Construct a FopFactory (reuse if you plan to render multiple documents!)
-		FopFactory fopFactory = FopFactory.newInstance();
-		
-		// get DPI from comfig file
-		int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
-		// Same DPI in input and ouput to avoid scale translation and keep quality
-		fopFactory.setSourceResolution(dpi);
-		fopFactory.setTargetResolution(dpi);
-		
+
 		InputStream xsl = null;
 		if(noData){
 			xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplateError);
@@ -252,6 +244,15 @@ public final class BordereauParcellaireHelper extends CadController{
 			
 			out = new BufferedOutputStream(new FileOutputStream(pdfResult));
 
+			FopFactoryBuilder builder = new FopFactoryBuilder(pdfResult.toURI());
+			
+			// get DPI from comfig file
+			int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
+			
+			builder.setSourceResolution(dpi);
+			builder.setTargetResolution(dpi);
+			
+			FopFactory fopFactory = builder.build();
 			fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
 			jaxbContext = JAXBContext.newInstance(BordereauParcellaire.class);

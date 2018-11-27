@@ -236,8 +236,6 @@ public final class ReleveProprieteHelper extends CadController {
 		// Pdf temporary filename using tmp folder and timestamp
 		final String pdfTmpFileName = tempFolder + File.separator + "RP" + new Date().getTime();
 
-		// Construct a FopFactory (reuse if you plan to render multiple documents!)
-		FopFactory fopFactory = FopFactory.newInstance();
 		InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(template);
 
 		// Setup XSLT
@@ -261,6 +259,7 @@ public final class ReleveProprieteHelper extends CadController {
 
 			out = new BufferedOutputStream(new FileOutputStream(pdfResult));
 
+			FopFactory fopFactory = FopFactory.newInstance(pdfResult.toURI());
 			fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
 			jaxbContext = JAXBContext.newInstance(RelevePropriete.class);

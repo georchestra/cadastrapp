@@ -71,9 +71,6 @@ public class RequestPDFController{
 				// Pdf temporary filename using tmp folder and timestamp
 				final String pdfTmpFileName = tempFolder + File.separator + "DemandeInformation" + new Date().getTime();
 
-				// Construct a FopFactory (reuse if you plan to render multiple
-				// documents!)
-				FopFactory fopFactory = FopFactory.newInstance();
 				InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplate);
 
 				// Setup XSLT
@@ -96,6 +93,7 @@ public class RequestPDFController{
 					pdfResult.deleteOnExit();
 					out = new BufferedOutputStream(new FileOutputStream(pdfResult));
 
+					FopFactory fopFactory = FopFactory.newInstance(pdfResult.toURI());
 					fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
 					jaxbContext = JAXBContext.newInstance(InformationRequest.class);
