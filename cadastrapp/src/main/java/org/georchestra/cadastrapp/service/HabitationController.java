@@ -79,7 +79,7 @@ public class HabitationController extends CadController {
 		logger.debug("getArticle40Details");
 		StringBuilder queryBuilder = new StringBuilder();
 	
-		queryBuilder.append("select hab.dnudes, hab.detent, hab.dsupdc, hab.dnbniv, hab.dnbpdc, ");
+		queryBuilder.append("select hab.dnudes, det.detent_lib as detent, hab.dsupdc, hab.dnbniv, hab.dnbpdc, ");
 		queryBuilder.append("hab.dnbppr, hab.dnbsam, hab.dnbcha, hab.dnbcu8, hab.dnbcu9, hab.dnbsea, hab.dnbann, hab.dnbbai, hab.dnbdou, hab.dnblav, ");
 		queryBuilder.append("hab.dnbwc, hab.geaulc, hab.gelelc, hab.ggazlc, hab.gchclc, hab.gteglc, hab.gesclc, hab.gasclc, hab.gvorlc, ");
 		queryBuilder.append("toit.description as dmattodesc, mur.description as dmatgmdesc");
@@ -87,11 +87,13 @@ public class HabitationController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".deschabitation hab , ");
 		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".prop_bati_detent det , ");
+		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".prop_dmatto toit, ");
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".prop_dmatgm mur");
 		queryBuilder.append(" where hab.annee = ? and hab.invar = ? ");
-		queryBuilder.append(" and hab.dmatgm = mur.code and hab.dmatto = toit.code ;");
+		queryBuilder.append(" and hab.dmatgm = mur.code and hab.dmatto = toit.code and hab.detent = det.detent;");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());

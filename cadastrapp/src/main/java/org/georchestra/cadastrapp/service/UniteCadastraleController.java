@@ -196,9 +196,12 @@ public class UniteCadastraleController extends CadController {
 		StringBuilder queryBuilder = new StringBuilder();
 		
 		// CNIL Niveau 2
-		queryBuilder.append("select p.jdatat, p.ccocomm, p.ccoprem, p.ccosecm, p.dnuplam, p.type_filiation from ");	
+		queryBuilder.append("select p.jdatat, p.ccocomm, p.ccoprem, p.ccosecm, p.dnuplam, prop.filiation_lib as type_filiation from ");	
 		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".parcelledetails p where p.parcelle = ? ");
+		queryBuilder.append(".parcelledetails p , ");
+		queryBuilder.append(databaseSchema);
+		queryBuilder.append(".prop_type_filiation prop ");
+		queryBuilder.append("where p.parcelle = ? and p.type_filiation = prop.filiation ");
 		queryBuilder.append(addAuthorizationFiltering(headers, "p."));
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
