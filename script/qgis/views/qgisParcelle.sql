@@ -110,7 +110,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 			COALESCE(ltrim(parcelle.dnupla, ''0''),geo_parcelle.tex) as dnupla,
 			COALESCE(parcelle.dcntpa,CAST(geo_parcelle.supf AS integer)) as dcntpa,
 			parcelle.dsrpar,
-			concat(substr(parcelle.jdatat::text,9,2),''/'',substr(parcelle.jdatat::text,6,2),''/'',substr(parcelle.jdatat::text,1,4)) as jdatat,
+			concat(substr(parcelle.jdatat::text,1,2),''/'',substr(parcelle.jdatat::text,3,2),''/'',substr(parcelle.jdatat::text,5,4)) as jdatat,
 			parcelle.dreflf,
 			parcelle.gpdl,
 			parcelle.cprsecr,
