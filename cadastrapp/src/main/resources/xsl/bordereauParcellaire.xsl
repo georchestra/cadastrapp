@@ -131,11 +131,11 @@
 								Fond de plan origine DGFiP - Reproduction interdite
 							</fo:block>
 							
-							<fo:block padding-top="10pt" font-size="8pt" font-weight="bold">
+							<fo:block padding-top="8pt" font-size="7pt">
 								Les informations contenues dans ce document sont réservées à l'usage personnel du demandeur (art L107 B du livre des procédures fiscales). Vous ne pouvez pas communiquer d'informations à caractère personnel à des tiers sans accord express des personnes concernées par ces données (chap II art 13 loi Informatique et Libertés de 1978 modifiée 2004).
 Les informations contenues dans ce document sont les plus à jour dans la mesure des capacités des responsables du logiciel à les maintenir à jour.
 							</fo:block>
-							<fo:block xsl:use-attribute-sets="text-bold" padding-top="20pt">
+							<fo:block xsl:use-attribute-sets="text-bold" padding-top="10pt">
 								<xsl:value-of select="@libelleCommune" />
 							</fo:block>
 							<fo:block xsl:use-attribute-sets="text" >
@@ -201,7 +201,7 @@ Les informations contenues dans ce document sont les plus à jour dans la mesure
 							</fo:table>
 
 							<!--  owner date only if cnil1 right -->
-							<fo:block-container padding-top="10pt" height="7cm">
+							<fo:block-container padding-top="10pt" height="8cm">
 								<fo:block/>
 								<xsl:if test="proprietaires">
 									<xsl:for-each select="proprietaires/proprietaire">
