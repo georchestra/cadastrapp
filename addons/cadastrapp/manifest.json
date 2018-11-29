@@ -46,7 +46,7 @@
             "version":"1.0.0",
             "service":"wfs",
             "outputFormat":"application/json",
-            "geometryField":"shape"
+            "geometryField":"geom"
         },
         "style":{
         	"listed":{  
@@ -71,7 +71,7 @@
             "version":"1.0.0",
             "service":"wfs",
             "outputFormat":"application/json",
-            "geometryField":"shape"
+            "geometryField":"geom"
         },
         "foncier":true
     },
@@ -322,6 +322,7 @@
             "cadastrapp.point":"Point",
             "cadastrapp.polygon":"Polygon",
             "cadastrapp.preferences.default":"Default",
+            "cadastrapp.preferences.default.style":"Set default style",
             "cadastrapp.preferences.fillColor" :"Fill color",
             "cadastrapp.preferences.opacity" :"Opacity",
             "cadastrapp.preferences.selected":"Selected",
@@ -683,13 +684,14 @@
             "cadastrapp.parcelle.town.exemple":"ex. Henri Fréville ou Mont-Romain",
             "cadastrapp.point":"Point",
             "cadastrapp.polygon":"Polygone",
-            "cadastrapp.preferences.default":"Défaut",
+            "cadastrapp.preferences.default":"Liste",
+            "cadastrapp.preferences.default.style":"Reprendre le style par defaut",
             "cadastrapp.preferences.fillColor" :"Remplissage",
-            "cadastrapp.preferences.opacity" :"Opacity",
-            "cadastrapp.preferences.selected":"Sélectionné",
+            "cadastrapp.preferences.opacity" :"Opacité",
+            "cadastrapp.preferences.selected":"Sélection",
             "cadastrapp.preferences.strokeColor" :"Contour",
             "cadastrapp.preferences.strokeWidth" :"Epaisseur", 
-            "cadastrapp.preferences.title":"Préférences",
+            "cadastrapp.preferences.title":"Préférences des styles",
             "cadastrapp.proprietaire":"Propriétaire",
             "cadastrapp.proprietaire.city":"Ville, Commune",
             "cadastrapp.proprietaire.city.exemple":"ex. Rennes, Cesson-Sévigné",
