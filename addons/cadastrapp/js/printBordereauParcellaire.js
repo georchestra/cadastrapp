@@ -23,7 +23,11 @@ GEOR.Addons.Cadastre.onClickPrintBordereauParcellaireWindow = function(parcelleI
         // PARAMS
         var params = {
             parcelle : parcelleId, 
-            personaldata:0
+            personaldata:0,
+            fillcolor:GEOR.Addons.Cadastre.styles.selected.fillColor,
+            opacity:GEOR.Addons.Cadastre.styles.selected.opacity,
+            strokecolor:GEOR.Addons.Cadastre.styles.selected.strokeColor,
+            strokewidth:GEOR.Addons.Cadastre.styles.selected.strokeWidth,
         } 
         var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'createBordereauParcellaire?' + Ext.urlEncode(params);
 
@@ -117,6 +121,13 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
 
                     // PARAMS
                     var params = GEOR.Addons.Cadastre.printBordereauParcellaireWindow.items.items[0].getForm().getValues();
+                    // Add style information
+                    // remove # to avoid URL problems on server side (XSL template doesnot manage url-encode)
+                    params.fillcolor=GEOR.Addons.Cadastre.styles.selected.fillColor.substring(1);;
+                    params.opacity=GEOR.Addons.Cadastre.styles.selected.opacity;
+                    params.strokecolor=GEOR.Addons.Cadastre.styles.selected.strokeColor.substring(1);;
+                    params.strokewidth=GEOR.Addons.Cadastre.styles.selected.strokeWidth;
+                    
                     var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'createBordereauParcellaire?' + Ext.urlEncode(params);
 
                     // Needed for IE

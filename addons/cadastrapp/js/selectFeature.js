@@ -1,15 +1,15 @@
 Ext.namespace("GEOR.Addons.Cadastre");
 
+
 /**
- * Method: createSelectionControl
+ * Method: createLayerStyle
  * 
- * Create vector layer and associate style for plos
+ * Create style for vector layer using params
  * 
  * @param:styleParams
  * 
  */
-GEOR.Addons.Cadastre.createLayer = function(styleParams) {
-    
+GEOR.Addons.Cadastre.createLayerStyle = function(styleParams) {
     var defaultStyle = new OpenLayers.Style({
         fillColor : styleParams.listed.fillColor, 
         strokeColor : styleParams.listed.strokeColor,
@@ -17,7 +17,7 @@ GEOR.Addons.Cadastre.createLayer = function(styleParams) {
         fillOpacity : styleParams.listed.opacity,
         strokeOpacity : styleParams.listed.opacity,
     });
-
+    
     var selectStyle = new OpenLayers.Style({
         fillColor : styleParams.selected.fillColor, 
         strokeColor : styleParams.selected.strokeColor,
@@ -25,18 +25,32 @@ GEOR.Addons.Cadastre.createLayer = function(styleParams) {
         fillOpacity : styleParams.selected.opacity,
         strokeOpacity : styleParams.selected.opacity,
     });
-
+    
     var globalStyle = new OpenLayers.StyleMap({
         'default': defaultStyle,
         'select': selectStyle
     });
+    
+    return globalStyle;
+}
 
+/**
+ * Method: createLayer
+ * 
+ * Create vector layer and associate style for plots
+ * 
+ * @param:styleParams
+ * 
+ */
+GEOR.Addons.Cadastre.createLayer = function(styleParams) {
+    
+   
     // création de la couche des entités selectionnées
     GEOR.Addons.Cadastre.WFSLayer = new OpenLayers.Layer.Vector("__georchestra_cadastrapps_plots", {
         displayInLayerSwitcher : false,
-        styleMap:globalStyle
+        styleMap:GEOR.Addons.Cadastre.createLayerStyle(styleParams)
     });
-
+    
     GEOR.Addons.Cadastre.WFSLayer.selectControl = new OpenLayers.Control.SelectFeature([GEOR.Addons.Cadastre.WFSLayer]);
 
     GeoExt.MapPanel.guess().map.addControl(GEOR.Addons.Cadastre.WFSLayer.selectControl);

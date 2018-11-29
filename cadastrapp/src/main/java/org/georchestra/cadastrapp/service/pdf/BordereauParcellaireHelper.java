@@ -36,6 +36,7 @@ import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
 import org.georchestra.cadastrapp.model.pdf.Parcelle;
 import org.georchestra.cadastrapp.model.pdf.Proprietaire;
+import org.georchestra.cadastrapp.model.pdf.Style;
 import org.georchestra.cadastrapp.service.CadController;
 import org.georchestra.cadastrapp.service.exception.CadastrappServiceException;
 import org.slf4j.Logger;
@@ -69,7 +70,7 @@ public final class BordereauParcellaireHelper extends CadController{
 	 * 
 	 * @return BordereauParcellaire witch contains list of parcelle
 	 */
-	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers, boolean isCoPro) {
+	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers, boolean isCoPro, Style plotStyle) {
 
 		
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
@@ -86,7 +87,8 @@ public final class BordereauParcellaireHelper extends CadController{
 			bordereauParcellaire.setDateDeValiditeMajic(dateValiditeDonneesMajic);
 			bordereauParcellaire.setDateDeValiditeEdigeo(dateValiditeDonneesEDIGEO);
 			bordereauParcellaire.setService(organisme);
-			bordereauParcellaire.setServiceUrl(webappUrl);
+			bordereauParcellaire.setServiceUrl(webappUrl);		
+			bordereauParcellaire.setStyle(plotStyle);
 
 			List<Parcelle> parcellesInformation = new ArrayList<Parcelle>();
 

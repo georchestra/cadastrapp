@@ -91,7 +91,22 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.result.owner=[];
         GEOR.Addons.Cadastre.result.owner.window;
 
-        GEOR.Addons.Cadastre.createLayer(this.options.style);
+        GEOR.Addons.Cadastre.defaultStyles=this.options.style;
+        // Check if user has style preferences and apply them
+        if(GEOR.ls.get("cadastrapp_style_preference") != null){
+            try {
+                GEOR.Addons.Cadastre.styles=JSON.parse(GEOR.ls.get("cadastrapp_style_preference"));
+            } catch(e) {
+                // If an error occured when parsing data
+                GEOR.Addons.Cadastre.styles=GEOR.Addons.Cadastre.defaultStyles;
+            }
+        }
+        //if nothing stored in localstorage
+        if(typeof GEOR.Addons.Cadastre.styles === "undefined"){
+            GEOR.Addons.Cadastre.styles=GEOR.Addons.Cadastre.defaultStyles;
+        }
+        // Create vectore Layer
+        GEOR.Addons.Cadastre.createLayer(GEOR.Addons.Cadastre.styles);
         
         GEOR.wmc.events.on("aftercontextrestore", GEOR.Addons.Cadastre.restoreLayersOnClear, this);
         GEOR.managelayers.events.on("aftercontextcleared", GEOR.Addons.Cadastre.restoreLayersOnClear, this);
@@ -195,6 +210,11 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                     if(GEOR.Addons.Cadastre.printLotsWindow){
                     	GEOR.Addons.Cadastre.printLotsWindow.close();
                     	GEOR.Addons.Cadastre.printLotsWindow=null;
+                    }
+                    
+                    if(GEOR.Addons.Cadastre.preferencesWindow){
+                        GEOR.Addons.Cadastre.preferencesWindow.close();
+                        GEOR.Addons.Cadastre.preferencesWindow=null;
                     }
                 },
                 scope: this

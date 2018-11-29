@@ -41,6 +41,7 @@ import org.apache.fop.apps.FopFactoryBuilder;
 import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.BordereauParcellaire;
+import org.georchestra.cadastrapp.model.pdf.Style;
 import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +72,13 @@ public class BordereauParcellaireController extends CadController {
 	@GET
 	@Path("/createBordereauParcellaire")
 	@Produces("application/pdf")
-	public Response createBordereauParcellaire(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("personaldata") int personalData) {
+	public Response createBordereauParcellaire(@Context HttpHeaders headers, 
+			@QueryParam("parcelle") final List<String> parcelleList,
+			@DefaultValue("0") @QueryParam("personaldata") int personalData,
+			@DefaultValue("#1446DE") @QueryParam("fillcolor") String styleFillColor,
+			@DefaultValue("0.50") @QueryParam("opacity") float styleFillOpacity,
+			@DefaultValue("#10259E") @QueryParam("strokecolor") String styleStrokeColor,
+			@DefaultValue("2") @QueryParam("strokewidth") int styleStrokeWidth) {
 
 		ResponseBuilder response = Response.noContent();
 		
@@ -127,9 +134,16 @@ public class BordereauParcellaireController extends CadController {
 				jaxbMarshaller = jaxbContext.createMarshaller();
 
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				
+				// Create plot style 
+				Style plotsStyle = new Style();
+				plotsStyle.setFillColor(styleFillColor);
+				plotsStyle.setFillOpacity(styleFillOpacity);
+				plotsStyle.setStrokeColor(styleStrokeColor);
+				plotsStyle.setStrokeWidth(styleStrokeWidth);
 
 				// Get bordereau parcellaire information
-				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, headers, false);
+				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, headers, false, plotsStyle);
 				File xmlfile = null;
 				File foFile = null;
 				OutputStream foOutPutStream = null;
