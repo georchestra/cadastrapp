@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -85,20 +86,27 @@ public class ImageParcelleController extends CadController {
 	// buffer ratio
 	final private double MAX_PERIMETER = 2000;
 
+
 	/**
 	 * Using a given parcelle id, this service will get feature from WFS
 	 * service, get Basemap image using Boundingbox of the feature and add
 	 * compass and scale on it
 	 * 
 	 * @param parcelle
-	 *            parcelle ID
-	 * 
+	 * @param styleFillColor hexacode without #
+	 * @param styleFillOpacity From 0 to 1
+	 * @param styleStrokeColor hexacode without #
+	 * @param styleStrokeWidth stroke width
 	 * @return Response with noContent in case of error, png otherwise
 	 */
 	@GET
 	@Path("/getImageBordereau")
 	@Produces("image/png")
-	public Response createImageBordereauParcellaire(@QueryParam("parcelle") String parcelle) {
+	public Response createImageBordereauParcellaire(@QueryParam("parcelle") String parcelle,
+			@DefaultValue("1446DE") @QueryParam("fillcolor") String styleFillColor,
+			@DefaultValue("0.50") @QueryParam("fillopacity") float styleFillOpacity,
+			@DefaultValue("10259E") @QueryParam("strokecolor") String styleStrokeColor,
+			@DefaultValue("2") @QueryParam("strokewidth") int styleStrokeWidth) {
 
 		// Create empty reponse for default value
 		ResponseBuilder response = Response.noContent();
@@ -289,7 +297,7 @@ public class ImageParcelleController extends CadController {
 																	
 						logger.debug("Create feature image from WMS");
 						
-						StyledLayerDescriptor sld = generateSLD(cadastreWFSLayerNameOri, cadastreLayerIdParcelle, parcelle);
+						StyledLayerDescriptor sld = generateSLD(cadastreWFSLayerNameOri, cadastreLayerIdParcelle, parcelle, styleFillColor, styleFillOpacity, styleStrokeColor, styleStrokeWidth);
 						
 					    SLDTransformer styleTransform = new SLDTransformer();
 				        styleTransform.setEncoding(Charset.forName("UTF-8"));
@@ -461,17 +469,19 @@ public class ImageParcelleController extends CadController {
 		return wmsLayer;
 	}
 
-
 	/**
 	 * Create SLD xml
 	 * 
-	 * @param layerName
-	 * @param layerId
-	 * @param plot
-	 * 
-	 * @return StyledLayerDescriptor
+	 * @param layerName	layer name 
+	 * @param layerId 	layer id
+	 * @param plot		plot number
+	 * @param fillColor	Style fill color
+	 * @param fillOpacity Style fill opacity
+	 * @param strokeColor Style stroke color
+	 * @param strokeWidth Style stroke widht
+	 * @return StyledLayerDescriptor SLD 
 	 */
-	private StyledLayerDescriptor generateSLD(String layerName, String layerId, String plot) {
+	private StyledLayerDescriptor generateSLD(String layerName, String layerId, String plot, String fillColor, float fillOpacity, String strokeColor, int strokeWidth) {
 		
 		// generate SLD with parcelle id, fill and stroke properties
 		org.geotools.styling.StyleFactory sf = CommonFactoryFinder.getStyleFactory();
@@ -481,9 +491,8 @@ public class ImageParcelleController extends CadController {
 		namedLayer.setName(layerName);
 
 	    /// create a "user defined" style
-		// TODO get Value from configuration file
-		Stroke stroke = sf.stroke(ff.literal("#10259E"), ff.literal(1), ff.literal(2), null, null, null, null);
-	    Fill fill = sf.fill(null, ff.literal("#1446DE"), ff.literal(0.50));
+		Stroke stroke = sf.stroke(ff.literal('#'+strokeColor), ff.literal(1), ff.literal(strokeWidth), null, null, null, null);
+	    Fill fill = sf.fill(null, ff.literal('#'+fillColor), ff.literal(fillOpacity));
 		PolygonSymbolizer sym = sf.createPolygonSymbolizer(stroke, fill, null);
         
 	    Rule rule1 = sf.createRule();

@@ -21,6 +21,8 @@ public class BordereauParcellaire {
 	
 	private String serviceUrl;
 	
+	private Style style; 
+	
 	private List<Parcelle> parcelleList;
 	
 	private List<String> fieldSearch;
@@ -157,6 +159,21 @@ public class BordereauParcellaire {
 	 */
 	public void setEmpty(boolean isEmpty) {
 		this.isEmpty = isEmpty;
+	}
+
+	/**
+	 * @return the style
+	 */
+	public Style getStyle() {
+		return style;
+	}
+
+	@XmlElement
+	/**
+	 * @param style the style to set
+	 */
+	public void setStyle(Style style) {
+		this.style = style;
 	}
 	
 }

@@ -70,7 +70,19 @@
 		<xsl:variable name="dateDeValiditeEdigeo">
 			<xsl:value-of select="dateDeValiditeEdigeo" />
 		</xsl:variable>
-
+		<xsl:variable name="fillColor">
+			<xsl:value-of select="style/@fillColor" />
+		</xsl:variable>
+		<xsl:variable name="fillOpacity">
+			<xsl:value-of select="style/@fillOpacity" />
+		</xsl:variable>
+		<xsl:variable name="strokeColor">
+			<xsl:value-of select="style/@strokeColor" />
+		</xsl:variable>
+		<xsl:variable name="strokeWidth">
+			<xsl:value-of select="style/@strokeWidth" />
+		</xsl:variable>
+		
 		<xsl:for-each select="parcelles/parcelle">
 			<fo:table table-layout="fixed" page-break-before="always">
 				<fo:table-column column-width="72%" />
@@ -82,7 +94,16 @@
 							<fo:block>
 								<fo:external-graphic  content-width="scale-to-fit" content-height="100%" width="100%" scaling="uniform">
 									<xsl:attribute name="src">
-										<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" />
+										<xsl:choose>
+											<!--  with given style -->
+											<xsl:when test="$fillColor">								
+												<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" /><![CDATA[&]]>fillcolor=<xsl:value-of select="$fillColor" /><![CDATA[&]]>fillopacity=<xsl:value-of select="$fillOpacity" /><![CDATA[&]]>strokecolor=<xsl:value-of select="$strokeColor" /><![CDATA[&]]>strokewidth=<xsl:value-of select="$strokeWidth" />
+											</xsl:when>
+											<!--  without style -->
+											<xsl:otherwise>			
+												<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" />
+											</xsl:otherwise>	
+										</xsl:choose>
 									</xsl:attribute>
 								</fo:external-graphic>
 							</fo:block>

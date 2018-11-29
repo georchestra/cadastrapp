@@ -33,7 +33,7 @@ public class ImageParcelleControllerTest {
 
 		ImageParcelleController imageParcelleController = new ImageParcelleController();
 		
-		Response response = imageParcelleController.createImageBordereauParcellaire("2014630103000AO0351");
+		Response response = imageParcelleController.createImageBordereauParcellaire("2014630103000AO0351", "#1446DE", (float) 0.50, "#10259E",2);
 
 
 	}
