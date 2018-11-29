@@ -66,8 +66,11 @@ public class BordereauParcellaireController extends CadController {
 	 * @param personalData, 0  no owners information
 	 * 						1  owners information in page
 	 * 						0 is set by default if empty
-	 * 
-	 * @return PDF file, one page by parcelle. Each page contains one "Bordereau Parcellaire" with or without owners information
+	 * @param styleFillColor style plot color
+	 * @param styleFillOpacity style plot opacity
+	 * @param styleStrokeColor style stroke color
+	 * @param styleStrokeWidth style stroke width
+	 * @return
 	 */
 	@GET
 	@Path("/createBordereauParcellaire")
