@@ -129,7 +129,7 @@ public class InfoBulleController extends CadController {
 
 	@Path("/getInfoUniteFonciere")
 	@GET
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	/**
 	 * 
 	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available cgocommune
@@ -150,19 +150,20 @@ public class InfoBulleController extends CadController {
 			// Create query
 			StringBuilder queryBuilder = new StringBuilder();
 		
-			queryBuilder.append("select uf.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum from ");
+			queryBuilder.append("select uf.uf, uf.comptecommunal, sum(p.dcntpa) as dcntpa_sum, sum(p.surfc) as sigcal_sum, sum(p.surfb) as sigcalb_sum from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".parcelleDetails p, ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".proprietaire_parcelle proparc, ");
+			queryBuilder.append(".uf_parcelle uf where uf.uf IN (select uf2.uf from ");
 			queryBuilder.append(databaseSchema);
-			queryBuilder.append(".uf_parcelle uf ");
-			queryBuilder.append(" where proparc.parcelle = ? and proparc.comptecommunal = uf.comptecommunal and p.parcelle=uf.parcelle ");
+			queryBuilder.append(".uf_parcelle uf2 where uf2.parcelle= ? ) ");
+			queryBuilder.append(" and uf.parcelle = p.parcelle ");
+			
 			// filter on geographical limitation only if search is filtered
 			if(isSearchFiltered){
 				queryBuilder.append(addAuthorizationFiltering(headers, "p."));
 			}
-			queryBuilder.append(" GROUP BY uf.comptecommunal ;");
+			queryBuilder.append("GROUP BY uf.uf, uf.comptecommunal;");
 								
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);

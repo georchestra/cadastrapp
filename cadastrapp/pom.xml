@@ -514,7 +514,6 @@
                 <classResourceName>org.georchestra.cadastrapp.service.SectionController</classResourceName>
                 <classResourceName>org.georchestra.cadastrapp.service.InfoBulleController</classResourceName>
                 <classResourceName>org.georchestra.cadastrapp.service.UniteCadastraleController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.UniteFonciereController</classResourceName>
                 <classResourceName>org.georchestra.cadastrapp.service.VoieController</classResourceName>
                 <classResourceName>org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController</classResourceName>
                 <classResourceName>org.georchestra.cadastrapp.service.pdf.ReleveProprieteController</classResourceName>
