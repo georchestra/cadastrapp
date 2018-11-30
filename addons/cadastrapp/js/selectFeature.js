@@ -241,65 +241,10 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
                 }
             }else{ // unitefonciere
                 if (resultSelection.length > 0) {
-                    // Draw UF          
+                    
                     //get Parcelle Id
                     var idParcelle = resultSelection[0].attributes[idField];
-                    // TODO Change this for Ol.format.filter on feature                  
-                    var coords = GEOR.Addons.Cadastre.getFeatureCoord(geometry);
-                    var typeGeom = geometry.id.split('_')[2];
-                    
-                    if (typeGeom == "Polygon") {
-                        polygoneElements = "<gml:outerBoundaryIs><gml:LinearRing>";
-                        endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs>";
-                    }else if (typeGeom == "MultiPolygon"){
-                        polygoneElements = "<gml:polygonMember><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing>";
-                        endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></gml:polygonMember>";
-                    }
-
-                    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Intersects></Filter>';
-      
-                    Ext.Ajax.request({
-                        async : false,
-                        url : GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl,
-                        method : 'GET',
-                        headers : {
-                            'Content-Type' : 'application/json'
-                        },
-                        params : {
-                            "request" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.request,
-                            "version" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.version,
-                            "service" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.service,
-                            "typename" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename,
-                            "outputFormat" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.outputFormat,
-                            "filter" : filterUF
-                        },
-                        success : function(response) {
-                            var geojson_format = new OpenLayers.Format.GeoJSON();
-                            var result = geojson_format.read(response.responseText);
-                            
-                            // If no result display message erreur, no UF at this point
-                            
-                            // Else display UF and launch new windows
-                            Ext.each(result, function(feature, index) {
-                                if (feature) {
-                                    // For each existing uf feature remove it
-                                    Ext.each(GEOR.Addons.Cadastre.UF.features, function(feature) {
-                                        GEOR.Addons.Cadastre.WFSLayer.removeFeatures(feature);
-                                    });
-                                    GEOR.Addons.Cadastre.UF.features=[];
-                                    GEOR.Addons.Cadastre.UF.features.push(feature);
-                                    // set selected style on feature to keep style in new windows
-                                    feature.style=GEOR.Addons.Cadastre.WFSLayer.styleMap.styles.select.defaultStyle;
-                                    // Add new feature
-                                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);                        
-                                    GEOR.Addons.Cadastre.changeStateFeature(feature,index,GEOR.Addons.Cadastre.selection.state.selected);
-                                    GEOR.Addons.Cadastre.zoomOnFeatures(GEOR.Addons.Cadastre.UF.features);
-                                }
-                            });
-
-                            GEOR.Addons.Cadastre.onClickDisplayFIUF(idParcelle);
-                        }
-                    });
+                    GEOR.Addons.Cadastre.searchUFbyParcelle(idParcelle,geometry);               
                 }
             }
         },
@@ -307,6 +252,72 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
             console.log("Error ", response.responseText);
         }
     });
+}
+
+/**
+ *  Search and display UF of the corresponding plots and geom
+ */
+GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
+    
+    var polygoneElements = "";
+    var endPolygoneElements = "";
+    // TODO Change this for Ol.format.filter on feature                  
+    var coords = GEOR.Addons.Cadastre.getFeatureCoord(geometry);
+    var typeGeom = geometry.id.split('_')[2];
+    
+    if (typeGeom == "Polygon") {
+        polygoneElements = "<gml:outerBoundaryIs><gml:LinearRing>";
+        endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs>";
+    }else if (typeGeom == "MultiPolygon"){
+        polygoneElements = "<gml:polygonMember><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing>";
+        endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></gml:polygonMember>";
+    }
+
+    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Intersects></Filter>';
+
+    Ext.Ajax.request({
+        async : false,
+        url : GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl,
+        method : 'GET',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        params : {
+            "request" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.request,
+            "version" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.version,
+            "service" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.service,
+            "typename" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename,
+            "outputFormat" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.outputFormat,
+            "filter" : filterUF
+        },
+        success : function(response) {
+            var geojson_format = new OpenLayers.Format.GeoJSON();
+            var result = geojson_format.read(response.responseText);
+            
+            // If no result display message erreur, no UF at this point
+            
+            // Else display UF and launch new windows
+            Ext.each(result, function(feature, index) {
+                if (feature) {
+                    // For each existing uf feature remove it
+                    Ext.each(GEOR.Addons.Cadastre.UF.features, function(feature) {
+                        GEOR.Addons.Cadastre.WFSLayer.removeFeatures(feature);
+                    });
+                    GEOR.Addons.Cadastre.UF.features=[];
+                    GEOR.Addons.Cadastre.UF.features.push(feature);
+                    // set selected style on feature to keep style in new windows
+                    feature.style=GEOR.Addons.Cadastre.WFSLayer.styleMap.styles.select.defaultStyle;
+                    // Add new feature
+                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);                        
+                    GEOR.Addons.Cadastre.changeStateFeature(feature,index,GEOR.Addons.Cadastre.selection.state.selected);
+                    GEOR.Addons.Cadastre.zoomOnFeatures(GEOR.Addons.Cadastre.UF.features);
+                }
+            });
+
+            GEOR.Addons.Cadastre.onClickDisplayFIUF(idParcelle);
+        }
+    });
+    
 }
 
 /**

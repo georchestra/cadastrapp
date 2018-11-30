@@ -198,8 +198,8 @@ GEOR.Addons.Cadastre.initResultParcelle = function() {
                     var selection = GEOR.Addons.Cadastre.result.tabs.getActiveTab().getSelectionModel().getSelections();
 
                     Ext.each(selection, function(item) {
-                        var feature = GEOR.Addons.Cadastre.getFeatureById(item.data.parcelle);                 
-                        GEOR.Addons.Cadastre.getFeaturesWFSSpatial(feature.geometry, "uniteFonciere");                               
+                        var feature = GEOR.Addons.Cadastre.getFeatureById(item.data.parcelle);  
+                        GEOR.Addons.Cadastre.searchUFbyParcelle(item.data.parcelle, feature.geometry)                              
                     });
                 }
             }
