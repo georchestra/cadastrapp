@@ -214,7 +214,7 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append(".proprietaire_parcelle proparc ");
 				queryBuilder.append(createWhereInQuery(parcelleList.size(), "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal");
-				queryBuilder.append(addAuthorizationFiltering(headers, "prop"));
+				queryBuilder.append(addAuthorizationFiltering(headers, "prop."));
 				queryBuilder.append(" ORDER BY prop.dnulp, prop.app_nom_usage ");
 
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
