@@ -205,7 +205,8 @@ public class ProprietaireController extends CadController{
 			if(parcelleList != null && !parcelleList.isEmpty()){
 
 				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("select parcelle, prop.comptecommunal, app_nom_usage, app_nom_naissance, dlign3, dlign4, dlign5, dlign6, dldnss, jdatnss, ccodro_lib ");
+				queryBuilder.append("select distinct prop.dnulp, proparc.parcelle, prop.comptecommunal, prop.app_nom_usage, prop.app_nom_naissance, prop.dldnss, prop.jdatnss, prop.ccodro_lib , prop.ccodro, prop.dformjur, ");
+				queryBuilder.append(" COALESCE(prop.dlign3, '')||' '||COALESCE(prop.dlign4,'')||' '||COALESCE(prop.dlign5,'')||' '||COALESCE(prop.dlign6,'') as adresse ");
 				queryBuilder.append(" from ");
 				queryBuilder.append(databaseSchema);
 				queryBuilder.append(".proprietaire prop, ");
@@ -213,7 +214,8 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append(".proprietaire_parcelle proparc ");
 				queryBuilder.append(createWhereInQuery(parcelleList.size(), "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal");
-				queryBuilder.append(addAuthorizationFiltering(headers));
+				queryBuilder.append(addAuthorizationFiltering(headers, "prop"));
+				queryBuilder.append(" ORDER BY prop.dnulp, prop.app_nom_usage ");
 
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 				proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList.toArray());
@@ -327,7 +329,7 @@ public class ProprietaireController extends CadController{
 		// User need to be at least CNIL1 level
 		if (getUserCNILLevel(headers)>0){
 			
-			String  entete = "proprio_id;droit_reel_libelle;denomination_usage;parcelles;civilite;nom_usage;prenom_usage;denomination_naissance;nom_naissance;prenom_naissance;adresse_ligne3;adresse_ligne4;adresse_ligne5;adresse_ligne6";
+			String  entete = "proprio_id;droit_reel_libelle;denomination_usage;parcelles;civilite;nom_usage;prenom_usage;denomination_naissance;nom_naissance;prenom_naissance;adresse_ligne3;adresse_ligne4;adresse_ligne5;adresse_ligne6;forme_juridique";
 			if(getUserCNILLevel(headers)>1){
 				entete = entete + ";lieu_naissance; date_naissance";
 			}
@@ -342,7 +344,7 @@ public class ProprietaireController extends CadController{
 				List<Map<String,Object>> proprietaires = new ArrayList<Map<String,Object>>();
 										
 				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("select prop.comptecommunal, ccodro_lib, app_nom_usage, string_agg(parcelle, ','), ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6 ");
+				queryBuilder.append("select prop.comptecommunal, ccodro_lib, app_nom_usage, string_agg(parcelle, ','), ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6, dformjur ");
 				
 				// If user is CNIL2 add birth information
 				if(getUserCNILLevel(headers)>1){
@@ -356,7 +358,7 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
 				queryBuilder.append(addAuthorizationFiltering(headers));
-				queryBuilder.append("GROUP BY prop.comptecommunal, ccodro_lib, app_nom_usage, ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6");
+				queryBuilder.append("GROUP BY prop.comptecommunal, ccodro_lib, app_nom_usage, ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6, dformjur");
 				// If user is CNIL2 add birth information
 				if(getUserCNILLevel(headers)>1){
 					queryBuilder.append(", dldnss, jdatnss ");

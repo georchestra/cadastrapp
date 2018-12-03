@@ -173,17 +173,11 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         var fiucProprietaireStore = new Ext.data.JsonStore({
 
             // Appel à la webapp
-            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getFIC?parcelle=' + parcelleId + "&onglet=1",
+            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + '/getProprietairesByParcelles?parcelles=' + parcelleId,
             autoLoad : true,
 
             // Champs constituant l'onglet propriétaire
-            fields : [ 'comptecommunal', 'ccodro', 'app_nom_usage', {
-                // Le champ adress est l'addition des champs dlign3,dlign4,dlign5, dlign6
-                name : 'adress',
-                convert : function(v, rec) {
-                    return rec.dlign3 + rec.dlign4 + rec.dlign5 + rec.dlign6
-                }
-            }, 'jdatnss', 'dldnss', 'ccodro_lib' ],
+            fields : [ 'comptecommunal', 'ccodro', 'app_nom_usage', 'adresse', 'jdatnss', 'dldnss', 'ccodro_lib', 'dformjur' ],
         });
 
         var fiucProprietairesSM = new Ext.grid.CheckboxSelectionModel();
@@ -194,7 +188,6 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             stateful : true,
             name : 'Fiuc_Proprietaire',
             xtype : 'editorgrid',
-            autoExpandColumn : 'adresse',
             height : 300,
             sm : fiucProprietairesSM,
             colModel : new Ext.grid.ColumnModel({
@@ -217,7 +210,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                 }, {
                     id : 'adresse',
                     header : OpenLayers.i18n('cadastrapp.duc.adresse'),
-                    dataIndex : 'adress',
+                    dataIndex : 'adresse',
                     width : 250
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.datenaissance'),
@@ -230,6 +223,10 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.cco_lib'),
                     dataIndex : 'ccodro_lib',
+                    width : 100
+                }, {
+                    header : OpenLayers.i18n('cadastrapp.duc.dformjur'),
+                    dataIndex : 'dformjur',
                     width : 100
                 } ]
             }),
@@ -293,13 +290,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
             storeId: 'fiucCoProprietaireStore',
             totalProperty: 'results',
             root: 'rows',
-            fields: [ 'comptecommunal', 'ccodro', 'app_nom_usage', {
-                // Le champ adress est l'addition des champs dlign3,dlign4,dlign5, dlign6
-                name: 'adress',
-                convert: function(v, rec) {
-                    return rec.dlign3 + rec.dlign4 + rec.dlign5 + rec.dlign6
-                }
-            }, 'jdatnss', 'dldnss', 'ccodro_lib' ],
+            fields: [ 'comptecommunal', 'ccodro', 'app_nom_usage', 'adresse', 'jdatnss', 'dldnss', 'ccodro_lib', 'dformjur' ],
             baseParams: {
                 parcelle: parcelle
             },
@@ -365,6 +356,10 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.cco_lib'),
                     dataIndex : 'ccodro_lib',
+                    width : 100
+                }, {
+                    header : OpenLayers.i18n('cadastrapp.duc.dformjur'),
+                    dataIndex : 'dformjur',
                     width : 100
                 } ]
             }),

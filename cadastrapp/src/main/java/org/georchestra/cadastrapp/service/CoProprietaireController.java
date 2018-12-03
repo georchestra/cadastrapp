@@ -185,7 +185,8 @@ public class CoProprietaireController extends CadController {
 			StringBuilder queryBuilder = new StringBuilder();
 
 			// CNIL Niveau 1 or 2
-			queryBuilder.append("select distinct p.comptecommunal, p.app_nom_usage, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
+			queryBuilder.append("select distinct p.comptecommunal, p.app_nom_usage, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib, p.dformjur, ");
+			queryBuilder.append(" COALESCE(p.dlign3, '')||' '||COALESCE(p.dlign4,'')||' '||COALESCE(p.dlign5,'')||' '||COALESCE(p.dlign6,'') as adresse ");	
 			queryBuilder.append(" from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".co_propriete_parcelle propar,");
@@ -233,7 +234,7 @@ public class CoProprietaireController extends CadController {
 		// User need to be at least CNIL1 level
 		if (getUserCNILLevel(headers)>0){
 		
-			String  entete = "proprio_id;droit_reel_libelle;denomination_usage;parcelles;civilite;nom_usage;prenom_usage;denomination_naissance;nom_naissance;prenom_naissance;adresse_ligne3;adresse_ligne4;adresse_ligne5;adresse_ligne6";
+			String  entete = "proprio_id;droit_reel_libelle;denomination_usage;parcelles;civilite;nom_usage;prenom_usage;denomination_naissance;nom_naissance;prenom_naissance;adresse_ligne3;adresse_ligne4;adresse_ligne5;adresse_ligne6;forme_juridique";
 			if(getUserCNILLevel(headers)>1){
 				entete = entete + ";lieu_naissance; date_naissance";
 			}
@@ -248,7 +249,7 @@ public class CoProprietaireController extends CadController {
 				List<Map<String,Object>> coproprietaires = new ArrayList<Map<String,Object>>();
 										
 				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("select prop.comptecommunal, ccodro_lib, app_nom_usage, string_agg(parcelle, ','), ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6 ");
+				queryBuilder.append("select prop.comptecommunal, ccodro_lib, app_nom_usage, string_agg(parcelle, ','), ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6, dformjur ");
 				
 				// If user is CNIL2 add birth information
 				if(getUserCNILLevel(headers)>1){
@@ -262,7 +263,7 @@ public class CoProprietaireController extends CadController {
 				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
 				queryBuilder.append(addAuthorizationFiltering(headers));
-				queryBuilder.append("GROUP BY prop.comptecommunal, ccodro_lib, app_nom_usage, ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6");
+				queryBuilder.append("GROUP BY prop.comptecommunal, ccodro_lib, app_nom_usage, ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6, dformjur");
 				// If user is CNIL2 add birth information
 				if(getUserCNILLevel(headers)>1){
 					queryBuilder.append(", dldnss, jdatnss ");

@@ -57,12 +57,7 @@ public class UniteCadastraleController extends CadController {
 				information = infoOngletParcelle(parcelle, headers);
 				break;
 			case 1:
-				if (getUserCNILLevel(headers)>0){
-					information = infoOngletProprietaire(parcelle, headers);
-				}
-				else{
-					logger.info("User does not have enough right to see information about proprietaire");
-				}
+				logger.info("Service not used anymore, use getProprietaireByParcelle instead");
 				break;
 			case 2:
 				if (getUserCNILLevel(headers)>1){
@@ -117,37 +112,6 @@ public class UniteCadastraleController extends CadController {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);
 	}
-	
-	/**
-	 * 
-	 * infoOngletProprietaire
-	 * 
-	 * @param String parcelle / Id Parcelle exemple : 2014630103000AP0025
-	 * @param HttpHeaders headers
-	 * 
-	 * @return List<Map<String, Object>> 
-	 */
-	private List<Map<String, Object>> infoOngletProprietaire(String parcelle, HttpHeaders headers){
-		
-		logger.debug("infoOngletProprietaire - parcelle : " + parcelle);
-		
-		StringBuilder queryBuilder = new StringBuilder();
-		
-		// CNIL Niveau 1
-		queryBuilder.append("select distinct p.dnulp, p.comptecommunal, p.app_nom_usage, p.dlign3, p.dlign4, p.dlign5, p.dlign6, p.dldnss, p.jdatnss, p.ccodro, p.ccodro_lib");
-		queryBuilder.append(" from ");
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietaire_parcelle propar,");
-		queryBuilder.append(databaseSchema);
-		queryBuilder.append(".proprietaire p where propar.parcelle = ? ");
-		queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
-		queryBuilder.append(addAuthorizationFiltering(headers, "p."));
-		queryBuilder.append(" ORDER BY p.dnulp, p.app_nom_usage ;");
-		
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	
-	}
-	
 	
 		
 	/**
