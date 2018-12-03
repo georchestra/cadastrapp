@@ -54,6 +54,9 @@ public class ConfigurationController {
 		configuration.put("dateValiditeMajic", CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesMajic"));
 		configuration.put("dateValiditeEDIGEO", CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesEDIGEO"));
 		
+		configuration.put("pdfbasemaptitle0", CadastrappPlaceHolder.getProperty("pdf.baseMap.0.title"));
+		configuration.put("pdfbasemaptitle1", CadastrappPlaceHolder.getProperty("pdf.baseMap.1.title"));
+		
 		return configuration;
 	}
 
