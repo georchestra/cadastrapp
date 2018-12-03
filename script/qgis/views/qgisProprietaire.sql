@@ -101,7 +101,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 			rtrim(pqgis.dnomlp) as dnomlp,
 			rtrim(pqgis.dprnlp) as dprnlp,
 			COALESCE(pqgis.jdatnss, '''') as jdatnss,
-			pqgis.dldnss,
+			rtrim(pqgis.dldnss) as dldnss,
 			pqgis.epxnee,
 			rtrim(pqgis.dnomcp) as dnomcp,
 			rtrim(pqgis.dprncp) as dprncp,
