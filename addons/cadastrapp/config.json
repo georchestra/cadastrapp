@@ -1,18 +1,61 @@
 [{
-	"id": "cadastrapp_0",
-	"name": "Cadastrapp",
-	"preloaded": "true",
-	"enabled": "true",
-	"title": {
-		"fr": "Cadastrapp",
-		"en": "Cadastrapp",
-		"es": "Cadastrapp",
-		"de": "Cadastrapp"
-	},
-	"description": {
-		"fr": "Une série d'outils pour exploiter pleinement les données cadastrales de la DGFiP",
-		"en": "A series of tools to fully exploit the cadastral data DGFiP",
-		"es": "Una serie de herramientas para aprovechar al máximo los datos catastrales DGFiP",
-		"de": "TODO"
-	}
+    "id": "cadastrapp_0",
+    "name": "Cadastrapp",
+    "preloaded": "true",
+    "enabled": "true",
+    "title": {
+        "fr": "Cadastrapp",
+        "en": "Cadastrapp",
+        "es": "Cadastrapp",
+        "de": "Cadastrapp"
+    },
+    "description": {
+        "fr": "Une série d'outils pour exploiter pleinement les données cadastrales de la DGFiP",
+        "en": "A series of tools to fully exploit the cadastral data DGFiP",
+        "es": "Una serie de herramientas para aprovechar al máximo los datos catastrales DGFiP",
+        "de": "Tools zur vollen Nutzung der Katasterdaten der DGFiP"
+    },
+    "options": {
+        "target": "tbar_12",
+        "helpUrl": "https://github.com/georchestra/cadastrapp/wiki/Guide-Utilisateur",
+        "openToolbarOnLoad": false,
+        "WMSLayer": {
+            "layerNameInPanel": "",
+            "transparent": true,
+            "format": "image/png"
+        },
+        "WFSLayerSetting": {
+            "request": "getfeature",
+            "version": "1.0.0",
+            "service": "wfs",
+            "outputFormat": "application/json",
+            "geometryField": "geom"
+        },
+        "style": {
+            "listed": {
+                "fillColor": "#222111",
+                "opacity": "0.4",
+                "strokeColor": "#111222",
+                "strokeWidth": "2"
+            },
+            "selected": {
+                "fillColor": "#81BEF7",
+                "opacity": "0.6",
+                "strokeColor": "#111111",
+                "strokeWidth": "4"
+            }
+        },
+        "popup": {
+            "timeToShow": 2000,
+            "minZoom": 14
+        },
+        "UFWFSLayerSetting": {
+            "request": "getfeature",
+            "version": "1.0.0",
+            "service": "wfs",
+            "outputFormat": "application/json",
+            "geometryField": "geom"
+        },
+        "foncier": true
+    }
 }]
