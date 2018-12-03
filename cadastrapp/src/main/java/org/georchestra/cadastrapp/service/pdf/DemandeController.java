@@ -260,7 +260,7 @@ public class DemandeController extends CadController {
 		parcellId.add(parcelle);
 
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false, null);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false);
 
 		File pdf = null;
 		try {
@@ -326,7 +326,7 @@ public class DemandeController extends CadController {
 		}
 
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellesId, 1, headers, isCoPro, null);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellesId, 1, headers, isCoPro);
 		try {
 			//generate PDF
 			if(bordereauParcellaire.isEmpty()){
@@ -408,7 +408,7 @@ public class DemandeController extends CadController {
 
 		}
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false, null);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false);
 		File pdf = null;
 		try {
 			//generate PDF
@@ -481,7 +481,7 @@ public class DemandeController extends CadController {
 
 		}
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false, null);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false);
 		File pdf = null;
 		try {
 			//generate PDF
@@ -553,7 +553,7 @@ public class DemandeController extends CadController {
 
 		}
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false, null);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers, false);
 
 		File pdf = null;
 		try {

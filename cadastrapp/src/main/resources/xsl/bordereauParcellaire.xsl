@@ -82,6 +82,9 @@
 		<xsl:variable name="strokeWidth">
 			<xsl:value-of select="style/@strokeWidth" />
 		</xsl:variable>
+		<xsl:variable name="baseMapIndex">
+			<xsl:value-of select="baseMapIndex" />
+		</xsl:variable>
 		
 		<xsl:for-each select="parcelles/parcelle">
 			<fo:table table-layout="fixed" page-break-before="always">
@@ -97,7 +100,7 @@
 										<xsl:choose>
 											<!--  with given style -->
 											<xsl:when test="$fillColor">								
-												<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" /><![CDATA[&]]>fillcolor=<xsl:value-of select="$fillColor" /><![CDATA[&]]>fillopacity=<xsl:value-of select="$fillOpacity" /><![CDATA[&]]>strokecolor=<xsl:value-of select="$strokeColor" /><![CDATA[&]]>strokewidth=<xsl:value-of select="$strokeWidth" />
+												<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" /><![CDATA[&]]>fillcolor=<xsl:value-of select="$fillColor" /><![CDATA[&]]>fillopacity=<xsl:value-of select="$fillOpacity" /><![CDATA[&]]>strokecolor=<xsl:value-of select="$strokeColor" /><![CDATA[&]]>strokewidth=<xsl:value-of select="$strokeWidth" /><![CDATA[&]]>basemapindex=<xsl:value-of select="$baseMapIndex" /> 
 											</xsl:when>
 											<!--  without style -->
 											<xsl:otherwise>			

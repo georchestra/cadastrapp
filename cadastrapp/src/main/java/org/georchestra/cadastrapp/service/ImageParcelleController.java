@@ -322,11 +322,12 @@ public class ImageParcelleController extends CadController {
 
 						Graphics2D g2 = finalImage.createGraphics();
 
-						// test if current baseMapIndex exist baseMapIndex;
-						final String propNamePrefixBaseMap = "pdf.baseMap."+baseMapIndex+".";
-						final String propNamebaseMapWMSUrl = propNamePrefixBaseMap+"wms.url";
+						// test if current baseMapIndex exist;
+						StringBuilder prefixPropNameSB = new StringBuilder();
+						String prefixPropName = prefixPropNameSB.append("pdf.baseMap.").append(baseMapIndex).append(".").toString();
+
 						// Add basemap only if parameter is defined
-						final String baseMapWMSUrl = CadastrappPlaceHolder.getProperty(propNamebaseMapWMSUrl);
+						final String baseMapWMSUrl = CadastrappPlaceHolder.getProperty(prefixPropName.concat("wms.url"));
 
 						if (baseMapWMSUrl != null && baseMapWMSUrl.length() > 1) {
 							// Get basemap image with good BBOX
@@ -334,14 +335,14 @@ public class ImageParcelleController extends CadController {
 								logger.debug("WMS call for basemap with URL : " + baseMapWMSUrl);
 								
 								// Add basic authent parameter if not empty
-								final String baseMapWMSUsername = CadastrappPlaceHolder.getProperty("propNamePrefixBaseMap"+"wms.username");
-								final String baseMapWMSPassword = CadastrappPlaceHolder.getProperty("propNamePrefixBaseMap"+"wms.password");
+								final String baseMapWMSUsername = CadastrappPlaceHolder.getProperty(prefixPropName.concat("wms.username"));
+								final String baseMapWMSPassword = CadastrappPlaceHolder.getProperty(prefixPropName.concat("wms.password"));
 								
 								WebMapServer wms = createWebMapServer(baseMapWMSUrl,baseMapWMSUsername, baseMapWMSPassword );
 								
-								final String baseMapLayerName = CadastrappPlaceHolder.getProperty("propNamePrefixBaseMap"+"layer.name");
-								final String baseMapFormat = CadastrappPlaceHolder.getProperty("propNamePrefixBaseMap"+"format");
-								final String baseMapSRS = CadastrappPlaceHolder.getProperty("propNamePrefixBaseMap"+"SRS");
+								final String baseMapLayerName = CadastrappPlaceHolder.getProperty(prefixPropName.concat("layer.name"));
+								final String baseMapFormat = CadastrappPlaceHolder.getProperty(prefixPropName.concat("format"));
+								final String baseMapSRS = CadastrappPlaceHolder.getProperty(prefixPropName.concat("SRS"));
 								
 								GetMapRequest request = createAndConfigureMapRequest(wms, baseMapFormat, baseMapLayerName, pdfImagePixelSize, baseMapSRS, bounds);
 								
