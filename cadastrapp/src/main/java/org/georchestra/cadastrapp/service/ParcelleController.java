@@ -461,6 +461,9 @@ public class ParcelleController extends CadController {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response getFromProprietairesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") int details, @FormParam("cgocommune") String city, @FormParam("filePath") String fileContent) {
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("csv content : " + fileContent);
+		}
 		BufferedReader br = new BufferedReader(new StringReader(fileContent));
 
 		// space, , or ;
@@ -476,12 +479,12 @@ public class ParcelleController extends CadController {
 				for (String proprietaireId : proprietaireIds) {
 
 					if (logger.isDebugEnabled()) {
-						logger.debug("Parcelle from the csv file : " + proprietaireId);
+						logger.debug("CompteCommunal from the csv file : " + proprietaireId);
 					}
 
 					if (proprietaireId != null && proprietaireId.length() >= 8 && !proprietaireList.contains(proprietaireId) && proprietaireId.matches("^[0-9]{5,}.*")) {
 						if (logger.isDebugEnabled()) {
-							logger.debug("Added to parcelle list : " + proprietaireId);
+							logger.debug("Added to CompteCommunal list : " + proprietaireId);
 						}
 						proprietaireList.add(proprietaireId.trim());
 					}
@@ -492,7 +495,7 @@ public class ParcelleController extends CadController {
 			if (proprietaireList != null && !proprietaireList.isEmpty()) {
 				ownersResult = getParcellesByProprietaire(proprietaireList, details, getUserCNILLevel(headers));
 			} else {
-				logger.warn("No information given to get Parcelle information");
+				logger.warn("No information given to get CompteCommunal information");
 			}
 
 			// les forms ExtJs attendent du JSON sous format TEXT/HTML... (avec success=true)
