@@ -57,6 +57,23 @@ GEOR.Addons.Cadastre.onClickPrintBordereauParcellaireWindow = function(parcelleI
  * @param parcelleId
  */
 GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) {
+    
+    var comboBaseMap = new Ext.form.ComboBox({
+        width : 230,
+        mode : 'local',
+        forceSelection : true,
+        displayField : 'basemapindex',
+        valueField : 'basemapindex',
+        store : GEOR.Addons.Cadastre.pdfbasemaptitles,
+        value : GEOR.Addons.Cadastre.pdfbasemaptitles[0],
+        listeners : {
+            expand : function() {
+                this.store.removeAll();
+                this.store.loadData(GEOR.Addons.Cadastre.pdfbasemaptitles);
+                this.show();
+            }
+        }
+    });
 
     // fenêtre principale
     GEOR.Addons.Cadastre.printBordereauParcellaireWindow = new Ext.Window({
@@ -111,7 +128,13 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
                     name : 'personaldata',
                     inputValue : 1
                 } ]
-            } ]
+            } , {
+                xtype : 'fieldset',
+                title : OpenLayers.i18n('cadastrapp.bordereauparcellaire.basemap'),
+                autoHeight : true,
+                items : [comboBaseMap]
+            } 
+            ]
         } ],
 
         buttons : [ {

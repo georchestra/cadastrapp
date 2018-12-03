@@ -48,6 +48,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
 
                 WMSSetting.layerNameGeoserver = configuration.cadastreWMSLayerName;
                 WMSSetting.url =  configuration.cadastreWMSURL;
+                GEOR.Addons.Cadastre.pdfbasemaptitles = configuration.pdfbasemaptitles;
+                
                 if (!GEOR.Addons.Cadastre.isCNIL1() && !GEOR.Addons.Cadastre.isCNIL2()) {
                    Ext.getCmp('owner-selection-submenu').hide();
                    Ext.getCmp('owner-lookup-submenu').hide();
@@ -336,6 +338,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.cnil2RoleName=null;
         GEOR.Addons.Cadastre.minCharToSearch=null;
         GEOR.Addons.Cadastre.WFSLayerSetting=null;
+        GEOR.Addons.Cadastre.pdfbasemaptitles=null;
+        GEOR.Addons.Cadastre=null;
 
         this.map = null;
 
