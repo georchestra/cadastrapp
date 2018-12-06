@@ -211,13 +211,14 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
                             });
                         }
 
-                        // on l'ajoute à la selection si elle n'est pas trouvée
+                        // on met la feature a l'état list
                         if (!exist) {
-                            GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
+                            state = GEOR.Addons.Cadastre.selection.state.list;
+                        }else{
+                            // on met à jour son état
+                            state = GEOR.Addons.Cadastre.changeStateFeature(feature, index - 1, typeSelector);
                         }
 
-                        // on met à jour son état
-                        state = GEOR.Addons.Cadastre.changeStateFeature(feature, index - 1, typeSelector);
                         var id = feature.attributes[idField];
 
                         // si la parcelle est selectionnée on récupère son id
