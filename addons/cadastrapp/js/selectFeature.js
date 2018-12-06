@@ -53,9 +53,11 @@ GEOR.Addons.Cadastre.createLayer = function(styleParams) {
     
     GEOR.Addons.Cadastre.WFSLayer.selectControl = new OpenLayers.Control.SelectFeature([GEOR.Addons.Cadastre.WFSLayer]);
 
+    // This control have to be remove when closing cadastrapp
     GeoExt.MapPanel.guess().map.addControl(GEOR.Addons.Cadastre.WFSLayer.selectControl);
        
-    //TODO check see ZIndex
+    // This is done to make sure layer is always on top even if we had some more layer
+    // TODO change this by using mapfishapp event
     GEOR.Addons.Cadastre.WFSLayer.setZIndex(1001);
 }
 
