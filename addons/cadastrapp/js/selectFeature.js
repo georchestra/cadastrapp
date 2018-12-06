@@ -260,8 +260,7 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
 GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
     
     var polygoneElements = "";
-    var endPolygoneElements = "";
-    // TODO Change this for Ol.format.filter on feature                  
+    var endPolygoneElements = "";               
     var coords = GEOR.Addons.Cadastre.getFeatureCoord(geometry);
     var typeGeom = geometry.id.split('_')[2];
     
@@ -273,7 +272,7 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
         endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></gml:polygonMember>";
     }
 
-    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Intersects></Filter>';
+    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Contains><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Contains></Filter>';
 
     Ext.Ajax.request({
         async : false,
