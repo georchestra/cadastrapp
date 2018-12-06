@@ -343,7 +343,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
                 }, {
                     id : 'adresse',
                     header : OpenLayers.i18n('cadastrapp.duc.adresse'),
-                    dataIndex : 'adress',
+                    dataIndex : 'adresse',
                     width : 250
                 }, {
                     header : OpenLayers.i18n('cadastrapp.duc.datenaissance'),
