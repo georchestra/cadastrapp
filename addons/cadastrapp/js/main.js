@@ -335,7 +335,15 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.cnil1RoleName=null;
         GEOR.Addons.Cadastre.cnil2RoleName=null;
         GEOR.Addons.Cadastre.minCharToSearch=null;
+        
+        if(GEOR.Addons.Cadastre.WFSLayer){
+            GeoExt.MapPanel.guess().map.removeControl(GEOR.Addons.Cadastre.WFSLayer.selectControl);
+            GEOR.Addons.Cadastre.WFSLayer.destroy();
+            GEOR.Addons.Cadastre.WFSLayer=null;
+        }
+       
         GEOR.Addons.Cadastre.WFSLayerSetting=null;
+        GEOR.Addons.Cadastre = null;
 
         this.map = null;
 
