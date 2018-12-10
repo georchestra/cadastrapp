@@ -1,11 +1,11 @@
 package org.georchestra.cadastrapp.configuration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -52,17 +52,18 @@ public class CadastrappPlaceHolder extends PropertyPlaceholderConfigurer {
 	 * @param regexkey
 	 * @return all value where key like regexKey, null if no key matches
 	 */
-	public static Map<Integer, String> getPropertiesLike(String regexKey){
+	public static List<Object> getPropertiesLike(String regexKey){
 		
-		Map<Integer, String> result = new HashMap<Integer, String>();
-		int index = 0;
+		List<Object> result = new ArrayList<Object>();
 		for (Entry<String, String> entry : propertiesMap.entrySet()) {
+			Map<String, Object> information = new HashMap<String, Object>();
 			
-		        if (entry.getKey().matches(regexKey)) {
-		        	result.put(index, entry.getValue());
-		        	index++;
-		        }
-		    }
+			if (entry.getKey().matches(regexKey)) {
+				information.put("key", entry.getKey());
+				information.put("value", entry.getValue());
+				result.add(information);
+			}
+		}
 		return result;
 	}
 	
