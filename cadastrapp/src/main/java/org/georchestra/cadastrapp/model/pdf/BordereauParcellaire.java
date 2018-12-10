@@ -28,6 +28,8 @@ public class BordereauParcellaire {
 	private List<String> fieldSearch;
 	
 	private boolean isEmpty;
+	
+	private int baseMapIndex;
 
 
 
@@ -174,6 +176,21 @@ public class BordereauParcellaire {
 	 */
 	public void setStyle(Style style) {
 		this.style = style;
+	}
+
+	/**
+	 * @return the baseMapIndex
+	 */
+	public int getBaseMapIndex() {
+		return baseMapIndex;
+	}
+
+	@XmlElement
+	/**
+	 * @param baseMapIndex the baseMapIndex to set
+	 */
+	public void setBaseMapIndex(int baseMapIndex) {
+		this.baseMapIndex = baseMapIndex;
 	}
 	
 }

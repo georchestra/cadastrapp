@@ -78,6 +78,7 @@ public class BordereauParcellaireController extends CadController {
 	public Response createBordereauParcellaire(@Context HttpHeaders headers, 
 			@QueryParam("parcelle") final List<String> parcelleList,
 			@DefaultValue("0") @QueryParam("personaldata") int personalData,
+			@DefaultValue("0") @QueryParam("basemapindex") int baseMapIndex,
 			@DefaultValue("#1446DE") @QueryParam("fillcolor") String styleFillColor,
 			@DefaultValue("0.50") @QueryParam("opacity") float styleFillOpacity,
 			@DefaultValue("#10259E") @QueryParam("strokecolor") String styleStrokeColor,
@@ -146,7 +147,7 @@ public class BordereauParcellaireController extends CadController {
 				plotsStyle.setStrokeWidth(styleStrokeWidth);
 
 				// Get bordereau parcellaire information
-				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, headers, false, plotsStyle);
+				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, headers, false, plotsStyle, baseMapIndex);
 				File xmlfile = null;
 				File foFile = null;
 				OutputStream foOutPutStream = null;

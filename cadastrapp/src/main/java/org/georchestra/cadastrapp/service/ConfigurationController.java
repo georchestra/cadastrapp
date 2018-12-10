@@ -54,6 +54,10 @@ public class ConfigurationController {
 		configuration.put("dateValiditeMajic", CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesMajic"));
 		configuration.put("dateValiditeEDIGEO", CadastrappPlaceHolder.getProperty("pdf.dateValiditeDonneesEDIGEO"));
 		
+		// Add base map hashmap to let user choose for BP
+		final String regexBaseMap = "^pdf\\.baseMap\\.[0-9]*\\.title$";
+		configuration.put("pdfbasemaptitles", CadastrappPlaceHolder.getPropertiesLike(regexBaseMap));
+		
 		return configuration;
 	}
 

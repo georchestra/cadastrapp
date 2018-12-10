@@ -56,7 +56,7 @@ public final class BordereauParcellaireHelper extends CadController{
 	
 	final String tableProprietaire = "proprietaire_parcelle";
 	final String tableCoProprietaire = "co_propriete_parcelle";
-
+	
 	/**
 	 * Get all information from database for all parcelle list
 	 * 
@@ -70,7 +70,26 @@ public final class BordereauParcellaireHelper extends CadController{
 	 * 
 	 * @return BordereauParcellaire witch contains list of parcelle
 	 */
-	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers, boolean isCoPro, Style plotStyle) {
+	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers, boolean isCoPro) {
+		return getBordereauParcellaireInformation(parcelleList, personalData, headers, isCoPro, null, 0);
+	}
+
+	/**
+	 * Get all information from database for all parcelle list
+	 * 
+	 * @param headers use for CNIL level limitation
+	 * @param isCoPro	get copro BP information if true
+	 * @param parcelleList
+	 *            List of parcelle id, like
+	 * @param personalData
+	 *            filter use to add owners information about parcelle, 1 to get
+	 *            owner information
+	 * @param plotStyle style to display plot on image
+	 * @param baseMapIndex index number of wanted basemap
+	 * 
+	 * @return BordereauParcellaire witch contains list of parcelle
+	 */
+	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers, boolean isCoPro, Style plotStyle, int baseMapIndex) {
 
 		
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
@@ -89,6 +108,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			bordereauParcellaire.setService(organisme);
 			bordereauParcellaire.setServiceUrl(webappUrl);		
 			bordereauParcellaire.setStyle(plotStyle);
+			bordereauParcellaire.setBaseMapIndex(baseMapIndex);
 
 			List<Parcelle> parcellesInformation = new ArrayList<Parcelle>();
 
