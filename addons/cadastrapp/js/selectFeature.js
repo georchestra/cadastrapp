@@ -53,9 +53,11 @@ GEOR.Addons.Cadastre.createLayer = function(styleParams) {
     
     GEOR.Addons.Cadastre.WFSLayer.selectControl = new OpenLayers.Control.SelectFeature([GEOR.Addons.Cadastre.WFSLayer]);
 
+    // This control have to be remove when closing cadastrapp
     GeoExt.MapPanel.guess().map.addControl(GEOR.Addons.Cadastre.WFSLayer.selectControl);
        
-    //TODO check see ZIndex
+    // This is done to make sure layer is always on top even if we had some more layer
+    // TODO change this by using mapfishapp event
     GEOR.Addons.Cadastre.WFSLayer.setZIndex(1001);
 }
 
@@ -209,13 +211,14 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
                             });
                         }
 
-                        // on l'ajoute à la selection si elle n'est pas trouvée
+                        // on met la feature a l'état list
                         if (!exist) {
-                            GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
+                            state = GEOR.Addons.Cadastre.selection.state.list;
+                        }else{
+                            // on met à jour son état
+                            state = GEOR.Addons.Cadastre.changeStateFeature(feature, index - 1, typeSelector);
                         }
 
-                        // on met à jour son état
-                        state = GEOR.Addons.Cadastre.changeStateFeature(feature, index - 1, typeSelector);
                         var id = feature.attributes[idField];
 
                         // si la parcelle est selectionnée on récupère son id
@@ -260,8 +263,7 @@ GEOR.Addons.Cadastre.getFeaturesWFSSpatial = function(geometry, typeSelector) {
 GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
     
     var polygoneElements = "";
-    var endPolygoneElements = "";
-    // TODO Change this for Ol.format.filter on feature                  
+    var endPolygoneElements = "";               
     var coords = GEOR.Addons.Cadastre.getFeatureCoord(geometry);
     var typeGeom = geometry.id.split('_')[2];
     
@@ -273,7 +275,7 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
         endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></gml:polygonMember>";
     }
 
-    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Intersects></Filter>';
+    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Contains><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Contains></Filter>';
 
     Ext.Ajax.request({
         async : false,
