@@ -58,7 +58,11 @@ GEOR.Addons.Cadastre.onClickPrintBordereauParcellaireWindow = function(parcelleI
  */
 GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) {
     
-    var itemsInPanel = [];
+    var itemsInPanel = [{
+        xtype: 'hidden',
+        name: 'parcelle',
+        value: parcelleId
+    }];
     
     // Show only personaldata information if user have the goog Cnil level
     if (GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()){
@@ -66,11 +70,7 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
             title: OpenLayers.i18n('cadastrapp.bordereauparcellaire.data'),
             autoHeight: true,
             hide: true,
-            items: [ {
-                xtype: 'hidden',
-                name: 'parcelle',
-                value: parcelleId
-            }, {
+            items: [{
                 xtype: 'radio',
                 boxLabel: OpenLayers.i18n('cadastrapp.bordereauparcellaire.data.without'),
                 checked: true,
@@ -125,12 +125,7 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
             typeAhead: true,
             forceSelection: true,
             triggerAction: 'all',
-            editable: false,
-        });
-        
-        // Load first value
-        comboBaseMap.store.on('load', function(ds,records,o){
-            comboBaseMap.setValue(records[0].data.value);
+            editable: false
         });
         
         storeBaseMap.loadData(GEOR.Addons.Cadastre.pdfbasemaptitles);
@@ -185,7 +180,7 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
                     // PARAMS
                     var params = GEOR.Addons.Cadastre.printBordereauParcellaireWindow.items.items[0].getForm().getValues();
                     if(Ext.getCmp("cadbasemapindex")){
-                        params.basemapindex = Ext.getCmp("cadbasemapindex").getValue();
+                        params.basemapindex = Ext.getCmp("cadbasemapindex").getValue() == '' ? "0" : Ext.getCmp("cadbasemapindex").getValue();
                     }
                     // Add style information
                     // remove # to avoid URL problems on server side (XSL template doesnot manage url-encode)

@@ -97,6 +97,7 @@ public class ImageParcelleController extends CadController {
 	 * @param styleFillOpacity From 0 to 1
 	 * @param styleStrokeColor hexacode without #
 	 * @param styleStrokeWidth stroke width
+	 * @param baseMapIndex corresponding of the wanted index in cadastrapp.properties
 	 * @return Response with noContent in case of error, png otherwise
 	 */
 	@GET

@@ -70,7 +70,8 @@ public class BordereauParcellaireController extends CadController {
 	 * @param styleFillOpacity style plot opacity
 	 * @param styleStrokeColor style stroke color
 	 * @param styleStrokeWidth style stroke width
-	 * @return
+	 * @param baseMapIndex corresponding of the wanted index in cadastrapp.properties
+	 * @return BP pdf
 	 */
 	@GET
 	@Path("/createBordereauParcellaire")

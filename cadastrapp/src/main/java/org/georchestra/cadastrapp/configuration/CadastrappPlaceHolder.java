@@ -49,7 +49,7 @@ public class CadastrappPlaceHolder extends PropertyPlaceholderConfigurer {
 	/**
 	 *  Get Map of values where key like given regex
 	 *  
-	 * @param regexkey
+	 * @param regexKey regex use to get all keys
 	 * @return all value where key like regexKey, null if no key matches
 	 */
 	public static List<Object> getPropertiesLike(String regexKey){
