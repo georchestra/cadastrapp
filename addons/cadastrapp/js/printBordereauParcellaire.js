@@ -126,6 +126,11 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
             forceSelection: true,
             triggerAction: 'all',
             editable: false
+       	});
+        
+        // Load first value
+        comboBaseMap.store.on('load', function(ds,records,o){
+            comboBaseMap.setValue(0);
         });
         
         storeBaseMap.loadData(GEOR.Addons.Cadastre.pdfbasemaptitles);
