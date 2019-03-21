@@ -12,46 +12,33 @@
   <name>Addons Cadastre pour georchestra</name>
   <description>Ce projet contient les scripts de création de vue, l'application web et l'addon cadastrapp pour la suite georchestra</description>
   <scm>
-    <connection>scm:git:https://github.com/georchestra/cadastrapp</connection>
+    <connection>scm:git:git://github.com/georchestra/cadastrapp.git</connection>
+    <developerConnection>scm:git:git@github.com:georchestra/cadastrapp.git</developerConnection>
     <url>https://github.com/georchestra/cadastrapp</url>
-    <tag>Cadastrapp-V1.6</tag>
   </scm>
+  <properties>
+    <project.scm.id>cadastrapp-release</project.scm.id>
+  </properties>
   <issueManagement>
     <system>GitHub Issues</system>
     <url>https://github.com/georchestra/cadastrapp/issues</url>
   </issueManagement>
+  <licenses>
+    <license>
+      <name>GPL</name>
+      <url>http://opensource.org/licenses/GPL-3.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>2.1</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.maven.scm</groupId>
-            <artifactId>maven-scm-provider-gitexe</artifactId>
-            <version>1.2</version>
-          </dependency>
-        </dependencies>
-        <version>1.0</version>
-        <configuration>
-          <tag>${project.version}</tag>
-          <connectionType>connection</connectionType>
-        </configuration>
-        <executions>
-          <execution>
-            <id>tag</id>
-            <phase>deploy</phase>
-            <goals>
-              <goal>tag</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
+  	<pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>                
+            </plugin>
+        </plugins>
+    </pluginManagement>
   </build>
 </project>
