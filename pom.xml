@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.georchestra</groupId>
   <artifactId>cadastrapp-parent</artifactId>
-  <version>1.7</version>
+  <version>1.8-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>cadastrapp</module>
@@ -13,9 +13,8 @@
   <description>Ce projet contient les scripts de création de vue, l'application web et l'addon cadastrapp pour la suite georchestra</description>
   <scm>
     <connection>scm:git:git://github.com/georchestra/cadastrapp.git</connection>
-    <developerConnection>scm:git:git@github.com:georchestra/cadastrapp.git</developerConnection>
+    <developerConnection>scm:git:git://github.com/georchestra/cadastrapp.git</developerConnection>
     <url>https://github.com/georchestra/cadastrapp</url>
-    <tag>Cadastrapp-V1.7</tag>
   </scm>
   <properties>
     <project.scm.id>cadastrapp-release</project.scm.id>
