@@ -657,6 +657,7 @@
             <configuration>
               <packageName>georchestra-${project.artifactId}</packageName>
               <packageDescription>Cadastrapp webapp for geOrchestra</packageDescription>
+              <packageVersion>${project.packageVersion}</packageVersion>
               <packageDependencies>
                 <packageDependency>debconf</packageDependency>
               </packageDependencies>
@@ -665,7 +666,6 @@
               <maintainerName>Pierre Jego</maintainerName>
               <maintainerEmail>pierre.jego@jdev.fr</maintainerEmail>
               <excludeAllArtifacts>true</excludeAllArtifacts>
-              <snapshotRevisionFile>${project.build.directory}</snapshotRevisionFile>
             </configuration>
           </plugin>
         </plugins>
