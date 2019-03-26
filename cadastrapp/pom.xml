@@ -623,8 +623,8 @@
                   <target>
                     <condition property="project.packageVersion"
                       value="99.master.${maven.build.timestamp}~${build.commit.id.abbrev}"
-                      else="${project.version}.${maven.build.timestamp}~${build.commit.id.abbrev}">
-                      <matches string="${project.version}" pattern="SNAPSHOT$" />
+                      else="${project.parent.version}.${maven.build.timestamp}~${build.commit.id.abbrev}">
+                      <matches string="${project.parent.version}" pattern="SNAPSHOT$" />
                     </condition>
                   </target>
                 </configuration>
