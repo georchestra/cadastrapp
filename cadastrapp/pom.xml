@@ -525,6 +525,23 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <prefix>build</prefix>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+          <skipPoms>false</skipPoms>
+          <verbose>false</verbose>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <profiles>
