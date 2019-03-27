@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
+import org.georchestra.cadastrapp.helper.ProprietaireHelper;
 import org.georchestra.cadastrapp.service.export.ExportHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +34,12 @@ public class ProprietaireController extends CadController{
 
 	static final Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
 	
-	private final String ACCES_ERROR_LOG = "User does not have rights to see thoses informations";
-	private final String EMPTY_REQUEST_LOG = "Parcelle Id List is empty nothing to search";
 	
 	@Autowired
 	ExportHelper exportHelper;
+	
+	@Autowired
+	ProprietaireHelper  proprietaireHelper;
 
 	@GET
 	@Path("/getProprietaire")
@@ -196,39 +198,7 @@ public class ProprietaireController extends CadController{
 			@QueryParam("parcelles") List<String> parcelleList
 			) throws SQLException {
 
-		// Init list to return response even if nothing in it.
-		List<Map<String,Object>> proprietaires = new ArrayList<Map<String,Object>>();;
-
-		// User need to be at least CNIL1 level
-		if (getUserCNILLevel(headers)>0){
-
-			if(parcelleList != null && !parcelleList.isEmpty()){
-
-				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("select distinct prop.dnulp, proparc.parcelle, prop.comptecommunal, prop.app_nom_usage, prop.app_nom_naissance, prop.dldnss, prop.jdatnss, prop.ccodro_lib , prop.ccodro, prop.dformjur, ");
-				queryBuilder.append(" COALESCE(prop.dlign3, '')||' '||COALESCE(prop.dlign4,'')||' '||COALESCE(prop.dlign5,'')||' '||COALESCE(prop.dlign6,'') as adresse ");
-				queryBuilder.append(" from ");
-				queryBuilder.append(databaseSchema);
-				queryBuilder.append(".proprietaire prop, ");
-				queryBuilder.append(databaseSchema);
-				queryBuilder.append(".proprietaire_parcelle proparc ");
-				queryBuilder.append(createWhereInQuery(parcelleList.size(), "proparc.parcelle"));
-				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal");
-				queryBuilder.append(addAuthorizationFiltering(headers, "prop."));
-				queryBuilder.append(" ORDER BY prop.dnulp, prop.app_nom_usage ");
-
-				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-				proprietaires = jdbcTemplate.queryForList(queryBuilder.toString(), parcelleList.toArray());
-			}
-			else{
-				//log empty request
-				logger.info(EMPTY_REQUEST_LOG);
-			}
-		}else{
-			logger.info(ACCES_ERROR_LOG);
-		}
-
-		return proprietaires;
+		return proprietaireHelper.getProprietairesByParcelles(headers, parcelleList, true);
 	}
 
 	@GET

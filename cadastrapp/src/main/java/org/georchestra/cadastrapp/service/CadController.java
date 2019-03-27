@@ -40,6 +40,9 @@ public class CadController {
 	
 	protected boolean isSearchFiltered;
 	
+	protected final String ACCES_ERROR_LOG = "User does not have rights to see thoses informations";
+	protected final String EMPTY_REQUEST_LOG = "Parcelle Id List is empty nothing to search";
+	
 	
 	/**
 	 * 

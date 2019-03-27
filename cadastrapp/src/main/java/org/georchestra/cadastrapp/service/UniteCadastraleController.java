@@ -13,6 +13,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.georchestra.cadastrapp.helper.BatimentHelper;
+import org.georchestra.cadastrapp.helper.ProprietaireHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class UniteCadastraleController extends CadController {
 	
 	@Autowired
 	BatimentHelper batimentHelper;
+	
+	@Autowired
+	ProprietaireHelper  proprietaireHelper;
 
 	@Path("/getFIC")
 	@GET
@@ -57,7 +61,11 @@ public class UniteCadastraleController extends CadController {
 				information = infoOngletParcelle(parcelle, headers);
 				break;
 			case 1:
-				logger.info("Service not used anymore, use getProprietaireByParcelle instead");
+				// Get information about plot owner
+				List<String> parcelles = new ArrayList<String>();
+				parcelles.add(parcelle);
+				information = proprietaireHelper.getProprietairesByParcelles(headers, parcelles, false);
+				logger.warn("Deprecated service, use getProprietairesByParcelle instead");
 				break;
 			case 2:
 				if (getUserCNILLevel(headers)>1){
