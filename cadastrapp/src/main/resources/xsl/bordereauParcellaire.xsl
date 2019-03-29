@@ -100,11 +100,11 @@
 										<xsl:choose>
 											<!--  with given style -->
 											<xsl:when test="$fillColor">								
-												<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" /><![CDATA[&]]>fillcolor=<xsl:value-of select="$fillColor" /><![CDATA[&]]>fillopacity=<xsl:value-of select="$fillOpacity" /><![CDATA[&]]>strokecolor=<xsl:value-of select="$strokeColor" /><![CDATA[&]]>strokewidth=<xsl:value-of select="$strokeWidth" /><![CDATA[&]]>basemapindex=<xsl:value-of select="$baseMapIndex" /> 
+												<xsl:value-of select="$serviceUrl" />getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" /><![CDATA[&]]>fillcolor=<xsl:value-of select="$fillColor" /><![CDATA[&]]>fillopacity=<xsl:value-of select="$fillOpacity" /><![CDATA[&]]>strokecolor=<xsl:value-of select="$strokeColor" /><![CDATA[&]]>strokewidth=<xsl:value-of select="$strokeWidth" /><![CDATA[&]]>basemapindex=<xsl:value-of select="$baseMapIndex" /> 
 											</xsl:when>
 											<!--  without style -->
 											<xsl:otherwise>			
-												<xsl:value-of select="$serviceUrl" />/getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" />
+												<xsl:value-of select="$serviceUrl" />getImageBordereau?parcelle=<xsl:value-of select="@parcelleId" />
 											</xsl:otherwise>	
 										</xsl:choose>
 									</xsl:attribute>
