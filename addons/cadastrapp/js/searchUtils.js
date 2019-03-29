@@ -74,7 +74,7 @@ GEOR.Addons.Cadastre.getSectionStore = function(cgocommune) {
 GEOR.Addons.Cadastre.initParcelleStore = function() {
     return new Ext.data.JsonStore({
         proxy: new Ext.data.HttpProxy({
-            url: GEOR.Addons.Cadastre.cadastrappWebappUrl + '/getDnuplaList',
+            url: GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getDnuplaList',
             method: 'GET'}),
         params:{},
         fields: [{name: 'dnupla', type: 'number'}],

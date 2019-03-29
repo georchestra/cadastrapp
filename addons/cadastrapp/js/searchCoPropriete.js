@@ -221,7 +221,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                         // envoi des données d'une form
                         Ext.Ajax.request({
                             method : 'GET',
-                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + '/getCoProprietaireList',
+                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getCoProprietaireList',
                             params : requestparam,
                             success : function(response) {
 

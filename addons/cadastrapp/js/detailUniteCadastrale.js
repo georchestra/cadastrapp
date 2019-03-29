@@ -173,7 +173,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         var fiucProprietaireStore = new Ext.data.JsonStore({
 
             // Appel à la webapp
-            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + '/getProprietairesByParcelles?parcelles=' + parcelleId,
+            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietairesByParcelles?parcelles=' + parcelleId,
             autoLoad : true,
 
             // Champs constituant l'onglet propriétaire
