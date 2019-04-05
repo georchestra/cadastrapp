@@ -27,20 +27,20 @@ L'utilisation des vues matérialisées permet de gagner du temps lors de la mise
 En tant que postgres, créer la base de données :
 
 ```
-CREATE DATABASE cadastrapp WITH OWNER = postgres ENCODING = 'UTF8'
+CREATE DATABASE cadastrapp WITH OWNER = postgres ENCODING = 'UTF8' ;
 ```
 
 Sur cette base de données, installer l'extension dblink :
 
 ```
-CREATE EXTENSION dblink
+CREATE EXTENSION dblink ;
 ```
 
 
 Puis créer un rôle de connexion et attribuer les droits sur la base de données :
 
 ```
-CREATE USER cadastrapp WITH PASSWORD 'votre_mdp' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
+CREATE USER cadastrapp WITH PASSWORD 'votre_mdp' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION ;
 
 GRANT ALL PRIVILEGES ON DATABASE cadastrapp TO cadastrapp ;
 ```
@@ -48,13 +48,17 @@ GRANT ALL PRIVILEGES ON DATABASE cadastrapp TO cadastrapp ;
 
 ## Utilisation du script
 
+Attention : si vous utilisez le modèle de données QGIS il vous faut au préalable rajouter l'attribut **inspireid** sur les tables geo_parcelle et parcelle.
+
 Selon le modèle de données que vous utilisez, ouvrir le fichier correspondant :
 
 - QGIS : ```/script/qgis/createDBUsingQgisModel.sh```
 - arcOpole : ```/script/qgis/createDBUsingArcopoleModel.sh```
 
-L'ouvrir et saisir les paramètres de connexion aux différentes base de données : [https://github.com/georchestra/cadastrapp/blob/master/script/qgis/createDBUsingQgisModel.sh#L45-L59](https://github.com/georchestra/cadastrapp/blob/master/script/qgis/createDBUsingQgisModel.sh#L45-L59)
+et saisir les paramètres de connexion aux différentes base de données : [https://github.com/georchestra/cadastrapp/blob/master/script/qgis/createDBUsingQgisModel.sh#L45-L59](https://github.com/georchestra/cadastrapp/blob/master/script/qgis/createDBUsingQgisModel.sh#L45-L59)
 
-Exécuter ensuite ce script en tant qu'utilisateur postgres sur votre machine.
+Exécuter ensuite ce script en tant qu'utilisateur postgres sur votre machine ou avec le rôle qui possède la base de données *cadastrapp* créée auparavant.
+
+
 
 
