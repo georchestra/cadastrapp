@@ -29,7 +29,7 @@ Additional tool is needed to build from source ( jsbuild from pythonvirtualenv)
 
 ## Sponsors
 
-This project has been funded by : 
+This project has been funded by: 
 
 
 <table>
