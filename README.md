@@ -46,7 +46,7 @@ This project has been funded by:
             <td align="center"><img src="https://cloud.githubusercontent.com/assets/5012040/13945329/ac9a6786-f00c-11e5-8acc-b21705db585b.png" width="200" alt = "Conseil Départemental du Bas-Rhin"></td>
         </tr>
         <tr>
-             <td>CRAIG : Centre Régional Auvergne-Rhône-Alpes de l'Information Géographique</td>
+             <td>CRAIG: Centre Régional Auvergne-Rhône-Alpes de l'Information Géographique</td>
             <td align="center"><img src="https://cloud.githubusercontent.com/assets/3421760/14113316/bf38b2e6-f5d2-11e5-87c5-754f776a5962.jpg" width="200" alt = "Centre Réginal Auvergnat de l'Information Géographique"></td>
         </tr>
          <tr>
