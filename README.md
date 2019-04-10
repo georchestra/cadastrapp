@@ -3,7 +3,7 @@
 ## Summary
 
 This application aims to provide consulting tools for the french cadastre for the **geOrchestra** SDI.
-It do not provides tools for the treatment of EDIGEO PCI and MAJIC files: you must treat them with the QGIS cadastre plugin or the ESRI France arcOpole tools.
+It do not provides tools for the treatment of EDIGEO PCI and MAJIC files : you must treat them with the QGIS cadastre plugin or the ESRI France arcOpole tools.
 
 Cadastrapp is so based on QGis data model or arcOpole data model. You have the choici for the better compatibility with your GIS.
 
