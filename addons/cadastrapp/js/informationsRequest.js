@@ -802,8 +802,8 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 						params.responseby = Ext.getCmp('radioGroupDemandeTransmission').getValue().value;
 						params.askby = Ext.getCmp('radioGroupDemandeRealisee').getValue().value;
 						
-						if(isValid){
-						 // Save request and get id
+						if(isValid){						    
+						    // Save request and get id 
     						Ext.Ajax.request({
     							method : 'GET',
     							// call url
