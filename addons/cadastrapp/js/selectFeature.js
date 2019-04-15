@@ -310,7 +310,7 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
                     // set selected style on feature to keep style in new windows
                     feature.style=GEOR.Addons.Cadastre.WFSLayer.styleMap.styles.select.defaultStyle;
                     // Add new feature
-                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);                        
+                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
                     GEOR.Addons.Cadastre.changeStateFeature(feature,index,GEOR.Addons.Cadastre.selection.state.selected);
                     GEOR.Addons.Cadastre.zoomOnFeatures(GEOR.Addons.Cadastre.UF.features);
                 }
