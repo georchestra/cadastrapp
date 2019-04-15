@@ -294,11 +294,9 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
         callback: function (response) {
             var geojson_format = new OpenLayers.Format.GeoJSON();
             var result = geojson_format.read(response.responseText);
-            //read the response from GeoServer
-            console.log("POST REQUEST");
-            console.log(result);
-            console.log("POST REQUEST END");
-            // do what you want with the features returned...
+            
+            // If no result display message erreur, no UF at this point
+            
             // Else display UF and launch new windows
             Ext.each(result, function(feature, index) {
                 if (feature) {
@@ -320,11 +318,11 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
             GEOR.Addons.Cadastre.onClickDisplayFIUF(idParcelle);            
         },
         failure: function (response) {
-            console.log("wrong request!");
+            console.log("Error ", response.responseText);
         }
     });              
 
-    Ext.Ajax.request({
+    /*Ext.Ajax.request({
         async : false,
         url : GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl,
         method : 'GET',        
@@ -368,7 +366,7 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
 
             GEOR.Addons.Cadastre.onClickDisplayFIUF(idParcelle);
         }
-    });
+    });*/
     
 }
 
