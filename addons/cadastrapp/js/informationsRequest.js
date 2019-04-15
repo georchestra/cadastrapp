@@ -794,6 +794,7 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 								// fix georchestra/cadasdtrapp#362
 								box.hide();
 								Ext.Msg.alert(OpenLayers.i18n('cadastrapp.demandeinformation.alert.title'), OpenLayers.i18n('cadastrapp.demandeinformation.alert.mandatory.field'));
+								// to do not generate Ajax request useless in this case
 								isValid = false;
 							}
 						});
