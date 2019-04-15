@@ -275,12 +275,59 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
         endPolygoneElements = "</gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></gml:polygonMember>";
     }
 
-    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Contains><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Contains></Filter>';
+    var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Contains><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Contains></Filter>';       
+    
+    
+    var postData = 
+        '<wfs:GetFeature service="' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.service + '" version="' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.version + '" outputFormat="' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.outputFormat + '" xmlns:wfs="http://www.opengis.net/wfs" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd">' +
+            '<wfs:Query typeName="' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename + '">' +
+                filterUF +
+            '</wfs:Query>' +
+        '</wfs:GetFeature>';
+          
+    var request = new OpenLayers.Request.POST({
+        url: GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl,
+        data: postData,
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        callback: function (response) {
+            var geojson_format = new OpenLayers.Format.GeoJSON();
+            var result = geojson_format.read(response.responseText);
+            //read the response from GeoServer
+            console.log("POST REQUEST");
+            console.log(result);
+            console.log("POST REQUEST END");
+            // do what you want with the features returned...
+            // Else display UF and launch new windows
+            Ext.each(result, function(feature, index) {
+                if (feature) {
+                    // For each existing uf feature remove it
+                    Ext.each(GEOR.Addons.Cadastre.UF.features, function(feature) {
+                        GEOR.Addons.Cadastre.WFSLayer.removeFeatures(feature);
+                    });
+                    GEOR.Addons.Cadastre.UF.features=[];
+                    GEOR.Addons.Cadastre.UF.features.push(feature);
+                    // set selected style on feature to keep style in new windows
+                    feature.style=GEOR.Addons.Cadastre.WFSLayer.styleMap.styles.select.defaultStyle;
+                    // Add new feature
+                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);                        
+                    GEOR.Addons.Cadastre.changeStateFeature(feature,index,GEOR.Addons.Cadastre.selection.state.selected);
+                    GEOR.Addons.Cadastre.zoomOnFeatures(GEOR.Addons.Cadastre.UF.features);
+                }
+            });
+
+            GEOR.Addons.Cadastre.onClickDisplayFIUF(idParcelle);            
+        },
+        failure: function (response) {
+            console.log("wrong request!");
+        }
+    });              
 
     Ext.Ajax.request({
         async : false,
         url : GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl,
-        method : 'GET',
+        method : 'GET',        
         headers : {
             'Content-Type' : 'application/json'
         },
@@ -295,6 +342,9 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
         success : function(response) {
             var geojson_format = new OpenLayers.Format.GeoJSON();
             var result = geojson_format.read(response.responseText);
+            console.log("GET REQUEST");
+            console.log(result);
+            console.log("GET REQUEST END");
             
             // If no result display message erreur, no UF at this point
             
