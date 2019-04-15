@@ -716,6 +716,7 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 
 					//check if is valid
 					var form = Ext.getCmp('requestInformationForm').getForm();
+					var isValid = true;
 
 					if(form.isValid()){
 						// PARAMS
@@ -742,10 +743,10 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 
 							var requestType = element.items.items[0].getValue();
 							var idObjectRequest = element.items.items[0].getId().split('objectRequestType')[1];
-							//return the state of the box - 1 for check or 0 for no check						
-							var stateRpBox = (Ext.getCmp('rpBox'+idObjectRequest).checked) ? 1 : 0;
-							var stateBpBox = (Ext.getCmp('bpBox'+idObjectRequest).checked) ? 1 : 0; 							    
-
+							//return the state of the box - 1 for check or 0 for no check							
+							// error message fix in georchestra/cadastrapp#362
+							var stateRpBox = Ext.getCmp('rpBox'+idObjectRequest) && (Ext.getCmp('rpBox'+idObjectRequest).checked) ? 1 : 0;
+							var stateBpBox = Ext.getCmp('bpBox'+idObjectRequest) && (Ext.getCmp('bpBox'+idObjectRequest).checked) ? 1 : 0;							
 							if (requestType == 5) {
                                 params.parcelleIds.push(Ext.getCmp('ObjectRequestDynField' + idObjectRequest).items.items[0].getValue()+ '|' +
                                 // send state information in the requestURL according to checkBox state
@@ -790,56 +791,61 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 		                        
 							} else {
 								console.log(" Object Type of request not defined");
+								// fix georchestra/cadasdtrapp#362
+								box.hide();
+								Ext.Msg.alert(OpenLayers.i18n('cadastrapp.demandeinformation.alert.title'), OpenLayers.i18n('cadastrapp.demandeinformation.alert.mandatory.field'));
+								isValid = false;
 							}
 						});
 
 						params.responseby = Ext.getCmp('radioGroupDemandeTransmission').getValue().value;
 						params.askby = Ext.getCmp('radioGroupDemandeRealisee').getValue().value;
-
-						// Save request and get id
-						Ext.Ajax.request({
-							method : 'GET',
-							// call url
-							url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'saveInformationRequest',
-							params : params,
-							success : function(response) {
-								var result = Ext.decode(response.responseText);
-								
-								var paramsPrint = {};
-								paramsPrint.requestid = result.id
-								_currentRequestId = result.id
-
-								var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'printPDFRequest?' + Ext.urlEncode(paramsPrint);
-
-								// Directly download file, need to be in an iframe for extjs to manage download page
-								var download = Ext.DomHelper.append(document.body, {
-									tag : 'iframe',
-									id : 'downloadIframe',
-									frameBorder : 0,
-									width : 0,
-									height : 0,
-									css : 'display:none;visibility:hidden;height:0px;',
-									src : url
-								})
-										
-								// Detection of iframe end of load only available for Firefox
-								if (Ext.isGecko || Ext.isGecko2 || Ext.isGecko3){
-									Ext.get(download).on('load', function(e, t, o) {
-										box.hide();
-									});
-								}else{
-									box.hide();
-								}					
-								if (GEOR.Addons.Cadastre.isCNIL1() == true || GEOR.Addons.Cadastre.isCNIL2() == true){
-								    Ext.getCmp('requestGenerateButton').enable();
-								}						
-							},
-							failure : function(result) {
-								Ext.Msg.alert(OpenLayers.i18n('cadastrapp.demandeinformation.alert.title'), OpenLayers.i18n('cadastrapp.demandeinformation.alert.demande'));
-								box.hide();
-							}
-						});
-
+						
+						if(isValid){
+						 // Save request and get id
+    						Ext.Ajax.request({
+    							method : 'GET',
+    							// call url
+    							url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'saveInformationRequest',
+    							params : params,
+    							success : function(response) {
+    								var result = Ext.decode(response.responseText);
+    								
+    								var paramsPrint = {};
+    								paramsPrint.requestid = result.id
+    								_currentRequestId = result.id
+    
+    								var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'printPDFRequest?' + Ext.urlEncode(paramsPrint);
+    
+    								// Directly download file, need to be in an iframe for extjs to manage download page
+    								var download = Ext.DomHelper.append(document.body, {
+    									tag : 'iframe',
+    									id : 'downloadIframe',
+    									frameBorder : 0,
+    									width : 0,
+    									height : 0,
+    									css : 'display:none;visibility:hidden;height:0px;',
+    									src : url
+    								})
+    										
+    								// Detection of iframe end of load only available for Firefox
+    								if (Ext.isGecko || Ext.isGecko2 || Ext.isGecko3){
+    									Ext.get(download).on('load', function(e, t, o) {
+    										box.hide();
+    									});
+    								}else{
+    									box.hide();
+    								}					
+    								if (GEOR.Addons.Cadastre.isCNIL1() == true || GEOR.Addons.Cadastre.isCNIL2() == true){
+    								    Ext.getCmp('requestGenerateButton').enable();
+    								}						
+    							},
+    							failure : function(result) {
+    								Ext.Msg.alert(OpenLayers.i8n('cadastrapp.demandeinformation.alert.title'), OpenLayers.i18n('cadastrapp.demandeinformation.alert.demande'));
+    								box.hide();
+    							}
+    						});
+						}
 					}else{
 						Ext.Msg.alert(OpenLayers.i18n('cadastrapp.demandeinformation.alert.title'), OpenLayers.i18n('cadastrapp.demandeinformation.alert.mandatory.field'));
 
