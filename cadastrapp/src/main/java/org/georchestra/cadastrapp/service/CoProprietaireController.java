@@ -325,7 +325,7 @@ public class CoProprietaireController extends CadController {
 		if(getUserCNILLevel(headers)>0){
 			logger.debug("Input parameters are : " + parcelle + " - " + dnubat);
 			
-			String entete = "parcelle_num;numero_invariant;batiment;numero_lot;part_lot;total_lot;logement;dependance;local_commercial;type_proprietaire;compte_communal;nom_proprietaire;adresse";
+			String entete = "parcelle_num;numero_local;batiment;numero_lot;part_lot;total_lot;logement;dependance;local_commercial;type_proprietaire;compte_communal;nom_proprietaire;adresse";
 				
 			// Get value from database with owner values
 			List<Map<String,Object>> bundleResults = proprieteHelper.getLotsInformation(parcelle, dnubat, true);
