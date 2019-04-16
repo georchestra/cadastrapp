@@ -277,21 +277,21 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
 
     var filterUF = '<Filter xmlns:gml="http://www.opengis.net/gml"><Contains><PropertyName>' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.geometryField + '</PropertyName><gml:' + typeGeom + '>' + polygoneElements + '<gml:coordinates>' + coords + '</gml:coordinates>' + endPolygoneElements + '</gml:' + typeGeom + '></Contains></Filter>';
 
+    var postData = 
+        '<wfs:GetFeature service="' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.service + '" version="' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.version + '" outputFormat="' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.outputFormat + '" xmlns:wfs="http://www.opengis.net/wfs" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd">' +
+            '<wfs:Query typeName="' + GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename + '">' +
+                filterUF +
+            '</wfs:Query>' +
+        '</wfs:GetFeature>';
+
     Ext.Ajax.request({
         async : false,
         url : GEOR.Addons.Cadastre.UF.WFSLayerSetting.wfsUrl,
-        method : 'GET',
+        method : 'POST',
         headers : {
             'Content-Type' : 'application/json'
         },
-        params : {
-            "request" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.request,
-            "version" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.version,
-            "service" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.service,
-            "typename" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.typename,
-            "outputFormat" : GEOR.Addons.Cadastre.UF.WFSLayerSetting.outputFormat,
-            "filter" : filterUF
-        },
+        params : postData,
         success : function(response) {
             var geojson_format = new OpenLayers.Format.GeoJSON();
             var result = geojson_format.read(response.responseText);
@@ -310,7 +310,7 @@ GEOR.Addons.Cadastre.searchUFbyParcelle=  function(idParcelle, geometry){
                     // set selected style on feature to keep style in new windows
                     feature.style=GEOR.Addons.Cadastre.WFSLayer.styleMap.styles.select.defaultStyle;
                     // Add new feature
-                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);                        
+                    GEOR.Addons.Cadastre.WFSLayer.addFeatures(feature);
                     GEOR.Addons.Cadastre.changeStateFeature(feature,index,GEOR.Addons.Cadastre.selection.state.selected);
                     GEOR.Addons.Cadastre.zoomOnFeatures(GEOR.Addons.Cadastre.UF.features);
                 }
