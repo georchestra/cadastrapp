@@ -99,7 +99,6 @@ function getUFInformation(parcelleId){
 
 /**
  * Force refresh layers by add and remove features
- * Fix georchestra/gadastrapp/#397
  */
 function updateFeatures() {
     // remove and add feature for each layers
