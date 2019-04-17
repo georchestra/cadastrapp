@@ -19,7 +19,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
      * @param: record - {Ext.data.record} a record with the addon parameters
      */
     init: function(record) {
-        // clone object
+        // Create global variable to access to clone method 
         GEOR.Addons.Cadastre.clone = this.clone;
 
         // Get information for addons options
@@ -104,7 +104,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.result.owner=[];
         GEOR.Addons.Cadastre.result.owner.window;
 
-        GEOR.Addons.Cadastre.defaultStyles=this.clone(this.options.style);        
+        GEOR.Addons.Cadastre.defaultStyles=GEOR.Addons.Cadastre.clone(this.options.style);        
         
         // Check if user has style preferences and apply them
         if(GEOR.ls.get("cadastrapp_style_preference") != null){
@@ -112,13 +112,13 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 GEOR.Addons.Cadastre.styles=JSON.parse(GEOR.ls.get("cadastrapp_style_preference"));
             } catch(e) {
                 // If an error occured when parsing data
-                GEOR.Addons.Cadastre.styles=this.clone(GEOR.Addons.Cadastre.defaultStyles);
+                GEOR.Addons.Cadastre.styles=GEOR.Addons.Cadastre.clone(GEOR.Addons.Cadastre.defaultStyles);
                 
             }
         }
         //if nothing stored in localstorage
         if(typeof GEOR.Addons.Cadastre.styles === "undefined"){
-            GEOR.Addons.Cadastre.styles=this.clone(GEOR.Addons.Cadastre.defaultStyles);
+            GEOR.Addons.Cadastre.styles=GEOR.Addons.Cadastre.clone(GEOR.Addons.Cadastre.defaultStyles);
         }
         // Create vectore Layer
         GEOR.Addons.Cadastre.createLayer(GEOR.Addons.Cadastre.styles);
@@ -350,6 +350,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.cnil1RoleName=null;
         GEOR.Addons.Cadastre.cnil2RoleName=null;
         GEOR.Addons.Cadastre.minCharToSearch=null;
+        GEOR.Addons.Cadastre.clone=null;
         
         if(GEOR.Addons.Cadastre.WFSLayer){
             GeoExt.MapPanel.guess().map.removeControl(GEOR.Addons.Cadastre.WFSLayer.selectControl);
