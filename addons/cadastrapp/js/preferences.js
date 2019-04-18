@@ -197,7 +197,7 @@ GEOR.Addons.Cadastre.initPreferencesWindow = function() {
             text : OpenLayers.i18n('cadastrapp.preferences.default.style'),
             listeners : {
                 click : function(b, e) {
-                    GEOR.Addons.Cadastre.styles=GEOR.Addons.Cadastre.defaultStyles;
+                    GEOR.Addons.Cadastre.styles=GEOR.Addons.Cadastre.clone(GEOR.Addons.Cadastre.defaultStyles);
                     GEOR.Addons.Cadastre.refreshLayerStyle();
                     // reset default value to element
                     Ext.getCmp("cadaFillListColor").setValue(GEOR.Addons.Cadastre.styles.listed.fillColor);
