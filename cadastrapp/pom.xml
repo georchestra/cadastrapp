@@ -525,6 +525,23 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <prefix>build</prefix>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+          <skipPoms>false</skipPoms>
+          <verbose>false</verbose>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -594,8 +611,25 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.6</version>
+            <version>1.7</version>
             <executions>
+              <execution>
+                <id>set-project-packageversion</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <exportAntProperties>true</exportAntProperties>
+                  <target>
+                    <condition property="project.packageVersion"
+                      value="99.master.${maven.build.timestamp}~${build.commit.id.abbrev}"
+                      else="${project.parent.version}.${maven.build.timestamp}~${build.commit.id.abbrev}">
+                      <matches string="${project.parent.version}" pattern="SNAPSHOT$" />
+                    </condition>
+                  </target>
+                </configuration>
+              </execution>
               <execution>
                 <id>fix-permissions</id>
                 <phase>package</phase>
@@ -624,6 +658,7 @@
             <configuration>
               <packageName>georchestra-${project.artifactId}</packageName>
               <packageDescription>Cadastrapp webapp for geOrchestra</packageDescription>
+              <packageVersion>${project.packageVersion}</packageVersion>
               <packageDependencies>
                 <packageDependency>debconf</packageDependency>
               </packageDependencies>
@@ -632,7 +667,6 @@
               <maintainerName>Pierre Jego</maintainerName>
               <maintainerEmail>pierre.jego@jdev.fr</maintainerEmail>
               <excludeAllArtifacts>true</excludeAllArtifacts>
-              <snapshotRevisionFile>${project.build.directory}</snapshotRevisionFile>
             </configuration>
           </plugin>
         </plugins>
