@@ -97,6 +97,27 @@ function getUFInformation(parcelleId){
      }); 
 }
 
+/**
+ * Force refresh layers by add and remove features
+ */
+function updateFeatures() {
+    // remove and add feature for each layers
+    var lyrWithFeatures = {}
+    printMap.layers.forEach(function(lyr) {
+        if (lyr.features) {
+            var lyrFeatures = lyr.features
+            lyr.removeAllFeatures();
+            lyr.addFeatures(lyrFeatures);
+        } else {
+            // refresh others type of layer
+            if (lyr.refresh) {
+                lyr.refresh({
+                    force: true
+                });
+            }
+        }
+    });
+}
 
 /**
  * Init code after body is loaded
@@ -149,7 +170,12 @@ function init() {
         }
         // zoom to original extend
         printMap.setCenter(new OpenLayers.LonLat(openerMap.center.lon, openerMap.center.lat), openerMap.getZoom());
-        
+        // detect window resize action and update layers by remove and add manipulation to force layer refresh
+        window.addEventListener("resize", function() {
+            if (printMap && printMap.layers && printMap.layers.length > 0) {
+                updateFeatures();
+            }
+        }, false);
         // add information
         var parcelleId = window.opener.GEOR.Addons.Cadastre.UF.parcelleId;
         getUFInformation(parcelleId);
