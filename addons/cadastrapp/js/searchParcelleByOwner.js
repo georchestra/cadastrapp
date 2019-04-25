@@ -422,20 +422,44 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                 // PAR FICHIER
                                 // TITRE de l'onglet resultat
                                 var resultTitle = OpenLayers.i18n('cadastrapp.result.title.fichier');
-
-                                // soumet la form (pour envoyer le fichier)
-                                currentForm.getForm().submit({
-                                    method : 'POST',
-                                    url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'fromProprietairesFile',
-                                    params : {
-                                        details : 1
-                                    },
-                                    success : function(form, action) {
-                                        GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(action.response.responseText, true));
-                                    },
-                                    failure : function(form, action) {
-                                        alert('ERROR');
-                                    }
+                                
+                                // spinner show
+                                var box = Ext.MessageBox.wait("Lecture du document...",OpenLayers.i18n('Chargement'));                                
+                                
+                                // LECTURE CSV
+                                var files = document.getElementById("propThirdForm").querySelectorAll("input[type=file]")[0].files; 
+                                
+                                function readFile (blob, callback){                            
+                                    var reader = new FileReader();
+                                    reader.onload = callback;
+                                    reader.readAsText(blob);
+                                    
+                                }
+                                var box = Ext.MessageBox.wait();
+                                // read content
+                                readFile(files[0], function(e){
+                                    box.hide();
+                                    if (typeof(e.target.result) == "string"){
+                                       // to be sur to catch result as string
+                                       var content = JSON.stringify(e.target.result);   
+                                       content = JSON.parse(content);
+                                       content = content.replace("\+","%2B");
+                                       content = content.split(/[ ,\n;]+/);
+                                       var paramsGetParcelle = {};
+                                       paramsGetParcelle.comptecommunal = content;                                       
+                                       // soumet la form (pour envoyer le fichier)                                       
+                                       Ext.Ajax.request({
+                                           method : 'POST',
+                                           url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                                           params : {comptecommunal:content},
+                                           success : function(result) {
+                                               GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
+                                           },
+                                           failure : function(form, action) {
+                                               alert('ERROR');
+                                           }
+                                       });
+                                   }                           
                                 });
 
                             } else {
