@@ -445,13 +445,16 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                        content = JSON.parse(content);
                                        content = content.replace("\+","%2B");
                                        content = content.split(/[ ,\n;]+/);
+                                       
+                                       // set params
                                        var paramsGetParcelle = {};
-                                       paramsGetParcelle.comptecommunal = content;                                       
+                                       paramsGetParcelle.comptecommunal = content;
+
                                        // soumet la form (pour envoyer le fichier)                                       
                                        Ext.Ajax.request({
                                            method : 'POST',
                                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
-                                           params : {comptecommunal:content},
+                                           params : paramsGetParcelle,
                                            success : function(result) {
                                                GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
                                            },
