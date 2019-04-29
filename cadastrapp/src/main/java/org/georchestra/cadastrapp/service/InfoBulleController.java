@@ -173,7 +173,7 @@ public class InfoBulleController extends CadController {
 				informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
 			}
 			catch (EmptyResultDataAccessException e){
-				logger.info("User does not have enough right to see information about parcelle", e);
+				logger.debug("User does not have enough right to see information about parcelle", e);
 			}			
 		}
 		else{
