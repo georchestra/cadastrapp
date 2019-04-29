@@ -78,7 +78,7 @@ public class ProprietaireController extends CadController{
 			@Context HttpHeaders headers,
 			@QueryParam("dnomlp") String dnomlp,
 			@QueryParam("cgocommune") String cgocommune,
-			@QueryParam("dnupro") String dnupro,
+			@QueryParam("dnupro") final List<String> dnuproList,
 			@QueryParam("comptecommunal") String compteCommunal,
 			@QueryParam("globalname") String globalName,
 			@QueryParam("ddenom") String ddenom,
@@ -102,7 +102,7 @@ public class ProprietaireController extends CadController{
 			if((dnomlp != null && !dnomlp.isEmpty() && minNbCharForSearch <= dnomlp.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
 					|| (globalName != null && !globalName.isEmpty() && minNbCharForSearch <= globalName.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length())
 					|| (ddenom != null && !ddenom.isEmpty() && minNbCharForSearch <= ddenom.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
-					|| (cgocommune!=null &&  cgoCommuneLength == cgocommune.length() && dnupro!=null && dnupro.length()>0)
+					|| (cgocommune!=null &&  cgoCommuneLength == cgocommune.length() && dnuproList!=null && dnuproList.size()>0)
 					|| (compteCommunal != null && compteCommunal.length()>0)){
 
 				StringBuilder queryBuilder = new StringBuilder();
@@ -122,6 +122,12 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append(" from ");
 				queryBuilder.append(databaseSchema);
 				queryBuilder.append(".proprietaire");
+				
+				if (dnuproList!=null && !dnuproList.isEmpty()) {
+					queryBuilder.append(createWhereInQuery(dnuproList.size(), "dnupro"));
+					queryParams.addAll(dnuproList);
+					isWhereAdded = true;
+				}
 
 				isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "cgocommune", cgocommune, queryParams);
 
@@ -153,8 +159,7 @@ public class ProprietaireController extends CadController{
 						queryParams.add("%"+ddenom+"%");
 					}
 				}
-
-				isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "dnupro", dnupro, queryParams);
+				
 				isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "comptecommunal", compteCommunal, queryParams);
 
 				queryBuilder.append(addAuthorizationFiltering(headers));
