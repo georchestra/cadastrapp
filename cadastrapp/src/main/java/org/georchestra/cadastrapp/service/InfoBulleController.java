@@ -1,6 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
@@ -143,7 +145,7 @@ public class InfoBulleController extends CadController {
 			@Context HttpHeaders headers,
 			@QueryParam("parcelle") String parcelle) throws SQLException {
  
-		Map<String, Object> informations = null;
+		Map<String, Object> informations = new HashMap<String,Object>();
 
 		if (isMandatoryParameterValid(parcelle)){
 		
@@ -166,7 +168,13 @@ public class InfoBulleController extends CadController {
 			queryBuilder.append("GROUP BY uf.uf, uf.comptecommunal;");
 								
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
+			// try query and catch request error if result is empty
+			try {
+				informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
+			}
+			catch (EmptyResultDataAccessException e){
+				logger.info("User does not have enough right to see information about parcelle", e);
+			}			
 		}
 		else{
 			logger.warn("missing mandatory parameters");
