@@ -393,13 +393,11 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                     if (result.length > 1) {
                                         GEOR.Addons.Cadastre.addNewResultProprietaire(resultTitle, result, null);
                                     } else {
-                                        var paramsGetParcelle = {};
-                                        paramsGetParcelle.comptecommunal = comptecommunalArray;
                                         // envoi des données d'une form
                                         Ext.Ajax.request({
                                             method : 'POST',
                                             url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
-                                            params : paramsGetParcelle,
+                                            params : {comptecommunal : comptecommunalArray},
                                             success : function(result) {
                                                 GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
                                             },
@@ -418,24 +416,58 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                     } else {
                         if (currentForm.getForm().isValid()) {
 
+                            // Gestion du form import par fichier
                             if (currentForm.getForm().findField('filePath') && currentForm.getForm().findField('filePath').value != undefined) {
-                                // PAR FICHIER
-                                // TITRE de l'onglet resultat
+     
+                                // Message de chargement
+                                var box = Ext.MessageBox.wait("Lecture du document...",OpenLayers.i18n('Chargement')); 
+                                
+                                // Titre de l'onglet resultat
                                 var resultTitle = OpenLayers.i18n('cadastrapp.result.title.fichier');
+    
+                                // LECTURE CSV
+                                var files = document.getElementById("propThirdForm").querySelectorAll("input[type=file]")[0].files; 
+                                
+                                function readFile (blob, callback){                            
+                                    var reader = new FileReader();
+                                    reader.onload = callback;
+                                    reader.readAsText(blob);                                 
+                                }
 
-                                // soumet la form (pour envoyer le fichier)
-                                currentForm.getForm().submit({
-                                    method : 'POST',
-                                    url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'fromProprietairesFile',
-                                    params : {
-                                        details : 1
-                                    },
-                                    success : function(form, action) {
-                                        GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(action.response.responseText, true));
-                                    },
-                                    failure : function(form, action) {
-                                        alert('ERROR');
-                                    }
+                                // read content
+                                readFile(files[0], function(e){
+                                    
+                                    if (typeof(e.target.result) == "string"){
+                                       
+                                        var content = JSON.stringify(e.target.result);   
+                                        content = JSON.parse(content);
+                                        // Separateurs: virgule, point virgule, pipe, espace et retour à la ligne
+                                        content = content.split(/\r\n|\n|,|;|\|/);                     
+                                       
+                                        // Filtre pour ne garder que ce qui ressemble a un compte communal
+                                        // et ne garder qu'une occurence de chaque compte communal
+                                        var compteCommunaux = content.filter(function (value, index, self) {
+                                            return (self.indexOf(value) === index && value.length >= 8 && value.match("^[0-9]{5,}.*"));
+                                        });
+     
+                                       // Envoie la liste de compte communal extraite du fichier                                      
+                                       Ext.Ajax.request({
+                                           method : 'POST',
+                                           url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                                           params : { comptecommunal : compteCommunaux},
+                                           success : function(result) {
+                                               box.hide();
+                                               GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
+                                           },
+                                           failure : function(form, action) {
+                                               box.hide();
+                                               alert('ERROR');
+                                           }
+                                       });
+                                   }else{
+                                       box.hide();
+                                       alert('Mauvais type de fichier');
+                                   }                           
                                 });
 
                             } else {
