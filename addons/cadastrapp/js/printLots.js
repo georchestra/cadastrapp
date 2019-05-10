@@ -106,10 +106,10 @@ GEOR.Addons.Cadastre.initPrintLotsWindow = function(parcelleId, batiments) {
                 click : function(b, e) {
 
                     // pdf by default
-                    var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'exportLotsAsPDF';
+                    var url = GEOR.Addons.Cadastre.url.serviceExportLotsAsPDF;
                     // check csv radio button value
                     if (Ext.getCmp('radiolotscsv').getValue()) {
-                        url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'exportLotsAsCSV';
+                        url = GEOR.Addons.Cadastre.url.serviceExportLotsAsCSV;
                     }
                     // create Iframe
                     var iframe = document.createElement("iframe");

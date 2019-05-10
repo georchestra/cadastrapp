@@ -82,7 +82,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
     // la parcelle
     // Les informations affichées sont
     Ext.Ajax.request({
-        url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getFIC?parcelle=' + parcelleId + "&onglet=0",
+        url : GEOR.Addons.Cadastre.url.serviceFIC + '?parcelle=' + parcelleId + "&onglet=0",
         method : 'GET',
         success : function(response) {
             var result = Ext.decode(response.responseText);
@@ -173,7 +173,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         var fiucProprietaireStore = new Ext.data.JsonStore({
 
             // Appel à la webapp
-            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietairesByParcelles?parcelles=' + parcelleId,
+            url : GEOR.Addons.Cadastre.url.serviceProprietairesByParcelles + '?parcelles=' + parcelleId,
             autoLoad : true,
 
             // Champs constituant l'onglet propriétaire
@@ -284,7 +284,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         var fiucCoProprietaireStore = new Ext.data.JsonStore({
             // Appel à la webapp
             proxy: new Ext.data.HttpProxy({
-                url: GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getCoProprietaire',
+                url: GEOR.Addons.Cadastre.url.serviceCoproprietaire,
                 method: 'GET'
             }),
             storeId: 'fiucCoProprietaireStore',
@@ -419,7 +419,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         // Modèle de donnée pour l'onglet batiment
         var fiucBatimentsStore = new Ext.data.JsonStore({
             proxy : new Ext.data.HttpProxy({
-                url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getBatiments',
+                url : GEOR.Addons.Cadastre.url.serviceBatiments,
                 autoLoad : false,
                 method : 'GET'
             }),
@@ -430,7 +430,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         
         // Récupère la liste des batiments de la parcelle
         Ext.Ajax.request({
-            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getBatimentsByParcelle?parcelle=' + parcelleId,
+            url :  GEOR.Addons.Cadastre.url.serviceBatimentsByParcelle + '?parcelle=' + parcelleId,
             method : 'GET',
             success : function(response) {
                 var result = Ext.decode(response.responseText);
@@ -598,7 +598,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
         var fiucSubdivfiscStore = new Ext.data.JsonStore({
             autoLoad : true,
             // Appel à la webapp
-            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getFIC?parcelle=' + parcelleId + "&onglet=3",
+            url : GEOR.Addons.Cadastre.url.serviceFIC + '?parcelle=' + parcelleId + "&onglet=3",
             method : 'GET',
             fields : [ 'ccosub', {
                 name : 'contenance',
@@ -654,7 +654,7 @@ GEOR.Addons.Cadastre.displayFIUC = function(parcelleId) {
     // Modèle de données de l'onglet historique de mutation
     var fiucHistomutStore = new Ext.data.ArrayStore({
         autoLoad : true,
-        url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getFIC?parcelle=' + parcelleId + "&onglet=4",
+        url : GEOR.Addons.Cadastre.url.serviceFIC + '?parcelle=' + parcelleId + "&onglet=4",
         method : 'GET',
         fields : [ {
             name : 'date',

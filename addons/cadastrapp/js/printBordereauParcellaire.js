@@ -29,7 +29,7 @@ GEOR.Addons.Cadastre.onClickPrintBordereauParcellaireWindow = function(parcelleI
             strokecolor: GEOR.Addons.Cadastre.styles.selected.strokeColor,
             strokewidth: GEOR.Addons.Cadastre.styles.selected.strokeWidth,
         } 
-        var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'createBordereauParcellaire?' + Ext.urlEncode(params);
+        var url = GEOR.Addons.Cadastre.url.serviceCreateBordereauParcellaire + '?' + Ext.urlEncode(params);
 
         Ext.DomHelper.useDom = true;
         
@@ -194,7 +194,7 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
                     params.strokecolor=GEOR.Addons.Cadastre.styles.selected.strokeColor.substring(1);;
                     params.strokewidth=GEOR.Addons.Cadastre.styles.selected.strokeWidth;
                     
-                    var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'createBordereauParcellaire?' + Ext.urlEncode(params);
+                    var url = GEOR.Addons.Cadastre.url.serviceCreateBordereauParcellaire + '?' + Ext.urlEncode(params);
 
                     // Needed for IE
                     //Ext.DomHelper.useDom = true;

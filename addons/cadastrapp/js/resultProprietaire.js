@@ -78,7 +78,7 @@ GEOR.Addons.Cadastre.initResultProprietaireWindow = function() {
                         // envoi des données d'une form
                         Ext.Ajax.request({
                             method : 'POST',
-                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                            url : GEOR.Addons.Cadastre.url.serviceParcelle,
                             params : paramsGetParcelle,
                             success : function(result) {
 
@@ -181,7 +181,7 @@ GEOR.Addons.Cadastre.exportOwnerSelectionAsCSV = function() {
             var params = {
                 data : owners
             }
-            var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'exportAsCsv?' + Ext.urlEncode(params);
+            var url = GEOR.Addons.Cadastre.url.serviceExportAsCSV + '?' + Ext.urlEncode(params);
 
             Ext.DomHelper.useDom = true;
 

@@ -31,7 +31,7 @@ GEOR.Addons.Cadastre.getBisStore = function() {
 GEOR.Addons.Cadastre.getPartialCityStore = function() {
 		return new Ext.data.JsonStore({
 			proxy: new Ext.data.HttpProxy({
-                url: GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getCommune',
+                url: GEOR.Addons.Cadastre.url.serviceCommune,
                 method: 'GET'
              }),
 			fields: ['cgocommune', 'libcom', 'libcom_min', { 
@@ -50,7 +50,7 @@ GEOR.Addons.Cadastre.getPartialCityStore = function() {
 GEOR.Addons.Cadastre.getSectionStore = function(cgocommune) {
 		if (cgocommune!=null) {
 			return new Ext.data.JsonStore({
-			    url: GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getSection?cgocommune='+cgocommune,
+			    url: GEOR.Addons.Cadastre.url.serviceSection + '?cgocommune='+cgocommune,
 			    method: 'GET',
 				autoLoad: true,
 				fields: ['cgocommune', 'ccopre', 'ccosec', 
@@ -74,7 +74,7 @@ GEOR.Addons.Cadastre.getSectionStore = function(cgocommune) {
 GEOR.Addons.Cadastre.initParcelleStore = function() {
     return new Ext.data.JsonStore({
         proxy: new Ext.data.HttpProxy({
-            url: GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getDnuplaList',
+            url: GEOR.Addons.Cadastre.url.serviceDnuplaList,
             method: 'GET'}),
         params:{},
         fields: [{name: 'dnupla', type: 'number'}],
@@ -123,7 +123,7 @@ GEOR.Addons.Cadastre.loadParcelleStore = function(parcelleStore, cgocommune, sec
 GEOR.Addons.Cadastre.getProprietaireStore = function(cgocommune) {		
     if (cityId!=null) {
         return new Ext.data.JsonStore({
-            url: GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietaire?cgocommune=' + cgocommune,
+            url: GEOR.Addons.Cadastre.url.serviceProprietaire + '?cgocommune=' + cgocommune,
             autoLoad: true,
             fields: ['cgocommune', 'ccopre', 'ccosec', 
                      { 

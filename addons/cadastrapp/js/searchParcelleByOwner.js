@@ -244,7 +244,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                     disabled : true,
                     store : new Ext.data.JsonStore({
                         proxy : new Ext.data.HttpProxy({
-                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietaire',
+                            url : GEOR.Addons.Cadastre.url.serviceProprietaire,
                             method : 'GET',
                             autoload : true
                         }),
@@ -381,7 +381,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                             // envoi des données d'une form
                             Ext.Ajax.request({
                                 method : 'GET',
-                                url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietaire',
+                                url : GEOR.Addons.Cadastre.url.serviceProprietaire,
                                 params : params,
                                 success : function(response) {
 
@@ -396,7 +396,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                         // envoi des données d'une form
                                         Ext.Ajax.request({
                                             method : 'POST',
-                                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                                            url : GEOR.Addons.Cadastre.url.serviceParcelle,
                                             params : {comptecommunal : comptecommunalArray},
                                             success : function(result) {
                                                 GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
@@ -453,7 +453,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                        // Envoie la liste de compte communal extraite du fichier                                      
                                        Ext.Ajax.request({
                                            method : 'POST',
-                                           url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                                           url : GEOR.Addons.Cadastre.url.serviceParcelle,
                                            params : { comptecommunal : compteCommunaux},
                                            success : function(result) {
                                                box.hide();
@@ -489,7 +489,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                 // envoi des données d'une form
                                 Ext.Ajax.request({
                                     method : 'GET',
-                                    url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietaire',
+                                    url : GEOR.Addons.Cadastre.url.serviceProprietaire,
                                     params : params,
                                     success : function(response) {
 
@@ -506,7 +506,7 @@ GEOR.Addons.Cadastre.initRechercheProprietaire = function() {
                                             // envoi des données d'une form
                                             Ext.Ajax.request({
                                                 method : 'POST',
-                                                url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                                                url : GEOR.Addons.Cadastre.url.serviceParcelle,
                                                 params : paramsGetParcelle,
                                                 success : function(result) {
                                                     GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));

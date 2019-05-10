@@ -103,10 +103,10 @@ GEOR.Addons.Cadastre.initPrintReleveProprieteWindow = function(compteCommunal, p
                     var params = GEOR.Addons.Cadastre.printReleveProprieteWindow.items.items[0].getForm().getValues();
                     
                     // pdf by default
-                    var url = GEOR.Addons.Cadastre.cadastrappWebappUrl+ 'createRelevePropriete?';
+                    var url = GEOR.Addons.Cadastre.url.serviceCreateRelevePropriete + '?';
                     // check csv radio button value
                     if (Ext.getCmp('radioRPcsv').getValue()) {
-                        url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'createReleveProprieteAsCSV?';
+                        url = GEOR.Addons.Cadastre.url.serviceCreateReleveProprieteAsCSV + '?';
                     }
 
                     var url = url + Ext.urlEncode(params);

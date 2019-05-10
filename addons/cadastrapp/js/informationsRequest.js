@@ -512,7 +512,7 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 							// envoi des données d'une form
 							Ext.Ajax.request({
 								method : 'GET',
-								url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'checkRequestLimitation',
+								url : GEOR.Addons.Cadastre.url.serviceCheckRequestLimitation,
 								params : params,
 								success : function(response) {
 
@@ -813,7 +813,7 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
                                     paramsPrint.requestid = result.id
                                     _currentRequestId = result.id
 
-                                    var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'printPDFRequest?' + Ext.urlEncode(paramsPrint);
+                                    var url = GEOR.Addons.Cadastre.url.servicePrintPdfRequest+ '?' + Ext.urlEncode(paramsPrint);
 
                                     // Directly download file, need to be in an iframe for extjs to manage download page
                                     var download = Ext.DomHelper.append(document.body, {
@@ -863,7 +863,7 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 					var paramsGen = {};
 					paramsGen.requestid = _currentRequestId
 
-					var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + 'createDemandeFromObj?' + Ext.urlEncode(paramsGen);
+					var url = GEOR.Addons.Cadastre.url.serviceCreateDemandeFromObj + '?' + Ext.urlEncode(paramsGen);
 
 					// Directly download file, need to be in an iframe for extjs to manage download page
 					var download = Ext.DomHelper.append(document.body, {

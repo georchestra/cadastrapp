@@ -23,7 +23,77 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Cadastre.clone = this.clone;
 
         // Get information for addons options
+        /**
+         * @deprecated since version 1.8 : cadastrappWebappUrl          
+         */
         GEOR.Addons.Cadastre.cadastrappWebappUrl = this.options.webapp.url+"services/";
+        
+        // set normalize url
+        GEOR.Addons.Cadastre.url= [];
+        
+        GEOR.Addons.Cadastre.url.serviceConfig = this.options.webapp.url + this.options.webapp.serviceConfig;
+        
+        GEOR.Addons.Cadastre.url.serviceProprietaire = this.options.webapp.url + this.options.webapp.serviceProprietaire;
+        
+        GEOR.Addons.Cadastre.url.serviceProprietairesByInfoParcelles = this.options.webapp.url + this.options.webapp.serviceProprietairesByInfoParcelles;
+                      
+        GEOR.Addons.Cadastre.url.serviceFIC = this.options.webapp.url + this.options.webapp.serviceFIC;
+                
+        GEOR.Addons.Cadastre.url.serviceProprietairesByParcelles = this.options.webapp.url + this.options.webapp.serviceProprietairesByParcelles;
+        
+        GEOR.Addons.Cadastre.url.serviceCoproprietaire = this.options.webapp.url + this.options.webapp.serviceCoproprietaire;
+        
+        GEOR.Addons.Cadastre.url.serviceBatiments = this.options.webapp.url + this.options.webapp.serviceBatiments;        
+        
+        GEOR.Addons.Cadastre.url.serviceBatimentsByParcelle = this.options.webapp.url + this.options.webapp.serviceBatimentsByParcelle;
+        
+        GEOR.Addons.Cadastre.url.serviceParcelle = this.options.webapp.url + this.options.webapp.serviceParcelle;        
+        
+        GEOR.Addons.Cadastre.url.serviceInfoUniteFonciere = this.options.webapp.url + this.options.webapp.serviceInfoUniteFonciere;
+        
+        GEOR.Addons.Cadastre.url.serviceHabitationDetail = this.options.webapp.url + this.options.webapp.serviceHabitationDetail;
+        
+        GEOR.Addons.Cadastre.url.serviceInfoBulle = this.options.webapp.url + this.options.webapp.serviceInfoBulle;
+        
+        GEOR.Addons.Cadastre.url.serviceCheckRequestLimitation = this.options.webapp.url + this.options.webapp.serviceCheckRequestLimitation;
+        
+        GEOR.Addons.Cadastre.url.serviceSaveInformationRequest = this.options.webapp.url + this.options.webapp.serviceSaveInformationRequest;
+        
+        GEOR.Addons.Cadastre.url.servicePrintPdfRequest = this.options.webapp.url + this.options.webapp.servicePrintPdfRequest;
+                       
+        GEOR.Addons.Cadastre.url.serviceCreateDemandeFromObj = this.options.webapp.url + this.options.webapp.serviceCreateDemandeFromObj;
+        
+        GEOR.Addons.Cadastre.url.serviceCreateBordereauParcellaire = this.options.webapp.url + this.options.webapp.serviceCreateBordereauParcellaire;
+        
+        GEOR.Addons.Cadastre.url.serviceExportLotsAsPDF = this.options.webapp.url + this.options.webapp.serviceExportLotsAsPDF;
+        
+        GEOR.Addons.Cadastre.url.serviceExportLotsAsCSV = this.options.webapp.url + this.options.webapp.serviceExportLotsAsCSV;
+        
+        GEOR.Addons.Cadastre.url.serviceCreateRelevePropriete = this.options.webapp.url + this.options.webapp.serviceCreateRelevePropriete;
+        
+        GEOR.Addons.Cadastre.url.serviceCreateReleveProprieteAsCSV = this.options.webapp.url + this.options.webapp.serviceCreateReleveProprieteAsCSV;
+        
+        GEOR.Addons.Cadastre.url.serviceExportProprietaireByParcelles = this.options.webapp.url + this.options.webapp.serviceExportProprietaireByParcelles;
+        
+        GEOR.Addons.Cadastre.url.serviceExportCoProprietaireByParcelles = this.options.webapp.url + this.options.webapp.serviceExportCoProprietaireByParcelles;
+        
+        GEOR.Addons.Cadastre.url.serviceExportParcellesAsCSV = this.options.webapp.url + this.options.webapp.serviceExportParcellesAsCSV;
+        
+        GEOR.Addons.Cadastre.url.serviceExportAsCSV = this.options.webapp.url + this.options.webapp.serviceExportAsCSV;
+        
+        GEOR.Addons.Cadastre.url.serviceCoProprietaireList = this.options.webapp.url + this.options.webapp.serviceCoProprietaireList;
+        
+        GEOR.Addons.Cadastre.url.serviceFromProprietairesFile = this.options.webapp.url + this.options.webapp.serviceFromProprietairesFile;
+                
+        GEOR.Addons.Cadastre.url.serviceVoie = this.options.webapp.url + this.options.webapp.serviceVoie;
+        
+        GEOR.Addons.Cadastre.url.serviceFromParcellesFile = this.options.webapp.url + this.options.webapp.serviceFromParcellesFile;
+        
+        GEOR.Addons.Cadastre.url.serviceCommune = this.options.webapp.url + this.options.webapp.serviceCommune;
+        
+        GEOR.Addons.Cadastre.url.serviceSection = this.options.webapp.url + this.options.webapp.serviceSection;
+        
+        GEOR.Addons.Cadastre.url.serviceDnuplaList = this.options.webapp.url + this.options.webapp.serviceDnuplaList;                       
 
         GEOR.Addons.Cadastre.WFSLayerSetting = this.options.WFSLayerSetting;
         // those are only used here to initialize other components
@@ -35,7 +105,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         // Call the webapp configuration services
         Ext.Ajax.request({
             method: 'GET',
-            url: GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getConfiguration',
+            url: GEOR.Addons.Cadastre.url.serviceConfig,
             success: function(response) {
                 var configuration = Ext.decode(response.responseText);
 

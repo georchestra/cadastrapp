@@ -71,7 +71,7 @@ GEOR.Addons.Cadastre.Component.getComboProprioByCommune = function(id, communeLi
 		    disabled : true,
 		    store : new Ext.data.JsonStore({
 		        proxy : new Ext.data.HttpProxy({
-		            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietaire',
+		            url : GEOR.Addons.Cadastre.url.serviceProprietaire,
 		            method : 'GET',
 		            autoload : true
 		        }),
@@ -217,7 +217,7 @@ GEOR.Addons.Cadastre.Component.getComboProprioByInfoParcelle = function(id, comm
 		    disabled : true,
 		    store : new Ext.data.JsonStore({
 		        proxy : new Ext.data.HttpProxy({
-		            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietairesByInfoParcelles',
+		            url : GEOR.Addons.Cadastre.url.serviceProprietairesByInfoParcelles,
 		            method : 'GET',
 		            autoload : true
 		        }),

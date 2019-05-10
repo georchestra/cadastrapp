@@ -124,7 +124,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                 disabled : true,
                 store : new Ext.data.JsonStore({
                     proxy : new Ext.data.HttpProxy({
-                        url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getProprietaire',
+                        url : GEOR.Addons.Cadastre.url.serviceProprietaire,
                         method : 'GET',
                         autoload : true
                     }),
@@ -195,7 +195,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                         requestparam.parcelle = values.parcelle;
                         Ext.Ajax.request({
                             method : 'POST',
-                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                            url : GEOR.Addons.Cadastre.url.serviceParcelle,
                             params : requestparam,
                             success : function(result) {
                                 GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
@@ -221,7 +221,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                         // envoi des données d'une form
                         Ext.Ajax.request({
                             method : 'GET',
-                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getCoProprietaireList',
+                            url : GEOR.Addons.Cadastre.url.serviceCoProprietaireList,
                             params : requestparam,
                             success : function(response) {
 
@@ -239,7 +239,7 @@ GEOR.Addons.Cadastre.initRechercheCoPropriete = function() {
                                     // envoi des données d'une form
                                     Ext.Ajax.request({
                                         method : 'POST',
-                                        url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                                        url : GEOR.Addons.Cadastre.url.serviceParcelle,
                                         params : paramsGetParcelle,
                                         success : function(result) {
                                             GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
