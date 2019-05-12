@@ -7,7 +7,7 @@ var printMap;
 */
 function getParcellesInformation(ufId){
    
-   $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getParcelle?unitefonciere=" + encodeURIComponent(ufId), function( data ) {
+   $.getJSON( window.opener.GEOR.Addons.Cadastre.url.serviceParcelle+ "?unitefonciere=" + encodeURIComponent(ufId), function( data ) {
        
        var parcelles="";
        var sommeSurf=0;
@@ -63,12 +63,12 @@ function getSufBatCalcPourcentage(surfaceTotal, surfaceBatie){
 function getUFInformation(parcelleId){
    
    // get global information
-   $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getInfoUniteFonciere?parcelle=" +  encodeURIComponent(parcelleId), function(data) {
+   $.getJSON( window.opener.GEOR.Addons.Cadastre.url.serviceInfoUniteFonciere + "?parcelle=" +  encodeURIComponent(parcelleId), function(data) {
        
        // Only if we get a response
        if(data){
            // get owner name
-           $.getJSON( window.opener.GEOR.Addons.Cadastre.cadastrappWebappUrl+"getProprietaire?details=2&comptecommunal=" +  encodeURIComponent(data.comptecommunal), function(prop) {
+           $.getJSON( window.opener.GEOR.Addons.Cadastre.url.serviceProprietaire + "?details=2&comptecommunal=" +  encodeURIComponent(data.comptecommunal), function(prop) {
               
                var propName = "";
                prop.forEach(function(element){

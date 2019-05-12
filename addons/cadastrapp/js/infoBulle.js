@@ -13,7 +13,7 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(idParcelle, lonlat) {
     }
 
     // Build url depending on check button Foncier
-    urlInfoBulleService =  GEOR.Addons.Cadastre.cadastrappWebappUrl+ 'getInfoBulle?parcelle=' + idParcelle
+    urlInfoBulleService =  GEOR.Addons.Cadastre.url.serviceInfoBulle + '?parcelle=' + idParcelle
     
     if (!GEOR.Addons.Cadastre.UF.isfoncier){
         urlInfoBulleService += "&infouf=0";

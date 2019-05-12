@@ -40,7 +40,7 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
            
     // récuperation des données article40, article50 et article60
     Ext.Ajax.request({
-        url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getHabitationDetails?invar='+invar+'&annee='+annee,
+        url : GEOR.Addons.Cadastre.url.serviceHabitationDetail + '?invar='+invar+'&annee='+annee,
         method : 'GET',
         success : function(response) {
             var result = Ext.decode(response.responseText);

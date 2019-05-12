@@ -515,7 +515,7 @@ GEOR.Addons.Cadastre.showTabSelection = function(parcelsIds) {
             // envoi la liste de resultat
             Ext.Ajax.request({
                 method : 'POST',
-                url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getParcelle',
+                url : GEOR.Addons.Cadastre.url.serviceParcelle,
                 params : params,
                 success : function(response) {
 
@@ -656,7 +656,7 @@ GEOR.Addons.Cadastre.exportCoOwnersAsCSV = function() {
             });
             
             // create POST request
-            var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + "exportCoProprietaireByParcelles";
+            var url = GEOR.Addons.Cadastre.url.serviceExportCoProprietaireByParcelles;
             var params = parcellesId.join();
             GEOR.Addons.Cadastre.getCsvByPost(url, params); 
         }else {
@@ -682,7 +682,7 @@ GEOR.Addons.Cadastre.exportBundle = function() {
             Ext.Ajax.request({
                 method : 'GET',
                 params : {parcelle: parcelleId},
-                url : GEOR.Addons.Cadastre.cadastrappWebappUrl + "getBatimentsByParcelle",        
+                url : GEOR.Addons.Cadastre.url.serviceBatimentsByParcelle,        
                 success : function(response) {
                 	
                 	var result = Ext.decode(response.responseText);          	
@@ -730,7 +730,7 @@ GEOR.Addons.Cadastre.exportOwnersAsCSV = function (){
             });
             
             // create POST request
-            var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + "exportProprietaireByParcelles";
+            var url = GEOR.Addons.Cadastre.url.serviceExportProprietaireByParcelles;
             var params = parcellesId.join();
             GEOR.Addons.Cadastre.getCsvByPost(url, params); 
         }else {
@@ -797,7 +797,7 @@ GEOR.Addons.Cadastre.exportPlotSelectionAsCSV = function() {
             });
                 
             // create POST request
-            var url = GEOR.Addons.Cadastre.cadastrappWebappUrl + "exportParcellesAsCSV";
+            var url = GEOR.Addons.Cadastre.url.serviceExportParcellesAsCSV;
             var params = parcellesId.join();
             GEOR.Addons.Cadastre.getCsvByPost(url, params); 
         } else {

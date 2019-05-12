@@ -285,7 +285,7 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                     minLength : GEOR.Addons.Cadastre.minCharToSearch,
                     store : new Ext.data.JsonStore({
                         proxy : new Ext.data.HttpProxy({
-                            url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'getVoie',
+                            url : GEOR.Addons.Cadastre.url.serviceVoie,
                             method : 'GET',
                             autoload : true
                         }),
