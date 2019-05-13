@@ -48,8 +48,6 @@ GRANT ALL PRIVILEGES ON DATABASE cadastrapp TO cadastrapp ;
 
 ## Utilisation du script
 
-Attention : si vous utilisez le modèle de données QGIS il vous faut au préalable rajouter l'attribut **inspireid** sur les tables geo_parcelle et parcelle.
-
 Selon le modèle de données que vous utilisez, ouvrir le fichier correspondant :
 
 - QGIS : ```/script/qgis/createDBUsingQgisModel.sh```

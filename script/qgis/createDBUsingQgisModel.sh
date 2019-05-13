@@ -133,8 +133,6 @@ replaceAndLaunch (){
                     psql -h $dbhost -p $dbport -U $username -d $dbname $connectionOption
 }
 
-# Check to user before changing Qgis model
-#replaceAndLaunch ../changeOnQGISModel/alterQGISParcelle.sql
 
 # Init database
 echo "--------------------------------";
