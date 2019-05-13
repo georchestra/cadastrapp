@@ -22,7 +22,7 @@ function getParcellesInformation(ufId){
            parcelleDisplay = " parcelles";
        }
        var content = "<div class=\"info\"><b>Cette unité foncière est composée de "+data.length+parcelleDisplay+".</b></div>"+
-       "<div class=\"info\">La somme des surfaces DGFiP est égale à "+ sommeSurf.toLocaleString() +" m².</div>";
+       "<div class=\"info\">La somme des surfaces parcellaires calculée est égale à "+ sommeSurf.toLocaleString() +" m².</div>";
        
        document.getElementById('composition').innerHTML=content;
        document.getElementById('parcelles').innerHTML=parcelles;
@@ -85,9 +85,9 @@ function getUFInformation(parcelleId){
                "<div class=\"propList\">"+propName+"</div>"+
                "<div class=\"datauflist\">"+
                "<div class=\"datauf\"><span class=\"dataufLabel\">Contenance DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface parcellaire calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
                "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div>"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Pourcentage surface bâtie calculée : </span>"+getSufBatCalcPourcentage(data.dcntpa_sum, data.sigcalb_sum)+" %</div>"+
+               "<div class=\"datauf\"><span class=\"dataufLabel\">Pourcentage surface bâtie calculée : </span>"+getSufBatCalcPourcentage(data.sigcal_sum, data.sigcalb_sum)+" %</div>"+
                "</div>";
            });
    
