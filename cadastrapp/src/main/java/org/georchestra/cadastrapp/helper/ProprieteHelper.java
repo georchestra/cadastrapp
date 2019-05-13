@@ -1,6 +1,8 @@
 package org.georchestra.cadastrapp.helper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.math.BigDecimal;
@@ -520,6 +522,16 @@ public final class ProprieteHelper extends CadController {
 		List<Map<String, Object>> proprietesBatiesLots = jdbcTemplate.queryForList(queryBuilderLots.toString(),
 				queryParams.toArray());
 
+		// Natural Order sort
+		Collections.sort(proprietesBatiesLots, new Comparator<Map<String, Object>> () {
+		    @Override
+		    public int compare(Map<String, Object> m1, Map<String, Object> m2) {
+		    	
+		    	Comparator<String> naturalComparator = Comparator.<String> naturalOrder();	    	
+		    	return naturalComparator.compare((String)m1.get("dnulot"), (String)m2.get("dnulot"));
+		    }
+		});
+		
 		return proprietesBatiesLots;
 	}
 
@@ -560,8 +572,25 @@ public final class ProprieteHelper extends CadController {
 
 		// get lot information
 		List<Map<String, Object>> listLots = getLotsInformation(parcelle, dnubat, false);
+		
+		// Natural Order sort
+		Collections.sort(listLots, new Comparator<Map<String, Object>> () {
+			@Override
+			public int compare(Map<String, Object> m1, Map<String, Object> m2) {
+				   
+				String dnulot1 = (String)m1.get("dnulot");
+				String dnulot2 = (String)m2.get("dnulot");
+				
+				if(dnulot1.matches("^[0-9]*$") && dnulot2.matches("^[0-9]*$")){
+					return Integer.valueOf(dnulot1).compareTo(Integer.valueOf(dnulot2));
+				}else{
+					Comparator<String> naturalComparator = Comparator.<String> naturalOrder();	
+					return naturalComparator.compare(dnulot1, dnulot2);
+				}
+			}
+		});
 
-		List<Lot> lots = new ArrayList();
+		List<Lot> lots = new ArrayList<Lot>();
 		int nbParts = 0;
 		for (Map<String, Object> lotInformation : listLots) {
 			Lot lot = new Lot();
