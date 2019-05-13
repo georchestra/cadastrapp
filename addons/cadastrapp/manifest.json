@@ -66,7 +66,8 @@
             "serviceFromParcellesFile": "services/fromParcellesFile",
             "serviceCommune": "services/getCommune",
             "serviceSection": "services/getSection",
-            "serviceDnuplaList": "services/getDnuplaList"            
+            "serviceDnuplaList": "services/getDnuplaList",
+            "serviceGetImageFromDatadir": "services/getImageFromDataDir"            
         },
         "WMSLayer": {
             "layerNameInPanel": "",

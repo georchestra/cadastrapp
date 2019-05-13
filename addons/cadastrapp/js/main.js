@@ -95,6 +95,8 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
         
         GEOR.Addons.Cadastre.url.serviceDnuplaList = this.options.webapp.url + this.options.webapp.serviceDnuplaList;                       
 
+        GEOR.Addons.Cadastre.url.serviceGetImageFromDatadir = this.options.webapp.url + this.options.webapp.serviceGetImageFromDatadir
+
         GEOR.Addons.Cadastre.WFSLayerSetting = this.options.WFSLayerSetting;
         // those are only used here to initialize other components
         var WMSSetting = this.options.WMSLayer;
@@ -130,6 +132,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 WMSSetting.layerNameGeoserver = configuration.cadastreWMSLayerName;
                 WMSSetting.url =  configuration.cadastreWMSURL;
                 GEOR.Addons.Cadastre.pdfbasemaptitles = configuration.pdfbasemaptitles;
+                GEOR.Addons.Cadastre.pdfbasemapthumbnails = configuration.pdfbasemapthumbnails;
                 
                 if (!GEOR.Addons.Cadastre.isCNIL1() && !GEOR.Addons.Cadastre.isCNIL2()) {
                    Ext.getCmp('owner-selection-submenu').hide();
