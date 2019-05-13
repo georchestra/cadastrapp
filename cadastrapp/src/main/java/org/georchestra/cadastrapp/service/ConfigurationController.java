@@ -56,7 +56,9 @@ public class ConfigurationController {
 		
 		// Add base map hashmap to let user choose for BP
 		final String regexBaseMap = "^pdf\\.baseMap\\.[0-9]*\\.title$";
+		final String regexBaseMapThumbnail = "^pdf\\.baseMap\\.[0-9]*\\.title\\.thumbnail$";
 		configuration.put("pdfbasemaptitles", CadastrappPlaceHolder.getPropertiesLike(regexBaseMap));
+		configuration.put("pdfbasemapthumbnails", CadastrappPlaceHolder.getPropertiesLike(regexBaseMapThumbnail));
 		
 		return configuration;
 	}

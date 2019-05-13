@@ -518,6 +518,7 @@
                 <classResourceName>org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController</classResourceName>
                 <classResourceName>org.georchestra.cadastrapp.service.pdf.ReleveProprieteController</classResourceName>
                 <classResourceName>org.georchestra.cadastrapp.service.pdf.DemandeController</classResourceName>
+                <classResourceName>org.georchestra.cadastrapp.service.DatadirController</classResourceName>
               </classResourceNames>
               <docProvider>org.apache.cxf.maven_plugin.javatowadl.ResourceMapJavaDocProvider</docProvider>
               <attachWadl>true</attachWadl>

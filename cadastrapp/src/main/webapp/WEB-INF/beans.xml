@@ -49,6 +49,7 @@
 			<bean class="org.georchestra.cadastrapp.service.SectionController" />
 			<bean class="org.georchestra.cadastrapp.service.UniteCadastraleController" />
 			<bean class="org.georchestra.cadastrapp.service.VoieController" />
+			<bean class="org.georchestra.cadastrapp.service.DatadirController" />
 
 			<bean class="org.georchestra.cadastrapp.service.export.CSVExportController" />
 
