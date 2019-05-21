@@ -132,7 +132,7 @@ GEOR.Addons.Cadastrapp = Ext.extend(GEOR.Addons.Base, {
                 WMSSetting.layerNameGeoserver = configuration.cadastreWMSLayerName;
                 WMSSetting.url =  configuration.cadastreWMSURL;
                 GEOR.Addons.Cadastre.pdfbasemaptitles = configuration.pdfbasemaptitles;
-                GEOR.Addons.Cadastre.pdfbasemapthumbnails = configuration.pdfbasemapthumbnails;
+                GEOR.Addons.Cadastre.pdfbasemapthumbnails = configuration.pdfbasemapthumbnails ? configuration.pdfbasemapthumbnails : [];
                 
                 if (!GEOR.Addons.Cadastre.isCNIL1() && !GEOR.Addons.Cadastre.isCNIL2()) {
                    Ext.getCmp('owner-selection-submenu').hide();
