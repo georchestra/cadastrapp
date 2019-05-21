@@ -211,13 +211,13 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
             typeAhead: true,
             forceSelection: true,
             triggerAction: 'all',            
-            editable: false,            
-            itemSelector:'div.search-item',
+            editable: false,                        
             anchor: '90%'
        	});        
         
         if(Object.keys(previewMapping).length > 0){
-            comboBaseMap.tpl = resultTpl;            
+            comboBaseMap.tpl = resultTpl;
+            comboBaseMap.itemSelector = 'div.search-item';
         };          
         
         // Load first value
