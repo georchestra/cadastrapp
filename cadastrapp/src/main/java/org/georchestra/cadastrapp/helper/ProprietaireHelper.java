@@ -19,8 +19,10 @@ public final class ProprietaireHelper extends CadController {
 
 	/**
 	 * 
-	 * @param parcelle
-	 * @return
+	 * @param parcelleList plots list
+	 * @param isAddressConcat true to display address in only on field address, false to display each dlign
+	 * @param headers A leaste level CNIL1 form http headers
+	 * @return information list of owner whith address field concat in one field (if isAddressConcat is true)
 	 */
 	public List<Map<String, Object>> getProprietairesByParcelles(HttpHeaders headers, List<String> parcelleList, boolean isAddressConcat) {
 	
