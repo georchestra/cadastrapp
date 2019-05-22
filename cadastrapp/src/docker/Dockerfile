@@ -1,17 +1,17 @@
-FROM jetty:9.4-jre8
+FROM jetty:9-jre8
 
 ADD . /
 
-RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=jmx,jmx-remote,stats
+RUN java -jar "$JETTY_HOME/start.jar" --create-startd --add-to-start=jmx,jmx-remote,stats,http-forwarded
 
-USER root
+VOLUME [ "/tmp", "/run/jetty" ]
 
-RUN  unzip -d /var/lib/jetty/webapps/cadastrapp /var/lib/jetty/webapps/cadastrapp.war && \
-  rm -f /var/lib/jetty/webapps/cadastrapp.war
-
-USER jetty
-
-CMD ["sh", "-c", "exec java -Djava.io.tmpdir=/tmp/jetty -Dgeorchestra.datadir=/etc/georchestra \
- -Xmx${XMX:-512m} -Xms${XMX:-512m}                                                             \
- $TRUSTORE_PASSWORD $TRUSTSTORE_PATH                                                           \
- -jar /usr/local/jetty/start.jar"]
+CMD ["sh", "-c", "exec java \
+-Djava.io.tmpdir=/tmp/jetty \
+-Dgeorchestra.datadir=/etc/georchestra \
+-Xmx${XMX:-512m} -Xms${XMX:-512m} \
+-XX:-UsePerfData \
+${JAVA_OPTIONS} \
+-Djetty.jmxremote.rmiregistryhost=0.0.0.0 \
+-Djetty.jmxremote.rmiserverhost=0.0.0.0 \
+-jar /usr/local/jetty/start.jar"]
