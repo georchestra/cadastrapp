@@ -69,7 +69,7 @@ function getUFInformation(parcelleId){
        if(data){
            // get owner name
            $.getJSON( window.opener.GEOR.Addons.Cadastre.url.serviceProprietaire + "?details=2&comptecommunal=" +  encodeURIComponent(data.comptecommunal), function(prop) {
-              
+	           var divInfoGeneral = document.getElementById('informationgenerale')              
                var propName = "";
                prop.forEach(function(element){
                    propName = propName +"<div>"+element.app_nom_usage+"</div>";
@@ -80,15 +80,36 @@ function getUFInformation(parcelleId){
                    propDisplay = "Propriétaires";
                }
                
-               document.getElementById('informationgenerale').innerHTML =
-               "<div class=\"proprieteaire\"><div class=\"propTitle\">"+propDisplay+" ( "+data.comptecommunal+" ) : </div>"+
+               var htmlDcntpa_sum = "";
+               if(data.dcntpa_sum){
+                   htmlDcntpa_sum  = "<div class=\"datauf\"><span class=\"dataufLabel\">Contenance DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>";                   
+               }
+               
+               var sigcal = "";
+               // fix the case where data are undefined and display 0 value if data are null
+               if(data.sigcalb_sum === undefined && data.sigcal_sum === undefined){
+                 sigcal = ""  
+               } else {                   
+                   sigcal = 
+                   "<div class=\"datauf\"><span class=\"dataufLabel\">Surface parcellaire calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
+                   "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div>"+
+                   "<div class=\"datauf\"><span class=\"dataufLabel\">Pourcentage surface bâtie calculée : </span>"+getSufBatCalcPourcentage(data.sigcal_sum, data.sigcalb_sum)+" %</div>";                                      
+               }               
+               var comptecommunalInfo = data.comptecommunal ? "<div class=\"proprieteaire\"><div class=\"propTitle\">"+propDisplay+" ( "+data.comptecommunal+" ) : </div>" : "";
+               
+               divInfoGeneral.innerHTML =
+               comptecommunalInfo+
                "<div class=\"propList\">"+propName+"</div>"+
                "<div class=\"datauflist\">"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Contenance DGFIP de l'UF : </span>"+((data.dcntpa_sum === null) ? 0 : data.dcntpa_sum.toLocaleString())+" m²</div>"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface parcellaire calculée : </span>"+((data.sigcal_sum === null) ? 0 : data.sigcal_sum.toLocaleString())+" m²</div>"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Surface bâtie calculée : </span>"+((data.sigcalb_sum === null) ? 0 : data.sigcalb_sum.toLocaleString())+" m²</div>"+
-               "<div class=\"datauf\"><span class=\"dataufLabel\">Pourcentage surface bâtie calculée : </span>"+getSufBatCalcPourcentage(data.sigcal_sum, data.sigcalb_sum)+" %</div>"+
+               htmlDcntpa_sum+
+               sigcal+
                "</div>";
+               
+               // display message if div infos is empty
+               var lengthText = (divInfoGeneral.innerText + divInfoGeneral.textContent).length;
+               if(lengthText < 1){
+                   divInfoGeneral.innerHTML = 'Aucune information n\'est affichée car vous ne disposez pas d\'un accès aux données foncières pour cette commune.' 
+               }
            });
    
            getParcellesInformation(data.uf);
