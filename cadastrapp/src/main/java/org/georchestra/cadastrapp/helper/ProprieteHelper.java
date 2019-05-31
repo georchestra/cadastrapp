@@ -2,7 +2,6 @@ package org.georchestra.cadastrapp.helper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.math.BigDecimal;
@@ -523,21 +522,7 @@ public final class ProprieteHelper extends CadController {
 				queryParams.toArray());
 		
 		// Sort by number when possible
-		Collections.sort(proprietesBatiesLots, new Comparator<Map<String, Object>> () {
-			@Override
-			public int compare(Map<String, Object> m1, Map<String, Object> m2) {
-						   
-				String dnulot1 = (String)m1.get("dnulot");
-				String dnulot2 = (String)m2.get("dnulot");
-				final String numberRegex = "^[0-9]*$";
-						
-				if(dnulot1.matches(numberRegex) && dnulot2.matches(numberRegex)){
-					return Integer.valueOf(dnulot1).compareTo(Integer.valueOf(dnulot2));
-				}else{	
-					return dnulot1.compareTo(dnulot2);
-				}
-			}
-		});
+		Collections.sort(proprietesBatiesLots, new LotComparator());
 		
 		return proprietesBatiesLots;
 	}
