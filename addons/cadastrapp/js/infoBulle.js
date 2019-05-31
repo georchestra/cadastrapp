@@ -91,11 +91,22 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(idParcelle, lonlat) {
 					html += "<table style=\"width:100%;\">";
                     html += "<thead><tr><th colspan=\"2\" style=\"text-align:center; font-weight: bold; text-transform: uppercase;\">Unité Foncière</th></tr></thead>";
 					html += "<tbody>";
-					if(GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()){
-					     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.ccomunal') + " : </td><td>" + result.comptecommunal + "</td></tr>";
-					}
-					html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.contenancedgfip') + " UF : </td><td>" + result.dcntpa_sum.toLocaleString() + " m²</td></tr>";
-					html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.sig') + " UF : </td><td>" + result.sigcal_sum.toLocaleString() + " m²</td></tr>";
+					
+					if(result.dcntpa_sum || result.sigcal_sum || (GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2())){
+					    
+    					if(GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()){
+    					     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.ccomunal') + " : </td><td>" + result.comptecommunal + "</td></tr>";
+    					}
+    					if(result.dcntpa_sum){
+    					    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.contenancedgfip') + " UF : </td><td>" + result.dcntpa_sum.toLocaleString() + " m²</td></tr>";
+    					}
+    					if(result.sigcal_sum){
+    					    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.sig') + " UF : </td><td>" + result.sigcal_sum.toLocaleString() + " m²</td></tr>";
+    					}
+					} else {
+                        html += "<tr><td class=\'infobulle-label\' style=\'text-align:center;'>" + OpenLayers.i18n('cadastrapp.infobulle.noaccess') + "</td></tr>";
+					}					
+					
 					html += "</tbody>";
                     html += "</table>";
 					
