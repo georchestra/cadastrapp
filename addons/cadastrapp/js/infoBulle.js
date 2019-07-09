@@ -85,6 +85,8 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(idParcelle, lonlat) {
                     html += "</div>";
 				
                 if (GEOR.Addons.Cadastre.UF.isfoncier){
+                    var noAccessMessage = "<tr><td class=\'infobulle-label\' style=\'text-align:center;'>" + OpenLayers.i18n('cadastrapp.infobulle.noaccess') + "</td></tr>";
+                    
 					html += "<br/>";
                     html += "<div class=\"cadastrapp-infobulle-unite-fonciere\">";
 					
@@ -93,18 +95,23 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(idParcelle, lonlat) {
 					html += "<tbody>";
 					
 					if(result.dcntpa_sum || result.sigcal_sum || (GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2())){
-					    
-    					if(GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()){
-    					     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.ccomunal') + " : </td><td>" + result.comptecommunal + "</td></tr>";
+					    var content = "";
+    					if((GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()) && result.comptecommunal && typeof(result.comptecommunal) != 'undefined'){
+    					     content += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.ccomunal') + " : </td><td>" + result.comptecommunal + "</td></tr>";
     					}
     					if(result.dcntpa_sum){
-    					    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.contenancedgfip') + " UF : </td><td>" + result.dcntpa_sum.toLocaleString() + " m²</td></tr>";
+    					    content += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.contenancedgfip') + " UF : </td><td>" + result.dcntpa_sum.toLocaleString() + " m²</td></tr>";
     					}
     					if(result.sigcal_sum){
-    					    html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.sig') + " UF : </td><td>" + result.sigcal_sum.toLocaleString() + " m²</td></tr>";
+    					    content += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.sig') + " UF : </td><td>" + result.sigcal_sum.toLocaleString() + " m²</td></tr>";
+    					}
+    					if(content){
+    					    html += content;
+    					} else {
+    					    html += noAccessMessage;
     					}
 					} else {
-                        html += "<tr><td class=\'infobulle-label\' style=\'text-align:center;'>" + OpenLayers.i18n('cadastrapp.infobulle.noaccess') + "</td></tr>";
+                        html += noAccessMessage;
 					}					
 					
 					html += "</tbody>";
