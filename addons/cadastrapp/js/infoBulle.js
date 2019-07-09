@@ -94,7 +94,7 @@ GEOR.Addons.Cadastre.displayInfoBulle = function(idParcelle, lonlat) {
 					
 					if(result.dcntpa_sum || result.sigcal_sum || (GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2())){
 					    
-    					if((GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()) && result.comptecommunal && result.comptecommunal != 'undefined'){
+    					if((GEOR.Addons.Cadastre.isCNIL1() || GEOR.Addons.Cadastre.isCNIL2()) && result.comptecommunal && typeof(result.comptecommunal) != 'undefined'){
     					     html += "<tr><td class=\"infobulle-label\">" + OpenLayers.i18n('cadastrapp.infobulle.ccomunal') + " : </td><td>" + result.comptecommunal + "</td></tr>";
     					}
     					if(result.dcntpa_sum){
