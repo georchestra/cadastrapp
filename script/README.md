@@ -5,11 +5,7 @@ Ceci est la documentation du script qui crée ou met à jour la base de données
 
 ## Principe de fonctionnement
 
-Avant de configurer et jouer ce script, vous devez disposez d'une base de données PostgreSQL / PostGIS contenant des données cadastrales créées selon les 2 modèles de données supportés :
-
-- QGIS en utilisant le greffon **[cadastre](https://plugins.qgis.org/plugins/cadastre/)**
-- arcOpole en utilisant les outils proposés par le **[programme arcOpole](https://www.arcopole.fr/cadastre.aspx)**
-
+Avant de configurer et jouer ce script, vous devez disposez d'une base de données PostgreSQL / PostGIS contenant des données cadastrales créées en utilisant le greffon **QGIS [cadastre](https://plugins.qgis.org/plugins/cadastre/)**
 
 Cette base de données sera lue par le script qui va créer les tables et **[les vues matérialisées](https://www.postgresql.org/docs/9.3/static/sql-creatematerializedview.html)** dont cadastrapp a besoin pour fonctionner dans une autre base de données. Cette nouvelle base de données est souvent installée à côté des autres bases de données PostgreSQL de geOrchestra, sur votre serveur.
 
