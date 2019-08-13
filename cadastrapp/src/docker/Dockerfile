@@ -10,6 +10,7 @@ CMD ["sh", "-c", "exec java \
 -Djava.io.tmpdir=/tmp/jetty \
 -Dgeorchestra.datadir=/etc/georchestra \
 -Xmx${XMX:-512m} -Xms${XMX:-512m} \
+-Duser.language=fr -Duser.country=FR \
 -XX:-UsePerfData \
 ${JAVA_OPTIONS} \
 -Djetty.jmxremote.rmiregistryhost=0.0.0.0 \
