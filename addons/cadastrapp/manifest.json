@@ -736,7 +736,7 @@
             "cadastrapp.proprietaire.city.exemple": "ex. Rennes, Cesson-Sévigné",
             "cadastrapp.proprietaire.compte": "Par compte",
             "cadastrapp.proprietaire.file.exemple": "Charger un fichier au format .csv",
-            "cadastrapp.proprietaire.file.explanation": "Ce fichier doit contenir un liste de comptecommunal, sur une ou plusieurs lignes, séparé par des espaces, virgules ou point virgule. Il ne s'agit pas d'une liste de dnupro mais bien de comptecommunal exemple : 63092I00020 ",
+            "cadastrapp.proprietaire.file.explanation": "Ce fichier doit contenir une liste de comptecommunal, sur une ou plusieurs lignes, séparés par des espaces, virgules ou point virgule. Il ne s'agit pas d'une liste de dnupro mais bien de comptecommunal exemple : 63092I00020 ",
             "cadastrapp.proprietaire.file.open": "Ouvrir fichier",
             "cadastrapp.proprietaire.file.path": "Chemin",
             "cadastrapp.proprietaire.firstname": "Prénom(s)",
