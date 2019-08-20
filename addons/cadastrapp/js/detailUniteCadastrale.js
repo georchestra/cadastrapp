@@ -3,7 +3,7 @@ Ext.namespace("GEOR.Addons.Cadastre");
 /**
  * public: method[displayFIUC] 
  * 
- * @param parcelleId Identifiant de parcelle ex :20148301032610C0012
+ * @param parcelleId Identifiant de parcelle ex :8301032610C0012
  * 
  * Création d'une fenêtre de détails présentant les informations cadastrale à parti d'un id de parcelle
  * 

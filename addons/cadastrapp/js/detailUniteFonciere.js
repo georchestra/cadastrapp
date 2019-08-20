@@ -3,7 +3,7 @@ Ext.namespace("GEOR.Addons.Cadastre");
 /**
  * public: method[onClickdisplayFIUF]
  * 
- * @param parcelleId Identifiant de parcelle ex :20148301032610C0012
+ * @param parcelleId Identifiant de parcelle ex :8301032610C0012
  * 
  * 
  *  Cette methode  selection une uf sur la carte en fonction d'un id de parcelle
