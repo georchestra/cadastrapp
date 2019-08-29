@@ -37,14 +37,14 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS
  	 FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
  		'select 
 			COALESCE(parcelle.parcelle,geo_parcelle.geo_parcelle) as parcelle,
-			COALESCE(parcelle.ccodep||parcelle.ccodir||parcelle.ccocom,ltrim(substr(geo_parcelle.geo_parcelle,5,6),''0'')) as cgocommune,
+			COALESCE(parcelle.ccodep||parcelle.ccodir||parcelle.ccocom,ltrim(substr(geo_parcelle.geo_parcelle,1,6),''0'')) as cgocommune,
 			COALESCE(ltrim(parcelle.dnupla, ''0''),geo_parcelle.tex) as dnupla,
 			ltrim(parcelle.dnvoiri, ''0'') as dnvoiri,
 			parcelle.dindic,
 			parcelle.cconvo,
 			rtrim(parcelle.dvoilib),
-			COALESCE(ltrim(parcelle.ccopre),ltrim(substr(geo_parcelle.geo_parcelle,11,3),''0'')) as ccopre,
-			COALESCE(ltrim(ccosec),ltrim(substr(geo_parcelle.geo_parcelle,14,2),''0'')) as ccosec,
+			COALESCE(ltrim(parcelle.ccopre),ltrim(substr(geo_parcelle.geo_parcelle,7,3),''0'')) as ccopre,
+			COALESCE(ltrim(ccosec),ltrim(substr(geo_parcelle.geo_parcelle,10,2),''0'')) as ccosec,
 			COALESCE(parcelle.dcntpa,CAST(geo_parcelle.supf AS integer)) as dcntpa
 		from #DBSchema_qgis.parcelle
 		full outer join #DBSchema_qgis.geo_parcelle on parcelle.parcelle = geo_parcelle.geo_parcelle'::text)
@@ -106,7 +106,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
    	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
    		'select 
 			COALESCE(parcelle.parcelle,geo_parcelle.geo_parcelle) as parcelle,
-			COALESCE(parcelle.ccodep||parcelle.ccodir||parcelle.ccocom,ltrim(substr(geo_parcelle.geo_parcelle,5,6),''0'')) as cgocommune,
+			COALESCE(parcelle.ccodep||parcelle.ccodir||parcelle.ccocom,ltrim(substr(geo_parcelle.geo_parcelle,1,6),''0'')) as cgocommune,
 			COALESCE(ltrim(parcelle.dnupla, ''0''),geo_parcelle.tex) as dnupla,
 			COALESCE(parcelle.dcntpa,CAST(geo_parcelle.supf AS integer)) as dcntpa,
 			parcelle.dsrpar,
@@ -135,8 +135,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 			parcelle.dnuplam,
 			parcelle.type_filiation,
 			parcelle.annee,
-			COALESCE(ltrim(parcelle.ccopre),ltrim(substr(geo_parcelle.geo_parcelle,11,3),''0'')) as ccopre,
-			COALESCE(ltrim(ccosec),ltrim(substr(geo_parcelle.geo_parcelle,14,2),''0'')) as ccosec,
+			COALESCE(ltrim(parcelle.ccopre),ltrim(substr(geo_parcelle.geo_parcelle,7,3),''0'')) as ccopre,
+			COALESCE(ltrim(ccosec),ltrim(substr(geo_parcelle.geo_parcelle,10,2),''0'')) as ccosec,
 			parcelle.pdl,
 			parcelle.inspireid 
 		from #DBSchema_qgis.parcelle
