@@ -14,4 +14,3 @@ ALTER TABLE ONLY #schema_cadastrapp.prop_type_filiation
 INSERT INTO #schema_cadastrapp.prop_type_filiation VALUES ('D','Division');
 INSERT INTO #schema_cadastrapp.prop_type_filiation VALUES ('R','Réunion');
 INSERT INTO #schema_cadastrapp.prop_type_filiation VALUES ('T','Transfert');
-
