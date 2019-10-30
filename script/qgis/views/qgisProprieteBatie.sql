@@ -86,7 +86,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 			left join #DBSchema_qgis.local00 as l00 on l00.local00=l.local00
 			left join #DBSchema_qgis.voie as v on  l.voie=v.voie
 			left join #DBSchema_qgis.pev  on pev.local10=l.local10
-			left join #DBSchema_qgis.pevexoneration as pevx on pevx.pev=pev.pev
+			left join #DBSchema_qgis.pevexoneration_imposable as pevx on pevx.pevexoneration_imposable=pev.pev
 			left join #DBSchema_qgis.pevtaxation as pevtax on pevtax.pev=pev.pev
 			left join #DBSchema_qgis.cconlc on cconlc.cconlc = l.cconlc
 		order by l.parcelle,l00.ccoriv,v.libvoi,l00.dnubat,l00.descr,l00.dniv,l00.dpor'::text) 
