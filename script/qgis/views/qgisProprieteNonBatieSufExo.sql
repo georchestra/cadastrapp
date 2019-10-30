@@ -1,18 +1,20 @@
 -- Create view proprietenonbatiesufexo based on Qgis Models
 
+-- Create view proprietenonbatiesufexo based on Qgis Models
+
 CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS 
 	SELECT 
-		proprietenonbatiesufexo.parcelle, 
-		proprietenonbatiesufexo.id_local, 
-		proprietenonbatiesufexo.comptecommunal, 
-		proprietenonbatiesufexo.cgocommune,  
-		proprietenonbatiesufexo.ccolloc, 
-		proprietenonbatiesufexo.gnexts, 
-		proprietenonbatiesufexo.jandeb, 
-		proprietenonbatiesufexo.jfinex, 
-		proprietenonbatiesufexo.rcexnba, 
+		proprietenonbatiesufexo.parcelle,
+		proprietenonbatiesufexo.id_local, -- Identifiant du local 
+		proprietenonbatiesufexo.comptecommunal,  -- Compte communal
+		proprietenonbatiesufexo.cgocommune,  -- Code INSEE commune
+		proprietenonbatiesufexo.ccolloc, -- Code collectivité locale
+		proprietenonbatiesufexo.gnexts, -- Nature d’exonération temporaire
+		proprietenonbatiesufexo.jandeb, -- Année de début d’exonération 
+		proprietenonbatiesufexo.jfinex, -- Année de retour à imposition
+		proprietenonbatiesufexo.rcexnba, -- Revenu cadastral exonéré, en valeur de l’année
 		proprietenonbatiesufexo.fcexn, 
-		proprietenonbatiesufexo.pexn
+		proprietenonbatiesufexo.pexn -- Pourcentage d’exonération
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			p.parcelle,

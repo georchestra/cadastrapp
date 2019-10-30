@@ -1,8 +1,8 @@
 -- Create view making link beetween parcelle and owners based on Qgis Models
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire_parcelle AS 
-	SELECT proprietaire_parcelle.parcelle, 
-		proprietaire_parcelle.comptecommunal
+	SELECT proprietaire_parcelle.parcelle, -- parcelle
+		proprietaire_parcelle.comptecommunal -- compte communal
   	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
   		'select
 			p.parcelle,

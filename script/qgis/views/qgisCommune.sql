@@ -2,13 +2,13 @@
 -- RTRIM is made on libcom because space exist in data from Qgis Model
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.commune AS 
-	SELECT commune.cgocommune, 
-			commune.annee, 
-			commune.clerivili, 
-			commune.libcom, 
-			commune.libcom_maj, 
-			commune.libcom_min, 
-			commune.typcom
+	SELECT commune.cgocommune, -- Code commune INSEE
+			commune.annee, -- Annee
+			commune.clerivili, -- Zone alphabétique MAJIC2 - not use
+			commune.libcom, -- Nom de commune
+			commune.libcom_maj, -- Nom de commune majuscule
+			commune.libcom_min, -- Nom de commune minuscule
+			commune.typcom -- Différencie commune recensées de rurales - not use
 		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
 			'select 
 				communeqgis.ccodep|| communeqgis.ccodir|| communeqgis.ccocom as cgocommune,
@@ -29,5 +29,3 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.commune AS
 		typcom character varying(1));
 
 ALTER TABLE #schema_cadastrapp.commune OWNER TO #user_cadastrapp;
-
-

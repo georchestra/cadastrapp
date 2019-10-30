@@ -1,10 +1,10 @@
 -- Create lot Views based on Qgis Models
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.lot AS 
-	SELECT	lot.id_local, 
-			lot.dnulot, 
-			lot.dnumql, 
-			lot.ddenql
+	SELECT	lot.id_local, -- Identifiant du local
+			lot.dnulot, -- Numéro du lot - Le lot de BND se présente sous la forme 00Axxxx
+			lot.dnumql, -- Numérateur du lot
+			lot.ddenql -- Dénominateur du lot
 		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
  	 		'select distinct
 				l.local10 as id_local,
