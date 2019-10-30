@@ -144,7 +144,7 @@ public class RequestInformationController {
 	 * @param mail
 	 * @param compteCommunaux - liste de comptes communaux et des documents souhaités pour chaque comptecommunal 0 non, 1 oui
 	 * 							exemple pour un compte communal : 2015xxxxxA00300|0|1 <-> comptecommunal|borderauParcellaire|releveDePropriete
-	 * 								Le format du compte communal est différent selon le type de base (Arcopole ou Qgis)
+	 * 								Le format du compte communal est différent selon le type de base (Qgis ou un autre modèle)
 	 * 
 	 * 							
 	 * @param parcelleIds - liste d'information de parcelle et des documents souhaités pour chaque parcelle 0 non, 1 oui
