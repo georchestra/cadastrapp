@@ -101,8 +101,8 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 		parcelledetails.ccosec, -- Section
 		parcelledetails.pdl, -- Propriété divisée en lot
 		parcelledetails.inspireid , -- Inspireid -- not use
-		surfc, 
-		surfb
+		surfc, -- surface parcelle
+		surfb -- surface bâti
    	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
    		'select 
 			COALESCE(parcelle.parcelle,geo_parcelle.geo_parcelle) as parcelle,

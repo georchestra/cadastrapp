@@ -1,8 +1,8 @@
 -- Create view parcelle, parcelledetails, v_parcelle_surfc based on Qgis Models
 
 COMMENT ON MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc IS 'parcelle';
-COMMENT ON COLUMN #schema_cadastrapp.v_parcelle_surfc.surfc IS '';
-COMMENT ON COLUMN #schema_cadastrapp.v_parcelle_surfc.surfb IS '';
+COMMENT ON COLUMN #schema_cadastrapp.v_parcelle_surfc.surfc IS 'Surface parcelle';
+COMMENT ON COLUMN #schema_cadastrapp.v_parcelle_surfc.surfb IS 'Surface bâti';
 
 
 COMMENT ON MATERIALIZED VIEW #schema_cadastrapp.parcelle IS 'Parcelle';
@@ -22,7 +22,7 @@ COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.parcelle IS 'Parcelle';
 COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.cgocommune IS 'Code commune INSEE';
 COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.dnupla IS 'Num plan';
 COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.dcntpa IS 'Contenance parcelle';
-COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.dsrpar IS '';
+COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.dsrpar IS 'Série rôle de la parcelle';
 COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.jdatat IS 'Date de l acte';
 COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.dreflf IS 'Ref livre foncier';
 COMMENT ON COLUMN #schema_cadastrapp.parcelledetails.gpdl IS 'Indic divisien parcelle en lots';

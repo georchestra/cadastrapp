@@ -516,8 +516,7 @@ public class ParcelleController extends CadController {
 	 *  Return only dnupla list from a section of a commune
 	 *  
 	 * @param headers http headers, used to get ldap role information about the user group
-	 * @param cgocommune code geographique officiel commune  like 630103 (codep + codir + cocom)
-	 * 					cgocommune should be on 6 char
+	 * @param cgocommune code commune INSEE
 	 * @param ccopre prefix de section
 	 * @param ccosec code de section
 	 * @return list de dnupla 
