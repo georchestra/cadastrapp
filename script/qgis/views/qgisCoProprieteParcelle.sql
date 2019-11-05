@@ -2,8 +2,8 @@
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.co_propriete_parcelle AS 
 	SELECT co_propriete_parcelle.lots, 
-		co_propriete_parcelle.parcelle, 
-		co_propriete_parcelle.comptecommunal
+		co_propriete_parcelle.parcelle,
+		co_propriete_parcelle.comptecommunal -- Compte communal du propriétaire
   	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
   		'select  
   			lo.lots,

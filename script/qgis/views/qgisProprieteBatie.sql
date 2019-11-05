@@ -1,45 +1,45 @@
 -- Create view proprietebatie based on Qgis Models
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS 
-	SELECT proprietebatie.id_local,
-		proprietebatie.comptecommunal,
-		proprietebatie.dnupro,
-		proprietebatie.cgocommune,
-		proprietebatie.ccopre,
-		proprietebatie.ccosec,
-		proprietebatie.dnupla,
-		proprietebatie.jdatat,
-		proprietebatie.voie,
-		proprietebatie.dnvoiri,
-		proprietebatie.dindic,
-		proprietebatie.natvoi,
-		proprietebatie.ccovoi,
-		proprietebatie.dvoilib,
-		proprietebatie.ccoriv,
-		proprietebatie.dnubat,
-		proprietebatie.descr,
-		proprietebatie.dniv,
-		proprietebatie.dpor,
-		proprietebatie.invar,
-		proprietebatie.ccoaff,
-		proprietebatie.ccoeva,
-		proprietebatie.cconlc,
-		proprietebatie.dcapec,
-		proprietebatie.ccolloc,
-		proprietebatie.gnextl,
-		proprietebatie.jandeb,
-		proprietebatie.janimp,
-		proprietebatie.gtauom,
-		proprietebatie.jannat,
-		proprietebatie.revcad,
-		proprietebatie.rcexba2,
+	SELECT proprietebatie.id_local, -- Identifiant local
+		proprietebatie.comptecommunal, -- Compte communal -- différence avec comptecommunal ?
+		proprietebatie.dnupro, --  Compte communal du propriétaire de la parcelle
+		proprietebatie.cgocommune, -- Code commune INSEE
+		proprietebatie.ccopre, -- Préfixe
+		proprietebatie.ccosec, -- Section
+		proprietebatie.dnupla, -- Numéro de plan
+		proprietebatie.jdatat, -- Date de l'acte de mutation
+		proprietebatie.voie, -- Voie
+		proprietebatie.dnvoiri, -- Numéro de voirie
+		proprietebatie.dindic, -- Indice de répétition
+		proprietebatie.natvoi, --Nature voie
+		proprietebatie.ccovoi, -- Code MAJIC voie
+		proprietebatie.dvoilib, -- Libellée voie
+		proprietebatie.ccoriv, -- Code Rivoli voie
+		proprietebatie.dnubat, -- Lettre bâtiment
+		proprietebatie.descr, -- Numéro d’entrée -- champ DESC et non DESCR dans fichier 2018
+		proprietebatie.dniv, -- Niveau étage
+		proprietebatie.dpor, -- Numéro de loca
+		proprietebatie.invar, -- Numéro invariant du local
+		proprietebatie.ccoaff, -- Affectation de la PEV
+		proprietebatie.ccoeva, -- Code évaluation
+		proprietebatie.cconlc, -- Code nature de local
+		proprietebatie.dcapec, -- Catégorie de classement cadastral
+		proprietebatie.ccolloc, -- Code de collectivité locale accordant l’exonération
+		proprietebatie.gnextl, -- Nature d’exonération temporaire
+		proprietebatie.jandeb, -- Année de début d’exonération
+		proprietebatie.janimp, -- Année de retour à imposition 
+		proprietebatie.gtauom, -- Zone de ramassage des ordures ménagères
+		proprietebatie.jannat, -- Année de construction
+		proprietebatie.revcad, -- Revenu cadastral
+		proprietebatie.rcexba2, -- Revenu cadastral exonéré
 		proprietebatie.rcbaia_tse,
 		proprietebatie.rcbaia_com,
 		proprietebatie.rcbaia_dep,
 		proprietebatie.rcbaia_gp,
-		proprietebatie.pexb,
+		proprietebatie.pexb, -- Taux d'exonération accordée
 		proprietebatie.parcelle,
-		proprietebatie.ccocac
+		proprietebatie.ccocac -- Code catégorie du local 
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,  
 		'select 
 			l.local00 as id_local,

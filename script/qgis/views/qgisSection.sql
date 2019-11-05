@@ -2,9 +2,9 @@
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.section AS 
 	SELECT 
-		cgocommune,
-		ccosec,
-		ccopre
+		cgocommune, -- Code INSEE de la commune
+		ccosec, -- Section cadastrale
+		ccopre -- Préfixe de section ou quartier servi pour les communes associées
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis', 
 		'select 
 	   		distinct ccodep||ccodir||ccocom as cgocommune,

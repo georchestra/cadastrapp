@@ -2,39 +2,39 @@
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS 
 	SELECT 
-		proprietenonbatie.id_local, 
-		proprietenonbatie.jdatat, 
-		proprietenonbatie.comptecommunal, 
-		proprietenonbatie.cgocommune,  
-		proprietenonbatie.ccopre, 
-		proprietenonbatie.ccosec,
-		proprietenonbatie.dnupla, 
-		proprietenonbatie.parcelle, 
-		proprietenonbatie.ccovoi, 
-		proprietenonbatie.voie, 
-		proprietenonbatie.ccoriv, 
-		proprietenonbatie.dnvoiri, 
-		proprietenonbatie.dindic, 
-		proprietenonbatie.natvoi,
-		proprietenonbatie.cconvo, 
-		proprietenonbatie.dvoilib,
-		proprietenonbatie.dparpi, 
-		proprietenonbatie.gparnf, 
-		proprietenonbatie.ccostn, 
-		proprietenonbatie.ccosub, 
-		proprietenonbatie.cgrnum, 
-		proprietenonbatie.dsgrpf, 
-		proprietenonbatie.dclssf, 
-		proprietenonbatie.cnatsp, 
-		proprietenonbatie.dcntsf, 
-		proprietenonbatie.drcsuba, 
-		proprietenonbatie.pdl, 
-		proprietenonbatie.dnulot, 
-		proprietenonbatie.dreflf,
-		proprietenonbatie.majposa,
-		proprietenonbatie.bisufad_com,
-		proprietenonbatie.bisufad_dep,
-		proprietenonbatie.bisufad_gp
+		proprietenonbatie.id_local, -- Identifiant du local
+		proprietenonbatie.jdatat,  -- Date de l'acte
+		proprietenonbatie.comptecommunal, -- Compte communal
+		proprietenonbatie.cgocommune,  -- Code comme INSEE
+		proprietenonbatie.ccopre, -- Préfixe de section ou quartier servi pour les communes associées
+		proprietenonbatie.ccosec, -- Section cadastrale
+		proprietenonbatie.dnupla, -- Numéro de plan
+		proprietenonbatie.parcelle, -- Parcelle
+		proprietenonbatie.ccovoi, -- Code MAJIC2 de la voie
+		proprietenonbatie.voie,
+		proprietenonbatie.ccoriv, -- Code Rivoli de la voie
+		proprietenonbatie.dnvoiri, -- Numéro de voirie
+		proprietenonbatie.dindic, -- Indice de répétition de voirie
+		proprietenonbatie.natvoi, -- Nature de la voie
+		proprietenonbatie.cconvo,  -- Code nature de la voie
+		proprietenonbatie.dvoilib, -- Libellé de la voie
+		proprietenonbatie.dparpi, -- Numéro de parcelle primitive
+		proprietenonbatie.gparnf, -- indicateur de parcelle non figurée au plan
+		proprietenonbatie.ccostn, -- Série tarif
+		proprietenonbatie.ccosub, -- lettres indicatives de subdivision fiscale
+		proprietenonbatie.cgrnum, -- Groupe de nature de culture
+		proprietenonbatie.dsgrpf, -- Sous-groupe alphabétique
+		proprietenonbatie.dclssf, -- Classe dans le groupe et la série tarif
+		proprietenonbatie.cnatsp, -- Code nature de culture spéciale
+		proprietenonbatie.dcntsf, -- Contenance de la subdivision fiscale 
+		proprietenonbatie.drcsuba, -- Revenu cadastral revalorisé en valeur du 01/01 de l’année
+		proprietenonbatie.pdl, -- Propriété divisée en lots
+		proprietenonbatie.dnulot, -- Numéro du lot - Le lot de BND se présente sous la forme 00Axxxx
+		proprietenonbatie.dreflf, -- Référence livre foncier
+		proprietenonbatie.majposa, -- Majoration terrain constructible
+		proprietenonbatie.bisufad_com, -- Base d'imposition de la subdivision fiscale - commune
+		proprietenonbatie.bisufad_dep, -- Base d'imposition de la subdivision fiscale - département
+		proprietenonbatie.bisufad_gp -- Base d'imposition de la subdivision fiscale - groupement communal
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			suf.suf as id_local,

@@ -2,65 +2,65 @@
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS 
 	SELECT proprietaire.id_proprietaire, 
-		proprietaire.dnupro, 
-		proprietaire.lot, 
-		proprietaire.dnulp, 
-		proprietaire.ccocif, 
-		proprietaire.dnuper, 
-		proprietaire.ccodro_c, 
-		proprietaire.ccodem_c, 
-		proprietaire.gdesip, 
-		proprietaire.gtoper, 
-		proprietaire.ccoqua_c, 
-		proprietaire.dnatpr_c, 
+		proprietaire.dnupro, -- Compte communal
+		proprietaire.lot,
+		proprietaire.dnulp, -- Numéro de libellé partiel
+		proprietaire.ccocif, -- Code CDIF - not use
+		proprietaire.dnuper, -- Numéro de personne MAJIC - not use
+		proprietaire.ccodro_c, -- Code du droit réel ou particulier - not use
+		proprietaire.ccodem_c, -- Code du démembrement/indivision - not use
+		proprietaire.gdesip, -- Indicateur du destinataire de l'avis d'imposition - not use
+		proprietaire.gtoper, -- Indicateur de personne pyshique ou morale - not use
+		proprietaire.ccoqua_c, -- not use
+		proprietaire.dnatpr_c,
 		proprietaire.ccogrm_c, 
-		proprietaire.dsglpm, 
-		proprietaire.dforme, 
-		proprietaire.ddenom, 
-		proprietaire.gtyp3, 
-		proprietaire.gtyp4, 
-		proprietaire.gtyp5, 
-		proprietaire.gtyp6, 
-		proprietaire.dlign3, 
-		proprietaire.dlign4, 
-		proprietaire.dlign5, 
-		proprietaire.dlign6, 
-		proprietaire.ccopay, 
-		proprietaire.ccodep1a2, 
-		proprietaire.ccodira, 
-		proprietaire.ccocom_adr, 
-		proprietaire.ccovoi, 
-		proprietaire.ccoriv, 
-		proprietaire.dnvoiri, 
-		proprietaire.dindic, 
-		proprietaire.ccopos, 
-		proprietaire.dnirpp, 
-		proprietaire.dqualp, 
-		proprietaire.dnomlp, 
-		proprietaire.dprnlp, 
-		proprietaire.jdatnss, 
-		proprietaire.dldnss, 
-		proprietaire.epxnee, 
-		proprietaire.dnomcp, 
-		proprietaire.dprncp, 
-		proprietaire.dnomus,
-		proprietaire.dprnus,
-		proprietaire.dformjur, 
-		proprietaire.dsiren, 
+		proprietaire.dsglpm, -- Sigle de personne morale - not use
+		proprietaire.dforme, -- Forme juridique abrégée MAJIC - not use
+		proprietaire.ddenom, -- dénomination de la personne physique  « nom/prénoms »
+		proprietaire.gtyp3, -- Adresse à l’étranger avec codification du pays à la donnée CCOPAY - not use
+		proprietaire.gtyp4, -- Aadresse à l’étranger, sans codification du pays - not use
+		proprietaire.gtyp5, -- Adresse incodifiable - not use
+		proprietaire.gtyp6, -- Adresse cedex - not use
+		proprietaire.dlign3, -- 3eme ligne d’adresse
+		proprietaire.dlign4, -- 4eme ligne d’adresse
+		proprietaire.dlign5, -- 5eme ligne d’adresse
+		proprietaire.dlign6, -- 6eme ligne d’adresse
+		proprietaire.ccopay, -- Code de pays étranger et TOM - not use 
+		proprietaire.ccodep1a2, -- Code département de l’adresse - not use 
+		proprietaire.ccodira, -- Code commune de l’adresse - not use 
+		proprietaire.ccocom_adr, -- Code commune INSEE de l’adresse - not use
+		proprietaire.ccovoi, -- -- Code majic2 de la voie - only use by other scripts - not use 
+		proprietaire.ccoriv, -- Code rivoli de la voie -
+		proprietaire.dnvoiri, -- numéro de voirie -
+		proprietaire.dindic, -- indice de répétition de voirie
+		proprietaire.ccopos, -- Code postal - not use
+		proprietaire.dnirpp, -- not use
+		proprietaire.dqualp, -- Qualité abrégée - M, MME ou MLE
+		proprietaire.dnomlp, -- Nom d’usage -
+		proprietaire.dprnlp, -- Prénoms associés au nom d’usage
+		proprietaire.jdatnss, -- date de naissance - sous la forme jj/mm/aaaa
+		proprietaire.dldnss, -- lieu de naissance
+		proprietaire.epxnee, -- mention du complément - EPX ou NEE si complément Mise à blanc version 2016 - not use
+		proprietaire.dnomcp, -- Nom complément - Mise à blanc v2016
+		proprietaire.dprncp, -- Prénoms associés au complément
+		proprietaire.dnomus, -- Nom d'usage (Depuis 2015)
+		proprietaire.dprnus, -- Prénom d'usage (Depuis 2015)
+		proprietaire.dformjur, -- Forme juridique
+		proprietaire.dsiren, -- numéro siren - not use
 		proprietaire.cgocommune, 
 		proprietaire.comptecommunal, 
 		proprietaire.app_nom_usage,
 		proprietaire.app_nom_naissance,
-		prop_ccodro.ccodro, 
+		prop_ccodro.ccodro, -- code du droit réel ou particulier - Nouveau code en 2009 : C (fiduciaire)
 		prop_ccodro.ccodro_lib, 
-		prop_ccoqua.ccoqua, 
+		prop_ccoqua.ccoqua, -- Code qualité de personne physique - 1, 2 ou 3
 		prop_ccoqua.ccoqua_lib, 
-		prop_ccogrm.ccogrm, 
-		prop_ccogrm.ccogrm_lib, 
-		prop_ccodem.ccodem, 
+		prop_ccogrm.ccogrm, -- not use - only by other scripts
+		prop_ccogrm.ccogrm_lib, -- not use
+		prop_ccodem.ccodem, -- code du démembrement/indivision - C S L I V
 		prop_ccodem.ccodem_lib, 
-		prop_dnatpr.dnatpr, 
-		prop_dnatpr.dnatpr_lib
+		prop_dnatpr.dnatpr, -- Code nature de personne physique ou morale - Voir $ 2.2.7 - only by other scripts
+		prop_dnatpr.dnatpr_lib -- not use
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			pqgis.proprietaire,
@@ -177,5 +177,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 	LEFT JOIN #schema_cadastrapp.prop_dnatpr ON proprietaire.dnatpr_c::text = prop_dnatpr.dnatpr::text;
 
 ALTER TABLE #schema_cadastrapp.proprietaire OWNER TO #user_cadastrapp;
+
+COMMENT ON MATERIALIZED VIEW #schema_cadastrapp.proprietaire IS 'Propriétaire';
+
+COMMENT ON COLUMN #schema_cadastrapp.proprietaire.dnupro IS 'Compte communal ';
 
 

@@ -1,8 +1,8 @@
 -- Create view parcelle, parcelledetails, v_parcelle_surfc based on Qgis Models
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.v_parcelle_surfc AS
-	SELECT  v_parcelle_surfc.parcelle,
-			v_parcelle_surfc.surfc, 
+	SELECT  v_parcelle_surfc.parcelle, -- parcelle
+			v_parcelle_surfc.surfc,
 			v_parcelle_surfc.surfb 
 		FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 			'select distinct 
@@ -25,15 +25,15 @@ ALTER TABLE #schema_cadastrapp.v_parcelle_surfc OWNER TO #user_cadastrapp;
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS 
 	SELECT parcelle.parcelle, 
-		parcelle.cgocommune, 
-		parcelle.dnupla, 
-		parcelle.dnvoiri, 
-		parcelle.dindic, 
-		parcelle.cconvo, 
-		parcelle.dvoilib, 
-		parcelle.ccopre, 
-		parcelle.ccosec, 
-		parcelle.dcntpa
+		parcelle.cgocommune, -- Code commune INSEE
+		parcelle.dnupla, -- Numéro de plan
+		parcelle.dnvoiri, -- Numéro voirie
+		parcelle.dindic, -- indice de répétition de voirie 
+		parcelle.cconvo, -- Code nature de la voie
+		parcelle.dvoilib, --Libellé de la voie
+		parcelle.ccopre, -- Préfixe de section
+		parcelle.ccosec, -- Section
+		parcelle.dcntpa -- Contenance de la parcelle
  	 FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
  		'select 
 			COALESCE(parcelle.parcelle,geo_parcelle.geo_parcelle) as parcelle,
@@ -67,42 +67,42 @@ ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS 
 	SELECT 
-		parcelledetails.parcelle,
-		parcelledetails.cgocommune,
-		parcelledetails.dnupla,
-		parcelledetails.dcntpa,
-		parcelledetails.dsrpar,
-		parcelledetails.jdatat,
-		parcelledetails.dreflf,
-		parcelledetails.gpdl,
-		parcelledetails.cprsecr,
-		parcelledetails.ccosecr,
-		parcelledetails.dnuplar,
-		parcelledetails.dnupdl,
-		parcelledetails.gurbpa,
-		parcelledetails.dparpi,
-		parcelledetails.ccoarp,
-		parcelledetails.gparnf,
-		parcelledetails.gparbat,
+		parcelledetails.parcelle, -- parcelle
+		parcelledetails.cgocommune, -- Code commune INSEE
+		parcelledetails.dnupla, -- -- Numéro de plan
+		parcelledetails.dcntpa, -- Contenance de la parcelle
+		parcelledetails.dsrpar, -- not use - MAJ 2018 - suppression champ "DSRPAR"
+		parcelledetails.jdatat, -- Date de l'acte
+		parcelledetails.dreflf, -- Référence livre foncier
+		parcelledetails.gpdl, -- Indice de division en lots -- not use
+		parcelledetails.cprsecr, -- Préfixe de la parcelle de référence -- not use
+		parcelledetails.ccosecr, -- Section de la parcelle de référence -- not use
+		parcelledetails.dnuplar, -- Numéro de plan de la parcelle de référence -- not use
+		parcelledetails.dnupdl, -- Numéro d ordre de la pdl -- not use
+		parcelledetails.gurbpa, -- Caractère Urbain de la parcelle
+		parcelledetails.dparpi, -- Numéro de parcelle primitive
+		parcelledetails.ccoarp, -- Indicateur d’arpentage -- not use
+		parcelledetails.gparnf, -- Indicateur de parcelle non figurée au plan -- not use
+		parcelledetails.gparbat, -- Indicateur de parcelle référençant un bâtiment
 		parcelledetails.dnvoiri,
-		parcelledetails.dindic,
-		parcelledetails.ccovoi,
-		parcelledetails.ccoriv,
-		parcelledetails.ccocif,
-		parcelledetails.cconvo,
-		parcelledetails.dvoilib,
-		parcelledetails.ccocomm,
-		parcelledetails.ccoprem,
-		parcelledetails.ccosecm,
-		parcelledetails.dnuplam,
+		parcelledetails.dindic, -- Indice de répétition
+		parcelledetails.ccovoi, -- Code Majic2 de la voie -- not use
+		parcelledetails.ccoriv, -- Code Rivoli de la voie
+		parcelledetails.ccocif, -- Code du CDIF -- not use
+		parcelledetails.cconvo, -- Code nature de la voie
+		parcelledetails.dvoilib, -- Libellé de la voie
+		parcelledetails.ccocomm, -- Code INSEE de la commune de la parcelle mère
+		parcelledetails.ccoprem, -- Code du préfixe de section de la parcelle mère
+		parcelledetails.ccosecm, -- Code section de la parcelle mère
+		parcelledetails.dnuplam, -- Numéro de plan de la parcelle mère
 		parcelledetails.type_filiation,
 		parcelledetails.annee,
-		parcelledetails.ccopre,
-		parcelledetails.ccosec,
-		parcelledetails.pdl,
-		parcelledetails.inspireid ,
-		surfc,
-		surfb
+		parcelledetails.ccopre, -- Préfixe de section
+		parcelledetails.ccosec, -- Section
+		parcelledetails.pdl, -- Propriété divisée en lot
+		parcelledetails.inspireid , -- Inspireid -- not use
+		surfc, -- surface parcelle
+		surfb -- surface bâti
    	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text,
    		'select 
 			COALESCE(parcelle.parcelle,geo_parcelle.geo_parcelle) as parcelle,
@@ -179,7 +179,4 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 	left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelledetails.parcelle=p2.parcelle;
 
 ALTER TABLE #schema_cadastrapp.parcelleDetails OWNER TO #user_cadastrapp;
-
-
-
 
