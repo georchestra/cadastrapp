@@ -14,8 +14,13 @@ L'utilisation des vues matérialisées permet de gagner du temps lors de la mise
 
 ## Prérequis
 
+Pour les bases de données :
 - 1 base de données PostgreSQL / PostGIS contenant vos données cadastrales. Cette base doit être accessible par le réseau.
 - 1 base de données PostgreSQL > 9.3 / PostGIS (version ?) avec l'extension **[dblink](http://www.postgresql.org/docs/9.3/static/dblink.html)**  qui va abriter la base de données de Cadastrapp
+
+Pour Cadastrapp 1.9 : 
+- Le modèle de données Qgis issue du plugin Cadastre version > 1.8 de Qgis >= 3.4.
+- Des données MAJIC et EDIGEO verison > 2018 pour.
 
 
 ## Création de la base de données de Cadastrapp
