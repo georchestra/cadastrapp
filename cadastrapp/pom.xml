@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.georchestra</groupId>
     <artifactId>cadastrapp-parent</artifactId>
-    <version>1.9-SNAPSHOT</version>
+    <version>1.9</version>
   </parent>
   <artifactId>cadastrapp</artifactId>
   <packaging>war</packaging>
@@ -604,9 +604,7 @@
                 <configuration>
                   <exportAntProperties>true</exportAntProperties>
                   <target>
-                    <condition property="project.packageVersion"
-                      value="99.master.${maven.build.timestamp}~${build.commit.id.abbrev}"
-                      else="${project.parent.version}.${maven.build.timestamp}~${build.commit.id.abbrev}">
+                    <condition property="project.packageVersion" value="99.master.${maven.build.timestamp}~${build.commit.id.abbrev}" else="${project.parent.version}.${maven.build.timestamp}~${build.commit.id.abbrev}">
                       <matches string="${project.parent.version}" pattern="SNAPSHOT$" />
                     </condition>
                   </target>
