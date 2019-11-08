@@ -9,7 +9,7 @@ Cadastrapp is so based on QGis data model.
 
 :warning: The arcOpole model will be unsupported from Cadastrapp 1.9.
 
-Read the [release notes](https://github.com/georchestra/cadastrapp/wiki/Releases)  for further informations
+Read the [release notes](https://github.com/georchestra/cadastrapp/releases)  for further informations
 
 Read the [Installation Guide](https://github.com/georchestra/cadastrapp/wiki/Guide-Administrateur#installation) for the technical purposes.
 
