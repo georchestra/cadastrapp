@@ -18,7 +18,7 @@
     <jcloverslf4j.version>1.7.25</jcloverslf4j.version>
     <postgresql.version>9.4-1205-jdbc4</postgresql.version>
     <cxf.version>3.0.4</cxf.version>
-    <spring.version>4.3.24.RELEASE</spring.version>
+    <spring.version>5.2.1.RELEASE</spring.version>
     <hibernate-version>4.1.7.Final</hibernate-version>
     <hibernate-annotations-version>4.0.1.Final</hibernate-annotations-version>
     <geotools.version>9.2</geotools.version>
