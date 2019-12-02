@@ -13,7 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jackson.version>1.8.6</jackson.version>
-    <slf4j.version>1.7.25</slf4j.version>
+    <slf4j.version>1.7.29</slf4j.version>
     <logback.version>1.2.3</logback.version>
     <jcloverslf4j.version>1.7.25</jcloverslf4j.version>
     <postgresql.version>9.4-1205-jdbc4</postgresql.version>
