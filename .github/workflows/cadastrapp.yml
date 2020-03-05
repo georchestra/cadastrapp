@@ -17,7 +17,8 @@ jobs:
       run: |
         pip install jsbuild
         pip install virtualenv
-        find / -name virtualenv
+        echo $PATH
+        which virtualenv
 
     - name: "Maven repository caching"
       uses: actions/cache@v1
