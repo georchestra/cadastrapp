@@ -18,8 +18,8 @@ jobs:
         pip install setuptools
         pip install jsbuild
         pip install virtualenv
-        find . -name easy_install
-        find . -name virtualenv
+        find / -iname *easy_install*
+        find / -iname *virtualenv*
 
     - name: "Maven repository caching"
       uses: actions/cache@v1
