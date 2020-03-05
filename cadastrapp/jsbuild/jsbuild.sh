@@ -30,7 +30,7 @@ ${mkdir} -p ${releasepath}
  if  [ ! -d ${venv} ] || [ $? -eq 0 ]; then
      echo "creating virtual env and installing jstools..."
      rm -rf ${venv}
-     virtualenv  --no-site-packages ${venv}
+     virtualenv ${venv}
      ${venv}/bin/pip install jstools==0.6
      echo "done."
  fi;
