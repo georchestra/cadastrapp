@@ -15,6 +15,7 @@ jobs:
 
     - name: "installting jsbuild and virtualenv via pip"
       run: |
+        pip install setuptools
         pip install jsbuild
         pip install virtualenv
         easy_install virtualenv
