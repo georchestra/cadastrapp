@@ -15,11 +15,9 @@ jobs:
 
     - name: "installting jsbuild and virtualenv via pip"
       run: |
-        pip install setuptools
         pip install jsbuild
         pip install virtualenv
-        find / -iname *easy_install*
-        find / -iname *virtualenv*
+        /usr/share/miniconda/bin/easy_install virtualenv
 
     - name: "Maven repository caching"
       uses: actions/cache@v1
