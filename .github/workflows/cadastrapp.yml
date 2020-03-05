@@ -16,7 +16,7 @@ jobs:
     - name: setup Python 3.x (for jsbuild)
       uses: actions/setup-python@v1
       with:
-        python-version: '3.x'
+        python-version: '2.x'
 
     - name: "installing jsbuild and virtualenv via pip"
       run: |
