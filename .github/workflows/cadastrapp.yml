@@ -13,12 +13,16 @@ jobs:
       with:
         java-version: '8.x'
 
+    - name: setup Python 2.x (for jsbuild)
+      uses: actions/setup-python@v1
+      with:
+        python-version: '2.x'
+
     - name: "installting jsbuild and virtualenv via pip"
-      env:
-        PATH: ${{ env.PATH }}:${{ env.HOME }}/.local/bin/
       run: |
         pip install jsbuild
         pip install virtualenv
+        echo "::add-path::$HOME/.local/bin"
         echo $PATH
         which virtualenv
 
