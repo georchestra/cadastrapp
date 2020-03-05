@@ -15,7 +15,10 @@ jobs:
 
     - name: "installting jsbuild and virtualenv via pip"
       run: |
-        apt install python-pip python-virtualenv
+        pip install setuptools
+        pip install jsbuild
+        pip install virtualenv
+        easy_install virtualenv
 
     - name: "Maven repository caching"
       uses: actions/cache@v1
