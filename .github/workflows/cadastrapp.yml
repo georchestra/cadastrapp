@@ -14,10 +14,11 @@ jobs:
         java-version: '8.x'
 
     - name: "installting jsbuild and virtualenv via pip"
+      env:
+        PATH: $PATH:~/.local/bin/
       run: |
         pip install jsbuild
         pip install virtualenv
-        echo $PATH
         which virtualenv
 
     - name: "Maven repository caching"
@@ -29,6 +30,8 @@ jobs:
           ${{ runner.os }}-maven-
 
     - name: "Build with Maven"
+      env:
+        PATH: $PATH:~/.local/bin/
       run: mvn -B clean package deb:package -pl cadastrapp -PdebianPackage
 
     - name: Remove SNAPSHOT jars from repository
