@@ -15,10 +15,11 @@ jobs:
 
     - name: "installting jsbuild and virtualenv via pip"
       env:
-        PATH: $PATH:~/.local/bin/
+        PATH: ${{ env.PATH }}:${{ env.HOME }}/.local/bin/
       run: |
         pip install jsbuild
         pip install virtualenv
+        echo $PATH
         which virtualenv
 
     - name: "Maven repository caching"
