@@ -37,3 +37,12 @@ jobs:
     - name: Remove SNAPSHOT jars from repository
       run: |
         find .m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
+
+    - name: "copy resulting deb"
+      run: mkdir -p scratch && cp cadastrapp/target/georchestra-cadastrapp*.deb scratch/
+
+    - name: "publish deb as artifact"
+      uses: actions/upload-artifact@v1
+      with:
+        name: cadastrapp.deb
+        path: scratch/
