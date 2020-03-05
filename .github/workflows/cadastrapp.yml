@@ -17,7 +17,7 @@ jobs:
       run: |
         pip install jsbuild
         pip install virtualenv
-        /usr/share/miniconda/bin/easy_install virtualenv
+        find / -name virtualenv
 
     - name: "Maven repository caching"
       uses: actions/cache@v1
