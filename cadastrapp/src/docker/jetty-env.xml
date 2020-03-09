@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+  <New id="cadastrapp" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg>jdbc/cadastrapp</Arg>
+    <Arg>
+      <New class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <Set name="driverClass">org.postgresql.Driver</Set>
+        <Set name='jdbcUrl'><Env name="CADASTRAPP_JDBC_URL"/></Set>
+        <Set name="user"><Env name="CADASTRAPP_JDBC_USER"/></Set>
+        <Set name="password"><Env name="CADASTRAPP_JDBC_PASSWORD"/></Set>
+      </New>
+    </Arg>
+  </New>
+</Configure>

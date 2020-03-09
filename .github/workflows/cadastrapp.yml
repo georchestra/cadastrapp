@@ -46,3 +46,27 @@ jobs:
       with:
         name: cadastrapp.deb
         path: scratch/
+
+    - name: Calculating docker image tag
+      id: version
+      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+    - name: build a docker image
+      run: mvn -B clean package docker:build -pl cadastrapp -Pdocker -DdockerImageName=georchestra/cadastrapp:${{ steps.version.outputs.VERSION }}
+
+    - name: "Logging in docker.io"
+      uses: azure/docker-login@v1
+      with:
+        username: '${{ secrets.DOCKER_HUB_USERNAME }}'
+        password: '${{ secrets.DOCKER_HUB_PASSWORD }}'
+
+    - name: "Pushing latest to docker.io"
+      if: github.ref == 'refs/heads/master'
+      run: |
+        docker tag georchestra/cadastrapp:${{ steps.version.outputs.VERSION }} georchestra/cadastrapp:latest
+        docker push georchestra/cadastrapp:latest
+
+    - name: "Pushing release tag to docker.io"
+      if: contains(github.ref, 'refs/tags/')
+      run: |
+        docker push georchestra/cadastrapp:${{ steps.version.outputs.VERSION }}
