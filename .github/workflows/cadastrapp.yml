@@ -1,0 +1,48 @@
+name: "cadastrapp"
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checking out"
+      uses: actions/checkout@v2
+
+    - name: "Setting up Java"
+      uses: actions/setup-java@v1
+      with:
+        java-version: '8.x'
+
+    - name: setup Python 2.x (for jsbuild)
+      uses: actions/setup-python@v1
+      with:
+        python-version: '2.x'
+
+    - name: "installing jsbuild and virtualenv via pip"
+      run: |
+        pip install jsbuild
+        pip install virtualenv
+
+    - name: "Maven repository caching"
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: cadastrapp-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: "Build with Maven"
+      run: mvn -B clean package deb:package -pl cadastrapp -PdebianPackage
+
+    - name: Remove SNAPSHOT jars from repository
+      run: |
+        find .m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
+
+    - name: "copy resulting deb"
+      run: mkdir -p scratch && cp cadastrapp/target/georchestra-cadastrapp*.deb scratch/
+
+    - name: "publish deb as artifact"
+      uses: actions/upload-artifact@v1
+      with:
+        name: cadastrapp.deb
+        path: scratch/
