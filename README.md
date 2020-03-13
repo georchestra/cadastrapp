@@ -4,7 +4,7 @@
 
 ## Summary
 
-This application aims to provide consulting tools for the french cadastre for the **geOrchestra** SDI.
+This application provides consulting tools for the French cadastre, based on the **geOrchestra** SDI.
 
 Read the [user guide](https://github.com/georchestra/cadastrapp/wiki) for further information.
 
