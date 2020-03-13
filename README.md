@@ -1,6 +1,6 @@
 # Cadastrapp 
 
-:warning: The arcOpole model will be unsupported from Cadastrapp 1.9.
+:warning: The arcOpole model is unsupported from Cadastrapp 1.9 on.
 
 ## Summary
 
