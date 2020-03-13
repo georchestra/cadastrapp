@@ -1,6 +1,7 @@
 FROM jetty:9-jre8
 
-ADD . /
+ADD var/ /var
+ADD jetty-env.xml /var/lib/jetty/webapps/cadastrapp/WEB-INF/jetty-env.xml
 
 RUN java -jar "$JETTY_HOME/start.jar" --create-startd --add-to-start=jmx,jmx-remote,stats,http-forwarded
 
