@@ -8,7 +8,8 @@ venv="${buildpath}/env"
 #
 # Command path definitions
 #
-python="/usr/bin/python"
+python="/usr/bin/env python2"
+virtualenv="/usr/bin/env virtualenv --python=${python}"
 mkdir="/bin/mkdir"
 rm="/bin/rm"
 sh="/bin/sh"
@@ -26,12 +27,22 @@ fi
 ${mkdir} -p ${releasepath}
 
 (cd ${buildpath};
- ${venv}/bin/jsbuild -h > /dev/null
+ ${python} -c "import pip"
+ if [ $? != 0 ]; then
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    ${python} get-pip.py
+    rm get-pip.py
+ fi
+ ${python} -c "import virtualenv"
+ if [ $? != 0 ]; then
+   ${python} -m pip install virtualenv
+ fi
+
  if  [ ! -d ${venv} ] || [ $? -eq 0 ]; then
      echo "creating virtual env and installing jstools..."
      rm -rf ${venv}
-     virtualenv ${venv}
-     ${venv}/bin/pip install jstools==0.6
+     ${python} -m virtualenv ${venv}
+     ${venv}/bin/python -m pip install jstools==0.6
      echo "done."
  fi;
 

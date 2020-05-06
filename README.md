@@ -24,14 +24,7 @@ This repository is made of 3 mains parts :
 - addons folder contains client side of application
 - cadastrapp folder contains webapplication distributing webservice
 
-Additional tool is needed to build from source ( jsbuild from pythonvirtualenv)
-
-```
-	sudo apt-get install python-pip
-	sudo pip install jsbuild
-	sudo pip install virtualenv
-	sudo /usr/bin/easy_install virtualenv
-```
+Additional tool is needed to build from source (python2)
 
 
 ## Sponsors
