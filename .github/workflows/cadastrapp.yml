@@ -23,11 +23,6 @@ jobs:
       with:
         python-version: '2.x'
 
-    - name: "installing jsbuild and virtualenv via pip"
-      run: |
-        pip install jsbuild
-        pip install virtualenv
-
     - name: "Maven repository caching"
       uses: actions/cache@v1
       with:
@@ -67,11 +62,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: '2.x'
-
-    - name: "installing jsbuild and virtualenv via pip"
-      run: |
-        pip install jsbuild
-        pip install virtualenv
 
     - name: "Maven repository caching"
       uses: actions/cache@v1
