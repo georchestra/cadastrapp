@@ -22,7 +22,7 @@ copyright = '2020, la communauté geOrchestra'
 author = 'la communauté geOrchestra'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0'
+#release = '1.0'
 
 
 # -- General configuration ---------------------------------------------------
