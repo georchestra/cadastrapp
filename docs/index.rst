@@ -23,7 +23,7 @@ Table des matières
 ==================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
    guide_utilisateur/index
    guide_administrateur/index
