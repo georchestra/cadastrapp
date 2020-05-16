@@ -27,3 +27,20 @@ Matrice des fonctionnalités
 Documentation de l'API
 ^^^^^^^^^^^^^^^^^^^^^^
 
+Un fichier `WADL <https://fr.wikipedia.org/wiki/Web_Application_Description_Language>`_ est disponible après installation de la webapp :
+
+https://my_sdi/cadastrapp/apidocs/wadl/application.wadl
+
+Télécharger :download:`le fichier WADL <application.wadl>` pour la version courante.
+
+
+Javadoc
+^^^^^^^
+
+Une documentation Javadoc construite automatiquement est diponible après installation de la webapp :
+
+https://my_sdi/cadastrapp/apidocs/index.html
+
+
+.. image:: _images/javadoc.png
+
