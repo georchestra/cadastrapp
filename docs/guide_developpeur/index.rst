@@ -11,6 +11,8 @@ Guide développeur
 Matrice des fonctionnalités
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+* {string} = texte libre
+* {code} = doit correspondre à une valeur en base ou une valeur codée
 
 
 +------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
@@ -48,11 +50,42 @@ Matrice des fonctionnalités
 |                                    |                             |              |                                 |        |        |        |                                                                                         |
 |                                    |                             |              |                                 |        |        |        |  FORM_DATA : cgocommune={code}&dvoilib={string}&dnvoiri={number}&dindic={string}        |
 +                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
-|                                    |  Recherche par lot          |      X       |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |  Recherche par lot          |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
 |                                    |                             |              |                                 |        |        |        |                                                                                         |
 |                                    |                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}%0{code}…                                                   |
 +------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
-
+|  **Rechercher des propriétaires**  |  Recherche par nom d'usage  |      X       |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                                    |  ou nom de naissance        |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Recherche par nom d'usage      |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  &ddenom={string}&birthsearch=false                                                     |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Recherche par nom de naissance |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  &ddenom={string}&checkBoxSearchByBirthNames=on&details={integer}&birthsearch=true      |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Afficher le résultat           |        |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : comptecommunal={string}                                                    |
++                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |  Recherche par compte       |              |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                                    |  propriétaire               |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Rechercher un compte proprio   |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  &details={integer}&dnupro={string}                                                     |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Afficher le résultat           |        |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : comptecommunal={string}                                                    |
++                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |  Recherche par lot          |              |  Afficher le résultat           |        |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : comptecommunal={code}&comptecommunal={code}&…                              |
++------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 
 
 
