@@ -16,16 +16,42 @@ Matrice des fonctionnalités
 +------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |  Bloc                              |  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
 +====================================+=============================+==============+=================================+========+========+========+=========================================================================================+
-|  Rechercher des parcelles          |  Recherche par référence    |      X       |  Sélectionner une commune       |    X   |    X   |    X   |  GET /cadastrapp/services/getCommune                                                    |
+|  **Rechercher des parcelles**      |  Recherche par référence    |      X       |  Sélectionner une commune       |    X   |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                                    |                             |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
 +                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |                                    |                             |              |  Sélectionner une section       |    X   |    X   |    X   |  GET /cadastrapp/services/getSection?cgocommune={code}                                  |
 +                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |                                    |                             |              |  Sélectionner une parcelle      |    X   |    X   |    X   |  GET /cadastrapp/services/getDnuplaList?cgocommune={code}&ccopre={code}&ccosec={code}   |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : cgocommune={code}&dnupla={code}&ccopre={code}&ccosec={code}                |
 +                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
-|                                    |  Recherche par identifiant  |              |  Chercher une parcelle          |   X    |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                                    |  Recherche par identifiant  |              |  Chercher une parcelle          |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
 |                                    |                             |              |  sur le plan                    |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
 |                                    |                             |              |                                 |        |        |        |  &cql_filter=geo_parcelle='{code}'                                                      |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}                                                            |
++                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |  Recherche par adresse      |      X       |  Sélectionner une commune       |    X   |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |  cadastrale                 |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Sélectionner une voie ou       |    X   |    X   |    X   |  GET /cadastrapp/services/getVoie?cgocommune={code}&dvoilib={string}                    |
+|                                    |                             |              |  un lieu-dit                    |        |        |        |                                                                                         |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : cgocommune={code}&dvoilib={string}&dnvoiri={number}&dindic={string}        |
 +------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+
+
+
+
 
 
 Documentation de l'API
