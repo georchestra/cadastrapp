@@ -1,0 +1,178 @@
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
++=============================+==============+=================================+========+========+========+=========================================================================================+
+|  Récupérer la configuration |              |  Récupérer la configuration     |    X   |    X   |    X   |  GET /cadastrapp/services/getConfiguration?                                             |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Récupérer le manifest      |              |  Récupérer le manifest          |    X   |    X   |    X   |  GET /mapfishapp/ws/addons/cadastrapp/manifest.json                                     |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Recherche par référence    |      X       |  Sélectionner une commune       |    X   |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Sélectionner une section       |    X   |    X   |    X   |  GET /cadastrapp/services/getSection?cgocommune={code}                                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Sélectionner une parcelle      |    X   |    X   |    X   |  GET /cadastrapp/services/getDnuplaList?cgocommune={code}&ccopre={code}&ccosec={code}   |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : cgocommune={code}&dnupla={code}&ccopre={code}&ccosec={code}                |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Recherche par identifiant  |              |  Chercher une parcelle          |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |  sur la carte                   |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &cql_filter=geo_parcelle='{code}'                                                      |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}                                                            |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Recherche par adresse      |      X       |  Sélectionner une commune       |    X   |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  cadastrale                 |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Sélectionner une voie ou       |    X   |    X   |    X   |  GET /cadastrapp/services/getVoie?cgocommune={code}&dvoilib={string}                    |
+|                             |              |  un lieu-dit                    |        |        |        |                                                                                         |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : cgocommune={code}&dvoilib={string}&dnvoiri={number}&dindic={string}        |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Recherche par lot          |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}%0{code}…                                                   |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Recherche par nom d'usage  |      X       |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  ou nom de naissance        |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Recherche par nom d'usage      |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &ddenom={string}&birthsearch=false                                                     |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Recherche par nom de naissance |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &ddenom={string}&checkBoxSearchByBirthNames=on&details={integer}&birthsearch=true      |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Afficher le résultat           |        |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : comptecommunal={string}                                                    |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Recherche par compte       |              |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  propriétaire               |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Rechercher un compte proprio   |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &details={integer}&dnupro={string}                                                     |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Afficher le résultat           |        |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : comptecommunal={string}                                                    |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Recherche par lot          |              |  Afficher le résultat           |        |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : comptecommunal={code}&comptecommunal={code}&…                              |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Par point                  |      X       |  Sélectionner une parcelle      |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |  sur la carte                   |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &filter=<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>      |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  geom</PropertyName><gml:Point><gml:coordinates>{coordinates}</gml:coordinates>         |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  </gml:Point></Intersects></Filter>                                                     |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}                                                            |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Par ligne                  |      ?       |  Sélectionner des parcelles     |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |  sur la carte                   |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &filter=<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>      |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  geom</PropertyName><gml:LineString><gml:coordinates>{coordinates}</gml:coordinates>    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  </gml:LineString></Intersects></Filter>                                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}&parcelle={code}&…                                          |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Par polygone               |      ?       |  Sélectionner des parcelles     |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |  sur la carte                   |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &filter=<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>      |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  geom</PropertyName><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing>                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  <gml:coordinates>{coordinates}</gml:coordinates>                                       |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  </gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></Intersects></Filter>            |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}&parcelle={code}&…                                          |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  onglet Parcelle            |      X       |  Afficher les infos             |    X   |    X   |    X   |  GET /cadastrapp/services/getFIC?parcelle={code}&onglet=0                               |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Bordereau parcellaire          |    X   |    X   |    X   |  GET /cadastrapp/services/createBordereauParcellaire?parcelle={code}                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &personaldata={0|1}&basemapindex={0|n}                                                 |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &fillcolor=81BEF7&opacity=0.4&strokecolor=111111&strokewidth=3  (3)                    |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  onglet Propriétaires       |      X       |  Afficher les infos             |        |    X   |    X   |  GET /cadastrapp/services/getProprietairesByParcelles?parcelles={code}                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Relevé de propriété PDF        |        |    X   |    X   |  GET /cadastrapp/services/createRelevePropriete?                                        |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  compteCommunal={code}&parcelleId={NULL|code}&exportType=on  (4)                        |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Relevé de propriété CSV        |        |    X   |    X   |  GET /cadastrapp/services/createReleveProprieteAsCSV?                                   |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  compteCommunal={code}&parcelleId={NULL|code}&exportType=on  (4)                        |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  onglet Copropriétaires     |      X       |  Afficher les infos             |        |    X   |    X   |  GET /cadastrapp/services/getCoProprietaire?start=0&limit=25&parcelle={code} (1)        |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Relevé de propriété PDF        |        |    X   |    X   |  -> Relevé de propriété de l'onglet Propriétaires                                       |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Relevé de propriété CSV        |        |    X   |    X   |  -> Relevé de propriété de l'onglet Propriétaires                                       |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  onglet Bâtiments           |      X       |  Afficher les infos             |        |        |    X   |  GET /cadastrapp/services/getBatiments?dnubat=%20A&parcelle={code} (2)                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Relevé de propriété PDF        |        |    ?   |    X   |  -> Relevé de propriété de l'onglet Propriétaires                                       |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Relevé de propriété CSV        |        |    ?   |    X   |  -> Relevé de propriété de l'onglet Propriétaires                                       |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Descriptif d'habitation        |        |        |    X   |  GET /cadastrapp/services/getHabitationDetails?invar={code}&annee={integer}             |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Lots                           |        |    ?   |    X   |  POST /cadastrapp/services/exportLotsAsPDF                                              |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}&dnubat=+{code}                                             |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  onglet Subdivisions        |      X       |  Afficher les infos             |        |        |    X   |  GET /cadastrapp/services/getFIC?parcelle={code}&onglet=3                               |
+|  fiscales                   |              |                                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  onglet Historique de       |      X       |  Afficher les infos             |    X   |    X   |    X   |  GET /cadastrapp/services/getFIC?parcelle={code}&onglet=4                               |
+|  mutation                   |              |                                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Parcelles                  |              |  Bordereau parcellaire          |    X   |    X   |    X   |  GET /cadastrapp/services/createBordereauParcellaire?parcelle={code1,code2,…}           |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |  multipages                     |        |        |        |  &personaldata={0|1}&basemapindex={0|n}                                                 |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &fillcolor=81BEF7&opacity=0.4&strokecolor=111111&strokewidth=3  (3)                    |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Export liste CSV               |    X   |    X   |    X   |  POST /cadastrapp/services/exportParcellesAsCSV                                         |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Propriétaires et           |              |  Export liste CSV               |        |    X   |    X   |  POST /cadastrapp/services/exportProprietaireByParcelles                                |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  copropriétaires            |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
