@@ -19,6 +19,8 @@ Matrice des fonctionnalités
 Configuration / préférences
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Au chargement de l'addon, il faut aller chercher la configuration car elle dépend des droits accordées à l'utilisateur (niveau CNIL, communes autorisées).
+
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
 +=============================+==============+=================================+========+========+========+=========================================================================================+
@@ -31,6 +33,13 @@ Configuration / préférences
 
 Rechercher des parcelles
 ^^^^^^^^^^^^^^^^^^^^^^^^
+
+La recherche de parcelles se fait via un formulaire qui propose 4 onglets qui correspondent à 4 façons de rechercher des parcelles :
+
+* par référence
+* par identifiant
+* par adresse cadastrale
+* par lot
 
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
@@ -78,6 +87,12 @@ Rechercher des parcelles
 Rechercher des propriétaires
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+La recherche de propriétaires se fait via un formulaire qui propose 3 onglets qui correspondent à 3 façons de rechercher des parcelles via la recherche de propriétaires :
+
+* par nom d'usage ou nom de naissance
+* par compte propriétaire (identifiant)
+* par lot (liste d'identifiants)
+
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
 +=============================+==============+=================================+========+========+========+=========================================================================================+
@@ -119,6 +134,12 @@ Rechercher des propriétaires
 
 Sélection graphique des parcelles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+La sélection de parcelles sur la carte se fait en choisissant l'un des 3 modes de sélection graphique suivant :
+
+* point
+* ligne
+* polygone
 
 
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
@@ -171,8 +192,82 @@ Sélection graphique des parcelles
 
 
 
+Fenêtre de sélection de parcelles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Toutes les recherches aboutisse à l'ouverture de la fenêtre de "Sélection de parcelle" qui est la fenêtre la plus importante de Cadastrapp.
+Elle liste les parcelles qui résultent des différentes méthodes de recherche décrites ci-dessus.
+
+En sur-sélectionnant une ou des parcelles de cette liste, on a accès aux fonctions suivantes :
+
+* zoom sur la parcelle sélectionné / zoom sur toutes les parcelles
+* affichage de la fiche d'informations sur une parcelle
+* unité foncière de la / des parcelles sélectionnées
+* exports :
+
+    * liste de parcelles
+    * liste de propriétaires
+    * liste de co-propriétaires
+    * lots des copropriétés
+
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
++=============================+==============+=================================+========+========+========+=========================================================================================+
+|  Zoom sur...                |      X       |  liste des parcelles            |    X   |    X   |    X   |                                                                                         |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  parcelles sélectionnées        |    X   |    X   |    X   |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Fiche d'info parcelle      |      X       |                                 |    X   |    X   |    X   |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Fiche unité foncière       |              |  Récupérer la géométrie de      |    X   |    X   |    X   |  POST /geoserver/wfs?                                                                   |
+|                             |              |  l'unité foncière               |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : <wfs:GetFeature service="wfs" version="1.0.0"                              |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  outputFormat="application/json" xmlns:wfs="http://www.opengis.net/wfs"                 |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  instance" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/   |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  wfs/1.0.0/WFS-basic.xsd"><wfs:Query typeName="app:cadastrapp_uf"><Filter xmlns:gml=    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  "http://www.opengis.net/gml"><Contains><PropertyName>geom</PropertyName>               |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  <gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>{coordinates}       |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  </gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></Contains>     |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  </Filter></wfs:Query></wfs:GetFeature>                                                 |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Ouvrir la fiche                |    X   |    X   |    X   |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Exporter sélection         |              |  Exporter liste de parcelles    |    X   |    X   |    X   |  POST /cadastrapp/services/exportParcellesAsCSV                                         |
+|                             |              |  (CSV)                          |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Exporter liste de propriétaires|        |    X   |    X   |  POST /cadastrapp/services/exportProprietaireByParcelles                                |
+|                             |              |  (CSV)                          |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Exporter liste de              |        |    X   |    X   |  POST /cadastrapp/services/exportCoProprietaireByParcelles                              |
+|                             |              |  co-propriétaires (CSV)         |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Exporter lots de               |        |    X   |    X   |  POST /cadastrapp/services/exportLotsAsPDF                                              |
+|                             |              |  co-propriétés (PDF)            |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Exporter lots de               |        |    X   |    X   |  POST /cadastrapp/services/exportLotsAsCSV                                              |
+|                             |              |  co-propriétés (CSV)            |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}&dnubat=+{code}                                             |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+
+
+
 Fiche information parcelle
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Cette fenêtre affiche beaucoup d'information sur les parcelles et les objets associés : propriétaires, co-propriétaires, détails des locaux, subdivisions fiscales, historique de mutation, etc.
 
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
@@ -209,7 +304,7 @@ Fiche information parcelle
 |                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |                             |              |  Descriptif d'habitation        |        |        |    X   |  GET /cadastrapp/services/getHabitationDetails?invar={code}&annee={integer}             |
 |                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
-|                             |              |  Lots                           |        |    ?   |    X   |  POST /cadastrapp/services/exportLotsAsPDF                                              |
+|                             |              |  Lots en PDF                    |        |    ?   |    X   |  POST /cadastrapp/services/exportLotsAsPDF                                              |
 |                             |              |                                 |        |        |        |                                                                                         |
 |                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}&dnubat=+{code}                                             |
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
@@ -224,6 +319,8 @@ Fiche information parcelle
 
 Traitement des sélections
 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Ces fonctionnalités sont accessibles depuis le menu "Avancées" dans la barre d'outils.
 
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
@@ -243,6 +340,19 @@ Traitement des sélections
 |  copropriétaires            |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
 |                             |              |                                 |        |        |        |                                                                                         |
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+
+
+
+Unité foncière
+^^^^^^^^^^^^^^
+
+TODO
+
+
+Module de demande d'information foncière
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TODO
 
 
 Notes
