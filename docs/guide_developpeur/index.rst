@@ -32,7 +32,7 @@ Matrice des fonctionnalités
 +                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |                                    |  Recherche par identifiant  |              |  Chercher une parcelle          |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
 |                                    |                             |              |                                 |        |        |        |                                                                                         |
-|                                    |                             |              |  sur le plan                    |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                                    |                             |              |  sur la carte                   |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
 |                                    |                             |              |                                 |        |        |        |                                                                                         |
 |                                    |                             |              |                                 |        |        |        |  &cql_filter=geo_parcelle='{code}'                                                      |
 +                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
@@ -88,7 +88,60 @@ Matrice des fonctionnalités
 |                                    |                             |              |                                 |        |        |        |                                                                                         |
 |                                    |                             |              |                                 |        |        |        |  FORM_DATA : comptecommunal={code}&comptecommunal={code}&…                              |
 +------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  **Sélection graphique**           |  Par point                  |      X       |  Sélectionner une parcelle      |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |  sur la carte                   |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  &filter=<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>      |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  geom</PropertyName><gml:Point><gml:coordinates>{coordinates}</gml:coordinates>         |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  </gml:Point></Intersects></Filter>                                                     |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}                                                            |
++                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |  Par ligne                  |      ?       |  Sélectionner des parcelles     |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |  sur la carte                   |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  &filter=<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>      |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  geom</PropertyName><gml:LineString><gml:coordinates>{coordinates}</gml:coordinates>    |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  </gml:LineString></Intersects></Filter>                                                |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}&parcelle={code}&…                                          |
++                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |  Par polygone               |      ?       |  Sélectionner des parcelles     |    X   |    X   |    X   |  GET /geoserver/wfs?request=getfeature&version=1.0.0&service=wfs                        |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |  sur la carte                   |        |        |        |  &typename={workspace:layer}&outputFormat=application/json                              |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  &filter=<Filter xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>      |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  geom</PropertyName><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing>                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  <gml:coordinates>{coordinates}</gml:coordinates>                                       |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  </gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></Intersects></Filter>            |
++                                    +                             +              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Afficher le résultat           |    X   |    X   |    X   |  POST /cadastrapp/services/getParcelle                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}&parcelle={code}&…                                          |
++------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 
+
+
+
+
+Notes de réflexion :
+
+* Rechercher des parcelles > Recherche par identifiant : utilise uniquement les parcelles du plan cadastral. Ce n'est pas logique.
+
+* Rechercher des co-propriétés : accessible uniquement par le menu de recherche avancée : est-ce nécessaire de le maintenir ?
 
 
 
