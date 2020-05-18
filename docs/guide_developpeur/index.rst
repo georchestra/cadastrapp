@@ -179,6 +179,21 @@ Matrice des fonctionnalités
 |                                    |  onglet Historique de       |      X       |  Afficher les infos             |    X   |    X   |    X   |  GET /cadastrapp/services/getFIC?parcelle={code}&onglet=4                               |
 |                                    |  mutation                   |              |                                 |        |        |        |                                                                                         |
 +------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Traitement de la sélection        |  Parcelles                  |              |  Bordereau parcellaire          |    X   |    X   |    X   |  GET /cadastrapp/services/createBordereauParcellaire?parcelle={code1,code2,…}           |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |  multipages                     |        |        |        |  &personaldata={0|1}&basemapindex={0|n}                                                 |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  &fillcolor=81BEF7&opacity=0.4&strokecolor=111111&strokewidth=3  (3)                    |
+|                                    |                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |                             |              |  Export liste CSV               |    X   |    X   |    X   |  POST /cadastrapp/services/exportParcellesAsCSV                                         |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |                             |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
+|                                    +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                                    |  Propriétaires et           |              |  Export liste CSV               |        |    X   |    X   |  POST /cadastrapp/services/exportProprietaireByParcelles                                |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
+|                                    |  copropriétaires            |              |                                 |        |        |        |  FORM_DATA : parcelles={code1,code2,…}                                                  |
+|                                    |                             |              |                                 |        |        |        |                                                                                         |
++------------------------------------+-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 
 
 Notes :
