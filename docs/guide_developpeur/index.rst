@@ -346,7 +346,32 @@ Ces fonctionnalités sont accessibles depuis le menu "Avancées" dans la barre d
 Unité foncière
 ^^^^^^^^^^^^^^
 
-TODO
+Une unité foncière (UF) est le regroupement des parcelles contiguës et appartenant à un même compte propriétaire.
+
+La fiche d'information sur une unité foncière permet de présenter l'ensemble des informations descriptives de cette unité foncière :
+
+* propriétaire(s)
+* contenance DGFiP, surfaces calculées, pourcentage de la surface bâtie
+* liste des parcelles composant l'unité foncière
+
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
++=============================+==============+=================================+========+========+========+=========================================================================================+
+|  Carte                      |              |  Afficher les couches de la     |    X   |    X   |    X   |  GET /geowebcache/service/wms?LAYERS={layers}&…                                         |
+|                             |              |  carte courante                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Informations sur l'UF      |              |  Infos sur l'UF                 |    X   |    X   |    X   |  GET /cadastrapp/services/getInfoUniteFonciere?parcelle={code}                          |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Calculer le pourcentage de     |    X   |    X   |    X   |                                                                                         |
+|                             |              |  la surface bâtie               |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Infos sur le(s)            |              |  Infos sur le(s) propriétaire(s)|        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?details=2&comptecommunal={code}               |
+|  propriétaire(s)            |              |                                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Infos sur les parcelles    |              |  Infos sur les parcelles        |    X   |    X   |    X   |  GET /cadastrapp/services/getParcelle?unitefonciere={code}                              |
+|                             |              |                                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+
 
 
 Module de demande d'information foncière
