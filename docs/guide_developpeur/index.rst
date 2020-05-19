@@ -98,8 +98,7 @@ La recherche de propriétaires se fait via un formulaire qui propose 3 onglets q
 +=============================+==============+=================================+========+========+========+=========================================================================================+
 |  Recherche par nom d'usage  |      X       |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
 |                             |              |                                 |        |        |        |                                                                                         |
-|  ou nom de naissance        |              |                                 |        |        |        |                                                                                         |
-|                             |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|  ou nom de naissance        |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
 |                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |                             |              |  Recherche par nom d'usage      |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
 |                             |              |                                 |        |        |        |                                                                                         |
@@ -377,7 +376,92 @@ La fiche d'information sur une unité foncière permet de présenter l'ensemble 
 Module de demande d'information foncière
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TODO
+Le module de demande d'information foncière permet de gérer les demandes d'informations tout en respectant la réglementation.
+
+TODO : vérifier les droits niveaux CNIL
+
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Fonctionnalité             |  Responsive  |  Action                         | CNIL 0 | CNIL 1 | CNIL 2 |  Appel API                                                                              |
++=============================+==============+=================================+========+========+========+=========================================================================================+
+|  Vérifier si le demandeur   |              |  Récupérer infos de contrôle    |        |    X   |    X   |  GET /cadastrapp/services/checkRequestLimitation?cni={string}&type={A|P1|P2|P3}         |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  est en droit de faire une  |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  nouvelle demande           |              |                                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Parcelle par référence     |              |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Sélectionner une section       |        |    X   |    X   |  GET /cadastrapp/services/getSection?cgocommune={code}                                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Sélectionner une parcelle      |        |    X   |    X   |  GET /cadastrapp/services/getDnuplaList?cgocommune={code}&ccopre={code}&ccosec={code}   |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Parcelle par identifiant   |              |  -                              |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Propriétaire par           |              |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  nom d'usage                |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Recherche par nom d'usage      |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &ddenom={string}&birthsearch=false                                                     |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Propriétaire par           |              |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  nom de naissance           |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Recherche par nom d'usage      |        |    X   |    X   |  GET /cadastrapp/services/getProprietaire?cgocommune={code}                             |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &ddenom={string}&birthsearch=true                                                      |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Propriétaire par           |              |  -                              |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  identifiant                |              |                                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Copropriété                |              |  -                              |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Lot de copropriété         |              |  Sélectionner une commune       |        |    X   |    X   |  GET /cadastrapp/services/getCommune?libcom={string}                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  GET /cadastrapp/services/getCommune?cgocommune={string}                                |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Sélectionner une section       |        |    X   |    X   |  GET /cadastrapp/services/getSection?cgocommune={code}                                  |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Sélectionner une parcelle      |        |    X   |    X   |  GET /cadastrapp/services/getDnuplaList?cgocommune={code}&ccopre={code}&ccosec={code}   |
+|                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|                             |              |  Sélectionner un co-propriétaire|        |    X   |    X   |  GET /cadastrapp/services/getProprietairesByInfoParcelles?                              |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  commune={code}&section={code}&numero={code}&ddenom={string}                            |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Sauvegarder les informa-   |              |  Envoyer au serveur             |        |    X   |    X   |  GET /cadastrapp/services/getParcelle?/saveInformationRequest?type={A|P1|P2|P3}         |
+|                             |              |                                 |        |        |        |                                                                                         |
+|  tions sur la demande       |              |                                 |        |        |        |  &cni={string}                                                                          |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &lastname={string}&firstname={string}&adress={string}                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &commune={string}&codepostal={string}                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &mail={string}                                                                         |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &parcelleIds={string}                                                                  |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &comptecommunaux={string}                                                              |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &coproprietes={string}                                                                 |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &parcelles={string}                                                                    |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &proprietaires={string}                                                                |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &proprietaireLots={string}                                                             |
+|                             |              |                                 |        |        |        |                                                                                         |
+|                             |              |                                 |        |        |        |  &responseby={1|2|3}&askby={1|2|3}                                                      |
+|                             |              |                                 |        |        |        |                                                                                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Imprimer la demande        |              |  Récupérer le formulaire PDF    |        |    X   |    X   |  GET /cadastrapp/services/printPDFRequest?requestid={code}                              |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
+|  Récupérer les documents    |              |  Récupérer le(s) PDF            |        |    X   |    X   |  GET /cadastrapp/services/createDemandeFromObj?requestid={code}                         |
++-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 
 
 Notes
