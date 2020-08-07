@@ -1,0 +1,3 @@
+[submodule "addons/mapstore2-cadastrapp"]
+	path = addons/mapstore2-cadastrapp
+	url = https://github.com/georchestra/mapstore2-cadastrapp
