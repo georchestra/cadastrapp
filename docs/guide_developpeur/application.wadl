@@ -1,0 +1,454 @@
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <grammars/>
+    <resources base="/">
+        <resource path="/">
+            <resource path="getBatiments">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" style="query" type="xs:string"/>
+                        <param name="dnubat" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getBatimentsByParcelle">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="getCommune/">
+                <method name="GET">
+                    <request>
+                        <param name="libcom" style="query" type="xs:string"/>
+                        <param name="cgocommune" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <doc>Parcelle controller expose all rest service for plots information</doc>
+            <resource path="exportParcellesAsCSV">
+                <method name="POST">
+                    <request>
+                        <representation mediaType="application/x-www-form-urlencoded">
+                            <param name="parcelles" style="query" type="xs:string"/>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="text/csv"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="fromParcellesFile">
+                <method name="POST">
+                    <doc>Service witch use csv file as input</doc>
+                    <request>
+                        <representation mediaType="multipart/form-data">
+                            <param name="filePath" style="query" type="xs:string">
+                                <doc>parcelleId separated by space, ',' or ';'</doc>
+                            </param>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="*/*">
+                            <doc>Json data, with corresponding parcelleId information</doc>
+                        </representation>
+                    </response>
+                </method>
+            </resource>
+            <resource path="fromProprietairesFile">
+                <method name="POST">
+                    <doc>Get export of parcelle for given comptecommunal</doc>
+                    <request>
+                        <representation mediaType="multipart/form-data">
+                            <param default="0" name="details" style="query" type="xs:int">
+                                <doc>1 to have detailed information</doc>
+                            </param>
+                            <param name="cgocommune" style="query" type="xs:string">
+                                <doc>cgocommune information from form</doc>
+                            </param>
+                            <param name="filePath" style="query" type="xs:string">
+                                <doc>file content</doc>
+                            </param>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="*/*">
+                            <doc>form validation</doc>
+                        </representation>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getDnuplaList">
+                <method name="GET">
+                    <request>
+                        <param name="cgocommune" style="query" type="xs:string"/>
+                        <param name="ccopre" style="query" type="xs:string"/>
+                        <param name="ccosec" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getParcelle">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" repeating="true" style="query" type="xs:string"/>
+                        <param default="0" name="details" style="query" type="xs:int"/>
+                        <param name="cgocommune" style="query" type="xs:string"/>
+                        <param name="ccopre" style="query" type="xs:string"/>
+                        <param name="ccosec" style="query" type="xs:string"/>
+                        <param name="dnupla" style="query" type="xs:string"/>
+                        <param name="dnvoiri" style="query" type="xs:string"/>
+                        <param name="dlindic" style="query" type="xs:string"/>
+                        <param name="cconvo" style="query" type="xs:string"/>
+                        <param name="dvoilib" style="query" type="xs:string"/>
+                        <param name="comptecommunal" repeating="true" style="query" type="xs:string"/>
+                        <param default="0" name="unitefonciere" style="query" type="xs:int"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getParcelle">
+                <method name="POST">
+                    <request>
+                        <representation mediaType="application/x-www-form-urlencoded">
+                            <param name="parcelle" repeating="true" style="query" type="xs:string"/>
+                            <param default="0" name="details" style="query" type="xs:int"/>
+                            <param name="cgocommune" style="query" type="xs:string"/>
+                            <param name="ccopre" style="query" type="xs:string"/>
+                            <param name="ccosec" style="query" type="xs:string"/>
+                            <param name="dnupla" style="query" type="xs:string"/>
+                            <param name="dnvoiri" style="query" type="xs:string"/>
+                            <param name="dlindic" style="query" type="xs:string"/>
+                            <param name="cconvo" style="query" type="xs:string"/>
+                            <param name="dvoilib" style="query" type="xs:string"/>
+                            <param name="comptecommunal" repeating="true" style="query" type="xs:string"/>
+                            <param default="0" name="unitefonciere" style="query" type="xs:int"/>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="exportProprietaireByParcelles">
+                <method name="POST">
+                    <request>
+                        <representation mediaType="application/x-www-form-urlencoded">
+                            <param name="parcelles" style="query" type="xs:string"/>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="text/csv"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getProprietaire">
+                <method name="GET">
+                    <request>
+                        <param name="dnomlp" style="query" type="xs:string"/>
+                        <param name="cgocommune" style="query" type="xs:string"/>
+                        <param name="dnupro" repeating="true" style="query" type="xs:string"/>
+                        <param name="comptecommunal" style="query" type="xs:string"/>
+                        <param name="globalname" style="query" type="xs:string"/>
+                        <param name="ddenom" style="query" type="xs:string"/>
+                        <param default="false" name="birthsearch" style="query" type="xs:boolean"/>
+                        <param default="0" name="details" style="query" type="xs:int"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getProprietairesByInfoParcelles">
+                <method name="GET">
+                    <request>
+                        <param name="commune" style="query" type="xs:string"/>
+                        <param name="section" style="query" type="xs:string"/>
+                        <param name="numero" style="query" type="xs:string"/>
+                        <param name="ddenom" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getProprietairesByParcelles">
+                <method name="GET">
+                    <request>
+                        <param name="parcelles" repeating="true" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <doc>Service to get co owners information</doc>
+            <resource path="exportCoProprietaireByParcelles">
+                <method name="POST">
+                    <request>
+                        <representation mediaType="application/x-www-form-urlencoded">
+                            <param name="parcelles" style="query" type="xs:string"/>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="text/csv"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="exportLotsAsCSV">
+                <method name="POST">
+                    <request>
+                        <representation mediaType="application/x-www-form-urlencoded">
+                            <param name="parcelle" style="query" type="xs:string"/>
+                            <param name="dnubat" style="query" type="xs:string"/>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="text/csv"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="exportLotsAsPDF">
+                <method name="POST">
+                    <request>
+                        <representation mediaType="application/x-www-form-urlencoded">
+                            <param name="parcelle" style="query" type="xs:string"/>
+                            <param name="dnubat" style="query" type="xs:string"/>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="application/pdf"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getCoProprietaire">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" style="query" type="xs:string"/>
+                        <param default="0" name="start" style="query" type="xs:int"/>
+                        <param default="25" name="limit" style="query" type="xs:int"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getCoProprietaireList">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" style="query" type="xs:string"/>
+                        <param name="comptecommunal" style="query" type="xs:string"/>
+                        <param name="cgocommune" style="query" type="xs:string"/>
+                        <param name="ddenom" style="query" type="xs:string"/>
+                        <param default="0" name="details" style="query" type="xs:int"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="getSection">
+                <method name="GET">
+                    <request>
+                        <param name="cgocommune" style="query" type="xs:string"/>
+                        <param name="ccopre" style="query" type="xs:string"/>
+                        <param name="ccosec" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="getInfoBulle">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" style="query" type="xs:string"/>
+                        <param default="1" name="infocadastrale" style="query" type="xs:int"/>
+                        <param default="1" name="infouf" style="query" type="xs:int"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getInfoUniteFonciere">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="getInfobulleParcelle">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="getFIC">
+                <method name="GET">
+                    <request>
+                        <param name="parcelle" style="query" type="xs:string"/>
+                        <param name="onglet" style="query" type="xs:int"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="getVoie">
+                <method name="GET">
+                    <request>
+                        <param name="cgocommune" style="query" type="xs:string"/>
+                        <param name="dvoilib" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="createBordereauParcellaire">
+                <method name="GET">
+                    <doc>This will create a PDF file using apache FOP framework,
+ data is retrieved from database and a FO is created using the xsl template.
+ Once the fo file is create we then create the PDF file</doc>
+                    <request>
+                        <param name="parcelle" repeating="true" style="query" type="xs:string"/>
+                        <param default="0" name="personaldata" style="query" type="xs:int"/>
+                        <param default="0" name="basemapindex" style="query" type="xs:int">
+                            <doc>corresponding of the wanted index in cadastrapp.properties</doc>
+                        </param>
+                        <param default="#1446DE" name="fillcolor" style="query" type="xs:string">
+                            <doc>style plot color</doc>
+                        </param>
+                        <param default="0.50" name="opacity" style="query" type="xs:float">
+                            <doc>style plot opacity</doc>
+                        </param>
+                        <param default="#10259E" name="strokecolor" style="query" type="xs:string">
+                            <doc>style stroke color</doc>
+                        </param>
+                        <param default="2" name="strokewidth" style="query" type="xs:int">
+                            <doc>style stroke width</doc>
+                        </param>
+                    </request>
+                    <response>
+                        <representation mediaType="application/pdf">
+                            <doc>BP pdf</doc>
+                        </representation>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="createRelevePropriete">
+                <method name="GET">
+                    <doc>Create a PDF using a list of comptecommunal</doc>
+                    <request>
+                        <param name="compteCommunal" repeating="true" style="query" type="xs:string">
+                            <doc>List of ids proprietaires</doc>
+                        </param>
+                        <param name="parcelleId" style="query" type="xs:string">
+                            <doc>plot id</doc>
+                        </param>
+                    </request>
+                    <response>
+                        <representation mediaType="application/pdf">
+                            <doc>pdf generated RP with database information</doc>
+                        </representation>
+                    </response>
+                </method>
+            </resource>
+            <resource path="createReleveProprieteAsCSV">
+                <method name="GET">
+                    <doc>Create a zip file, containint several csv using a list of comptecommunal</doc>
+                    <request>
+                        <param name="compteCommunal" repeating="true" style="query" type="xs:string">
+                            <doc>List of ids proprietaires</doc>
+                        </param>
+                        <param name="parcelleId" style="query" type="xs:string">
+                            <doc>plot id</doc>
+                        </param>
+                    </request>
+                    <response>
+                        <representation mediaType="application/zip">
+                            <doc>zip containing csv file</doc>
+                        </representation>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="createDemandeFromObj">
+                <method name="GET">
+                    <doc>Create a PDF using a request id</doc>
+                    <request>
+                        <param name="requestid" style="query" type="xs:long">
+                            <doc>user request Id</doc>
+                        </param>
+                    </request>
+                    <response>
+                        <representation mediaType="application/pdf">
+                            <doc>pdf demande resume</doc>
+                        </representation>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/">
+            <resource path="getImageFromDataDir">
+                <method name="POST">
+                    <doc>Get image from datadir for given image name</doc>
+                    <request>
+                        <representation mediaType="*/*">
+                            <param name="request" style="plain" type="xs:string">
+                                <doc>to find this image into datadir</doc>
+                            </param>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="*/*">
+                            <doc>Response that contain File</doc>
+                        </representation>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+    </resources>
+</application>
