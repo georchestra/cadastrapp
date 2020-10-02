@@ -27,6 +27,7 @@ Table des matières
 
    guide_utilisateur/index
    guide_administrateur/index
+   guide_installation/index
    guide_developpeur/index
 
 
