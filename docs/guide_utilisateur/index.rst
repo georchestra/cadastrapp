@@ -2,16 +2,6 @@
 Guide utilisateur
 ======================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
 
  
- loremp ipsum
- 
-
-titre 1
-^^^^^^^
-
-titre 2
-^^^^^^^
+TODO
