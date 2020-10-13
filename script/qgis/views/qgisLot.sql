@@ -11,7 +11,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.lot AS
 				ltrim(l.dnulot, ''0'') as dnulot,
 				ltrim(l.dnumql, ''0'') as dnumql,
 				ltrim(l.ddenql, ''0'') as ddenql
-			from #DBSchema_qgis.lotslocaux l where ddenql not like ''0000000''
+			from #DBSchema_qgis.lotslocaux l
 			'::text) 
 		lot(
 			id_local character varying(17),
