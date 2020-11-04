@@ -22,7 +22,7 @@
     <hibernate-version>4.1.7.Final</hibernate-version>
     <hibernate-annotations-version>4.0.1.Final</hibernate-annotations-version>
     <geotools.version>9.2</geotools.version>
-    <pdfbox.version>2.0.17</pdfbox.version>
+    <pdfbox.version>2.0.21</pdfbox.version>
     <quartz.version>2.3.0</quartz.version>
   </properties>
   <repositories>
