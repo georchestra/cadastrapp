@@ -219,7 +219,11 @@ public class CadController {
 					queryFilter.append(" ) ");
 				}
 				if(!communes.isEmpty()){
-					queryFilter.append(" AND ");
+					if(!deps.isEmpty()) {
+						queryFilter.append(" OR ");
+					} else {
+						queryFilter.append(" AND ");
+					}
 					queryFilter.append(tableAlias);
 					queryFilter.append("cgocommune IN (");
 					queryFilter.append(createListToStringQuery(communes));					
