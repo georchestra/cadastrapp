@@ -201,9 +201,9 @@ public class CadController {
 				}
 				
 	
+				queryFilter.append(" AND ( ");
 				// If table contains cgocommune
 				if(!deps.isEmpty()){
-					queryFilter.append(" AND ( ");
 					boolean isFirstDep = true;
 					for (String dep : deps){
 						if(!isFirstDep){
@@ -216,19 +216,20 @@ public class CadController {
 							isFirstDep = false;
 						}
 					}		
-					queryFilter.append(" ) ");
 				}
 				if(!communes.isEmpty()){
 					if(!deps.isEmpty()) {
 						queryFilter.append(" OR ");
-					} else {
-						queryFilter.append(" AND ");
 					}
 					queryFilter.append(tableAlias);
 					queryFilter.append("cgocommune IN (");
 					queryFilter.append(createListToStringQuery(communes));					
 					queryFilter.append(" ) ");
 				}			
+				queryFilter.append(" ) ");
+				if(logger.isDebugEnabled()){
+					logger.debug("Resulting geographical SQL filter : " + queryFilter.toString());
+				}
 			}			
 		}
 		else{
