@@ -73,26 +73,29 @@ jobs:
 
 
     - name: Calculating docker image tag
+      if: github.repository == 'georchestra/cadastrapp'
       id: version
       run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
     - name: build a docker image
+      if: github.repository == 'georchestra/cadastrapp'
       run: mvn -B clean package docker:build -pl cadastrapp -Pdocker -DdockerImageName=georchestra/cadastrapp:${{ steps.version.outputs.VERSION }}
 
     - name: "Logging in docker.io"
+      if: github.repository == 'georchestra/cadastrapp'
       uses: azure/docker-login@v1
       with:
         username: '${{ secrets.DOCKER_HUB_USERNAME }}'
         password: '${{ secrets.DOCKER_HUB_PASSWORD }}'
 
     - name: "Pushing latest to docker.io"
-      if: github.ref == 'refs/heads/master'
+      if: github.repository == 'georchestra/cadastrapp' && github.ref == 'refs/heads/master'
       run: |
         docker tag georchestra/cadastrapp:${{ steps.version.outputs.VERSION }} georchestra/cadastrapp:latest
         docker push georchestra/cadastrapp:latest
 
     - name: "Pushing release tag to docker.io"
-      if: contains(github.ref, 'refs/tags/')
+      if: github.repository == 'georchestra/cadastrapp' && contains(github.ref, 'refs/tags/')
       run: |
         docker push georchestra/cadastrapp:${{ steps.version.outputs.VERSION }}
 
