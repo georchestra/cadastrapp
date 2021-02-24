@@ -158,8 +158,8 @@ GEOR.Addons.Cadastre.showHabitationDetails = function(batiment, niveau, porte, a
           article60Details.dnblav &&  article60Details.dnblav!='00' ? details = details + '<div>' + article60Details.dnblav.replace(/^0+/, '') + ' Lavabo(s)</div>' : null; 
           article60Details.dnbwc &&  article60Details.dnbwc!='00' ? details = details +  '<div>' + article60Details.dnbwc.replace(/^0+/,'' ) + ' WC</div>'  : null; 
           article60Details.geaulc &&  article60Details.geaulc=='0' ? details = details + '<div>Eau</div>' : null; 
-          article60Details.gelelc &&  article60Details.gelelc=='0'  ? details = details + '<div>Electricité</div>'  : null;  
-          article60Details.gchclc &&  article60Details.gchclc=='0'  ? details = details + '<div>Chauffage centrale</div>' : null; ;
+          article60Details.gelelc &&  article60Details.gelelc=='0'  ? details = details + '<div>Électricité</div>'  : null;  
+          article60Details.gchclc &&  article60Details.gchclc=='0'  ? details = details + '<div>Chauffage central</div>' : null; ;
           
           
           return  new Ext.Panel({
