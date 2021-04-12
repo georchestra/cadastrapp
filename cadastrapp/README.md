@@ -6,7 +6,7 @@ This is a simple maven project, mvn clean install will build a war to be deploye
 This application is made to be installed behind GeOrchestra security proxy. To install georchestra please check :  https://github.com/georchestra/georchestra/
 
 
-##  Setup middleware (tomcat6, apache) :
+##  Setup middleware (tomcat8-9, apache) :
 	- once georchestra is up and working you have to choise:
 		1 - Create a new instance of tomcat6 for this additional webapplication
 		2 - Add this application in existing tomcat6 instance ( for exemple tomcat-georchestra)
