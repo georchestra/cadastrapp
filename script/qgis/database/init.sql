@@ -15,7 +15,8 @@ CREATE DATABASE #dbname_qgis
        TABLESPACE = pg_default
        LC_COLLATE = 'fr_FR.UTF-8'
        LC_CTYPE = 'fr_FR.UTF-8'
-       CONNECTION LIMIT = -1;
+       CONNECTION LIMIT = -1
+       TEMPLATE = template0;
 
 \connect #dbname_qgis;
 
