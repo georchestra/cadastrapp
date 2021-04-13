@@ -11,7 +11,8 @@ echo ""
 
 # Suppression des tables
 echo "  Suppression des tables"
-# TODO
+replaceAndLaunch sql/tables_drop.sql
+echo "    Fait"
 
 echo ""
 
