@@ -52,6 +52,7 @@ replaceAndLaunch (){
   
   cat $1 | sed "{
     s/#schema_cadastrapp/$cadastrappDBSchema/g
+    s/#user_cadastrapp/$cadastrappDBUser/g
   }" |\
   PGPASSWORD=$cadastrappDBPassword psql -h $cadastrappDBHost -p $cadastrappDBPort -d $cadastrappDBName -U $cadastrappDBUser 
 
@@ -63,9 +64,10 @@ replaceAndLaunch (){
 
 # on purge la BD cadastrapp existante
 . purge_db.sh
+#read -p "  pause"
 
 # on recrée les tables
-# TODO
+. create_tables.sh
 
 # on remplit les tables
 # TODO
