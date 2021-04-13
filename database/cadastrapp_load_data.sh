@@ -11,7 +11,7 @@ echo ""
 echo "  version : $git_version" 
 echo ""
 echo "--------------------------------------------------------------"
-echo " lecture du fichier de configuration"
+echo " Lecture du fichier de configuration"
 echo "--------------------------------------------------------------"
 echo ""
 
@@ -34,7 +34,26 @@ fi
 
 echo ""
 read -p "  Si ces infos sont exactes : appuyer sur la touche [Entrée] sinon faire ctrl + C pour arrêter."
+echo ""
 
+
+# test de connection aux bases de données
+# TODO
+
+# on purge la BD cadastrapp existante
+. purge_db.sh
+
+# on recrée les tables
+# TODO
+
+# on remplit les tables
+# TODO
+
+# on recrée les vues
+# TODO
+
+# on fait un bilan
+# TODO
 
 echo ""
 echo "--------------------------------------------------------------"
