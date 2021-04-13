@@ -24,6 +24,8 @@ if [ "$uniqueDB" = True ] ; then
 elif [ "$uniqueDB" = False ] ; then
   # Suppression des vues matérialisées
   echo "  Suppression des vues matérialisées"
-  # TODO
+  replaceAndLaunch sql/vues_materialisees/_drop.sql
+  echo "    Fait"
 
 fi
+
