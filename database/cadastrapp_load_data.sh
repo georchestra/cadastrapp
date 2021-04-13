@@ -51,7 +51,7 @@ replaceAndLaunch (){
   fi
   
   cat $1 | sed "{
-    s/#cadastrappDBSchema/$cadastrappDBSchema/g
+    s/#schema_cadastrapp/$cadastrappDBSchema/g
   }" |\
   PGPASSWORD=$cadastrappDBPassword psql -h $cadastrappDBHost -p $cadastrappDBPort -d $cadastrappDBName -U $cadastrappDBUser 
 
