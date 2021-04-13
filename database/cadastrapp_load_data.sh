@@ -37,6 +37,27 @@ read -p "  Si ces infos sont exactes : appuyer sur la touche [Entrée] sinon fai
 echo ""
 
 
+#
+# cette fonction permet de remplacer les infos de connection
+# avant exécution
+#
+replaceAndLaunch (){
+    
+  if [ -z "$1" ] || [ ! -e $1 ] ; then
+    echo "Le fichier SQL $1 n'existe pas."
+    exit 1
+  else
+    echo "    Exécution du fichier : $1"
+  fi
+  
+  cat $1 | sed "{
+    s/#cadastrappDBSchema/$cadastrappDBSchema/g
+  }" |\
+  PGPASSWORD=$cadastrappDBPassword psql -h $cadastrappDBHost -p $cadastrappDBPort -d $cadastrappDBName -U $cadastrappDBUser 
+
+}
+
+
 # test de connection aux bases de données
 # TODO
 
