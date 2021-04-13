@@ -1,4 +1,6 @@
 
+database/config.sh
+
 .DS_Store
 docs/_build/
 docs/rsync.bash
