@@ -20,5 +20,6 @@ cadastrappDBUser=cadastrapp_user
 cadastrappDBPassword=cadastrapp_mdp
 
 # le schéma cadastrapp et le schéma cadastre_qgis sont dans la même base de données
+# True / False
 uniqueDB=True
 
