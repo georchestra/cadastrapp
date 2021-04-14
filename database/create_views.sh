@@ -20,6 +20,7 @@ replaceAndLaunch sql/vues_dblink/ProprieteNonBatieSufExo.sql
 replaceAndLaunch sql/vues_dblink/Section.sql
 replaceAndLaunch sql/vues_dblink/HabitationDetails.sql
 replaceAndLaunch sql/vues_dblink/Lot.sql
+replaceAndLaunch sql/vues_dblink/uf_parcelle.sql
 
 echo "    Fait"
 

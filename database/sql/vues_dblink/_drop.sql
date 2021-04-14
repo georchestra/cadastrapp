@@ -24,3 +24,4 @@ DROP MATERIALIZED VIEW IF EXISTS #schema_cadastrapp.descproffessionnel;
 DROP MATERIALIZED VIEW IF EXISTS #schema_cadastrapp.descdependance;
 DROP MATERIALIZED VIEW IF EXISTS #schema_cadastrapp.deschabitation;
 
+DROP MATERIALIZED VIEW IF EXISTS #schema_cadastrapp.uf_parcelle CASCADE ;

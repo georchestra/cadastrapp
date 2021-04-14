@@ -2,8 +2,6 @@
 -- ces requêtes suppriment les tables existantes
 -- SAUF les tables de demandes foncières
 
-DROP TABLE #schema_cadastrapp.uf_parcelle CASCADE ;
-
 DROP TABLE #schema_cadastrapp.prop_bati_detent CASCADE ;
 DROP TABLE #schema_cadastrapp.prop_type_filiation CASCADE ;
 DROP TABLE #schema_cadastrapp.prop_ccocac CASCADE ;
