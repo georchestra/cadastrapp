@@ -76,7 +76,7 @@ replaceAndLaunch (){
 . create_tables.sh
 
 # on remplit les tables
-# TODO
+# les tables sont remplies à l'étape d'avant
 
 # on recrée les vues
 . create_views.sh
