@@ -23,3 +23,13 @@ replaceAndLaunch sql/vues_dblink/Lot.sql
 
 echo "    Fait"
 
+
+echo "--------------------------------------------------------------"
+echo " Création des indexes sur les vues matérialisées"
+echo "--------------------------------------------------------------"
+echo ""
+
+replaceAndLaunch sql/indexes/indexes_vues_materialisees.sql
+
+echo "    Fait"
+
