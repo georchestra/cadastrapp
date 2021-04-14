@@ -9,23 +9,15 @@ echo " Purge de la BD $cadastrappDBName"
 echo "--------------------------------------------------------------"
 echo ""
 
+# Suppression des vues matérialisées
+# avant les tables car il y a des dépendances
+echo "  Suppression des vues matérialisées"
+replaceAndLaunch sql/vues_materialisees/_drop.sql
+echo "    Fait"
+
 # Suppression des tables
 echo "  Suppression des tables"
 replaceAndLaunch sql/tables/_drop.sql
 echo "    Fait"
 
 echo ""
-
-if [ "$uniqueDB" = True ] ; then
-  # Suppression des vues simples
-  echo "  Suppression des vues simples"
-  # TODO
-
-elif [ "$uniqueDB" = False ] ; then
-  # Suppression des vues matérialisées
-  echo "  Suppression des vues matérialisées"
-  replaceAndLaunch sql/vues_materialisees/_drop.sql
-  echo "    Fait"
-
-fi
-
