@@ -42,7 +42,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS
 			ltrim(parcelle.dnvoiri, ''0'') as dnvoiri,
 			parcelle.dindic,
 			parcelle.cconvo,
-			rtrim(parcelle.dvoilib),
+			rtrim(parcelle.dvoilib) as dvoilib,
 			COALESCE(ltrim(parcelle.ccopre),ltrim(substr(geo_parcelle.geo_parcelle,7,3),''0'')) as ccopre,
 			COALESCE(ltrim(ccosec),ltrim(substr(geo_parcelle.geo_parcelle,10,2),''0'')) as ccosec,
 			COALESCE(parcelle.dcntpa,CAST(geo_parcelle.supf AS integer)) as dcntpa
