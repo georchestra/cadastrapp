@@ -12,7 +12,7 @@ echo ""
 # Suppression des vues matérialisées
 # avant les tables car il y a des dépendances
 echo "  Suppression des vues matérialisées"
-replaceAndLaunch sql/vues_materialisees/_drop.sql
+replaceAndLaunch sql/vues_dblink/_drop.sql
 echo "    Fait"
 
 # Suppression des tables

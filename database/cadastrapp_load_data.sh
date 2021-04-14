@@ -53,6 +53,12 @@ replaceAndLaunch (){
   cat $1 | sed "{
     s/#schema_cadastrapp/$cadastrappDBSchema/g
     s/#user_cadastrapp/$cadastrappDBUser/g
+    s/#DBHost_qgis/$qgisDBHost/g
+    s/#DBPort_qgis/$qgisDBPort/g
+    s/#DBName_qgis/$qgisDBName/g
+    s/#DBSchema_qgis/$qgisDBSchema/g
+    s/#DBUser_qgis/$qgisDBUser/g
+    s/#DBpasswd_qgis/$qgisDBPassword/g
   }" |\
   PGPASSWORD=$cadastrappDBPassword psql -h $cadastrappDBHost -p $cadastrappDBPort -d $cadastrappDBName -U $cadastrappDBUser 
 
@@ -73,7 +79,7 @@ replaceAndLaunch (){
 # TODO
 
 # on recrée les vues
-# TODO
+. create_views.sh
 
 # on fait un bilan
 # TODO
