@@ -58,5 +58,9 @@ Sous linux :
 * exécuter le script `cadastrapp_load_data.sh`
 
 
+## Mise à jour des données
 
+Sous linux :
+* aller dans le répertoire `database`
+* exécuter le script `cadastrapp_update_data.sh`
 
