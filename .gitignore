@@ -6,3 +6,4 @@ docs/_build/
 docs/rsync.bash
 cadastrapp/target/*
 addons/cadastrapp/js/build/cadastrapp.js
+database/test.sh
