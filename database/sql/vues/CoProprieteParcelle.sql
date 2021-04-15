@@ -1,6 +1,6 @@
 -- Create view making link beetween parcelle, owners and lots based on Qgis Models
 
-DROP MATERIALIZED VIEW #schema_cadastrapp.co_propriete_parcelle ;
+-- DROP MATERIALIZED VIEW #schema_cadastrapp.co_propriete_parcelle ;
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.co_propriete_parcelle AS 
 	SELECT
