@@ -11,8 +11,16 @@ echo ""
 
 # Suppression des vues matérialisées
 # avant les tables car il y a des dépendances
+
 echo "  Suppression des vues matérialisées"
-replaceAndLaunch sql/vues_dblink/_drop.sql
+
+if [ "$uniqueDB" = True ] ; then
+  replaceAndLaunch sql/vues/_drop.sql
+
+elif [ "$uniqueDB" = False ] ; then  
+  replaceAndLaunch sql/vues_dblink/_drop.sql
+fi
+
 echo "    Fait"
 
 # Suppression des tables
