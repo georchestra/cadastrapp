@@ -116,7 +116,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 				WHEN gtoper = ''2'' THEN rtrim(ddenom)
 			END AS app_nom_usage,
 			CASE
-				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomlp)),'''')||'' ''||COALESCE(rtrim(dprnlp),'''')
+				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||COALESCE(rtrim(dnomlp),'''')||'' ''||COALESCE(rtrim(dprnlp),'''')
 				WHEN gtoper = ''2'' THEN trim(ddenom)
 			END AS app_nom_naissance
 		from #DBSchema_qgis.proprietaire pqgis'::text)
