@@ -1,6 +1,6 @@
 -- Create view proprietaire based on Qgis Models
 
--- DROP MATERIALIZED VIEW #schema_cadastrapp.proprietaire ;
+--DROP MATERIALIZED VIEW IF EXISTS #schema_cadastrapp.proprietaire ;
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS 
 	SELECT
@@ -117,10 +117,11 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 			pqgis.comptecommunal, 
 			CASE
 				WHEN gtoper = '1' THEN COALESCE(rtrim(dqualp),'')||' '||COALESCE(rtrim(dnomus),'')||' '||COALESCE(rtrim(dprnus),'')
-				WHEN gtoper = '2' THEN rtrim(ddenom)
+				WHEN gtoper = '2' THEN trim(ddenom)
 			END AS app_nom_usage,
 			CASE
-				WHEN gtoper = '1' THEN COALESCE(rtrim(dqualp),'')||' '||REPLACE(rtrim(ddenom),'/',' ')
+				WHEN gtoper = '1' THEN COALESCE(rtrim(dqualp),'')||' '||COALESCE(rtrim(dnomlp),'')||' '||COALESCE(rtrim(dprnlp),'')
+				WHEN gtoper = '2' THEN trim(ddenom)
 			END AS app_nom_naissance,
 			prop_ccodro.ccodro,
 			prop_ccodro.ccodro_lib,
