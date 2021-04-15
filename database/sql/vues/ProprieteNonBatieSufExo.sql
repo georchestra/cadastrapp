@@ -1,6 +1,6 @@
 -- Create view proprietenonbatiesufexo based on Qgis Models
 
--- Create view proprietenonbatiesufexo based on Qgis Models
+-- DROP MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo ;
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS 
 	SELECT 
@@ -15,8 +15,9 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 		proprietenonbatiesufexo.rcexnba, -- Revenu cadastral exonéré, en valeur de l’année
 		proprietenonbatiesufexo.fcexn, 
 		proprietenonbatiesufexo.pexn -- Pourcentage d’exonération
-	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
-		'select 
+	FROM 
+	(
+		SELECT 
 			p.parcelle,
 			sufex.suf as id_local,
 			p.comptecommunal,
@@ -28,21 +29,10 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			sufex.rcexnba as rcexnba,
 			sufex.fcexn,
 			sufex.pexn/100 as pexn
-		from #DBSchema_qgis.parcelle p
-			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
-			left join #DBSchema_qgis.sufexoneration as sufex on sufex.suf=suf.suf'::text)
-	proprietenonbatiesufexo(
-		parcelle character varying(19),
-		id_local character varying(21),  
-		comptecommunal character varying(15), 
- 		cgocommune character varying(6), 
- 		ccolloc character varying(2), 
- 		gnexts character varying(2), 
- 		jandeb character varying(4),
- 		jfinex character varying(4), 
- 		rcexnba numeric(10,2), 
- 		fcexn character varying(10),
- 		pexn integer);
+		FROM #DBSchema_qgis.parcelle p
+			LEFT JOIN #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
+			LEFT JOIN #DBSchema_qgis.sufexoneration as sufex on sufex.suf=suf.suf
+	) AS proprietenonbatiesufexo ;
 
 
 ALTER TABLE #schema_cadastrapp.proprietenonbatiesufexo OWNER TO #user_cadastrapp;
