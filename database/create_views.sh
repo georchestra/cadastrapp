@@ -14,15 +14,15 @@ if [ "$uniqueDB" = True ] ; then
   replaceAndLaunch sql/vues/commune.sql
   replaceAndLaunch sql/vues/Section.sql
   replaceAndLaunch sql/vues/Parcelle.sql
-  # replaceAndLaunch sql/vues/Proprietaire.sql
-  # replaceAndLaunch sql/vues/CoProprieteParcelle.sql
-  # replaceAndLaunch sql/vues/ProprietaireParcelle.sql
-  # replaceAndLaunch sql/vues/ProprieteBatie.sql
-  # replaceAndLaunch sql/vues/ProprieteNonBatie.sql
-  # replaceAndLaunch sql/vues/ProprieteNonBatieSufExo.sql
-  # replaceAndLaunch sql/vues/HabitationDetails.sql
-  # replaceAndLaunch sql/vues/Lot.sql
-  # replaceAndLaunch sql/vues/uf_parcelle.sql
+  replaceAndLaunch sql/vues/Proprietaire.sql
+  replaceAndLaunch sql/vues/CoProprieteParcelle.sql
+  replaceAndLaunch sql/vues/ProprietaireParcelle.sql
+  replaceAndLaunch sql/vues/ProprieteBatie.sql
+  replaceAndLaunch sql/vues/ProprieteNonBatie.sql
+  replaceAndLaunch sql/vues/ProprieteNonBatieSufExo.sql
+  replaceAndLaunch sql/vues/HabitationDetails.sql
+  replaceAndLaunch sql/vues/Lot.sql
+  replaceAndLaunch sql/vues/uf_parcelle.sql
 
 elif [ "$uniqueDB" = False ] ; then
 

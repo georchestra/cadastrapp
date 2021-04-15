@@ -66,11 +66,12 @@ replaceAndLaunch (){
 
 
 # test de connection aux bases de données
+# notamment que cadastrappDBUser puisse lire dans qgisDBSchema
 # TODO
 
 # on purge la BD cadastrapp existante
 . purge_db.sh
-#read -p "  pause"
+#read -p "  pause pour vérifier que la BD est bien vide"
 
 # on recrée les tables
 . create_tables.sh
