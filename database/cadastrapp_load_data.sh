@@ -82,6 +82,9 @@ replaceAndLaunch (){
 # on recrée les vues
 . create_views.sh
 
+# on applique les commentaires
+. create_comments.sh
+
 # on fait un bilan
 # TODO
 

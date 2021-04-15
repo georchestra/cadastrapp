@@ -178,8 +178,3 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 
 ALTER TABLE #schema_cadastrapp.proprietaire OWNER TO #user_cadastrapp;
 
-COMMENT ON MATERIALIZED VIEW #schema_cadastrapp.proprietaire IS 'Propriétaire';
-
-COMMENT ON COLUMN #schema_cadastrapp.proprietaire.dnupro IS 'Compte communal ';
-
-

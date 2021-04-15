@@ -1,0 +1,36 @@
+-- Create view proprietenonbatie based on Qgis Models
+
+COMMENT ON MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie IS 'Propriétés non bâties';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.id_local IS 'Identifiant du local';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.jdatat IS 'Date de l''acte';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.comptecommunal IS 'Compte communal';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.cgocommune IS 'Code commune INSEE';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.ccopre IS 'Préfixe section';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.ccosec IS 'Section';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dnupla IS 'Num de plan';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.parcelle IS 'Parcelle';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.ccovoi IS 'Code voie MAJIC2';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.voie IS 'Voie';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.ccoriv IS 'Code voie Rivoli';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dnvoiri IS 'Num voirie';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dindic IS 'Indice de répétition voirie';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.natvoi IS 'Nature voie';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.cconvo IS 'Code nature voie';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dvoilib IS 'Libellé voie';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dparpi IS 'Num parcelle primitive';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.gparnf IS 'Indic parcelle non au plan';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.ccostn IS 'Série tarif';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.ccosub IS 'Indicatif de suf';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.cgrnum IS 'Grp de nature de culture';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dsgrpf IS 'Ss-groupe alphabétique';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dclssf IS 'Classe dans le groupe';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.cnatsp IS 'Code nature de culture spéciale';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dcntsf IS 'Contenance suf';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.drcsuba IS 'Revenu cadastral revalorisé';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.pdl IS 'Propriété divisée en lot';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dnulot IS 'Numéro de lot';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.dreflf IS 'Réf livre foncier';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.majposa IS 'Maj terrain constructible';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.bisufad_com IS 'Base imposition suf com';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.bisufad_dep IS 'Base imposition suf dep';
+COMMENT ON COLUMN #schema_cadastrapp.proprietenonbatie.bisufad_gp IS 'base imposition suf groupe com';
