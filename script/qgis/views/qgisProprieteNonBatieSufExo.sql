@@ -27,7 +27,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatiesufexo AS
 			sufex.jfinex,
 			sufex.rcexnba as rcexnba,
 			sufex.fcexn,
-			sufex.pexn/100 as pexn
+			sufex.pexn/100
 		from #DBSchema_qgis.parcelle p
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
 			left join #DBSchema_qgis.sufexoneration as sufex on sufex.suf=suf.suf'::text)
