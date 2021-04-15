@@ -85,6 +85,9 @@ replaceAndLaunch (){
 # on applique les commentaires
 . create_comments.sh
 
+# traitement à part pour les tables d'information foncière
+. tables_request.sh
+
 # on fait un bilan
 # TODO
 
