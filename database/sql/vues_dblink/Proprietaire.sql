@@ -1,5 +1,7 @@
 -- Create view proprietaire based on Qgis Models
 
+--DROP MATERIALIZED VIEW IF EXISTS #schema_cadastrapp.proprietaire ;
+
 CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS 
 	SELECT proprietaire.id_proprietaire, 
 		proprietaire.dnupro, -- Compte communal
@@ -51,16 +53,16 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 		proprietaire.comptecommunal, 
 		proprietaire.app_nom_usage,
 		proprietaire.app_nom_naissance,
-		prop_ccodro.ccodro, -- code du droit réel ou particulier - Nouveau code en 2009 : C (fiduciaire)
-		prop_ccodro.ccodro_lib, 
-		prop_ccoqua.ccoqua, -- Code qualité de personne physique - 1, 2 ou 3
-		prop_ccoqua.ccoqua_lib, 
-		prop_ccogrm.ccogrm, -- not use - only by other scripts
-		prop_ccogrm.ccogrm_lib, -- not use
-		prop_ccodem.ccodem, -- code du démembrement/indivision - C S L I V
-		prop_ccodem.ccodem_lib, 
-		prop_dnatpr.dnatpr, -- Code nature de personne physique ou morale - Voir $ 2.2.7 - only by other scripts
-		prop_dnatpr.dnatpr_lib -- not use
+		proprietaire.ccodro, -- code du droit réel ou particulier - Nouveau code en 2009 : C (fiduciaire)
+		proprietaire.ccodro_lib, 
+		proprietaire.ccoqua, -- Code qualité de personne physique - 1, 2 ou 3
+		proprietaire.ccoqua_lib, 
+		proprietaire.ccogrm, -- not use - only by other scripts
+		proprietaire.ccogrm_lib, -- not use
+		proprietaire.ccodem, -- code du démembrement/indivision - C S L I V
+		proprietaire.ccodem_lib, 
+		proprietaire.dnatpr, -- Code nature de personne physique ou morale - Voir $ 2.2.7 - only by other scripts
+		proprietaire.dnatpr_lib -- not use
 	FROM dblink('host=#DBHost_qgis port=#DBPort_qgis dbname=#DBName_qgis user=#DBUser_qgis password=#DBpasswd_qgis'::text, 
 		'select 
 			pqgis.proprietaire,
@@ -117,9 +119,24 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 			END AS app_nom_usage,
 			CASE
 				WHEN gtoper = ''1'' THEN COALESCE(rtrim(dqualp),'''')||'' ''||REPLACE(rtrim(ddenom),''/'','' '')
-			END AS app_nom_naissance
-		from #DBSchema_qgis.proprietaire pqgis'::text)
-	proprietaire(
+			END AS app_nom_naissance,
+			prop_ccodro.ccodro,
+			prop_ccodro.ccodro_lib,
+			prop_ccoqua.ccoqua,
+			prop_ccoqua.ccoqua_lib,
+			prop_ccogrm.ccogrm,
+			prop_ccogrm.ccogrm_lib,
+			prop_ccodem.ccodem,
+			prop_ccodem.ccodem_lib,
+			prop_dnatpr.dnatpr,
+			prop_dnatpr.dnatpr_lib
+		FROM #DBSchema_qgis.proprietaire pqgis
+      LEFT JOIN #DBSchema_qgis.ccodro prop_ccodro ON pqgis.ccodro::text = prop_ccodro.ccodro::text
+      LEFT JOIN #DBSchema_qgis.ccoqua prop_ccoqua ON pqgis.ccoqua::text = prop_ccoqua.ccoqua::text
+      LEFT JOIN #DBSchema_qgis.ccogrm prop_ccogrm ON pqgis.ccogrm::text = prop_ccogrm.ccogrm::text
+      LEFT JOIN #DBSchema_qgis.ccodem prop_ccodem ON pqgis.ccodem::text = prop_ccodem.ccodem::text
+      LEFT JOIN #DBSchema_qgis.dnatpr prop_dnatpr ON pqgis.dnatpr::text = prop_dnatpr.dnatpr::text'::text)
+	proprietaire (
 		id_proprietaire character varying(20), 
 		dnupro character varying(6), 
 		lot character varying, 
@@ -169,12 +186,19 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 		cgocommune character varying(6), 
 		comptecommunal character varying(15),
 		app_nom_usage character varying(120),
-		app_nom_naissance character varying(70))
-	LEFT JOIN #schema_cadastrapp.prop_ccodro ON proprietaire.ccodro_c::text = prop_ccodro.ccodro::text
-	LEFT JOIN #schema_cadastrapp.prop_ccoqua ON proprietaire.ccoqua_c::text = prop_ccoqua.ccoqua::text
-	LEFT JOIN #schema_cadastrapp.prop_ccogrm ON proprietaire.ccogrm_c::text = prop_ccogrm.ccogrm::text
-	LEFT JOIN #schema_cadastrapp.prop_ccodem ON proprietaire.ccodem_c::text = prop_ccodem.ccodem::text
-	LEFT JOIN #schema_cadastrapp.prop_dnatpr ON proprietaire.dnatpr_c::text = prop_dnatpr.dnatpr::text;
+		app_nom_naissance character varying(70),
+    ccodro text,
+    ccodro_lib text,
+    ccoqua text,
+    ccoqua_lib text,
+    ccogrm text,
+    ccogrm_lib text,
+    ccodem text,
+    ccodem_lib text,
+    dnatpr text,
+    dnatpr_lib text
+	)
+;
 
 ALTER TABLE #schema_cadastrapp.proprietaire OWNER TO #user_cadastrapp;
 

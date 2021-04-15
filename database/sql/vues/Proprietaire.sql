@@ -53,7 +53,17 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 		proprietaire.cgocommune, 
 		proprietaire.comptecommunal, 
 		proprietaire.app_nom_usage,
-		proprietaire.app_nom_naissance
+		proprietaire.app_nom_naissance,
+		proprietaire.ccodro,
+		proprietaire.ccodro_lib,
+		proprietaire.ccoqua,
+		proprietaire.ccoqua_lib,
+		proprietaire.ccogrm,
+		proprietaire.ccogrm_lib,
+		proprietaire.ccodem,
+		proprietaire.ccodem_lib,
+		proprietaire.dnatpr,
+		proprietaire.dnatpr_lib
 	FROM
 	(
 		SELECT 
@@ -111,13 +121,23 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietaire AS
 			END AS app_nom_usage,
 			CASE
 				WHEN gtoper = '1' THEN COALESCE(rtrim(dqualp),'')||' '||REPLACE(rtrim(ddenom),'/',' ')
-			END AS app_nom_naissance
+			END AS app_nom_naissance,
+			prop_ccodro.ccodro,
+			prop_ccodro.ccodro_lib,
+			prop_ccoqua.ccoqua,
+			prop_ccoqua.ccoqua_lib,
+			prop_ccogrm.ccogrm,
+			prop_ccogrm.ccogrm_lib,
+			prop_ccodem.ccodem,
+			prop_ccodem.ccodem_lib,
+			prop_dnatpr.dnatpr,
+			prop_dnatpr.dnatpr_lib
 		FROM #DBSchema_qgis.proprietaire pqgis
-		LEFT JOIN #DBSchema_qgis.ccodro ccodro ON pqgis.ccodro = ccodro.ccodro
-		LEFT JOIN #DBSchema_qgis.ccoqua ccoqua ON pqgis.ccoqua = ccoqua.ccoqua
-		LEFT JOIN #DBSchema_qgis.ccogrm ccogrm ON pqgis.ccogrm = ccogrm.ccogrm
-		LEFT JOIN #DBSchema_qgis.ccodem ccodem ON pqgis.ccodem = ccodem.ccodem
-		LEFT JOIN #DBSchema_qgis.dnatpr dnatpr ON pqgis.dnatpr = dnatpr.dnatpr
+		LEFT JOIN #DBSchema_qgis.ccodro prop_ccodro ON pqgis.ccodro = prop_ccodro.ccodro
+		LEFT JOIN #DBSchema_qgis.ccoqua prop_ccoqua ON pqgis.ccoqua = prop_ccoqua.ccoqua
+		LEFT JOIN #DBSchema_qgis.ccogrm prop_ccogrm ON pqgis.ccogrm = prop_ccogrm.ccogrm
+		LEFT JOIN #DBSchema_qgis.ccodem prop_ccodem ON pqgis.ccodem = prop_ccodem.ccodem
+		LEFT JOIN #DBSchema_qgis.dnatpr prop_dnatpr ON pqgis.dnatpr = prop_dnatpr.dnatpr
 	) AS proprietaire ;
 
 
