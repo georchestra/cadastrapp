@@ -1,0 +1,20 @@
+<layer>
+  <name>rm_parc_rejetee</name>
+  <id>LayerInfoImpl--8165de6:16ccbdcefde:420a</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-73ca593b:1553a670585:7138</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:3217</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--8165de6:16ccbdcefde:4209</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

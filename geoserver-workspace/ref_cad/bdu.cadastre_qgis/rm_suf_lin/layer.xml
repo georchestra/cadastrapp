@@ -1,0 +1,20 @@
+<layer>
+  <name>rm_suf_lin</name>
+  <id>LayerInfoImpl--2263d646:16b26164ce3:1738</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16cb2a5b4c6:63bc</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb2a5b4c6:63bc</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--2263d646:16b26164ce3:1737</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

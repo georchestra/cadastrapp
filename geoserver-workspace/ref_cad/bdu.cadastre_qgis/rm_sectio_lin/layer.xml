@@ -1,0 +1,20 @@
+<layer>
+  <name>rm_sectio_lin</name>
+  <id>LayerInfoImpl--2263d646:16b26d85bd9:-657a</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-38ec5913:16b020ab5b2:-3baa</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:10d0</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--2263d646:16b26d85bd9:-657b</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

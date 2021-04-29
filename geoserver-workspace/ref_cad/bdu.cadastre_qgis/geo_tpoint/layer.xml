@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_tpoint</name>
+  <id>LayerInfoImpl--2263d646:16b26eac440:-6e72</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16cb453d9fb:-4c2d</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--2263d646:16b26eac440:-6e73</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

@@ -1,0 +1,104 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--8165de6:16ccbdcefde:4fdd</id>
+  <name>section</name>
+  <nativeName>section</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-d47db26:147ed8b249c:-7ffd</id>
+  </namespace>
+  <title>Cadastre : Sections</title>
+  <abstract>Cette couche de polygones contient les sections du plan cadastral.&#xd;
+&#xd;
+La section est l&apos;unité de découpage cadastral. C&apos;est une partie du territoire communal déterminée dans le but de faciliter l&apos;établissement, la consultation et la tenue des documents cadastraux. Son périmètre est constitué dans la mesure du possible par des limites présentant un caractère suffisant de stabilité (ex : routes, chemins, cours d&apos;eau, fossés, etc.).&#xd;
+&#xd;
+Suivant les cas, la section comporte une ou plusieurs feuilles parcellaires :&#xd;
+- les plans « renouvelés » ou « refaits » comportent des sections à feuille unique ;&#xd;
+- les plans rénovés par voie de &quot;mise à jour&quot; peuvent, en revanche, comporter des sections représentées sur plusieurs feuilles. En effet, lorsque ce procédé de rénovation a été retenu, le découpage utilisé pour l&apos;établissement du plan napoléonien a en général été conservé.</abstract>
+  <keywords>
+    <string>features</string>
+    <string>section</string>
+  </keywords>
+  <metadataLinks>
+    <metadataLink>
+      <type>text/html</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/metadata/1a845216-6dda-45f9-bd14-32d127517a6e</content>
+    </metadataLink>
+    <metadataLink>
+      <type>text/xml</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/xml.metadata.get?uuid=1a845216-6dda-45f9-bd14-32d127517a6e</content>
+    </metadataLink>
+  </metadataLinks>
+  <nativeCRS class="projected">PROJCS[&quot;RGF93 / CC48&quot;, 
+  GEOGCS[&quot;RGF93&quot;, 
+    DATUM[&quot;Reseau Geodesique Francais 1993&quot;, 
+      SPHEROID[&quot;GRS 1980&quot;, 6378137.0, 298.257222101, AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]], 
+      TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY[&quot;EPSG&quot;,&quot;6171&quot;]], 
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], 
+    UNIT[&quot;degree&quot;, 0.017453292519943295], 
+    AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], 
+    AUTHORITY[&quot;EPSG&quot;,&quot;4171&quot;]], 
+  PROJECTION[&quot;Lambert_Conformal_Conic_2SP&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9802&quot;]], 
+  PARAMETER[&quot;central_meridian&quot;, 3.0], 
+  PARAMETER[&quot;latitude_of_origin&quot;, 48.0], 
+  PARAMETER[&quot;standard_parallel_1&quot;, 48.75], 
+  PARAMETER[&quot;false_easting&quot;, 1700000.0], 
+  PARAMETER[&quot;false_northing&quot;, 7200000.0], 
+  PARAMETER[&quot;scale_factor&quot;, 1.0], 
+  PARAMETER[&quot;standard_parallel_2&quot;, 47.25], 
+  UNIT[&quot;m&quot;, 1.0], 
+  AXIS[&quot;Easting&quot;, EAST], 
+  AXIS[&quot;Northing&quot;, NORTH], 
+  AUTHORITY[&quot;EPSG&quot;,&quot;3948&quot;]]</nativeCRS>
+  <srs>EPSG:3948</srs>
+  <nativeBoundingBox>
+    <minx>1330480.79</minx>
+    <maxx>1367764.47</maxx>
+    <miny>7203359.51</miny>
+    <maxy>7245689.87</maxy>
+    <crs class="projected">EPSG:3948</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-1.9847676697277132</minx>
+    <maxx>-1.4500795551081656</maxx>
+    <miny>47.92352358319282</miny>
+    <maxy>48.32403569744555</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>section</name>
+        <sql>SELECT&#xd;
+  ogc_fid,&#xd;
+  lot,&#xd;
+  geo_section as section,&#xd;
+  left(geo_section,6) as commune,&#xd;
+  replace(substring(geo_section,7,5),&apos;0&apos;,&apos;&apos;) as section_txt,&#xd;
+  geom&#xd;
+FROM cadastre_qgis.geo_section
+</sql>
+        <escapeSql>false</escapeSql>
+        <geometry>
+          <name>geom</name>
+          <type>MultiPolygon</type>
+          <srid>3948</srid>
+        </geometry>
+      </virtualTable>
+    </entry>
+    <entry key="cacheAgeMax">86400</entry>
+    <entry key="cachingEnabled">true</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-27ef7aa:16b20f027ab:-7525</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

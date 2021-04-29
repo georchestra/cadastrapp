@@ -1,0 +1,23 @@
+<dataStore>
+  <id>DataStoreInfoImpl-27ef7aa:16b20f027ab:-7525</id>
+  <name>bdu.cadastre_qgis</name>
+  <description>bdu.cadastre_qgis</description>
+  <type>PostGIS (JNDI)</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl-d47db26:147ed8b249c:-7ffe</id>
+  </workspace>
+  <connectionParameters>
+    <entry key="dbtype">postgis</entry>
+    <entry key="encode functions">false</entry>
+    <entry key="jndiReferenceName">java:comp/env/jdbc/bdu</entry>
+    <entry key="Support on the fly geometry simplification">true</entry>
+    <entry key="namespace">https://mongeorchestra.fr/ref_cad</entry>
+    <entry key="schema">cadastre_qgis</entry>
+    <entry key="Loose bbox">true</entry>
+    <entry key="Expose primary keys">false</entry>
+    <entry key="preparedStatements">false</entry>
+    <entry key="Estimated extends">true</entry>
+  </connectionParameters>
+  <__default>false</__default>
+</dataStore>

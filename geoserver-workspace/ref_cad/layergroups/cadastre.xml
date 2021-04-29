@@ -1,0 +1,204 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl-73ca593b:15526645660:1f5d</id>
+  <name>cadastre</name>
+  <mode>SINGLE</mode>
+  <queryDisabled>true</queryDisabled>
+  <title>Cadastre Rennes Métropole</title>
+  <abstractTxt>Le Plan Cadastral Informatisé (PCI) est un plan numérique vecteur à grande échelle représentant graphiquement le territoire communal dans tous les détails de son morcellement en propriétés. Il constitue un support cartographique numérique destiné à remplacer le plan cadastral papier.&#xd;
+&#xd;
+Les éléments suivants correspondent aux éléments structurants du plan cadastral :&#xd;
+- limites de communes&#xd;
+- limites de sections&#xd;
+- limites de parcelles&#xd;
+- bâtiments&#xd;
+&#xd;
+La parcelle est l’unité cadastrale de base. C’est un terrain d’un seul tenant situé dans un même lieu-dit et appartenant à un même propriétaire.&#xd;
+&#xd;
+Le plan cadastral au format vecteur est issu majoritairement de numérisation du plan cadastral papier ou raster réalisée dans le cadre de conventions avec les collectivités territoriales. Dans une moindre mesure, il a été confectionné directement au format numérique dans le cadre de la production de plans cadastraux neufs (procédure du remaniement prévue par la loi n° 78-645 du 18 juillet 1974) ou d’aménagements fonciers agricoles et forestiers (communément désignés sous le terme « remembrements »).&#xd;
+&#xd;
+Le plan cadastral est consultable sur le site www.cadastre.gouv.fr.&#xd;
+&#xd;
+&#xd;
+Rennes Métropole utilise un modèle de données générée par le greffon QGIS Cadastre améliorer de quelques couches spécifiques.</abstractTxt>
+  <workspace>
+    <id>WorkspaceInfoImpl-d47db26:147ed8b249c:-7ffe</id>
+  </workspace>
+  <publishables>
+    <published type="layer">
+      <id>LayerInfoImpl--8165de6:16cbcbba55b:2cbd</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--8165de6:16cbe69ca8d:-52e0</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--8165de6:16cbe69ca8d:-4ef2</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--8165de6:16cbe69ca8d:-5bf9</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--8165de6:16cbcbba55b:2cbd</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--8165de6:16cbcbba55b:2cbd</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26164ce3:1706</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-27ef7aa:16b21a5ae89:-5f22</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-27ef7aa:16b227faaf5:33cb</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26164ce3:4f87</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26164ce3:5b7a</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26164ce3:1738</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26eac440:-6a23</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26164ce3:5f36</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26d85bd9:-657a</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26eac440:-6e72</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26eac440:-6f93</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-27ef7aa:16b21a5ae89:-5f22</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26eac440:-7033</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26eac440:-6b86</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--8165de6:16ccbdcefde:420a</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-27ef7aa:16b21a5ae89:-5f22</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-27ef7aa:16b20f027ab:-7521</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26164ce3:1706</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--2263d646:16b26164ce3:1706</id>
+    </published>
+  </publishables>
+  <styles>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cbcbba55b:24b7</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cbe69ca8d:-5357</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cbe69ca8d:-4f81</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cbe69ca8d:-5cb7</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cbcbba55b:16ba</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cbe69ca8d:-635b</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb7b0c098:-9a4</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb2a5b4c6:1abd</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--34472ff5:16b1bc9e0de:-7fb8</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb2a5b4c6:678f</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-38ec5913:16b020ab5b2:-3bb3</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb2a5b4c6:63bc</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb2a5b4c6:7002</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:-146c</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-38ec5913:16b020ab5b2:-3baa</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb453d9fb:-4c2d</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--34472ff5:16b1bc9e0de:-662f</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb2a5b4c6:57ef</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-38ec5913:16b020ab5b2:-3ba1</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--34472ff5:16b1bc9e0de:-7f98</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-73ca593b:1553a670585:7138</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb453d9fb:-2d37</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb7b0c098:-4337</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--34472ff5:16b1bc9e0de:-7fb3</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb7b0c098:343</id>
+    </style>
+  </styles>
+  <metadataLinks>
+    <metadataLink>
+      <type>text/xml</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/xml.metadata.get?uuid=903dea6a-fc33-4eb7-b652-a29476a9a0eb</content>
+    </metadataLink>
+    <metadataLink>
+      <type>text/html</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/metadata/903dea6a-fc33-4eb7-b652-a29476a9a0eb</content>
+    </metadataLink>
+  </metadataLinks>
+  <bounds>
+    <minx>1313398.0166821328</minx>
+    <maxx>1382822.869333019</maxx>
+    <miny>7181408.624970486</miny>
+    <maxy>7259620.467876596</maxy>
+    <crs class="projected">EPSG:3948</crs>
+  </bounds>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateModified>2021-03-09 11:29:56.207 UTC</dateModified>
+</layerGroup>

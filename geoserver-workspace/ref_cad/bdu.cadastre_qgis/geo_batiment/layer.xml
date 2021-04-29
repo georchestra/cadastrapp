@@ -1,0 +1,20 @@
+<layer>
+  <name>geo_batiment</name>
+  <id>LayerInfoImpl-27ef7aa:16b227faaf5:33cb</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--34472ff5:16b1bc9e0de:-7fb8</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:-2d8a</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-27ef7aa:16b227faaf5:33ca</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

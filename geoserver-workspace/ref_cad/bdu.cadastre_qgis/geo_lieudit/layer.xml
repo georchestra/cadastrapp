@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_lieudit</name>
+  <id>LayerInfoImpl--2263d646:16b26164ce3:5b67</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-38ec5913:16b020ab5b2:-3bb8</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--2263d646:16b26164ce3:5b66</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

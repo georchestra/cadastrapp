@@ -1,0 +1,15 @@
+<layer>
+  <name>batiment</name>
+  <id>LayerInfoImpl--8165de6:16ccbdcefde:6720</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16ccd8c835c:-7e4c</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--8165de6:16ccbdcefde:671f</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

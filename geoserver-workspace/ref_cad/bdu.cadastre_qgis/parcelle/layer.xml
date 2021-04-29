@@ -1,0 +1,26 @@
+<layer>
+  <name>parcelle</name>
+  <id>LayerInfoImpl--8165de6:16ccbdcefde:59f4</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16ccbdcefde:7a99</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cf0da41dc:-2bfc</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cf0da41dc:-2c43</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cf0da41dc:-2b95</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--8165de6:16ccbdcefde:59f3</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>
