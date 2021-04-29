@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_parcelle_hors_rm</name>
+  <id>LayerInfoImpl--8165de6:16cbe69ca8d:-52e0</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16cbe69ca8d:-5357</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--8165de6:16cbe69ca8d:-52e1</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

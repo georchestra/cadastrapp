@@ -1,0 +1,93 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--8165de6:16ccbdcefde:4209</id>
+  <name>rm_parc_rejetee</name>
+  <nativeName>rm_parc_rejetee</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-d47db26:147ed8b249c:-7ffd</id>
+  </namespace>
+  <title>Cadastre : Parcelles sans correspondance avec les données des fichiers fonciers</title>
+  <abstract>Cette couche de points permet d&apos;identifier rapidement les parcelles cadastrales pour lesquelles il n&apos;existe pas de donnée foncière rattachée issue des fichiers fonciers cadastraux (Majic 3).&#xd;
+&#xd;
+Cette couche n&apos;est pas fournie par la DGFiP mais calculée par Rennes Métropole à chaque mise à jour du cadastre.</abstract>
+  <keywords>
+    <string>features</string>
+    <string>rm_parc_rejetee</string>
+  </keywords>
+  <metadataLinks>
+    <metadataLink>
+      <type>text/html</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/metadata/16c7ee58-4a3e-4ccf-a64e-d12b7a5ead6e</content>
+    </metadataLink>
+    <metadataLink>
+      <type>text/xml</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/xml.metadata.get?uuid=16c7ee58-4a3e-4ccf-a64e-d12b7a5ead6e</content>
+    </metadataLink>
+  </metadataLinks>
+  <nativeCRS class="projected">PROJCS[&quot;RGF93 / CC48&quot;, 
+  GEOGCS[&quot;RGF93&quot;, 
+    DATUM[&quot;Reseau Geodesique Francais 1993&quot;, 
+      SPHEROID[&quot;GRS 1980&quot;, 6378137.0, 298.257222101, AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]], 
+      TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY[&quot;EPSG&quot;,&quot;6171&quot;]], 
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], 
+    UNIT[&quot;degree&quot;, 0.017453292519943295], 
+    AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], 
+    AUTHORITY[&quot;EPSG&quot;,&quot;4171&quot;]], 
+  PROJECTION[&quot;Lambert_Conformal_Conic_2SP&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9802&quot;]], 
+  PARAMETER[&quot;central_meridian&quot;, 3.0], 
+  PARAMETER[&quot;latitude_of_origin&quot;, 48.0], 
+  PARAMETER[&quot;standard_parallel_1&quot;, 48.75], 
+  PARAMETER[&quot;false_easting&quot;, 1700000.0], 
+  PARAMETER[&quot;false_northing&quot;, 7200000.0], 
+  PARAMETER[&quot;scale_factor&quot;, 1.0], 
+  PARAMETER[&quot;standard_parallel_2&quot;, 47.25], 
+  UNIT[&quot;m&quot;, 1.0], 
+  AXIS[&quot;Easting&quot;, EAST], 
+  AXIS[&quot;Northing&quot;, NORTH], 
+  AUTHORITY[&quot;EPSG&quot;,&quot;3948&quot;]]</nativeCRS>
+  <srs>EPSG:3948</srs>
+  <nativeBoundingBox>
+    <minx>1331053.50752214</minx>
+    <maxx>1367329.71316112</maxx>
+    <miny>7204553.735</miny>
+    <maxy>7244555.65</maxy>
+    <crs class="projected">EPSG:3948</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-1.976077070367</minx>
+    <maxx>-1.4568135472317585</maxx>
+    <miny>47.934573075495514</miny>
+    <maxy>48.31362474236048</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>rm_parc_rejetee</name>
+        <sql>SELECT * FROM cadastre_qgis.rm_parc_rejetee
+</sql>
+        <escapeSql>false</escapeSql>
+        <geometry>
+          <name>shape</name>
+          <type>Point</type>
+          <srid>3948</srid>
+        </geometry>
+      </virtualTable>
+    </entry>
+    <entry key="cacheAgeMax">86400</entry>
+    <entry key="cachingEnabled">true</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-27ef7aa:16b20f027ab:-7525</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

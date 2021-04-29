@@ -1,0 +1,15 @@
+<layer>
+  <name>section</name>
+  <id>LayerInfoImpl--8165de6:16ccbdcefde:4fde</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-14f5ce8e:166af71e889:4ad8</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--8165de6:16ccbdcefde:4fdd</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

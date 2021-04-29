@@ -1,0 +1,20 @@
+<layer>
+  <name>geo_tsurf</name>
+  <id>LayerInfoImpl--2263d646:16b26164ce3:4f87</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16cb2a5b4c6:678f</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:-262c</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--2263d646:16b26164ce3:4f86</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

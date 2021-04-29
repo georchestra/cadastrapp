@@ -1,0 +1,26 @@
+<layer>
+  <name>geo_parcelle</name>
+  <id>LayerInfoImpl-27ef7aa:16b21a5ae89:-5f22</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16cb2a5b4c6:1abd</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb2a5b4c6:57ef</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:-33a4</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:-3548</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-27ef7aa:16b21a5ae89:-5f23</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

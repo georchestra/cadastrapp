@@ -1,0 +1,23 @@
+<layer>
+  <name>geo_commune_hors_rm</name>
+  <id>LayerInfoImpl--8165de6:16cbcbba55b:2cbd</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16cbcbba55b:16ba</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cbe69ca8d:-635b</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cbcbba55b:24b7</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--8165de6:16cbcbba55b:2cbc</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

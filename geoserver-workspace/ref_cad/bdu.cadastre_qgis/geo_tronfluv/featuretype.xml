@@ -1,0 +1,71 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--2263d646:16b26164ce3:5b79</id>
+  <name>geo_tronfluv</name>
+  <nativeName>geo_tronfluv</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-d47db26:147ed8b249c:-7ffd</id>
+  </namespace>
+  <title>geo_tronfluv</title>
+  <abstract>geo_tronfluv&#xd;
+Hydrographie&#xd;
+&#xd;
+Couche utilisée par les aggrégats cadastre et cadastre_nb.&#xd;
+Ne devrait pas être visible.</abstract>
+  <keywords>
+    <string>features</string>
+    <string>geo_tronfluv</string>
+  </keywords>
+  <nativeCRS class="projected">PROJCS[&quot;RGF93 / CC48&quot;, 
+  GEOGCS[&quot;RGF93&quot;, 
+    DATUM[&quot;Reseau Geodesique Francais 1993&quot;, 
+      SPHEROID[&quot;GRS 1980&quot;, 6378137.0, 298.257222101, AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]], 
+      TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY[&quot;EPSG&quot;,&quot;6171&quot;]], 
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], 
+    UNIT[&quot;degree&quot;, 0.017453292519943295], 
+    AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], 
+    AUTHORITY[&quot;EPSG&quot;,&quot;4171&quot;]], 
+  PROJECTION[&quot;Lambert_Conformal_Conic_2SP&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9802&quot;]], 
+  PARAMETER[&quot;central_meridian&quot;, 3.0], 
+  PARAMETER[&quot;latitude_of_origin&quot;, 48.0], 
+  PARAMETER[&quot;standard_parallel_1&quot;, 48.75], 
+  PARAMETER[&quot;false_easting&quot;, 1700000.0], 
+  PARAMETER[&quot;false_northing&quot;, 7200000.0], 
+  PARAMETER[&quot;scale_factor&quot;, 1.0], 
+  PARAMETER[&quot;standard_parallel_2&quot;, 47.25], 
+  UNIT[&quot;m&quot;, 1.0], 
+  AXIS[&quot;Easting&quot;, EAST], 
+  AXIS[&quot;Northing&quot;, NORTH], 
+  AUTHORITY[&quot;EPSG&quot;,&quot;3948&quot;]]</nativeCRS>
+  <srs>EPSG:3948</srs>
+  <nativeBoundingBox>
+    <minx>1330294.375</minx>
+    <maxx>1367950.875</maxx>
+    <miny>7203148.0</miny>
+    <maxy>7245901.5</maxy>
+    <crs class="projected">EPSG:3948</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-1.9874598025767443</minx>
+    <maxx>-1.4474250719415636</maxx>
+    <miny>47.921517516550516</miny>
+    <maxy>48.32603322136933</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <advertised>false</advertised>
+  <metadata>
+    <entry key="cacheAgeMax">2592000</entry>
+    <entry key="cachingEnabled">true</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-27ef7aa:16b20f027ab:-7525</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

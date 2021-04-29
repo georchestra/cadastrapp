@@ -1,0 +1,94 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--8165de6:16ccbdcefde:4bf0</id>
+  <name>commune</name>
+  <nativeName>commune</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-d47db26:147ed8b249c:-7ffd</id>
+  </namespace>
+  <title>Cadastre : Communes</title>
+  <abstract>Cette couche de polygones contient les limites administratives des communes qui figurent au plan cadastral. Cette couche permet d&apos;identifier les 43 communes de l&apos;agglomération rennaise.&#xd;
+&#xd;
+Il s&apos;agit des limites communales telles que fournies en EDIGEO par la DGFiP. Il existe donc des recouvrements ou des trous entre communes.&#xd;
+Il est donc préférable d&apos;utiliser la couche &quot;Limites communales référentielles de Rennes Métropole&quot;.</abstract>
+  <keywords>
+    <string>features</string>
+    <string>commune</string>
+  </keywords>
+  <metadataLinks>
+    <metadataLink>
+      <type>text/html</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/metadata/6db35b05-e8bc-4339-a49b-828da0d3fd9f</content>
+    </metadataLink>
+    <metadataLink>
+      <type>text/xml</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/xml.metadata.get?uuid=6db35b05-e8bc-4339-a49b-828da0d3fd9f</content>
+    </metadataLink>
+  </metadataLinks>
+  <nativeCRS class="projected">PROJCS[&quot;RGF93 / CC48&quot;, 
+  GEOGCS[&quot;RGF93&quot;, 
+    DATUM[&quot;Reseau Geodesique Francais 1993&quot;, 
+      SPHEROID[&quot;GRS 1980&quot;, 6378137.0, 298.257222101, AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]], 
+      TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY[&quot;EPSG&quot;,&quot;6171&quot;]], 
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], 
+    UNIT[&quot;degree&quot;, 0.017453292519943295], 
+    AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], 
+    AUTHORITY[&quot;EPSG&quot;,&quot;4171&quot;]], 
+  PROJECTION[&quot;Lambert_Conformal_Conic_2SP&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9802&quot;]], 
+  PARAMETER[&quot;central_meridian&quot;, 3.0], 
+  PARAMETER[&quot;latitude_of_origin&quot;, 48.0], 
+  PARAMETER[&quot;standard_parallel_1&quot;, 48.75], 
+  PARAMETER[&quot;false_easting&quot;, 1700000.0], 
+  PARAMETER[&quot;false_northing&quot;, 7200000.0], 
+  PARAMETER[&quot;scale_factor&quot;, 1.0], 
+  PARAMETER[&quot;standard_parallel_2&quot;, 47.25], 
+  UNIT[&quot;m&quot;, 1.0], 
+  AXIS[&quot;Easting&quot;, EAST], 
+  AXIS[&quot;Northing&quot;, NORTH], 
+  AUTHORITY[&quot;EPSG&quot;,&quot;3948&quot;]]</nativeCRS>
+  <srs>EPSG:3948</srs>
+  <nativeBoundingBox>
+    <minx>1330480.79</minx>
+    <maxx>1367764.47</maxx>
+    <miny>7203359.51</miny>
+    <maxy>7245689.87</maxy>
+    <crs class="projected">EPSG:3948</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-1.9847676697277132</minx>
+    <maxx>-1.4500795551081656</maxx>
+    <miny>47.92352358319282</miny>
+    <maxy>48.32403569744555</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>commune</name>
+        <sql>SELECT * FROM cadastre_qgis.geo_commune
+</sql>
+        <escapeSql>false</escapeSql>
+        <geometry>
+          <name>geom</name>
+          <type>MultiPolygon</type>
+          <srid>3948</srid>
+        </geometry>
+      </virtualTable>
+    </entry>
+    <entry key="cacheAgeMax">86400</entry>
+    <entry key="cachingEnabled">true</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-27ef7aa:16b20f027ab:-7525</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

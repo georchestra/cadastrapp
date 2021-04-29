@@ -1,0 +1,45 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-27ef7aa:16b21a5ae89:-5f23</id>
+  <name>geo_parcelle</name>
+  <nativeName>geo_parcelle</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-d47db26:147ed8b249c:-7ffd</id>
+  </namespace>
+  <title>geo_parcelle</title>
+  <abstract>geo_parcelle&#xd;
+&#xd;
+Couche utilisée par les aggrégats cadastre et cadastre_nb.&#xd;
+Ne devrait pas être visible.</abstract>
+  <keywords>
+    <string>features</string>
+    <string>geo_parcelle</string>
+  </keywords>
+  <srs>EPSG:3948</srs>
+  <nativeBoundingBox>
+    <minx>1330526.375</minx>
+    <maxx>1367871.625</maxx>
+    <miny>7203227.5</miny>
+    <maxy>7245806.5</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-1.9842560185264881</minx>
+    <maxx>-1.4485455549088537</maxx>
+    <miny>47.92236496179011</miny>
+    <maxy>48.32513885810252</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <advertised>false</advertised>
+  <metadata>
+    <entry key="cachingEnabled">false</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-27ef7aa:16b20f027ab:-7525</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

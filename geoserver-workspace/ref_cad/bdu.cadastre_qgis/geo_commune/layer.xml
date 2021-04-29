@@ -1,0 +1,26 @@
+<layer>
+  <name>geo_commune</name>
+  <id>LayerInfoImpl--2263d646:16b26164ce3:1706</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--34472ff5:16b1bc9e0de:-7fb3</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb7b0c098:343</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cb7b0c098:-9a4</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:-3a03</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--2263d646:16b26164ce3:1705</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

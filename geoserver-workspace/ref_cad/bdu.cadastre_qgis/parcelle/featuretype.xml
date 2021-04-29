@@ -1,0 +1,118 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--8165de6:16ccbdcefde:59f3</id>
+  <name>parcelle</name>
+  <nativeName>parcelle</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-d47db26:147ed8b249c:-7ffd</id>
+  </namespace>
+  <title>Cadastre : Parcelles</title>
+  <abstract>Cette couche de polygones permet d&apos;identifier les parcelles du plan cadastral.&#xd;
+&#xd;
+La parcelle est l’unité cadastrale de base. C’est un terrain d’un seul tenant situé dans un même lieu-dit et appartenant à un même propriétaire.&#xd;
+&#xd;
+Descriptif des champs :&#xd;
+ogc_fid : Identification unique des enregistrements&#xd;
+lot : Code du lot de traitement des données, normalement : année + mois de traitement des données&#xd;
+geo_parcelle : Identifiant unique de la parcelle&#xd;
+tex2 : Numéro de parcelle&#xd;
+supf : Contenance cadastrale&#xd;
+ssurf : Surface calculée SIG&#xd;
+ssurfb : Surface bâtie calculée SIG&#xd;
+scos : Emprise au sol calculée SIG</abstract>
+  <keywords>
+    <string>features</string>
+    <string>parcelle</string>
+  </keywords>
+  <metadataLinks>
+    <metadataLink>
+      <type>text/html</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/metadata/84bfecb6-c03e-4e20-a043-ab2c3bdeb3da</content>
+    </metadataLink>
+    <metadataLink>
+      <type>text/xml</type>
+      <metadataType>ISO19115:2003</metadataType>
+      <content>https://portail.sig.rennesmetropole.fr/geonetwork/srv/fre/xml.metadata.get?uuid=84bfecb6-c03e-4e20-a043-ab2c3bdeb3da</content>
+    </metadataLink>
+  </metadataLinks>
+  <nativeCRS class="projected">PROJCS[&quot;RGF93 / CC48&quot;, 
+  GEOGCS[&quot;RGF93&quot;, 
+    DATUM[&quot;Reseau Geodesique Francais 1993&quot;, 
+      SPHEROID[&quot;GRS 1980&quot;, 6378137.0, 298.257222101, AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]], 
+      TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY[&quot;EPSG&quot;,&quot;6171&quot;]], 
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], 
+    UNIT[&quot;degree&quot;, 0.017453292519943295], 
+    AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], 
+    AUTHORITY[&quot;EPSG&quot;,&quot;4171&quot;]], 
+  PROJECTION[&quot;Lambert_Conformal_Conic_2SP&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9802&quot;]], 
+  PARAMETER[&quot;central_meridian&quot;, 3.0], 
+  PARAMETER[&quot;latitude_of_origin&quot;, 48.0], 
+  PARAMETER[&quot;standard_parallel_1&quot;, 48.75], 
+  PARAMETER[&quot;false_easting&quot;, 1700000.0], 
+  PARAMETER[&quot;false_northing&quot;, 7200000.0], 
+  PARAMETER[&quot;scale_factor&quot;, 1.0], 
+  PARAMETER[&quot;standard_parallel_2&quot;, 47.25], 
+  UNIT[&quot;m&quot;, 1.0], 
+  AXIS[&quot;Easting&quot;, EAST], 
+  AXIS[&quot;Northing&quot;, NORTH], 
+  AUTHORITY[&quot;EPSG&quot;,&quot;3948&quot;]]</nativeCRS>
+  <srs>EPSG:3948</srs>
+  <nativeBoundingBox>
+    <minx>1330484.08</minx>
+    <maxx>1367763.76</maxx>
+    <miny>7203361.39</miny>
+    <maxy>7245689.78</maxy>
+    <crs class="projected">EPSG:3948</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-1.984723333236912</minx>
+    <maxx>-1.4500904958647256</maxx>
+    <miny>47.92354235590481</miny>
+    <maxy>48.3240345182844</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>parcelle</name>
+        <sql>SELECT&#xd;
+  ogc_fid,&#xd;
+  lot,&#xd;
+  inspireid,&#xd;
+  geo_parcelle as parcelle,&#xd;
+  left(geo_parcelle,6) as commune,&#xd;
+  geo_section as section,&#xd;
+  replace(substring(geo_parcelle,7,5),&apos;0&apos;,&apos;&apos;) as section_txt,&#xd;
+  tex as parcelle_txt,&#xd;
+  replace(substring(geo_parcelle,7,5),&apos;0&apos;,&apos;&apos;) || &apos; &apos; || tex as section_parcelle_txt,&#xd;
+  supf,&#xd;
+  ssurf,&#xd;
+  ssurfb,&#xd;
+  scos,&#xd;
+  geom&#xd;
+FROM cadastre_qgis.geo_parcelle
+</sql>
+        <escapeSql>false</escapeSql>
+        <geometry>
+          <name>geom</name>
+          <type>MultiPolygon</type>
+          <srid>3948</srid>
+        </geometry>
+      </virtualTable>
+    </entry>
+    <entry key="cacheAgeMax">86400</entry>
+    <entry key="cachingEnabled">true</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-27ef7aa:16b20f027ab:-7525</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

@@ -1,0 +1,20 @@
+<layer>
+  <name>geo_tline</name>
+  <id>LayerInfoImpl--2263d646:16b26eac440:-6a23</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16cb2a5b4c6:7002</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--8165de6:16cd29772bb:-1d3f</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--2263d646:16b26eac440:-6a24</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

@@ -1,0 +1,15 @@
+<layer>
+  <name>geo_batiment_hors_rm</name>
+  <id>LayerInfoImpl--8165de6:16cbe69ca8d:-4ef2</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--8165de6:16cbe69ca8d:-4f81</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--8165de6:16cbe69ca8d:-4ef3</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>
