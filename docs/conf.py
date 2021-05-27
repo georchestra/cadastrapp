@@ -10,16 +10,25 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+
+
+from datetime import datetime
+
+currentSecond= datetime.now().second
+currentMinute = datetime.now().minute
+currentHour = datetime.now().hour
+
+currentDay = datetime.now().day
+currentMonth = datetime.now().month
+currentYear = datetime.now().year
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'Cadastrapp'
-copyright = '2020, la communauté geOrchestra'
+copyright = str(currentYear) + ', la communauté geOrchestra'
 author = 'la communauté geOrchestra'
+#buildDateTime = currentDay+"/"+currentMonth+"/"+currentYear+" "+currentHour+":"+currentMinute
 
 # The full version, including alpha/beta/rc tags
 #release = '1.0'
@@ -65,4 +74,7 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
+
+
+
