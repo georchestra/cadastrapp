@@ -7,17 +7,17 @@ Pour fonctionner, Cadastrapp a besoin que l'on monte deux couches applicatives e
 - par l'addon pour les clics pour interroger les parcelles ou les unités foncières
 - par la webapp pour produire les bordereaux parcellaires
 
-Il vous faut donc publier les 2 couches applicatives :
+**Il vous faut donc publier 2 couches applicatives** :
 
 - 1 pour les parcelles cadastrales
 - 1 pour les unités foncières
 
-Et les déclarer dans le fichier **`cadastrapp.properties <https://github.com/georchestra/cadastrapp/blob/master/cadastrapp/src/main/resources/cadastrapp.properties>`_** :
+Et les déclarer dans le fichier ** `cadastrapp.properties <https://github.com/georchestra/cadastrapp/blob/master/cadastrapp/src/main/resources/cadastrapp.properties>`_ ** :
 
-- pour la couche des parcelles : `cadastre.wms.layer.name`
-- pour la couche des unités foncières : `uf.wms.layer.name`
+- pour la couche des parcelles : ``cadastre.wms.layer.name``
+- pour la couche des unités foncières : ``uf.wms.layer.name``
 
-Ne pas oublier de les déclarer également un peu plus bas en variables `cadastre.wfs.layer.name` et `uf.wfs.layer.name` si votre plate-forme geOrchestra nécessite une authentification préalable des utilisateurs pour utiliser les services.
+Ne pas oublier de les déclarer également un peu plus bas en variables ``cadastre.wfs.layer.name`` et ``uf.wfs.layer.name`` si votre plate-forme geOrchestra nécessite une authentification préalable des utilisateurs pour utiliser les services.
 
 .. warning::
   **Il faut absolument que ces 2 couches soit publiées dans les capacités WxS de votre serveur de données géographiques.**
