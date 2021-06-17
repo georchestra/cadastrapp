@@ -187,7 +187,7 @@ public class CadController {
 			queryBuilder.append(";");
 			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);	
-			limitations = jdbcTemplate.queryForList(queryBuilder.toString(), groupsList);
+			limitations = jdbcTemplate.queryForList(queryBuilder.toString(), groupsList.toArray());
 					
 			// filter request on commune
 			if (limitations != null && !limitations.isEmpty()) {
