@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #-----------------------------------------------------------------
 # Project      : Cadastrapp 
@@ -26,58 +26,223 @@
 #   1.3          | Julien Sabatier| 09/06/2016 | Add capability to use non local postgresql database
 #   1.4          | Pierre JEGO    | 20/06/2016 | Use script in batch mode
 #   1.5          | Pierre JEGO    | 27/11/2018 | Add correlation tables
+#   1.6          | Julien Sabatier| 17:06/2021 | Handle named parameters and ldap fdw configuration for orgs autorisations
 #////////////////////////////////////////////////////////////////////
 
-# Set parameters
-if [ "$#" -ne 14 ]; then
-  echo "No parameters given or not the good number of params" >&2
-  echo "Usage could be : $0 Batchmode(0/1) DatabaseHost DatabasePort DatabaseAdminUser DatabaseName DatabaseSchema DatabaseUser DatabasePasswd QgisHost QgisPort QgisDataBaseName QgisDataBaseSchema QgisDataBaseUser QgisDataBasePasswd" >&2
-  echo "Use constant in script" >&2
 
-  ## TO BE SET MANUALLY IF NOT USING SCRIPT PARAMETERS
-  # Script configuration
+## A REMPLIR MANUELLEMENT SI VOUS NE SOUHAITEZ PAS UTILISER LES PARAMETRES DE LA LIGNE DE COMMANDE
+# Script configuration
+#
+batchmode=0
+#dbhost="localhost"
+#dbport="5432"
+#dbadminuser="admindbuser"
+#dbname="cadastrapp_qgis"
+#schema="cadastrapp_qgis"
+#username="cadastrapp_user"
+#userpwd="cadastrapp_pwd"
+#qgisDBHost=postgis-bdu
+#qgisDBPort=5432
+#qgisDBName=bdu
+#qgisDBSchema=cadastre
+#qgisDBUser=xxxxxxxxxxxxxx
+#qgisDBPassword=xxxxxxxxxxxxxx
+ldap=0
+#ldapUri=ldaps://ldap.georchestra.org
+#ldapPath=ou=orgs,dc=georchestra,dc=org
+#ldapBindDn=uid=cadastrapp,ou=users,dc=georchestra,dc=org
+#ldapBindPwd=secret
 
-  # batch mode information
-  # 0 not batch mode (password wil be prompted)
-  # 1 batch mode using information from .pgpass
-  #   make sure to have new user for cadastrapp in .pgpass files before launching this script
-  batchmode=0
-  
-    # Postgresql information (the database to load)
-    dbhost="localhost"
-    dbport="5432"
-    # Postgres user which have role creation and schema creation rights
-    dbadminuser="admindbuser"
-    dbname="cadastrapp_qgis"
-    schema="cadastrapp_qgis"
-    username="cadastrapp_user"
-    userpwd="cadastrapp_pwd"
+## ----------------------------------------- NE PAS MODIFIER EN DESSOUS ------------------------------------------- ##
 
-    # REMOTE QGIS Database information (the database to read)
-    qgisDBHost=postgis-bdu
-    qgisDBPort=5432
-    qgisDBName=bdu
-    qgisDBSchema=cadastre
-    qgisDBUser=xxxxxxxxxxxxxx
-    qgisDBPassword=xxxxxxxxxxxxxx
-else
-  echo "Launch Script using parameters" >&2
-  batchmode=$1
-  dbhost=$2
-  dbport=$3
-  dbadminuser=$4
-  dbname=$5
-  schema=$6
-  username=$7
-  userpwd=$8
+invalidparams=0
 
-    qgisDBHost=$9
-    qgisDBPort=$10
-    qgisDBName=$11
-    qgisDBSchema=$12
-    qgisDBUser=$13
-    qgisDBPassword=$14
-fi
+show_description() {
+	echo "Usage : "
+	echo "createDBUsingQgisModel.sh [-b] --dbhost <dbhost> --dbport <dbport> --dbadminuser <dbadminuser> --dbname <dbname> --schema <schema> --username <username> --userpwd <userpwd> --qgisDBHost <qgisDBHost> --qgisDBPort <qgisDBPort> --qgisDBName <qgisDBName> --qgisDBSchema <qgisDBSchema> --qgisDBUser <qgisDBUser> --qgisDBPassword <qgisDBPassword> [--ldapOrgs --ldapUri <ldapUri> --ldapPath <ldapPath> --ldapBindDn <bindDn> --ldapBindPwd <bindPwd>]"
+	echo "Parametres : "
+	echo "-b : (Optionnel) Activation du mode 'batch' qui utilise les identifiants du fichier .pgpass pour la connexion à PostgreSQL"
+	echo "--dbhost : Hôte de la BDD de cadastrapp"
+	echo "--dbport : Port de la BDD de cadastrapp"
+	echo "--dbadminuser : Login de l'utilisateur ayant les droits pour créer des rôles et des schemas dans la BDD de cadastrapp"
+	echo "--dbname : Nom de la BDD de cadastrapp"
+	echo "--schema : Schema à configurer pour cadastrapp"
+	echo "--username : Login de l'utilisateur à configuer pour cadastrapp"
+	echo "--userpwd : Mot de passe de l'utilisateur à configuer pour cadastrapp"
+	echo "--qgisDBHost : Hôte de la BDD contenant le modèle QGis"
+	echo "--qgisDBPort : Port de la BDD contenant le modèle QGis"
+	echo "--qgisDBName : Nom de la BDD contenant le modèle QGis"
+	echo "--qgisDBSchema : Schema de la BDD contenant le modèle QGis"
+	echo "--qgisDBUser : Login de l'utilisateur pour la BDD contenant le modèle QGis"
+	echo "--qgisDBPassword : Mot de passe de l'utilisateur pour la BDD contenant le modèle QGis"
+	echo "--ldapOrgs : (Optionnel) Si activé, les restrictions geographiques sont remontées directement des organisations geOrchestra"
+	echo "Si ldapOrgs est activé, les options suivantes sont obligatoires : "
+	echo "--ldapUri : L'URI du serveur LDAP de geOrchestra"
+	echo "--ldapPath : Le chemin dans l'annuaire contenant les organisations"
+	echo "--ldapBindDn : L'utilisateur à utiliser pour se connecter au LDAP"
+	echo "--ldapBindPwd : Le mot de passe de l'utilisateur à utiliser pour se connecter au LDAP"
+}
+
+check_params() {
+	if [ -z "$dbhost" ] ; then
+		echo "Paramètre dbhost manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$dbport" ] ; then
+		echo "Paramètre dbport manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$dbadminuser" ] ; then
+		echo "Paramètre dbadminuser manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$dbname" ] ; then
+		echo "Paramètre dbname manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$schema" ] ; then
+		echo "Paramètre schema manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$username" ] ; then
+		echo "Paramètre username manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$userpwd" ] ; then
+		echo "Paramètre userpwd manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$qgisDBHost" ] ; then
+		echo "Paramètre qgisDBHost manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$qgisDBPort" ] ; then
+		echo "Paramètre qgisDBPort manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$qgisDBName" ] ; then
+		echo "Paramètre qgisDBName manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$qgisDBSchema" ] ; then
+		echo "Paramètre qgisDBSchema manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$qgisDBUser" ] ; then
+		echo "Paramètre qgisDBUser manquant !"
+		invalidparams=1
+	fi
+	
+	if [ -z "$qgisDBPassword" ] ; then
+		echo "Paramètre qgisDBPassword manquant !"
+		invalidparams=1
+	fi
+	
+	if [ $ldap -eq 1 ] ; then
+		if [ -z "$ldapUri" ] ; then
+			echo "Paramètre ldapUri manquant !"
+			invalidparams=1
+		fi
+		
+		if [ -z "$ldapPath" ] ; then
+			echo "Paramètre ldapUri manquant !"
+			invalidparams=1
+		fi
+		
+		if [ -z "$ldapBindDn" ] ; then
+			echo "Paramètre ldapUri manquant !"
+			invalidparams=1
+		fi
+		
+		if [ -z "$ldapBindPwd" ] ; then
+			echo "Paramètre ldapUri manquant !"
+			invalidparams=1
+		fi
+	fi
+}
+
+while [[ "$#" -gt 0 ]]
+do
+	case $1 in
+		-b|--batch)
+		batchmode=1
+		;;
+		--dbhost)
+		dbhost=$2
+		;;
+		--dbport)
+		dbport=$2
+		;;
+		--dbadminuser)
+		dbadminuser=$2
+		;;
+		--dbname)
+		dbname=$2
+		;;
+		--schema)
+		schema=$2
+		;;
+		--username)
+		username=$2
+		;;
+		--userpwd)
+		userpwd=$2
+		;;
+		--qgisDBHost)
+		qgisDBHost=$2
+		;;
+		--qgisDBPort)
+		qgisDBPort=$2
+		;;
+		--qgisDBName)
+		qgisDBName=$2
+		;;
+		--qgisDBSchema)
+		qgisDBSchema=$2
+		;;
+		--qgisDBUser)
+		qgisDBUser=$2
+		;;
+		--qgisDBPassword)
+		qgisDBPassword=$2
+		;;
+		--ldapOrgs)
+		ldap=$2
+		;;
+		--ldapUri)
+		ldapUri=$2
+		;;
+		--ldapPath)
+		ldapPath=$2
+		;;
+		--ldapBindDn)
+		ldapBindDn=$2
+		;;
+		--ldapBindPwd)
+		ldapBindPwd=$2
+		;;
+		-*|--*)
+		echo "Invalid option: $1"
+		invalidparams=1
+      	;;
+	esac
+	shift
+done
+
+check_params
+
+if [ $invalidparams -eq 1 ] ; then show_description ; fi
 
 echo "--------------------------------";
 echo "Batch mode : $batchmode"
@@ -88,18 +253,24 @@ echo "Database name : $dbname"
 echo "Schema name : $schema"
 echo "Username : $username"
 echo "Password : $userpwd"
-echo "If using batch mode, make sure username and password had been set in pgpass.conf in order to use batch mode"
-
+echo "Si vous utilisez le mode batch, assurez vous que les identifiants soient bien renseignés dans le fichier pgpass.conf"
 echo "Qgis Database host : $qgisDBHost"
 echo "Qgis Database port : $qgisDBPort"
 echo "Qgis Database name : $qgisDBName"
 echo "Qgis Schema : $qgisDBSchema"
 echo "Qgis UserName : $qgisDBUser"
 echo "Qgis Password : $qgisDBPassword"
+echo "LDAP : $ldap"
+if [ $ldap -eq 1 ] ; then
+    echo "LDAP URI : $ldapUri"
+    echo "LDAP Path : $ldapPath"
+    echo "LDAP Bind DN : $ldapBindDn"
+    echo "LDAP Bind Password : $ldapBindPwd"
+fi
 echo "--------------------------------";
 
 if [ $batchmode = "1" ]; then
-  connectionOption=" -w"
+	connectionOption=" -w"
 fi
 
 # replaceAndLaunch
@@ -114,7 +285,6 @@ fi
 # #DBpasswd_qgis replace with $qgisDBPassword
 #
 replaceAndLaunch (){
-    
     if [ -z "$1" ] || [ ! -e $1 ] ; then
         echo "Sql file is unset or file does not exists"
         exit 1
@@ -133,10 +303,9 @@ replaceAndLaunch (){
                     psql -h $dbhost -p $dbport -U $username -d $dbname $connectionOption
 }
 
-
 # Init database
 echo "--------------------------------";
-echo " Init database";
+echo " Initialisation de la BDD";
 echo "--------------------------------";
 cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
                                   s/#pwd_cadastrapp/$userpwd/g
@@ -144,14 +313,28 @@ cat ./database/init.sql | sed  "{ s/#user_cadastrapp/$username/g
                                   s/#schema_cadastrapp/$schema/g }" |\
                                   psql -h $dbhost -p $dbport -U $dbadminuser -d postgres $connectionOption
 
+# If ldap activated, configure connection
+if [ $ldap -eq 1 ] ; then
+    echo "--------------------------------";
+    echo " Initialisation de la connexion au LDAP";
+    echo "--------------------------------";
+	cat ./database/initLdap.sql | sed  "{ s/#user_cadastrapp/$username/g
+                                  	  s/#schema_cadastrapp/$schema/g
+                                  	  s/#ldap_uri/$ldapUri/g
+                                  	  s/#ldap_path/$ldapPath/g
+                                  	  s/#ldap_binddn/$ldapBindDn/g
+                                  	  s/#ldap_bindpwd/$ldapBindPwd/g }" |\
+                                  	  psql -h $dbhost -p $dbport -U $dbadminuser -d postgres $connectionOption
+fi
+
 echo "--------------------------------";
-echo " Drop View and Tables except groupeAutorisation ";
+echo " Suppression des vues et tables excepté groupeAutorisation ";
 echo "--------------------------------";
 replaceAndLaunch ../commun/dropTablesAndViews.sql
 
 # Create tables
 echo "--------------------------------";
-echo " Create tables ";
+echo " Creation des tables ";
 echo "--------------------------------";
 
 replaceAndLaunch ./tables/uf_parcelle.sql
@@ -186,7 +369,11 @@ replaceAndLaunch ./views/qgisHabitationDetails.sql
 replaceAndLaunch ./views/qgisLot.sql
 
 # Create users correlation tables
-replaceAndLaunch ../commun/user/groupe_autorisation.sql
+if [ $ldap -eq 0 ] ; then 
+    replaceAndLaunch ../commun/user/groupe_autorisation.sql
+else
+    replaceAndLaunch ../commun/user/ldap_groupe_autorisation.sql
+fi
 
 # Create table for information request
 replaceAndLaunch ../commun/tables/request_information.sql
