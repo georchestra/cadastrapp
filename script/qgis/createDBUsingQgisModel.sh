@@ -327,7 +327,7 @@ if [ $ldap -eq 1 ] ; then
                                               s|#ldap_path|$ldapPath|g
                                               s|#ldap_binddn|$ldapBindDn|g
                                               s|#ldap_bindpwd|$ldapBindPwd|g }" |\
-                                              psql -h $dbhost -p $dbport -U $dbadminuser -d postgres $connectionOption
+                                              psql -h $dbhost -p $dbport -U $dbadminuser -d $dbname $connectionOption
 fi
 
 echo "--------------------------------";
