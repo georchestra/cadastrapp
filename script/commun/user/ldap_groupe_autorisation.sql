@@ -24,7 +24,7 @@ ALTER TABLE #schema_cadastrapp.role_autorisation
 
 COMMENT ON TABLE #schema_cadastrapp.role_autorisation IS 'Table de correlation entre les roles LDAP et les droits géographiques';
 
-COMMENT ON COLUMN #schema_cadastrapp.role_autorisation.idgroup IS 'Identfiant du role LDAP devant être filtré';
+COMMENT ON COLUMN #schema_cadastrapp.role_autorisation.idrole IS 'Identfiant du role LDAP devant être filtré';
 COMMENT ON COLUMN #schema_cadastrapp.role_autorisation.cgocommune IS 'Code commune INSEE version cadastre (6 char ->  made with ccodpe + ccodir + ccocom)';
 COMMENT ON COLUMN #schema_cadastrapp.role_autorisation.ccodep IS 'Code département à mettre en relation avec le code commune';
 
