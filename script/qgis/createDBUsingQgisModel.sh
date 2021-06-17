@@ -218,7 +218,7 @@ do
 		qgisDBPassword=$2
 		;;
 		--ldapOrgs)
-		ldap=$2
+		ldap=1
 		;;
 		--ldapUri)
 		ldapUri=$2
