@@ -242,7 +242,10 @@ done
 
 check_params
 
-if [ $invalidparams -eq 1 ] ; then show_description ; fi
+if [ $invalidparams -eq 1 ] ; then 
+	show_description
+	exit 1
+fi
 
 echo "--------------------------------";
 echo "Batch mode : $batchmode"
