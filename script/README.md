@@ -16,8 +16,8 @@ L'utilisation des vues matérialisées permet de gagner du temps lors de la mise
 
 Pour les bases de données :
 - 1 base de données PostgreSQL / PostGIS contenant vos données cadastrales. Cette base doit être accessible par le réseau.
-- 1 base de données PostgreSQL > 9.6 / PostGIS (version 2) avec l'extension **[dblink](http://www.postgresql.org/docs/9.6/static/dblink.html)** et **[multicorn](https://multicorn.org/)**  qui va abriter la base de données de Cadastrapp
-- 1 serveur LDAP contenant les organisations de votre plateforme geOrchestra accessible par le réseau
+- 1 base de données PostgreSQL > 9.6 / PostGIS (version 2) avec l'extension **[dblink](http://www.postgresql.org/docs/9.6/static/dblink.html)** et **[multicorn](https://multicorn.org/)** (pour ldap)  qui va abriter la base de données de Cadastrapp
+- (Optionnel) 1 serveur LDAP contenant les organisations de votre plateforme geOrchestra accessible par le réseau
 
 Pour Cadastrapp 1.9 : 
 - Le modèle de données Qgis issue du plugin Cadastre version > 1.8 de Qgis >= 3.4 <3.16
@@ -54,7 +54,7 @@ CREATE USER cadastrapp WITH PASSWORD 'votre_mdp' NOSUPERUSER INHERIT NOCREATEDB 
 GRANT ALL PRIVILEGES ON DATABASE cadastrapp TO cadastrapp ;
 ```
 
-## Création du Foreign Data Wrapper
+## Création du Foreign Data Wrapper pour LDAP
 
 Afin de récupérer les emprises géographiques définies pour l'organisation des utilisateurs, il est necessaire de configurer une connexion de la base de données vers le LDAP de Georchestra.
 
@@ -64,15 +64,7 @@ Commencer par installer l'extension multicorn sur la BDD précedemment créée :
 CREATE EXTENSION multicorn;
 ```
 
-Puis créer le Foreign Data Wrapper :
-
-```
-CREATE FOREIGN DATA WRAPPER multicorn_fdw
-    VALIDATOR public.multicorn_validator
-    HANDLER public.multicorn_handler;
-```
-
-Enfin, créer le lien vers le serveur LDAP : 
+Puis créer le lien vers le serveur LDAP : 
 
 ```
 CREATE SERVER ldap_srv foreign data wrapper multicorn options (
