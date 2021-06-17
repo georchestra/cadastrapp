@@ -322,12 +322,12 @@ if [ $ldap -eq 1 ] ; then
     echo " Initialisation de la connexion au LDAP";
     echo "--------------------------------";
 	cat ./database/initLdap.sql | sed  "{ s/#user_cadastrapp/$username/g
-                                  	  s/#schema_cadastrapp/$schema/g
-                                  	  s/#ldap_uri/$ldapUri/g
-                                  	  s/#ldap_path/$ldapPath/g
-                                  	  s/#ldap_binddn/$ldapBindDn/g
-                                  	  s/#ldap_bindpwd/$ldapBindPwd/g }" |\
-                                  	  psql -h $dbhost -p $dbport -U $dbadminuser -d postgres $connectionOption
+                                              s/#schema_cadastrapp/$schema/g
+                                              s/#ldap_uri/$ldapUri/g
+                                              s/#ldap_path/$ldapPath/g
+                                              s/#ldap_binddn/$ldapBindDn/g
+                                              s/#ldap_bindpwd/$ldapBindPwd/g }" |\
+                                              psql -h $dbhost -p $dbport -U $dbadminuser -d postgres $connectionOption
 fi
 
 echo "--------------------------------";
