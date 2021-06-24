@@ -18,6 +18,21 @@ echo ""
 # lecture du fichier de configuration des connexions
 . config.sh
 
+# verifie si le mode silencieux est activé
+silentMode=False
+while [[ "$#" -gt 0 ]]
+do
+	case $1 in
+		-s|--silent)
+		silentMode=True
+		;;
+		-*|--*)
+		echo "Invalid option: $1"
+      	;;
+	esac
+	shift
+done
+
 if [ "$uniqueDB" = True ] ; then
   echo "  1 seule base de données sera utilisée : $cadastrappDBName sur la machine $cadastrappDBHost"
   echo "    schéma des données cadastre QGIS : $qgisDBSchema"
@@ -32,9 +47,11 @@ else
   exit 1
 fi
 
-echo ""
-read -p "  Si ces infos sont exactes : appuyer sur la touche [Entrée] sinon faire ctrl + C pour arrêter."
-echo ""
+if [ "$silentMode" = True ] ; then
+	echo ""
+	read -p "  Si ces infos sont exactes : appuyer sur la touche [Entrée] sinon faire ctrl + C pour arrêter."
+	echo ""
+fi
 
 
 #
