@@ -18,7 +18,7 @@ test=`PGPASSWORD=$cadastrappDBPassword psql -h $cadastrappDBHost -p $cadastrappD
     --set ON_ERROR_STOP=on \
     --no-align \
     -t \
-    --field-separator ' ' `
+    --field-separator ' ' &>/dev/null `
 
 #echo "test = $test"
 

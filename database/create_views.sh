@@ -11,7 +11,7 @@ echo ""
 
 if [ "$uniqueDB" = True ] ; then
 
-  replaceAndLaunch sql/vues/commune.sql
+  replaceAndLaunch sql/vues/Commune.sql
   replaceAndLaunch sql/vues/Section.sql
   replaceAndLaunch sql/vues/Parcelle.sql
   replaceAndLaunch sql/vues/Proprietaire.sql
@@ -26,7 +26,7 @@ if [ "$uniqueDB" = True ] ; then
 
 elif [ "$uniqueDB" = False ] ; then
 
-  replaceAndLaunch sql/vues_dblink/commune.sql
+  replaceAndLaunch sql/vues_dblink/Commune.sql
   replaceAndLaunch sql/vues_dblink/Section.sql
   replaceAndLaunch sql/vues_dblink/Parcelle.sql
   replaceAndLaunch sql/vues_dblink/Proprietaire.sql

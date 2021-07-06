@@ -53,7 +53,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelle AS
 ALTER TABLE #schema_cadastrapp.parcelle OWNER TO #user_cadastrapp;
 
 
--- View: cadastreapp_qgis.parcelle
+
 
 CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS 
 	SELECT 
@@ -134,7 +134,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.parcelledetails AS
 				p2.surfb
 			from #DBSchema_qgis.parcelle
 			full outer join #DBSchema_qgis.geo_parcelle on parcelle.parcelle = geo_parcelle.geo_parcelle
-			left join cadastrapp.v_parcelle_surfc p2 on parcelle.parcelle=p2.parcelle
+			left join #schema_cadastrapp.v_parcelle_surfc p2 on parcelle.parcelle=p2.parcelle
 		) AS parcelledetails ;
 
 ALTER TABLE #schema_cadastrapp.parcelleDetails OWNER TO #user_cadastrapp;
