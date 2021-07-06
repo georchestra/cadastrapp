@@ -1,30 +1,57 @@
 # Cadastrapp 
 
-:warning: The arcOpole model is unsupported from Cadastrapp 1.9 on.
+## À propos de Cadastrapp
 
-## Summary
+Cadastrapp est l’outil de consultation des données cadastrales fournies par la Direction Générale des Finances Publiques (DGFiP) pour geOrchestra geOrchestra. Il est composé d’un module serveur qui est une API d’accès aux données de la matrice foncière et d'un greffon pour le visualiseur de geOrchestra. L’API peut être utilisée par n’importe quelle application client sous réserve de passer par le système d’authentification de [geOrchestra](https://www.georchestra.org).
 
-This application provides consulting tools for the French cadastre, based on the **geOrchestra** SDI.
+## Organisation
 
-Read the [user guide](https://github.com/georchestra/cadastrapp/wiki) for further information.
-
-It do not provides tools for the treatment of EDIGEO PCI and MAJIC files : you must treat them with the QGIS cadastre plugin.
-Cadastrapp is so based on QGis data model.
-
-
-Read the [release notes](https://github.com/georchestra/cadastrapp/releases)  for further informations
-
-Read the [Installation Guide](https://github.com/georchestra/cadastrapp/wiki/Guide-Administrateur#installation) for the technical purposes.
-
-Read [the scripts guide](https://github.com/georchestra/cadastrapp/tree/master/script) to create and populate the database.
+Cadastrapp est composé des éléments suivants :
+- un script de chargement / mise à jour des données cadastrales dans le répertoire `database`. Voir la [documentation](database/README.md).
+- une webapp Java qui compose la partie _backend_ / API dans le répertoire `cadastrapp`. Voir la [documentation](cadastrapp/README.md)
+- une partie client pour Mapfishapp dans le répertoire `addons`
+- une partie client pour MapStore dans un [dépôt dédié](https://github.com/georchestra/mapstore2-cadastrapp/)
 
 
-This repository is made of 3 mains parts : 
-- script folder contains all necessary shell to build and install database
-- addons folder contains client side of application
-- cadastrapp folder contains webapplication distributing webservice
+## Documentation
 
-Additional tool is needed to build from source (python2)
+[https://docs.georchestra.org/cadastrapp/](https://docs.georchestra.org/cadastrapp/) ou [https://docs.georchestra.org/cadastrapp/latest/](https://docs.georchestra.org/cadastrapp/)
+
+Les [notes de versions](https://github.com/georchestra/cadastrapp/releases) pour connaître le détail des évolutions.
+
+## Aide
+
+Posez vos questions à la communauté en écrivant à georchestra@googlegroups.com
+
+
+
+----
+
+# Cadastrapp (english)
+
+## About Cadastrapp
+
+Cadastrapp is the tool for consulting cadastral data provided by the Direction Générale des Finances Publiques (DGFiP) for geOrchestra. It is composed of a server module which is an API for accessing data from the land matrix and a plugin to the geOrchestra viewer. The API can be used by any client application as long as it goes through the [geOrchestra](https://www.georchestra.org) authentication system (https://www.georchestra.org).
+
+## Organisation
+
+Cadastrapp is composed by these following elements :
+- a data load / data refresh script in the `database` directory. See the [documentation](database/README.md).
+- a Java webapp wich compose _backend_ / API part in the `cadastrapp` directory. See the [documentation](cadastrapp/README.md)
+- a client part for Mapfishapp in the `addons` directory
+- a client part for MapStore in a [dedicated repository](https://github.com/georchestra/mapstore2-cadastrapp/)
+
+
+## Documentation
+
+[https://docs.georchestra.org/cadastrapp/](https://docs.georchestra.org/cadastrapp/) ou [https://docs.georchestra.org/cadastrapp/latest/](https://docs.georchestra.org/cadastrapp/)
+
+The [releases notes](https://github.com/georchestra/cadastrapp/releases) for knowledge on details of the evolutions.
+
+
+## Aide
+
+Ask to the community by wrinting to georchestra@googlegroups.com
 
 
 ## Sponsors
@@ -60,7 +87,3 @@ This project has been funded by :
     </tbody>
 </table>
 
-
-## Support
-
-Please send an email to georchestra@googlegroups.com for questions to the users community.
