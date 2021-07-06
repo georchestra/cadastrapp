@@ -57,6 +57,8 @@ Sous linux :
 * aller dans le répertoire `database`
 * exécuter le script `cadastrapp_load_data.sh`
 
+Note : il est possible de l'utiliser en mode silencieux avec l'option `-s` ou `--silent`. Si précisé, le script n'attendra pas de validation de la part de l'utilisateur.
+
 
 ## Mise à jour des données
 
@@ -64,3 +66,4 @@ Sous linux :
 * aller dans le répertoire `database`
 * exécuter le script `cadastrapp_update_data.sh`
 
+Note : il est possible de l'utiliser en mode silencieux avec l'option `-s` ou `--silent`. Si précisé, le script n'attendra pas de validation de la part de l'utilisateur.
