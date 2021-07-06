@@ -15,7 +15,7 @@ Cadastrapp est composé des éléments suivants :
 
 ## Documentation
 
-[https://docs.georchestra.org/cadastrapp/](https://docs.georchestra.org/cadastrapp/) ou [https://docs.georchestra.org/cadastrapp/latest/](https://docs.georchestra.org/cadastrapp/)
+[https://docs.georchestra.org/cadastrapp/](https://docs.georchestra.org/cadastrapp/) ou [https://docs.georchestra.org/cadastrapp/latest/](https://docs.georchestra.org/cadastrapp/latest/)
 
 Les [notes de versions](https://github.com/georchestra/cadastrapp/releases) pour connaître le détail des évolutions.
 
@@ -44,7 +44,7 @@ Cadastrapp is composed by these following elements :
 
 ## Documentation
 
-[https://docs.georchestra.org/cadastrapp/](https://docs.georchestra.org/cadastrapp/) ou [https://docs.georchestra.org/cadastrapp/latest/](https://docs.georchestra.org/cadastrapp/)
+[https://docs.georchestra.org/cadastrapp/](https://docs.georchestra.org/cadastrapp/) ou [https://docs.georchestra.org/cadastrapp/latest/](https://docs.georchestra.org/cadastrapp/latest/)
 
 The [releases notes](https://github.com/georchestra/cadastrapp/releases) for knowledge on details of the evolutions.
 
