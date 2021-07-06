@@ -21,5 +21,6 @@ replaceAndLaunch sql/tables/prop_dmatto.sql
 replaceAndLaunch sql/tables/prop_dmatgm.sql
 replaceAndLaunch sql/tables/prop_type_filiation.sql
 replaceAndLaunch sql/tables/prop_bati_detent.sql
+replaceAndLaunch sql/tables/groupe_autorisation.sql
 
 echo "    Fait"
