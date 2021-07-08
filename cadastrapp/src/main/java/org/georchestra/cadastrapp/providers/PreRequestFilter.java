@@ -22,8 +22,10 @@ public class PreRequestFilter implements ContainerRequestFilter {
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 			
 		String rolesList = requestContext.getHeaderString("sec-roles");
+		String org = requestContext.getHeaderString("sec-org");
 		String userName = requestContext.getHeaderString("sec-username");
 		MDC.put("user", userName);
+		MDC.put("org", org);
 		MDC.put("roles", rolesList);
 		MDC.put("uri", requestContext.getUriInfo().getPath());	
 		

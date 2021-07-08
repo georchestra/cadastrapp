@@ -1,6 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -146,39 +147,47 @@ public class CadController {
 	 */
 	protected String addAuthorizationFiltering(HttpHeaders headers, String tableAlias) {
 
-		logger.debug("Check user geographical limitation ");
-
 		List<Map<String, Object>> limitations;
 		List<String> communes = new ArrayList<String>();
 		List<String> deps = new ArrayList<String>();
 		
  		StringBuilder queryFilter = new StringBuilder();
 
-		// get roles list in header
-		// Example 'ROLE_MOD_LDAPADMIN,ROLE_EL_CMS,ROLE_SV_ADMIN'
+		String usernameString = headers.getHeaderString("sec-username");
+		if (usernameString == null){
+			logger.debug("Not checking geographical limitation, anonymous user");
+			return queryFilter.toString();
+		}
+		// get org in header
+		String orgString = headers.getHeaderString("sec-org");
+		// get roles in heade
 		String roleListString = headers.getHeaderString("sec-roles");
 		
-		logger.debug("user roleList : "+ roleListString);
+		// merge org+roles to get groups list
+		List<String> groupsList = new ArrayList<String>();
+		if(orgString!=null && !orgString.isEmpty()){
+			groupsList.add(orgString);
+		}
 		if(roleListString!=null && !roleListString.isEmpty()){
-			
 			// set separator by default if not set
 			if(roleSeparator.isEmpty()){
 				roleSeparator = ";";
 			}
-						
-			// Force to add the array of value in first place of a new Array
-			String[] roleList = roleListString.split(roleSeparator);  
- 	
-			// get commune list in database corresponding to this header
+			groupsList.addAll(Arrays.asList(roleListString.split(roleSeparator)));
+		}
+
+		logger.debug("Check user '" + usernameString + "' with groups '"+ groupsList.toString() + "' geographical limitation ");
+		if(!groupsList.isEmpty()){
+			// get commune list in database corresponding to those groups
 			StringBuilder queryBuilder = new StringBuilder();
 			queryBuilder.append("select distinct cgocommune, ccodep from ");
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".groupe_autorisation ");
-			queryBuilder.append(createWhereInQuery(roleList.length, "idgroup"));
+			queryBuilder.append(createWhereInQuery(groupsList.size(), "idgroup"));
 			queryBuilder.append(";");
 			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);	
-			limitations = jdbcTemplate.queryForList(queryBuilder.toString(), roleList);
+			limitations = jdbcTemplate.queryForList(queryBuilder.toString(), groupsList);
 					
 			// filter request on commune
 			if (limitations != null && !limitations.isEmpty()) {
@@ -234,6 +243,7 @@ public class CadController {
 		}
 		else{
 			logger.warn("No filter, no sec-roles was found");
+			logger.warn("User authenticated as '" + usernameString + "' but no sec-org header, something is wrong");
 		}
 
 		return queryFilter.toString();
