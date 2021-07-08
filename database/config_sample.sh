@@ -23,3 +23,12 @@ cadastrappDBPassword=cadastrapp_mdp
 # True / False
 uniqueDB=True
 
+# Récupération des autorisations geographiques configurées pour les organisations dans la console geOrchestra
+# True / False
+orgsAutorisations=False
+
+# Obligatoires si orgsAutorisations=True
+#ldapUri=ldaps://ldap.georchestra.org
+#ldapPath=ou=orgs,dc=georchestra,dc=org
+#ldapBindDn=uid=cadastrapp,ou=users,dc=lepuyenvelay,dc=fr
+#ldapBindPwd=secret
