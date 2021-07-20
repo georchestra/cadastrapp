@@ -27,6 +27,8 @@ replaceAndLaunch (){
 
   cat $1 | sed "{
     s/#schema_cadastrapp/$cadastrappDBSchema/g
+    s/#cadastrapp_db_host/$cadastrappDBHost/g
+    s/#cadastrapp_db_port/$cadastrappDBPort/g
     s/#cadastrapp_db_name/$cadastrappDBName/g
     s/#user_cadastrapp/$cadastrappDBUser/g
   }" |\
