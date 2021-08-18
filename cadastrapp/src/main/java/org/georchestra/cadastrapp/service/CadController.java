@@ -204,8 +204,12 @@ public class CadController {
 				}
 				
 				if(logger.isDebugEnabled()){
-					logger.debug("User have geographical limitation on zip code : " + communes.toString());
-					logger.debug("User have geographical limitation on dep : " + deps.toString());
+					if(!communes.isEmpty()){
+						logger.debug("User have geographical limitation on zip code : " + communes.toString());
+					}
+					if(!deps.isEmpty()){
+						logger.debug("User have geographical limitation on dep : " + deps.toString());
+					}
 				}
 				
 	
