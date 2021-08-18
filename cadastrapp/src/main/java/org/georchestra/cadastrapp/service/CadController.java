@@ -242,8 +242,8 @@ public class CadController {
 			}			
 		}
 		else{
-			logger.warn("No filter, no sec-roles was found");
-			logger.warn("User authenticated as '" + usernameString + "' but no sec-org header, something is wrong");
+			logger.warn("User authenticated as '" + usernameString + "' but no sec-org header, maybe something is wrong.");
+			logger.warn("No filters applied because no sec-roles or sec-org corresponding rules were founds.");
 		}
 
 		return queryFilter.toString();
