@@ -176,7 +176,6 @@ public class CadController {
 			groupsList.addAll(Arrays.asList(roleListString.split(roleSeparator)));
 		}
 
-		logger.debug("Check user '" + usernameString + "' with groups '"+ groupsList.toString() + "' geographical limitation ");
 		if(!groupsList.isEmpty()){
 			// get commune list in database corresponding to those groups
 			StringBuilder queryBuilder = new StringBuilder();
