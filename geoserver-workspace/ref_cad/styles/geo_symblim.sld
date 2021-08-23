@@ -12,6 +12,7 @@
   date        |  auteur              |  description
   06/06/2019  |  arnaud LECLERE      |  version initiale
   21/08/2019  |  Maël REBOUX         |  modif diverses avant mise en prod
+  12/05/2021  |  Arnaud LECLERE      |  Pb orientation des symboles de mitoyenneté + passage en unité terrain
 
 -->
 
@@ -34,83 +35,47 @@
       <se:FeatureTypeStyle>
 
 
-        <!--<se:Rule>
-          <se:Name>geo_sym</se:Name>
-          <se:Description>
-            <se:Title>geo_sym is ''</se:Title>
-          </se:Description>
-          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
-            <ogc:Or>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>geo_sym</ogc:PropertyName>
-                <ogc:Literal/>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsNull>
-                <ogc:PropertyName>geo_sym</ogc:PropertyName>
-              </ogc:PropertyIsNull>
-            </ogc:Or>
-          </ogc:Filter>
-          <se:MinScaleDenominator>1</se:MinScaleDenominator>
-          <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
-            <se:Graphic>
-              <se:Mark>
-                <se:WellKnownName>shape://horline</se:WellKnownName>
-                <se:Fill>
-                  <se:SvgParameter name="fill">#08306b</se:SvgParameter>
-                </se:Fill>
-                <se:Stroke>
-                  <se:SvgParameter name="stroke">#444444</se:SvgParameter>
-                  <se:SvgParameter name="stroke-width">0.5</se:SvgParameter>
-                  <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
-                </se:Stroke>
-              </se:Mark>
-              <se:Size>10</se:Size>
-              <se:Rotation>
-                <ogc:Add>
-                  <ogc:Literal>90</ogc:Literal>
-                  <ogc:PropertyName>ori</ogc:PropertyName>
-                </ogc:Add>
-              </se:Rotation>
-            </se:Graphic>
-          </se:PointSymbolizer>
-        </se:Rule>-->
-
-
         <!--  Mur mitoyen : double trait noir avec un trait dans chaque parcelle -->
         <se:Rule>
           <se:Name>mur mitoyen</se:Name>
           <se:Description>
             <se:Title>mur mitoyen</se:Title>
           </se:Description>
+          
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>geo_sym</ogc:PropertyName>
               <ogc:Literal>39</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
+          
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Graphic>
               <se:Mark>
                 <se:WellKnownName>ttf://cadastre_rm#${'U+004A'}</se:WellKnownName>              
                 <se:Fill>
                   <se:SvgParameter name="fill">#444444</se:SvgParameter>
                 </se:Fill>
+                
                 <se:Stroke>
                   <se:SvgParameter name="stroke">#444444</se:SvgParameter>
                   <se:SvgParameter name="stroke-width">0</se:SvgParameter>
                   <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
                 </se:Stroke>
+                
               </se:Mark>
-              <se:Size>10</se:Size>
+              <se:Size>2</se:Size>
+              
               <se:Rotation>
                 <ogc:Add>
                   <ogc:Literal>90</ogc:Literal>
                   <ogc:PropertyName>ori</ogc:PropertyName>
                 </ogc:Add>
               </se:Rotation>
+              
             </se:Graphic>
           </se:PointSymbolizer>
         </se:Rule>
@@ -122,28 +87,34 @@
           <se:Description>
             <se:Title>mur non mitoyen</se:Title>
           </se:Description>
+          
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>geo_sym</ogc:PropertyName>
               <ogc:Literal>40</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
+          
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Graphic>
               <se:Mark>
                 <se:WellKnownName>ttf://cadastre_rm#${'U+0046'}</se:WellKnownName>
                 <se:Fill>
                   <se:SvgParameter name="fill">#444444</se:SvgParameter>
                 </se:Fill>
+                
                 <se:Stroke>
                   <se:SvgParameter name="stroke">#444444</se:SvgParameter>
                   <se:SvgParameter name="stroke-width">0</se:SvgParameter>
                   <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
                 </se:Stroke>
+                
               </se:Mark>
-              <se:Size>10</se:Size>
+              <se:Size>2</se:Size>
+              
               <se:Rotation>
                 <ogc:Add>
                   <ogc:Literal>90</ogc:Literal>
@@ -165,15 +136,18 @@
           <se:Description>
             <se:Title>fossé mitoyen</se:Title>
           </se:Description>
+          
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>geo_sym</ogc:PropertyName>
               <ogc:Literal>41</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
+          
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Graphic>
               <se:Mark>
                 <se:WellKnownName>ttf://cadastre_rm#${'U+004B'}</se:WellKnownName>
@@ -186,7 +160,7 @@
                   <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
                 </se:Stroke>
               </se:Mark>
-              <se:Size>10</se:Size>
+              <se:Size>2</se:Size>
               <se:Rotation>
                 <ogc:Add>
                   <ogc:Literal>90</ogc:Literal>
@@ -204,15 +178,18 @@
           <se:Description>
             <se:Title>fossé non mitoyen</se:Title>
           </se:Description>
+          
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>geo_sym</ogc:PropertyName>
               <ogc:Literal>42</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
+          
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Graphic>
               <se:Mark>
                 <se:WellKnownName>ttf://cadastre_rm#${'U+0047'}</se:WellKnownName>
@@ -223,9 +200,10 @@
                   <se:SvgParameter name="stroke">#444444</se:SvgParameter>
                   <se:SvgParameter name="stroke-width">0</se:SvgParameter>
                   <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
+                  <se:SvgParameter name="stroke-dashoffset">10</se:SvgParameter>
                 </se:Stroke>
               </se:Mark>
-              <se:Size>10</se:Size>
+              <se:Size>2</se:Size>
               <se:Rotation>
                 <ogc:Add>
                   <ogc:Literal>90</ogc:Literal>
@@ -243,15 +221,18 @@
           <se:Description>
             <se:Title>clôture mitoyenne</se:Title>
           </se:Description>
+          
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>geo_sym</ogc:PropertyName>
               <ogc:Literal>43</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
+          
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Graphic>
               <se:Mark>
                 <se:WellKnownName>ttf://cadastre_rm#${'U+004D'}</se:WellKnownName>
@@ -264,7 +245,7 @@
                   <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
                 </se:Stroke>
               </se:Mark>
-              <se:Size>10</se:Size>
+              <se:Size>2</se:Size>
               <se:Rotation>
                 <ogc:Add>
                   <ogc:Literal>90</ogc:Literal>
@@ -282,15 +263,18 @@
           <se:Description>
             <se:Title>clôture non mitoyenne</se:Title>
           </se:Description>
+          
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>geo_sym</ogc:PropertyName>
               <ogc:Literal>44</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
+          
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Graphic>
               <se:Mark>
                 <se:WellKnownName>ttf://cadastre_rm#${'U+0049'}</se:WellKnownName>
@@ -300,13 +284,13 @@
                 <se:Stroke>
                   <se:SvgParameter name="stroke">#444444</se:SvgParameter>
                   <se:SvgParameter name="stroke-width">0</se:SvgParameter>
-                  <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
+                  <se:SvgParameter name="stroke-opacity">0</se:SvgParameter> 
                 </se:Stroke>
               </se:Mark>
-              <se:Size>10</se:Size>
+              <se:Size>2</se:Size>
               <se:Rotation>
                 <ogc:Add>
-                  <ogc:Literal>90</ogc:Literal>
+                  <ogc:Literal>270</ogc:Literal>
                   <ogc:PropertyName>ori</ogc:PropertyName>
                 </ogc:Add>
               </se:Rotation>
@@ -321,15 +305,18 @@
           <se:Description>
             <se:Title>haie mitoyenne</se:Title>
           </se:Description>
+          
           <ogc:Filter>
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>geo_sym</ogc:PropertyName>
               <ogc:Literal>45</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
+          
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Graphic>
               <se:Mark>
                 <se:WellKnownName>ttf://cadastre_rm#${'U+004C'}</se:WellKnownName>
@@ -342,7 +329,7 @@
                   <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
                 </se:Stroke>
               </se:Mark>
-              <se:Size>10</se:Size>
+              <se:Size>2</se:Size>
               <se:Rotation>
                 <ogc:Add>
                   <ogc:Literal>90</ogc:Literal>
@@ -360,15 +347,18 @@
           <se:Description>
             <se:Title>haie non mitoyenne</se:Title>
           </se:Description>
+          
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>geo_sym</ogc:PropertyName>
               <ogc:Literal>46</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          
           <se:MinScaleDenominator>1</se:MinScaleDenominator>
           <se:MaxScaleDenominator>1500</se:MaxScaleDenominator>
-          <se:PointSymbolizer>
+          
+          <se:PointSymbolizer uom="http://www.opengeospatial.org/se/units/metre">
             <se:Graphic>
               <se:Mark>
                 <se:WellKnownName>ttf://cadastre_rm#${'U+0048'}</se:WellKnownName>
@@ -381,7 +371,7 @@
                   <se:SvgParameter name="stroke-opacity">0</se:SvgParameter>
                 </se:Stroke>
               </se:Mark>
-              <se:Size>10</se:Size>
+              <se:Size>2</se:Size>
               <se:Rotation>
                 <ogc:Add>
                   <ogc:Literal>90</ogc:Literal>
