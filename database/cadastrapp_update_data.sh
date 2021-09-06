@@ -47,7 +47,9 @@ else
   exit 1
 fi
 
-if [ "$silentMode" = True ] ; then
+echo ""
+
+if [ "$silentMode" = False ] ; then
 	echo ""
 	read -p "  Si ces infos sont exactes : appuyer sur la touche [Entrée] sinon faire ctrl + C pour arrêter."
 	echo ""
