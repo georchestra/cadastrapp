@@ -20,7 +20,7 @@ La base de données _source_ sera lue par les scripts.
 
 Le script de purge + rechargement complet des données va créer les tables et **[les vues matérialisées](https://www.postgresql.org/docs/current/sql-creatematerializedview.html)** dont cadastrapp a besoin pour fonctionner ; **SAUF** les tables liées aux demandes d'information foncières qui contiennent des archives statistiques. Ces tables ne sont JAMAIS supprimées par les scripts.
 
-L'utilisation des vues matérialisées permet de gagner du temps lors d'une mise à jour concernant uniquement le plan cadastral car un simple REFRESH ```MATERIALIZED VIEW table_name``` suffit à relire la base de données source.
+L'utilisation des vues matérialisées permet de gagner du temps lors d'une mise à jour concernant uniquement le plan cadastral car un simple `REFRESH MATERIALIZED VIEW table_name` suffit à relire la base de données source.
 
 
 ## Prérequis
