@@ -4,22 +4,22 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
  
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cadastrapp - services</title>
-    </head>
-    <body>
-        <h2>Cadastrapp</h2>
-        </p>
-        <a href="apidocs/index.html">JavaDoc</a>
-        <a href="apidocs/wadl/application.wadl">WADL</a>
-        </p>
-        <a href="https://github.com/georchestra/">GitHub Georchestra</a>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Cadastrapp - services</title>
+  </head>
+  <body>
+    <h2>Cadastrapp</h2>
+    </p>
+    <a href="https://github.com/georchestra/">GitHub Georchestra</a>
+    </p>
+    <a href="services/v2/api-docs">Swagger description</a>
+    </p>
+    <a href="swagger-ui.html">Swagger UI</a>
  		</p>
  		<c:catch var ="catchException">
-  			<sql:query  var="rs"  dataSource="jdbc/cadastrapp"> SELECT datname FROM pg_database;</sql:query>      
+  		<sql:query  var="rs"  dataSource="jdbc/cadastrapp"> SELECT datname FROM pg_database;</sql:query>      
         </c:catch>
-        
       	<div>Database link :
       		<c:choose>
       	   	 	<c:when test = "${catchException != null}">KO</c:when>
