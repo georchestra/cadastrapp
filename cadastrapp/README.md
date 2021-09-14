@@ -16,18 +16,18 @@ This application is made to be installed behind GeOrchestra security proxy. To i
 	-- As for gerochestra tomcat instance, you will have to  create a new instance
 		(choose a port not already use here we choose 8480 for http endpoint and 8405 to stop
 	```
-		sudo tomcat6-instance-create -p 8480 -c 8405 /var/lib/tomcat-cadastrapp
+		sudo tomcat9-instance-create -p 8480 -c 8405 /var/lib/tomcat-cadastrapp
 	```
 	###  Init policy and service
 		sudo mkdir /var/lib/tomcat-cadastrapp/conf/policy.d
 		sudo touch /var/lib/tomcat-cadastrapp/conf/policy.d/empty.policy
-		sudo chown -R tomcat6:tomcat6 /var/lib/tomcat-cadastrapp
-		sudo cp /etc/init.d/tomcat6 /etc/init.d/tomcat-cadastrapp
-		sudo cp /etc/default/tomcat6 /etc/default/tomcat-cadastrapp
+		sudo chown -R tomcat:tomcat /var/lib/tomcat-cadastrapp
+		sudo cp /etc/init.d/tomcat9 /etc/init.d/tomcat-cadastrapp
+		sudo cp /etc/default/tomcat9 /etc/default/tomcat-cadastrapp
 
 Finally, edit the ```/etc/init.d/tomcat-cadastrapp``` script, find the following line:
 ```
-# Provides:          tomcat6
+# Provides:          tomcat9
 ```
 ... and replace it with:
 ```
@@ -44,12 +44,12 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC"
 And later add these lines (change the ```STOREPASSWORD``` string):
 ```
 JAVA_OPTS="$JAVA_OPTS \
-              -Xms1024m \
+              -Xms256m \
               -Xmx1024m \
               -XX:MaxPermSize=256m"
 
 JAVA_OPTS="$JAVA_OPTS \
-              -Djavax.net.ssl.trustStore=/etc/tomcat6/keystore \
+              -Djavax.net.ssl.trustStore=/etc/georchestra/keystore \
               -Djavax.net.ssl.trustStorePassword=STOREPASSWORD"
 ```
 ### Configure connectors 
@@ -86,7 +86,7 @@ In ```/var/lib/tomcat-cadastrapp/conf/context.xml```, add a new ResourceLink at 
 #### Add jar require for this datasource
 
 To be able to connect to postgresql database, tomcat will have to get postgresql client librairie in his classloader.
-In tomcat6 instance, you will have to add ```postgresql-9.1-901-1.jdbc4.jar``` to ```/var/lib/tomcat-cadastrapp/lib``` folder (with a symlink)
+In tomcat9 instance, you will have to add ```postgresql-42.2.22.jar``` to ```/var/lib/tomcat-cadastrapp/lib``` folder (with a symlink)
 
 ### Start the instance
 
