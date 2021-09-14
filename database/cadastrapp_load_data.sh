@@ -74,12 +74,11 @@ if [ "$orgsAutorisations" = True ] ; then
   fi
 fi
 
-if [ "$silentMode" = True ] ; then
+if [ "$silentMode" = False ] ; then
 	echo ""
 	read -p "  Si ces infos sont exactes : appuyer sur la touche [Entrée] sinon faire ctrl + C pour arrêter."
 	echo ""
 fi
-
 
 #
 # cette fonction permet de remplacer les infos de connection

@@ -2,15 +2,25 @@
 
 Ceci est la documentation des traitements qui mettent à jour la base de données applicative de cadastrapp.
 
+=======
+2 scripts existent :
+- 1 script de purge + rechargement complet des données : `cadastrapp_load_data.sh`
+- 1 script de rafraîchissement des vues matérialisées : `cadastrapp_update_data.sh`
+
+
+**Pour une mise à jour incluant une mise à jour des données foncières (données MAJIC) il faut faire un rechargement complet de la base de données car, généralement il y a chaque année des mises à jour de valeurs des nomenclatures. En revanche, en cas de mise à jour des données du plan cadastral (EDIGEO) uniquement, on peut se contenter de rafraîchir les vues matérialisées.**
+
 ## Principe de fonctionnement
 
-Avant de configurer et jouer ce script, vous devez disposez d'une base de données PostgreSQL / PostGIS contenant des données cadastrales créées en utilisant le greffon **QGIS [cadastre](https://plugins.qgis.org/plugins/cadastre/)**
+Avant de configurer et jouer les scripts, vous devez disposez d'une base de données PostgreSQL / PostGIS contenant des données cadastrales créées en utilisant le greffon **[QGIS cadastre](https://plugins.qgis.org/plugins/cadastre/)**.
 
-Cette base de données sera lue par le script qui va créer les tables et **[les vues matérialisées](https://www.postgresql.org/docs/current/sql-creatematerializedview.html)** dont cadastrapp a besoin pour fonctionner.
 
-Le fichier de configuration du script vous permet de définir si les données cadastre QGIS sont dans la même base de données que les données cadastrapp ou pas, sur le même serveur ou pas.
+Le fichier de configuration des scripts vous permet de définir si les données au format cadastre QGIS sont dans la même base de données que les données cadastrapp ou pas, sur le même serveur ou pas.
+La base de données _source_ sera lue par les scripts. 
 
-L'utilisation des vues matérialisées permet de gagner du temps lors de la mise de vos données car un simple REFRESH ```MATERIALIZED VIEW table_name``` suffit à relire la base de données source.
+Le script de purge + rechargement complet des données va créer les tables et **[les vues matérialisées](https://www.postgresql.org/docs/current/sql-creatematerializedview.html)** dont cadastrapp a besoin pour fonctionner ; **SAUF** les tables liées aux demandes d'information foncières qui contiennent des archives statistiques. Ces tables ne sont JAMAIS supprimées par les scripts.
+
+L'utilisation des vues matérialisées permet de gagner du temps lors d'une mise à jour concernant uniquement le plan cadastral car un simple `REFRESH MATERIALIZED VIEW table_name` suffit à relire la base de données source.
 
 ## Prérequis
 
@@ -73,9 +83,9 @@ ALTER SERVER ldap_srv
 ```
 > **Note:** Remplacer `#user_cadastrapp` par l'utilisateur utilisé par cadastrapp
 
-## Configuration du script
+## Configuration
 
-Sous linux :
+Sous linux ou git bash sous Windows :
 * aller dans le répertoire `database`
 * dupliquer le fichier `config_sample.sh`
 * le renommer en `config.sh`
@@ -83,9 +93,9 @@ Sous linux :
 * si les données cadastre QGIS et cadastrapp sont dans la même base de données, laisser `uniqueDB=True` sinon mettre `uniqueDB=False`
 * si vous souhaitez remonter les autorisations cartographiques de puis les organisations geOrchestra (LDAP), mettre `orgsAutorisations=True` sinon laisser `orgsAutorisations=False`
 
-## Utilisation du script
+## Purge + rechargement complet des données
 
-Sous linux :
+Sous linux ou git bash sous Windows :
 * aller dans le répertoire `database`
 * exécuter le script `cadastrapp_load_data.sh`
 
@@ -93,7 +103,9 @@ Note : il est possible de l'utiliser en mode silencieux avec l'option `-s` ou `-
 
 ## Mise à jour des données
 
-Sous linux :
+Convient pour une mise à jour intermédiaire ne concernant pas une mise à jour des données foncières.
+
+Sous linux ou git bash sous Windows :
 * aller dans le répertoire `database`
 * exécuter le script `cadastrapp_update_data.sh`
 
