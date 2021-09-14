@@ -8,28 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.helper.ProprietaireHelper;
 import org.georchestra.cadastrapp.service.export.ExportHelper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+@Controller
 public class ProprietaireController extends CadController{
 
 	static final Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
@@ -41,9 +40,7 @@ public class ProprietaireController extends CadController{
 	@Autowired
 	ProprietaireHelper  proprietaireHelper;
 
-	@GET
-	@Path("/getProprietaire")
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/getProprietaire", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * This will return information about owners in JSON format
 	 * 
@@ -74,16 +71,15 @@ public class ProprietaireController extends CadController{
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String,Object>> getProprietairesList(
-			@Context HttpHeaders headers,
-			@QueryParam("dnomlp") String dnomlp,
-			@QueryParam("cgocommune") String cgocommune,
-			@QueryParam("dnupro") final List<String> dnuproList,
-			@QueryParam("comptecommunal") String compteCommunal,
-			@QueryParam("globalname") String globalName,
-			@QueryParam("ddenom") String ddenom,
-			@DefaultValue("false") @QueryParam("birthsearch") boolean isBirthSearch,
-			@DefaultValue("0") @QueryParam("details") int details
+	public 	@ResponseBody List<Map<String,Object>> getProprietairesList(
+			@RequestParam(required = false) String dnomlp,
+			@RequestParam(required = false) String cgocommune,
+			@RequestParam(name= "dnupro", required = false) final List<String> dnuproList,
+			@RequestParam(name= "comptecommunal", required = false) String compteCommunal,
+			@RequestParam(name= "globalname", required = false) String globalName,
+			@RequestParam(required = false) String ddenom,
+			@RequestParam(defaultValue = "0", name ="birthsearch", required = false) boolean isBirthSearch,
+			@RequestParam(defaultValue = "0", required = false) int details
 			) throws SQLException {
 
 		// Init list to return response even if nothing in it.
@@ -92,13 +88,13 @@ public class ProprietaireController extends CadController{
 
 		logger.info("details : " + details);
 		// User need to be at least CNIL1 level
-		if (getUserCNILLevel(headers)>0){
+		if (getUserCNILLevel()>0){
 
 			int cgoCommuneLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("cgoCommune.length"));
 
-			// No search if all parameters are null or dnomlpPariel less than n char
+			// No search if all parameters are null or dnomlp ddenom less than n char
 			// when searching by dnupro, cgocommune is mandatory
-			// when searching bu dnomlp, cgocommune is mandatory
+			// when searching by dnomlp, cgocommune is mandatory
 			if((dnomlp != null && !dnomlp.isEmpty() && minNbCharForSearch <= dnomlp.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
 					|| (globalName != null && !globalName.isEmpty() && minNbCharForSearch <= globalName.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length())
 					|| (ddenom != null && !ddenom.isEmpty() && minNbCharForSearch <= ddenom.length() && cgocommune!=null && cgoCommuneLength == cgocommune.length()) 
@@ -162,7 +158,7 @@ public class ProprietaireController extends CadController{
 				
 				isWhereAdded = createEqualsClauseRequest(isWhereAdded, queryBuilder, "comptecommunal", compteCommunal, queryParams);
 
-				queryBuilder.append(addAuthorizationFiltering(headers));
+				queryBuilder.append(addAuthorizationFiltering());
 
 				if(details != 2){
 					queryBuilder.append("order by app_nom_usage, app_nom_naissance limit 25 ");
@@ -182,15 +178,10 @@ public class ProprietaireController extends CadController{
 		return proprietaires;
 	}
 
-
-	@GET
-	@Path("/getProprietairesByParcelles")
-	@Produces("application/json")
+	@RequestMapping(path = "/getProprietairesByParcelles", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * This will return information about owners in JSON format
 	 *
-	 * 
-	 * @param headers headers from request used to filter search using LDAP Roles
 	 * @param parcelleList
 	 * 					 
 	 * 
@@ -198,22 +189,17 @@ public class ProprietaireController extends CadController{
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String,Object>> getProprietairesByParcelle(
-			@Context HttpHeaders headers,
-			@QueryParam("parcelles") List<String> parcelleList
+	public @ResponseBody List<Map<String,Object>> getProprietairesByParcelle(
+			@RequestParam("parcelles") List<String> parcelleList
 			) throws SQLException {
 
-		return proprietaireHelper.getProprietairesByParcelles(headers, parcelleList, true);
+		return proprietaireHelper.getProprietairesByParcelles(parcelleList, true);
 	}
 
-	@GET
-	@Path("/getProprietairesByInfoParcelles")
-	@Produces("application/json")
+	@RequestMapping(path = "/getProprietairesByInfoParcelles", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * This will return information about co-owners in JSON format
 	 *
-	 * 
-	 * @param headers headers from request used to filter search using LDAP Roles
 	 * @param commune
 	 * @param section containing ccopre+ccosec
 	 * @param numero
@@ -223,19 +209,18 @@ public class ProprietaireController extends CadController{
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String,Object>> getProprietairesByInfoParcelle(
-			@Context HttpHeaders headers,
-			@QueryParam("commune") String commune,
-			@QueryParam("section") String section,
-			@QueryParam("numero") String numero,
-			@QueryParam("ddenom") String ddenom
+	public @ResponseBody List<Map<String,Object>> getProprietairesByInfoParcelle(
+			@RequestParam(required = false) String commune,
+			@RequestParam(required = false) String section,
+			@RequestParam(required = false) String numero,
+			@RequestParam(required = false) String ddenom
 			) throws SQLException {
 
 		// Init list to return response even if nothing in it.
 		List<Map<String,Object>> proprietaires = new ArrayList<Map<String,Object>>();;
 
 		// User need to be at least CNIL1 level
-		if (getUserCNILLevel(headers)>0){
+		if (getUserCNILLevel()>0){
 
 			// if search by dnuproList or comptecommunal
 			// directly search in view parcelle
@@ -280,32 +265,28 @@ public class ProprietaireController extends CadController{
 		return proprietaires;
 	}
 	
-	
-	@POST
-	@Path("/exportProprietaireByParcelles")
-	@Produces("text/csv")
+	@RequestMapping(path = "/exportProprietaireByParcelles", produces = {"text/csv"}, method= {RequestMethod.POST})
 	/**
 	 * Create a csv file from given parcelles id
 	 * 
-	 * @param headers Used to filter displayed information
+	 * @param rolesList Used to filter displayed information
 	 * @param parcelles list of parcelle separated by a coma
 	 * 
 	 * @return csv containing list of owners
 	 * 
 	 * @throws SQLException
 	 */
-	public Response exportProprietaireByParcelles(
-			@Context HttpHeaders headers,
-			@FormParam("parcelles") String parcelles) throws SQLException {
+	public ResponseEntity<byte[]> exportProprietaireByParcelles(
+			@RequestParam String parcelles) throws SQLException {
 		
 		// Create empty content
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		// User need to be at least CNIL1 level
-		if (getUserCNILLevel(headers)>0){
+		if (getUserCNILLevel()>0){
 			
 			String  entete = "proprio_id;droit_reel_libelle;denomination_usage;parcelles;civilite;nom_usage;prenom_usage;denomination_naissance;nom_naissance;prenom_naissance;adresse_ligne3;adresse_ligne4;adresse_ligne5;adresse_ligne6;forme_juridique";
-			if(getUserCNILLevel(headers)>1){
+			if(getUserCNILLevel()>1){
 				entete = entete + ";lieu_naissance; date_naissance";
 			}
 			
@@ -322,7 +303,7 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append("select prop.comptecommunal, ccodro_lib, app_nom_usage, string_agg(parcelle, ','), ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6, dformjur ");
 				
 				// If user is CNIL2 add birth information
-				if(getUserCNILLevel(headers)>1){
+				if(getUserCNILLevel()>1){
 					queryBuilder.append(", dldnss, jdatnss ");
 				}
 				queryBuilder.append("from ");
@@ -332,10 +313,10 @@ public class ProprietaireController extends CadController{
 				queryBuilder.append(".proprietaire_parcelle proparc ");
 				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
-				queryBuilder.append(addAuthorizationFiltering(headers));
+				queryBuilder.append(addAuthorizationFiltering());
 				queryBuilder.append("GROUP BY prop.comptecommunal, ccodro_lib, app_nom_usage, ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6, dformjur");
 				// If user is CNIL2 add birth information
-				if(getUserCNILLevel(headers)>1){
+				if(getUserCNILLevel()>1){
 					queryBuilder.append(", dldnss, jdatnss ");
 				}
 				queryBuilder.append(" ORDER BY prop.comptecommunal");
@@ -348,8 +329,10 @@ public class ProprietaireController extends CadController{
 					file = exportHelper.createCSV(proprietaires, entete);
 					
 					// build csv response
-					response = Response.ok((Object) file);
-					response.header("Content-Disposition", "attachment; filename=" + file.getName());
+					HttpHeaders headers = new HttpHeaders();
+					headers.setContentDispositionFormData("filename", file.getName());
+					response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+
 				}catch (IOException e) {
 					logger.error("Error while creating CSV files ", e);
 				} finally {
@@ -366,7 +349,7 @@ public class ProprietaireController extends CadController{
 			logger.info(ACCES_ERROR_LOG);
 		}
 	
-		return response.build();
+		return response;
 	}
 }
 

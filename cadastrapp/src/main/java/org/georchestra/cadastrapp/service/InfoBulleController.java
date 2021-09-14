@@ -5,32 +5,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
+import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-
+@Controller
 public class InfoBulleController extends CadController {
 	
 	final static Logger logger = LoggerFactory.getLogger(InfoBulleController.class);
 
 
-	@Path("/getInfoBulle")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/getInfoBulle", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
-	 * 
-	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available cgocommune
 	 * 
 	 * @param parcelle id parcelle
 	 * @param infocadastrale 1 to get additional information, 0 to avoid getting additional information (default value 1 if not set)
@@ -40,44 +37,38 @@ public class InfoBulleController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> getInfoBulle(
-			@Context HttpHeaders headers,
-			@QueryParam("parcelle") String parcelle,
-			@DefaultValue("1") @QueryParam("infocadastrale") int infocadastrale,
-			@DefaultValue("1") @QueryParam("infouf") int infouf) throws SQLException {
+	public @ResponseBody Map<String, Object> getInfoBulle(
+			@RequestParam String parcelle,
+			@RequestParam(defaultValue = "1", required = false) int infocadastrale,
+			@RequestParam(defaultValue = "1", required = false) int infouf) throws SQLException {
  
 		Map<String, Object> informations = null;
 		
 		if(infocadastrale == 0 && infouf == 1){
-			informations = getInfoBulleUniteFonciere(headers, parcelle);
+			informations = getInfoBulleUniteFonciere(parcelle);
 		}else if (infocadastrale == 1 && infouf == 0){
-			informations = getInfoBulleParcelle(headers, parcelle);
+			informations = getInfoBulleParcelle(parcelle);
 		}else if (infocadastrale == 0 && infouf == 0){
 			logger.warn("No information can be serve");
 		}else{
-			informations = getInfoBulleParcelle(headers, parcelle);
-			informations.putAll(getInfoBulleUniteFonciere(headers, parcelle));
+			informations = getInfoBulleParcelle(parcelle);
+			informations.putAll(getInfoBulleUniteFonciere(parcelle));
 		}
 
 		return informations;
 	}
 
 	
-	@Path("/getInfobulleParcelle")
-	@GET
-	@Produces("application/json")
+	@RequestMapping(path = "/getInfobulleParcelle", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
-	 * 
-	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available cgocommune
 	 * 
 	 * @param parcelle id parcelle
 	 * @return Data from parcelle view to be display in popup in JSON format
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> getInfoBulleParcelle(
-			@Context HttpHeaders headers,
-			@QueryParam("parcelle") String parcelle) throws SQLException {
+	public 	@ResponseBody Map<String, Object> getInfoBulleParcelle(
+			@RequestParam("parcelle") String parcelle) throws SQLException {
  
 		Map<String, Object> informations = null;
 
@@ -98,7 +89,7 @@ public class InfoBulleController extends CadController {
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			informations = jdbcTemplate.queryForMap(queryBuilder.toString(), parcelle);
 			
-			if(getUserCNILLevel(headers)>0){
+			if(getUserCNILLevel()>0){
 				
 				List<Map<String, Object>> proprietaires = null;
 				
@@ -110,7 +101,7 @@ public class InfoBulleController extends CadController {
 				queryProprietaireBuilder.append(databaseSchema);
 				queryProprietaireBuilder.append(".proprietaire prop ");
 				queryProprietaireBuilder.append(" where proparc.parcelle = ? and proparc.comptecommunal = prop.comptecommunal ");
-				queryProprietaireBuilder.append(addAuthorizationFiltering(headers, "prop."));
+				queryProprietaireBuilder.append(addAuthorizationFiltering("prop."));
 				queryProprietaireBuilder.append(" LIMIT 9");
 				
 				JdbcTemplate jdbcTemplateProp = new JdbcTemplate(dataSource);
@@ -129,21 +120,16 @@ public class InfoBulleController extends CadController {
 		return informations;
 	}
 
-	@Path("/getInfoUniteFonciere")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/getInfoUniteFonciere", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
-	 * 
-	 * @param headers / headers from request used to filter search using LDAP Roles to display only information about parcelle from available cgocommune
-	 * 
+	 *  
 	 * @param parcelle id parcelle
 	 * @return Data from parcelle view to be display in popup in JSON format
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> getInfoBulleUniteFonciere(
-			@Context HttpHeaders headers,
-			@QueryParam("parcelle") String parcelle) throws SQLException {
+	public @ResponseBody Map<String, Object> getInfoBulleUniteFonciere(
+			@RequestParam("parcelle") String parcelle) throws SQLException {
  
 		Map<String, Object> informations = new HashMap<String,Object>();
 
@@ -163,7 +149,7 @@ public class InfoBulleController extends CadController {
 			
 			// filter on geographical limitation only if search is filtered
 			if(isSearchFiltered){
-				queryBuilder.append(addAuthorizationFiltering(headers, "p."));
+				queryBuilder.append(addAuthorizationFiltering("p."));
 			}
 			queryBuilder.append("GROUP BY uf.uf, uf.comptecommunal;");
 								

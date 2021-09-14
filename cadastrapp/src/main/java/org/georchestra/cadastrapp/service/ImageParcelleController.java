@@ -18,41 +18,38 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.xml.transform.TransformerException;
 
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
+import org.geotools.data.DataStore;
 import org.geotools.data.ows.HTTPClient;
-import org.geotools.data.ows.Layer;
 import org.geotools.data.ows.SimpleHttpClient;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.data.wfs.impl.WFSContentDataStore;
-import org.geotools.data.wfs.impl.WFSDataStoreFactory;
-import org.geotools.data.wms.WebMapServer;
-import org.geotools.data.wms.request.GetMapRequest;
-import org.geotools.data.wms.response.GetMapResponse;
+import org.geotools.data.wfs.WFSDataStoreFactory;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.filter.text.cql2.CQL;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.ows.ServiceException;
+import org.geotools.ows.wms.Layer;
+import org.geotools.ows.wms.WebMapServer;
+import org.geotools.ows.wms.request.GetMapRequest;
+import org.geotools.ows.wms.response.GetMapResponse;
 import org.geotools.styling.FeatureTypeStyle;
 import org.geotools.styling.Fill;
 import org.geotools.styling.NamedLayer;
 import org.geotools.styling.PolygonSymbolizer;
 import org.geotools.styling.Rule;
-import org.geotools.styling.SLDTransformer;
 import org.geotools.styling.Stroke;
 import org.geotools.styling.Style;
 import org.geotools.styling.StyledLayerDescriptor;
+import org.geotools.xml.styling.SLDTransformer;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Point;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.feature.simple.SimpleFeature;
@@ -61,18 +58,21 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Image Parcelle Controller
  * 
- * @author gfi
+ * @author pierre jego
  *
  */
+@Controller
 public class ImageParcelleController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(ImageParcelleController.class);
@@ -100,18 +100,17 @@ public class ImageParcelleController extends CadController {
 	 * @param baseMapIndex corresponding of the wanted index in cadastrapp.properties
 	 * @return Response with noContent in case of error, png otherwise
 	 */
-	@GET
-	@Path("/getImageBordereau")
-	@Produces("image/png")
-	public Response createImageBordereauParcellaire(@QueryParam("parcelle") String parcelle,
-			@DefaultValue("0") @QueryParam("basemapindex") int baseMapIndex,
-			@DefaultValue("1446DE") @QueryParam("fillcolor") String styleFillColor,
-			@DefaultValue("0.50") @QueryParam("fillopacity") float styleFillOpacity,
-			@DefaultValue("10259E") @QueryParam("strokecolor") String styleStrokeColor,
-			@DefaultValue("2") @QueryParam("strokewidth") int styleStrokeWidth) {
+	@RequestMapping(path = "/getImageBordereau", produces = {MediaType.IMAGE_PNG_VALUE}, method= {RequestMethod.GET})
+	public ResponseEntity<File> createImageBordereauParcellaire(
+			@RequestParam() String parcelle,
+			@RequestParam(defaultValue = "0", name ="basemapindex", required = false) int baseMapIndex,
+			@RequestParam(defaultValue = "1446DE", name ="fillcolor", required = false) String styleFillColor,
+			@RequestParam(defaultValue = "0.50", name ="fillopacity", required = false) float styleFillOpacity,
+			@RequestParam(defaultValue = "10259E", name ="strokecolor", required = false) String styleStrokeColor,
+			@RequestParam(defaultValue = "2", name ="strokewidth", required = false) int styleStrokeWidth) {
 
 		// Create empty reponse for default value
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity<File> response = new ResponseEntity<File>(HttpStatus.NO_CONTENT);
 
 		final int parcelleIdLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("parcelleId.length"));
 
@@ -143,7 +142,7 @@ public class ImageParcelleController extends CadController {
 			}
 			
 			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
-			WFSContentDataStore dataStore;
+			DataStore dataStore;
 
 			try {
 				dataStore = dsf.createDataStore(connectionParameters);
@@ -383,7 +382,7 @@ public class ImageParcelleController extends CadController {
 						file.deleteOnExit();
 						ImageIO.write(finalImage, "png", file);
 
-						response = Response.ok((Object) file);
+						response = new ResponseEntity<File>(file, HttpStatus.OK);
 					} else {
 						logger.info("No plots corresponding on WFS server");
 					}
@@ -401,7 +400,7 @@ public class ImageParcelleController extends CadController {
 			logger.info("No image can be generated with given input parameters");
 		}
 
-		return response.build();
+		return response;
 	}
 
 	/**

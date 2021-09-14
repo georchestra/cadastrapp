@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -59,12 +58,11 @@ public final class ReleveProprieteHelper extends CadController {
 	 * Get propertie information using given imput from database
 	 * 
 	 * @param idComptesCommunaux list composed with comptecommunalid
-	 * @param headers HttpHeaders used to verify user privilege
 	 * @param idParcelle String plot id
 	 * 
 	 * @return RelevePropriete fill with database information
 	 */
-	public RelevePropriete getReleveProprieteInformation(List<String> idComptesCommunaux, HttpHeaders headers, String idParcelle) {
+	public RelevePropriete getReleveProprieteInformation(List<String> idComptesCommunaux, String idParcelle) {
 
 		RelevePropriete relevePropriete = new RelevePropriete();
 
@@ -153,7 +151,7 @@ public final class ReleveProprieteHelper extends CadController {
 					}
 
 					// Display information only if at least CNIL level 1 or 2
-					if (getUserCNILLevel(headers) > 0) {
+					if (getUserCNILLevel() > 0) {
 
 						// Information sur les proprietaires
 						List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
@@ -164,7 +162,7 @@ public final class ReleveProprieteHelper extends CadController {
 						queryBuilderProprietaire.append(databaseSchema);
 						queryBuilderProprietaire.append(".proprietaire prop ");
 						queryBuilderProprietaire.append("where prop.comptecommunal = ? ");
-						queryBuilderProprietaire.append(addAuthorizationFiltering(headers));
+						queryBuilderProprietaire.append(addAuthorizationFiltering());
 						queryBuilderProprietaire.append("order by prop.dnulp ASC ");
 
 						logger.debug("Get owners information ");
@@ -536,12 +534,11 @@ public final class ReleveProprieteHelper extends CadController {
 	 * Create RP without parcelle id.
 	 * 
 	 * @param comptesCommunaux owner id list
-	 * @param headers http headers information to filter result
 	 * @return data for releve de propriete
 	 */
-	public RelevePropriete getReleveProprieteInformation(List<String> comptesCommunaux, HttpHeaders headers) {
+	public RelevePropriete getReleveProprieteInformation(List<String> comptesCommunaux) {
 
-		return getReleveProprieteInformation(comptesCommunaux, headers, null);
+		return getReleveProprieteInformation(comptesCommunaux, null);
 	}
 
 }

@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
 import org.georchestra.cadastrapp.helper.BatimentHelper;
 import org.georchestra.cadastrapp.helper.ProprietaireHelper;
+import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-
+@Controller
 public class UniteCadastraleController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(UniteCadastraleController.class);
@@ -30,15 +30,12 @@ public class UniteCadastraleController extends CadController {
 	@Autowired
 	ProprietaireHelper  proprietaireHelper;
 
-	@Path("/getFIC")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/getFIC", produces = {MediaType.APPLICATION_JSON_VALUE},  method = { RequestMethod.GET })
 	/**
 	 * TODO change this to 5 separated services
 	 * 
 	 *  Return all information need to fill cadastre information panel
 	 *  
-	 * @param headers used to verify user group to check CNIL level and geographic limitation
 	 * @param parcelle Id Parcelle unique in all country exemple : 2014630103000AP0025
 	 * @param part (for 0 to 5)
 	 * 			0 -> Parcelle Information
@@ -48,9 +45,9 @@ public class UniteCadastraleController extends CadController {
 	 * 			4 - > Historical information
 	 * @return Json object corresponding on wanted part
 	 */
-	public List<Map<String, Object>> getInformationCadastrale(@Context HttpHeaders headers, 
-			@QueryParam("parcelle") String parcelle,
-			@QueryParam("onglet") int onglet) {
+	public 	@ResponseBody List<Map<String, Object>> getInformationCadastrale(
+			@RequestParam String parcelle,
+			@RequestParam int onglet) {
 
 		logger.debug(" parcelle : " + parcelle + " onglet : " + onglet);
 		
@@ -58,33 +55,33 @@ public class UniteCadastraleController extends CadController {
 
 		switch (onglet) {
 			case 0:
-				information = infoOngletParcelle(parcelle, headers);
+				information = infoOngletParcelle(parcelle);
 				break;
 			case 1:
 				// Get information about plot owner
 				List<String> parcelles = new ArrayList<String>();
 				parcelles.add(parcelle);
-				information = proprietaireHelper.getProprietairesByParcelles(headers, parcelles, false);
+				information = proprietaireHelper.getProprietairesByParcelles(parcelles, false);
 				logger.warn("Deprecated service, use getProprietairesByParcelle instead");
 				break;
 			case 2:
-				if (getUserCNILLevel(headers)>1){
-					information = batimentHelper.getBuildings(parcelle, headers);
+				if (getUserCNILLevel()>1){
+					information = batimentHelper.getBuildings(parcelle);
 				}
 				else{
 					logger.info("User does not have enough right to see information about batiment");
 				}
 				break;
 			case 3:
-				if (getUserCNILLevel(headers)>1){
-					information = infoOngletSubdivision(parcelle, headers);
+				if (getUserCNILLevel()>1){
+					information = infoOngletSubdivision(parcelle);
 				}
 				else{
 					logger.info("User does not have enough right to see information about subdivision");
 				}				
 				break;
 			case 4:
-				information = infoOngletHistorique(parcelle, headers);	
+				information = infoOngletHistorique(parcelle);	
 				break;
 			default:
 				logger.error(" No values to return for onglet : " + onglet);
@@ -100,11 +97,10 @@ public class UniteCadastraleController extends CadController {
 	 * infoOngletParcelle
 	 * 
 	 * @param String parcelle  / Id Parcelle exemple : 2014630103000AP0025
-	 * @param HttpHeaders headers
 	 * 
 	 * @return List<Map<String, Object>> 
 	 */
-	private List<Map<String, Object>> infoOngletParcelle(String parcelle, HttpHeaders headers){
+	private List<Map<String, Object>> infoOngletParcelle(String parcelle){
 		
 		logger.debug("infoOngletParcelle - parcelle : " + parcelle);
 		
@@ -130,11 +126,10 @@ public class UniteCadastraleController extends CadController {
 	 *  call to this method should  only be done by CNIL2 level user with geographical rights
 	 *  
 	 * @param String parcelle / Id Parcelle exemple : 2014630103000AP0025
-	 * @param HttpHeaders headers
 	 * 
 	 * @return List<Map<String, Object>>  containing Lettre indicative, Contenance, Code Nature de culture et Revenu au 01/01
 	 */
-	private List<Map<String, Object>> infoOngletSubdivision(String parcelle, HttpHeaders headers ){
+	private List<Map<String, Object>> infoOngletSubdivision(String parcelle){
 		
 		logger.debug("infoOngletSubdivision - parcelle : " + parcelle);
 		
@@ -145,7 +140,7 @@ public class UniteCadastraleController extends CadController {
 		subDivisionqueryBuilder.append(databaseSchema);
 		subDivisionqueryBuilder.append(".proprietenonbatie pnb ");
 		subDivisionqueryBuilder.append(" where pnb.parcelle = ? ");
-		subDivisionqueryBuilder.append(addAuthorizationFiltering(headers, "pnb."));
+		subDivisionqueryBuilder.append(addAuthorizationFiltering("pnb."));
 		
 		// init jdbc template
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -161,7 +156,7 @@ public class UniteCadastraleController extends CadController {
 	 * @param HttpHeaders headers
 	 * @return  List<Map<String, Object>>
 	 */
-	private List<Map<String, Object>> infoOngletHistorique(String parcelle, HttpHeaders headers){
+	private List<Map<String, Object>> infoOngletHistorique(String parcelle){
 		
 		logger.debug("infoOngletHistorique - parcelle : " + parcelle);
 		
@@ -174,7 +169,7 @@ public class UniteCadastraleController extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".prop_type_filiation prop ");
 		queryBuilder.append("where p.parcelle = ? and p.type_filiation = prop.filiation ");
-		queryBuilder.append(addAuthorizationFiltering(headers, "p."));
+		queryBuilder.append(addAuthorizationFiltering("p."));
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate.queryForList(queryBuilder.toString(), parcelle);	

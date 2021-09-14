@@ -10,7 +10,13 @@ import java.util.Properties;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-
+/**
+ * 
+ * CadastrappPlaceHolder
+ * 
+ * @author Pierre Jégo / pierre.jego@jdev.fr
+ *
+ */
 public class CadastrappPlaceHolder extends PropertyPlaceholderConfigurer {
 
 	private static Map<String, String> propertiesMap;

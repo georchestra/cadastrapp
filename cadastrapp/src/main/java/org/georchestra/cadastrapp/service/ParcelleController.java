@@ -10,35 +10,39 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
 import org.georchestra.cadastrapp.model.pdf.ExtFormResult;
 import org.georchestra.cadastrapp.service.export.ExportHelper;
+import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Parcelle controller expose all rest service for plots information
  */
+@Api( description="Récupération des informations de parcelles")
+@Controller
 public class ParcelleController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(ParcelleController.class);
@@ -46,48 +50,33 @@ public class ParcelleController extends CadController {
 	@Autowired
 	ExportHelper exportHelper;
 
-	@GET
-	@Path("/getParcelle")
-	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Récupère la liste des parcelles")
+	@RequestMapping(path = "/getParcelle", produces = {MediaType.APPLICATION_JSON_VALUE},  method = { RequestMethod.GET, RequestMethod.POST })
 	/**
 	 *  Works like {@link #getParcelle} 
 	 */
-	public List<Map<String, Object>> getParcelleGET(@Context HttpHeaders headers, @QueryParam("parcelle") final List<String> parcelleList, @DefaultValue("0") @QueryParam("details") int details, @QueryParam("cgocommune") String cgoCommune, @QueryParam("ccopre") String ccopre, @QueryParam("ccosec") String ccosec, @QueryParam("dnupla") String dnupla,
-			@QueryParam("dnvoiri") String dnvoiri, @QueryParam("dlindic") String dindic, @QueryParam("cconvo") String cconvo, @QueryParam("dvoilib") String dvoilib, @QueryParam("comptecommunal") final List<String> comptecommunalList, @DefaultValue("0") @QueryParam("unitefonciere") int uf) throws SQLException {
+	public	@ResponseBody List<Map<String, Object>> getParcelleEntrypoint(
+		@RequestParam(name = "parcelle", required = false) final List<String> parcelleList, 
+		@RequestParam(defaultValue = "0", required = false) int details, 
+		@RequestParam(name ="cgocommune", required = false) String cgoCommune,
+		@RequestParam(required = false) String ccopre, 
+		@RequestParam(required = false) String ccosec, 
+		@RequestParam(required = false) String dnupla,
+		@RequestParam(required = false) String dnvoiri, 
+		@RequestParam(name = "dlindic", required = false) String dindic, 
+		@RequestParam(required = false) String cconvo, 
+		@RequestParam(required = false) String dvoilib, 
+		@RequestParam(name = "comptecommunal", required = false) final List<String> comptecommunalList, 
+		@RequestParam(name = "unitefonciere", defaultValue = "0", required = false) int uf) throws SQLException {
 
-		return getParcelle(headers, parcelleList, details, cgoCommune, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib, comptecommunalList, uf);
+		return getParcelle(parcelleList, details, cgoCommune, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib, comptecommunalList, uf);
 	}
-	
-	@POST
-	@Path("/getParcelle")
-	@Produces(MediaType.APPLICATION_JSON)
-	/**
-	 * Works like {@link #getParcelle}  
-	 */
-	public List<Map<String, Object>> getParcellePOST(@Context HttpHeaders headers, 
-			@FormParam("parcelle") final List<String> parcelleList, 
-			@DefaultValue("0") @FormParam("details") int details, 
-			@FormParam("cgocommune") String cgoCommune, 
-			@FormParam("ccopre") String ccopre, 
-			@FormParam("ccosec") String ccosec, 
-			@FormParam("dnupla") String dnupla,
-			@FormParam("dnvoiri") String dnvoiri, 
-			@FormParam("dlindic") String dindic, 
-			@FormParam("cconvo") String cconvo,
-			@FormParam("dvoilib") String dvoilib, 
-			@FormParam("comptecommunal") final List<String> comptecommunalList, 
-			@DefaultValue("0") @FormParam("unitefonciere") int uf) throws SQLException {
 
-		return getParcelle(headers, parcelleList, details, cgoCommune, ccopre, ccosec, dnupla, dnvoiri, dindic, cconvo, dvoilib, comptecommunalList, uf);
-		
-	}
-	
 	
 	/**
 	 * 
 	 * getParcelle
 	 * 
-	 * @param headers http headers, used to get ldap role information about the user group
 	 * @param parcelleList
 	 *            could be LIST if one or more element, if only one in the list,
 	 *            this element could contains list of parcelleids separated by
@@ -118,7 +107,7 @@ public class ParcelleController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	private List<Map<String, Object>> getParcelle(HttpHeaders headers,final List<String> parcelleList, int details,String cgoCommune, 
+	private List<Map<String, Object>> getParcelle(final List<String> parcelleList, int details,String cgoCommune, 
 			String ccopre, String ccosec, String dnupla, String dnvoiri, String dindic, String cconvo, String dvoilib, final List<String> comptecommunalList, int uf) throws SQLException 
 	{
 		List<Map<String, Object>> parcellesResult = new ArrayList<Map<String, Object>>();
@@ -127,17 +116,17 @@ public class ParcelleController extends CadController {
 		if (parcelleList != null && !parcelleList.isEmpty()) {
 
 			List<String> parsedParcelleList = prepareParcelleList(parcelleList);
-			parcellesResult = getParcellesById(parsedParcelleList, details, getUserCNILLevel(headers));
+			parcellesResult = getParcellesById(parsedParcelleList, details, getUserCNILLevel());
 
 			// Search by Proprietaire
 		} else if (comptecommunalList != null && !comptecommunalList.isEmpty()) {
 
-			parcellesResult = getParcellesByProprietaire(comptecommunalList, details, getUserCNILLevel(headers));
+			parcellesResult = getParcellesByProprietaire(comptecommunalList, details, getUserCNILLevel());
 
 			// Search by unitefonciere
 		} else if (uf != 0) {
 
-			parcellesResult = getParcellesByUniteFonciere(uf, details, getUserCNILLevel(headers));
+			parcellesResult = getParcellesByUniteFonciere(uf, details, getUserCNILLevel());
 
 			// Search by attributes
 		} else {
@@ -380,17 +369,18 @@ public class ParcelleController extends CadController {
 	/**
 	 * Service witch use csv file as input
 	 * 
-	 * @param headers http headers information
+	 * @param roleList fromhttp headers information
 	 * @param fileContent
 	 *            parcelleId separated by space, ',' or ';'
 	 * 
 	 * @return Json data, with corresponding parcelleId information
 	 * 
 	 */
-	@POST
-	@Path("/fromParcellesFile")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response getFromParcellesFile(@Context HttpHeaders headers, @FormParam("filePath") String fileContent) {
+	@RequestMapping(path = "/fromParcellesFile", consumes = {"multipart/form-data" }, method = {RequestMethod.POST })
+	public ResponseEntity getFromParcellesFile(
+		@RequestParam(name = "filePath") String fileContent) {
+
+		ResponseEntity response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 		// space, , or ;
 		String delimitersRegex = "[\\s\\;\\,\\n]";
@@ -425,7 +415,7 @@ public class ParcelleController extends CadController {
 
 			// Avoid make request if no parcelle id is given
 			if (parcelleList != null && !parcelleList.isEmpty()) {
-				parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel(headers));
+				parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel());
 			} else {
 				logger.warn("No information given to create csv");
 			}
@@ -434,32 +424,37 @@ public class ParcelleController extends CadController {
 			// success=true)
 			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 			String json = ow.writeValueAsString(new ExtFormResult(true, parcellesResult));
-			return Response.ok(json, MediaType.TEXT_HTML).build();
+
+			// Create response
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.TEXT_HTML);
+			response = new ResponseEntity<>(json, headers, HttpStatus.OK);
 
 		} catch (IOException e) {
 			logger.error("Error while trying to read input data ", e);
-			return Response.serverError().build();
 
 		} catch (SQLException e) {
 			logger.error("Error while trying to get information from database ", e);
-			return Response.serverError().build();
 		}
+		return response;
 	}
 
 	/**
 	 * Get export of parcelle for given comptecommunal
 	 * 
-	 * @param headers
+	 * @param rolesList
 	 *            make sure user have CNIL level
 	 * @param details 1 to have detailed information
 	 * @param city cgocommune information from form
 	 * @param fileContent file content
 	 * @return	form validation 
 	 */
-	@POST
-	@Path("/fromProprietairesFile")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response getFromProprietairesFile(@Context HttpHeaders headers, @DefaultValue("0") @FormParam("details") int details, @FormParam("cgocommune") String city, @FormParam("filePath") String fileContent) {
+	@RequestMapping(path = "/fromProprietairesFile", consumes = {"multipart/form-data"}, method = {RequestMethod.POST })
+	public ResponseEntity getFromProprietairesFile(
+		@RequestParam(defaultValue = "0", required = false) int details, 
+		@RequestParam(name = "filePath") String fileContent) {
+
+		ResponseEntity response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("csv content : " + fileContent);
@@ -493,7 +488,7 @@ public class ParcelleController extends CadController {
 
 			// Avoid call without parameter
 			if (proprietaireList != null && !proprietaireList.isEmpty()) {
-				ownersResult = getParcellesByProprietaire(proprietaireList, details, getUserCNILLevel(headers));
+				ownersResult = getParcellesByProprietaire(proprietaireList, details, getUserCNILLevel());
 			} else {
 				logger.warn("No information given to get CompteCommunal information");
 			}
@@ -501,21 +496,24 @@ public class ParcelleController extends CadController {
 			// les forms ExtJs attendent du JSON sous format TEXT/HTML... (avec success=true)
 			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 			String json = ow.writeValueAsString(new ExtFormResult(true, ownersResult));
-			return Response.ok(json, MediaType.TEXT_HTML).build();
+
+			// Create response
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.TEXT_HTML);
+			response = new ResponseEntity<>(json, headers, HttpStatus.OK);
+
 
 		} catch (IOException e) {
 			logger.error("Error while trying to read input data ", e);
-			return Response.serverError().build();
 		}
+		return response;
 	}
 
-	@GET
-	@Path("/getDnuplaList")
-	@Produces("application/json")
+	@ResponseBody
+	@RequestMapping(path = "/getDnuplaList", produces = {MediaType.APPLICATION_JSON_VALUE}, method = { RequestMethod.GET})
 	/**
 	 *  Return only dnupla list from a section of a commune
 	 *  
-	 * @param headers http headers, used to get ldap role information about the user group
 	 * @param cgocommune code commune INSEE
 	 * @param ccopre prefix de section
 	 * @param ccosec code de section
@@ -523,7 +521,10 @@ public class ParcelleController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getDnuplaList(@Context HttpHeaders headers, @QueryParam("cgocommune") String cgoCommune, @QueryParam("ccopre") String ccopre, @QueryParam("ccosec") String ccosec) throws SQLException {
+	public List<Map<String, Object>> getDnuplaList(
+		@RequestParam(name= "cgocommune", required= false) String cgoCommune, 
+		@RequestParam(required= false) String ccopre, 
+		@RequestParam(required= false) String ccosec) throws SQLException {
 
 		List<Map<String, Object>> dnuplaList = null;
 		List<String> queryParams = new ArrayList<String>();
@@ -543,26 +544,22 @@ public class ParcelleController extends CadController {
 
 		return dnuplaList;
 	}
-	
-	@POST
-	@Path("/exportParcellesAsCSV")
-	@Produces("text/csv")
+
+	@RequestMapping(path = "/exportParcellesAsCSV", produces = {"text/csv;charset=utf-8"},  method = {RequestMethod.POST })
 	/**
 	 * Create a csv file from given parcelles id
 	 * 
-	 * @param headers Used to filter displayed information
 	 * @param parcelles list of parcelle separated by a coma
 	 * 
 	 * @return csv containing list of owners
 	 * 
 	 * @throws SQLException
 	 */
-	public Response exportParcellesAsSCV(
-			@Context HttpHeaders headers,
-			@FormParam("parcelles") String parcelles) throws SQLException {
+	public ResponseEntity exportParcellesAsSCV(
+			@RequestParam String parcelles) throws SQLException {
 		
 		// Create empty content
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
 			String entete = "parcelle; commune;voie_adr;voie_adr_cplmt;voie_type;voie_nom;section_prefixe;section;parcelle_num;contenance";
 			
@@ -575,15 +572,18 @@ public class ParcelleController extends CadController {
 				logger.debug("Nb of parcelles to search in : " + parcelleList.size());
 
 				// Get value from database
-				List<Map<String,Object>> parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel(headers));
+				List<Map<String,Object>> parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel());
 				
 				File file = null;
 				try{
 					file = exportHelper.createCSV(parcellesResult, entete);
 					
 					// build csv response
-					response = Response.ok((Object) file);
-					response.header("Content-Disposition", "attachment; filename=" + file.getName());
+					// build csv response
+					HttpHeaders headers = new HttpHeaders();
+					headers.setContentDispositionFormData("filename", file.getName());
+					response = new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+
 				}catch (IOException e) {
 					logger.error("Error while creating CSV files ", e);
 				} finally {
@@ -597,7 +597,7 @@ public class ParcelleController extends CadController {
 				logger.info("Parcelle Id List is empty nothing to search");
 			}
 	
-		return response.build();
+		return response;
 	}
 
 }

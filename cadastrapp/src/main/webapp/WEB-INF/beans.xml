@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
-						 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
-						 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd 
-						 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
-						 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-						 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
-
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+						 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd 
+						 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+						 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+						 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+						 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
 	<context:component-scan base-package="org.georchestra.cadastrapp" />
-	
-	<tx:annotation-driven />
-	
+	<mvc:annotation-driven />
+
 	<jpa:repositories base-package="org.georchestra.cadastrapp.repository" />
 
 	<!-- Only to load default_schema name in hibernate connection -->
-	<bean id="cadastrappProperties"
-		class="org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder">
+	<bean id="cadastrappProperties" class="org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder">
 		<property name="locations">
 			<list>
 				<value>classpath:cadastrapp.properties</value>
@@ -34,39 +32,6 @@
 		<property name="ignoreResourceNotFound" value="true" />
 	</bean>
 
-	<jaxrs:server id="services" address="/">
-		<jaxrs:serviceBeans>
-			<bean class="org.georchestra.cadastrapp.service.BatimentController" />
-			<bean class="org.georchestra.cadastrapp.service.CommuneController" />
-			<bean class="org.georchestra.cadastrapp.service.ConfigurationController" />
-			<bean class="org.georchestra.cadastrapp.service.CoProprietaireController" />
-			<bean class="org.georchestra.cadastrapp.service.HabitationController" />
-			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
-			<bean class="org.georchestra.cadastrapp.service.ImageParcelleController" />
-			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
-			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />
-			<bean class="org.georchestra.cadastrapp.service.RequestInformationController" />
-			<bean class="org.georchestra.cadastrapp.service.SectionController" />
-			<bean class="org.georchestra.cadastrapp.service.UniteCadastraleController" />
-			<bean class="org.georchestra.cadastrapp.service.VoieController" />
-			<bean class="org.georchestra.cadastrapp.service.DatadirController" />
-
-			<bean class="org.georchestra.cadastrapp.service.export.CSVExportController" />
-
-			<bean class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
-			<bean class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
-			<bean class="org.georchestra.cadastrapp.service.pdf.RequestPDFController" />
-			<bean class="org.georchestra.cadastrapp.service.pdf.DemandeController" />
-
-		</jaxrs:serviceBeans>
-		<jaxrs:providers>
-			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
-			<!-- Use to add context in logg and can be use for autorization filtering -->
-			<bean class="org.georchestra.cadastrapp.providers.PreRequestFilter" />
-			<bean class="org.georchestra.cadastrapp.providers.PreReponseFilter" />
-		</jaxrs:providers>
-	</jaxrs:server>
-
 	<!-- DataSource information using jndi, this datasource is used directly 
 		via JDBCTemplate and via Spring repository -->
 	<bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
@@ -76,8 +41,7 @@
 	<!-- ============================= -->
 	<!-- ENTITY MANAGER -->
 	<!-- ============================= -->
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dbDataSource" />
 		<property name="persistenceUnitName" value="springDataJPA" />
 		<property name="jpaVendorAdapter">
@@ -128,52 +92,51 @@
 	<!-- ============================= -->
 	<!-- SESSION FACTORY -->
 	<!-- ============================= -->
-	<bean id="sessionFactory" factory-bean="entityManagerFactory"
-		factory-method="getSessionFactory" />
+	<bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory" />
 
 
 	<!-- ============================= -->
 	<!--  QUARTZ INFORMATION  -->
 	<!-- ============================= -->
-	
+
 	<!-- Set configuration for purge -->
-	 <bean id="purgeBean" class="org.georchestra.cadastrapp.purge.PurgeJob">
-        <property name="hours" value="${purge.hours}" />
-    </bean>
-	
-	<!-- Define quart job to purge file, class and method to call -->
-    <bean id="purgeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="purgeBean" />
-        <property name="targetMethod" value="purge" />
-    </bean>
- 
- 	<!-- Run the job every 5 seconds only on Weekends -->
-	<bean id="cronTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-	    <property name="jobDetail" ref="purgeJobDetail" />
-	    <property name="cronExpression" value="${purge.cronExpression}" />
+	<bean id="purgeBean" class="org.georchestra.cadastrapp.purge.PurgeJob">
+		<property name="hours" value="${purge.hours}" />
 	</bean>
- 
-    <!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->
-    <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-    
-    	<!--  Skip attempt to connected to Internet for update -->
-    	<property name="quartzProperties">
-             <props>
-            	<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
-            </props>
-        </property>
-        
-        <property name="jobDetails">
-            <list>
-                <ref bean="purgeJobDetail" />
-            </list>
-        </property>
- 
-        <property name="triggers">
-            <list>
-                <ref bean="cronTrigger" />
-            </list>
-        </property>
-    </bean>
+
+	<!-- Define quart job to purge file, class and method to call -->
+	<bean id="purgeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="purgeBean" />
+		<property name="targetMethod" value="purge" />
+	</bean>
+
+	<!-- Run the job every 5 seconds only on Weekends -->
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="purgeJobDetail" />
+		<property name="cronExpression" value="${purge.cronExpression}" />
+	</bean>
+
+	<!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+
+		<!--  Skip attempt to connected to Internet for update -->
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+			</props>
+		</property>
+
+		<property name="jobDetails">
+			<list>
+				<ref bean="purgeJobDetail" />
+			</list>
+		</property>
+
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+			</list>
+		</property>
+	</bean>
 
 </beans>

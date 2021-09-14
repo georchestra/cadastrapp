@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
 import org.georchestra.cadastrapp.helper.BatimentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 public class BatimentController extends CadController {
@@ -25,10 +23,8 @@ public class BatimentController extends CadController {
 	
 	@Autowired
 	BatimentHelper batimentHelper;
-	
-	@GET
-	@Path("/getBatiments")
-	@Produces(MediaType.APPLICATION_JSON)
+
+	@RequestMapping(path ="/getBatiments", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * getBuildingsDetails
 	 *  Returns information about batiment dnubat on given parcell 
@@ -39,12 +35,12 @@ public class BatimentController extends CadController {
 	 * 
 	 * @return JSON list 
 	 */
-	public List<Map<String, Object>> getBuildingsDetails(@Context HttpHeaders headers, 
-			@QueryParam("parcelle") String parcelle,
-			@QueryParam("dnubat") String dnubat){
+	public @ResponseBody List<Map<String, Object>> getBuildingsDetails(
+			@RequestParam("parcelle") String parcelle,
+			@RequestParam("dnubat") String dnubat){
 		
 		List<Map<String, Object>> batiments = new ArrayList<Map<String, Object>>();
-		if (getUserCNILLevel(headers) == 0) {
+		if (getUserCNILLevel() == 0) {
 			logger.info("User does not have enough rights to see information about batiment");
 		}
 		else if(parcelle != null && !parcelle.isEmpty()
@@ -81,10 +77,7 @@ public class BatimentController extends CadController {
 		return batiments;
 	}
 
-	
-	@GET
-	@Path("/getBatimentsByParcelle")
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/getBatimentsByParcelle" , produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 *  Returns all building from given plot 
 	 *  
@@ -93,16 +86,16 @@ public class BatimentController extends CadController {
 	 * 
 	 * @return JSON list compose with all dnubat from this plot, list is empy if no data, or if user doesn't have rights
 	 */
-	public List<Map<String, Object>> getBuildingsByParcelle(@Context HttpHeaders headers, 
-			@QueryParam("parcelle") String parcelle){
+	public @ResponseBody List<Map<String, Object>> getBuildingsByParcelle(
+		@RequestParam String parcelle){
 		
 		List<Map<String, Object>> batiments = new ArrayList<Map<String, Object>>();
-		if (getUserCNILLevel(headers) == 0) {
+		if (getUserCNILLevel() == 0) {
 			logger.info("User does not have enough rights to see information about buildings");
 		}
 		else if(parcelle != null && !parcelle.isEmpty())
 		{
-			batiments = batimentHelper.getBuildings(parcelle, headers);
+			batiments = batimentHelper.getBuildings(parcelle);
 		}
 		else{
 			logger.info(" Missing input parameter ");

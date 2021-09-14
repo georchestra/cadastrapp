@@ -90,5 +90,10 @@ public final class CadastrappConstants {
 	//message erreur
 	public static final String GENERATING_PICTURE_ERROR = "Problème lors de la création de l'image du bordereau.";
 
+	//header groups
+	public static final String HTTP_HEADER_ROLES = "sec-roles";
+	public static final String HTTP_HEADER_ORGANISME = "sec-org";
+	public static final String HTTP_HEADER_USERNAME = "sec-username";
+
 
 }

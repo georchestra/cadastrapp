@@ -6,18 +6,20 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@Controller
 public class CSVExportController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(CSVExportController.class);
@@ -35,12 +37,10 @@ public class CSVExportController extends CadController {
 	 *         same number of value, the corresponding line won't be added to
 	 *         csv
 	 */
-	@GET
-	@Path("/exportAsCsv")
-	@Produces({ "text/csv" })
-	public Response cSVExport(@QueryParam("data") List<String> values) {
+	@RequestMapping(path = "/exportAsCsv", produces = "text/csv", method= {RequestMethod.GET})
+	public ResponseEntity<File> cSVExport(@RequestParam(name = "data") List<String> values) {
 
-		ResponseBuilder response = Response.serverError();
+		ResponseEntity<File> response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 		if (values != null && !values.isEmpty()) {
 			
@@ -77,8 +77,14 @@ public class CSVExportController extends CadController {
 				fileWriter.flush();
 				fileWriter.close();
 
-				response = Response.ok((Object) file);
-				response.header("Content-Disposition", "attachment; filename=" + file.getName());
+				ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+					.filename(file.getName())
+					.build();
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentDisposition(contentDisposition);
+
+				response = new ResponseEntity<File>(file, headers, HttpStatus.OK);	
 
 			} catch (IOException e) {
 				logger.error("Error while creating CSV files ",  e);
@@ -89,7 +95,7 @@ public class CSVExportController extends CadController {
 			}
 		}
 
-		return response.build();
+		return response;
 	}
 
 }

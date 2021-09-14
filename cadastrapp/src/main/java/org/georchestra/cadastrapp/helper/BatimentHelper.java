@@ -3,8 +3,6 @@ package org.georchestra.cadastrapp.helper;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
-
 import org.georchestra.cadastrapp.service.CadController;
 
 import org.slf4j.Logger;
@@ -26,7 +24,7 @@ public final class BatimentHelper extends CadController {
 	 * 
 	 * @return buildings information on this plot
 	 */
-	public List<Map<String, Object>> getBuildings(String parcelle, HttpHeaders headers ){
+	public List<Map<String, Object>> getBuildings(String parcelle){
 		
 		logger.debug("infoOngletBatiment - parcelle : " + parcelle);
 		
@@ -36,7 +34,7 @@ public final class BatimentHelper extends CadController {
 		queryBuilder.append(databaseSchema);
 		queryBuilder.append(".proprietebatie pb ");
 		queryBuilder.append(" where pb.parcelle = ? ");
-		queryBuilder.append(addAuthorizationFiltering(headers, "pb."));
+		queryBuilder.append(addAuthorizationFiltering("pb."));
 		queryBuilder.append(" ORDER BY pb.dnubat");
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

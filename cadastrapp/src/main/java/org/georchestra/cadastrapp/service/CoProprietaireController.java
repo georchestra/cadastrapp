@@ -15,18 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -40,6 +28,7 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
@@ -53,6 +42,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 
 /**
  * Service to get co owners information
@@ -60,6 +63,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author pierre jego
  *
  */
+@Controller
 public class CoProprietaireController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(CoProprietaireController.class);
@@ -70,9 +74,7 @@ public class CoProprietaireController extends CadController {
 	@Autowired
 	ProprieteHelper proprieteHelper;
 
-	@Path("/getCoProprietaireList")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path ="/getCoProprietaireList", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * 
 	 * /getCoProprietaireList 
@@ -85,18 +87,18 @@ public class CoProprietaireController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getCoProprietairesList(@Context HttpHeaders headers, 
-			@QueryParam("parcelle") String parcelle, 
-			@QueryParam("comptecommunal") String comptecommunal,
-			@QueryParam("cgocommune") String cgocommune, 
-			@QueryParam("ddenom") String ddenom,
-			@DefaultValue("0") @QueryParam("details") int details) throws SQLException {
+	public @ResponseBody List<Map<String, Object>> getCoProprietairesList(
+			@RequestParam(required= false) String parcelle, 
+			@RequestParam(required= false) String comptecommunal,
+			@RequestParam(required= false) String cgocommune, 
+			@RequestParam(required= false) String ddenom,
+			@RequestParam(defaultValue= "0", required= false) int details) throws SQLException {
 
 		List<Map<String, Object>> coProprietaires = new ArrayList<Map<String, Object>>();
 		List<String> queryParams = new ArrayList<String>();
 
 		// only for CNIL1 and CNIL2
-		if (getUserCNILLevel(headers) > 0 && cgocommune != null && cgocommune.length() >0) {
+		if (getUserCNILLevel() > 0 && cgocommune != null && cgocommune.length() >0) {
 
 			boolean isParamValid = false;
 			
@@ -135,7 +137,7 @@ public class CoProprietaireController extends CadController {
 
 			if(isParamValid){
 				queryCoProprietaireBuilder.append("and prop.comptecommunal = proparc.comptecommunal ");
-				queryCoProprietaireBuilder.append(addAuthorizationFiltering(headers, "prop."));
+				queryCoProprietaireBuilder.append(addAuthorizationFiltering("prop."));
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 				coProprietaires = jdbcTemplate.queryForList(queryCoProprietaireBuilder.toString(), queryParams.toArray());
 			}
@@ -144,25 +146,23 @@ public class CoProprietaireController extends CadController {
 		return coProprietaires;
 	}
 
-	@Path("/getCoProprietaire")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/getCoProprietaire", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * getCoProprietaire
 	 * 
 	 * @param parcelle
 	 * @return
 	 */
-	public Map<String, Object> getCoProprietaire(@QueryParam("parcelle") String parcelle, 
-			@DefaultValue("0") @QueryParam("start") int start,
-			@DefaultValue("25") @QueryParam("limit") int limit, @Context HttpHeaders headers) {
+	public 	@ResponseBody Map<String, Object> getCoProprietaire(@RequestParam String parcelle, 
+			@RequestParam(defaultValue= "0", required= false) int start,
+			@RequestParam(defaultValue= "25", required= false) int limit) {
 
 		logger.debug("get Co Proprietaire - parcelle : " + parcelle);
 
 		Map<String, Object> finalResult = new HashMap<String, Object>();
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 
-		if (getUserCNILLevel(headers) > 0) {
+		if (getUserCNILLevel() > 0) {
 			
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			
@@ -173,7 +173,7 @@ public class CoProprietaireController extends CadController {
 			queryCount.append(".co_propriete_parcelle propar, ");
 			queryCount.append(databaseSchema);
 			queryCount.append(".proprietaire p where propar.parcelle = ?  and p.comptecommunal = propar.comptecommunal ");
-			queryCount.append(addAuthorizationFiltering(headers, "p."));
+			queryCount.append(addAuthorizationFiltering("p."));
 			queryCount.append(" ) as temp;");
 			
 			int resultCount = jdbcTemplate.queryForObject(queryCount.toString(), new Object[] {parcelle}, Integer.class);
@@ -193,7 +193,7 @@ public class CoProprietaireController extends CadController {
 			queryBuilder.append(databaseSchema);
 			queryBuilder.append(".proprietaire p where propar.parcelle = ? ");
 			queryBuilder.append(" and p.comptecommunal = propar.comptecommunal ");
-			queryBuilder.append(addAuthorizationFiltering(headers, "p."));
+			queryBuilder.append(addAuthorizationFiltering("p."));
 			queryBuilder.append(" ORDER BY p.app_nom_usage ");
 			queryBuilder.append(" LIMIT ?");
 			queryBuilder.append(" OFFSET ?");
@@ -210,10 +210,7 @@ public class CoProprietaireController extends CadController {
 
 	}
 	
-	
-	@POST
-	@Path("/exportCoProprietaireByParcelles")
-	@Produces("text/csv")
+	@RequestMapping(path = "/exportCoProprietaireByParcelles", produces = {"text/csv;charset=utf-8"}, method= {RequestMethod.POST})
 	/**
 	 * Create a csv file from given parcelles id
 	 * 
@@ -224,18 +221,17 @@ public class CoProprietaireController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Response exportProprietaireByParcelles(
-			@Context HttpHeaders headers,
-			@FormParam("parcelles") String parcelles) throws SQLException {
+	public 	ResponseEntity exportProprietaireByParcelles(
+			@RequestParam String parcelles) throws SQLException {
 		
 		// Create empty content
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
 		// User need to be at least CNIL1 level
-		if (getUserCNILLevel(headers)>0){
+		if (getUserCNILLevel()>0){
 		
 			String  entete = "proprio_id;droit_reel_libelle;denomination_usage;parcelles;civilite;nom_usage;prenom_usage;denomination_naissance;nom_naissance;prenom_naissance;adresse_ligne3;adresse_ligne4;adresse_ligne5;adresse_ligne6;forme_juridique";
-			if(getUserCNILLevel(headers)>1){
+			if(getUserCNILLevel()>1){
 				entete = entete + ";lieu_naissance; date_naissance";
 			}
 			
@@ -252,7 +248,7 @@ public class CoProprietaireController extends CadController {
 				queryBuilder.append("select prop.comptecommunal, ccodro_lib, app_nom_usage, string_agg(parcelle, ','), ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6, dformjur ");
 				
 				// If user is CNIL2 add birth information
-				if(getUserCNILLevel(headers)>1){
+				if(getUserCNILLevel()>1){
 					queryBuilder.append(", dldnss, jdatnss ");
 				}
 				queryBuilder.append("from ");
@@ -262,10 +258,10 @@ public class CoProprietaireController extends CadController {
 				queryBuilder.append(".co_propriete_parcelle proparc ");
 				queryBuilder.append(createWhereInQuery(parcelleList.length, "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal ");
-				queryBuilder.append(addAuthorizationFiltering(headers));
+				queryBuilder.append(addAuthorizationFiltering());
 				queryBuilder.append("GROUP BY prop.comptecommunal, ccodro_lib, app_nom_usage, ccoqua_lib, dnomus, dprnus, ddenom, dnomlp, dprnlp, dlign3, dlign4, dlign5, dlign6, dformjur");
 				// If user is CNIL2 add birth information
-				if(getUserCNILLevel(headers)>1){
+				if(getUserCNILLevel()>1){
 					queryBuilder.append(", dldnss, jdatnss ");
 				}
 				queryBuilder.append(" ORDER BY prop.comptecommunal");
@@ -280,8 +276,9 @@ public class CoProprietaireController extends CadController {
 					file = exportHelper.createCSV(coproprietaires, entete);
 									
 					// build csv response
-					response = Response.ok((Object) file);
-					response.header("Content-Disposition", "attachment; filename=" + file.getName());
+					HttpHeaders headers = new HttpHeaders();
+					headers.setContentDispositionFormData("filename", file.getName());
+					response = new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 				}catch (IOException e) {
 					logger.error("Error while creating CSV files ", e);
 				} finally {
@@ -298,12 +295,10 @@ public class CoProprietaireController extends CadController {
 			logger.info("User does not have rights to see thoses informations");
 		}
 	
-		return response.build();
+		return response;
 	}
 	
-	@POST
-	@Path("/exportLotsAsCSV")
-	@Produces("text/csv")
+	@RequestMapping(path = "/exportLotsAsCSV", produces = {"text/csv;charset=utf-8"}, method= {RequestMethod.POST})
 	/**
 	 * Create a csv file from given plot and building id
 	 * 
@@ -315,14 +310,14 @@ public class CoProprietaireController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Response exportLotsAsSCV(
-			@Context HttpHeaders headers,
-			@FormParam("parcelle") String parcelle, @FormParam("dnubat") String dnubat) throws SQLException {
+	public ResponseEntity  exportLotsAsSCV(
+			@RequestParam String parcelle, 
+			@RequestParam String dnubat) throws SQLException {
 		
 		// Create empty content
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
-		if(getUserCNILLevel(headers)>0){
+		if(getUserCNILLevel()>0){
 			logger.debug("Input parameters are : " + parcelle + " - " + dnubat);
 			
 			String entete = "parcelle_num;numero_local;batiment;numero_lot;part_lot;total_lot;logement;dependance;local_commercial;type_proprietaire;compte_communal;nom_proprietaire;adresse";
@@ -335,8 +330,9 @@ public class CoProprietaireController extends CadController {
 				file = exportHelper.createCSV(bundleResults, entete);
 				
 				// build csv response
-				response = Response.ok((Object) file);
-				response.header("Content-Disposition", "attachment; filename=" + file.getName());
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentDispositionFormData("filename", file.getName());
+				response = new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 			}catch (IOException e) {
 				logger.error("Error while creating CSV files ", e);
 			} finally {
@@ -348,12 +344,10 @@ public class CoProprietaireController extends CadController {
 			logger.info("User does not have rights to see thoses informations");
 		}
 	
-		return response.build();
+		return response;
 	}
 	
-	@POST
-	@Path("/exportLotsAsPDF")
-	@Produces("application/pdf")
+	@RequestMapping(path = "/exportLotsAsPDF" , produces = {MediaType.APPLICATION_PDF_VALUE}, method= {RequestMethod.POST})
 	/**
 	 * Create a pdf file from given plot and building id
 	 * 
@@ -365,14 +359,14 @@ public class CoProprietaireController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Response exportLotsAsPDF(
-			@Context HttpHeaders headers,
-			@FormParam("parcelle") String parcelle, @FormParam("dnubat") String dnubat) throws SQLException {
+	public ResponseEntity exportLotsAsPDF(
+			@RequestParam String parcelle,
+			@RequestParam String dnubat) throws SQLException {
 		
 		// Create empty content
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
-		if(getUserCNILLevel(headers)>0){
+		if(getUserCNILLevel()>0){
 			logger.debug("Input parameters are : " + parcelle + " - " + dnubat);
 			final String xslTemplate = "xsl/lots.xsl";
 			
@@ -457,11 +451,13 @@ public class CoProprietaireController extends CadController {
 						transformerPDF.transform(src, res);
 
 						out.close();
-						
-						// Create response
-						response = Response.ok((Object) pdfResult);
-						response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
 
+						// Create response
+						HttpHeaders headers = new HttpHeaders();
+						headers.setContentType(MediaType.APPLICATION_PDF);
+						headers.setContentDispositionFormData("filename", pdfResult.getName());
+
+						response = new ResponseEntity<>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);
 					} catch (JAXBException jaxbException) {
 						logger.warn("Error during converting object to xml : " + jaxbException);
 					} catch (TransformerException transformerException) {
@@ -503,6 +499,6 @@ public class CoProprietaireController extends CadController {
 			logger.info("User does not have rights to see thoses informations");
 		}
 	
-		return response.build();
+		return response;
 	}
 }

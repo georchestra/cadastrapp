@@ -12,15 +12,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -46,7 +37,17 @@ import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@Controller
 public class BordereauParcellaireController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(BordereauParcellaireController.class);
@@ -61,7 +62,6 @@ public class BordereauParcellaireController extends CadController {
 	 * data is retrieved from database and a FO is created using the xsl template.
 	 * Once the fo file is create we then create the PDF file
 	 * 
-	 * @param headers, use for CNIL level limitation
 	 * @param parcelleList, list of parcelleId you want to export
 	 * @param personalData, 0  no owners information
 	 * 						1  owners information in page
@@ -73,19 +73,17 @@ public class BordereauParcellaireController extends CadController {
 	 * @param baseMapIndex corresponding of the wanted index in cadastrapp.properties
 	 * @return BP pdf
 	 */
-	@GET
-	@Path("/createBordereauParcellaire")
-	@Produces("application/pdf")
-	public Response createBordereauParcellaire(@Context HttpHeaders headers, 
-			@QueryParam("parcelle") final List<String> parcelleList,
-			@DefaultValue("0") @QueryParam("personaldata") int personalData,
-			@DefaultValue("0") @QueryParam("basemapindex") int baseMapIndex,
-			@DefaultValue("#1446DE") @QueryParam("fillcolor") String styleFillColor,
-			@DefaultValue("0.50") @QueryParam("opacity") float styleFillOpacity,
-			@DefaultValue("#10259E") @QueryParam("strokecolor") String styleStrokeColor,
-			@DefaultValue("2") @QueryParam("strokewidth") int styleStrokeWidth) {
+	@RequestMapping(path = "/createBordereauParcellaire", produces ={MediaType.APPLICATION_PDF_VALUE}, method= {RequestMethod.GET})
+	public ResponseEntity<File> createBordereauParcellaire(
+			@RequestParam(name= "parcelle") final List<String> parcelleList,
+			@RequestParam(name= "personaldata", defaultValue = "0", required= false) int personalData,
+			@RequestParam(name= "basemapindex", defaultValue = "0", required= false) int baseMapIndex,
+			@RequestParam(name= "fillcolor", defaultValue = "#1446DE", required= false) String styleFillColor,
+			@RequestParam(name= "opacity", defaultValue = "0.50", required= false) float styleFillOpacity,
+			@RequestParam(name= "strokecolor", defaultValue = "#10259E", required= false) String styleStrokeColor,
+			@RequestParam(name= "strokewidth", defaultValue = "2", required= false) int styleStrokeWidth) {
 
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity<File> response = new ResponseEntity<File>(HttpStatus.NO_CONTENT);
 		
 		// Check if parcelle list is not empty
 		if (parcelleList != null && !parcelleList.isEmpty()) {
@@ -148,7 +146,7 @@ public class BordereauParcellaireController extends CadController {
 				plotsStyle.setStrokeWidth(styleStrokeWidth);
 
 				// Get bordereau parcellaire information
-				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, headers, false, plotsStyle, baseMapIndex);
+				BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(newParcelleList, personalData, false, plotsStyle, baseMapIndex);
 				File xmlfile = null;
 				File foFile = null;
 				OutputStream foOutPutStream = null;
@@ -190,11 +188,16 @@ public class BordereauParcellaireController extends CadController {
 					transformerPDF.transform(src, res);
 
 					out.close();
-					
-					// Create response
-					response = Response.ok((Object) pdfResult);
-					response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
 
+					ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+					.filename(pdfResult.getName())
+					.build();
+
+					HttpHeaders headers = new HttpHeaders();
+					headers.setContentType(MediaType.APPLICATION_PDF);
+					headers.setContentDisposition(contentDisposition);
+
+					response = new ResponseEntity<File>(pdfResult, headers, HttpStatus.OK);					
 				} catch (JAXBException jaxbException) {
 					logger.warn("Error during converting object to xml : " + jaxbException);
 				} catch (TransformerException transformerException) {
@@ -231,8 +234,7 @@ public class BordereauParcellaireController extends CadController {
 		} else {
 			logger.warn("Required parameter missing");
 		}
-		return response.build();
+		return response;
 	}
-
 
 }

@@ -4,27 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
-
+@Controller
 public class CommuneController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(CommuneController.class);
 	
-	@Path("/getCommune/")
-    @GET
-    @Produces("application/json")
+	@RequestMapping(path = "/getCommune/", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
     /**
      *  /getCommune 
      *  
@@ -41,10 +38,9 @@ public class CommuneController extends CadController{
      * 
      * @throws SQLException
      */
-    public List<Map<String,Object>> getCommunesList(
-    			@Context HttpHeaders headers,
-    			@QueryParam("libcom") String libCom,
-    			@QueryParam("cgocommune") String cgoCommune){
+    public	@ResponseBody List<Map<String,Object>> getCommunesList(
+    			@RequestParam(name= "libcom", required= false) String libCom,
+    			@RequestParam(name= "cgocommune", required= false) String cgoCommune){
     	
     	List<Map<String,Object>> communes = new ArrayList<Map<String, Object>>();
     	List<String> queryParams = new ArrayList<String>();
@@ -86,7 +82,7 @@ public class CommuneController extends CadController{
 	  		
 	    	}
 	    	if(isSearchFiltered){
-	    		queryBuilder.append(addAuthorizationFiltering(headers));
+	    		queryBuilder.append(addAuthorizationFiltering());
 	    	}
 	    	queryBuilder.append(" order by libcom ");
 	         

@@ -3,8 +3,6 @@
  */
 package org.georchestra.cadastrapp.service;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
 import org.georchestra.cadastrapp.service.pdf.BordereauParcellaireHelper;
@@ -18,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * @author gfi
+ * @author Pierre Jégo
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)

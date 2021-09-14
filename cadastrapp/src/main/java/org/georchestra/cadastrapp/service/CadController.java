@@ -7,16 +7,17 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import javax.ws.rs.core.HttpHeaders;
 
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
+import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * 
- * @author gfi
+ * @author pierre jego
  *
  */
 public class CadController {
@@ -43,8 +44,7 @@ public class CadController {
 	
 	protected final String ACCES_ERROR_LOG = "User does not have rights to see thoses informations";
 	protected final String EMPTY_REQUEST_LOG = "Parcelle Id List is empty nothing to search";
-	
-	
+
 	/**
 	 * 
 	 */
@@ -106,14 +106,12 @@ public class CadController {
 	 * @param	headers	httpheader information, here we need sec-roles information
 	 * @return 0 if user doesnot have any specific right, 1 for CNILLEVEL 1 et 2 for CNILLEVEL 2
 	 */
-	protected int getUserCNILLevel(HttpHeaders headers) {
+	protected int getUserCNILLevel() {
 
 		int cnilLevel = 0;
-
+		String rolesList = MDC.get(CadastrappConstants.HTTP_HEADER_ROLES);
+		
 		logger.debug(" Check user CNIL Level ");
-
-		// Get CNIL Group information
-		String rolesList = headers.getHeaderString("sec-roles");
 		logger.debug(" Get user roles informations : " + rolesList);
 		if (rolesList!=null && rolesList.contains(cnil2RoleName)) {
 			cnilLevel = 2;
@@ -125,27 +123,20 @@ public class CadController {
 		return cnilLevel;
 	}
 
-	/**
-	 * Filter information depending on groups information
-	 * 
-	 * 
-	 * @param	headers	to search groups filtering
-	 * @return	an SQL condition to add to initial query
-	 */
-	protected String addAuthorizationFiltering(HttpHeaders headers) {
-		return addAuthorizationFiltering(headers, "");
+	protected String addAuthorizationFiltering() {
+		return addAuthorizationFiltering("");
 	}
-	
+
 	/**
 	 * Filter information depending on groups information
 	 * 
-	 * 
-	 * @param headers	to search groups filtering
 	 * @param tableAlias	table alias for original request to add to the condition
 	 *  
 	 * @return query to complete user right
 	 */
-	protected String addAuthorizationFiltering(HttpHeaders headers, String tableAlias) {
+	protected String addAuthorizationFiltering(String tableAlias) {
+
+		logger.debug("Check user geographical limitation ");
 
 		List<Map<String, Object>> limitations;
 		List<String> communes = new ArrayList<String>();
@@ -153,15 +144,15 @@ public class CadController {
 		
  		StringBuilder queryFilter = new StringBuilder();
 
-		String usernameString = headers.getHeaderString("sec-username");
+		String usernameString = MDC.get(CadastrappConstants.HTTP_HEADER_USERNAME);
 		if (usernameString == null){
 			logger.debug("Not checking geographical limitation, anonymous user");
 			return queryFilter.toString();
 		}
 		// get org in header
-		String orgString = headers.getHeaderString("sec-org");
+		String orgString = MDC.get(CadastrappConstants.HTTP_HEADER_ORGANISME);
 		// get roles in heade
-		String roleListString = headers.getHeaderString("sec-roles");
+		String roleListString = MDC.get(CadastrappConstants.HTTP_HEADER_ROLES);
 		
 		// merge org+roles to get groups list
 		List<String> groupsList = new ArrayList<String>();

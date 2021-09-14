@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * 
- * @author gfi
+ * @author Pierre Jégo
  *
  * Repository to get UserRequest for database
  */
