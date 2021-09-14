@@ -30,7 +30,7 @@
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>/tmp/cadastrapp.log</file>
 		<encoder>
-			<pattern>%d [%thread] %-5level /%X{uri} - %X{user:-nouser} - %X{roles:-norole} -%logger{36} - %msg%n</pattern>
+			<pattern>%d [%thread] %-5level /%X{uri} - %X{user:-nouser} - %X{org:-noorg} - %X{roles:-norole} -%logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
 

@@ -21,6 +21,12 @@ replaceAndLaunch sql/tables/prop_dmatto.sql
 replaceAndLaunch sql/tables/prop_dmatgm.sql
 replaceAndLaunch sql/tables/prop_type_filiation.sql
 replaceAndLaunch sql/tables/prop_bati_detent.sql
-replaceAndLaunch sql/tables/groupe_autorisation.sql
+
+if [ "$orgsAutorisations" = True ] ; then
+  replaceAndLaunch sql/ldap/organisations.sql
+  replaceAndLaunch sql/ldap/groupe_autorisation.sql
+else
+  replaceAndLaunch sql/tables/groupe_autorisation.sql
+fi
 
 echo "    Fait"
