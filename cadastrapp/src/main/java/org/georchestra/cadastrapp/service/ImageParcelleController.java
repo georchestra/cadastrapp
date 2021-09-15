@@ -79,9 +79,6 @@ public class ImageParcelleController extends CadController {
 
 	private final String URL_GET_CAPABILITIES = "?REQUEST=GetCapabilities&version=1.0.0";
 	private final String URL_GET_CAPABILITIES_WMS = "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
-	private final String GET_CAPABILITIES_URL_PARAM = "WFSDataStoreFactory:WFS_GET_CAPABILITIES_URL";
-	private final String USERNAME_PARAM = "WFSDataStoreFactory:USERNAME";
-	private final String PASSWORD_PARAM = "WFSDataStoreFactory:PASSWORD";
 	
 	// buffer ratio
 	final private double MAX_PERIMETER = 2000;
@@ -131,14 +128,15 @@ public class ImageParcelleController extends CadController {
 			logger.debug("Call WFS with plot Id " + parcelle + " and WFS URL : " + getCapabilities);
 
 			Map<String, Serializable> connectionParameters = new HashMap<String, Serializable>();
-			connectionParameters.put(GET_CAPABILITIES_URL_PARAM, getCapabilities);
+			connectionParameters.put(WFSDataStoreFactory.URL.key, getCapabilities);
+			connectionParameters.put(WFSDataStoreFactory.TRY_GZIP.key, Boolean.TRUE);
 			
 			// Add basic authent parameter if not empty
 			final String cadastreWFSUsername = CadastrappPlaceHolder.getProperty("cadastre.wfs.username");
 			final String cadastreWFSPassword = CadastrappPlaceHolder.getProperty("cadastre.wfs.password");
 			if (cadastreWFSUsername != null && !cadastreWFSUsername.isEmpty()){
-				connectionParameters.put(USERNAME_PARAM, cadastreWFSUsername);
-				connectionParameters.put(PASSWORD_PARAM, cadastreWFSPassword);
+				connectionParameters.put(WFSDataStoreFactory.USERNAME.key, cadastreWFSUsername);
+				connectionParameters.put(WFSDataStoreFactory.PASSWORD.key, cadastreWFSPassword);
 			}
 			
 			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
@@ -146,7 +144,7 @@ public class ImageParcelleController extends CadController {
 
 			try {
 				dataStore = dsf.createDataStore(connectionParameters);
-
+				
 				SimpleFeatureSource source;
 
 				String cadastreWFSLayerNameOri = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
