@@ -26,14 +26,11 @@
        </listener-class>
     </listener>
 
-    <!--  Adding welcome page -->
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
+ 
 
     <!-- Services -->
     <servlet>
-        <servlet-name>services</servlet-name>
+        <servlet-name>mvc-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -43,9 +40,14 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>services</servlet-name>
-        <url-pattern>/services/*</url-pattern>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    =  <!--  Adding welcome page -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
     <!-- Use JNDI Datasource connection -->
     <resource-ref>
