@@ -32,6 +32,11 @@
 		<property name="ignoreResourceNotFound" value="true" />
 	</bean>
 
+	<!-- Add interceptors for logs and headers values management -->
+	<mvc:interceptors>
+    	<bean id="cadastrappInterceptor" class="org.georchestra.cadastrapp.providers.CadastrappInterceptor"/>
+	</mvc:interceptors>
+
 	<!-- DataSource information using jndi, this datasource is used directly 
 		via JDBCTemplate and via Spring repository -->
 	<bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
