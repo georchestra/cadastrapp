@@ -10,13 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+@Controller
 public class BatimentController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(BatimentController.class);
@@ -27,9 +27,8 @@ public class BatimentController extends CadController {
 	@RequestMapping(path ="/getBatiments", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * getBuildingsDetails
-	 *  Returns information about batiment dnubat on given parcell 
+	 *  Returns information about batiment dnubat on given plot 
 	 *  
-	 * @param headers http headers used 
 	 * @param parcelle parcelle id
 	 * @param dnubat batiment number 
 	 * 
@@ -80,8 +79,7 @@ public class BatimentController extends CadController {
 	@RequestMapping(path = "/getBatimentsByParcelle" , produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 *  Returns all building from given plot 
-	 *  
-	 * @param headers http headers used only available for CNIL 2
+	 * 
 	 * @param parcelle on unique plot id
 	 * 
 	 * @return JSON list compose with all dnubat from this plot, list is empy if no data, or if user doesn't have rights

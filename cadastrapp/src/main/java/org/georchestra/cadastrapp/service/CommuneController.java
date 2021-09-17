@@ -21,7 +21,7 @@ public class CommuneController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(CommuneController.class);
 	
-	@RequestMapping(path = "/getCommune/", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
+	@RequestMapping(path = "/getCommune", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
     /**
      *  /getCommune 
      *  

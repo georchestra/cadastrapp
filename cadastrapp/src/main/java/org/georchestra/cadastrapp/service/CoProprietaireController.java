@@ -218,11 +218,11 @@ public class CoProprietaireController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public 	ResponseEntity exportProprietaireByParcelles(
+	public 	ResponseEntity<byte[]> exportProprietaireByParcelles(
 			@RequestParam String parcelles) throws SQLException {
 		
 		// Create empty content
-		ResponseEntity response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		// User need to be at least CNIL1 level
 		if (getUserCNILLevel()>0){
@@ -275,7 +275,7 @@ public class CoProprietaireController extends CadController {
 					// build csv response
 					HttpHeaders headers = new HttpHeaders();
 					headers.setContentDispositionFormData("filename", file.getName());
-					response = new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+					response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 				}catch (IOException e) {
 					logger.error("Error while creating CSV files ", e);
 				} finally {
@@ -307,12 +307,12 @@ public class CoProprietaireController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public ResponseEntity  exportLotsAsSCV(
+	public ResponseEntity<byte[]>  exportLotsAsSCV(
 			@RequestParam String parcelle, 
 			@RequestParam String dnubat) throws SQLException {
 		
 		// Create empty content
-		ResponseEntity response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		if(getUserCNILLevel()>0){
 			logger.debug("Input parameters are : " + parcelle + " - " + dnubat);
@@ -329,7 +329,7 @@ public class CoProprietaireController extends CadController {
 				// build csv response
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentDispositionFormData("filename", file.getName());
-				response = new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+				response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 			}catch (IOException e) {
 				logger.error("Error while creating CSV files ", e);
 			} finally {
