@@ -20,7 +20,7 @@
     <spring.version>5.3.8</spring.version>
     <hibernate-version>6.0.0.Alpha7</hibernate-version>
     <hibernate-annotations-version>5.1.2.Final</hibernate-annotations-version>
-    <geotools.version>24.0</geotools.version>
+    <geotools.version>25.2</geotools.version>
     <pdfbox.version>3.0.0-RC1</pdfbox.version>
     <quartz.version>2.3.2</quartz.version>
     <springfox.version>2.10.5</springfox.version>

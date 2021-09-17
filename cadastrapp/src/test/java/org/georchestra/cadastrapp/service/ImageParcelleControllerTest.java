@@ -34,7 +34,7 @@ public class ImageParcelleControllerTest {
 
 		ImageParcelleController imageParcelleController = new ImageParcelleController();
 		
-		ResponseEntity<File> response = imageParcelleController.createImageBordereauParcellaire("2014630103000AO0351", 0, "#1446DE", (float) 0.50, "#10259E",2);
+		ResponseEntity<byte[]> response = imageParcelleController.createImageBordereauParcellaire("2014630103000AO0351", 0, "#1446DE", (float) 0.50, "#10259E",2);
 
 
 	}

@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.ByteArrayOutputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -58,6 +59,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -98,7 +101,7 @@ public class ImageParcelleController extends CadController {
 	 * @return Response with noContent in case of error, png otherwise
 	 */
 	@RequestMapping(path = "/getImageBordereau", produces = {MediaType.IMAGE_PNG_VALUE}, method= {RequestMethod.GET})
-	public ResponseEntity<File> createImageBordereauParcellaire(
+	public ResponseEntity<byte[]> createImageBordereauParcellaire(
 			@RequestParam() String parcelle,
 			@RequestParam(defaultValue = "0", name ="basemapindex", required = false) int baseMapIndex,
 			@RequestParam(defaultValue = "1446DE", name ="fillcolor", required = false) String styleFillColor,
@@ -107,7 +110,7 @@ public class ImageParcelleController extends CadController {
 			@RequestParam(defaultValue = "2", name ="strokewidth", required = false) int styleStrokeWidth) {
 
 		// Create empty reponse for default value
-		ResponseEntity<File> response = new ResponseEntity<File>(HttpStatus.NO_CONTENT);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 
 		final int parcelleIdLength = Integer.parseInt(CadastrappPlaceHolder.getProperty("parcelleId.length"));
 
@@ -145,15 +148,21 @@ public class ImageParcelleController extends CadController {
 			try {
 				dataStore = dsf.createDataStore(connectionParameters);
 				
+				// check all typeName, geo_parcelle are sometimes visibile in geoserver but not here
+				// redeploy in geoserver is needed
+				if(logger.isDebugEnabled()){
+					logger.debug("Datastore name "+ dataStore.getTypeNames());
+					for (String typeName : dataStore.getTypeNames()) {
+						logger.debug("Type name : " + typeName);
+					}
+				}
+
 				SimpleFeatureSource source;
 
-				String cadastreWFSLayerNameOri = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
-				
-				// remove this if not using gt-wfs-ng anymore
-				// using ng extension : need to be changed by_
-				String cadastreWFSLayerName = cadastreWFSLayerNameOri.replaceFirst(":", "_");
+				String cadastreWFSLayerName = CadastrappPlaceHolder.getProperty("cadastre.wfs.layer.name");
 				String cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("cadastre.layer.idParcelle");
 
+				logger.debug("Cadastre WFS LayerName "+ cadastreWFSLayerName);
 				source = dataStore.getFeatureSource(cadastreWFSLayerName);
 
 				// Make sure source have been found before making request filter
@@ -288,15 +297,14 @@ public class ImageParcelleController extends CadController {
 						if(plotLayerWmsUrl != null && !plotLayerWmsUrl.isEmpty()){
 							wmsCadastralLayer = createWebMapServer(plotLayerWmsUrl,plotLayerWmsUsername, plotLayerWmsPassword );
 							
-							cadastreWFSLayerNameOri = CadastrappPlaceHolder.getProperty("parcelle.wms.layer.name");	
 							//TODO see if specific SRS and format are needed
-							requestCadastralLayer = createAndConfigureMapRequest(wmsCadastralLayer, cadastralLayerFormat, cadastreWFSLayerNameOri, pdfImagePixelSize, cadastreSRS, bounds);
+							requestCadastralLayer = createAndConfigureMapRequest(wmsCadastralLayer, cadastralLayerFormat, cadastreWFSLayerName, pdfImagePixelSize, cadastreSRS, bounds);
 							cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("parcelle.wms.layer.id");
 						}
 																	
 						logger.debug("Create feature image from WMS");
 						
-						StyledLayerDescriptor sld = generateSLD(cadastreWFSLayerNameOri, cadastreLayerIdParcelle, parcelle, styleFillColor, styleFillOpacity, styleStrokeColor, styleStrokeWidth);
+						StyledLayerDescriptor sld = generateSLD(cadastreWFSLayerName, cadastreLayerIdParcelle, parcelle, styleFillColor, styleFillOpacity, styleStrokeColor, styleStrokeWidth);
 						
 					    SLDTransformer styleTransform = new SLDTransformer();
 				        styleTransform.setEncoding(Charset.forName("UTF-8"));
@@ -373,14 +381,16 @@ public class ImageParcelleController extends CadController {
 
 						g2.dispose();
 
-						// Get temp folder from properties file
-						final String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						ImageIO.write(finalImage, "png", baos);
+						byte[] bytes = baos.toByteArray();
+						
+						// Create response
+						HttpHeaders headers = new HttpHeaders();
+						headers.setContentType(MediaType.IMAGE_PNG);
+						headers.setContentDispositionFormData("filename", "BP-" + parcelle + ".png");
 
-						File file = new File(tempFolder + File.separator + "BP-" + parcelle + ".png");
-						file.deleteOnExit();
-						ImageIO.write(finalImage, "png", file);
-
-						response = new ResponseEntity<File>(file, HttpStatus.OK);
+						response = new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);						
 					} else {
 						logger.info("No plots corresponding on WFS server");
 					}
