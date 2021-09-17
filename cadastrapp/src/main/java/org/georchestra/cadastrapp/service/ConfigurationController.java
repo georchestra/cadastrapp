@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class ConfigurationController {
+public class ConfigurationController extends CadController{
 
 	final static Logger logger = LoggerFactory.getLogger(ConfigurationController.class);
 	

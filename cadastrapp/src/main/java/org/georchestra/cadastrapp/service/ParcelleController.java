@@ -16,7 +16,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.georchestra.cadastrapp.model.pdf.ExtFormResult;
 import org.georchestra.cadastrapp.service.export.ExportHelper;
-import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -31,6 +31,7 @@ import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.request.InformationRequest;
 import org.georchestra.cadastrapp.repository.RequestRepository;
+import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class RequestPDFController{
+public class RequestPDFController extends CadController{
 
 	static final Logger logger = LoggerFactory.getLogger(RequestPDFController.class);
 
