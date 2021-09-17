@@ -1,13 +1,12 @@
 package org.georchestra.cadastrapp.service.pdf;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -74,7 +73,7 @@ public class BordereauParcellaireController extends CadController {
 	 * @return BP pdf
 	 */
 	@RequestMapping(path = "/createBordereauParcellaire", produces ={MediaType.APPLICATION_PDF_VALUE}, method= {RequestMethod.GET})
-	public ResponseEntity<File> createBordereauParcellaire(
+	public ResponseEntity<byte[]> createBordereauParcellaire(
 			@RequestParam(name= "parcelle") final List<String> parcelleList,
 			@RequestParam(name= "personaldata", defaultValue = "0", required= false) int personalData,
 			@RequestParam(name= "basemapindex", defaultValue = "0", required= false) int baseMapIndex,
@@ -83,7 +82,7 @@ public class BordereauParcellaireController extends CadController {
 			@RequestParam(name= "strokecolor", defaultValue = "#10259E", required= false) String styleStrokeColor,
 			@RequestParam(name= "strokewidth", defaultValue = "2", required= false) int styleStrokeWidth) {
 
-		ResponseEntity<File> response = new ResponseEntity<File>(HttpStatus.NO_CONTENT);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		// Check if parcelle list is not empty
 		if (parcelleList != null && !parcelleList.isEmpty()) {
@@ -96,7 +95,8 @@ public class BordereauParcellaireController extends CadController {
 			String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 			
 			// Pdf temporary filename using tmp folder and timestamp
-			final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();			
+			final long key = new Date().getTime();
+			final String pdfTmpFileName = tempFolder+File.separator+"BP-"+key;		
 			InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplate);
 
 			// Setup XSLT
@@ -106,21 +106,16 @@ public class BordereauParcellaireController extends CadController {
 			Transformer transformerPDF;
 			JAXBContext jaxbContext;
 			Marshaller jaxbMarshaller;
-			File pdfResult;
-			OutputStream out;
+			ByteArrayOutputStream out;
 			Fop fop;
 
 			try {
 				transformerXSLT = factory.newTransformer(new StreamSource(xsl));
 				transformerPDF = factory.newTransformer();
-
-				// Create Empyt PDF File will be erase after
-				pdfResult = new File(pdfTmpFileName+".pdf");
-				pdfResult.deleteOnExit();
 				
-				out = new BufferedOutputStream(new FileOutputStream(pdfResult));
+				out = new ByteArrayOutputStream();
 				
-				FopFactoryBuilder builder = new FopFactoryBuilder(pdfResult.toURI());
+				FopFactoryBuilder builder = new FopFactoryBuilder(new File(tempFolder+File.separator+".").toURI());
 				
 				// get DPI from comfig file
 				int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
@@ -186,18 +181,18 @@ public class BordereauParcellaireController extends CadController {
 
 					// Start PDF transformation and FOP processing
 					transformerPDF.transform(src, res);
-
+					byte[] bytes = out.toByteArray();
 					out.close();
 
 					ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
-					.filename(pdfResult.getName())
+					.filename("BP-"+key+".pdf")
 					.build();
 
 					HttpHeaders headers = new HttpHeaders();
 					headers.setContentType(MediaType.APPLICATION_PDF);
 					headers.setContentDisposition(contentDisposition);
 
-					response = new ResponseEntity<File>(pdfResult, headers, HttpStatus.OK);					
+					response = new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);					
 				} catch (JAXBException jaxbException) {
 					logger.warn("Error during converting object to xml : " + jaxbException);
 				} catch (TransformerException transformerException) {
