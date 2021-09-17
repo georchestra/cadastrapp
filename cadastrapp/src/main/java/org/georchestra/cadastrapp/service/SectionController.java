@@ -31,7 +31,6 @@ public class SectionController extends CadController {
 	 * return information about section from view section using parameter given.
 	 *  results will be filtered with user group geographical limitation
 	 *  
-	 * @param headers headers from request used to filter search using LDAP Roles
 	 * @param cgocommune code geographique officil commune  like 630103 (codep + codir + cocom)
      * 					cgocommune should be on 6 char, if only 5 we deduce that codir is not present and we replace it in the request
 	 * @param ccopre partial code pre section exemple A for AP or AC, could be the full code pre
@@ -42,7 +41,6 @@ public class SectionController extends CadController {
 	 * @throws SQLException
 	 */
 	public 	@ResponseBody List<Map<String, Object>> getSectionList(
-			@RequestHeader(value=CadastrappConstants.HTTP_HEADER_ROLES, required = false) String rolesList,
 			@RequestParam(name= "cgocommune") String cgoCommune,
 			@RequestParam(required = false) String ccopre,
 			@RequestParam(required = false) String ccosec) throws SQLException {
@@ -72,7 +70,7 @@ public class SectionController extends CadController {
 		isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder, "ccopre", ccopre, queryParams);
 		isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder, "ccosec", ccosec, queryParams);
 		if(isSearchFiltered){
-    		queryBuilder.append(addAuthorizationFiltering(rolesList));
+    		queryBuilder.append(addAuthorizationFiltering());
     	}
 		queryBuilder.append(" ORDER BY ccopre, ccosec ");
 					
