@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
@@ -38,9 +39,9 @@ public class CSVExportController extends CadController {
 	 *         csv
 	 */
 	@RequestMapping(path = "/exportAsCsv", produces = "text/csv", method= {RequestMethod.GET})
-	public ResponseEntity<File> cSVExport(@RequestParam(name = "data") List<String> values) {
+	public ResponseEntity<byte[]> cSVExport(@RequestParam(name = "data") List<String> values) {
 
-		ResponseEntity<File> response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 		if (values != null && !values.isEmpty()) {
 			
@@ -84,7 +85,7 @@ public class CSVExportController extends CadController {
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentDisposition(contentDisposition);
 
-				response = new ResponseEntity<File>(file, headers, HttpStatus.OK);	
+				response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);	
 
 			} catch (IOException e) {
 				logger.error("Error while creating CSV files ",  e);

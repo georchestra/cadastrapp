@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -347,7 +348,6 @@ public class CoProprietaireController extends CadController {
 	/**
 	 * Create a pdf file from given plot and building id
 	 * 
-	 * @param headers Used to filter displayed information
 	 * @param parcelle String
 	 * @param dnubat String
 	 * 
@@ -355,12 +355,12 @@ public class CoProprietaireController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public ResponseEntity exportLotsAsPDF(
+	public ResponseEntity<byte[]> exportLotsAsPDF(
 			@RequestParam String parcelle,
 			@RequestParam String dnubat) throws SQLException {
 		
 		// Create empty content
-		ResponseEntity response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		if(getUserCNILLevel()>0){
 			logger.debug("Input parameters are : " + parcelle + " - " + dnubat);
@@ -449,11 +449,15 @@ public class CoProprietaireController extends CadController {
 						out.close();
 
 						// Create response
+						ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+						.filename(pdfResult.getName())
+						.build();
+
 						HttpHeaders headers = new HttpHeaders();
 						headers.setContentType(MediaType.APPLICATION_PDF);
-						headers.setContentDispositionFormData("filename", pdfResult.getName());
+						headers.setContentDisposition(contentDisposition);
 
-						response = new ResponseEntity<>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);
+						response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);
 					} catch (JAXBException jaxbException) {
 						logger.warn("Error during converting object to xml : " + jaxbException);
 					} catch (TransformerException transformerException) {

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.CompteCommunal;
 import org.georchestra.cadastrapp.model.pdf.Proprietaire;
@@ -52,19 +53,20 @@ public class ReleveProprieteController extends CadController {
 	 * Create a PDF using a list of comptecommunal
 	 * 
 	 * @param comptesCommunaux List of ids proprietaires
-	 * @param idParcelle plot id
+	 * @param idParcelle plot id for this user
 	 * @return pdf generated RP with database information
+	 * @throws IOException
 	 */
 	@RequestMapping(path = "/createRelevePropriete", produces ={MediaType.APPLICATION_PDF_VALUE}, method= {RequestMethod.GET})
-	public ResponseEntity<File> createRelevePDFPropriete(
+	public ResponseEntity<byte[]> createRelevePDFPropriete(
 		@RequestParam(name= "compteCommunal") List<String> comptesCommunaux, 
-		@RequestParam(name="parcelleId", required= false) String idParcelle) {
+		@RequestParam(name="parcelleId", required= false) String idParcelle) throws IOException {
 
-		ResponseEntity<File> response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		logger.debug("Controller Parcelle ID (param) : "+idParcelle);
 		
-		// Check if parcelle list is not empty
+		// Check if user id list is not empty
 		if (comptesCommunaux != null && !comptesCommunaux.isEmpty()) {
 			
 			// Fixe #329 in some case Extjs return one string with data separated with , instead of a list of data.
@@ -85,7 +87,7 @@ public class ReleveProprieteController extends CadController {
 			headers.setContentType(MediaType.APPLICATION_PDF);
 			headers.setContentDisposition(contentDisposition);
 
-			response = new ResponseEntity<File>(pdfResult, headers, HttpStatus.OK);	
+			response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);	
 
 		} else {
 			logger.warn("Required parameter missing");
@@ -103,11 +105,11 @@ public class ReleveProprieteController extends CadController {
 	 * @throws IOException if an input or output exception occured
 	 */
 	@RequestMapping(path = "/createReleveProprieteAsCSV", produces = "application/zip", method= {RequestMethod.GET})
-	public ResponseEntity<File> createReleveCSVPropriete(
+	public ResponseEntity<byte[]> createReleveCSVPropriete(
 		@RequestParam(name= "compteCommunal") List<String> comptesCommunaux, 
 		@RequestParam(name= "parcelleId", required= false) String idParcelle) throws IOException {
 
-		ResponseEntity<File> response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 		
@@ -383,7 +385,7 @@ public class ReleveProprieteController extends CadController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentDisposition(contentDisposition);
 
-			response = new ResponseEntity<File>(finalZip, headers, HttpStatus.OK);	
+			response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(finalZip), headers, HttpStatus.OK);	
 
 		} else {
 			logger.warn("Required parameter missing");

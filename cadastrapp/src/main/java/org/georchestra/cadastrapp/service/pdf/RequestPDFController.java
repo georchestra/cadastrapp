@@ -35,6 +35,7 @@ import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -143,13 +144,17 @@ public class RequestPDFController extends CadController{
 						out.close();
 						
 						// Create response
+						ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+						.filename(pdfResult.getName())
+						.build();
+
 						HttpHeaders headers = new HttpHeaders();
 						headers.setContentType(MediaType.APPLICATION_PDF);
-						headers.setContentDispositionFormData("filename", pdfResult.getName());
+						headers.setContentDisposition(contentDisposition);
+
+						response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);
 
 						response = new ResponseEntity<>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);
-						//response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
-
 					} catch (JAXBException jaxbException) {
 						logger.warn("Error during converting object to xml", jaxbException);
 					} catch (TransformerException transformerException) {

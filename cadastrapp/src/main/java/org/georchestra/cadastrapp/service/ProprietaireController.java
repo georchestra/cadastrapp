@@ -17,6 +17,7 @@ import org.georchestra.cadastrapp.service.export.ExportHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -210,9 +211,9 @@ public class ProprietaireController extends CadController{
 	 * @throws SQLException
 	 */
 	public @ResponseBody List<Map<String,Object>> getProprietairesByInfoParcelle(
-			@RequestParam(required = false) String commune,
-			@RequestParam(required = false) String section,
-			@RequestParam(required = false) String numero,
+			@RequestParam(required = true) String commune,
+			@RequestParam(required = true) String section,
+			@RequestParam(required = true) String numero,
 			@RequestParam(required = false) String ddenom
 			) throws SQLException {
 
@@ -222,9 +223,7 @@ public class ProprietaireController extends CadController{
 		// User need to be at least CNIL1 level
 		if (getUserCNILLevel()>0){
 
-			// if search by dnuproList or comptecommunal
-			// directly search in view parcelle
-			if(commune != null || section != null || numero != null){
+			if(commune != null && section != null && numero != null){
 				StringBuilder queryBuilder = new StringBuilder();
 				List<String> queryParams = new ArrayList<String>();
 				queryBuilder.append("select distinct ");
@@ -329,8 +328,14 @@ public class ProprietaireController extends CadController{
 					file = exportHelper.createCSV(proprietaires, entete);
 					
 					// build csv response
+					// Create response
+					ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+					.filename(file.getName())
+					.build();
+
 					HttpHeaders headers = new HttpHeaders();
-					headers.setContentDispositionFormData("filename", file.getName());
+					headers.setContentDisposition(contentDisposition);
+
 					response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 
 				}catch (IOException e) {

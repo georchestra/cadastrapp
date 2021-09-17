@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
@@ -49,16 +50,15 @@ public class DemandeController extends CadController {
 	/**
 	 * Create a PDF using a request id
 	 * 
-	 * @param headers to verify CNIL level information
 	 * @param requestId user request Id
 	 * @return pdf demande resume
 	 * @throws IOException if an input or output exception occured
 	 */
 	@RequestMapping(path = "/createDemandeFromObj", produces ={MediaType.APPLICATION_PDF_VALUE}, method= {RequestMethod.GET})
-	public ResponseEntity<File> createDemandeFromObj(
+	public ResponseEntity<byte[]> createDemandeFromObj(
 		@RequestParam(name="requestid") long requestId) throws IOException {
 
-		ResponseEntity<File> response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 
 		List<File> listPdfPath = new ArrayList<File>();
 
@@ -174,7 +174,7 @@ public class DemandeController extends CadController {
 				headers.setContentType(MediaType.APPLICATION_PDF);
 				headers.setContentDisposition(contentDisposition);
 
-				response = new ResponseEntity<File>(pdfResult, headers, HttpStatus.OK);	
+				response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);	
 			}
 
 		}
