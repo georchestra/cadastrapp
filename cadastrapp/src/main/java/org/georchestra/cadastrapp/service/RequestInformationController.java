@@ -156,9 +156,8 @@ public class RequestInformationController extends CadController{
 	 * @param coProprietes  - liste de lot de coproprietés et des documents souhaités pour chaque parcelle 0 non, 1 oui
 	 * 							exemple pour une copropriete : 2015xxxxA00300|2015xxxxxx000ZK0026|0|1 <-> comptecommunal|parcelleid|borderauParcellaire|releveDePropriete
 	 * @param lotCoproprietes
-	 * @param askby
-	 * @param responseby
-	 * @param headers
+	 * @param askby   - 1 Guichet, 2 Courrier, 3 Mail
+	 * @param responseby - 1 Guichet, 2 Courrier, 3 Mail
 	 * 
 	 * @return JSON 
 	 * 
@@ -179,8 +178,8 @@ public class RequestInformationController extends CadController{
 			@RequestParam(name= "parcelles", required= false) List<String> parcelles, 
 			@RequestParam(name= "coproprietes", required= false) List<String> coProprietes, 
 			@RequestParam(name= "proprietaireLots", required= false) List<String> lotCoproprietes, 
-			@RequestParam(name= "askby", required= false) int askby, 
-			@RequestParam(name= "responseby", required= false) int responseby) throws SQLException {
+			@RequestParam(name= "askby", required= false, defaultValue = "0") int askby, 
+			@RequestParam(name= "responseby", required= false, defaultValue = "0") int responseby) throws SQLException {
 
 		Map<String, Object> resultInformation = new HashMap<String, Object>();
 		String result = "KO";
