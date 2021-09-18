@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerException;
 
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.geotools.data.DataStore;
+import org.geotools.data.DataStoreFinder;
 import org.geotools.http.HTTPClient;
 import org.geotools.http.SimpleHttpClient;
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -139,12 +140,11 @@ public class ImageParcelleController extends CadController {
 				connectionParameters.put(WFSDataStoreFactory.USERNAME.key, cadastreWFSUsername);
 				connectionParameters.put(WFSDataStoreFactory.PASSWORD.key, cadastreWFSPassword);
 			}
-			
-			WFSDataStoreFactory dsf = new WFSDataStoreFactory();
+
 			DataStore dataStore;
 
 			try {
-				dataStore = dsf.createDataStore(connectionParameters);
+				dataStore = DataStoreFinder.getDataStore(connectionParameters);
 				
 				// check all typeName, geo_parcelle are sometimes visibile in geoserver but not here
 				// redeploy in geoserver is needed
