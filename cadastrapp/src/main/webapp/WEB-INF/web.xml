@@ -44,7 +44,7 @@
 
     <servlet-mapping>
         <servlet-name>services</servlet-name>
-        <url-pattern>services/*</url-pattern>
+        <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 
     <!-- Use JNDI Datasource connection -->
