@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import java.util.Arrays;
+import java.util.Map.Entry;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,8 +42,21 @@ public class CadastrappInterceptor implements HandlerInterceptor  {
 	
 		logger.info("Incoming request");
 		
+        // Add debug information (duration and parameters list)
 		if(logger.isDebugEnabled()){
-			logger.debug("Parameter list : " + StringUtils.join(request.getParameterMap()));
+            
+            // used for duration
+            long startTime = System.currentTimeMillis();
+            request.setAttribute("startTime", startTime); 
+
+            // list of params
+            StringBuilder paramsSBuilder = new StringBuilder("Parameter list : { ");
+            for (Entry<String, String[]> entry : request.getParameterMap().entrySet()){
+                paramsSBuilder.append(entry.getKey()).append(":");
+                paramsSBuilder.append(Arrays.toString(entry.getValue())).append("--");
+              }
+            paramsSBuilder.append(" }");
+           logger.debug(paramsSBuilder.toString());
 		}
         return true;
     }
@@ -50,11 +66,18 @@ public class CadastrappInterceptor implements HandlerInterceptor  {
     public void postHandle( HttpServletRequest request, HttpServletResponse response,
             Object handler, ModelAndView modelAndView) throws Exception {
 
-        logger.info("Response");
+         // Add duration 
+		if(logger.isDebugEnabled()){        
+            long executeTime = System.currentTimeMillis() - (Long)request.getAttribute("startTime");
+            logger.debug("Request handle in " + executeTime + "ms");
+        }      
+        
         MDC.remove(CadastrappConstants.HTTP_HEADER_USERNAME);
 		MDC.remove(CadastrappConstants.HTTP_HEADER_ROLES);
         MDC.remove(CadastrappConstants.HTTP_HEADER_ORGANISME);
 		MDC.remove("uri");	
+
+        logger.info("Send response");
     }
 
 }
