@@ -81,7 +81,7 @@
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.generate_statistics">false</prop>
 				<prop key="hibernate.use_sql_comments">false</prop>
-				<prop key="hibernate.hbm2ddl.auto">validate</prop>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
 
 			</props>
 		</property>
