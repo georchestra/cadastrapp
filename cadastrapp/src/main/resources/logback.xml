@@ -28,7 +28,7 @@
 	<logger name="org.quartz.core.QuartzSchedulerThread" level="WARN" />
 
 	<!-- swagger info --> 
-	<logger name="springfox.documentation" level="DEBUG" />
+	<logger name="springfox.documentation" level="WARN" />
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>/tmp/cadastrapp.log</file>
@@ -38,7 +38,7 @@
 	</appender>
 
 
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="FILE" />
 	</root>
 </configuration>
