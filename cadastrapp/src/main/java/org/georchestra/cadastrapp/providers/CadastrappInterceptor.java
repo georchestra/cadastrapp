@@ -1,6 +1,5 @@
 package org.georchestra.cadastrapp.providers;
 
-import org.apache.commons.lang3.StringUtils;
 import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
