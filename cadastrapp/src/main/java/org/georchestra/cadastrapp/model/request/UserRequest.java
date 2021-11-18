@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 
@@ -19,7 +20,8 @@ public class UserRequest implements Serializable {
 	private static final long serialVersionUID = -9140660737315556020L;
 	
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name = "HibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
+	@GeneratedValue(generator = "HibernateSequence")
 	@Column(name="userid")
 	private long userId;
 		

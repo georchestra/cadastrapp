@@ -159,7 +159,7 @@ public class DemandeController extends CadController {
 				// Pdf temporary filename using tmp folder and timestamp
 				final String pdfTmpFileName = tempFolder+File.separator+"DEMANDE_"+new Date().getTime();
 
-				ut.setDestinationFileName(pdfTmpFileName);
+				ut.setDestinationFileName(pdfTmpFileName+".pdf");
 				ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
 
 				File pdfResult = new File(ut.getDestinationFileName());

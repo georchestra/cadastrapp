@@ -249,6 +249,7 @@ public final class BordereauParcellaireHelper extends CadController{
 		Transformer transformerPDF;
 		JAXBContext jaxbContext;
 		Marshaller jaxbMarshaller;
+		
 		File pdfResult;
 		OutputStream out;
 		Fop fop;
@@ -263,7 +264,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			
 			out = new BufferedOutputStream(new FileOutputStream(pdfResult));
 
-			FopFactoryBuilder builder = new FopFactoryBuilder(pdfResult.toURI());
+			FopFactoryBuilder builder = new FopFactoryBuilder(new File(tempFolder+File.separator+".").toURI());
 			
 			// get DPI from comfig file
 			int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));
