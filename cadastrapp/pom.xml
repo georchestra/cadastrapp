@@ -12,18 +12,18 @@
   <description>Web application for cadastre management over Georchestra</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jackson.version>1.8.6</jackson.version>
-    <slf4j.version>1.7.25</slf4j.version>
-    <logback.version>1.2.3</logback.version>
+    <jackson.version>2.12.3</jackson.version>
+    <slf4j.version>1.7.30</slf4j.version>
+    <logback.version>1.2.7</logback.version>
     <jcloverslf4j.version>1.7.25</jcloverslf4j.version>
-    <postgresql.version>9.4-1205-jdbc4</postgresql.version>
-    <cxf.version>3.0.4</cxf.version>
-    <spring.version>4.3.24.RELEASE</spring.version>
-    <hibernate-version>4.1.7.Final</hibernate-version>
-    <hibernate-annotations-version>4.0.1.Final</hibernate-annotations-version>
-    <geotools.version>9.2</geotools.version>
-    <pdfbox.version>2.0.17</pdfbox.version>
-    <quartz.version>2.3.0</quartz.version>
+    <postgresql.version>42.3.1</postgresql.version>
+    <spring.version>5.3.9</spring.version>
+    <hibernate-version>6.0.0.Alpha7</hibernate-version>
+    <hibernate-annotations-version>5.1.2.Final</hibernate-annotations-version>
+    <geotools.version>26.1</geotools.version>
+    <pdfbox.version>3.0.0-RC1</pdfbox.version>
+    <quartz.version>2.3.2</quartz.version>
+    <springfox.version>2.10.5</springfox.version>
   </properties>
   <repositories>
     <repository>
@@ -52,28 +52,8 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-      <version>${cxf.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-rs-client</artifactId>
-      <version>${cxf.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-jaxrs</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
       <version>${jackson.version}</version>
     </dependency>
     <dependency>
@@ -92,6 +72,11 @@
       <artifactId>spring-web</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
     <!-- Transaction and context support dependency are required with Quartz integration -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -106,7 +91,7 @@
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-jpa</artifactId>
-      <version>1.11.22.RELEASE</version>
+      <version>2.5.4</version>
     </dependency>
     <!-- Spring JDBC Support -->
     <dependency>
@@ -116,7 +101,7 @@
     </dependency>
     <!-- JPA Provider (Hibernate) -->
     <dependency>
-      <groupId>org.hibernate</groupId>
+      <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
       <version>${hibernate-version}</version>
       <scope>compile</scope>
@@ -144,7 +129,7 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.hibernate</groupId>
+      <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
       <version>${hibernate-version}</version>
       <scope>compile</scope>
@@ -180,7 +165,7 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.hibernate</groupId>
+      <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-ehcache</artifactId>
       <version>${hibernate-version}</version>
       <scope>compile</scope>
@@ -228,28 +213,23 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.6</version>
+      <version>3.11</version>
     </dependency>
     <!-- use for PDF -->
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>fop</artifactId>
-      <version>2.3</version>
+      <version>2.6</version>
     </dependency>
-	<dependency>
-		<groupId>net.sf.supercsv</groupId>
-   	 	<artifactId>super-csv</artifactId>
-    	<version>2.4.0</version>
-	</dependency>
-	<dependency>
-   		<groupId>net.sf.supercsv</groupId>
-    	<artifactId>super-csv-dozer</artifactId>
-    	<version>2.4.0</version>
-	</dependency>
     <dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gt-render</artifactId>
-      <version>${geotools.version}</version>
+      <groupId>net.sf.supercsv</groupId>
+        <artifactId>super-csv</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>net.sf.supercsv</groupId>
+        <artifactId>super-csv-dozer</artifactId>
+        <version>2.4.0</version>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
@@ -259,6 +239,11 @@
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-wms</artifactId>
+      <version>${geotools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-http</artifactId>
       <version>${geotools.version}</version>
     </dependency>
     <dependency>
@@ -281,7 +266,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
     <!-- Database (H2) -->
@@ -300,12 +285,28 @@
       <scope>provided</scope>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.0.1</version>
+      <version>3.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
       <artifactId>pdfbox</artifactId>
       <version>${pdfbox.version}</version>
+    </dependency>
+    <!-- Swagger API Documentation -->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${springfox.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${springfox.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-spring-webmvc</artifactId>
+      <version>${springfox.version}</version>
     </dependency>
   </dependencies>
   <pluginRepositories>
@@ -339,7 +340,7 @@
         <plugin>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-maven-plugin</artifactId>
-          <version>9.2.11.v20150529</version>
+          <version>9.4.41.v20210516</version>
           <configuration>
             <webApp>
               <contextPath>/cadastrapp/</contextPath>
@@ -360,56 +361,23 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>2.10.3</version>
-          <configuration>
-            <docletArtifacts>
-              <docletArtifact>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-java2wadl-plugin</artifactId>
-                <version>3.0.0</version>
-              </docletArtifact>
-            </docletArtifacts>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
+            <source>1.8</source>
+            <target>1.8</target>
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.3</version>
-          <configuration>
-            <webResources>
-              <resource>
-                <directory>target/site</directory>
-              </resource>
-              <resource>
-                <directory>target/generated</directory>
-                <targetPath>apidocs</targetPath>
-              </resource>
-            </webResources>
-          </configuration>
-        </plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.2</version>
+      </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>build-javadocs</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>javadoc</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
+     <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
@@ -452,7 +420,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.0</version>
         <configuration>
           <descriptors>
             <descriptor>addon-assembly.xml</descriptor>
@@ -469,51 +437,9 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-java2wadl-plugin</artifactId>
-        <version>${cxf.version}</version>
-        <executions>
-          <!-- Enable if support for Javadoc is required, not supported in CXF
-						2.7.11 -->
-          <execution>
-            <id>parsejavadoc</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>parsejavadoc</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>process-classes</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>java2wadl</goal>
-            </goals>
-            <configuration>
-              <classResourceNames>
-                <classResourceName>org.georchestra.cadastrapp.service.BatimentController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.CommuneController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.ParcelleController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.ProprietaireController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.CoProprietaireController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.SectionController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.InfoBulleController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.UniteCadastraleController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.VoieController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.pdf.ReleveProprieteController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.pdf.DemandeController</classResourceName>
-                <classResourceName>org.georchestra.cadastrapp.service.DatadirController</classResourceName>
-              </classResourceNames>
-              <docProvider>org.apache.cxf.maven_plugin.javatowadl.ResourceMapJavaDocProvider</docProvider>
-              <attachWadl>true</attachWadl>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>pl.project13.maven</groupId>
         <artifactId>git-commit-id-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>4.0.3</version>
         <executions>
           <execution>
             <goals>
@@ -597,7 +523,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.7</version>
+            <version>3.0.0</version>
             <executions>
               <execution>
                 <id>set-project-packageversion</id>
@@ -657,57 +583,6 @@
       </build>
     </profile>
     <profile>
-      <id>rpmPackage</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>rpm-maven-plugin</artifactId>
-            <version>2.1.3</version>
-            <executions>
-              <execution>
-                <id>generate-rpm</id>
-                <goals>
-                  <goal>rpm</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <name>georchestra-${project.artifactId}</name>
-              <sourceEncoding>UTF-8</sourceEncoding>
-              <group>Applications/Internet</group>
-              <keyname>${rpm.gpg.key}</keyname>
-              <mappings>
-                <mapping>
-                  <directory>/usr/share/lib/georchestra-${project.artifactId}</directory>
-                  <sources>
-                    <source>
-                      <location>${project.build.directory}</location>
-                      <includes>
-                        <include>cadastrapp.war</include>
-                      </includes>
-                    </source>
-                  </sources>
-                </mapping>
-                <mapping>
-                  <directory>/</directory>
-                  <sources>
-                    <source>
-                      <location>${basedir}/src/deb/resources</location>
-                    </source>
-                  </sources>
-                </mapping>
-              </mappings>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>docker</id>
       <properties>
         <dockerImageName>georchestra/${project.artifactId}</dockerImageName>
@@ -719,7 +594,7 @@
           <plugin>
             <groupId>com.spotify</groupId>
             <artifactId>docker-maven-plugin</artifactId>
-            <version>0.3.8</version>
+            <version>1.2.2</version>
             <configuration>
               <imageName>${dockerImageName}</imageName>
               <dockerDirectory>${project.basedir}/src/docker</dockerDirectory>
@@ -739,7 +614,7 @@
               <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>19.0</version>
+                <version>30.1.1-jre</version>
               </dependency>
             </dependencies>
           </plugin>
