@@ -24,9 +24,10 @@ GEOR.Addons.Cadastre.onClickPrintBordereauParcellaireWindow = function(parcelleI
         var params = {
             parcelle: parcelleId, 
             personaldata: 0,
-            fillcolor: GEOR.Addons.Cadastre.styles.selected.fillColor,
+            // remove # to avoid url problems
+            fillcolor: GEOR.Addons.Cadastre.styles.selected.fillColor.substring(1),
             opacity: GEOR.Addons.Cadastre.styles.selected.opacity,
-            strokecolor: GEOR.Addons.Cadastre.styles.selected.strokeColor,
+            strokecolor: GEOR.Addons.Cadastre.styles.selected.strokeColor.substring(1),
             strokewidth: GEOR.Addons.Cadastre.styles.selected.strokeWidth,
         } 
         var url = GEOR.Addons.Cadastre.url.serviceCreateBordereauParcellaire + '?' + Ext.urlEncode(params);
@@ -281,9 +282,9 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
                     }
                     // Add style information
                     // remove # to avoid URL problems on server side (XSL template doesnot manage url-encode)
-                    params.fillcolor=GEOR.Addons.Cadastre.styles.selected.fillColor.substring(1);;
+                    params.fillcolor=GEOR.Addons.Cadastre.styles.selected.fillColor.substring(1);
                     params.opacity=GEOR.Addons.Cadastre.styles.selected.opacity;
-                    params.strokecolor=GEOR.Addons.Cadastre.styles.selected.strokeColor.substring(1);;
+                    params.strokecolor=GEOR.Addons.Cadastre.styles.selected.strokeColor.substring(1);
                     params.strokewidth=GEOR.Addons.Cadastre.styles.selected.strokeWidth;
                     
                     var url = GEOR.Addons.Cadastre.url.serviceCreateBordereauParcellaire + '?' + Ext.urlEncode(params);
