@@ -60,7 +60,6 @@ public class CadastrappInterceptor implements HandlerInterceptor  {
         return true;
     }
 
-
     @Override
     public void postHandle( HttpServletRequest request, HttpServletResponse response,
             Object handler, ModelAndView modelAndView) throws Exception {
@@ -77,6 +76,20 @@ public class CadastrappInterceptor implements HandlerInterceptor  {
 		MDC.remove(CadastrappConstants.HTTP_HEADER_ROLES);
         MDC.remove(CadastrappConstants.HTTP_HEADER_ORGANISME);
 		MDC.remove("uri");	
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, 
+            Object handler, Exception ex) throws Exception {
+        
+         // Add duration 
+		if(logger.isDebugEnabled()){        
+            long executeTime = System.currentTimeMillis() - (Long)request.getAttribute("startTime");
+            logger.debug("Request finished in " + executeTime + "ms");
+
+            logger.debug("Make sure to clear MDC information");
+        }     
+        MDC.clear();	
     }
 
 }
