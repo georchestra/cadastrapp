@@ -69,14 +69,14 @@ public class CadastrappInterceptor implements HandlerInterceptor  {
 		if(logger.isDebugEnabled()){        
             long executeTime = System.currentTimeMillis() - (Long)request.getAttribute("startTime");
             logger.debug("Request handle in " + executeTime + "ms");
-        }      
-        
+        }     
+
+        logger.info("Send response");
+
         MDC.remove(CadastrappConstants.HTTP_HEADER_USERNAME);
 		MDC.remove(CadastrappConstants.HTTP_HEADER_ROLES);
         MDC.remove(CadastrappConstants.HTTP_HEADER_ORGANISME);
 		MDC.remove("uri");	
-
-        logger.info("Send response");
     }
 
 }
