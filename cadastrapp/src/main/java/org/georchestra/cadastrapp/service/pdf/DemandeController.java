@@ -7,15 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-
+import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
@@ -30,7 +22,17 @@ import org.georchestra.cadastrapp.service.exception.CadastrappServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@Controller
 public class DemandeController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(DemandeController.class);
@@ -48,17 +50,15 @@ public class DemandeController extends CadController {
 	/**
 	 * Create a PDF using a request id
 	 * 
-	 * @param headers to verify CNIL level information
 	 * @param requestId user request Id
 	 * @return pdf demande resume
 	 * @throws IOException if an input or output exception occured
 	 */
-	@GET
-	@Path("/createDemandeFromObj")
-	@Produces("application/pdf")
-	public Response createDemandeFromObj(@Context HttpHeaders headers, @QueryParam("requestid") long requestId) throws IOException {
+	@RequestMapping(path = "/createDemandeFromObj", produces ={MediaType.APPLICATION_PDF_VALUE}, method= {RequestMethod.GET})
+	public ResponseEntity<byte[]> createDemandeFromObj(
+		@RequestParam(name="requestid") long requestId) throws IOException {
 
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 
 		List<File> listPdfPath = new ArrayList<File>();
 
@@ -82,22 +82,22 @@ public class DemandeController extends CadController {
 					if(objReq.getType() == CadastrappConstants.CODE_DEMANDEUR_COMPTE_COMMUNAL){
 						//if BP
 						if("1".equals(objReq.getBp())){
-							listPdfPath.add(createBordereauParcellaireByCC(objReq.getComptecommunal(),null, headers, false));
+							listPdfPath.add(createBordereauParcellaireByCC(objReq.getComptecommunal(),null, false));
 						}
 						//if RP
 						if("1".equals(objReq.getRp())){
-							listPdfPath.add(createReleveProprieteByCC(objReq.getComptecommunal(), headers,isMinimal));
+							listPdfPath.add(createReleveProprieteByCC(objReq.getComptecommunal(), isMinimal));
 
 						}
 
 					}else if(objReq.getType() == CadastrappConstants.CODE_DEMANDEUR_PARCELLE_ID){
 						//if BP
 						if("1".equals(objReq.getBp())){
-							listPdfPath.add(createBordereauParcellaireById(objReq.getParcelle(), headers));
+							listPdfPath.add(createBordereauParcellaireById(objReq.getParcelle()));
 						}
 						//if RP
 						if("1".equals(objReq.getRp())){
-							listPdfPath.add(createReleveProprieteById(objReq.getParcelle(), headers, isMinimal));
+							listPdfPath.add(createReleveProprieteById(objReq.getParcelle(), isMinimal));
 
 						}
 
@@ -105,11 +105,11 @@ public class DemandeController extends CadController {
 
 						//if BP
 						if("1".equals(objReq.getBp())){
-							listPdfPath.add(createBordereauParcellaireByCC(objReq.getComptecommunal(),objReq.getParcelle(), headers, true));
+							listPdfPath.add(createBordereauParcellaireByCC(objReq.getComptecommunal(),objReq.getParcelle(), true));
 						}
 						//if RP
 						if("1".equals(objReq.getRp())){
-							listPdfPath.add(createReleveCoProprieteByCCandParcelle(objReq.getComptecommunal(),objReq.getParcelle(), headers,isMinimal));
+							listPdfPath.add(createReleveCoProprieteByCCandParcelle(objReq.getComptecommunal(),objReq.getParcelle(), isMinimal));
 
 						} 
 
@@ -117,11 +117,11 @@ public class DemandeController extends CadController {
 					}else if(objReq.getType() == CadastrappConstants.CODE_DEMANDEUR_PARCELLE){
 						//if BP
 						if("1".equals(objReq.getBp())){
-							listPdfPath.add(createBordereauParcellaireByInfoParcelle(objReq.getCommune(),objReq.getSection(),objReq.getNumero(), headers));
+							listPdfPath.add(createBordereauParcellaireByInfoParcelle(objReq.getCommune(),objReq.getSection(),objReq.getNumero()));
 						}
 						//if RP
 						if("1".equals(objReq.getRp())){
-							listPdfPath.add(createReleveProprieteByInfoParcelle(objReq.getCommune(),objReq.getSection(),objReq.getNumero(), headers,isMinimal));
+							listPdfPath.add(createReleveProprieteByInfoParcelle(objReq.getCommune(),objReq.getSection(),objReq.getNumero(), isMinimal));
 
 						}
 
@@ -129,21 +129,21 @@ public class DemandeController extends CadController {
 
 						//if BP
 						if("1".equals(objReq.getBp())){
-							listPdfPath.add(createBordereauParcellaireByInfoOwner(objReq.getCommune(),objReq.getProprietaire(), headers));
+							listPdfPath.add(createBordereauParcellaireByInfoOwner(objReq.getCommune(),objReq.getProprietaire()));
 						}
 						//if RP
 						if("1".equals(objReq.getRp())){
-							listPdfPath.add(createReleveProprieteByInfoOwner(objReq.getCommune(),objReq.getProprietaire(), headers,isMinimal));
+							listPdfPath.add(createReleveProprieteByInfoOwner(objReq.getCommune(),objReq.getProprietaire(), isMinimal));
 
 						}
 					}else if(objReq.getType() == CadastrappConstants.CODE_DEMANDEUR_LOT_COPROPRIETE){
 						//if BP
 						if("1".equals(objReq.getBp())){
-							listPdfPath.add(createBordereauParcellaireLot(objReq.getCommune(),objReq.getSection(),objReq.getNumero(),objReq.getProprietaire(), headers));
+							listPdfPath.add(createBordereauParcellaireLot(objReq.getCommune(),objReq.getSection(),objReq.getNumero(),objReq.getProprietaire()));
 						}
 						//if RP
 						if("1".equals(objReq.getRp())){
-							listPdfPath.add(createReleveProprieteByInfoLot(objReq.getCommune(),objReq.getSection(),objReq.getNumero(),objReq.getProprietaire(), headers,isMinimal));
+							listPdfPath.add(createReleveProprieteByInfoLot(objReq.getCommune(),objReq.getSection(),objReq.getNumero(),objReq.getProprietaire(), isMinimal));
 
 						}
 					}
@@ -159,30 +159,36 @@ public class DemandeController extends CadController {
 				// Pdf temporary filename using tmp folder and timestamp
 				final String pdfTmpFileName = tempFolder+File.separator+"DEMANDE_"+new Date().getTime();
 
-				ut.setDestinationFileName(pdfTmpFileName);
+				ut.setDestinationFileName(pdfTmpFileName+".pdf");
 				ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
 
 				File pdfResult = new File(ut.getDestinationFileName());
 
 				pdfResult.deleteOnExit();
 
-				response = Response.ok((Object) pdfResult);
-				response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName() + ".pdf");
+				ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+					.filename(pdfResult.getName())
+					.build();
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_PDF);
+				headers.setContentDisposition(contentDisposition);
+
+				response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);	
 			}
 
 		}
-		return response.build();
+		return response;
 	}
 
 	/**
 	 *  Create RP using owner code CC
 	 *  
 	 * @param compteCommunal owner ident
-	 * @param headers http header containing restriction
 	 * @param isMinimal if true then only some information will be displayed
 	 * @return PDF File RP
 	 */
-	private File createReleveProprieteByCC(String compteCommunal, HttpHeaders headers, boolean isMinimal) {
+	private File createReleveProprieteByCC(String compteCommunal, boolean isMinimal) {
 
 		//Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
@@ -190,7 +196,7 @@ public class DemandeController extends CadController {
 		List<String> compteCommIds = new ArrayList<String>();
 		compteCommIds.add(compteCommunal);
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommIds, headers, new String());
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommIds, new String());
 
 		File pdf = null;
 		//generate PDF
@@ -209,11 +215,10 @@ public class DemandeController extends CadController {
 	 * Create RP using parcelle id
 	 * 
 	 * @param parcelle id parcelle 
-	 * @param headers http header containing restriction
 	 * @param isMinimal if true then only some information will be displayed
 	 * @return PDF File RP
 	 */
-	private File createReleveProprieteById(String parcelle, HttpHeaders headers, boolean isMinimal) {
+	private File createReleveProprieteById(String parcelle, boolean isMinimal) {
 
 		//Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
@@ -228,7 +233,7 @@ public class DemandeController extends CadController {
 		}
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers, parcelle);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, parcelle);
 
 
 		File pdf = null;
@@ -249,10 +254,9 @@ public class DemandeController extends CadController {
 	 *  Create borderau parcellaire using parcelle id
 	 *  
 	 * @param parcelle id parcelle 
-	 * @param headers http header containing restriction
 	 * @return PDF File BP
 	 */
-	private File createBordereauParcellaireById(String parcelle, HttpHeaders headers) {
+	private File createBordereauParcellaireById(String parcelle) {
 
 		//Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
@@ -260,7 +264,7 @@ public class DemandeController extends CadController {
 		parcellId.add(parcelle);
 
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, false);
 
 		File pdf = null;
 		try {
@@ -296,12 +300,11 @@ public class DemandeController extends CadController {
 	 * 
 	 * @param comptecommunal 
 	 * @param parcelleId
-	 * @param headers http headers to test wrights
 	 * @param isCoPro boolean to check is request is a copropriete
 	 * 
 	 * @return PDF file contening wanted Bordereau Parcellaire
 	 */
-	private File createBordereauParcellaireByCC(String comptecommunal,String parcelleId, HttpHeaders headers, boolean isCoPro) {
+	private File createBordereauParcellaireByCC(String comptecommunal,String parcelleId, boolean isCoPro) {
 
 		// Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
@@ -326,7 +329,7 @@ public class DemandeController extends CadController {
 		}
 
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellesId, 1, headers, isCoPro);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellesId, 1, isCoPro);
 		try {
 			//generate PDF
 			if(bordereauParcellaire.isEmpty()){
@@ -357,11 +360,10 @@ public class DemandeController extends CadController {
 	 * 
 	 * @param compteCommunal
 	 * @param parcellaId
-	 * @param headers
 	 * @param isMinimal
 	 * @return File PDF RP
 	 */
-	private File createReleveCoProprieteByCCandParcelle(String compteCommunal, String parcelleId, HttpHeaders headers, boolean isMinimal) {
+	private File createReleveCoProprieteByCCandParcelle(String compteCommunal, String parcelleId, boolean isMinimal) {
 
 		//Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
@@ -369,7 +371,7 @@ public class DemandeController extends CadController {
 		compteCommIds.add(compteCommunal);
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommIds, headers, parcelleId);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommIds, parcelleId);
 
 		File pdf = null;
 		//generate PDF
@@ -391,10 +393,9 @@ public class DemandeController extends CadController {
 	 * @param commune
 	 * @param section
 	 * @param numero
-	 * @param headers
 	 * @return File PDF BP
 	 */
-	private File createBordereauParcellaireByInfoParcelle(String commune, String section, String numero, HttpHeaders headers){
+	private File createBordereauParcellaireByInfoParcelle(String commune, String section, String numero){
 
 		//Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
@@ -408,7 +409,7 @@ public class DemandeController extends CadController {
 
 		}
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, false);
 		File pdf = null;
 		try {
 			//generate PDF
@@ -433,11 +434,10 @@ public class DemandeController extends CadController {
 	 * @param commune
 	 * @param section
 	 * @param numero
-	 * @param headers
 	 * @param isMinimal
 	 * @return File PDF RP
 	 */
-	private File createReleveProprieteByInfoParcelle(String commune, String section,String numero, HttpHeaders headers, boolean isMinimal) {
+	private File createReleveProprieteByInfoParcelle(String commune, String section,String numero, boolean isMinimal) {
 
 		List<String> compteCommunauxList = new ArrayList<String>();
 		//get compte communal by parcelle 
@@ -450,7 +450,7 @@ public class DemandeController extends CadController {
 		}
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers, idParcelle);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, idParcelle);
 
 		//generate PDF
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
@@ -464,10 +464,9 @@ public class DemandeController extends CadController {
 	 * 
 	 * @param commune
 	 * @param ownerName
-	 * @param headers
 	 * @return
 	 */
-	private File createBordereauParcellaireByInfoOwner(String commune, String ownerName, HttpHeaders headers){
+	private File createBordereauParcellaireByInfoOwner(String commune, String ownerName){
 
 		//Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
@@ -481,7 +480,7 @@ public class DemandeController extends CadController {
 
 		}
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers,false);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, false);
 		File pdf = null;
 		try {
 			//generate PDF
@@ -505,11 +504,10 @@ public class DemandeController extends CadController {
 	 * 
 	 * @param commune
 	 * @param ownerName
-	 * @param headers
 	 * @param isMinimal
 	 * @return File PDF RP
 	 */
-	private File createReleveProprieteByInfoOwner(String commune, String ownerName, HttpHeaders headers, boolean isMinimal) {
+	private File createReleveProprieteByInfoOwner(String commune, String ownerName, boolean isMinimal) {
 
 		List<String> compteCommunauxList = new ArrayList<String>();
 		//get compte communal by commune and owner 
@@ -521,7 +519,7 @@ public class DemandeController extends CadController {
 		}
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers, new String());
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, new String());
 
 		//generate PDF
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
@@ -537,10 +535,9 @@ public class DemandeController extends CadController {
 	 * @param section
 	 * @param numero
 	 * @param proprietaire
-	 * @param headers
 	 * @return
 	 */
-	private File createBordereauParcellaireLot(String commune, String section, String numero, String proprietaire, HttpHeaders headers) {
+	private File createBordereauParcellaireLot(String commune, String section, String numero, String proprietaire) {
 		//Store field search if no data to display => inform on PDF file
 		List<String> fields = new ArrayList<String>();
 		//get parcelle by commune,section,numero and proprietaire
@@ -553,7 +550,7 @@ public class DemandeController extends CadController {
 
 		}
 		// Get bordereau parcellaire information
-		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, headers, false);
+		BordereauParcellaire bordereauParcellaire = bordereauParcellaireHelper.getBordereauParcellaireInformation(parcellId, 1, false);
 
 		File pdf = null;
 		try {
@@ -578,11 +575,10 @@ public class DemandeController extends CadController {
 	 * @param section
 	 * @param numero
 	 * @param proprietaire
-	 * @param headers
 	 * @param isMinimal
 	 * @return File PDF RP 
 	 */
-	private File createReleveProprieteByInfoLot(String commune, String section, String numero, String proprietaire, HttpHeaders headers, boolean isMinimal) {
+	private File createReleveProprieteByInfoLot(String commune, String section, String numero, String proprietaire, boolean isMinimal) {
 		List<String> compteCommunauxList = new ArrayList<String>();
 		//get compte communal by parcelle commune,section,numero, and proprietaire
 		List<Map<String, Object>> compteCommunaux = releveProprieteHelper.getProprietaireByInfoLot(commune,section,numero,proprietaire);
@@ -595,7 +591,7 @@ public class DemandeController extends CadController {
 		}
 
 		// Get Releve Propriete information
-		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, headers, parcelleId);
+		RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(compteCommunauxList, parcelleId);
 
 		//generate PDF
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);

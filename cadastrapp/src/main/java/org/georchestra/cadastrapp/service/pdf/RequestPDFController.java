@@ -10,14 +10,6 @@ import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.Date;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -31,6 +23,7 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -38,11 +31,22 @@ import org.apache.fop.apps.MimeConstants;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.request.InformationRequest;
 import org.georchestra.cadastrapp.repository.RequestRepository;
+import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-public class RequestPDFController{
+@Controller
+public class RequestPDFController extends CadController{
 
 	static final Logger logger = LoggerFactory.getLogger(RequestPDFController.class);
 
@@ -51,12 +55,10 @@ public class RequestPDFController{
 	@Autowired
 	RequestRepository requestRepository;
 
-	@GET
-	@Path("/printPDFRequest")
-	@Produces("application/pdf")
-	public Response printPDFRequest(@Context HttpHeaders headers, @QueryParam("requestid") long requestId) {
+	@RequestMapping(path = "/printPDFRequest", produces = {MediaType.APPLICATION_PDF_VALUE}, method= {RequestMethod.GET})
+	public ResponseEntity<byte[]> printPDFRequest(@RequestParam(name = "requestid") long requestId) {
 
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity<byte[]> response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
 		// Check if requestId exist
 		if (requestId != 0) {
@@ -142,9 +144,17 @@ public class RequestPDFController{
 						out.close();
 						
 						// Create response
-						response = Response.ok((Object) pdfResult);
-						response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
+						ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+						.filename(pdfResult.getName())
+						.build();
 
+						HttpHeaders headers = new HttpHeaders();
+						headers.setContentType(MediaType.APPLICATION_PDF);
+						headers.setContentDisposition(contentDisposition);
+
+						response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);
+
+						response = new ResponseEntity<>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);
 					} catch (JAXBException jaxbException) {
 						logger.warn("Error during converting object to xml", jaxbException);
 					} catch (TransformerException transformerException) {
@@ -177,7 +187,7 @@ public class RequestPDFController{
 		} else {
 			logger.warn("Required parameter missing");
 		}
-		return response.build();
+		return response;
 	}
 
 }

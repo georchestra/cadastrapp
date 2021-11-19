@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
-
 import org.georchestra.cadastrapp.service.CadController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +19,15 @@ public final class ProprietaireHelper extends CadController {
 	 * 
 	 * @param parcelleList plots list
 	 * @param isAddressConcat true to display address in only on field address, false to display each dlign
-	 * @param headers A leaste level CNIL1 form http headers
 	 * @return information list of owner whith address field concat in one field (if isAddressConcat is true)
 	 */
-	public List<Map<String, Object>> getProprietairesByParcelles(HttpHeaders headers, List<String> parcelleList, boolean isAddressConcat) {
+	public List<Map<String, Object>> getProprietairesByParcelles(List<String> parcelleList, boolean isAddressConcat) {
 	
 		// Init list to return response even if nothing in it.
 		List<Map<String,Object>> proprietaires = new ArrayList<Map<String,Object>>();
 		
 		// User need to be at least CNIL1 level
-		if (getUserCNILLevel(headers)>0){
+		if (getUserCNILLevel()>0){
 
 			if(parcelleList != null && !parcelleList.isEmpty()){
 						
@@ -49,7 +46,7 @@ public final class ProprietaireHelper extends CadController {
 				queryBuilder.append(".proprietaire_parcelle proparc ");
 				queryBuilder.append(createWhereInQuery(parcelleList.size(), "proparc.parcelle"));
 				queryBuilder.append(" and prop.comptecommunal = proparc.comptecommunal");
-				queryBuilder.append(addAuthorizationFiltering(headers, "prop."));
+				queryBuilder.append(addAuthorizationFiltering("prop."));
 				queryBuilder.append(" ORDER BY prop.dnulp, prop.app_nom_usage ");
 			
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

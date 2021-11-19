@@ -4,15 +4,16 @@
 package org.georchestra.cadastrapp.service;
 
 
-import javax.ws.rs.core.Response;
+import java.io.File;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * @author gfi
+ * @author Pierre Jégo
  *
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -33,7 +34,7 @@ public class ImageParcelleControllerTest {
 
 		ImageParcelleController imageParcelleController = new ImageParcelleController();
 		
-		Response response = imageParcelleController.createImageBordereauParcellaire("2014630103000AO0351", 0, "#1446DE", (float) 0.50, "#10259E",2);
+		ResponseEntity<byte[]> response = imageParcelleController.createImageBordereauParcellaire("2014630103000AO0351", 0, "#1446DE", (float) 0.50, "#10259E",2);
 
 
 	}

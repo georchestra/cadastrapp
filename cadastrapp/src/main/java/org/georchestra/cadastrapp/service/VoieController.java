@@ -5,25 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-
+@Controller
 public class VoieController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(VoieController.class);
-	
-	@GET
-	@Path("/getVoie")
-	@Produces(MediaType.APPLICATION_JSON)
+
+	@RequestMapping(path ="/getVoie", produces = {MediaType.APPLICATION_JSON_VALUE},  method = { RequestMethod.GET})
 	/**
 	 *  /getVoie
 	 *  
@@ -41,9 +39,9 @@ public class VoieController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getVoie(
-			@QueryParam("cgocommune") String cgoCommune,
-			@QueryParam("dvoilib") String dvoilib) throws SQLException {
+	public 	@ResponseBody List<Map<String, Object>> getVoie(
+			@RequestParam(name= "cgocommune") String cgoCommune,
+			@RequestParam(name= "dvoilib") String dvoilib) throws SQLException {
 
 		List<Map<String, Object>> voies = new ArrayList<Map<String, Object>>();
 	   	List<String> queryParams = new ArrayList<String>();
@@ -70,7 +68,7 @@ public class VoieController extends CadController {
 			voies = jdbcTemplate.queryForList(queryBuilder.toString(), queryParams.toArray());
 		}
 		else{
-			logger.info("Missing mandatory parameter cgocommune and dvoilib to launch request");
+			logger.info("Error in mandatory parameter cgocommune or dvoilib to launch request");
 		}
 
 		return voies;

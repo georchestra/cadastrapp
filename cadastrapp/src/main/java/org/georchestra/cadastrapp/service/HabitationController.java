@@ -5,17 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * HabitationController
@@ -25,35 +23,31 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author pierre
  *
  */
+@Controller
 public class HabitationController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(HabitationController.class);
 	
-	
-	@GET
-	@Path("/getHabitationDetails")
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/getHabitationDetails", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 *  Returns information about habitation
 	 *  
-	 * @param headers HttpHeaders http headers used 
-	 *         information will only be return if user is CNIL2
 	 * @param annee String corresponding to year of wanted information (normally only current year available)
 	 * @param invar String id habitation 
 	 * 
 	 * @return Map<String, Object> containing informations from article 40 50 and 60,
 	 * 			empty list if missing input parameter or if user doesn't have privilege
 	 */
-	public Map<String, Object> getHabitationDetails(@Context HttpHeaders headers, 
-			@QueryParam("annee") String annee,
-			@QueryParam("invar") String invar){
+	public @ResponseBody Map<String, Object> getHabitationDetails(
+			@RequestParam String annee,
+			@RequestParam String invar){
 		
 		Map<String, Object> habitationDesc = new HashMap<String, Object>();
 		
 		List<String> queryParams = new ArrayList<String>();
 		queryParams.add(annee);
 		queryParams.add(invar);
-		if (getUserCNILLevel(headers) == 0) {
+		if (getUserCNILLevel() == 0) {
 			logger.info("User needs does not have enough rights to see habitation details");
 		}
 		else if(annee != null && invar != null)
@@ -74,7 +68,7 @@ public class HabitationController extends CadController {
 	 * @param queryParams List composed with year and invar information
 	 * @return List<Map<String, Object>>
 	 */
-	private List<Map<String, Object>> getArticle40Details(List<String> queryParams){
+	private @ResponseBody List<Map<String, Object>> getArticle40Details(List<String> queryParams){
 			
 		logger.debug("getArticle40Details");
 		StringBuilder queryBuilder = new StringBuilder();

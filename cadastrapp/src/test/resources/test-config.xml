@@ -4,14 +4,14 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
-						 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+						 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd 
 						 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd 
-						 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
-						 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-						 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
-
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
+						 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+						 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+						 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+						 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
 	<context:component-scan base-package="org.georchestra.cadastrapp" />
 	
@@ -31,42 +31,6 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="ignoreResourceNotFound" value="true" />
 	</bean>
-
-	<jaxrs:server id="services" address="/">
-		<jaxrs:serviceBeans>
-			<bean class="org.georchestra.cadastrapp.service.BatimentController" />
-			<bean class="org.georchestra.cadastrapp.service.CommuneController" />
-			<bean class="org.georchestra.cadastrapp.service.ConfigurationController" />
-			<bean class="org.georchestra.cadastrapp.service.CoProprietaireController" />
-			<bean class="org.georchestra.cadastrapp.service.HabitationController" />
-			<bean class="org.georchestra.cadastrapp.service.InfoBulleController" />
-			<bean class="org.georchestra.cadastrapp.service.ImageParcelleController" />
-			<bean class="org.georchestra.cadastrapp.service.ParcelleController" />
-			<bean class="org.georchestra.cadastrapp.service.ProprietaireController" />
-			<bean
-				class="org.georchestra.cadastrapp.service.RequestInformationController" />
-			<bean class="org.georchestra.cadastrapp.service.SectionController" />
-			<bean class="org.georchestra.cadastrapp.service.UniteCadastraleController" />
-			<bean class="org.georchestra.cadastrapp.service.VoieController" />
-
-			<bean class="org.georchestra.cadastrapp.service.export.CSVExportController" />
-
-			<bean
-				class="org.georchestra.cadastrapp.service.pdf.BordereauParcellaireController" />
-			<bean
-				class="org.georchestra.cadastrapp.service.pdf.ReleveProprieteController" />
-			<bean class="org.georchestra.cadastrapp.service.pdf.RequestPDFController" />
-			<bean class="org.georchestra.cadastrapp.service.pdf.DemandeController" />
-
-		</jaxrs:serviceBeans>
-		<jaxrs:providers>
-			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
-			<!-- Use to add context in logg and can be use for autorization filtering -->
-			<bean class="org.georchestra.cadastrapp.providers.PreRequestFilter" />
-			<bean class="org.georchestra.cadastrapp.providers.PreReponseFilter" />
-		</jaxrs:providers>
-	</jaxrs:server>
-
 	
 	<!--  h2 datasource for unit test -->
 	<bean id="dbDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">

@@ -10,14 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
 import org.georchestra.cadastrapp.model.request.InformationRequest;
 import org.georchestra.cadastrapp.model.request.ObjectRequest;
 import org.georchestra.cadastrapp.model.request.UserRequest;
@@ -27,8 +19,15 @@ import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-public class RequestInformationController {
+@Controller
+public class RequestInformationController extends CadController{
 
 	final static Logger logger = LoggerFactory.getLogger(RequestInformationController.class);
 
@@ -52,9 +51,7 @@ public class RequestInformationController {
 	@Autowired
 	UserRequestRepository userRepository;
 
-	@GET
-	@Path("/checkRequestLimitation")
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/checkRequestLimitation", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 *  /checkRequestLimitation
 	 *  
@@ -68,7 +65,9 @@ public class RequestInformationController {
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> checkRequestLimitation(@QueryParam("cni") String cni, @QueryParam("type") String type, @Context HttpHeaders headers) throws SQLException {
+	public @ResponseBody Map<String, Object> checkRequestLimitation(
+		@RequestParam String cni,
+		@RequestParam String type) throws SQLException {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
@@ -124,9 +123,7 @@ public class RequestInformationController {
 		return result;
 	}
 
-	@GET
-	@Path("/saveInformationRequest")
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(path = "/saveInformationRequest", produces = {MediaType.APPLICATION_JSON_VALUE}, method= { RequestMethod.GET})
 	/**
 	 * /**
 	 *  /saveInformationRequest
@@ -159,18 +156,30 @@ public class RequestInformationController {
 	 * @param coProprietes  - liste de lot de coproprietés et des documents souhaités pour chaque parcelle 0 non, 1 oui
 	 * 							exemple pour une copropriete : 2015xxxxA00300|2015xxxxxx000ZK0026|0|1 <-> comptecommunal|parcelleid|borderauParcellaire|releveDePropriete
 	 * @param lotCoproprietes
-	 * @param askby
-	 * @param responseby
-	 * @param headers
+	 * @param askby   - 1 Guichet, 2 Courrier, 3 Mail
+	 * @param responseby - 1 Guichet, 2 Courrier, 3 Mail
 	 * 
 	 * @return JSON 
 	 * 
 	 * @throws SQLException
 	 */
-	public Map<String, Object> saveInformationRequest(@QueryParam("cni") String cni, @QueryParam("type") String type, @QueryParam("adress") String adress, @QueryParam("commune") String commune, @QueryParam("codepostal") String codePostal, @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname, @QueryParam("mail") String mail,
-			@QueryParam("comptecommunaux") List<String> compteCommunaux, @QueryParam("parcelleIds") List<String> parcelleIds, @QueryParam("proprietaires") List<String> proprietaires, @QueryParam("parcelles") List<String> parcelles, @QueryParam("coproprietes") List<String> coProprietes, @QueryParam("proprietaireLots") List<String> lotCoproprietes, @QueryParam("askby") int askby, @QueryParam("responseby") int responseby, @Context HttpHeaders headers) throws SQLException {
-
-		// todo recheck value
+	public @ResponseBody Map<String, Object> saveInformationRequest(
+			@RequestParam("cni") String cni, 
+			@RequestParam("type") String type, 
+			@RequestParam(name= "adress", required= false) String adress, 
+			@RequestParam(name= "commune", required= false) String commune, 
+			@RequestParam(name= "codepostal", required= false) String codePostal, 
+			@RequestParam(name= "firstname", required= false) String firstname, 
+			@RequestParam(name= "lastname", required= false) String lastname,
+			@RequestParam(name= "mail", required= false) String mail,
+			@RequestParam(name= "comptecommunaux", required= false) List<String> compteCommunaux, 
+			@RequestParam(name= "parcelleIds", required= false) List<String> parcelleIds, 
+			@RequestParam(name= "proprietaires", required= false) List<String> proprietaires, 
+			@RequestParam(name= "parcelles", required= false) List<String> parcelles, 
+			@RequestParam(name= "coproprietes", required= false) List<String> coProprietes, 
+			@RequestParam(name= "proprietaireLots", required= false) List<String> lotCoproprietes, 
+			@RequestParam(name= "askby", required= false, defaultValue = "0") int askby, 
+			@RequestParam(name= "responseby", required= false, defaultValue = "0") int responseby) throws SQLException {
 
 		Map<String, Object> resultInformation = new HashMap<String, Object>();
 		String result = "KO";

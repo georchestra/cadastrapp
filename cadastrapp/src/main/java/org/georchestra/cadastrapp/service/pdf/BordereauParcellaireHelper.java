@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -60,7 +59,6 @@ public final class BordereauParcellaireHelper extends CadController{
 	/**
 	 * Get all information from database for all parcelle list
 	 * 
-	 * @param headers use for CNIL level limitation
 	 * @param isCoPro	get copro BP information if true
 	 * @param parcelleList
 	 *            List of parcelle id, like
@@ -70,14 +68,13 @@ public final class BordereauParcellaireHelper extends CadController{
 	 * 
 	 * @return BordereauParcellaire witch contains list of parcelle
 	 */
-	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers, boolean isCoPro) {
-		return getBordereauParcellaireInformation(parcelleList, personalData, headers, isCoPro, null, 0);
+	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, boolean isCoPro) {
+		return getBordereauParcellaireInformation(parcelleList, personalData, isCoPro, null, 0);
 	}
 
 	/**
 	 * Get all information from database for all parcelle list
 	 * 
-	 * @param headers use for CNIL level limitation
 	 * @param isCoPro	get copro BP information if true
 	 * @param parcelleList
 	 *            List of parcelle id, like
@@ -89,7 +86,7 @@ public final class BordereauParcellaireHelper extends CadController{
 	 * 
 	 * @return BordereauParcellaire witch contains list of parcelle
 	 */
-	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, HttpHeaders headers, boolean isCoPro, Style plotStyle, int baseMapIndex) {
+	public BordereauParcellaire getBordereauParcellaireInformation(List<String> parcelleList, int personalData, boolean isCoPro, Style plotStyle, int baseMapIndex) {
 
 		
 		BordereauParcellaire bordereauParcellaire = new BordereauParcellaire();
@@ -142,7 +139,7 @@ public final class BordereauParcellaireHelper extends CadController{
 
 					logger.debug("Parcelle information : " + parcelle);
 
-					if (personalData > 0 && getUserCNILLevel(headers)>0) {
+					if (personalData > 0 && getUserCNILLevel()>0) {
 						List<Proprietaire> proprietaires = new ArrayList<Proprietaire>();
 						
 						String tableName = (isCoPro)?tableCoProprietaire:tableProprietaire;
@@ -157,7 +154,7 @@ public final class BordereauParcellaireHelper extends CadController{
 						queryBuilderProprietaire.append(tableName);
 						queryBuilderProprietaire.append(" proparc ");
 						queryBuilderProprietaire.append("where proparc.parcelle = ? and prop.comptecommunal = proparc.comptecommunal");
-						queryBuilderProprietaire.append(addAuthorizationFiltering(headers));
+						queryBuilderProprietaire.append(addAuthorizationFiltering());
 			 	       
 						List<Map<String, Object>> proprietairesResult = jdbcTemplate.queryForList(queryBuilderProprietaire.toString(), row.get("parcelle"));
 
@@ -252,6 +249,7 @@ public final class BordereauParcellaireHelper extends CadController{
 		Transformer transformerPDF;
 		JAXBContext jaxbContext;
 		Marshaller jaxbMarshaller;
+		
 		File pdfResult;
 		OutputStream out;
 		Fop fop;
@@ -266,7 +264,7 @@ public final class BordereauParcellaireHelper extends CadController{
 			
 			out = new BufferedOutputStream(new FileOutputStream(pdfResult));
 
-			FopFactoryBuilder builder = new FopFactoryBuilder(pdfResult.toURI());
+			FopFactoryBuilder builder = new FopFactoryBuilder(new File(tempFolder+File.separator+".").toURI());
 			
 			// get DPI from comfig file
 			int dpi=Integer.parseInt(CadastrappPlaceHolder.getProperty("pdf.dpi"));

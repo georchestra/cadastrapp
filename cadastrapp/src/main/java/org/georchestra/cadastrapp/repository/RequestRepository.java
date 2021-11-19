@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 /**
  * 
- * @author gfi
+ * @author Pierre jego
  * 
  * Repository to get InformationRequest for database
  *

@@ -542,21 +542,61 @@ GEOR.Addons.Cadastre.initRechercheParcelle = function() {
                         } else if (currentForm.id == 'parcForthForm') {
                             // Recherche parcelle par fichier
                             if (currentForm.getForm().findField('filePath').value != undefined && currentForm.getForm().findField('filePath').value.length > 2) {
-
+   
+                                // Message de chargement
+                                var box = Ext.MessageBox.wait("Lecture du document...",OpenLayers.i18n('Chargement')); 
+                                
+                                // Titre de l'onglet resultat
                                 var resultTitle = OpenLayers.i18n('cadastrapp.result.title.fichier');
+    
+                                // LECTURE CSV
+                                var files = document.getElementById("parcForthForm").querySelectorAll("input[type=file]")[0].files; 
+                                
+                                function readFile (blob, callback){                            
+                                    var reader = new FileReader();
+                                    reader.onload = callback;
+                                    reader.readAsText(blob);                                 
+                                }
 
-                                // sousmet le form (pour envoyer le fichier)
-                                currentForm.getForm().submit({
-                                    url : GEOR.Addons.Cadastre.cadastrappWebappUrl + 'fromParcellesFile',
-                                    params : {},
-                                    success : function(form, action) {
-                                        GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(action.response.responseText, true));
-                                    },
-                                    failure : function(form, action) {
-                                        alert('ERROR');
-                                    }
+                                // read content
+                                readFile(files[0], function(e){
+                                    
+                                    if (typeof(e.target.result) == "string"){
+                                       
+                                        var content = JSON.stringify(e.target.result);   
+                                        content = JSON.parse(content);
+                                        // Separateurs: virgule, point virgule, pipe, espace et retour à la ligne
+                                        content = content.split(/\r\n|\n|,|;|\|/);                     
+                                       
+                                        // Filtre pour ne garder que ce qui ressemble a un identifiant de parcelle
+                                        // et ne garder qu'une occurence de chaque identifiant
+                                        var parcellesFromFile = content.filter(function (value, index, self) {
+                                            return (self.indexOf(value) === index && value.length >= 8 && value.match("^[0-9]{5,}.*"));
+                                        });
+     
+                                       // Envoie la liste de compte communal extraite du fichier                                      
+                                       Ext.Ajax.request({
+                                           method : 'POST',
+                                           url : GEOR.Addons.Cadastre.url.serviceParcelle,
+                                           params : { parcelle : parcellesFromFile},
+                                           success : function(result) {
+                                               box.hide();
+                                               GEOR.Addons.Cadastre.addNewResultParcelle(resultTitle, GEOR.Addons.Cadastre.getResultParcelleStore(result.responseText, false));
+                                           },
+                                           failure : function(form, action) {
+                                               box.hide();
+                                               alert('ERROR');
+                                           }
+                                       });
+                                   }else{
+                                       box.hide();
+                                       alert('Mauvais type de fichier');
+                                   }                           
                                 });
-                            } else {
+
+                            }
+
+                            else {
                                 //TITRE de l'onglet resultat
                                 var resultTitle = "Recherche par lot";
 

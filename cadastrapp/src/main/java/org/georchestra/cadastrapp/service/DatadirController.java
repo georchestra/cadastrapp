@@ -5,17 +5,19 @@ import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.File;
 import java.io.FileInputStream;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-
+@Controller
 public class DatadirController extends CadController {
 	
 	static final Logger logger = LoggerFactory.getLogger(DatadirController.class);
@@ -102,31 +104,34 @@ public class DatadirController extends CadController {
 	 * 
 	 * @return Response that contain File
 	 */
-	@POST	
-	@Path("/getImageFromDataDir")		
-	public Response getBaseMapPreview(@RequestParam("imageName") String imageName) {
+	@RequestMapping(path = "/getImageFromDataDir", produces = {MediaType.TEXT_PLAIN_VALUE}, method= {RequestMethod.POST})		
+	public ResponseEntity<String>  getBaseMapPreview(@RequestParam("imageName") String imageName) {
+
 		String encodedImage;
 		String encodedErrorImage;
-		// use to find mime type
 		try{			
 			// return image as data base64
 			encodedImage = imageToString(imageName);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.TEXT_PLAIN);
+			
 			if(encodedImage != null){
-				return Response.ok(encodedImage,MediaType.TEXT_PLAIN).build();
+				return new ResponseEntity<String>(encodedImage, headers, HttpStatus.OK);
 			} else {
 				// return image error as data base64
 				encodedErrorImage = imageToString("error.png");
 				if(encodedErrorImage != null){
 					logger.error("File not exist or fail to encode file : display error image");
-					return Response.ok(encodedErrorImage,MediaType.TEXT_PLAIN).build();
+					return new ResponseEntity<String>(encodedErrorImage, headers, HttpStatus.OK);
 				} else {
-					return Response.status(Response.Status.NOT_FOUND).entity("Image not found for : " + imageName).build();
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("Image not found for : " + imageName));
 				}				
 			}						
 		}
 		catch (Exception e){
-			// response with bad request error			
-            return Response.status(Response.Status.BAD_REQUEST).entity(e).build();  
+			// response with bad request error	
+			logger.error("Error while getting image from datadir", e);		
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());  
 		}		
 	}
 	

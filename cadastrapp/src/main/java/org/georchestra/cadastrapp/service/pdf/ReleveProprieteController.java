@@ -13,15 +13,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-
+import org.apache.commons.io.FileUtils;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
 import org.georchestra.cadastrapp.model.pdf.CompteCommunal;
 import org.georchestra.cadastrapp.model.pdf.Proprietaire;
@@ -38,8 +30,18 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
+@Controller
 public class ReleveProprieteController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(ReleveProprieteController.class);
@@ -50,21 +52,21 @@ public class ReleveProprieteController extends CadController {
 	/**
 	 * Create a PDF using a list of comptecommunal
 	 * 
-	 * @param headers to verify CNIL level information
 	 * @param comptesCommunaux List of ids proprietaires
-	 * @param idParcelle plot id
+	 * @param idParcelle plot id for this user
 	 * @return pdf generated RP with database information
+	 * @throws IOException
 	 */
-	@GET
-	@Path("/createRelevePropriete")
-	@Produces("application/pdf")
-	public Response createRelevePDFPropriete(@Context HttpHeaders headers, @QueryParam("compteCommunal") List<String> comptesCommunaux, @QueryParam("parcelleId") String idParcelle) {
+	@RequestMapping(path = "/createRelevePropriete", produces ={MediaType.APPLICATION_PDF_VALUE}, method= {RequestMethod.GET})
+	public ResponseEntity<byte[]> createRelevePDFPropriete(
+		@RequestParam(name= "compteCommunal") List<String> comptesCommunaux, 
+		@RequestParam(name="parcelleId", required= false) String idParcelle) throws IOException {
 
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		logger.debug("Controller Parcelle ID (param) : "+idParcelle);
 		
-		// Check if parcelle list is not empty
+		// Check if user id list is not empty
 		if (comptesCommunaux != null && !comptesCommunaux.isEmpty()) {
 			
 			// Fixe #329 in some case Extjs return one string with data separated with , instead of a list of data.
@@ -72,36 +74,42 @@ public class ReleveProprieteController extends CadController {
 				comptesCommunaux = Arrays.asList(comptesCommunaux.get(0).split(","));
 			}
 			// Get information about releve de propriete
-			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, headers, idParcelle);
+			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, idParcelle);
 
 			File pdfResult = releveProprieteHelper.generatePDF(relevePropriete, false, false);
 			
 			// Create response
-			response = Response.ok((Object) pdfResult);
-			response.header("Content-Disposition", "attachment; filename=" + pdfResult.getName());
+			ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+					.filename(pdfResult.getName())
+					.build();
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_PDF);
+			headers.setContentDisposition(contentDisposition);
+
+			response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);	
 
 		} else {
 			logger.warn("Required parameter missing");
 		}
-		return response.build();
+		return response;
 	}
 	
 	
 	/**
 	 * Create a zip file, containint several csv using a list of comptecommunal
 	 * 
-	 * @param headers to verify CNIL level information
 	 * @param comptesCommunaux List of ids proprietaires
 	 * @param idParcelle plot id
 	 * @return zip containing csv file
 	 * @throws IOException if an input or output exception occured
 	 */
-	@GET
-	@Path("/createReleveProprieteAsCSV")
-	@Produces("application/zip")
-	public Response createReleveCSVPropriete(@Context HttpHeaders headers, @QueryParam("compteCommunal") List<String> comptesCommunaux, @QueryParam("parcelleId") String idParcelle) throws IOException {
+	@RequestMapping(path = "/createReleveProprieteAsCSV", produces = "application/zip", method= {RequestMethod.GET})
+	public ResponseEntity<byte[]> createReleveCSVPropriete(
+		@RequestParam(name= "compteCommunal") List<String> comptesCommunaux, 
+		@RequestParam(name= "parcelleId", required= false) String idParcelle) throws IOException {
 
-		ResponseBuilder response = Response.noContent();
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		
 		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 		
@@ -115,7 +123,7 @@ public class ReleveProprieteController extends CadController {
 				comptesCommunaux = Arrays.asList(comptesCommunaux.get(0).split(","));
 			}
 			// Get information about releve de propriete
-			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, headers, idParcelle);
+			RelevePropriete relevePropriete = releveProprieteHelper.getReleveProprieteInformation(comptesCommunaux, idParcelle);
 
 			// Define Date for all file name
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH_mm_ss_SSS");
@@ -368,15 +376,21 @@ public class ReleveProprieteController extends CadController {
 			}
 			
 			out.close();
-			
+
 			// Create response
-			response = Response.ok((Object) finalZip);
-			response.header("Content-Disposition", "attachment; filename=" + zipFileName);
+			ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+					.filename(zipFileName)
+					.build();
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentDisposition(contentDisposition);
+
+			response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(finalZip), headers, HttpStatus.OK);	
 
 		} else {
 			logger.warn("Required parameter missing");
 		}
-		return response.build();
+		return response;
 	}
 
 }

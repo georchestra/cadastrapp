@@ -1,37 +1,36 @@
 package org.georchestra.cadastrapp.service;
 
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
+import org.georchestra.cadastrapp.service.constants.CadastrappConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-
+@Controller
 public class SectionController extends CadController {
 	
 	final static Logger logger = LoggerFactory.getLogger(SectionController.class);
-
-	@GET
-	@Path("/getSection")
-	@Produces(MediaType.APPLICATION_JSON)
+	
+	@RequestMapping(path = "/getSection", produces = {MediaType.APPLICATION_JSON_VALUE}, method= { RequestMethod.GET})
 	/**
 	 * /getSection
 	 * 
 	 * return information about section from view section using parameter given.
 	 *  results will be filtered with user group geographical limitation
 	 *  
-	 * @param headers headers from request used to filter search using LDAP Roles
 	 * @param cgocommune code geographique officil commune  like 630103 (codep + codir + cocom)
      * 					cgocommune should be on 6 char, if only 5 we deduce that codir is not present and we replace it in the request
 	 * @param ccopre partial code pre section exemple A for AP or AC, could be the full code pre
@@ -41,11 +40,10 @@ public class SectionController extends CadController {
 	 * 
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getSectionList(
-			@Context HttpHeaders headers,
-			@QueryParam("cgocommune") String cgoCommune,
-			@QueryParam("ccopre") String ccopre,
-			@QueryParam("ccosec") String ccosec) throws SQLException {
+	public 	@ResponseBody List<Map<String, Object>> getSectionList(
+			@RequestParam(name= "cgocommune") String cgoCommune,
+			@RequestParam(required = false) String ccopre,
+			@RequestParam(required = false) String ccosec) throws SQLException {
 
 		// Create empty List to send empty reponse if SQL value is empty. (List instead of null in http response)
 		List<Map<String, Object>> sections = new ArrayList<Map<String, Object>>();
@@ -72,7 +70,7 @@ public class SectionController extends CadController {
 		isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder, "ccopre", ccopre, queryParams);
 		isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder, "ccosec", ccosec, queryParams);
 		if(isSearchFiltered){
-    		queryBuilder.append(addAuthorizationFiltering(headers));
+    		queryBuilder.append(addAuthorizationFiltering());
     	}
 		queryBuilder.append(" ORDER BY ccopre, ccosec ");
 					
