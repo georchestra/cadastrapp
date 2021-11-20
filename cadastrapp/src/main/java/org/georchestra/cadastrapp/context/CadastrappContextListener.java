@@ -9,6 +9,7 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.commons.io.FileUtils;
 import org.georchestra.cadastrapp.configuration.CadastrappPlaceHolder;
+import org.geotools.xml.resolver.SchemaCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -43,6 +44,18 @@ public class CadastrappContextListener implements ServletContextListener{
 				if(writeTest.createNewFile()){
 					logger.debug("Init config - folder " + tempFolder + " exist and is writable");
 					writeTest.delete();
+
+					// update the schemaCache key and create folder if not already exist
+					if(System.getProperty(SchemaCache.PROVIDED_CACHE_LOCATION_KEY, null) == null){
+						logger.debug("Init SchemaCache property and folder");
+						File schemaCacheFolder = new File(tempFolder+File.separator, "app-schema-cache");
+						// remove previous folder
+						schemaCacheFolder.delete();
+						// create folder
+						schemaCacheFolder.mkdirs();
+						System.setProperty(SchemaCache.PROVIDED_CACHE_LOCATION_KEY,	schemaCacheFolder.getAbsolutePath());
+					}
+					// else directory should have been created by admin when adding -Dschema.cache.dir=
 				}else{
 					logger.error("Init config - folder  " + tempFolder + " exist but is not writable");
 					// Throw an exception to stop deploiement in init phase

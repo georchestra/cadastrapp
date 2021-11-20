@@ -252,6 +252,11 @@
       <version>${geotools.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-app-schema</artifactId>
+      <version>${geotools.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
       <version>${quartz.version}</version>
