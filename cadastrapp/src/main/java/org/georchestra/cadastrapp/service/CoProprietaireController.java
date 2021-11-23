@@ -64,6 +64,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CoProprietaireController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(CoProprietaireController.class);
+	final static Logger docLogger = LoggerFactory.getLogger("org.georchestra.cadastrapp.loggers.documents");
 	
 	@Autowired
 	ExportHelper exportHelper;
@@ -276,6 +277,8 @@ public class CoProprietaireController extends CadController {
 					HttpHeaders headers = new HttpHeaders();
 					headers.setContentDispositionFormData("filename", file.getName());
 					response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+					
+					docLogger.info("Export CSV - CoPropriétaires - ["+parcelles+"]");
 				}catch (IOException e) {
 					logger.error("Error while creating CSV files ", e);
 				} finally {
@@ -330,6 +333,8 @@ public class CoProprietaireController extends CadController {
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentDispositionFormData("filename", file.getName());
 				response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+				
+				docLogger.info("Export CSV - Lots - {parcelles:["+parcelle+"],dnubat:["+dnubat+"]}");
 			}catch (IOException e) {
 				logger.error("Error while creating CSV files ", e);
 			} finally {
@@ -458,6 +463,8 @@ public class CoProprietaireController extends CadController {
 						headers.setContentDisposition(contentDisposition);
 
 						response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);
+					
+						docLogger.info("Export PDF - Lots - {parcelles:["+parcelle+"],dnubat:["+dnubat+"]}");
 					} catch (JAXBException jaxbException) {
 						logger.warn("Error during converting object to xml : " + jaxbException);
 					} catch (TransformerException transformerException) {

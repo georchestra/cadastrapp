@@ -50,6 +50,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BordereauParcellaireController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(BordereauParcellaireController.class);
+	final static Logger docLogger = LoggerFactory.getLogger("org.georchestra.cadastrapp.loggers.documents");
 		
 	final String xslTemplate = "xsl/bordereauParcellaire.xsl";
 	
@@ -225,6 +226,10 @@ public class BordereauParcellaireController extends CadController {
 				logger.warn("Error creating Marsharller : " + jaxbException);
 			}finally{
 				// Could not delete pdfResult here because it's still used by cxf
+			}
+			
+			for (String parcelle : newParcelleList) {
+				docLogger.info("Bordereau Parcellaire - GenerationDirecte - null - "+parcelle+" - "+personalData+" - 0" );
 			}
 		} else {
 			logger.warn("Required parameter missing");

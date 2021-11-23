@@ -45,6 +45,7 @@ import io.swagger.annotations.ApiOperation;
 public class ParcelleController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(ParcelleController.class);
+	final static Logger docLogger = LoggerFactory.getLogger("org.georchestra.cadastrapp.loggers.documents");
 	
 	@Autowired
 	ExportHelper exportHelper;
@@ -560,41 +561,43 @@ public class ParcelleController extends CadController {
 		// Create empty content
 		ResponseEntity response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
-			String entete = "parcelle; commune;voie_adr;voie_adr_cplmt;voie_type;voie_nom;section_prefixe;section;parcelle_num;contenance";
+		String entete = "parcelle; commune;voie_adr;voie_adr_cplmt;voie_type;voie_nom;section_prefixe;section;parcelle_num;contenance";
+		
+		String[] parcelleArray = StringUtils.split(parcelles, ',');
+		List<String> parcelleList = new ArrayList<String>();
+		CollectionUtils.addAll(parcelleList, parcelleArray);
+		
+		if(parcelleList != null && !parcelleList.isEmpty()){
 			
-			String[] parcelleArray = StringUtils.split(parcelles, ',');
-			List<String> parcelleList = new ArrayList<String>();
-			CollectionUtils.addAll(parcelleList, parcelleArray);
+			logger.debug("Nb of parcelles to search in : " + parcelleList.size());
+
+			// Get value from database
+			List<Map<String,Object>> parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel());
 			
-			if(parcelleList != null && !parcelleList.isEmpty()){
+			File file = null;
+			try{
+				file = exportHelper.createCSV(parcellesResult, entete);
 				
-				logger.debug("Nb of parcelles to search in : " + parcelleList.size());
+				// build csv response
+				// build csv response
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentDispositionFormData("filename", file.getName());
+				response = new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 
-				// Get value from database
-				List<Map<String,Object>> parcellesResult = getParcellesById(parcelleList, 0, getUserCNILLevel());
-				
-				File file = null;
-				try{
-					file = exportHelper.createCSV(parcellesResult, entete);
-					
-					// build csv response
-					// build csv response
-					HttpHeaders headers = new HttpHeaders();
-					headers.setContentDispositionFormData("filename", file.getName());
-					response = new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
-
-				}catch (IOException e) {
-					logger.error("Error while creating CSV files ", e);
-				} finally {
-					if (file != null) {
-						file.deleteOnExit();
-					}
+			}catch (IOException e) {
+				logger.error("Error while creating CSV files ", e);
+			} finally {
+				if (file != null) {
+					file.deleteOnExit();
 				}
 			}
-			else{
-				//log empty request
-				logger.info("Parcelle Id List is empty nothing to search");
-			}
+		}
+		else{
+			//log empty request
+			logger.info("Parcelle Id List is empty nothing to search");
+		}
+			
+		docLogger.info("Export CSV - Parcelles - ["+parcelles+"]");
 	
 		return response;
 	}
