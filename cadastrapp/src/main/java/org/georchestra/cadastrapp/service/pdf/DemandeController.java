@@ -215,7 +215,7 @@ public class DemandeController extends CadController {
 		}
 		
 		for (String cc : compteCommIds) {
-			docLogger.info("Relevé de propriété - DemandeCCId - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeCCId - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
@@ -257,7 +257,7 @@ public class DemandeController extends CadController {
 		}
 		
 		for (String cc : compteCommunauxList) {
-			docLogger.info("Relevé de propriété - DemandeParcelleId - "+MDC.get("demmandeId")+" - "+cc+" - "+parcelle+" - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeParcelleId - "+MDC.get("demmandeId")+" - "+cc+" - "+parcelle+" - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
@@ -404,7 +404,7 @@ public class DemandeController extends CadController {
 			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 		}
 		
-		docLogger.info("Relevé de propriété - DemandeCoProCCParcelleId - "+MDC.get("demmandeId")+" - "+compteCommunal+" - "+parcelleId+" - "+MDC.get("isMinimal")+" - PDF" );
+		docLogger.info("Releve de propriete - DemandeCoProCCParcelleId - "+MDC.get("demmandeId")+" - "+compteCommunal+" - "+parcelleId+" - "+MDC.get("isMinimal")+" - PDF" );
 
 		return pdf;
 	}
@@ -481,7 +481,7 @@ public class DemandeController extends CadController {
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 		
 		for (String cc : compteCommunauxList) {
-			docLogger.info("Relevé de propriété - DemandeInfoParcelle - "+MDC.get("demmandeId")+" - "+cc+" - "+idParcelle+" - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeInfoParcelle - "+MDC.get("demmandeId")+" - "+cc+" - "+idParcelle+" - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
@@ -558,7 +558,7 @@ public class DemandeController extends CadController {
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 		
 		for (String cc : compteCommunauxList) {
-			docLogger.info("Relevé de propriété - DemandeInfoProp - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeInfoProp - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
@@ -638,7 +638,7 @@ public class DemandeController extends CadController {
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 		
 		for (String cc : compteCommunauxList) {
-			docLogger.info("Relevé de propriété - DemandeLot - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeLot - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;

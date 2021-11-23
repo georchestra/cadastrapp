@@ -91,7 +91,7 @@ public class ReleveProprieteController extends CadController {
 			response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(pdfResult), headers, HttpStatus.OK);	
 
 			for (String compteCommunal : comptesCommunaux) {
-				docLogger.info("Relevé de propriété - GenerationDirecte - null - "+compteCommunal+" - "+(idParcelle!=null?idParcelle:"null")+" - false - PDF" );
+				docLogger.info("Releve de propriete - GenerationDirecte - null - "+compteCommunal+" - "+(idParcelle!=null?idParcelle:"null")+" - false - PDF" );
 			}
 		} else {
 			logger.warn("Required parameter missing");
@@ -392,7 +392,7 @@ public class ReleveProprieteController extends CadController {
 			response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(finalZip), headers, HttpStatus.OK);	
 
 			for (String compteCommunal : comptesCommunaux) {
-				docLogger.info("Relevé de propriété - GenerationDirecte - null - "+compteCommunal+" - "+(idParcelle!=null?idParcelle:"null")+" - CSV" );
+				docLogger.info("Releve de propriete - GenerationDirecte - null - "+compteCommunal+" - "+(idParcelle!=null?idParcelle:"null")+" - CSV" );
 			}
 		} else {
 			logger.warn("Required parameter missing");
