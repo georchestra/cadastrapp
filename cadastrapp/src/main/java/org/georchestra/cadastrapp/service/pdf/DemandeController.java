@@ -78,9 +78,9 @@ public class DemandeController extends CadController {
 				isMinimal = CadastrappConstants.CODE_DEMANDEUR_TIER.equals(requestInformation.getUser().getType());
 			}
 			
-			MDC.put("demmandeId", Long.toString(requestId));
+			MDC.put("demandeId", Long.toString(requestId));
 			MDC.put("isMinimal", (isMinimal?"true":"false"));
-			docLogger.info("Demmande - "+requestId+" - "+requestInformation.getUser().getType() );
+			docLogger.info("Demande - "+requestId+" - "+requestInformation.getUser().getType() );
 
 			if (requestInformation != null && requestInformation.getObjectsRequest().size() <= maxRequest) {
 
@@ -215,7 +215,7 @@ public class DemandeController extends CadController {
 		}
 		
 		for (String cc : compteCommIds) {
-			docLogger.info("Releve de propriete - DemandeCCId - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeCCId - "+MDC.get("demandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
@@ -257,7 +257,7 @@ public class DemandeController extends CadController {
 		}
 		
 		for (String cc : compteCommunauxList) {
-			docLogger.info("Releve de propriete - DemandeParcelleId - "+MDC.get("demmandeId")+" - "+cc+" - "+parcelle+" - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeParcelleId - "+MDC.get("demandeId")+" - "+cc+" - "+parcelle+" - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
@@ -301,7 +301,7 @@ public class DemandeController extends CadController {
 			try {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 				
-				docLogger.info("Bordereau Parcellaire - DemandeParcelleId - "+MDC.get("demmandeId")+" - "+parcelle+" - 1 - false" );
+				docLogger.info("Bordereau Parcellaire - DemandeParcelleId - "+MDC.get("demandeId")+" - "+parcelle+" - 1 - false" );
 			} catch (CadastrappServiceException e1) {
 				logger.error("Error", e1);
 			}
@@ -358,7 +358,7 @@ public class DemandeController extends CadController {
 			}
 			
 			for (String p : parcellesId) {
-				docLogger.info("Bordereau Parcellaire - DemandeCCId - "+MDC.get("demmandeId")+" - "+p+" - 1 - "+isCoPro );
+				docLogger.info("Bordereau Parcellaire - DemandeCCId - "+MDC.get("demandeId")+" - "+p+" - 1 - "+isCoPro );
 			}
 		} catch (CadastrappServiceException e) {
 			fields.add(CadastrappConstants.GENERATING_PICTURE_ERROR);
@@ -404,7 +404,7 @@ public class DemandeController extends CadController {
 			pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 		}
 		
-		docLogger.info("Releve de propriete - DemandeCoProCCParcelleId - "+MDC.get("demmandeId")+" - "+compteCommunal+" - "+parcelleId+" - "+MDC.get("isMinimal")+" - PDF" );
+		docLogger.info("Releve de propriete - DemandeCoProCCParcelleId - "+MDC.get("demandeId")+" - "+compteCommunal+" - "+parcelleId+" - "+MDC.get("isMinimal")+" - PDF" );
 
 		return pdf;
 	}
@@ -437,7 +437,7 @@ public class DemandeController extends CadController {
 			pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,false);
 			
 			for (String p : parcellId) {
-				docLogger.info("Bordereau Parcellaire - DemandeInfoParcelle - "+MDC.get("demmandeId")+" - "+p+" - 1 - false" );
+				docLogger.info("Bordereau Parcellaire - DemandeInfoParcelle - "+MDC.get("demandeId")+" - "+p+" - 1 - false" );
 			}
 		} catch (CadastrappServiceException e) {
 			fields.add(CadastrappConstants.GENERATING_PICTURE_ERROR);
@@ -481,7 +481,7 @@ public class DemandeController extends CadController {
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 		
 		for (String cc : compteCommunauxList) {
-			docLogger.info("Releve de propriete - DemandeInfoParcelle - "+MDC.get("demmandeId")+" - "+cc+" - "+idParcelle+" - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeInfoParcelle - "+MDC.get("demandeId")+" - "+cc+" - "+idParcelle+" - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
@@ -522,7 +522,7 @@ public class DemandeController extends CadController {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 				
 				for (String p : parcellId) {
-					docLogger.info("Bordereau Parcellaire - DemandeInfoProp - "+MDC.get("demmandeId")+" - "+p+" - 1 - false" );
+					docLogger.info("Bordereau Parcellaire - DemandeInfoProp - "+MDC.get("demandeId")+" - "+p+" - 1 - false" );
 				}
 			} catch (CadastrappServiceException e1) {
 				logger.error("Error", e1);
@@ -558,7 +558,7 @@ public class DemandeController extends CadController {
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 		
 		for (String cc : compteCommunauxList) {
-			docLogger.info("Releve de propriete - DemandeInfoProp - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeInfoProp - "+MDC.get("demandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
@@ -601,7 +601,7 @@ public class DemandeController extends CadController {
 				pdf = bordereauParcellaireHelper.generatePDF(bordereauParcellaire,true);
 				
 				for (String p : parcellId) {
-					docLogger.info("Bordereau Parcellaire - DemandeLot - "+MDC.get("demmandeId")+" - "+p+" - 1 - false" );
+					docLogger.info("Bordereau Parcellaire - DemandeLot - "+MDC.get("demandeId")+" - "+p+" - 1 - false" );
 				}
 			} catch (CadastrappServiceException e1) {
 			}
@@ -638,7 +638,7 @@ public class DemandeController extends CadController {
 		File pdf = releveProprieteHelper.generatePDF(relevePropriete,isMinimal, false);
 		
 		for (String cc : compteCommunauxList) {
-			docLogger.info("Releve de propriete - DemandeLot - "+MDC.get("demmandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
+			docLogger.info("Releve de propriete - DemandeLot - "+MDC.get("demandeId")+" - "+cc+" - null - "+MDC.get("isMinimal")+" - PDF" );
 		}
 
 		return pdf;
