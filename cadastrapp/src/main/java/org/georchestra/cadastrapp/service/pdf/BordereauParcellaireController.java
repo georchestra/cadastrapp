@@ -229,7 +229,7 @@ public class BordereauParcellaireController extends CadController {
 			}
 			
 			for (String parcelle : newParcelleList) {
-				docLogger.info("Bordereau Parcellaire - GenerationDirecte - null - "+parcelle+" - "+personalData+" - 0" );
+				docLogger.info("Bordereau Parcellaire - GenerationDirecte - null - "+parcelle+" - "+personalData+" - false" );
 			}
 		} else {
 			logger.warn("Required parameter missing");
