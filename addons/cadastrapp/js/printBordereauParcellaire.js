@@ -109,7 +109,8 @@ GEOR.Addons.Cadastre.initPrintBordereauParcellaireWindow = function(parcelleId) 
         };
         // use request async false to receipt callback
         xhr.open("POST", GEOR.Addons.Cadastre.url.serviceGetImageFromDatadir, false);
-        xhr.send(nameFile); 
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send('imageName='+nameFile); 
         return srcUrl;
     };
     
