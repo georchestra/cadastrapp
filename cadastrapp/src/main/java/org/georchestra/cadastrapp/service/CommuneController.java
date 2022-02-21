@@ -62,7 +62,7 @@ public class CommuneController extends CadController{
 	    	if(libCom != null && !libCom.isEmpty() && libCom.length()>=minNbCharForSearch){
 		    	
 	    		// Remove all accent from url	    		    	 
-	    		isWhereAdded = createRightLikeClauseRequest(isWhereAdded, queryBuilder, "libcom_maj", libCom.toUpperCase(), queryParams);      
+			isWhereAdded = createLikeClauseRequest(isWhereAdded, queryBuilder, "libcom_maj", libCom.toUpperCase(), queryParams);
 	    	}
 	    	else{
 	    		logger.info("LibCom has not enough characters to launch research with libCom");
