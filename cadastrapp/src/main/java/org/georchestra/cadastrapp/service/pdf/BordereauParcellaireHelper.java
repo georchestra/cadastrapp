@@ -233,7 +233,7 @@ public final class BordereauParcellaireHelper extends CadController{
 		String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 		
 		// Pdf temporary filename using tmp folder and timestamp
-		final String pdfTmpFileName = tempFolder+File.separator+"BP"+new Date().getTime();
+		final String pdfTmpFileName = tempFolder+File.separator+"BP-"+new Date().getTime();
 
 		InputStream xsl = null;
 		if(noData){
