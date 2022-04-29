@@ -20,23 +20,23 @@ Car il s'agit bien d'une **possibilité** offerte à l'administration communale 
 .. warning::
   Si la commune décide de prendre en charge cette possibilité de délivrance d'informations foncières aux administrés elle doit le faire en respectant les conditions de 2 dispositifs réglementaires :
   
-  * `les articles R* 107 A-1 et suivants du livre des procédures fiscales <https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006069583/LEGISCTA000006180153/#LEGISCTA000006180153>`_
+  * `les articles R* 107 A-1 et suivants du livre des procédures fiscales <https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006069583/LEGISCTA000006180153/#LEGISCTA000006180153>`_
   * `l'article L112-3 du Code des relations entre le public et l'administration <https://www.legifrance.gouv.fr/codes/id/LEGIARTI000031367338/>`_
 
 
-Concrètement :
+Concrètement :
 
-* l’administré doit formuler une demande écrite mentionnant les biens ou personnes faisant l'objet de la demande ainsi que son identité
+* l’administré doit formuler une demande écrite mentionnant les biens ou personnes faisant l'objet de la demande ainsi que son identité
 * l’administration doit produire un accusé de réception de cette demande
 * La demande doit rester ponctuelle : 5 par semaine maxi et 10 par mois maxi
 
-**Ces règles ne valent que pour des demandes de tiers.**
+**Ces règles ne valent que pour des demandes de tiers.**
 
-Il n'y a pas de limite pour les propriétaires / ayants-droits, sauf refus pour motif de demandes abusives ou trop fréquentes.
+Il n'y a pas de limite pour les propriétaires / ayants-droits, sauf refus pour motif de demandes abusives ou trop fréquentes.
 
-Pas de limites pour des demandes émanant d’administrations (pas de définition…).
+Pas de limites pour des demandes émanant d’administrations (pas de définition…).
 
-**Un notaire** peut être identifié comme mandataire lorsqu'il agit pour le compte d'un représentant légal dans le cadre d'une vente, une tutelle. **Mais pas systématiquement !** Il doit donc bien justifier sa demande.
+**Un notaire** peut être identifié comme mandataire lorsqu'il agit pour le compte d'un représentant légal dans le cadre d'une vente, une tutelle. **Mais pas systématiquement !** Il doit donc bien justifier sa demande.
 
 
 Accès au module
