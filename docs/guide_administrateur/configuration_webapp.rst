@@ -33,4 +33,4 @@ Ou bien pour autoriser l'organisation 'Exemple' ayant le code court 'EXPL' à ac
 
 `INSERT INTO cadastrapp.groupe_autorisation(idgroup,ccodep) VALUES ('EXPL','430157');`
 
-`cgocommune` correspond au code département, puis au code de direction (généralement 0) puis au nuero INSEE de la commune.
+`cgocommune` correspond au code département, puis au code de direction (généralement 0) puis au numero INSEE de la commune (ici 157).
