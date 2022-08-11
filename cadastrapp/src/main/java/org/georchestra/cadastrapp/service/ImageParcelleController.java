@@ -289,6 +289,7 @@ public class ImageParcelleController extends CadController {
 						logger.debug("Call WMS for plot selection layer");
 						// Get cadastral background image with good BBOX
 						final String plotLayerWmsUrl = CadastrappPlaceHolder.getProperty("parcelle.wms.url");	
+						final String plotLayerWmsLayerName = CadastrappPlaceHolder.getProperty("parcelle.wms.layer.name");
 						final String plotLayerWmsUsername = CadastrappPlaceHolder.getProperty("parcelle.wms.username");
 						final String plotLayerWmsPassword = CadastrappPlaceHolder.getProperty("parcelle.wms.password");
 						
@@ -296,13 +297,13 @@ public class ImageParcelleController extends CadController {
 							wmsCadastralLayer = createWebMapServer(plotLayerWmsUrl,plotLayerWmsUsername, plotLayerWmsPassword );
 							
 							//TODO see if specific SRS and format are needed
-							requestCadastralLayer = createAndConfigureMapRequest(wmsCadastralLayer, cadastralLayerFormat, cadastreWFSLayerName, pdfImagePixelSize, cadastreSRS, bounds);
+							requestCadastralLayer = createAndConfigureMapRequest(wmsCadastralLayer, cadastralLayerFormat, plotLayerWmsLayerName, pdfImagePixelSize, cadastreSRS, bounds);
 							cadastreLayerIdParcelle = CadastrappPlaceHolder.getProperty("parcelle.wms.layer.id");
 						}
 																	
 						logger.debug("Create feature image from WMS");
 						
-						StyledLayerDescriptor sld = generateSLD(cadastreWFSLayerName, cadastreLayerIdParcelle, parcelle, styleFillColor, styleFillOpacity, styleStrokeColor, styleStrokeWidth);
+						StyledLayerDescriptor sld = generateSLD(plotLayerWmsLayerName, cadastreLayerIdParcelle, parcelle, styleFillColor, styleFillOpacity, styleStrokeColor, styleStrokeWidth);
 						
 					    SLDTransformer styleTransform = new SLDTransformer();
 				        styleTransform.setEncoding(Charset.forName("UTF-8"));
