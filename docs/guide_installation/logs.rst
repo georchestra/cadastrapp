@@ -112,65 +112,65 @@ Pour l'activer :
 
 Voici les script pour les tables à créer en BDD, à adapter à votre convenance :
 
-``
-CREATE TABLE IF NOT EXISTS public.cadastrapp_bp
-(
-    username text,
-    log_date timestamp with time zone NOT NULL,
-    uri text,
-    organisation text,
-    roles text,
-    message text,
-    methode text GENERATED ALWAYS AS ( split_part(message,' - ',2) ) STORED,
-    demande text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED,
-    parcelle text GENERATED ALWAYS AS ( split_part(message,' - ',4) ) STORED,
-    proprietaires text GENERATED ALWAYS AS ( split_part(message,' - ',5) ) STORED,
-    copro text GENERATED ALWAYS AS ( split_part(message,' - ',6) ) STORED
-);
-ALTER TABLE public.cadastrapp_bp OWNER TO cadastrapp;
+.. code-block:: SQL
 
-CREATE TABLE IF NOT EXISTS public.cadastrapp_rp
-(
-    username text,
-    log_date timestamp with time zone NOT NULL,
-    uri text,
-    organisation text,
-    roles text,
-    message text,
-    methode text GENERATED ALWAYS AS ( split_part(message,' - ',2) ) STORED,
-    demande text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED,
-    ccomunal text GENERATED ALWAYS AS ( split_part(message,' - ',4) ) STORED,
-    parcelle text GENERATED ALWAYS AS ( split_part(message,' - ',5) ) STORED,
-    minimal text GENERATED ALWAYS AS ( split_part(message,' - ',6) ) STORED,
-    format text GENERATED ALWAYS AS ( split_part(message,' - ',7) ) STORED
-);
-ALTER TABLE public.cadastrapp_rp OWNER TO cadastrapp;
+   CREATE TABLE IF NOT EXISTS public.cadastrapp_bp
+   (
+       username text,
+       log_date timestamp with time zone NOT NULL,
+       uri text,
+       organisation text,
+       roles text,
+       message text,
+       methode text GENERATED ALWAYS AS ( split_part(message,' - ',2) ) STORED,
+       demande text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED,
+       parcelle text GENERATED ALWAYS AS ( split_part(message,' - ',4) ) STORED,
+       proprietaires text GENERATED ALWAYS AS ( split_part(message,' - ',5) ) STORED,
+       copro text GENERATED ALWAYS AS ( split_part(message,' - ',6) ) STORED
+   );
+   ALTER TABLE public.cadastrapp_bp OWNER TO cadastrapp;
 
-CREATE TABLE IF NOT EXISTS public.cadastrapp_demande
-(
-    username text,
-    log_date timestamp with time zone NOT NULL,
-    uri text,
-    organisation text,
-    roles text,
-    message text,
-    demande text GENERATED ALWAYS AS ( split_part(message,' - ',2) ) STORED,
-    usertype text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED
-);
-ALTER TABLE public.cadastrapp_demande OWNER TO cadastrapp;
+   CREATE TABLE IF NOT EXISTS public.cadastrapp_rp
+   (
+       username text,
+       log_date timestamp with time zone NOT NULL,
+       uri text,
+       organisation text,
+       roles text,
+       message text,
+       methode text GENERATED ALWAYS AS ( split_part(message,' - ',2) ) STORED,
+       demande text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED,
+       ccomunal text GENERATED ALWAYS AS ( split_part(message,' - ',4) ) STORED,
+       parcelle text GENERATED ALWAYS AS ( split_part(message,' - ',5) ) STORED,
+       minimal text GENERATED ALWAYS AS ( split_part(message,' - ',6) ) STORED,
+       format text GENERATED ALWAYS AS ( split_part(message,' - ',7) ) STORED
+   );
+   ALTER TABLE public.cadastrapp_rp OWNER TO cadastrapp;
 
-CREATE TABLE IF NOT EXISTS public.cadastrapp_export
-(
-    username text,
-    log_date timestamp with time zone NOT NULL,
-    uri text,
-    organisation text,
-    roles text,
-    message text,
-    type text GENERATED ALWAYS AS ( split_part(message,' - ',2) ) STORED,
-    params text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED
-);
-ALTER TABLE public.cadastrapp_export OWNER TO cadastrapp;
-``
+   CREATE TABLE IF NOT EXISTS public.cadastrapp_demande
+   (
+       username text,
+       log_date timestamp with time zone NOT NULL,
+       uri text,
+       organisation text,
+       roles text,
+       message text,
+       demande text GENERATED ALWAYS AS ( split_part(message,' - ',2) ) STORED,
+       usertype text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED
+   );
+   ALTER TABLE public.cadastrapp_demande OWNER TO cadastrapp;
+
+   CREATE TABLE IF NOT EXISTS public.cadastrapp_export
+   (
+       username text,
+       log_date timestamp with time zone NOT NULL,
+       uri text,
+       organisation text,
+       roles text,
+       message text,
+       type text GENERATED ALWAYS AS ( split_part(message,' - ',2) ) STORED,
+       params text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED
+   );
+   ALTER TABLE public.cadastrapp_export OWNER TO cadastrapp;
 
 *Note : Si vous souhaitez optimiser la gestion des logs en BDD pour de gros volumes, il est possible d'utiliser l'`extension timesclaedb <https://docs.timescale.com/install/latest/self-hosted/installation-debian/>`_ de PostgeSQL.*
