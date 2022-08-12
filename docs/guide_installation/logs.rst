@@ -173,4 +173,5 @@ Voici les script pour les tables à créer en BDD, à adapter à votre convenanc
    );
    ALTER TABLE public.cadastrapp_export OWNER TO cadastrapp;
 
-*Note : Si vous souhaitez optimiser la gestion des logs en BDD pour de gros volumes, il est possible d'utiliser l'`extension timesclaedb <https://docs.timescale.com/install/latest/self-hosted/installation-debian/>`_ de PostgeSQL.*
+.. note::
+   Si vous souhaitez optimiser la gestion des logs en BDD pour de gros volumes, il est possible d'utiliser l'extension `timescaledb <https://docs.timescale.com/install/latest/self-hosted/installation-debian/>`_ de PostgreSQL.
