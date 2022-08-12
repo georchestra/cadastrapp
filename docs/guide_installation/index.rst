@@ -12,6 +12,7 @@ Ce guide donne les différentes étapes pour installer et configurer Cadastrapp.
     roles_ldap
     security_proxy
     webapp
+    logs
     tests
     
 

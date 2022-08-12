@@ -232,7 +232,7 @@ public final class ReleveProprieteHelper extends CadController {
 		}
 
 		// Pdf temporary filename using tmp folder and timestamp
-		final String pdfTmpFileName = tempFolder + File.separator + "RP" + new Date().getTime();
+		final String pdfTmpFileName = tempFolder + File.separator + "RP-" + new Date().getTime();
 
 		InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(template);
 

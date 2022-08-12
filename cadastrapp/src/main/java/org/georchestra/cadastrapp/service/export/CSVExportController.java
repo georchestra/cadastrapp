@@ -24,7 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CSVExportController extends CadController {
 
 	static final Logger logger = LoggerFactory.getLogger(CSVExportController.class);
-
+	final static Logger docLogger = LoggerFactory.getLogger("org.georchestra.cadastrapp.loggers.documents");
+	
 	static final char DELIMITER = '\n';
 	static final char SEPARATOR = ';';
 
@@ -86,7 +87,8 @@ public class CSVExportController extends CadController {
 				headers.setContentDisposition(contentDisposition);
 
 				response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);	
-
+				
+				docLogger.info("Export CSV - ComptesCommunaux - ["+values+"]");
 			} catch (IOException e) {
 				logger.error("Error while creating CSV files ",  e);
 			} finally {

@@ -71,7 +71,7 @@ public class RequestPDFController extends CadController{
 				String tempFolder = CadastrappPlaceHolder.getProperty("tempFolder");
 
 				// Pdf temporary filename using tmp folder and timestamp
-				final String pdfTmpFileName = tempFolder + File.separator + "DemandeInformation" + new Date().getTime();
+				final String pdfTmpFileName = tempFolder + File.separator + "DemandeInformation-" + new Date().getTime();
 
 				InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslTemplate);
 

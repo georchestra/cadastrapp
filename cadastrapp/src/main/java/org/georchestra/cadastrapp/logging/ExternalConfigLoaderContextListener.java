@@ -20,7 +20,7 @@ public class ExternalConfigLoaderContextListener implements ServletContextListen
 		String configLocation = System.getProperty("georchestra.datadir");
 		if (configLocation != null) {
 			try {
-				new LogBackConfigLoader(configLocation + "/cadastrapp/logback.xml");
+				new Log4JConfigLoader(configLocation + "/cadastrapp/log4j/log4j2.properties");
 			} catch (Exception e) {
 				logger.error("Unable to read config file", e);
 			}

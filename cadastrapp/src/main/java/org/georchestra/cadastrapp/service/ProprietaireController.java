@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ProprietaireController extends CadController{
 
 	static final Logger logger = LoggerFactory.getLogger(ProprietaireController.class);
-	
+	final static Logger docLogger = LoggerFactory.getLogger("org.georchestra.cadastrapp.loggers.documents");
 	
 	@Autowired
 	ExportHelper exportHelper;
@@ -338,6 +338,7 @@ public class ProprietaireController extends CadController{
 
 					response = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 
+					docLogger.info("Export CSV - Propriétaires - ["+parcelles+"]");
 				}catch (IOException e) {
 					logger.error("Error while creating CSV files ", e);
 				} finally {
