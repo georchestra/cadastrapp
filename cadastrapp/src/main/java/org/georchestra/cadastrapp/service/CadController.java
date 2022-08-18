@@ -309,7 +309,7 @@ public class CadController {
 	 */
 	protected boolean createEqualsClauseRequest(boolean isWhereAdded, StringBuilder sb, String libelle, String value, List<String> paramList) {
 
-		if (value != null && !value.isEmpty()) {
+		if (value != null) {
 			if (!isWhereAdded) {
 				sb.append(" where ");
 				isWhereAdded = true;
