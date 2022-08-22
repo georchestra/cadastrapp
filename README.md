@@ -11,6 +11,7 @@ Cadastrapp est composé des éléments suivants :
 - une webapp Java qui compose la partie _backend_ / API dans le répertoire `cadastrapp`. Voir la [documentation](cadastrapp/README.md)
 - une partie client pour Mapfishapp dans le répertoire `addons`
 - une partie client pour MapStore dans un [dépôt dédié](https://github.com/georchestra/mapstore2-cadastrapp/)
+- 3 propositions de fond de plan pour GeoServer dans le répertoire `geoserver-workspace`
 
 
 ## Documentation
@@ -40,6 +41,7 @@ Cadastrapp is composed by these following elements :
 - a Java webapp wich compose _backend_ / API part in the `cadastrapp` directory. See the [documentation](cadastrapp/README.md)
 - a client part for Mapfishapp in the `addons` directory
 - a client part for MapStore in a [dedicated repository](https://github.com/georchestra/mapstore2-cadastrapp/)
+- 3 map background propositions for GeoServer in the `geoserver-workspace` directory
 
 
 ## Documentation
