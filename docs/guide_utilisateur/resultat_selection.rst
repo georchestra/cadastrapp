@@ -1,7 +1,7 @@
 Manipulation des résultats des sélections
 ==========================================
 
-Lorsqu'une sélection est effectuée, par interaction avec la carte ou par utilisation des fonctions de recherche, une liste des parcelles apparaît dans le tabeau "**Sélection de parcelles**" qui est située dans une zone en-dessous des outils de recherche.
+Lorsqu'une sélection est effectuée, par interaction avec la carte ou par utilisation des fonctions de recherche, une liste des parcelles apparaît dans le tableau "**Sélection de parcelles**" qui est située dans une zone en-dessous des outils de recherche.
 
 .. image::   _images/selectioncarte7.png
 

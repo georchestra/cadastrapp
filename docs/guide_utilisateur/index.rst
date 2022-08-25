@@ -12,6 +12,7 @@ Ce guide décrit les différentes fonctionnalités de l'outil cadastrapp dédié
    recherche_proprio.rst
    recherche_coproprio.rst
    resultat_selection.rst
+   export_selection.rst
    fiche_info_parcelle.rst
    bordereau_parcellaire.rst
    releve_propriete.rst
