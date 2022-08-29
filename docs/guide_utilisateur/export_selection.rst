@@ -15,11 +15,11 @@ Cette page détaille les différents exports disponibles.
 Export de la liste de parcelles
 -----------------------------------
 
-.. image::   export_selection_parcelles.png
+.. image::   _images/export_selection_parcelles.png
 
 Cette commande provoque la création d'un fichier CSV qui contient la liste des parcelles de votre sélection.
 
-.. image::   export_selection_csv.png
+.. image::   _images/export_selection_csv.png
 
 Ce fichier peut ensuite être rechargé ultérieurement afin de refaire une `sélection de parcelles par lot.<recherche_parcelle.html#par-lot>`_.
 
@@ -28,7 +28,7 @@ Ce fichier peut ensuite être rechargé ultérieurement afin de refaire une `sé
 Export de la liste des propriétaires
 ----------------------------------------
 
-.. image::   export_selection_proprietaires.png
+.. image::   _images/export_selection_proprietaires.png
 
 Cette commande provoque la création d'un fichier CSV qui contient la liste des "**propriétaires des parcelles**" de votre sélection.
 
@@ -44,7 +44,7 @@ Les informations disponibles dans cet export sont :
 Export de la liste des copropriétaires
 ----------------------------------------
 
-.. image::   export_selection_coproprietaires.png
+.. image::   _images/export_selection_coproprietaires.png
 
 Cette commande provoque la création d'un fichier CSV qui contient la liste des "**copropriétaires des parcelles**" de votre sélection.
 
@@ -60,9 +60,9 @@ Les informations disponibles dans cet export sont :
 Export de la liste des lots de copropriété
 ----------------------------------------------
 
-.. image::   export_selection_lots_copro.png
+.. image::   _images/export_selection_lots_copro.png
 
-.. image::   export_selection_lots_copro_formats.png
+.. image::   _images/export_selection_lots_copro_formats.png
 
 
 Cette commande provoque la création d'un fichier CSV ou d'un document PDF qui contiennent la liste des "**lots de copropriété**" de votre sélection.
@@ -88,7 +88,7 @@ L'export PDF est une mise en forme beaucoup plus lisible des information brutes 
 Export en lot de bordereaux parcellaires
 ----------------------------------------------
 
-.. image::   export_selection_bp_lots.png
+.. image::   _images/export_selection_bp_lots.png
 
 
 Cette fonction va créer un seul fichier PDF contenant autant de pages que de parcelles dans votre sélection.
