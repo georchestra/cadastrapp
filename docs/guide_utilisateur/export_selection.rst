@@ -8,8 +8,9 @@ Lorsque l'on dispose d'une sélection de une ou plusieurs parcelles dans le tabl
 Cette page détaille les différents exports disponibles.
 
 .. note::
-  Les fonctionnalités concernant des données à caractère personnel (comme les noms des propriétaires) se seront disponibles que si vous disposez d'un `accès à ces données fiscales</preambule.html#controle-du-niveau-d-acces-aux-donnees-fiscales>`_.
+  Les fonctionnalités concernant des données à caractère personnel (comme les noms des propriétaires) se seront disponibles que si vous disposez d'un `accès à ces données fiscales <preambule.html#controle-du-niveau-d-acces-aux-donnees-fiscales>`_.
   
+
 
 
 Export de la liste de parcelles
@@ -21,7 +22,7 @@ Cette commande provoque la création d'un fichier CSV qui contient la liste des 
 
 .. image::   _images/export_selection_csv.png
 
-Ce fichier peut ensuite être rechargé ultérieurement afin de refaire une `sélection de parcelles par lot.<recherche_parcelle.html#par-lot>`_.
+Ce fichier peut ensuite être rechargé ultérieurement afin de refaire une `sélection de parcelles par lot <recherche_parcelle.html#par-lot>`_.
 
 
 

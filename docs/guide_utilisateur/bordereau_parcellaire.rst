@@ -20,4 +20,5 @@ Le bordereau parcellaire ci-dessous est sans donnée nominative, si vous avez co
 .. image::   _images/bp_exemple1.png
 
 
+Il est possible de réaliser un export pour toute une liste de parcelles. `Lire ici la procédure <export_selection.html#export-en-lot-de-bordereaux-parcellaires>`_.
 
