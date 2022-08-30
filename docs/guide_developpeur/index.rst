@@ -297,13 +297,13 @@ Cette fenêtre affiche beaucoup d'information sur les parcelles et les objets as
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |  onglet Bâtiments           |      X       |  Afficher les infos             |        |        |    X   |  GET /cadastrapp/services/getBatiments?dnubat=%20A&parcelle={code} (2)                  |
 |                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
-|                             |              |  Relevé de propriété PDF        |        |    ?   |    X   |  -> Relevé de propriété de l'onglet Propriétaires                                       |
+|                             |              |  Relevé de propriété PDF        |        |        |    X   |  -> Relevé de propriété de l'onglet Propriétaires                                       |
 |                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
-|                             |              |  Relevé de propriété CSV        |        |    ?   |    X   |  -> Relevé de propriété de l'onglet Propriétaires                                       |
+|                             |              |  Relevé de propriété CSV        |        |        |    X   |  -> Relevé de propriété de l'onglet Propriétaires                                       |
 |                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
 |                             |              |  Descriptif d'habitation        |        |        |    X   |  GET /cadastrapp/services/getHabitationDetails?invar={code}&annee={integer}             |
 |                             |              +---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
-|                             |              |  Lots en PDF                    |        |    ?   |    X   |  POST /cadastrapp/services/exportLotsAsPDF                                              |
+|                             |              |  Lots en PDF                    |        |        |    X   |  POST /cadastrapp/services/exportLotsAsPDF                                              |
 |                             |              |                                 |        |        |        |                                                                                         |
 |                             |              |                                 |        |        |        |  FORM_DATA : parcelle={code}&dnubat=+{code}                                             |
 +-----------------------------+--------------+---------------------------------+--------+--------+--------+-----------------------------------------------------------------------------------------+
