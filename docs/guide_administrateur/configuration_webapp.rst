@@ -2,18 +2,17 @@
 Configuration de la webapp
 ===============================
 
-TODO à compléter !
+Se reporter à `cette page <../guide_installation/webapp.html#configuration>`_ pour tous les détails de la configuration.
 
 
 L'application permet de filter les profils sur deux types de filtres.
-Un filtre sur les droits CNIL avec deux niveaux et un filtre géographique
+Un filtre sur les droits CNIL avec deux niveaux et un filtre géographique.
 
 Niveaux de droits
 ------------------
 
-* Anonyme : Accès aux infos publiques sur les parcelles
-* CNIL1 : Anonyme + Visibilité des noms de propriétaires
-* CNIL2 : CNIL1 + Visibilité des données de taxation
+`Voir cette page. <../guide_utilisateur/preambule.html#controle-du-niveau-d-acces-aux-donnees-fiscales>`_ 
+
 
 Gestion des droits géographiques
 ------------------------------------
