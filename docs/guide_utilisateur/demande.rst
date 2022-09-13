@@ -57,9 +57,9 @@ Identification du demandeur
 Commencer par compléter les informations du demandeur et en premier lieu son type.
 Le demandeur peut-être : 
 
-- une administration;
-- un particulier détenteur des droits;
-- un particulier agissant en qualité de mandataire;
+- une administration,
+- un particulier détenteur des droits,
+- un particulier agissant en qualité de mandataire,
 - un particulier tiers.
 
 Saisir ensuite les informations CNI, nom, prénom et adresse.
@@ -136,4 +136,3 @@ Statistiques
 -------------
 
 Des données à but statistique d'exploitation sont stockées dans l'application sous forme anonymisées. Elle peuvent permettre de connaître, par exemple, le nombre de relevé de propriété transmis dans le cadre de l'information foncière.
-

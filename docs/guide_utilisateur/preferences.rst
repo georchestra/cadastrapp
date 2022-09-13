@@ -15,14 +15,13 @@ La fenêtre **Préférences des styles** permet de choisir :
 
 Pour chaque onglet, vous pouvez choisir  :
 
-- la couleur du remplissage ainsi que la transparence;
-- la couleur et la transparence du contour;
+- la couleur du remplissage ainsi que la transparence,
+- la couleur et la transparence du contour,
 - l'épaisseur du contour.
 
 En cliquant sur **Fermer** vous conservez les valeurs choisies.
 
 .. image::  _images/preferences2.png 
-
 
 
 

@@ -33,7 +33,7 @@ Il faut d'abord saisir le nom de la commune sur laquelle effectuer la recherche 
 
 Saisir ensuite le nom et / ou le prénom du propriétaire recherché. **Une liste de suggestions apparaît. Elle est affinée à chaque caractère supplémentaire saisi.**
 
-Si le nom du propriétaire désiré apparaît : le sélectionner puis valider la recherche en cliquant sur le bouton **Rechercher**
+Si le nom du propriétaire désiré apparaît : le sélectionner puis valider la recherche en cliquant sur le bouton **Rechercher**.
 
 .. image::   _images/recherche_parc2.png
 
@@ -113,7 +113,7 @@ Vous pouvez ré-initialiser la fenêtre de recherche en cliquant sur le bouton *
 
 Résultat d'une sélection
 --------------------------------------
-Lorsqu'une sélection est effectuée, la liste des parcelles apparaît dans le tabeau "**Sélection de parcelles**"
+Lorsqu'une sélection est effectuée, la liste des parcelles apparaît dans le tableau "**Sélection de parcelles**"
 
 
 Passer maintenant à la page détaillant la `manipulation des résultats des sélections <resultat_selection.html>`_.

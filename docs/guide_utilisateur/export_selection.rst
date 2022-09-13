@@ -1,5 +1,5 @@
-Exports des résultats des sélections
-==========================================
+Export des résultats des sélections
+====================================
 
 Lorsque l'on dispose d'une sélection de une ou plusieurs parcelles dans le tableau "**Sélection de parcelles**", toutes les commandes permettant de manipuler cette sélection sont activées. Nous allons nous focaliser sur le dernier bouton qui est un bouton qui propose une sous-liste de fonctionnalités lorsque l'on clique dessus :
 
@@ -8,8 +8,9 @@ Lorsque l'on dispose d'une sélection de une ou plusieurs parcelles dans le tabl
 Cette page détaille les différents exports disponibles.
 
 .. note::
-  Les fonctionnalités concernant des données à caractère personnel (comme les noms des propriétaires) se seront disponibles que si vous disposez d'un `accès à ces données fiscales <preambule.html#controle-du-niveau-d-acces-aux-donnees-fiscales>`_.
-  
+  Les fonctionnalités concernant des données à caractère personnel (comme les noms des propriétaires) ne seront disponibles que si vous disposez d'un `accès à ces données fiscales</guide_utilisateur/preambule.html#controle-du-niveau-d-acces-aux-donnees-fiscales>`_.
+
+
 
 
 
@@ -22,7 +23,8 @@ Cette commande provoque la création d'un fichier CSV qui contient la liste des 
 
 .. image::   _images/export_selection_csv.png
 
-Ce fichier peut ensuite être rechargé ultérieurement afin de refaire une `sélection de parcelles par lot <recherche_parcelle.html#par-lot>`_.
+Ce fichier peut ensuite être rechargé ultérieurement afin de refaire une `sélection de parcelles par lot.<recherche_parcelle.html#par-lot>`__  
+
 
 
 
@@ -34,6 +36,7 @@ Export de la liste des propriétaires
 Cette commande provoque la création d'un fichier CSV qui contient la liste des "**propriétaires des parcelles**" de votre sélection.
 
 Les informations disponibles dans cet export sont :
+
 - dénomination d'usage du/des propriétaires
 - dénomination de naissance du/des propriétaires
 - adresse déclarée
@@ -43,13 +46,14 @@ Les informations disponibles dans cet export sont :
 
 
 Export de la liste des copropriétaires
-----------------------------------------
+--------------------------------------
 
 .. image::   _images/export_selection_coproprietaires.png
 
 Cette commande provoque la création d'un fichier CSV qui contient la liste des "**copropriétaires des parcelles**" de votre sélection.
 
 Les informations disponibles dans cet export sont :
+
 - dénomination d'usage du/des propriétaires
 - dénomination de naissance du/des propriétaires
 - adresse déclarée
@@ -57,19 +61,19 @@ Les informations disponibles dans cet export sont :
 - date de naissance
 
 
-
 Export de la liste des lots de copropriété
-----------------------------------------------
+------------------------------------------
 
 .. image::   _images/export_selection_lots_copro.png
 
 .. image::   _images/export_selection_lots_copro_formats.png
 
 
-Cette commande provoque la création d'un fichier CSV ou d'un document PDF qui contiennent la liste des "**lots de copropriété**" de votre sélection.
+Cette commande provoque la création d'un fichier CSV ou d'un document PDF qui contient la liste des "**lots de copropriété**" de votre sélection.
 Ces 2 fichiers sont très différents dans leur forme.
 
 Les informations disponibles dans l'export CSV sont :
+
 - numéro de parcelle
 - numéro de local
 - identification du bâtiment qui abrite le lot
@@ -87,16 +91,15 @@ L'export PDF est une mise en forme beaucoup plus lisible des information brutes 
 
 
 Export en lot de bordereaux parcellaires
-----------------------------------------------
+----------------------------------------
 
 .. image::   _images/export_selection_bp_lots.png
 
 
 Cette fonction va créer un seul fichier PDF contenant autant de pages que de parcelles dans votre sélection.
 
+
 .. warning::
   Le temps de production du document PDF va être d'autant plus long que votre sélection sera grande. Il faut donc être patient car aucun indicateur visuel ne vous indique que votre demande est en traitement.
   Il est donc recommandé de patienter.
   Une limite haute à 50 parcelles est fixée par défaut, afin de ne pas saturer les serveurs.
-
-
