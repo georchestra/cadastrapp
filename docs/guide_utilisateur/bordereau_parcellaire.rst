@@ -14,7 +14,7 @@ Il faut ensuite cliquer sur **Exporter** pour générer le document pdf correspo
 
 .. image::   _images/bp_creation.png
 
-Le bordereau parcellaire ci-dessous est sans donnée nominative, si vous avez coché avec données nominatives, l'information du propriétaires apparaît à droite en dessous des informations sur la parcelle.
+Le bordereau parcellaire ci-dessous est sans donnée nominative, si vous avez coché avec données nominatives, l'information du propriétaire apparaît à droite en dessous des informations sur la parcelle.
 
 
 .. image::   _images/bp_exemple1.png

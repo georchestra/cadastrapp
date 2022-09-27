@@ -20,7 +20,7 @@ En cochant la case en début de ligne, la parcelle correspondante apparaît en s
 
 .. image::   _images/selectioncarte9.png
 
-**Une fois une (ou plusieurs) parcelle(s) sur-sélectionnée(s), les outils suivant sont rendus accessibles :**
+**Une fois une (ou plusieurs) parcelle(s) sur-sélectionnée(s), les outils suivants sont rendus accessibles :**
 
 .. image::   _images/selectioncarte11.png
 
@@ -37,11 +37,10 @@ De gauche à droite, ces boutons permettent :
   - co-propriétaires
   - lots d'une co-propriété
 
-La barre d'outils placée juste au-dessus de la liste et composée des 2 outils suivants : 
 
 .. image::   _images/selectioncarte12.png
 
-permet de supprimer un onglet de résultat de sélection ou d'en ajouter un.
+La barre d'outils placée juste au-dessus de la liste est composée des 2 outils suivants, permettant de supprimer un onglet de résultat de sélection ou d'en ajouter un.
 
 .. image::   _images/selectioncarte13.gif
 

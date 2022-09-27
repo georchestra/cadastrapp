@@ -92,7 +92,7 @@ Il est possible soit :
 Résultat d'une sélection
 --------------------------------------
 
-Lorsqu'une sélection est effectuée, la liste des parcelles apparaît dans le tabeau "**Sélection de parcelles**"
+Lorsqu'une sélection est effectuée, la liste des parcelles apparaît dans le tableau "**Sélection de parcelles**".
 
 
 Passer maintenant à la page détaillant la `manipulation des résultats des sélections <resultat_selection.html>`_.
