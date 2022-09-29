@@ -2,6 +2,7 @@
 database/config.sh
 
 .DS_Store
+docs/.venv/
 docs/_build/
 docs/rsync.bash
 cadastrapp/target/*
