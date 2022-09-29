@@ -1,5 +1,9 @@
 #! /bin/bash
 
+# purge des builds
+# pour voir toutes les erreurs à chaque build
+rm -rf _build/
+
 sphinx-build -b html ./ _build/
 
 echo ""
