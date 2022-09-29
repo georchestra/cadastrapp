@@ -1,5 +1,5 @@
 Impression et annotations
-======================
+=========================
 
 Impression d'une sélection
 --------------------------
@@ -42,4 +42,10 @@ Il est possible de la voir en cliquant sur le menu **Couches** en haut à gauche
 
 .. image::   _images/annotation2.gif
 
-Pour ajouter des couches dans Mapstore, en plus de votre sélection de cadastre, cliquer sur l'icône **Ajouter une couche** .. image::   _images/ajouter_couche.PNG et faire une recherche pour la couche souhaitée.
+Pour ajouter des couches dans Mapstore, en plus de votre sélection de cadastre, cliquer sur l'icône **Ajouter une couche**
+
+.. image::   _images/ajouter_couche.PNG
+
+Et faire une recherche pour la couche souhaitée.
+
+
