@@ -827,13 +827,7 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
                                     })
                                             
                                     // Detection of iframe end of load only available for Firefox
-                                    if (Ext.isGecko || Ext.isGecko2 || Ext.isGecko3){
-                                        Ext.get(download).on('load', function(e, t, o) {
-                                            box.hide();
-                                        });
-                                    }else{
-                                        box.hide();
-                                    }                   
+                                    box.hide();               
                                     if (GEOR.Addons.Cadastre.isCNIL1() == true || GEOR.Addons.Cadastre.isCNIL2() == true){
                                         Ext.getCmp('requestGenerateButton').enable();
                                     }                       
@@ -877,16 +871,7 @@ GEOR.Addons.Cadastre.initInformationRequestWindow = function() {
 					});
 									
 					// Detection of iframe end of load only available for Firefox
-					if (Ext.isGecko || Ext.isGecko2 || Ext.isGecko3){
-						Ext.get(download).on('load', function(e, t, o) {
-							box.hide();
-							Ext.getCmp('requestGenerateButton').disable();
-						});
-					}else{
-						box.hide();
-						Ext.getCmp('requestGenerateButton').disable();
-					}
-				
+					box.hide();
 				}
 			}
 		} ],
