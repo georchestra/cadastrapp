@@ -1,6 +1,6 @@
-site_name: Template pour la documentation d'un composant geOrchestra
+site_name: Cadastrapp
 
-repo_url: https://github.com/georchestra/georchestra_documentation
+repo_url: https://github.com/georchestra/cadastrapp
 repo_name: georchestra/georchestra_documentation
 
 docs_dir: docs
@@ -82,5 +82,3 @@ plugins:
     - git-revision-date-localized:
         enable_creation_date: true
 
-
-# TODO Documenter comment simplifier l'arborescence pour un petit projet
