@@ -2,9 +2,9 @@
 database/config.sh
 
 .DS_Store
-docs/.venv/
-docs/_build/
-docs/rsync.bash
+
+docs_v1/
+
 cadastrapp/target/*
 addons/cadastrapp/js/build/cadastrapp.js
 database/test.sh
