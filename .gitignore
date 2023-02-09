@@ -4,7 +4,10 @@ database/config.sh
 .DS_Store
 
 docs_v1/
+venv_mkdocs/
+.venv_mkdocs/
 
 cadastrapp/target/*
 addons/cadastrapp/js/build/cadastrapp.js
 database/test.sh
+docs/tableofcontent.md
