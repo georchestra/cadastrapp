@@ -7,3 +7,4 @@ docs_v1/
 cadastrapp/target/*
 addons/cadastrapp/js/build/cadastrapp.js
 database/test.sh
+docs/tableofcontent.md

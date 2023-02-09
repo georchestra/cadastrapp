@@ -1,0 +1,86 @@
+site_name: Template pour la documentation d'un composant geOrchestra
+
+repo_url: https://github.com/georchestra/georchestra_documentation
+repo_name: georchestra/georchestra_documentation
+
+docs_dir: docs
+edit_uri: edit/main/docs/
+
+theme:
+  language: fr
+  features:
+    - toc.integrate
+    - navigation.indexes
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.footer
+  logo: images/georchestra-logo-white.svg
+  favicon: images/favicon.ico
+  name: material
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:psc@georchestra.org
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/georchestra
+    - icon: fontawesome/brands/github
+      link: https://github.com/georchestra
+    - icon: fontawesome/brands/google
+      link: https://groups.google.com/g/georchestra?hl=en
+    - icon: fontawesome/brands/dev
+      link: https://groups.google.com/group/georchestra-dev?hl=fr
+    - icon: fontawesome/regular/comments
+      link: https://kiwiirc.com/client/irc.libera.chat/georchestra
+copyright: '© 2023 - georchestra'
+
+extra_css:
+    - css/extra.css
+
+# arborescence de 1er et 2e niveau à gérer ici
+# Ces entrées correspondent au modèle de documentation
+
+nav:
+    - Accueil: index.md 
+    - Guide utilisateur:
+        - Sommaire: guide_utilisateur/index.md
+        - Prendre en main: guide_utilisateur/00_prise_en_main.md
+        - Vue globale: guide_utilisateur/01_vue_globale.md
+        - Barres ou menus d''outils: guide_utilisateur/02_outils.md
+    - Guides techniques:
+        - Sommaire: guides_techniques/index.md
+        - Administrer:
+            - guides_techniques/administrer/index.md
+            - guides_techniques/administrer/une_page.md
+        - Installer:
+            - guides_techniques/installer/index.md
+            - guides_techniques/installer/00_presentation.md
+            - guides_techniques/installer/01_prerequis.md
+            - guides_techniques/installer/02_preparation.md
+            - guides_techniques/installer/03_installation.md
+            - guides_techniques/installer/04_configuration.md
+            - guides_techniques/installer/05_debug.md
+            - guides_techniques/installer/06_tests.md
+        - Développer:
+            - guides_techniques/developper/index.md
+            - guides_techniques/developper/matrice_fonctionnalites.md
+            - guides_techniques/developper/api.md
+plugins:
+    - search
+    - toc-md:
+        toc_page_title: Contents
+        toc_page_description: Summary of the section
+        header_level: 3
+        pickup_description_meta: false
+        pickup_description_class: false
+        output_path: tableofcontent.md
+        output_log: true
+        ignore_page_pattern: index.md
+        remove_navigation_page_pattern: index.md
+        template_dir_path: custom_template
+    - git-revision-date-localized:
+        enable_creation_date: true
+
+
+# TODO Documenter comment simplifier l'arborescence pour un petit projet
