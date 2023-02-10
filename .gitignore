@@ -6,6 +6,7 @@ database/config.sh
 docs_v1/
 venv_mkdocs/
 .venv_mkdocs/
+modules/
 
 cadastrapp/target/*
 addons/cadastrapp/js/build/cadastrapp.js
