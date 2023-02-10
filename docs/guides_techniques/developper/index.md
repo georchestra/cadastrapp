@@ -11,7 +11,7 @@ Voici ce qui est attendu comme documentation pour cette partie :
 - décrire les méthodes des API (sauf si swagger intégré)
 - matrice des fonctionnalités
 
-Si cela est possible et pertinent : documenter la création ou l'utilisation d'un modèle (template) de développement utilisant le composant.
+Si cela est possible et pertinent : documenter la création ou l'utilisation d'un modèle (template) de développement utilisant le produit.
 
 
 Les images sont stokées dans le répertoire `images`.

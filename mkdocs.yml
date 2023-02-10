@@ -45,41 +45,69 @@ nav:
     - Accueil: index.md 
     - Guide utilisateur:
         - Sommaire: guide_utilisateur/index.md
-        - Prendre en main: guide_utilisateur/00_prise_en_main.md
-        - Vue globale: guide_utilisateur/01_vue_globale.md
-        - Barres ou menus d''outils: guide_utilisateur/02_outils.md
+        - Prendre en main:
+            - guide_utilisateur/index.md
+            - guide_utilisateur/prise_en_main.md
+            - guide_utilisateur/utiliser.md
+            - guide_utilisateur/preambule.md
+            - guide_utilisateur/activation.md
+            - guide_utilisateur/selection_carte.md
+            - guide_utilisateur/recherche_parcelle.md
+            - guide_utilisateur/recherche_proprio.md
+            - guide_utilisateur/recherche_coproprio.md
+            - guide_utilisateur/resultat_selection.md
+            - guide_utilisateur/export_selection.md
+            - guide_utilisateur/impression.md
+            - guide_utilisateur/fiche_info_parcelle.md
+            - guide_utilisateur/bordereau_parcellaire.md
+            - guide_utilisateur/releve_propriete.md
+            - guide_utilisateur/unite_fonciere.md
+            - guide_utilisateur/demande.md
+            - guide_utilisateur/preferences.md
     - Guides techniques:
         - Sommaire: guides_techniques/index.md
         - Administrer:
             - guides_techniques/administrer/index.md
-            - guides_techniques/administrer/une_page.md
+            - guides_techniques/administrer/donnees_dgfip.md
+            - guides_techniques/administrer/donnees_cadastrapp.md
+            - guides_techniques/administrer/purge.md
+            - guides_techniques/administrer/configuration_webapp.md
+            - guides_techniques/administrer/configuration_addon.md
+            
         - Installer:
             - guides_techniques/installer/index.md
-            - guides_techniques/installer/00_presentation.md
-            - guides_techniques/installer/01_prerequis.md
-            - guides_techniques/installer/02_preparation.md
-            - guides_techniques/installer/03_installation.md
-            - guides_techniques/installer/04_configuration.md
-            - guides_techniques/installer/05_debug.md
-            - guides_techniques/installer/06_tests.md
+            - guides_techniques/installer/prerequis.md
+            - guides_techniques/installer/donnees.md
+            - guides_techniques/installer/couches_applicatives.md
+            - guides_techniques/installer/couches_fond_de_plan.md
+            - guides_techniques/installer/roles_ldap.md
+            - guides_techniques/installer/security_proxy.md
+            - guides_techniques/installer/webapp.md
+            - guides_techniques/installer/logs.md
+            - guides_techniques/installer/tests.md
+
+    
+            
         - Développer:
             - guides_techniques/developper/index.md
             - guides_techniques/developper/matrice_fonctionnalites.md
             - guides_techniques/developper/api.md
+            - guides_techniques/developper/javadoc.md
+   
 plugins:
     - search
-    - toc-md:
-        toc_page_title: Contents
-        toc_page_description: Summary of the section
-        header_level: 3
-        pickup_description_meta: false
-        pickup_description_class: false
-        output_path: tableofcontent.md
-        output_log: true
-        ignore_page_pattern: index.md
-        remove_navigation_page_pattern: index.md
-        template_dir_path: custom_template
-    - git-revision-date-localized:
-        enable_creation_date: true
+    # - toc-md:
+        # toc_page_title: Contents
+        # toc_page_description: Summary of the section
+        # header_level: 3
+        # pickup_description_meta: false
+        # pickup_description_class: false
+        # output_path: tableofcontent.md
+        # output_log: true
+        # ignore_page_pattern: index.md
+        # remove_navigation_page_pattern: index.md
+        # template_dir_path: custom_template
+    # - git-revision-date-localized:
+        # enable_creation_date: true
 
 
