@@ -1,6 +1,8 @@
 # Bordereau parcellaire
 
-Le bordereau parcellaire est accessible depuis la fenêtre `fiche d'info parcelle(s) <fiche_info_parcelle.html>`_ dans l'onglet **Parcelle** en cliquant sur le bouton :
+
+Le bordereau parcellaire est accessible depuis la fenêtre [fiche d'info parcelle(s)](../produire_des_documents/#ficheinfoparcelle) dans l'onglet **Parcelle** en cliquant sur le bouton :
+
 
 ![image](./images/bp_bouton.png)
 
@@ -19,5 +21,5 @@ Le bordereau parcellaire ci-dessous est sans donnée nominative, si vous avez co
 ![image](./images/bp_exemple1.png)
 
 
-Il est possible de réaliser un export pour toute une liste de parcelles. `Lire ici la procédure <export_selection.html#export-en-lot-de-bordereaux-parcellaires>`_.
 
+ Il est possible de réaliser un export pour toute une liste de parcelles. [Lire ici la procédure](../rechercher_et_selectionner/#exportlotbordereauxparcelleaires)

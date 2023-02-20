@@ -46,24 +46,11 @@ nav:
     - Guide utilisateur:
         - Sommaire: guide_utilisateur/index.md
         - Prendre en main:
-            - guide_utilisateur/index.md
-            - guide_utilisateur/prise_en_main.md
-            - guide_utilisateur/utiliser.md
             - guide_utilisateur/preambule.md
-            - guide_utilisateur/activation.md
-            - guide_utilisateur/selection_carte.md
-            - guide_utilisateur/recherche_parcelle.md
-            - guide_utilisateur/recherche_proprio.md
-            - guide_utilisateur/recherche_coproprio.md
-            - guide_utilisateur/resultat_selection.md
-            - guide_utilisateur/export_selection.md
-            - guide_utilisateur/impression.md
-            - guide_utilisateur/fiche_info_parcelle.md
+            - guide_utilisateur/prise_en_main.md
+            - guide_utilisateur/rechercher_et_selectionner.md
+            - guide_utilisateur/produire_des_documents.md
             - guide_utilisateur/bordereau_parcellaire.md
-            - guide_utilisateur/releve_propriete.md
-            - guide_utilisateur/unite_fonciere.md
-            - guide_utilisateur/demande.md
-            - guide_utilisateur/preferences.md
     - Guides techniques:
         - Sommaire: guides_techniques/index.md
         - Administrer:
