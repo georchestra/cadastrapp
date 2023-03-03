@@ -56,5 +56,11 @@ public interface RequestRepository
     @Query(value="select COALESCE(SUM(ir.objectNumber),0) from InformationRequest ir inner join ir.user u where u.cni= ?1 and u.type = ?2 and ir.requestDate >= ?3")
     int sumObjectNumberByUserCniAndUserTypeAndRequestDateAfter(String cni, String type, Date date);
     
-    
+    /**
+     *  Return all informationRequest done before the specified date
+     * 
+     * @param date The date to use
+     * @return The list of informationRequest done before the date
+     */
+    List<InformationRequest> findAllByRequestDateBefore(Date date);
 }
