@@ -16,9 +16,10 @@ Cadastrapp est l’outil de consultation des données cadastrales fournies par l
 
 Cette documentation comporte trois parties :
 
-* un guide utilisateur qui détaille toute les fonctionnalités de l'application
-* un guide administrateur pour l'installation et la configuration (guides techniques)
-* un guide développeur pour identifier les méthodes de l'API (guides techniques)
+* un [guide utilisateur](/guide_utilisateur/) qui détaille toute les fonctionnalités de l'application
+* un [guide administrateur pour l'installation](/guides_techniques/installer/)
+* un [guide administrateur pour la configuration](/guides_techniques/administrer/)
+* un [guide développeur](/guides_techniques/installer/) pour identifier les méthodes de l'API
 
 
 |   |   |
