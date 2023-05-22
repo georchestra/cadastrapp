@@ -12,29 +12,21 @@ Cette possibilité est permise par [l'article 107 A du Livre des procédures fis
 
 
 
-<font color='blue'>
-> **Note**
+!!! info "extrait de l'article 107 A du Livre des procédures fiscales"
 
-  Toute personne peut obtenir communication ponctuelle, le cas échéant par voie électronique, d'informations relatives aux immeubles situés sur le territoire d'une commune déterminée, ou d'un arrondissement pour la Ville de Paris et les communes de Lyon et Marseille, sur lesquels une personne désignée dans la demande dispose d'un droit réel immobilier. Toute personne peut obtenir, dans les mêmes conditions, communication d'informations relatives à un immeuble déterminé. Les informations communicables sont les références cadastrales, l'adresse ou, le cas échéant, les autres éléments d'identification cadastrale des immeubles, la contenance cadastrale de la parcelle, la valeur locative cadastrale des immeubles, ainsi que les noms et adresses des titulaires de droits sur ces immeubles. Un décret en Conseil d'Etat, pris après avis de la Commission nationale de l'informatique et des libertés, définit les modalités d'application du présent article et les conditions de communication par voie électronique des informations visées à la phrase précédente.
-</font>
+	Toute personne peut obtenir communication ponctuelle, le cas échéant par voie électronique, d'informations relatives aux immeubles situés sur le territoire d'une commune déterminée, ou d'un arrondissement pour la Ville de Paris et les communes de Lyon et Marseille, sur lesquels une personne désignée dans la demande dispose d'un droit réel immobilier. Toute personne peut obtenir, dans les mêmes conditions, communication d'informations relatives à un immeuble déterminé. Les informations communicables sont les références cadastrales, l'adresse ou, le cas échéant, les autres éléments d'identification cadastrale des immeubles, la contenance cadastrale de la parcelle, la valeur locative cadastrale des immeubles, ainsi que les noms et adresses des titulaires de droits sur ces immeubles. Un décret en Conseil d'Etat, pris après avis de la Commission nationale de l'informatique et des libertés, définit les modalités d'application du présent article et les conditions de communication par voie électronique des informations visées à la phrase précédente.
 
-<font color='black'>
 
 Car il s'agit bien d'une **possibilité** offerte à l'administration communale ou de l'EPCI. Si elle décide de l'appliquer, elle doit s'organiser pour délivrer ces informations aux administrés. Ce n'est absolument pas une obligation et à tout moment elle peut renvoyer les administrés vers les services de la DGFiP car ce sont des missions régaliennes liées directement à l'établissement des impôts.
 
-<font color='Red'>
-> **Warning**
+!!! warning "Attention"
 
-
-  Si la commune décide de prendre en charge cette possibilité de délivrance d'informations foncières aux administrés elle doit le faire en respectant les conditions de 2 dispositifs réglementaires :
+	Si la commune décide de prendre en charge cette possibilité de délivrance d'informations foncières aux administrés elle doit le faire en respectant les conditions de 2 dispositifs réglementaires :
   
-  * [les articles R* 107 A-1 et suivants du livre des procédures fiscales
-](https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006069583/LEGISCTA000006180153/#LEGISCTA000006180153)
- * [l'article L112-3 du Code des relations entre le public et l'administration](https://www.legifrance.gouv.fr/codes/id/LEGIARTI000031367338/)
+	  * [les articles R* 107 A-1 et suivants du livre des procédures fiscales](https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006069583/LEGISCTA000006180153/#LEGISCTA000006180153)
+	 * [l'article L112-3 du Code des relations entre le public et l'administration](https://www.legifrance.gouv.fr/codes/id/LEGIARTI000031367338/)
 
-</font>
 
-<font color='black'>
 
 Concrètement :
 
@@ -90,12 +82,13 @@ Une demande égale :
 * un relevé de propriété pour une parcelle
 * un relevé de propriété pour un local
 
-**_WARNING:_**
-
-
- Si un particulier demande la liste des copropriétaires d'un immeuble… On ne sait pas si cette demande est légitime. Une demande d'éclaicissement est en cours auprès de la DGFiP.
- 
 Les demandes et leur données sont stockées sur 1 mois flottant pour permettre ce calcul. Elles sont effacées automatiquement ensuite.
+
+
+!!! warning "Attention"
+
+	Si un particulier demande la liste des copropriétaires d'un immeuble… On ne sait pas si cette demande est légitime. Une demande d'éclaicissement est en cours auprès de la DGFiP.
+
 
 
 ## Saisie des demandes
@@ -133,8 +126,10 @@ Avec le bouton **Imprimer la demande**, un PDF synthétisant le rappel de la ré
 
 Ce document est à faire compléter et signer par le demandeur avant de pouvoir lui remettre les documents correspondants à sa demande.
 
-**_WARNING:_**
- Ce document papier ne peut être conservé plus de 1 mois courant par l'administration. Sinon cela constituerait un receuil de données à caractère personnel non déclaré auprès de la CNIL, donc illégal.
+!!! warning "Attention"
+
+	Ce document papier ne peut être conservé plus de 1 mois courant par l'administration. Sinon cela constituerait un receuil de données à caractère personnel non déclaré auprès de la CNIL, donc illégal.
+
 
 ## Générer les documents pour l'administré
 

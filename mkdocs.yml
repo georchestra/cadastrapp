@@ -83,9 +83,17 @@ nav:
             - guides_techniques/developper/matrice_fonctionnalites.md
             - guides_techniques/developper/api.md
             - guides_techniques/developper/javadoc.md
-   
+
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+
 plugins:
     - search
+    - callouts
     # - toc-md:
         # toc_page_title: Contents
         # toc_page_description: Summary of the section

@@ -19,9 +19,9 @@ Et les déclarer dans le fichier [`cadastrapp.properties`](https://github.com/ge
 
 Ne pas oublier de les déclarer également un peu plus bas en variables `cadastre.wfs.layer.name` et `uf.wfs.layer.name` si votre plate-forme geOrchestra nécessite une authentification préalable des utilisateurs pour utiliser les services.
 
-**_Warning:_**  
+!!! warning "Attention"
 
-  **Il faut absolument que ces 2 couches soit publiées dans les capacités WxS de votre serveur de données géographiques.**
+	**Il faut absolument que ces 2 couches soit publiées dans les capacités WxS de votre serveur de données géographiques.**
 
   Sous GeoServer : cocher la case "Activé" (la couche est active et fonctionnelle) ET la case "Publié" (la couche apparaîtra dans les capacités WxS).
 
