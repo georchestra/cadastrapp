@@ -12,7 +12,7 @@ La fiche d'informations sur une parcelle regroupe l'ensemble des informations su
 
 ## Ouvrir une fiche d'information
 
-**Il y a 2 manières d'ouvrir une fiche d'information parcellaire.**
+**Il y a 2 manières d'ouvrir une fiche d'informations parcellaire.**
 
 La première façon consiste à sur-sélectionner une seule parcelle dans le tableau de résultats des sélections, puis à cliquer sur le bouton qui permet d'afficher la **Fiche d'info parcelle(s)** qui devient alors actif : 
 
