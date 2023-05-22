@@ -51,6 +51,7 @@ nav:
             - guide_utilisateur/rechercher_et_selectionner.md
             - guide_utilisateur/produire_des_documents.md
             - guide_utilisateur/bordereau_parcellaire.md
+            - guide_utilisateur/demande_information_fonciere.md
     - Guides techniques:
         - Sommaire: guides_techniques/index.md
         - Administrer:

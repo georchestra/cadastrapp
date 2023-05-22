@@ -17,3 +17,4 @@ Cadastrapp permet de consulter des données cadastrales via les fiches d'informa
 
 [Bordereau parcellaire](bordereau_parcellaire.md)
 
+[Module de demande d'information foncières](demande_information_fonciere.md)
