@@ -2,7 +2,7 @@
 
 ## C'est quoi ?
 
-Cadastrapp est l’outil de consultation des données cadastrales.
+Cadastrapp est l’outil de consultation des données cadastrales. Cet outil prend la forme d'un greffon (plugin) dans le visualiseur MapStore2 de [geOrchestra](https://www.georchestra.org/).
 
 </br>
 
@@ -31,9 +31,13 @@ Cette documentation comporte trois parties :
 
 
 
-Aide et support
-=================
+## Aide et support
 
-Posez vos questions sur la liste de diffusion georchestra@googlegroups.com
+Posez vos questions sur la liste de discussion via un courriel adressé à [georchestra@googlegroups.com](mailto:georchestra@googlegroups.com) ou via [ce site](https://groups.google.com/g/georchestra?hl=fr).
 
 
+## Remerciements
+
+La réalisation de ce guide a été rendue possible grâce à la contribution de la communauté des administrateurs et utilisateur de Cadastrapp.
+
+Nous tenons à les remercier pour leur participation active et leur aide précieuse.
