@@ -157,10 +157,7 @@ Le module de gestion des demandes d'informations foncières a été conçu pour 
 Une collectivité locale peut si elle le souhaite répondre à des demandes d'information foncière provenant des administrés.
 
 
-Cette possibilité est permise par `l'article 107 A du Livre des procédures fiscales <https://www.legifrance.gouv.fr/codes/id/LEGIARTI000036588629/>`_.
-
-
-
+Cette possibilité est permise par [l'article 107 A du Livre des procédures fiscales](https://www.legifrance.gouv.fr/codes/id/LEGIARTI000036588629/).
 
 
 
@@ -180,8 +177,9 @@ Car il s'agit bien d'une **possibilité** offerte à l'administration communale 
 
   Si la commune décide de prendre en charge cette possibilité de délivrance d'informations foncières aux administrés elle doit le faire en respectant les conditions de 2 dispositifs réglementaires :
   
-  * `les articles R* 107 A-1 et suivants du livre des procédures fiscales <https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006069583/LEGISCTA000006180153/#LEGISCTA000006180153>`_
-  * `l'article L112-3 du Code des relations entre le public et l'administration <https://www.legifrance.gouv.fr/codes/id/LEGIARTI000031367338/>`_
+  * [les articles R* 107 A-1 et suivants du livre des procédures fiscales
+](https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006069583/LEGISCTA000006180153/#LEGISCTA000006180153)
+ * [l'article L112-3 du Code des relations entre le public et l'administration](https://www.legifrance.gouv.fr/codes/id/LEGIARTI000031367338/)
 
 </font>
 
