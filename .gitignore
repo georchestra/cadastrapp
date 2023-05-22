@@ -6,9 +6,10 @@ database/config.sh
 docs_v1/
 venv_mkdocs/
 .venv_mkdocs/
+docs/tableofcontent.md
 modules/
+
 
 cadastrapp/target/*
 addons/cadastrapp/js/build/cadastrapp.js
 database/test.sh
-docs/tableofcontent.md
