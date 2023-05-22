@@ -3,23 +3,24 @@
 
 
 
-Il est possible de configurer les logs de cadastrapp, pour cela il faut créer un fichier ``cadastrapp/log4j/log4j2.properties`` dans le datadir georchestra.
+Il est possible de configurer les logs de cadastrapp, pour cela il faut créer un fichier `cadastrapp/log4j/log4j2.properties` dans le datadir georchestra.
 
-Un exemple de ce fichier peut être trouvé `ici <https://github.com/georchestra/cadastrapp/tree/master/cadastrapp/src/main/resources/log4j2.properties>`_.
+Un exemple de ce fichier peut être trouvé [ici](https://github.com/georchestra/cadastrapp/tree/master/cadastrapp/src/main/resources/log4j2.properties).
 
-Avec la configuration par défaut, seuls les logs de niveau WARNING sont affichés dans le fichier ``/tmp/cadastrapp.log`` (configuration de production).
-Si vous souhaitez afficher plus de logs, vous pouvez configurer les differents loggers avec ``level = info`` ou ``level = debug``.
+Avec la configuration par défaut, seuls les logs de niveau WARNING sont affichés dans le fichier `/tmp/cadastrapp.log` (configuration de production).
+Si vous souhaitez afficher plus de logs, vous pouvez configurer les differents loggers avec `level = info` ou `level = debug`.
 
 Des logs sur la génération de documents dans cadastrapp sont également produits, la section ci-dessous documente leur utilisation.
+
 
 ## Logs sur la génération de documents
 
 
-Par défaut, les logs sur la génération de documents sont faits dans le fichier ``/tmp/cadastrapp_audit.log``.
+Par défaut, les logs sur la génération de documents sont faits dans le fichier `/tmp/cadastrapp_audit.log`.
 
 Chaque ligne comporte les mêmes infos que les logs classiques Cadastrapp, à savoir ce layout :
 
-``%d %-5p [%c] %X{uri} - $${ctx:sec-username:-nouser} - $${ctx:sec-roles:-norole} - $${ctx:sec-org:-noorg} - %m%n``
+`%d %-5p [%c] %X{uri} - $${ctx:sec-username:-nouser} - $${ctx:sec-roles:-norole} - $${ctx:sec-org:-noorg} - %m%n`
 
 Ci-dessous la composition du message est détaillée (%m) : 
 
@@ -27,7 +28,7 @@ Ci-dessous la composition du message est détaillée (%m) :
 
 Exemple :
 
-``Bordereau Parcellaire - {Methode} - {Demande} - {Parcelle} - {WithProps} - {Copro}``
+`Bordereau Parcellaire - {Methode} - {Demande} - {Parcelle} - {WithProps} - {Copro}`
 
 * Methode => Moyen par lequel le document a été généré
 * Demande (ID) => Identifiant de la demande si existe, sinon null
@@ -44,11 +45,12 @@ Methodes pour les BP :
 * DemandeInfoProp
 * DemandeLot
 
+
 **Relevés de propriété :**
 
 Exemple :
 
-``Releve de propriete - {Methode} - {Demande} - {CompteCommunal} - {Parcelle} - {Minimal} - {Format}``
+`Releve de propriete - {Methode} - {Demande} - {CompteCommunal} - {Parcelle} - {Minimal} - {Format}`
 
 * Methode => Moyen par lequel le document a été généré
 * Demande (ID) => Identifiant de la demande si existe, sinon null
@@ -67,11 +69,12 @@ Methodes pour les RP :
 * DemandeInfoProp
 * DemandeLot
 
+
 **Demandes**
 
 Exemple :
 
-``Demande - {Demande} - {UserType}``
+`Demande - {Demande} - {UserType}`
 
 * Demande (ID) => Identifiant de la demande
 * UserType => Type de demandeur
@@ -83,11 +86,12 @@ UserType pour les Demandes :
 * P2 => Particulier agissant en qualité de mandataire
 * P3 => Particuliers tier
 
+
 **Exports CSV**
 
 Exemple :
 
-``Export CSV - {Type} - {Params}``
+`Export CSV - {Type} - {Params}`
 
 * Type =>Type d'export demandé
 * Params => Parametres fournis pour l'export
@@ -100,10 +104,11 @@ Type d'exports :
 * Lots
 * ComptesCommunaux
 
+
 ## Logs sur génération de documents dans BDD
 
 
-Cette fonctionnalité n'est pas activée par defaut, mais est commentée dans le `fichier de configuration log4j2 <https://github.com/georchestra/cadastrapp/tree/master/cadastrapp/src/main/resources/log4j2.properties>`_.
+Cette fonctionnalité n'est pas activée par defaut, mais est commentée dans [le fichier de configuration log4j2](https://github.com/georchestra/cadastrapp/tree/master/cadastrapp/src/main/resources/log4j2.properties).
 
 Pour l'activer : 
 
@@ -113,8 +118,7 @@ Pour l'activer :
 
 Voici les script pour les tables à créer en BDD, à adapter à votre convenance :
 
-**code-block:** SQL
-
+```sql
    CREATE TABLE IF NOT EXISTS public.cadastrapp_bp
    (
        username text,
@@ -173,6 +177,8 @@ Voici les script pour les tables à créer en BDD, à adapter à votre convenanc
        params text GENERATED ALWAYS AS ( split_part(message,' - ',3) ) STORED
    );
    ALTER TABLE public.cadastrapp_export OWNER TO cadastrapp;
+```
+
 
 **note:**
-   Si vous souhaitez optimiser la gestion des logs en BDD pour de gros volumes, il est possible d'utiliser l'extension `timescaledb <https://docs.timescale.com/install/latest/self-hosted/installation-debian/>`_ de PostgreSQL.
+   Si vous souhaitez optimiser la gestion des logs en BDD pour de gros volumes, il est possible d'utiliser l'extension [timescaledb](https://docs.timescale.com/install/latest/self-hosted/installation-debian/) de PostgreSQL.

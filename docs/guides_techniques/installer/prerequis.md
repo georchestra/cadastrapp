@@ -24,9 +24,9 @@ Le module serveur est une API développée en Java. Il faut donc un Tomcat suppo
 
 ## Un serveur PostgreSQL / PostGIS
 
-Cadastrapp a besoin d'une base de données **PostgreSQL version 9.4 ou supérieure avec l'extension DBlink.** Cette base de données contiendra un schéma traditionnellement nommé :code:`cadastrapp`. Il contiendra les données cadastrales spécialement optimisées pour Cadastrapp.
+Cadastrapp a besoin d'une base de données **PostgreSQL version 9.4 ou supérieure avec l'extension DBlink.** Cette base de données contiendra un schéma traditionnellement nommé `cadastrapp`. Il contiendra les données cadastrales spécialement optimisées pour Cadastrapp.
 
-Des couches de données cadastrales devront être préalablement disponibles dans un autre schéma traditionnellement nommé :code:`cadastre_qgis` voire une toute autre base de données. Ce sont ces couches qui seront publiées sur GeoServer pour disposer d'un fond de plan complet et des couches applicatives nécessaires pour Cadastrapp.
+Des couches de données cadastrales devront être préalablement disponibles dans un autre schéma traditionnellement nommé `cadastre_qgis` voire une toute autre base de données. Ce sont ces couches qui seront publiées sur GeoServer pour disposer d'un fond de plan complet et des couches applicatives nécessaires pour Cadastrapp.
 
 
 

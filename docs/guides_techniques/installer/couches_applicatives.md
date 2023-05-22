@@ -12,15 +12,14 @@ Pour fonctionner, Cadastrapp a besoin que l'on monte deux couches applicatives e
 - 1 pour les parcelles cadastrales
 - 1 pour les unités foncières
 
-Et les déclarer dans le fichier ** `cadastrapp.properties <https://github.com/georchestra/cadastrapp/blob/master/cadastrapp/src/main/resources/cadastrapp.properties>`_ ** :
+Et les déclarer dans le fichier [`cadastrapp.properties`](https://github.com/georchestra/cadastrapp/blob/master/cadastrapp/src/main/resources/cadastrapp.properties) :
 
 - pour la couche des parcelles : ``cadastre.wms.layer.name``
 - pour la couche des unités foncières : ``uf.wms.layer.name``
 
-Ne pas oublier de les déclarer également un peu plus bas en variables ``cadastre.wfs.layer.name`` et ``uf.wfs.layer.name`` si votre plate-forme geOrchestra nécessite une authentification préalable des utilisateurs pour utiliser les services.
+Ne pas oublier de les déclarer également un peu plus bas en variables `cadastre.wfs.layer.name` et `uf.wfs.layer.name` si votre plate-forme geOrchestra nécessite une authentification préalable des utilisateurs pour utiliser les services.
 
 **_Warning:_**  
-
 
   **Il faut absolument que ces 2 couches soit publiées dans les capacités WxS de votre serveur de données géographiques.**
 
@@ -31,9 +30,7 @@ Ne pas oublier de les déclarer également un peu plus bas en variables ``cadast
 
 Comme ces 2 couches seront chargées dans le visualiseur et appelées par la webapp pour générer les documents PDF, il est recommandé d'appliquer un style invisible sur ces couches. Exemple ci-dessous.
 
-**_Code-block:_**  XML
-
-
+``` xml
         <!-- polygone vide avec fine bordure noire. Changer en opacité à 0 pour mise en prod -->
         <se:Rule>
           <se:Name>Polygone</se:Name>
@@ -51,3 +48,4 @@ Comme ces 2 couches seront chargées dans le visualiseur et appelées par la web
             </se:Stroke>
           </se:PolygonSymbolizer>
         </se:Rule>
+```
