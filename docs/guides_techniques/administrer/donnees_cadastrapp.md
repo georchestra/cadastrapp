@@ -4,13 +4,12 @@
 
 TODO
 
-doublon avec `données dans guide installation <../guide_installation/donnees.html>`_ ?
+doublon avec [installer/donnees/](/guides_techniques/installer/donnees/) ?
 
 
 Modèle de données
 ------------------
 
-/!\ version 2019 à mettre à jour
 
-![](./images/QGIS2019_MCD_v2.0_DBeaver.png)
+![](./images/cadastrapp_mcd_2023-05.png)
 
