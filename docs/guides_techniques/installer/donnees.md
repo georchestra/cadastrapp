@@ -1,16 +1,16 @@
 
 # Préparation des données cadastrales
 
-## À propos des données cadastrales en France
 
+## Prérequis
 
-Le cadastre est un document fiscal qui sert à lever divers impôts et taxes liés au foncier. En France,  la DGFiP met à la disposition des collectivités territoriales les données cadastrales brutes sous la forme de 2 jeux de données séparés :
+Récupérer les 3 jeux de données DGFiP du cadastre :
 
-- des données géographiques : le Plan Cadastral Informatisé (PCI) dans le format EDIGEO
-- des données foncières : la matric foncière dans le format MAJIC III
+* des données EDIGEO pour le plan cadastral (PCI)
+* des données MAJIC III pour les données foncières / la matrice foncière
+* le(s) fichier(s) FANTOIR des voies pour votre territoire
 
-`Consulter cette page <https://www.collectivites-locales.gouv.fr/cadastre-partenaire-des-collectivites-locales>`_ pour plus d'informations.
-
+Lire [cette page](/guides_techniques/administrer/donnees_dgfip/) pour plus d'informations.
 
 
 ## Données cadastrales au format QGIS
@@ -23,13 +23,7 @@ Le cadastre est un document fiscal qui sert à lever divers impôts et taxes li�
 
 **En préalable il faut disposer de données cadastrales traitées par le plugin "cadastre" de QGIS.** 
 
-En synthèse :
-
-1. récupérer des données EDIGEO pour le plan cadastral
-1. récupérer des données MAJIC III pour les données foncières
-1. traiter ces données avec le plugin cadastre de QGIS
-
-Se reporter à la documentation spécifique du plugin : https://github.com/3liz/QgisCadastrePlugin
+Se reporter à la documentation spécifique du plugin : [https://docs.3liz.org/QgisCadastrePlugin/](https://docs.3liz.org/QgisCadastrePlugin/).
 
 Au final, vous devez obtenir des données cadastre au format de données QGIS dans un schéma :code:`cadastre_qgis` dans une base de données PostgreSQL / PostGIS.
 

@@ -1,14 +1,14 @@
 # Avant de démarrer
 ## Préambule
 
-Cadastrapp est un outil conçu pour permettre l'exploitation des [données cadastrales](./guide_administrateur/donnees.md)  fournies par la DGFiP aux collectivités territoriales.
+Cadastrapp est un outil conçu pour permettre l'exploitation des [données cadastrales](../guides_techniques/administrer/donnees_dgfip.md)  fournies par la [DGFiP](https://www.economie.gouv.fr/dgfip/presentation) aux collectivités territoriales.
 
 Si la consultation du plan cadastral (la carte visible) ne connaît pas de restrictions, l'accès aux informations se rapportant aux bâtiments, aux propriétaires et aux autres informations fiscales nécessite d'être authentifié sur la plateforme geOrchestra.
 
 
 ### <a id="controleniveauaccesdonneesfiscales"></a>Contrôle du niveau d'accès aux données fiscales
 
-Par défaut votre compte utilisateur n'est pas doté des accès permettant l'accès aux données sensibles contenues dans les données cadastrales. La matrice foncière contient en effet des données à caractère personnel. Les administrateurs doivent donc configurer votre compte pour que Cadastrapp vous laisse accéder à ces informations.
+**Par défaut un compte utilisateur n'est pas doté des accès permettant l'accès aux données sensibles contenues dans les données cadastrales. La matrice foncière contient en effet des données à caractère personnel et des données fiscales.** Les administrateurs doivent donc configurer votre compte pour que Cadastrapp vous laisse accéder à ces informations.
 
 Il y a 2 types de limitations d'accès :
 
@@ -26,7 +26,7 @@ Pour tout changement ou demande d’accès aux informations sur les propriétair
 
 
 
-##Vocabulaire / Lexique
+## Vocabulaire / Lexique
 ---------------------
 
 ###Les différentes surfaces des parcelles
@@ -37,7 +37,7 @@ Pour tout changement ou demande d’accès aux informations sur les propriétair
 
 
 
-##Unité foncière
+## Unité foncière
 
 Îlot de propriété d'un seul tenant, composé d'une parcelle ou d'un ensemble de parcelles appartenant à un même propriétaire ou à la même indivision.
 
@@ -46,14 +46,14 @@ Pour tout changement ou demande d’accès aux informations sur les propriétair
 
 Dans le cadastre, les entités qui possèdent des droits sur des biens (des parcelles ou des lots de copropriété) sont les comptes communaux.
 
-Un compte communal est composé de l’ensemble des personnes exerçant des droits concurrents sur unou plusieurs biens d’une commune. Un compte communal est composé de 1 à 8 propriétaires. Il peut s'agir de personnes physiques ou de personnes morales.
+Un compte communal est composé de l’ensemble des personnes physiques ou morales exerçant des droits concurrents sur un ou plusieurs biens d’une commune. Un compte communal est composé de 1 à 8 propriétaires.
 
 
 ### Copropriété
 
 Une copropriété est un ou plusieurs lots dans un immeuble appartenant à plusieurs comptes communaux. 
 
-Généralement, dans un immeuble, chaque copropriétaire dispose de parties privatives et d'une quote-part de parties communes appelée "tantièmes de copropriété".
+Généralement, dans un immeuble, chaque copropriétaire dispose de parties privatives et d'une quote-part de parties communes appelée « tantièmes de copropriété ».
 
 
 ### CSV
@@ -114,9 +114,5 @@ En cliquant sur **Fermer** vous conservez les valeurs choisies.
 
 ![image](./images/preferences2.png) 
 
-## Remerciements
 
-La réalisation de ce guide a été rendue possible grâce à la contribution des utilisateurs de la cadastrapp.
-
-Nous tenons à les remercier pour leur participation active et leur aide précieuse.
 
