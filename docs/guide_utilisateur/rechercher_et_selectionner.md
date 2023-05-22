@@ -488,20 +488,6 @@ Les informations disponibles dans l'export CSV sont :
 L'export PDF est une mise en forme beaucoup plus lisible des information brutes du fichier CSV. Il est en outre prêt à être imprimé.
 
 
-### <a id="exportlotbordereauxparcelleaires"></a>Export en lot de bordereaux parcellaires
-
-![image](./images/export_selection_bp_lots.png)
-
-
-Cette fonction va créer un seul fichier PDF contenant autant de pages que de parcelles dans votre sélection.
-
-
-.. warning::
-  Le temps de production du document PDF va être d'autant plus long que votre sélection sera grande. Il faut donc être patient car aucun indicateur visuel ne vous indique que votre demande est en traitement.
-  Il est donc recommandé de patienter.
-  Une limite haute à 50 parcelles est fixée par défaut, afin de ne pas saturer les serveurs.
-
-
 
 ## Impression et annotations
 

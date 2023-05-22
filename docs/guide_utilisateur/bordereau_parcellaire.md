@@ -1,5 +1,6 @@
 # Bordereau parcellaire
 
+## Création d'un bordereau pour une parcelle
 
 Le bordereau parcellaire est accessible depuis la fenêtre [fiche d'info parcelle(s)](../produire_des_documents/#ficheinfoparcelle) dans l'onglet **Parcelle** en cliquant sur le bouton :
 
@@ -21,5 +22,17 @@ Le bordereau parcellaire ci-dessous est sans donnée nominative, si vous avez co
 ![image](./images/bp_exemple1.png)
 
 
+## Export en lot de bordereaux parcellaires
 
- Il est possible de réaliser un export pour toute une liste de parcelles. [Lire ici la procédure](../rechercher_et_selectionner/#exportlotbordereauxparcelleaires)
+![image](./images/export_selection_bp_lots.png)
+
+
+Cette fonction va créer un seul fichier PDF contenant autant de pages que de parcelles dans votre sélection.
+
+
+**Attention**
+
+Le temps de production du document PDF va être d'autant plus long que votre sélection sera grande. Il faut donc être patient car aucun indicateur visuel ne vous indique que votre demande est en traitement.
+Il est donc recommandé de patienter.
+Une limite haute à 50 parcelles est fixée par défaut, afin de ne pas saturer les serveurs.
+
