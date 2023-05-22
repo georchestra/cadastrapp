@@ -111,9 +111,7 @@ Pour le format CSV, on obtient un zip contenant 4 fichiers correspondant aux inf
 
 ## Unité foncière
 
-
-Une unité foncière est un îlot de propriété d'un seul tenant, composé d'une parcelle ou d'un ensemble de parcelles appartenant à un même propriétaire ou à la même indivision.
-
+Voir la définition sur [cette page](/guide_utilisateur/preambule/#unite-fonciere).
 
 
 ## Unité foncière depuis les outils principaux
