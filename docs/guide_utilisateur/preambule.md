@@ -1,12 +1,12 @@
 # Avant de démarrer
-## Préambule
+
 
 Cadastrapp est un outil conçu pour permettre l'exploitation des [données cadastrales](../guides_techniques/administrer/donnees_dgfip.md)  fournies par la [DGFiP](https://www.economie.gouv.fr/dgfip/presentation) aux collectivités territoriales.
 
 Si la consultation du plan cadastral (la carte visible) ne connaît pas de restrictions, l'accès aux informations se rapportant aux bâtiments, aux propriétaires et aux autres informations fiscales nécessite d'être authentifié sur la plateforme geOrchestra.
 
 
-### <a id="controleniveauaccesdonneesfiscales"></a>Contrôle du niveau d'accès aux données fiscales
+## <a id="controleniveauaccesdonneesfiscales"></a>Contrôle du niveau d'accès aux données fiscales
 
 **Par défaut un compte utilisateur n'est pas doté des accès permettant l'accès aux données sensibles contenues dans les données cadastrales. La matrice foncière contient en effet des données à caractère personnel et des données fiscales.** Les administrateurs doivent donc configurer votre compte pour que Cadastrapp vous laisse accéder à ces informations.
 
@@ -27,9 +27,9 @@ Pour tout changement ou demande d’accès aux informations sur les propriétair
 
 
 ## Vocabulaire / Lexique
----------------------
 
-###Les différentes surfaces des parcelles
+
+### Les différentes surfaces des parcelles
 
 **Contenance DGFiP** (ou surface DGFiP) : surface enregistrée dans les fichiers fonciers BATI et NBAT;
 

@@ -43,15 +43,17 @@ extra_css:
 
 nav:
     - Accueil: index.md 
+    
     - Guide utilisateur:
         - Sommaire: guide_utilisateur/index.md
-        - Prendre en main:
-            - guide_utilisateur/preambule.md
-            - guide_utilisateur/prise_en_main.md
-            - guide_utilisateur/rechercher_et_selectionner.md
-            - guide_utilisateur/produire_des_documents.md
-            - guide_utilisateur/bordereau_parcellaire.md
-            - guide_utilisateur/demande_information_fonciere.md
+        - Avant de démarrer: guide_utilisateur/preambule.md
+        - Prendre en main: guide_utilisateur/prise_en_main.md
+        - Chercher et sélectionner: guide_utilisateur/rechercher_et_selectionner.md
+        - Exports et impressions: guide_utilisateur/exports_impressions.md
+        - Bordereau parcellaire: guide_utilisateur/bordereau_parcellaire.md
+        - Relevé de propriété: guide_utilisateur/releve_propriete.md
+        - Module des demandes d'information foncière: guide_utilisateur/demande_information_fonciere.md
+    
     - Guides techniques:
         - Sommaire: guides_techniques/index.md
         - Administrer:
@@ -74,8 +76,6 @@ nav:
             - guides_techniques/installer/logs.md
             - guides_techniques/installer/tests.md
 
-    
-            
         - Développer:
             - guides_techniques/developper/index.md
             - guides_techniques/developper/matrice_fonctionnalites.md
