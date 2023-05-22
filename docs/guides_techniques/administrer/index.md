@@ -15,7 +15,7 @@ Cette partie de la documentation est dédiée à l'administration du contenu:
 Mettre les images dans le répertoire imgages
 
 
-![](./images/gesiton_donnees.jpg)
+![](./images/gestion_donnees.jpg)
 
 
 
