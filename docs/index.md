@@ -15,7 +15,7 @@ Cette documentation comporte quatre parties :
 * un [guide utilisateur](/guide_utilisateur/) qui détaille toute les fonctionnalités de l'application
 * un [guide administrateur pour l'installation](/guides_techniques/installer/)
 * un [guide administrateur pour la configuration](/guides_techniques/administrer/)
-* un [guide développeur](/guides_techniques/installer/) pour identifier les méthodes de l'API
+* un [guide développeur](/guides_techniques/developper/) pour identifier les méthodes de l'API
 
 |                                                                                              |                                                        |
 | -------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
