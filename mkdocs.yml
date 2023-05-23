@@ -67,7 +67,7 @@ nav:
             - guides_techniques/administrer/donnees_cadastrapp.md
             - guides_techniques/administrer/purge.md
             - guides_techniques/administrer/configuration_webapp.md
-            - guides_techniques/administrer/configuration_addon.md
+            - guides_techniques/administrer/configuration_plugin_mapstore.md
             
         - Installer:
             - guides_techniques/installer/index.md

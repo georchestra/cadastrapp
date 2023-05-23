@@ -5,7 +5,7 @@
 * [Les données DGFiP](administrer/donnees_dgfip.md)
 * [Les données utilisées par l'application](administrer/donnees_cadastrapp.md)
 * [Purge des fichiers temporaires](administrer/purge.md)
-* [Configuration de la webapp](administrer/configuration_webapp.md#)
+* [Configuration de la webapp](administrer/configuration_webapp.md)
 * [Configuration du plugin MapStore2](administrer/configuration_plugin_mapstore.md)
 
 
