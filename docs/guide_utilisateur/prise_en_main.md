@@ -3,7 +3,7 @@
 Vous ne connaissez pas l'outil Cadastrapp ? Voici quelques liens pour vous aider à accéder rapidement aux principales fonctionnalités de Cadastrapp dans notre guide utilisateur :
 
 - [Rechercher une parcelle, par sa référence, son identifiant ou son adresse cadastrales](../rechercher_parcelle/)
-- [Rechercher une parcelle à partir d'un nom de propriétaire](../rechercher_et_selectionner/rechercher_proprietaire/)
+- [Rechercher une parcelle à partir d'un nom de propriétaire](../rechercher_proprietaire/)
 - [Zoomer sur la carte sur une parcelle issue de votre recherche](../rechercher_coproprietaire/#manipulation-des-resultats-des-selections)
 - [Accéder aux informations d'un parcelle issue de votre recherche](../fiche_informations_parcellaire/)
 - [Sélectionner visuellement une parcelle sur la carte](../selectionner_parcelle/)
