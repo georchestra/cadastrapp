@@ -43,12 +43,14 @@ extra_css:
 
 nav:
     - Accueil: index.md 
-    
     - Guide utilisateur:
         - Sommaire: guide_utilisateur/index.md
         - Avant de démarrer: guide_utilisateur/preambule.md
         - Prendre en main: guide_utilisateur/prise_en_main.md
-        - Chercher et sélectionner: guide_utilisateur/rechercher_et_selectionner.md
+        - Sélectionner des parcelles depuis la carte: guide_utilisateur/selectionner_parcelle.md
+        - Rechercher par parcelle: guide_utilisateur/rechercher_parcelle.md
+        - Rechercher des parcelles par propriétaires: guide_utilisateur/rechercher_proprietaire.md
+        - Rechercher des parcelles par copropriétaires: guide_utilisateur/rechercher_coproprietaire.md
         - Exports et impressions: guide_utilisateur/exports_impressions.md
         - Fiche d'informations parcellaire: guide_utilisateur/fiche_informations_parcellaire.md
         - Bordereau parcellaire: guide_utilisateur/bordereau_parcellaire.md
