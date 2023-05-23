@@ -8,8 +8,10 @@ Lorsque l'on dispose d'une sélection de une ou plusieurs parcelles dans le tabl
 
 Cette page détaille les différents exports disponibles.
 
-.. note::
-  Les fonctionnalités concernant des données à caractère personnel (comme les noms des propriétaires) ne seront disponibles que si vous disposez d'un [accès à ces données fiscales](../preambule/#controleniveauaccesdonneesfiscales).
+!!! note "Note"
+
+	Les fonctionnalités concernant des données à caractère personnel (comme les noms des propriétaires) ne seront disponibles que si vous disposez d'un [accès à ces données fiscales](../preambule/#controleniveauaccesdonneesfiscales).
+
 
 ### Export de la liste de parcelles
 
@@ -94,10 +96,12 @@ Cliquer ensuite sur le bouton Imprimer.
 
 Il est possible de changer le fond de plan, en cliquant sur  **sélection du fond de plan** en bas à gauche de l'écran.
 
-.. warning::
-  Une fois le fond de carte choisi, il faut cliquer sur l'écran de la visionneuse derrière la fenêtre impression pour mettre à jour le fond de plan de la fenêtre d'impression, comme montré dans le gif ci-dessous.
+!!! warning "Attention"
+
+	Une fois le fond de carte choisi, il faut cliquer sur l'écran de la visionneuse derrière la fenêtre impression pour mettre à jour le fond de plan de la fenêtre d'impression, comme montré dans le gif ci-dessous.
 
 ![image](./images/impression_fond.gif)
+
 
 ### Annotations
 
