@@ -1,7 +1,7 @@
 site_name: Cadastrapp
 
 repo_url: https://github.com/georchestra/cadastrapp
-repo_name: georchestra/cadastrapp
+repo_name: georchestra-cadastrapp
 
 docs_dir: docs
 edit_uri: edit/main/docs/
@@ -33,7 +33,7 @@ extra:
       link: https://groups.google.com/group/georchestra-dev?hl=fr
     - icon: fontawesome/regular/comments
       link: https://kiwiirc.com/client/irc.libera.chat/georchestra
-copyright: '© 2023 - georchestra'
+copyright: '© 2023 - geOrchestra'
 
 extra_css:
     - css/extra.css
