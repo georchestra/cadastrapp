@@ -17,6 +17,10 @@ h1, h2, h3 {
   font-weight:600!important;
 }
 
+.md-typeset {
+  font-size: .75rem;
+}
+
 footer {
   background-color: #500b4c!important;
 }
