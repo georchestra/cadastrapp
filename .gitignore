@@ -3,7 +3,6 @@ database/config.sh
 
 .DS_Store
 
-docs_v1/
 # documentation MkDocs
 venv_mkdocs/
 .venv_mkdocs/
