@@ -11,4 +11,4 @@ Vous ne connaissez pas l'outil Cadastrapp ? Voici quelques liens pour vous aider
 - [Exporter un relevé de propriété](../releve_propriete/)
 - [Faire une demande d'information foncière](../demande_information_fonciere/)
 
-Si vous ne trouvez pas les réponses à vos questions en cliquant sur ces liens, référez-vous au [guide utilisateur](../rechercher_et_selectionner/) qui contient tous les détails des fonctionnalités de l'outil.
+Si vous ne trouvez pas les réponses à vos questions en cliquant sur ces liens, référez-vous au [guide utilisateur](/guide_utilisateur/) qui contient tous les détails des fonctionnalités de l'outil.

@@ -87,4 +87,4 @@ Vous pouvez ré-initialiser la fenêtre de recherche en cliquant sur le bouton *
 
 ### Résultat d'une sélection
 
-Lorsqu'une sélection est effectuée, la liste des parcelles apparaît dans le tableau "**Sélection de parcelles**"
+Lorsqu'une sélection est effectuée, la liste des parcelles apparaît dans le tableau "**Sélection de parcelles**". Voir la partie [Afficher les résultats de recherche et les manipuler](../manipulation_resultats/) pour plus d'information sur la manipulation de ces résultats.

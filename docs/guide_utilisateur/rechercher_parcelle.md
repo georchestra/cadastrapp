@@ -37,15 +37,15 @@ Enfin en cliquant sur **Effacer**, l'onglet de recherche par référence est ré
 
 ### Par adresse cadastrale
 
-/!\ **Attention il s'agit bien ici d'une recherche dans les données cadastrales** fournies par la DGFiP. La plupart du temps la fraîcheur de ces informations est en retard par rapport à d'autres sources de données. Plus particulièrement les référentiels voies-adresses locaux, la Base Adresse Nationale. Votre plate-forme geOrchestra propose peut-être des recherches utilisant ces données plus à jour.
+/!\ **Attention il s'agit bien ici d'une recherche dans les données cadastrales** fournies par la DGFiP. La plupart du temps la mise à jour de ces informations est tardive par rapport à d'autres sources de données. Plus particulièrement les référentiels voies-adresses locaux, la Base Adresse Nationale. Votre plate-forme geOrchestra propose peut-être des recherches utilisant ces données plus à jour.
 
-Depuis l'onglet **Adresse cadastrale**, il faut d'abord saisir le nom de la commune ou de la ville. Après avoir saisi les 3 premiers caractères du nom,  une liste déroulante permet de choisir la commune. Le code INSEE de la commune permet d'affiner son choix, si nécessaire.
+Depuis l'onglet **Adresse cadastrale**, il faut d'abord saisir le nom de la commune ou de la ville. Après avoir saisi les 3 premiers caractères du nom, une liste déroulante permet de choisir la commune. Le code INSEE de la commune permet d'affiner son choix, si nécessaire.
 
-Ensuite commencer la saisie du nom de la voie ou du lieu-dit, **il s'agit ici de saisir le mot directeur** (ex : « mairie »), et de choisir ensuite dans la liste déroulante. Il ne faut pas commencer par saisir le type de la voie.
+Ensuite, commencer la saisie du nom de la voie ou du lieu-dit. **Il s'agit ici de saisir le mot directeur** (exemple : « mairie »), et de choisir ensuite dans la liste déroulante. Il ne faut pas commencer par saisir le type de la voie.
 
 Il est possible d'affiner la recherche en indiquant le numéro dans la voie ou une information complémentaire.
 
-Enfin cliquer sur le bouton **Rechercher**.
+Enfin, cliquer sur le bouton **Rechercher**.
 
 ![image](./images/recherche_parc7.gif)
 
@@ -79,4 +79,4 @@ Il est possible soit :
 
 ### Résultat d'une sélection
 
-Lorsqu'une sélection est effectuée, la liste des parcelles apparaît dans le tableau "**Sélection de parcelles**".
+Lorsqu'une sélection est effectuée, la liste des parcelles apparaît dans le tableau "**Sélection de parcelles**". Voir la partie [Afficher les résultats de recherche et les manipuler](../manipulation_resultats/) pour plus d'information sur la manipulation de ces résultats.
