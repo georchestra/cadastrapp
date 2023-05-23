@@ -4,10 +4,12 @@ database/config.sh
 .DS_Store
 
 docs_v1/
+# documentation MkDocs
 venv_mkdocs/
 .venv_mkdocs/
-docs/tableofcontent.md
+docs_modules/
 modules/
+docs/tableofcontent.md
 
 
 cadastrapp/target/*
