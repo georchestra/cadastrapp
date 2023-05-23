@@ -13,10 +13,9 @@ Si la consultation du plan cadastral (la carte visible) ne connaît pas de restr
 Il y a 2 types de limitations d'accès :
 
 - le niveau :
-
-  - niveau 0 : aucun accès aux données fiscales
-  - niveau 1 : accès uniquement aux noms d'usage des propriétaires
-  - niveau 2 : accès à toutes les données
+    - niveau 0 : aucun accès aux données fiscales
+    - niveau 1 : accès uniquement aux noms d'usage des propriétaires
+    - niveau 2 : accès à toutes les données
 
 - l'emprise géographique : vous ne pouvez accéder aux données que pour votre territoire de compétence
 
