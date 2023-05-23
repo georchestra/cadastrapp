@@ -1,6 +1,6 @@
 # Relevé de propriété
 
-Le relevé de propriété peut être généré depuis la  [fiche d'info parcelle(s)](../fiche_informations_parcellaire.md) dans l'onglet **Propriétaire** en cliquant sur le bouton :
+Le relevé de propriété peut être généré depuis la  [fiche d'info parcelle(s)](fiche_informations_parcellaire.md) dans l'onglet **Propriétaire** en cliquant sur le bouton :
 
 
 ![image](./images/releve_propriete1.png)
