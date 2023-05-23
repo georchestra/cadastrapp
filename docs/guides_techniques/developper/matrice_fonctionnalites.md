@@ -188,11 +188,9 @@ La recherche de parcelles se fait via un formulaire qui propose 4 onglets qui co
 				FORM_DATA : parcelle={code}%0{code}…
 			</td>
 		</tr>
-
-		
-		
 	</tbody>
 </table>
+
 
 
 
@@ -262,8 +260,6 @@ La recherche de propriétaires se fait via un formulaire qui propose 3 onglets q
 				FORM_DATA : comptecommunal={string}
 			</td>
 		</tr>
-	
-		
 		<tr>
 			<td class="tg-0lax" rowspan="3">  Recherche par compte propriétaire </td>
 			<td class="tg-0lax" rowspan="3"> </td>
@@ -299,7 +295,6 @@ La recherche de propriétaires se fait via un formulaire qui propose 3 onglets q
 				FORM_DATA : comptecommunal={string} 
 			</td>
 		</tr>
-
 		<tr>
 			<td class="tg-0lax" >  Recherche par lot </td>
 			<td class="tg-0lax" > </td>
@@ -313,8 +308,6 @@ La recherche de propriétaires se fait via un formulaire qui propose 3 onglets q
 				FORM_DATA : comptecommunal={code}&comptecommunal={code}&…
 			</td>
 		</tr>
-		
-		
 	</tbody>
 </table>
 
@@ -411,8 +404,6 @@ La sélection de parcelles sur la carte se fait en choisissant l'un des 3 modes 
 				FORM_DATA : parcelle={code}1parcelle={code}...
 			</td>
 		</tr>			
-		
-		
 	</tbody>
 </table>
 
@@ -467,7 +458,6 @@ En sur-sélectionnant une ou des parcelles de cette liste, on a accès aux fonct
  
 			</td>
 		</tr>
-		
 		<tr>
 			<td class="tg-0lax" >  Fiche d'info parcelle </td>
 			<td class="tg-0lax" >X</td>
@@ -476,10 +466,8 @@ En sur-sélectionnant une ou des parcelles de cette liste, on a accès aux fonct
 			<td class="tg-0lax">    X   </td>
 			<td class="tg-0lax">    X   </td>
 			<td class="tg-0lax">
-
 			</td>
 		</tr>
-		
 		<tr>
 			<td class="tg-0lax" rowspan="2">  Fiche unité foncière </td>
 			<td class="tg-0lax" rowspan="2"> </td>
@@ -600,7 +588,6 @@ Cette fenêtre affiche beaucoup d'information sur les parcelles et les objets as
 				&fillcolor=81BEF7&opacity=0.4&strokecolor=111111&strokewidth=3  (3)
 			</td>
 		</tr>
-
 		<tr>
 			<td class="tg-0lax" rowspan="3">  onglet Propriétaires </td>
 			<td class="tg-0lax" rowspan="3">X</td>
@@ -634,7 +621,6 @@ Cette fenêtre affiche beaucoup d'information sur les parcelles et les objets as
 				compteCommunal={code}&parcelleId={NULL|code}&exportType=on  (4)
 			</td>
 		</tr>
-
 		<tr>
 			<td class="tg-0lax" rowspan="3">  onglet Copropriétaires </td>
 			<td class="tg-0lax" rowspan="3">X</td>
@@ -664,8 +650,6 @@ Cette fenêtre affiche beaucoup d'information sur les parcelles et les objets as
 				-> Relevé de propriété de l'onglet Propriétaires 
 			</td>
 		</tr>
-
-
 		<tr>
 			<td class="tg-0lax" rowspan="5">  onglet Bâtiments </td>
 			<td class="tg-0lax" rowspan="5">X</td>
@@ -715,7 +699,6 @@ Cette fenêtre affiche beaucoup d'information sur les parcelles et les objets as
 				FORM_DATA : parcelle={code}&dnubat=+{code}
 			</td>
 		</tr>
-		
 		<tr>
 			<td class="tg-0lax" >  onglet Subdivisions fiscales </td>
 			<td class="tg-0lax" >X</td>
@@ -727,7 +710,6 @@ Cette fenêtre affiche beaucoup d'information sur les parcelles et les objets as
 				GET /cadastrapp/services/getFIC?parcelle={code}&onglet=3 
 			</td>
 		</tr>
-		
 			<tr>
 			<td class="tg-0lax" >  onglet Historique de mutation </td>
 			<td class="tg-0lax" >X</td>
@@ -786,7 +768,6 @@ Ces fonctionnalités sont accessibles depuis le menu "Avancées" dans la barre d
 				FORM_DATA : parcelles={code1,code2,…}
 			</td>
 		</tr>
-
 		<tr>
 			<td class="tg-0lax" >  Propriétaires et copropriétaires</td>
 			<td class="tg-0lax" > </td>
@@ -800,7 +781,6 @@ Ces fonctionnalités sont accessibles depuis le menu "Avancées" dans la barre d
 				 FORM_DATA : parcelles={code1,code2,…}
 			</td>
 		</tr>
-		
 	</tbody>
 </table>
 
@@ -838,9 +818,6 @@ La fiche d'information sur une unité foncière permet de présenter l'ensemble 
 				GET /geowebcache/service/wms?LAYERS={layers}&…  
 			</td>
 		</tr>
-
-
-
 		<tr>
 			<td class="tg-0lax" rowspan="2">   Informations sur l'UF  </td>
 			<td class="tg-0lax" rowspan="2"></td>
@@ -863,7 +840,6 @@ La fiche d'information sur une unité foncière permet de présenter l'ensemble 
 				FORM_DATA : parcelles={code1,code2,…}
 			</td>
 		</tr>
-
 		<tr>
 			<td class="tg-0lax" > Infos sur le(s) propriétaire(s) </td>
 			<td class="tg-0lax" > </td>
@@ -875,8 +851,7 @@ La fiche d'information sur une unité foncière permet de présenter l'ensemble 
 				  GET /cadastrapp/services/getProprietaire?details=2&comptecommunal={code} 
 			</td>
 		</tr>
-		
-				<tr>
+		<tr>
 			<td class="tg-0lax" > Infos sur les parcelles  </td>
 			<td class="tg-0lax" > </td>
 			<td class="tg-0lax"> Infos sur les parcelles   </td>
@@ -889,6 +864,7 @@ La fiche d'information sur une unité foncière permet de présenter l'ensemble 
 		</tr>
 	</tbody>
 </table>
+
 
 ### Module de demande d'information foncière
 
@@ -951,7 +927,6 @@ TODO : vérifier les droits niveaux CNIL
 				GET /cadastrapp/services/getDnuplaList?cgocommune={code}&ccopre={code}&ccosec={code}
 			</td>
 		</tr>
-
 		<tr>
 			<td class="tg-0lax" >  Parcelle par identifiant  </td>
 			<td class="tg-0lax" ></td>
@@ -959,12 +934,9 @@ TODO : vérifier les droits niveaux CNIL
 			<td class="tg-0lax">       </td>
 			<td class="tg-0lax">       </td>
 			<td class="tg-0lax">       </td>
-			<td class="tg-0lax">
-
-			</td>
+			<td class="tg-0lax">       </td>
 		</tr>
-		
-				<tr>
+		<tr>
 			<td class="tg-0lax" rowspan="2">Propriétaire par nom d'usage</td>2
 			<td class="tg-0lax" rowspan="2"></td>
 			<td class="tg-0lax">Sélectionner une commune</td>
@@ -988,8 +960,6 @@ TODO : vérifier les droits niveaux CNIL
 				&ddenom={string}&birthsearch=false
 			</td>  
 		</tr>
-		
-		
 		<tr>
 			<td class="tg-0lax" rowspan="2">Propriétaire par nom de naissance</td>2
 			<td class="tg-0lax" rowspan="2"></td>
@@ -1014,7 +984,6 @@ TODO : vérifier les droits niveaux CNIL
 				&ddenom={string}&birthsearch=true  
 			</td>
 		</tr>
-
 		<tr>
 			<td class="tg-0lax" >  Propriétaire par identifiant  </td>
 			<td class="tg-0lax" ></td>
@@ -1023,10 +992,8 @@ TODO : vérifier les droits niveaux CNIL
 			<td class="tg-0lax">       </td>
 			<td class="tg-0lax">       </td>
 			<td class="tg-0lax">
-
 			</td>
 		</tr>
-		
 		<tr>
 			<td class="tg-0lax" >  Copropriété </td>
 			<td class="tg-0lax" ></td>
@@ -1035,10 +1002,8 @@ TODO : vérifier les droits niveaux CNIL
 			<td class="tg-0lax">       </td>
 			<td class="tg-0lax">       </td>
 			<td class="tg-0lax">
-
 			</td>
-		</tr>		
-
+		</tr>
 	    <tr>
 			<td class="tg-0lax" rowspan="4"> Lot de copropriété </td>2
 			<td class="tg-0lax" rowspan="4"></td>
@@ -1080,8 +1045,7 @@ TODO : vérifier les droits niveaux CNIL
 				</br>		
 				commune={code}&section={code}&numero={code}&ddenom={string}	
 			</td>			
-		</tr>		
-		
+		</tr>
 		<tr>
 			<td class="tg-0lax" >  Sauvegarder les informations sur la demande </td>
 			<td class="tg-0lax" ></td>
@@ -1114,8 +1078,7 @@ TODO : vérifier les droits niveaux CNIL
 				</br>
 				&responseby={1|2|3}&askby={1|2|3}
 			</td>
-		</tr>		
-
+		</tr>
 		<tr>
 			<td class="tg-0lax" >  Imprimer la demande</td>
 			<td class="tg-0lax" ></td>
@@ -1126,8 +1089,7 @@ TODO : vérifier les droits niveaux CNIL
 			<td class="tg-0lax">
 				 GET /cadastrapp/services/printPDFRequest?requestid={code}
 			</td>
-		</tr>		
-
+		</tr>
 		<tr>
 			<td class="tg-0lax" >  Récupérer les documents </td>
 			<td class="tg-0lax" ></td>
@@ -1139,9 +1101,10 @@ TODO : vérifier les droits niveaux CNIL
 				 GET /cadastrapp/services/createDemandeFromObj?requestid={code}  
 			</td>
 		</tr>	
-		
 	</tbody>
 </table>
+
+
 
 ### Notes
 
