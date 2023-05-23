@@ -32,6 +32,6 @@ Posez vos questions sur la liste de discussion via un courriel adressé à [geor
 
 ## Remerciements
 
-La réalisation de ce guide a été rendue possible grâce à la contribution de la communauté des administrateurs et utilisateur de Cadastrapp.
+La réalisation de ce guide a été rendue possible grâce à la contribution de la communauté des administrateurs et utilisateurs de Cadastrapp.
 
 Nous tenons à les remercier pour leur participation active et leur aide précieuse.
