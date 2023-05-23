@@ -2,14 +2,15 @@
 
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+.tg td {border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+.tg td.min {width:}
+.tg th {border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-0lax{text-align:left;vertical-align:top}
+.tg .tg-0lax {text-align:left;vertical-align:top}
+.tg thead th {font-weight:bold;}
 </style>
-.. toctree::
-   :maxdepth: 2
+
 
 
 
@@ -24,13 +25,13 @@
 Au chargement de l'addon, il faut aller chercher la configuration car elle dépend des droits accordées à l'utilisateur (niveau CNIL, communes autorisées).
 
 <table class="tg">
-	<thead>
+	<thead> 
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
@@ -73,9 +74,9 @@ La recherche de parcelles se fait via un formulaire qui propose 4 onglets qui co
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
@@ -209,9 +210,9 @@ La recherche de propriétaires se fait via un formulaire qui propose 3 onglets q
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
@@ -338,9 +339,9 @@ La sélection de parcelles sur la carte se fait en choisissant l'un des 3 modes 
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
@@ -440,9 +441,9 @@ En sur-sélectionnant une ou des parcelles de cette liste, on a accès aux fonct
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
@@ -569,9 +570,9 @@ Cette fenêtre affiche beaucoup d'information sur les parcelles et les objets as
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
@@ -753,9 +754,9 @@ Ces fonctionnalités sont accessibles depuis le menu "Avancées" dans la barre d
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
@@ -820,9 +821,9 @@ La fiche d'information sur une unité foncière permet de présenter l'ensemble 
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
@@ -902,9 +903,9 @@ TODO : vérifier les droits niveaux CNIL
 		<th class="tg-0lax">Fonctionnalité</th>
 		<th class="tg-0lax">  Responsive</th>
 		<th class="tg-0lax">  Action</th>
-		<th class="tg-0lax"> CNIL 0 </th>
-		<th class="tg-0lax"> CNIL 1 </th>
-		<th class="tg-0lax"> CNIL 2 </th>
+		<th class="tg-0lax"> CNIL&nbsp;0 </th>
+		<th class="tg-0lax"> CNIL&nbsp;1 </th>
+		<th class="tg-0lax"> CNIL&nbsp;2 </th>
 		<th class="tg-0lax">  Appel API </th>
 	</thead>
 	<tbody>
