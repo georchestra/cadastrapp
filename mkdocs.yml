@@ -51,8 +51,9 @@ nav:
         - Rechercher par parcelle: guide_utilisateur/rechercher_parcelle.md
         - Rechercher des parcelles par propriétaires: guide_utilisateur/rechercher_proprietaire.md
         - Rechercher des parcelles par copropriétaires: guide_utilisateur/rechercher_coproprietaire.md
-        - Exports et impressions: guide_utilisateur/exports_impressions.md
+        - Afficher les résultats de recherche et les manipuler: guide_utilisateur/manipulation_resultats.md
         - Fiche d'informations parcellaire: guide_utilisateur/fiche_informations_parcellaire.md
+        - Exports et impressions: guide_utilisateur/exports_impressions.md
         - Bordereau parcellaire: guide_utilisateur/bordereau_parcellaire.md
         - Relevé de propriété: guide_utilisateur/releve_propriete.md
         - Unité foncière: guide_utilisateur/unite_fonciere.md
