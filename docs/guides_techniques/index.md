@@ -6,7 +6,7 @@
 * [Les données utilisées par l'application](administrer/donnees_cadastrapp.md)
 * [Purge des fichiers temporaires](administrer/purge.md)
 * [Configuration de la webapp](administrer/configuration_webapp.md#)
-* [Configuration de l'addon](administrer/configuration_addon.md)
+* [Configuration du plugin MapStore2](administrer/configuration_plugin_mapstore.md)
 
 
 ## Installer
