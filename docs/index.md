@@ -17,13 +17,14 @@ Cette documentation comporte quatre parties :
 * un [guide administrateur pour la configuration](/guides_techniques/administrer/)
 * un [guide développeur](/guides_techniques/developper/) pour identifier les méthodes de l'API
 
-|                                                                                              |                                                        |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| Agglomération le Puy-en-Velay                                                                | ![image info](./images/logo_lepuy.png)                 |
-| Aménagement du territoire et gestion des risques                                             | ![image info](./images/logo_gip_atgeri.png)            |
-| Conseil départemental du Bas-Rhin                                                            | ![image info](./images/logo_bas_rhin.png)              |
-| CRAIG : Centre Régional Auvergnat de l'Information Géographique Union européenne en Auvergne | ![image info](./images/logo_craig.jpg)&nbsp;![image info](./images/logo_europe_sengage.png)        |
-| Rennes Métropole                                                                             | ![image info](./images/logo_rennes_metropole.png)      |
+|                                                                            |                                             |
+| -------------------------------------------------------------------------- | ------------------------------------------- |
+| Agglomération le Puy-en-Velay                                              | ![image info](./images/logo_lepuy.png)      |
+| Aménagement du territoire et gestion des risques                           | ![image info](./images/logo_gip_atgeri.png) |
+| Conseil départemental du Bas-Rhin                                          | ![image info](./images/logo_bas_rhin.png)   |
+| Centre Régional Auvergne-Rhône-Alpes de l'Information Géographique (CRAIG) |![image info](./images/logo_CRAIG.jpg)      |
+| Union européenne |![image info](./images/logo_europe_sengage.png)|
+| Rennes Métropole | ![image info](./images/logo_rennes_metropole.png)|             
 
 ## Aide et support
 
