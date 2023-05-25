@@ -1,3 +1,5 @@
+# Afficher les résultats de recherche et les manipuler
+
 Lorsqu'une sélection est effectuée, par interaction avec la carte ou par utilisation des fonctions de recherche, une liste des parcelles apparaît dans le tableau "**Sélection de parcelles**" qui est située dans une zone en-dessous des outils de recherche.
 
 ![image](./images/selectioncarte7.png)
