@@ -88,6 +88,13 @@ jobs:
       run: |
         docker push georchestra/cadastrapp:${{ steps.version.outputs.VERSION }}
 
+    - name: "Publish binary in artifactory"
+      run: ./mvn deploy
+      continue-on-error: true
+      env:
+        ARTIFACTORY_TOKEN_REF: ${{ secrets.ARTIFACTORY_TOKEN }}
+        ARTIFACTORY_USERNAME_REF: ${{ secrets.ARTIFACTORY_USERNAME }}
+
     - name: Remove SNAPSHOT jars from repository
       run: |
         find .m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
