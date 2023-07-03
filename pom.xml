@@ -21,6 +21,13 @@
     <project.scm.id>cadastrapp-release</project.scm.id>
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
   </properties>
+  <distributionManagement>
+    <repository>
+      <id>geOrchestra-artifactory</id>
+      <name>geOrchestra Maven repository</name>
+      <url>https://artifactory.georchestra.org/artifactory/georchestra/</url>
+    </repository>
+  </distributionManagement>
   <issueManagement>
     <system>GitHub Issues</system>
     <url>https://github.com/georchestra/cadastrapp/issues</url>
