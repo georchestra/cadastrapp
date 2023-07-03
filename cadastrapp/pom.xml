@@ -314,29 +314,6 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-          <executions>
-            <execution>
-              <id>cleaning-jsbuild-addon</id>
-              <phase>clean</phase>
-              <goals>
-                <goal>clean</goal>
-              </goals>
-              <configuration>
-                <filesets>
-                  <fileset>
-                    <directory>${project.parent.basedir}/addons/cadastrapp/js/build</directory>
-                    <includes>
-                      <include>**</include>
-                    </includes>
-                  </fileset>
-                </filesets>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-maven-plugin</artifactId>
           <version>9.4.41.v20210516</version>
@@ -376,65 +353,6 @@
       </plugins>
     </pluginManagement>
     <plugins>
-     <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <executable>jsbuild/jsbuild.sh</executable>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <id>copy-mapfishapp-addon-files</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <overwrite>true</overwrite>
-              <outputDirectory>${basedir}/target/addon</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.parent.basedir}/addons/cadastrapp</directory>
-                  <includes>
-                    <include>**</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <descriptors>
-            <descriptor>addon-assembly.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>pl.project13.maven</groupId>
         <artifactId>git-commit-id-plugin</artifactId>
@@ -506,30 +424,6 @@
                       <directory>src/main/resources</directory>
                       <includes>
                         <include>**/log4j2.properties</include>
-                      </includes>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-              <execution>
-                <id>copy-deb-resources-mfapp</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <overwrite>true</overwrite>
-                  <outputDirectory>${basedir}/target/deb/etc/georchestra/mapfishapp/addons/cadastrapp</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>../addons/cadastrapp</directory>
-                      <includes>
-                        <include>**/js/**/*.js</include>
-                        <include>**/js/external/**/*.css</include>
-                        <include>**/css/**/*.css</include>
-                        <include>**/img/**/*.png</include>
-                        <include>**/manifest.json</include>
-                        <include>**/config.json</include>
                       </includes>
                     </resource>
                   </resources>
