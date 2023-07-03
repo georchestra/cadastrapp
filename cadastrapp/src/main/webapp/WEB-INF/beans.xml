@@ -151,7 +151,7 @@
     <!--  0 0 0 L * * => last day of the month at midnight -->
     <!-- ============================= -->
     <task:scheduled-tasks scheduler="anonymizationScheduler">
-        <task:scheduled ref="anonymizationSchedulerBean" method="anonymize" cron="0 0 0 L * *" />
+        <task:scheduled ref="anonymizationSchedulerBean" method="anonymize" cron="${anonymization.cronExpressions}" />
     </task:scheduled-tasks>
     <task:scheduler id="anonymizationScheduler"/>
 </beans>
