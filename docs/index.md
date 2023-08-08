@@ -6,16 +6,16 @@ Cadastrapp est l’outil de consultation des données cadastrales fournies par l
 
 </br>
 
-![image](/images/accueil_cadastrapp.PNG)
+![image](./images/accueil_cadastrapp.PNG)
 
 Cet outil est composé d’un module serveur qui est une API d’accès aux données de la matrice foncière et d’un add-on au visualiseur de geOrchestra. l'API peut être utilisée par n'importe quelle application client sous réserve de passer par le système d'authentification de geOrchestra.
 
 Cette documentation comporte quatre parties :
 
-* un [guide utilisateur](/guide_utilisateur/) qui détaille toute les fonctionnalités de l'application
-* un [guide administrateur pour l'installation](/guides_techniques/installer/)
-* un [guide administrateur pour la configuration](/guides_techniques/administrer/)
-* un [guide développeur](/guides_techniques/developper/) pour identifier les méthodes de l'API
+* un [guide utilisateur](./guide_utilisateur/) qui détaille toute les fonctionnalités de l'application
+* un [guide administrateur pour l'installation](./guides_techniques/installer/)
+* un [guide administrateur pour la configuration](./guides_techniques/administrer/)
+* un [guide développeur](./guides_techniques/developper/) pour identifier les méthodes de l'API
 
 |                                                                            |                                                  |
 | -------------------------------------------------------------------------- | ------------------------------------------------ |
