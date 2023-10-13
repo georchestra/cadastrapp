@@ -40,6 +40,11 @@ Pour tout changement ou demande d’accès aux informations sur les propriétair
 
 Îlot de propriété d'un seul tenant, composé d'une parcelle ou d'un ensemble de parcelles appartenant à un même propriétaire ou à la même indivision.
 
+La surface parcellaire calculée correspond à la surface géométrique de la parcelle. 
+La surface bâtie calculée correspond à la surface géométrique totale des bâtiments compris dans l'unité foncière.
+
+![image](./images/surface_batie_calcul.png)
+
 
 ### <a id="prioprietairecomptecommunal"></a>Propriétaire -> compte communal
 
