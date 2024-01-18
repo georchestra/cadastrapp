@@ -80,7 +80,7 @@ public class ImageParcelleController extends CadController {
 	static final Logger logger = LoggerFactory.getLogger(ImageParcelleController.class);
 
 	private final String URL_GET_CAPABILITIES = "?REQUEST=GetCapabilities&version=1.0.0";
-	private final String URL_GET_CAPABILITIES_WMS = "?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
+	private final String URL_GET_CAPABILITIES_WMS = "?Request=GetCapabilities&Service=WMS";
 	
 	// buffer ratio
 	final private double MAX_PERIMETER = 2000;
