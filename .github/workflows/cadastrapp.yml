@@ -88,6 +88,16 @@ jobs:
       run: |
         docker push georchestra/cadastrapp:${{ steps.version.outputs.VERSION }}
 
+    - name: "Update Docker Hub Description for Cadastrapp"
+      if: github.ref == 'refs/heads/master' && github.repository == 'georchestra/cadastrapp' && github.actor != 'dependabot[bot]' && github.event_name != 'pull_request'
+      uses: peter-evans/dockerhub-description@v3
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        repository: georchestra/cadastrapp
+        readme-filepath: ./DOCKER_HUB.md
+        short-description: 'Cadastrapp module for geOrchestra SDI'
+
     - name: "Publish binary in artifactory"
       run: ./mvn deploy
       continue-on-error: true
