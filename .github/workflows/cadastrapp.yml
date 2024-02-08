@@ -96,7 +96,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
         repository: georchestra/cadastrapp
         readme-filepath: ./DOCKER_HUB.md
-        short-description: 'Cadastrapp module for geOrchestra SDI'
+        short-description: 'Cadastrapp module for the geOrchestra SDI'
 
     - name: "Publish binary in artifactory"
       run: ./mvn deploy
