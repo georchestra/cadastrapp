@@ -2,7 +2,7 @@
 
 ## À propos de Cadastrapp
 
-Cadastrapp est l’outil de consultation des données cadastrales fournies par la Direction Générale des Finances Publiques (DGFiP) pour geOrchestra geOrchestra. Il est composé d’un module serveur qui est une API d’accès aux données de la matrice foncière et d'un greffon pour le visualiseur de geOrchestra. L’API peut être utilisée par n’importe quelle application client sous réserve de passer par le système d’authentification de [geOrchestra](https://www.georchestra.org).
+Cadastrapp est l’outil de consultation des données cadastrales fournies par la Direction Générale des Finances Publiques (DGFiP) pour geOrchestra. Il est composé d’un module serveur qui est une API d’accès aux données de la matrice foncière et d'un greffon pour le visualiseur de geOrchestra. L’API peut être utilisée par n’importe quelle application client sous réserve de passer par le système d’authentification de [geOrchestra](https://www.georchestra.org).
 
 ## Organisation
 
