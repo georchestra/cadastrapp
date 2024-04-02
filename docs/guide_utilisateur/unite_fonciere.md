@@ -1,6 +1,6 @@
 # Unité foncière
 
-Voir la définition sur [cette page](/guide_utilisateur/preambule/#unite-fonciere).
+Voir la définition sur la page [avant de démarrer](../preambule/#unite-fonciere).
 
 
 ## Unité foncière depuis les outils principaux
