@@ -71,7 +71,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietenonbatie AS
 			suftax.c2bisufad as bisufad_dep,
 			suftax.c4bisufad as bisufad_gp
 		from #DBSchema_qgis.parcelle p
-			left join #DBSchema_qgis.voie v on v.voie=p.voie
+			left join #DBSchema_qgis.voie v on v.ccodep||v.ccodir||v.ccocom||v.ccoriv=p.ccodep||p.ccodir||p.ccocom||p.ccoriv
 			left join #DBSchema_qgis.suf on suf.comptecommunal=p.comptecommunal and p.parcelle=suf.parcelle
 			left join #DBSchema_qgis.suftaxation as suftax on suftax.suf=suf.suf
 			left join #DBSchema_qgis.cgrnum as gnc on gnc.cgrnum = suf.cgrnum

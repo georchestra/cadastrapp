@@ -88,7 +88,7 @@ CREATE MATERIALIZED VIEW #schema_cadastrapp.proprietebatie AS
 		FROM #DBSchema_qgis.comptecommunal c
 		LEFT JOIN #DBSchema_qgis.local10 as l on c.comptecommunal=l.comptecommunal
 		LEFT JOIN #DBSchema_qgis.local00 as l00 on l00.local00=l.local00
-		LEFT JOIN #DBSchema_qgis.voie as v on  l.voie=v.voie
+		LEFT JOIN #DBSchema_qgis.voie as v on  l.ccodep||l.ccodir||l.ccocom||l.ccoriv=v.ccodep||v.ccodir||v.ccocom||v.ccoriv
 		LEFT JOIN #DBSchema_qgis.pev  on pev.local10=l.local10
 		LEFT JOIN #DBSchema_qgis.pevexoneration_imposable as pevx on pevx.pevexoneration_imposable=pev.pev
 		LEFT JOIN #DBSchema_qgis.pevtaxation as pevtax on pevtax.pev=pev.pev
