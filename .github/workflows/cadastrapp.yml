@@ -99,7 +99,7 @@ jobs:
         short-description: 'Cadastrapp module for the geOrchestra SDI'
 
     - name: "Publish binary in artifactory"
-      run: ./mvn deploy
+      run: mvn deploy
       continue-on-error: true
       env:
         ARTIFACTORY_TOKEN_REF: ${{ secrets.ARTIFACTORY_TOKEN }}
