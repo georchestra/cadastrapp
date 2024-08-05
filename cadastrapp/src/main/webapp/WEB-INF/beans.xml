@@ -6,12 +6,14 @@
 	xmlns:tx="http://www.springframework.org/schema/tx" 
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
 						 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd 
 						 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
 						 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 						 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
-						 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+						 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+                         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd">
 
 	<context:component-scan base-package="org.georchestra.cadastrapp" />
 	<mvc:annotation-driven />
@@ -144,4 +146,12 @@
 		</property>
 	</bean>
 
+    <!-- ============================= -->
+    <!--  Request's database Anonymization  -->
+    <!--  0 0 0 L * * => last day of the month at midnight -->
+    <!-- ============================= -->
+    <task:scheduled-tasks scheduler="anonymizationScheduler">
+        <task:scheduled ref="anonymizationSchedulerBean" method="anonymize" cron="${anonymization.cronExpressions}" />
+    </task:scheduled-tasks>
+    <task:scheduler id="anonymizationScheduler"/>
 </beans>
