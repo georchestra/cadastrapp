@@ -22,8 +22,8 @@ public class ObjectRequest implements Serializable {
 	private static final long serialVersionUID = 5439786730972374577L;
 
 	@Id
-	@SequenceGenerator(name = "HibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
-	@GeneratedValue(generator = "HibernateSequence")
+	@SequenceGenerator(name = "ObjectIdHibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
+	@GeneratedValue(generator = "ObjectIdHibernateSequence")
 	private long objectId;
 
 	@Column(name = "type")

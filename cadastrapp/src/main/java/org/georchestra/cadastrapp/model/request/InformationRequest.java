@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -35,8 +34,8 @@ public class InformationRequest implements Serializable{
 	private static final long serialVersionUID = 5439786730972374577L;
 
 	@Id
-	@SequenceGenerator(name = "HibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
-	@GeneratedValue(generator = "HibernateSequence")
+	@SequenceGenerator(name = "RequestIdHibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
+	@GeneratedValue(generator = "RequestIdHibernateSequence")
 	private long requestId;
 	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER) 
