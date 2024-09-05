@@ -98,6 +98,25 @@
       <artifactId>spring-jdbc</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <!-- Spring LDAP Support -->
+    <dependency>
+        <groupId>org.springframework.ldap</groupId>
+        <artifactId>spring-ldap-core</artifactId>
+        <version>3.2.6</version>
+    </dependency>
+    <!-- Spring LDAP Test -->
+    <dependency>
+        <groupId>org.springframework.ldap</groupId>
+        <artifactId>spring-ldap-test</artifactId>
+        <version>3.2.6</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.unboundid</groupId>
+        <artifactId>unboundid-ldapsdk</artifactId>
+        <version>3.1.1</version>
+        <scope>test</scope>
+    </dependency>
     <!-- JPA Provider (Hibernate) -->
     <dependency>
       <groupId>org.hibernate.orm</groupId>

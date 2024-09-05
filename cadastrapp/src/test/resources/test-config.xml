@@ -39,7 +39,15 @@
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
-
+    
+    <!-- Embedded LDAP -->
+    <bean id="contextSource" class="org.springframework.ldap.test.unboundid.TestContextSourceFactoryBean">
+        <property name="defaultPartitionSuffix" value="dc=test" />
+        <property name="defaultPartitionName" value="test" />
+        <property name="principal" value="uid=admin,ou=system" />
+        <property name="password" value="secret" />
+        <property name="port" value="9321" />
+    </bean>
 
 	<!-- ============================= -->
 	<!-- ENTITY MANAGER -->
