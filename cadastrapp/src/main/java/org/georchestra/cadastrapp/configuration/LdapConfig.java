@@ -5,16 +5,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @PropertySource(
         value = { 
                 "file:${georchestra.datadir}/default.properties", 
-                "file:${georchestra.datadir}/cadastrapp/cadastrapp.properties}"
+                "file:${georchestra.datadir}/cadastrapp/cadastrapp.properties"
         },
         ignoreResourceNotFound = true
 )
+@EnableScheduling
 public class LdapConfig {
     @Autowired
     private Environment env;
@@ -29,5 +32,10 @@ public class LdapConfig {
         contextSource.setPassword(env.getProperty("ldapAdminPassword"));
 
         return contextSource;
+    }
+    
+    @Bean
+    public LdapTemplate ldapTemplate() {
+        return new LdapTemplate(contextSource());
     }
 }

@@ -3,6 +3,8 @@ package org.georchestra.cadastrapp.cron;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,12 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LDAPGroupsAutorisationsSync {
     private static final Logger LOGGER =  LogManager.getLogger( LDAPGroupsAutorisationsSync.class );
     
     @Autowired
-    private Environment env;
+    Environment env;
     
     @Autowired
     LdapTemplate lt;
@@ -26,9 +30,10 @@ public class LDAPGroupsAutorisationsSync {
     @Autowired
     GroupeAutorisationRepository gar;
     
+    @PostConstruct
     @Scheduled(cron = "${ldapAreas.cronExpression}")
     public void refreshOrganisationsPermissions() {
-        if( env.containsProperty("ldapAreas.enable") && env.getProperty("ldapAreas.enable") == "true" ) {
+        if( env.containsProperty("ldapAreas.enable") && env.getProperty("ldapAreas.enable").contentEquals("true") ) {
             List<Organisation> lstOrg = lt.findAll(Organisation.class);
             List<GroupeAutorisation> lstGA = new ArrayList<>();
             for (Organisation o : lstOrg) {
