@@ -19,7 +19,7 @@ jobs:
         java-version: '17'
 
     - name: "Maven repository caching"
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       with:
         path: ~/.m2/repository
         key: cadastrapp-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -37,7 +37,7 @@ jobs:
       run: mkdir -p scratch && cp cadastrapp/target/georchestra-cadastrapp*.deb scratch/
 
     - name: "publish deb as artifact"
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: cadastrapp.deb
         path: scratch/
