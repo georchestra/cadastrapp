@@ -269,16 +269,22 @@ public class ImageParcelleController extends CadController {
 
 						logger.debug("Call WMS for cadastral background");
 						// Get cadastral background image with good BBOX
-						final String cadastralLayerWmsUrl = CadastrappPlaceHolder.getProperty("cadastre.wms.url");				
+						String cadastralLayerWmsUrl = CadastrappPlaceHolder.getProperty("cadastre.wms.url");
 						final String cadastralLayerWmsUsername = CadastrappPlaceHolder.getProperty("cadastre.wms.username");
 						final String cadastralLayerWmsPassword = CadastrappPlaceHolder.getProperty("cadastre.wms.password");
-						
+						// overriden by cadastrebpbg if defined - allows to use a different layer source url for backgrounds in BPs
+						if (CadastrappPlaceHolder.getProperty("cadastrebpbg.wms.url") != null && !CadastrappPlaceHolder.getProperty("cadastrebpbg.wms.url").isEmpty()) {
+							cadastralLayerWmsUrl = CadastrappPlaceHolder.getProperty("cadastrebpbg.wms.url");
+						}
 						WebMapServer wmsCadastralLayer = createWebMapServer(cadastralLayerWmsUrl,cadastralLayerWmsUsername, cadastralLayerWmsPassword );
 									
-						final String cadastralLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
+						String cadastralLayerName = CadastrappPlaceHolder.getProperty("cadastre.wms.layer.name");
 						final String cadastreSRS = CadastrappPlaceHolder.getProperty("cadastre.SRS");
 						final String cadastralLayerFormat = CadastrappPlaceHolder.getProperty("cadastre.format");
-						
+						// overriden by cadastrebpbg if defined - allows to use a different layer name for backgrounds in BPs
+						if (CadastrappPlaceHolder.getProperty("cadastrebpbg.wms.layer.name") != null && !CadastrappPlaceHolder.getProperty("cadastrebpbg.wms.layer.name").isEmpty()) {
+							cadastralLayerName = CadastrappPlaceHolder.getProperty("cadastrebpbg.wms.layer.name");
+						}
 						GetMapRequest requestCadastralLayer = createAndConfigureMapRequest(wmsCadastralLayer, cadastralLayerFormat, cadastralLayerName, pdfImagePixelSize, cadastreSRS, bounds);
 																		
 						logger.debug("Create background cadastral image");
