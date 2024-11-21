@@ -22,7 +22,7 @@
     <geotools.version>26.2</geotools.version>
     <pdfbox.version>3.0.0-RC1</pdfbox.version>
     <quartz.version>2.3.2</quartz.version>
-    <springfox.version>2.10.5</springfox.version>
+    <springfox.version>3.0.0</springfox.version>
   </properties>
   <repositories>
     <repository>
