@@ -25,7 +25,7 @@ Une fois la commune de recherche sélectionnée dans la liste déroulante, chois
 
 ![image](./images/recherche_parc3.gif)
 
-Il est possible d'ajouter d'autres recherches avec le bouton **+**. La corbeille permet d'effacer une des recherches.
+Il est possible d'ajouter d'autres recherches avec le bouton **+**. La croix permet d'effacer une des recherches.
 
 ![image](./images/recherche_parc4.png)
 
