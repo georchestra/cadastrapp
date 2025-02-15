@@ -47,33 +47,6 @@ else
   exit 1
 fi
 
-if [ "$orgsAutorisations" = True ] ; then
-  invalidLdapParam=False
-  if [ -z "$ldapUri" ] ; then
-    echo "Paramètre ldapUri manquant !"
-    invalidLdapParam=True
-  fi
-
-  if [ -z "$ldapPath" ] ; then
-    echo "Paramètre ldapPath manquant !"
-    invalidLdapParam=True
-  fi
-
-  if [ -z "$ldapBindDn" ] ; then
-    echo "Paramètre ldapBindDn manquant !"
-    invalidLdapParam=True
-  fi
-
-  if [ -z "$ldapBindPwd" ] ; then
-    echo "Paramètre ldapBindPwd manquant !"
-    invalidLdapParam=True
-  fi
-  if [ "$invalidLdapParam" = True ] ; then 
-    echo "  pb de configuration : stop"
-    exit 1
-  fi
-fi
-
 if [ "$silentMode" = False ] ; then
 	echo ""
 	read -p "  Si ces infos sont exactes : appuyer sur la touche [Entrée] sinon faire ctrl + C pour arrêter."
@@ -102,10 +75,6 @@ replaceAndLaunch (){
     s/#DBSchema_qgis/$qgisDBSchema/g
     s/#DBUser_qgis/$qgisDBUser/g
     s/#DBpasswd_qgis/$qgisDBPassword/g
-    s|#ldap_uri|$ldapUri|g
-    s/#ldap_path/$ldapPath/g
-    s/#ldap_binddn/$ldapBindDn/g
-    s/#ldap_bindpwd/$ldapBindPwd/g
   }" |\
   PGPASSWORD=$cadastrappDBPassword psql -h $cadastrappDBHost -p $cadastrappDBPort -d $cadastrappDBName -U $cadastrappDBUser 
 
