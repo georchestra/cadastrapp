@@ -108,6 +108,11 @@ plugins:
         # ignore_page_pattern: index.md
         # remove_navigation_page_pattern: index.md
         # template_dir_path: custom_template
+
+    - exclude:
+        glob:
+          - tableofcontent.md
+
     # - git-revision-date-localized:
         # enable_creation_date: true
 
