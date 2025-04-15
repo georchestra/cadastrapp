@@ -51,7 +51,7 @@ ALTER TABLE #schema_cadastrapp.request_information
 ALTER TABLE #schema_cadastrapp.request_information
   ADD CONSTRAINT foreingKeyUserId FOREIGN KEY (userid)
       REFERENCES #schema_cadastrapp.request_user_information (userid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION;
+      ON UPDATE NO ACTION ON DELETE CASCADE;
   
 ALTER TABLE #schema_cadastrapp.request_information
   OWNER TO #user_cadastrapp;
@@ -61,6 +61,7 @@ ALTER TABLE #schema_cadastrapp.request_information
 CREATE TABLE #schema_cadastrapp.object_request
 (
   objectid bigint NOT NULL,
+  requestid bigint NOT NULL,
   type integer,
   comptecommunal character varying(255),
   parcelle character varying(255),
@@ -76,36 +77,12 @@ ALTER TABLE #schema_cadastrapp.object_request
   ADD CONSTRAINT object_request_pkey PRIMARY KEY (objectid );
   
 ALTER TABLE #schema_cadastrapp.object_request
-  OWNER TO #user_cadastrapp;
-  
-
-
-
-CREATE TABLE #schema_cadastrapp.request_information_object_request
-(
-  request_information_requestid bigint NOT NULL,
-  objectsrequest_objectid bigint NOT NULL  
-);
-
-ALTER TABLE #schema_cadastrapp.request_information_object_request
-   ADD CONSTRAINT request_information_object_request_pkey PRIMARY KEY (request_information_requestid , objectsrequest_objectid );
-
-ALTER TABLE #schema_cadastrapp.request_information_object_request
-   ADD CONSTRAINT foreingKeyRequestObjectRequestId FOREIGN KEY (request_information_requestid)
+  ADD CONSTRAINT foreingKeyRequestId FOREIGN KEY (requestid)
       REFERENCES #schema_cadastrapp.request_information (requestid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-ALTER TABLE #schema_cadastrapp.request_information_object_request
-   ADD CONSTRAINT foreingKeyRequestObjectRequestObjectId FOREIGN KEY (objectsrequest_objectid)
-      REFERENCES #schema_cadastrapp.object_request (objectid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION;
- 
- ALTER TABLE #schema_cadastrapp.request_information_object_request     
-    ADD CONSTRAINT request_information_object_request_objectsrequest_objectid_key UNIQUE (objectsrequest_objectid );
-
-ALTER TABLE #schema_cadastrapp.request_information_object_request
-  OWNER TO #user_cadastrapp;
+      ON UPDATE NO ACTION ON DELETE CASCADE;
   
+ALTER TABLE #schema_cadastrapp.object_request
+  OWNER TO #user_cadastrapp;
 
 
 
