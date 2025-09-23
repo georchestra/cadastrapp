@@ -36,8 +36,8 @@ Exemple :
 
 ``` sql
 CREATE ROLE cadastrapp_user WITH LOGIN PASSWORD 'secretpasswd' ;
-GRANT SELECT ON SCHEMA cadastre_qgis TO cadastrapp_user;
-GRANT SELECT ON TABLE cadastre_qgis.* TO cadastrapp_user;
+GRANT USAGE ON SCHEMA cadastre_qgis TO cadastrapp_user;
+GRANT SELECT ON ALL TABLES IN SCHEMA cadastre_qgis TO cadastrapp_user;
 ```
 
 TODO >>> créer script d'application des permissions <<<
