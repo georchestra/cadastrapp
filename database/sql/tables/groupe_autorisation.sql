@@ -2,10 +2,10 @@
 
 CREATE TABLE #schema_cadastrapp.groupe_autorisation
 (
-  id serial NOT NULL, -- Id d'indentification de lignes
-  idgroup character varying(50), -- Identifiant du groupe LDAP devant être filtré
-  cgocommune character varying(6), -- Code commune INSEE
-  ccodep character varying(3), -- Code département à mettre en relation avec le code commune
+  id serial NOT NULL,                            -- Identifiant unique
+  idgroup character varying(50) NOT NULL,        -- Identifiant du groupe LDAP devant être filtré
+  cgocommune character varying(6) DEFAULT NULL,  -- Code cadastral de la commune
+  ccodep character varying(3) DEFAULT NULL,      -- Code du département à mettre en relation avec le code commune
   CONSTRAINT groupe_autorisation_pk PRIMARY KEY (id ),
   CONSTRAINT "groupe_autorisation_UK" UNIQUE (cgocommune , ccodep , idgroup )
 ) ;
