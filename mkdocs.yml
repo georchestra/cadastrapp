@@ -46,6 +46,7 @@ nav:
     - Guide utilisateur:
         - Sommaire: guide_utilisateur/index.md
         - Avant de démarrer: guide_utilisateur/preambule.md
+        - Réglementation: guide_utilisateur/reglementation.md
         - Prendre en main: guide_utilisateur/prise_en_main.md
         - Sélectionner des parcelles depuis la carte: guide_utilisateur/selectionner_parcelle.md
         - Rechercher par parcelle: guide_utilisateur/rechercher_parcelle.md

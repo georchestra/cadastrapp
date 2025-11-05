@@ -40,7 +40,20 @@ Il n'y a pas de limite pour les propriétaires / ayants-droits, sauf refus pour 
 
 Pas de limites pour des demandes émanant d’administrations (pas de définition…).
 
-**Un notaire** peut être identifié comme mandataire lorsqu'il agit pour le compte d'un représentant légal dans le cadre d'une vente, une tutelle. **Mais pas systématiquement !** Il doit donc bien justifier sa demande.
+
+## A savoir
+
+!!! warning "Date et lieu de naissance des propriétaires"
+
+	Au regard de la réglementation CNIL, les dates et lieux de naissances des propriétaires sont des données à caractère personnel. **Elles ne doivent pas être communiquées à des tiers !**
+
+	**Seul le module des demandes d'information foncière génère un relevé de propriété conforme à la réglementation car expurgé des dates et lieu de naissance des propriétaires.** Ce n'est pas le cas des relevés de propriété générés ailleurs dans Cadastrapp.
+
+
+!!! warning "Les notaires"
+
+	Un notaire peut être identifié comme mandataire lorsqu'il agit pour le compte d'un représentant légal dans le cadre d'une vente, une tutelle. **Mais pas systématiquement !** Il doit donc bien justifier sa demande. Ne pas hésiter à demander des précisions.
+
 
 
 ## Accès au module
