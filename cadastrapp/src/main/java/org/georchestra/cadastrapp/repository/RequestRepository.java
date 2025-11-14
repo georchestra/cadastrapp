@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.georchestra.cadastrapp.model.request.InformationRequest;
+import org.georchestra.cadastrapp.model.request.UserRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -56,5 +57,20 @@ public interface RequestRepository
     @Query(value="select COALESCE(SUM(ir.objectNumber),0) from InformationRequest ir inner join ir.user u where u.cni= ?1 and u.type = ?2 and ir.requestDate >= ?3")
     int sumObjectNumberByUserCniAndUserTypeAndRequestDateAfter(String cni, String type, Date date);
     
+    /**
+     *  Return all informationRequest done before the specified date (exclusive)
+     * 
+     * @param date The date to use
+     * @return The list of informationRequest done before the date
+     */
+    List<InformationRequest> findAllByRequestDateBefore(Date date);
     
+    /**
+     *  Count number of request between start and end dates (inclusive) by user
+     * 
+     * @param start The start date to use
+     * @param end The end date to use
+     * @return Number of request between start and end dates (inclusive) by user
+     */
+    int countByRequestDateBetweenAndUser(Date start, Date end, UserRequest user);
 }
