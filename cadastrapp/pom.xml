@@ -316,7 +316,7 @@
         <plugin>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-maven-plugin</artifactId>
-          <version>9.4.41.v20210516</version>
+          <version>11.0.24</version>
           <configuration>
             <webApp>
               <contextPath>/cadastrapp/</contextPath>
