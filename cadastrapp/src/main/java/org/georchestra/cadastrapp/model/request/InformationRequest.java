@@ -4,15 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -35,8 +32,8 @@ public class InformationRequest implements Serializable{
 	private static final long serialVersionUID = 5439786730972374577L;
 
 	@Id
-	@SequenceGenerator(name = "HibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
-	@GeneratedValue(generator = "HibernateSequence")
+	@SequenceGenerator(name = "RequestIdHibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
+	@GeneratedValue(generator = "RequestIdHibernateSequence")
 	private long requestId;
 	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER) 
@@ -46,11 +43,7 @@ public class InformationRequest implements Serializable{
 	@Column(name="requestdate")
 	private Date requestDate;
 
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name = "request_information_object_request",
-	          joinColumns = {@JoinColumn(name = "request_information_requestid")},
-	          inverseJoinColumns = {@JoinColumn(name = "objectsrequest_objectid")}
-	)
+	@OneToMany(mappedBy = "informationRequest")
 	private Set<ObjectRequest> objectsRequest;
 		
 	@Column(name="askby")
