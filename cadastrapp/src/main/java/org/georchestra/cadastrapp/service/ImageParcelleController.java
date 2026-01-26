@@ -59,6 +59,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -84,6 +85,9 @@ public class ImageParcelleController extends CadController {
 	
 	// buffer ratio
 	final private double MAX_PERIMETER = 2000;
+
+    @Value("${wfsTimeout:3000}")
+    private int wfsTimeout;
 
 
 	/**
@@ -132,7 +136,7 @@ public class ImageParcelleController extends CadController {
 			Map<String, Serializable> connectionParameters = new HashMap<String, Serializable>();
 			connectionParameters.put(WFSDataStoreFactory.URL.key, getCapabilities);
 			connectionParameters.put(WFSDataStoreFactory.TRY_GZIP.key, Boolean.TRUE);
-			
+			connectionParameters.put(WFSDataStoreFactory.TIMEOUT.key, wfsTimeout);
 			// Add basic authent parameter if not empty
 			final String cadastreWFSUsername = CadastrappPlaceHolder.getProperty("cadastre.wfs.username");
 			final String cadastreWFSPassword = CadastrappPlaceHolder.getProperty("cadastre.wfs.password");
@@ -145,7 +149,7 @@ public class ImageParcelleController extends CadController {
 
 			try {
 				dataStore = DataStoreFinder.getDataStore(connectionParameters);
-				
+
 				// check all typeName, geo_parcelle are sometimes visibile in geoserver but not here
 				// redeploy in geoserver is needed
 				if(logger.isDebugEnabled()){
