@@ -1,10 +1,12 @@
 package org.georchestra.cadastrapp.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -35,7 +37,8 @@ public class LdapConfig {
     }
     
     @Bean
-    public LdapTemplate ldapTemplate() {
-        return new LdapTemplate(contextSource());
+    public LdapTemplate ldapTemplate(
+            @Qualifier("contextSource") ContextSource contextSource) {
+        return new LdapTemplate(contextSource);
     }
 }

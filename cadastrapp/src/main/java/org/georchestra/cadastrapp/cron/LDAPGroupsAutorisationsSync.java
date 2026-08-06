@@ -31,7 +31,7 @@ public class LDAPGroupsAutorisationsSync {
     GroupeAutorisationRepository gar;
     
     @PostConstruct
-    @Scheduled(cron = "${ldapAreas.cronExpression}")
+    @Scheduled(cron = "${ldapAreas.cronExpression:-}")
     public void refreshOrganisationsPermissions() {
         if( env.containsProperty("ldapAreas.enable") && env.getProperty("ldapAreas.enable").contentEquals("true") ) {
             List<Organisation> lstOrg = lt.findAll(Organisation.class);
