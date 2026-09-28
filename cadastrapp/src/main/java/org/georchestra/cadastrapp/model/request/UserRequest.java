@@ -20,8 +20,8 @@ public class UserRequest implements Serializable {
 	private static final long serialVersionUID = -9140660737315556020L;
 	
 	@Id
-	@SequenceGenerator(name = "HibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
-	@GeneratedValue(generator = "HibernateSequence")
+	@SequenceGenerator(name = "UserIdHibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
+	@GeneratedValue(generator = "UserIdHibernateSequence")
 	@Column(name="userid")
 	private long userId;
 		
