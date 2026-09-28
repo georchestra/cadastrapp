@@ -10,10 +10,14 @@ VOLUME [ "/tmp", "/run/jetty" ]
 CMD ["sh", "-c", "exec java \
 -Djava.io.tmpdir=/tmp/jetty \
 -Dgeorchestra.datadir=/etc/georchestra \
--Xmx${XMX:-512m} -Xms${XMX:-512m} \
+-XX:MaxRAMPercentage=80 -XX:+UseParallelGC \
 -Duser.language=fr -Duser.country=FR \
 -XX:-UsePerfData \
 ${JAVA_OPTIONS} \
--Djetty.jmxremote.rmiregistryhost=0.0.0.0 \
--Djetty.jmxremote.rmiserverhost=0.0.0.0 \
+-Djetty.jmxremote.rmiregistryhost=${JMX_HOST:-127.0.0.1} \
+-Djetty.jmxremote.rmiserverhost=${JMX_HOST:-127.0.0.1} \
+-Dcom.sun.management.jmxremote=${JMX_ENABLE:-false} \
+-Dcom.sun.management.jmxremote.host=${JMX_HOST:-127.0.0.1} \
+-Dcom.sun.management.jmxremote.ssl=${JMX_SSL:-false} \
+-Dcom.sun.management.jmxremote.authenticate=${JMX_AUTHENTICATE:-false} \
 -jar /usr/local/jetty/start.jar"]
