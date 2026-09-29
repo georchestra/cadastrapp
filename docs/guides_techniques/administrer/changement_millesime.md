@@ -81,7 +81,7 @@ cd database
 
 Ce script purge et recrée les tables de nomenclature et les vues matérialisées. Le nom du schéma source peut rester identique : les vues sont tout de même **reconstruites**, mais il n'est pas nécessaire de changer leurs références de schéma dans la configuration ni les connexions GeoServer si elles restent valides. Il préserve en principe les tables de demandes d'information foncière : `tables_request.sh` ne les crée que si elles n'existent pas. Cette conservation **ne remplace pas une sauvegarde** et ne migre pas leur structure. Vérifier les journaux SQL, les vues, les nomenclatures et les effectifs avant la remise en service.
 
-Tester également les autorisations géographiques : la purge actuelle ne supprime pas `groupe_autorisation`, alors que `create_tables.sh` tente de la créer. Une base où elle existe déjà peut donc produire une erreur SQL. Traiter cet écart sur une copie de base, sans effacer les droits existants à l'aveugle.
+Tester également les autorisations géographiques : la purge actuelle conserve `groupe_autorisation` et ses lignes, alors que `create_tables.sh` tente de la recréer lorsque `orgsAutorisations=False`. Si elle existe déjà, la commande `CREATE TABLE` produit une erreur « relation already exists ». Le script continue normalement avec les étapes suivantes ; **cette erreur n'implique pas à elle seule que le rechargement a échoué**. Vérifier le journal, les vues et les droits, puis adapter la création de la table sur une copie de base si nécessaire, sans effacer les autorisations existantes.
 
 ## Vérifier la nécessité d'une migration backend
 
