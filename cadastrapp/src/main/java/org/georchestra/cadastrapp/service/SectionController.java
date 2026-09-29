@@ -1,6 +1,8 @@
 package org.georchestra.cadastrapp.service;
 
 
+import io.swagger.annotations.ApiOperation;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class SectionController extends CadController {
 	
 	final static Logger logger = LoggerFactory.getLogger(SectionController.class);
 	
+	@ApiOperation(value = "Récupère la liste des sections", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getSection", produces = {MediaType.APPLICATION_JSON_VALUE}, method= { RequestMethod.GET})
 	/**
 	 * /getSection

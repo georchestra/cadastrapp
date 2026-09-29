@@ -1,5 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,7 @@ public class CommuneController extends CadController{
 	
 	final static Logger logger = LoggerFactory.getLogger(CommuneController.class);
 	
+	@ApiOperation(value = "Récupère la liste des communes", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getCommune", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
     /**
      *  /getCommune 

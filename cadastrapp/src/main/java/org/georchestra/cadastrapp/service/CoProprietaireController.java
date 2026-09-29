@@ -1,5 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,6 +74,7 @@ public class CoProprietaireController extends CadController {
 	@Autowired
 	ProprieteHelper proprieteHelper;
 
+	@ApiOperation(value = "Récupère la liste des co-propriétaires", response = Object.class, responseContainer = "List")
 	@RequestMapping(path ="/getCoProprietaireList", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.annotations.ApiOperation;
 import org.georchestra.cadastrapp.helper.BatimentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class BatimentController extends CadController {
 	@Autowired
 	BatimentHelper batimentHelper;
 
+	@ApiOperation(value = "Récupère les informations sur les bâtiments", response = Object.class, responseContainer = "List")
 	@RequestMapping(path ="/getBatiments", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * getBuildingsDetails
@@ -76,6 +78,7 @@ public class BatimentController extends CadController {
 		return batiments;
 	}
 
+	@ApiOperation(value = "Get buildings by parcel", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getBatimentsByParcelle" , produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 *  Returns all building from given plot 
