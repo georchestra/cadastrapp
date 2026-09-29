@@ -54,6 +54,9 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '17'
+        server-id: geOrchestra-artifactory
+        server-username: ARTIFACTORY_USERNAME_REF
+        server-password: ARTIFACTORY_TOKEN_REF
 
     - name: "Maven repository caching"
       uses: actions/cache@v4
