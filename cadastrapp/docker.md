@@ -35,3 +35,31 @@ Some environment variables are needed at runtime to correctly configure the JNDI
 * `CADASTRAPP_JDBC_URL`, e.g. "jdbc:postgresql://external-db.georchestra-database:5432/cadastrapp"
 * `CADASTRAPP_JDBC_USER`, e.g. "cadastrapp"
 * `CADASTRAPP_JDBC_PASSWORD`, e.g. "cadastrapp"
+
+# docker-compose
+
+Here is an example of the docker-compose
+
+```
+# Cadastrapp is satelite project of the georchestra community which aims at
+# displaying french "cadastre" informations. see https://github.com/georchestra/cadastrapp
+
+services:
+  cadastrapp:
+    image: georchestra/cadastrapp:v2.2
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -f http://localhost:8080/cadastrapp/ >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    environment:
+      XMX: 512m
+      JAVA_OPTIONS: -Duser.language=fr -Duser.country=FR -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005 
+      CADASTRAPP_JDBC_URL: jdbc:postgresql://external-db.georchestra-database:5432/cadastrapp
+      CADASTRAPP_JDBC_USER: cadastrapp
+      CADASTRAPP_JDBC_PASSWORD: cadastrapp
+    volumes:
+      - src/main/resources/:/etc/georchestra/cadastrapp
+    restart: always
+
+```
