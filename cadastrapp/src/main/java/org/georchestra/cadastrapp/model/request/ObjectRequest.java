@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -22,10 +24,15 @@ public class ObjectRequest implements Serializable {
 	private static final long serialVersionUID = 5439786730972374577L;
 
 	@Id
-	@SequenceGenerator(name = "HibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
-	@GeneratedValue(generator = "HibernateSequence")
+	@SequenceGenerator(name = "ObjectIdHibernateSequence", sequenceName = "hibernate_sequence", initialValue = 0, allocationSize = 1)
+	@GeneratedValue(generator = "ObjectIdHibernateSequence")
 	private long objectId;
 
+	@ManyToOne
+    @JoinColumn(name="request_information", referencedColumnName="requestid", nullable=false, updatable=false)
+	@Column(name = "requestid")
+    private InformationRequest informationRequest;
+	
 	@Column(name = "type")
 	// COMPTECOMMUNAL = 0;
 	// PARCELLE_ID = 1;
