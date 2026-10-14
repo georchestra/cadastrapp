@@ -47,6 +47,18 @@
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 
+    <!-- Springfox's static Swagger UI discovers these paths beside swagger-ui.html. -->
+    <filter>
+        <filter-name>swaggerResources</filter-name>
+        <filter-class>org.georchestra.cadastrapp.configuration.SwaggerResourcesFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>swaggerResources</filter-name>
+        <url-pattern>/swagger-resources</url-pattern>
+        <url-pattern>/swagger-resources/*</url-pattern>
+        <url-pattern>/v2/api-docs</url-pattern>
+    </filter-mapping>
+
     <!-- Use JNDI Datasource connection -->
     <resource-ref>
         <description>Connection Pool</description>

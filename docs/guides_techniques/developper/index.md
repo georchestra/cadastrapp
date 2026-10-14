@@ -15,3 +15,5 @@ Si cela est possible et pertinent : documenter la création ou l'utilisation d'u
 
 
 Les images sont stokées dans le répertoire `images`.
+
+Pour lancer la webapp en développement avec une base PostgreSQL locale, voir [Environnement local](environnement_local.md).

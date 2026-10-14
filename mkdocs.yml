@@ -85,6 +85,7 @@ nav:
 
         - Développer:
             - guides_techniques/developper/index.md
+            - guides_techniques/developper/environnement_local.md
             - guides_techniques/developper/matrice_fonctionnalites.md
             - guides_techniques/developper/api.md
             - guides_techniques/developper/javadoc.md

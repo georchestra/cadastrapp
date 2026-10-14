@@ -1,5 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,7 @@ public class UniteCadastraleController extends CadController {
 	@Autowired
 	ProprietaireHelper  proprietaireHelper;
 
+	@ApiOperation(value = "	Récupère les informations cadastrales", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getFIC", produces = {MediaType.APPLICATION_JSON_VALUE},  method = { RequestMethod.GET })
 	/**
 	 * TODO change this to 5 separated services

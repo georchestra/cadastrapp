@@ -1,6 +1,8 @@
 package org.georchestra.cadastrapp.service;
 
 
+import io.swagger.annotations.ApiOperation;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -41,6 +43,7 @@ public class ProprietaireController extends CadController{
 	@Autowired
 	ProprietaireHelper  proprietaireHelper;
 
+	@ApiOperation(value = "Récupère les informations sur les propriétaires", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getProprietaire", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * This will return information about owners in JSON format
@@ -179,6 +182,7 @@ public class ProprietaireController extends CadController{
 		return proprietaires;
 	}
 
+	@ApiOperation(value = "Get owners by parcels", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getProprietairesByParcelles", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * This will return information about owners in JSON format
@@ -197,6 +201,7 @@ public class ProprietaireController extends CadController{
 		return proprietaireHelper.getProprietairesByParcelles(parcelleList, true);
 	}
 
+	@ApiOperation(value = "Get owners by parcel details", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getProprietairesByInfoParcelles", produces = {MediaType.APPLICATION_JSON_VALUE}, method= {RequestMethod.GET})
 	/**
 	 * This will return information about co-owners in JSON format
