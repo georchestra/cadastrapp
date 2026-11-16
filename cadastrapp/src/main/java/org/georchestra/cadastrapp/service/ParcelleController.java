@@ -50,7 +50,7 @@ public class ParcelleController extends CadController {
 	@Autowired
 	ExportHelper exportHelper;
 
-	@ApiOperation(value = "Récupère la liste des parcelles")
+	@ApiOperation(value = "Récupère la liste des parcelles", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getParcelle", produces = {MediaType.APPLICATION_JSON_VALUE},  method = { RequestMethod.GET, RequestMethod.POST })
 	/**
 	 *  Works like {@link #getParcelle} 
@@ -510,6 +510,7 @@ public class ParcelleController extends CadController {
 	}
 
 	@ResponseBody
+	@ApiOperation(value = "Get parcel identifiers", response = Object.class, responseContainer = "List")
 	@RequestMapping(path = "/getDnuplaList", produces = {MediaType.APPLICATION_JSON_VALUE}, method = { RequestMethod.GET})
 	/**
 	 *  Return only dnupla list from a section of a commune

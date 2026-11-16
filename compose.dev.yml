@@ -1,0 +1,24 @@
+name: cadastrapp-dev
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: cadastrapp
+      POSTGRES_USER: www-data
+      POSTGRES_PASSWORD: www-data
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./dev/postgres/init.sh:/docker-entrypoint-initdb.d/10-cadastrapp.sh:ro
+      - ./database/sql/tables/request_information.sql:/init/request_information.sql:ro
+      - ./database/sql/tables/groupe_autorisation.sql:/init/groupe_autorisation.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U www-data -d cadastrapp"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres_data:

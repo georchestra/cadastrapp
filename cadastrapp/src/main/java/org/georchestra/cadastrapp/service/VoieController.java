@@ -1,5 +1,7 @@
 package org.georchestra.cadastrapp.service;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class VoieController extends CadController {
 
 	final static Logger logger = LoggerFactory.getLogger(VoieController.class);
 
+	@ApiOperation(value = "Récupère la liste des voies", response = Object.class, responseContainer = "List")
 	@RequestMapping(path ="/getVoie", produces = {MediaType.APPLICATION_JSON_VALUE},  method = { RequestMethod.GET})
 	/**
 	 *  /getVoie
