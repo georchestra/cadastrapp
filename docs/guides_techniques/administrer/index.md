@@ -5,7 +5,7 @@ Sommaire de la partie Administrer
 
 Cette partie de la documentation est dédiée à l'administration du contenu :
 
-- [Changer le millésime des données cadastrales](changement_millesime.md)
+- [Mettre à jour le millésime des données cadastrales](changement_millesime.md)
 
 
 -  gestion des données,

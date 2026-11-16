@@ -1,4 +1,4 @@
-# Changer le millésime des données cadastrales
+# Mettre à jour le millésime des données cadastrales
 
 Cette procédure distingue trois décisions : la compatibilité du **plugin Cadastre de QGIS** avec les fichiers reçus, la **reconstruction des données Cadastrapp** et une éventuelle **migration du backend**. Un nouveau millésime de données n'impose pas à lui seul une nouvelle version du backend.
 
@@ -6,7 +6,7 @@ Les noms de bases et de schémas ci-dessous sont des exemples. Tester la procéd
 
 ## Circuit des données
 
-1. Le plugin [Cadastre de QGIS](https://docs.3liz.org/QgisCadastrePlugin/extension-qgis/import/) importe les fichiers **EDIGEO** (plan) et **MAJIC** (matrice foncière) dans PostgreSQL/PostGIS, souvent dans `cadastre_qgis`.
+1. Le plugin [Cadastre de QGIS](https://docs.3liz.org/QgisCadastrePlugin/extension-qgis/import/) importe les fichiers **EDIGEO** (plan) et **MAJIC** (matrice foncière) dans PostgreSQL/PostGIS, souvent dans le schéma `cadastre_qgis`.
 2. Les scripts de `database/` lisent ce schéma source et alimentent les tables et vues matérialisées du schéma applicatif, souvent `cadastrapp`. Les bases source et cible peuvent être distinctes : `uniqueDB` dans `database/config.sh` décrit ce cas.
 3. Le backend lit le schéma applicatif ; GeoServer publie les couches géographiques. Les dates indiquées sur les PDF sont configurées dans `cadastrapp.properties`.
 
@@ -21,6 +21,8 @@ Les millésimes du plan et de la matrice foncière peuvent différer. Les releve
 | Structure de base QGIS ou Cadastrapp modifiée | Tester le plugin et comparer les colonnes produites | Adapter les scripts : un `REFRESH` ne modifie pas la définition d'une vue | Migrer si la version backend retenue exige un nouveau contrat de base |
 
 La [documentation du plugin](https://docs.3liz.org/QgisCadastrePlugin/extension-qgis/import/) indique les formats MAJIC pris en charge et recommande de **séparer les millésimes** dans des schémas ou bases distincts, car la structure peut évoluer. Archiver le millésime en service dans un autre schéma répond à cet objectif ; réutiliser le schéma actif pour le nouveau millésime exige toutefois de vérifier que le plugin peut l'importer avec la structure en place. Consulter aussi son [journal des versions](https://github.com/3liz/QgisCadastrePlugin/blob/master/CHANGELOG.md). Une mise à jour du plugin est nécessaire si la version installée ne prend pas en charge le format reçu ou si un correctif d'import indispensable lui manque. Le numéro d'année seul ne renseigne pas sur la version effectivement installée.
+
+Dans les [issues du plugin Cadastre de QGIS](https://github.com/3liz/QgisCadastrePlugin/issues/), rechercher également un ticket intitulé « support du millésime AAAA », en remplaçant `AAAA` par l'année des données reçues. Inclure les tickets fermés dans la recherche : leurs descriptions et commentaires peuvent préciser les changements de format, les difficultés d'import et la version du plugin qui les prend en charge.
 
 Une migration du backend est nécessaire si la version **du backend que l'on prévoit de déployer** ajoute ou modifie ses tables, colonnes, contraintes, relations ou paramètres. Comparer les notes de version, les scripts SQL et la configuration entre version déployée et version cible. Une livraison MAJIC n'est pas en elle-même une migration de schéma applicatif.
 
@@ -109,5 +111,5 @@ Voir aussi [l'alimentation de la base](https://github.com/georchestra/cadastrapp
 
 | Passage | Plugin Cadastre de QGIS | Backend Cadastrapp | Données Cadastrapp |
 | --- | --- | --- | --- |
-| 2025 → 2026 | Mettre à jour vers **2.3.0 ou une version ultérieure compatible** : la 2.3.0 ajoute l'import MAJIC et TOPO 2026. | **v2.2 compatible** avec les tables produites par l'import 2026 ; aucune mise à jour du backend n'est requise pour ce seul changement de millésime. | Recharger avec `cadastrapp_load_data.sh` si MAJIC change, puis effectuer la recette. |
+| 2025 → 2026 | Mettre à jour vers **2.3.0 ou une version ultérieure compatible** : la 2.3.0 [ajoute l'import MAJIC et TOPO 2026](https://github.com/3liz/QgisCadastrePlugin/blob/master/CHANGELOG.md#230---2026-08-06). | **v2.2 compatible** avec les tables produites par l'import 2026 ; aucune mise à jour du backend n'est requise pour ce seul changement de millésime. | Recharger avec `cadastrapp_load_data.sh` si MAJIC change, puis effectuer la recette. |
 
